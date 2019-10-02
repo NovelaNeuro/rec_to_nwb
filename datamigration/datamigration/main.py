@@ -1,6 +1,7 @@
 import pathlib
 import sys
 import requests
+import logging
 
 
 def download_file(url):
@@ -13,14 +14,13 @@ def download_file(url):
 
 
 def main():
-
     if len(sys.argv) > 1:
-        print('Downloading file from passed url')
+        logging.info('Downloading file from passed url')
         download_file(str(sys.argv[1]))
     elif not pathlib.Path('../data/file.rec').exists():
-        print('Downloading default file.rec')
+        logging.info('Downloading default file.rec')
         download_file("https://www.dropbox.com/s/a7ddruxoffgbe7y/AC13_d27_WhereAreWeNow.rec?dl=1")
 
 
 if __name__ == "__main__":
-   main()
+    main()
