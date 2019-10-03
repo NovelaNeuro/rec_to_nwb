@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Configuration>
+    <GlobalConfiguration headstageSerial="00401 00003" headstageSmartRefOn="0" realtimeMode="0"
+                         headstageAutoSettleOn="0" timestampAtCreation="38699433" controllerFirmwareVersion="2.2"
+                         controllerSerial="65535 65535" saveDisplayedChanOnly="1" headstageFirmwareVersion="3.9"
+                         qtVersion="5.9.8" compileDate="May 16 2019" compileTime="10:32:19" filePrefix="myAnimal"
+                         headstageGyroSensorOn="0" headstageMagSensorOn="0" trodesVersion="1.8.2"
+                         headstageAccelSensorOn="0" commitHead="heads/Release_1.8.2-0-g9a3e37c" filePath=""
+                         systemTimeAtCreation="1563323368633"/>
+    <HardwareConfiguration samplingRate="30000" numChannels="128">
+        <Device numBytes="1" available="1" name="MCU_IO" packetOrderPreference="10">
+            <Channel id="MCU_Din1" startByte="0" bit="0" input="1" dataType="digital"/>
+            <Channel id="MCU_Din2" startByte="0" bit="1" input="1" dataType="digital"/>
+        </Device>
+        <Device numBytes="32" available="1" name="ECU" packetOrderPreference="20">
+        <Channel id="Din1" startByte="0" bit="0" input="1" dataType="digital"/>
+        <Channel id="Din2" startByte="0" bit="1" input="1" dataType="digital"/>
+    </HardwareConfiguration>
+    <ModuleConfiguration>
+        <SingleModuleConfiguration sendTrodesConfig="1" moduleName="./cameraModule" sendNetworkInfo="1">
+            <Argument flag="1280" value="-resolutionY"/>
+            <Argument flag="720" value="-ptpEnabled"/>
+        </SingleModuleConfiguration>
+        <SingleModuleConfiguration sendTrodesConfig="1" moduleName="./stateScript" sendNetworkInfo="1">
+        <Argument flag="-suppressUpdates" value="2"/>
+        <Argument flag="-suppressUpdates" value="4"/>
+    </ModuleConfiguration>
+    <StreamDisplay backgroundColor="#030303" columns="2" pages="2"/>
+    <AuxDisplayConfiguration>
+        <DispChannel analyze="1" maxDisp="2" color="#aaaaaa" id="Din1" device="ECU"/>
+        <DispChannel analyze="1" maxDisp="2" color="#aaaaaa" id="Din2" device="ECU"/>
+    </AuxDisplayConfiguration>
+    <SpikeConfiguration categories="">
+        <SpikeNTrode lowFilter="600" LFPChan="1" lfpFilterOn="1" refGroup="0" groupRefOn="0" LFPHighFilter="400"
+                     highFilter="6000" color="#fa0087" refChan="1" id="1" lfpRefOn="0" filterOn="1" refOn="0"
+                     moduleDataOn="1" refNTrodeID="10">
+            <SpikeChannel hwChan="57" maxDisp="250" thresh="60" triggerOn="1"/>
+            <SpikeChannel hwChan="59" maxDisp="250" thresh="60" triggerOn="1"/>
+        </SpikeNTrode>
+        <SpikeNTrode lowFilter="600" LFPChan="1" lfpFilterOn="1" refGroup="0" groupRefOn="0" LFPHighFilter="400"
+                     highFilter="6000" color="#fce94f" refChan="1" id="2" lfpRefOn="0" filterOn="1" refOn="0"
+                     moduleDataOn="1" refNTrodeID="10">
+            <SpikeChannel hwChan="56" maxDisp="225" thresh="60" triggerOn="1"/>
+            <SpikeChannel hwChan="58" maxDisp="225" thresh="60" triggerOn="1"/>
+        </SpikeNTrode>
+    </SpikeConfiguration>
+</Configuration>
