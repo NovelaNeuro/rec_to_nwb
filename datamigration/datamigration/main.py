@@ -8,41 +8,36 @@ class XMLParser:
 
     def __init__(self, file_path='../data/fl_lab_header.xml'):
         self.file_path = file_path
-
-    def open_xml(self):
         if pathlib.Path(self.file_path).exists():
-            with open(self.file_path, 'r') as f:
-                tree = et.parse(f)
-                return tree
+            self.file_xml = open(file_path, 'r')
+
+    def get_tree(self):
+        tree = et.parse(self.file_xml)
+        return tree
 
     def get_root(self):
-        configuration = self.open_xml().getroot()
-        return configuration
+        return self.get_tree().getroot()
 
     def get_element(self, name):
         path = "./" + name
-        element = self.get_root().findall(path)
-        return element
+        return self.get_root().find(path)
 
     def get_elements(self, name):
         path = "./" + name + '/'
-        elements = []
-        for i in self.get_root().findall(path):
-            elements.append(i)
-        return elements
+        return [i for i in self.get_root().findall(path)]
+
+    def get_internal_elements(self, name):
+        path = "./" + name
+        return find(path).getchildren()
 
     def get_element_specification(self, name):
-        elements = []
-        for element in self.open_xml().iter(tag=name):
-            elements.append(element)
-        return elements
+        return [element for element in self.get_tree().iter(tag=name)]
 
-    def show_all(self, ):
-        children = self.get_root().getchildren()
-        for child in children:
-            et.dump(child)
+    #def show_all(self, ):
+    #    children = self.get_root().getchildren()
+    #    for child in children:
+    #        et.dump(child)
 
 
 if __name__ == '__main__':
     xml_parser = XMLParser()
-    xml_parser.show_all()
