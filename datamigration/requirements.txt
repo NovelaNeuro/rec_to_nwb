@@ -1,1 +1,3 @@
 # requirements.txt
+xmlschema
+requests
