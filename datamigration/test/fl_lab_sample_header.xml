@@ -13,8 +13,9 @@
             <Channel id="MCU_Din2" startByte="0" bit="1" input="1" dataType="digital"/>
         </Device>
         <Device numBytes="32" available="1" name="ECU" packetOrderPreference="20">
-        <Channel id="Din1" startByte="0" bit="0" input="1" dataType="digital"/>
-        <Channel id="Din2" startByte="0" bit="1" input="1" dataType="digital"/>
+            <Channel id="Din1" startByte="0" bit="0" input="1" dataType="digital"/>
+            <Channel id="Din2" startByte="0" bit="1" input="1" dataType="digital"/>
+        </Device>
     </HardwareConfiguration>
     <ModuleConfiguration>
         <SingleModuleConfiguration sendTrodesConfig="1" moduleName="./cameraModule" sendNetworkInfo="1">
@@ -22,8 +23,9 @@
             <Argument flag="720" value="-ptpEnabled"/>
         </SingleModuleConfiguration>
         <SingleModuleConfiguration sendTrodesConfig="1" moduleName="./stateScript" sendNetworkInfo="1">
-        <Argument flag="-suppressUpdates" value="2"/>
-        <Argument flag="-suppressUpdates" value="4"/>
+            <Argument flag="-suppressUpdates" value="2"/>
+            <Argument flag="-suppressUpdates" value="4"/>
+        </SingleModuleConfiguration>
     </ModuleConfiguration>
     <StreamDisplay backgroundColor="#030303" columns="2" pages="2"/>
     <AuxDisplayConfiguration>
