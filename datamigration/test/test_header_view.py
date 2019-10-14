@@ -5,7 +5,7 @@ from datamigration.datamigration import xml_header_view
 class TestHeaderInterface(unittest.TestCase):
 
     def setUp(self):
-        self.header = xml_header_view.Header()
+        self.header = xml_header_view.Header('fl_lab_sample_header.xml')
 
     def test_configuration_tag(self):
         configuration = self.header.get_configuration()
