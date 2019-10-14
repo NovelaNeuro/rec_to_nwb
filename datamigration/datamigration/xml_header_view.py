@@ -1,91 +1,92 @@
 import xml.etree.ElementTree as ET
 
 
+tree = ET.parse('fl_lab_sample_header.xml')
+
+
 class Header:
 
-    def __init__(self, filename):
-        global tree
-        tree = ET.parse(filename)
+    def __init__(self):
+        pass
 
-    def get_Configuration(self):
-        return self.tree.getroot()
+    @staticmethod
+    def get_configuration():
+        return tree.getroot()
 
     class Configuration:
 
+        @staticmethod
+        def get_global_configuration():
+            return tree.getroot().find('GlobalConfiguration')
 
-        def get_GlobalConfiguration(self):
-            return self.tree.getroot().find('GlobalConfiguration')
+        @staticmethod
+        def get_hardware_configuration():
+            return tree.getroot().find('HardwareConfiguration')
 
-        def get_HardwareConfiguration(self):
-            return self.tree.getroot().find('HardwareConfiguration')
+        @staticmethod
+        def get_module_configuration():
+            return tree.getroot().find('ModuleConfiguration')
 
-        def get_ModuleConfiguration(self):
-            return self.tree.getroot().find('ModuleConfiguration')
+        @staticmethod
+        def get_stream_display():
+            return tree.getroot().find('StreamDisplay')
 
-        def get_StreamDisplay(self):
-            return self.tree.getroot().find('StreamDisplay')
+        @staticmethod
+        def get_aux_display_configuration():
+            return tree.getroot().find('AuxDisplayConfiguration')
 
-        def get_AuxDisplayConfiguration(self):
-            return self.tree.getroot().find('AuxDisplayConfiguration')
-
-        def get_SpikeConfiguration(self):
-            return self.tree.getroot().find('SpikeConfiguration')
-
+        @staticmethod
+        def get_spike_configuration():
+            return tree.getroot().find('SpikeConfiguration')
 
         class GlobalConfiguration:
 
             pass
 
-
         class HardwareConfiguration:
 
-
-            def get_Devices(self):
-                return self.tree.getroot().find('HardwareConfiguration').findall('Device')
-
+            @staticmethod
+            def get_devices():
+                return tree.getroot().find('HardwareConfiguration').findall('Device')
 
             class Device:
 
-
-                def get_Channels(self):
-                    return self.tree.getroot().find('HardwareConfiguration').find('Device').findall('Channel')
+                @staticmethod
+                def get_channels():
+                    return tree.getroot().find('HardwareConfiguration').find('Device').findall('Channel')
 
         class ModuleConfiguration:
 
-
-            def get_SingleModuleConfiguration(self):
-                return self.tree.getroot().find('ModuleConfiguration').findall('SingleModuleConfiguration')
-
+            @staticmethod
+            def get_single_module_configurations():
+                return tree.getroot().find('ModuleConfiguration').findall('SingleModuleConfiguration')
 
             class SingleModuleConfiguration:
 
-
-                def get_Arguments(self):
-                    return self.tree.getroot().find('ModuleConfiguration').find('SingleModuleConfiguration').findall('Arguemnts')
+                @staticmethod
+                def get_arguments():
+                    return tree.getroot().find('ModuleConfiguration').find('SingleModuleConfiguration').findall('Argument')
 
         class StreamDisplay:
 
             pass
 
-
         class AuxDisplayConfiguration:
 
-
-            def get_DispChannels(self):
-                return self.tree.getroot().find('AuxDisplayConfiguration').findall('DispChannel')
-
+            @staticmethod
+            def get_disp_channels():
+                return tree.getroot().find('AuxDisplayConfiguration').findall('DispChannel')
 
         class SpikeConfiguration:
 
+            @staticmethod
+            def get_spike_n_trodes():
+                return tree.getroot().find('SpikeConfiguration').findall('SpikeNTrode')
 
-            def get_SpikeNTrodes(self):
-                return self.tree.getroot().find('SpikeConfiguration').findall('SpikeNTrode')
+            class SpikeNTrode:
 
-
-            class SpikeNTrdoe:
-
-
-                def get_SpikeChannels(self):
-                    return self.tree.getroot().find('SpikeConfiguration').find('SpikeNTrode').findall('SpikeChannels')
+                @staticmethod
+                def get_spike_channels():
+                    return tree.getroot().find('SpikeConfiguration').find('SpikeNTrode').findall('SpikeChannel')
 
 
