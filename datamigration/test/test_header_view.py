@@ -1,11 +1,11 @@
 import unittest
-from datamigration.datamigration import xml_header_view_v2
+from datamigration.datamigration.header.module import header
 
 
 class TestHeaderInterface(unittest.TestCase):
 
     def setUp(self):
-        self.header = xml_header_view_v2.Header('fl_lab_sample_header.xml')
+        self.header = header.Header('fl_lab_sample_header.xml')
 
     def test_configuration_tag(self):
         configuration = self.header.configuration
