@@ -16,5 +16,4 @@ dependencies:
   - wheel=0.33.6=py37_0
   - wincertstore=0.2=py37_0
   - xmlschema=1.0.14=py_0
-prefix: C:\Users\wmery\miniconda3\envs\LorenFranksDataMigration
 
