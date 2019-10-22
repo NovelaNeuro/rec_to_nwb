@@ -1,9 +1,9 @@
-from .module_configuration import ModuleConfiguration
+from .aux_display_configuration import AuxDisplayConfiguration
 from .global_configuration import GlobalConfiguration
+from .hardware_configuration import HardwareConfiguration
+from .module_configuration import ModuleConfiguration
 from .spike_configuration import SpikeConfiguration
 from .stream_display import StreamDisplay
-from .hardware_configuration import HardwareConfiguration
-from .aux_display_configuration import AuxDisplayConfiguration
 
 
 class Configuration:
