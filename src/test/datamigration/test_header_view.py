@@ -1,5 +1,6 @@
 import unittest
-from datamigration.datamigration.header.module import header
+
+from src.datamigration.header.module import header
 
 
 class TestHeaderInterface(unittest.TestCase):
