@@ -1,4 +1,4 @@
-name: LorenFranksDataMigration3
+name: LorenFranksDataMigration
 channels:
   - conda-forge
   - defaults
