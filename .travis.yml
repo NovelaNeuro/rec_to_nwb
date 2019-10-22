@@ -2,8 +2,7 @@ language: python
 python:
   - "3.7"
 before_install:
-  - pip install -U pip
-  - export PYTHONPATH=$PYTHONPATH:$(pwd)
+  - cd src
 # command to install dependencies
 install:
   - sudo apt-get update
