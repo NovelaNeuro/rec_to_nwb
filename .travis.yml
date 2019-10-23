@@ -2,7 +2,6 @@ language: python
 python:
   - "3.7"
 before_install:
-  - cd src
 # command to install dependencies
 install:
   - sudo apt-get update
@@ -18,7 +17,7 @@ install:
   # Replace dep1 dep2 ... with your dependencies
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
-  - python setup.py install
+  - python src/setup.py install
 # command to run tests
 script:
   - python -m unittest
