@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../src')
+sys.path.insert('../src')
 import unittest
 
 from src.datamigration.header.module import header
