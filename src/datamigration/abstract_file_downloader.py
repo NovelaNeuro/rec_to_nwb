@@ -15,11 +15,11 @@ class AbstractFileDownloader:
     """
 
     @abstractmethod
-    def download_file(self, alternative_url):
+    def download_file(self, url):
         """ Check parameters and call start_downloading(url)
 
             Parameters:
-                :param alternative_url: custom url to file
+                :param url: custom url to file
         """
 
     @abstractmethod
