@@ -1,8 +1,9 @@
 import sys
-sys.path.append('../src')
 import unittest
 
 from src.datamigration.header.module import header
+
+sys.path.append('../src')
 
 
 class TestHeaderInterface(unittest.TestCase):

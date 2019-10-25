@@ -14,12 +14,13 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
 
-  # Replace dep1 dep2 ... with your dependencies
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
   - python src/setup.py install
+  - pip install pylint
 # command to run tests
 script:
   - python -m unittest
+  - bash pylint_run.sh
 notifications:
   slack: novelaneurote-ibx6025:3bhUUXZXz52ZXXTQCpiJyHkF
