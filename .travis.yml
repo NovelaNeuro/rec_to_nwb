@@ -21,5 +21,6 @@ install:
 # command to run tests
 script:
   - python -m unittest
+  - pylint_run.sh --exit-zero
 notifications:
   slack: novelaneurote-ibx6025:3bhUUXZXz52ZXXTQCpiJyHkF
