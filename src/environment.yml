@@ -4,6 +4,7 @@ channels:
   - defaults
   - franklab
   - flatiron
+  - wbodo
 dependencies:
   - asn1crypto=1.2.0
   - blas=1.0
@@ -44,5 +45,6 @@ dependencies:
   - wheel=0.33.6
   - xmlschema=1.0.14
   - zlib=1.2.11
+  - rec_to_binaries
 
 
