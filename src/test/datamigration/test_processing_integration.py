@@ -9,5 +9,3 @@ class ProcessingIntegrationTest(unittest.TestCase):
     def test_processing_integration(self):
         assert 1 == 1
 
-    def test_2processing_integration(self):
-        assert 2 == 2
