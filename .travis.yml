@@ -24,3 +24,5 @@ script:
   - bash pylint_run.sh
 notifications:
   slack: novelaneurote-ibx6025:3bhUUXZXz52ZXXTQCpiJyHkF
+env:
+  skipProcessingTest = True
