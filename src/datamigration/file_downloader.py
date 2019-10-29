@@ -1,7 +1,7 @@
 """ Module to download a file from url
 
 Class:
-    DownloaderFile()
+    FileDownloader()
 """
 import logging
 import os
@@ -11,7 +11,7 @@ import requests
 from src.datamigration.abstract_file_downloader import AbstractFileDownloader
 
 
-class DownloaderFile(AbstractFileDownloader):
+class FileDownloader(AbstractFileDownloader):
     """ Class to download a file
 
         Methods:
@@ -52,7 +52,7 @@ class DownloaderFile(AbstractFileDownloader):
             Parameters:
                 :param url: url to file
         """
-        logging.info('Downloading package from: ', url)
+        logging.info('Downloading package from: ' + url)
         headers = {'user-agent': 'Wget/1.16 (linux-gnu)'}
         request = requests.get(url, stream=True, headers=headers)
         with open(self.path, 'wb') as binary_file:
