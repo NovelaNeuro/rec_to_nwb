@@ -40,7 +40,7 @@ class DownloaderFile(AbstractFileDownloader):
             Parameters:
                 :param url: custom url to file
         """
-        if not url == "":
+        if url != '':
             self.start_downloading(url)
         else:
             if not os.path.isfile(self.path):
