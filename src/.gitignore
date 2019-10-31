@@ -108,3 +108,4 @@ venv.bak/
 
 #testexample
 /datamigration/example_file_path.nwb
+/e2etests/integration/example_file_path.nwb
