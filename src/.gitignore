@@ -105,3 +105,6 @@ venv.bak/
 
 # idea pycharm
 ../.idea/
+
+#testexample
+/datamigration/example_file_path.nwb
