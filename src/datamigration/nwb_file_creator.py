@@ -20,8 +20,23 @@ class NWBFileCreator:
         self.session_description = session_description
         self.session_start_time = session_start_time
         self.identifier = identifier
+        self.task = None
+        self.electrode_locations = None
+        self.recording_device = None
 
-    def build_nwb_file(self):
+    def with_task(self, task):
+        self.task = task
+        return self
+
+    def with_electrode_locations(self, electrode_locations):
+        self.electrode_locations = electrode_locations
+        return self
+
+    def with_recording_device(self, recording_device):
+        self.recording_device = recording_device
+        return self
+
+    def build(self):
         nwbfile = NWBFile(session_description=self.session_description,
                           experimenter=self.experimenter_name,
                           lab=self.lab,
