@@ -15,6 +15,6 @@ class TestRecToBinGeneration(unittest.TestCase):
     def test_generation_preprocessing(self):
         if os.path.isdir(ExperimentData.preprocessing_root_path):
             shutil.rmtree(ExperimentData.preprocessing_root_path)
-        extract_trodes_rec_file('../test_data/', ExperimentData.animal_name, parallel_instances=4)
+        extract_trodes_rec_file(ExperimentData.root_path, ExperimentData.animal_name, parallel_instances=4)
         assert os.path.isdir(ExperimentData.preprocessing_root_path) == 1
         assert os.path.isdir(ExperimentData.preprocessing_root_path + "20190718") == 1
