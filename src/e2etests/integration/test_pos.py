@@ -10,7 +10,7 @@ class TestPOSMigration(unittest.TestCase):
 
     def setUp(self):
         print('Test requires preprocessed test_data folder at e2etests location')
-        self.path_to_beans = ExperimentData.root_path + ExperimentData.pos_folder + ExperimentData.pos_file
+        self.path_to_beans = ExperimentData.pos_path + ExperimentData.pos_file
         self.pos_online = readTrodesExtractedDataFile(self.path_to_beans)
 
     def test_reading_pos(self):
