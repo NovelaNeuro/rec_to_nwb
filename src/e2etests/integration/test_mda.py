@@ -9,8 +9,8 @@ class TestMDAMigration(unittest.TestCase):
 
     def setUp(self):
         print('Test requires preprocessed test_data folder at e2etests location')
-        self.timestamps = readmda(ExperimentData.root_path + '20190718_beans_01_s1.nt1.mda')
-        self.ntrode = readmda(ExperimentData.root_path + '20190718_beans_01_s1.timestamps.mda')
+        self.timestamps = readmda(ExperimentData.mda_path + ExperimentData.mda_file)
+        self.ntrode = readmda(ExperimentData.mda_path + ExperimentData.mda_timestamp)
 
     def test_reading_mda(self):
         self.assertIsNotNone(self.timestamps)
