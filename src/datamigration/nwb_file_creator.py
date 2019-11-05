@@ -1,4 +1,5 @@
-from pynwb import NWBHDF5IO, NWBFile
+from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
+from pynwb.epoch import TimeIntervals
 from pynwb.file import Subject
 
 
@@ -27,8 +28,11 @@ class NWBFileCreator:
         self.subject = None
         self.electrodes = None
 
-    def with_task(self, task):
-        self.task = task
+    def with_task(self, name, description, id=None, columns=None, colnames=None,
+                  start_time=None, stop_time=None, tags=None, timeseries=None):
+        self.task = TimeIntervals(name, description, id, columns, colnames)
+        if not (start_time is None or stop_time is None):
+            self.task.add_interval(start_time, stop_time, tags, timeseries)
         return self
 
     def with_electrode_locations(self, electrodes):
@@ -54,7 +58,10 @@ class NWBFileCreator:
                           subject=self.subject,
                           )
 
+        if (self.task):
+            task_module = ProcessingModule(name='task',
+                                           description='testDescription')
+            nwbfile.add_processing_module(task_module).add(self.task)
+
         with NWBHDF5IO('example_file_path.nwb', mode='w') as nwb_file:
             nwb_file.write(nwbfile)
-
-
