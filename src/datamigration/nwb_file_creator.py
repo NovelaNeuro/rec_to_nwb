@@ -1,4 +1,4 @@
-from pynwb import NWBHDF5IO, NWBFile
+from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 from pynwb.epoch import TimeIntervals
 from pynwb.file import Subject
 
@@ -56,8 +56,12 @@ class NWBFileCreator:
                           identifier=self.identifier,
                           experiment_description=self.experiment_description,
                           subject=self.subject,
-                          task=self.task,
                           )
+
+        if (self.task):
+            task_module = ProcessingModule(name='task',
+                                           description='testDescription')
+            nwbfile.add_processing_module(task_module).add(self.task)
 
         with NWBHDF5IO('example_file_path.nwb', mode='w') as nwb_file:
             nwb_file.write(nwbfile)
