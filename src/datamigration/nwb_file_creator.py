@@ -1,4 +1,5 @@
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
+from pynwb.behavior import Position, SpatialSeries
 from pynwb.epoch import TimeIntervals
 from pynwb.file import Subject
 
@@ -27,6 +28,7 @@ class NWBFileCreator:
         self.recording_device = None
         self.subject = None
         self.electrodes = None
+        self.position = None
 
     def with_task(self, name, description, id=None, columns=None, colnames=None,
                   start_time=None, stop_time=None, tags=None, timeseries=None):
@@ -47,6 +49,15 @@ class NWBFileCreator:
         self.subject = Subject(age, description, genotype, sex, species, subject_id, weight, date_of_borth)
         return self
 
+    def with_position(self, name, data, reference_frame, timestamps):
+        spatial_series = SpatialSeries(name=name,
+                                       data=data,
+                                       reference_frame=reference_frame,
+                                       timestamps=timestamps,
+                                       )
+        self.position = Position(spatial_series=spatial_series)
+        return self
+
     def build(self):
         nwbfile = NWBFile(session_description=self.session_description,
                           experimenter=self.experimenter_name,
@@ -62,6 +73,11 @@ class NWBFileCreator:
             task_module = ProcessingModule(name='task',
                                            description='testDescription')
             nwbfile.add_processing_module(task_module).add(self.task)
+
+        if (self.position):
+            position_module = ProcessingModule(name='position',
+                                               description='testDescription')
+            nwbfile.add_processing_module(position_module).add(self.position)
 
         with NWBHDF5IO('example_file_path.nwb', mode='w') as nwb_file:
             nwb_file.write(nwbfile)
