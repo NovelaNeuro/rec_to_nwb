@@ -37,6 +37,10 @@ class NWBFileCreator:
             self.task.add_interval(start_time, stop_time, tags, timeseries)
         return self
 
+    def with_generated_task(self, task):
+        self.task = task
+        return self
+
     def with_electrode_locations(self, electrodes):
         self.electrodes = electrodes
         return self
@@ -49,6 +53,10 @@ class NWBFileCreator:
         self.subject = Subject(age, description, genotype, sex, species, subject_id, weight, date_of_borth)
         return self
 
+    def with_generated_subject(self, subject):
+        self.subject = subject
+        return self
+
     def with_position(self, name, data, reference_frame, timestamps):
         spatial_series = SpatialSeries(name=name,
                                        data=data,
@@ -56,6 +64,10 @@ class NWBFileCreator:
                                        timestamps=timestamps,
                                        )
         self.position = Position(spatial_series=spatial_series)
+        return self
+
+    def with_generated_position(self, position):
+        self.position = position
         return self
 
     def build(self):
