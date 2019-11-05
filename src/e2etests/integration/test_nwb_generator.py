@@ -63,31 +63,28 @@ class NWBGenerator(unittest.TestCase):
         self.assertNotEqual(0, os.path.getsize('example_file_path.nwb'))
 
     def test_task(self):
-        io = NWBHDF5IO('example_file_path.nwb', mode='a')
-        nwbfile = io.read()
-        self.assertEqual(
-            isinstance(nwbfile.processing['task'].data_interfaces['name_test'], pynwb.epoch.TimeIntervals),
-            True,
-            'Type of this object should be pynwb.epoch.TimeIntervals'
-        )
-        io.close()
+        with NWBHDF5IO('example_file_path.nwb', mode='a') as io:
+            nwbfile = io.read()
+            self.assertEqual(
+                isinstance(nwbfile.processing['task'].data_interfaces['name_test'], pynwb.epoch.TimeIntervals),
+                True,
+                'Type of this object should be pynwb.epoch.TimeIntervals'
+            )
 
     def test_subject(self):
-        io = NWBHDF5IO('example_file_path.nwb', mode='a')
-        nwbfile = io.read()
-        self.assertEqual(
-            isinstance(nwbfile.subject, pynwb.file.Subject),
-            True,
-            'Type of this object should be pynwb.file.Subject'
-        )
-        io.close()
+        with NWBHDF5IO('example_file_path.nwb', mode='a') as io:
+            nwbfile = io.read()
+            self.assertEqual(
+                isinstance(nwbfile.subject, pynwb.file.Subject),
+                True,
+                'Type of this object should be pynwb.file.Subject'
+            )
 
     def test_position(self):
-        io = NWBHDF5IO('example_file_path.nwb', mode='a')
-        nwbfile = io.read()
-        self.assertEqual(
-            isinstance(nwbfile.processing['position'].data_interfaces['Position'], pynwb.behavior.Position),
-            True,
-            'Type of this object should be pynwb.behavior.Position'
-        )
-        io.close()
+        with NWBHDF5IO('example_file_path.nwb', mode='a') as io:
+            nwbfile = io.read()
+            self.assertEqual(
+                isinstance(nwbfile.processing['position'].data_interfaces['Position'], pynwb.behavior.Position),
+                True,
+                'Type of this object should be pynwb.behavior.Position'
+            )
