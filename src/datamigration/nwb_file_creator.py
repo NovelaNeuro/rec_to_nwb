@@ -1,7 +1,14 @@
-from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
+import os
+
+import numpy as np
+from mountainlab_pytools.mdaio import readmda
+from pynwb import NWBFile, NWBHDF5IO, ecephys
+from pynwb import ProcessingModule
 from pynwb.behavior import Position, SpatialSeries
 from pynwb.epoch import TimeIntervals
 from pynwb.file import Subject
+
+from experiment_data import ExperimentData
 
 
 class NWBFileCreator:
@@ -91,5 +98,64 @@ class NWBFileCreator:
                                                description='testDescription')
             nwbfile.add_processing_module(position_module).add(self.position)
 
+        device = nwbfile.create_device(name='name_test22')
+        electrode_name = 'electrode_name_test22'
+        description = "description_test22"
+        location = "location_test22"
+        electrode_group = nwbfile.create_electrode_group(electrode_name,
+                                                         description=description,
+                                                         location=location,
+                                                         device=device)
+        for idx in [1, 2, 3, 4]:
+            nwbfile.add_electrode(idx,
+                                  x=1.0, y=2.0, z=3.0,
+                                  imp=float(-idx),
+                                  location='CA1', filtering='none',
+                                  group=electrode_group)
+        electrode_table_region = nwbfile.create_electrode_table_region([0, 2], 'the first and third electrodes')
+        rate = 10.0
+        np.random.seed(1234)
+        data_len = 1000
+        ephys_data = np.random.rand(data_len * 2)
+        ephys_timestamps = np.arange(data_len) / rate
+        electrode_location = ecephys.ElectricalSeries('electrode_location_test',
+                                                      ephys_data,
+                                                      electrode_table_region,
+                                                      timestamps=ephys_timestamps,
+                                                      resolution=0.001,
+                                                      comments="This data was randomly generated with numpy, using 1234 as the seed",
+                                                      description="Random numbers generated with numpy.random.rand")
+        nwbfile.add_acquisition(electrode_location)
+
+        for idx in range(64):
+            nwbfile.add_electrode(idx,
+                                  x=1.0, y=2.0, z=3.0,
+                                  imp=float(-idx),
+                                  location='CA1', filtering='none',
+                                  group=electrode_group)
+
+        timestamps = readmda(ExperimentData.mda_path + ExperimentData.mda_timestamp)
+
+        mda_files = [mda_file for mda_file in os.listdir(ExperimentData.mda_path) if
+                     (mda_file.endswith('.mda') and mda_file != ExperimentData.mda_timestamp)]
+
+        counter = 0
+        for file in mda_files:
+            electrode_table_region = nwbfile.create_electrode_table_region([counter % 4], "description")
+            name = "test" + str(counter)
+            series = ecephys.ElectricalSeries(name,
+                                              readmda(ExperimentData.mda_path + ExperimentData.mda_file)[counter % 4],
+                                              electrode_table_region,
+                                              timestamps=timestamps,
+                                              # Alternatively, could specify starting_time and rate as follows
+                                              # starting_time=ephys_timestamps[0],
+                                              # rate=rate,
+                                              resolution=0.001,
+                                              comments="aaa",
+                                              description="Electrical series registered on electrode " + str(counter))
+            nwbfile.add_acquisition(series)
+            counter = counter + 1
+
         with NWBHDF5IO('example_file_path.nwb', mode='w') as nwb_file:
             nwb_file.write(nwbfile)
+
