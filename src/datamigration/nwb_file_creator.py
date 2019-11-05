@@ -1,4 +1,4 @@
-from pynwb import NWBHDF5IO, NWBFile
+from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 from pynwb.behavior import Position, SpatialSeries
 from pynwb.file import Subject
 
@@ -63,8 +63,12 @@ class NWBFileCreator:
                           identifier=self.identifier,
                           experiment_description=self.experiment_description,
                           subject=self.subject,
-                          position=self.position,
                           )
+
+        if (self.position):
+            position_module = ProcessingModule(name='position',
+                                               description='testDescription')
+            nwbfile.add_processing_module(position_module).add(self.position)
 
         with NWBHDF5IO('example_file_path.nwb', mode='w') as nwb_file:
             nwb_file.write(nwbfile)
