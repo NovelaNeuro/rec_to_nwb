@@ -1,5 +1,6 @@
 import datetime
 
+import pytz
 import yaml
 from pynwb.epoch import TimeIntervals
 from pynwb.file import Subject
@@ -7,11 +8,10 @@ from pynwb.file import Subject
 
 class MetadataExtractor:
 
-    def __init__(self, path_to_yml='./nwb_creator/metadata.yml'):
-        self.path_to_yml = path_to_yml
-        with open(path_to_yml, 'r') as stream:
+    def __init__(self, configuration_path='metadata.yml'):
+        self.configuration_path = configuration_path
+        with open(self.configuration_path, 'r') as stream:
             metadate_dict = yaml.safe_load(stream)
-
             self.experimenter_name = metadate_dict['experimenter name']
             self.lab = metadate_dict['lab']
             self.institution = metadate_dict['institution']
@@ -20,6 +20,9 @@ class MetadataExtractor:
             self.identifier = metadate_dict['identifier']
             self.session_start_time = datetime.datetime.strptime(metadate_dict['session start time'],
                                                                  '%m/%d/%Y %H:%M:%S')
+            raw_date_of_birth = datetime.datetime.strptime(metadate_dict['subject']['date of birth'], '%m/%d/%Y')
+            timezone = pytz.timezone(metadate_dict['subject']['timezone'])
+            date_of_birth = timezone.localize(raw_date_of_birth)
             self.subject = Subject(
                 age=str(metadate_dict['subject']['age']),
                 description=metadate_dict['subject']['description'],
@@ -28,10 +31,10 @@ class MetadataExtractor:
                 species=metadate_dict['subject']['species'],
                 subject_id=metadate_dict['subject']['subject id'],
                 weight=str(metadate_dict['subject']['weight']),
-                date_of_birth=datetime.datetime.strptime(metadate_dict['subject']['date of birth'], '%m/%d/%Y')
+                date_of_birth=date_of_birth
             )
 
-            # Ciekawostka porownac task= Time().add() z task = Time()  task.add()
+            # todo compare task= Time().add() z task = Time()  task.add()
             self.task = TimeIntervals(
                 name=metadate_dict['task']['name'],
                 description=metadate_dict['task']['description'],
@@ -52,9 +55,4 @@ class MetadataExtractor:
             self.electrode_groups = metadate_dict['electrode group']
             self.electrodes = metadate_dict['electrode']
             self.electrode_regions = metadate_dict['electrode region']
-        #     ToDo Check if group / device exist if not we create it or raise exception?
-
-
-if __name__ == '__main__':
-    obj = MetadataExtractor()
-    print(obj.lab)
+            # ToDo Check if group / device exist if not we create it or raise exception?

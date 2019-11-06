@@ -3,10 +3,11 @@ import os
 import numpy as np
 from mountainlab_pytools.mdaio import readmda
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule, ecephys
-
 from src.datamigration.nwb_creator.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_creator.pos_extractor import POSExtractor
-from src.e2etests.integration.experiment_data import ExperimentData
+
+from src.e2etests.integration.experiment_data import \
+    ExperimentData  # todo you cannot use ExperimentData in implementation!!!This is only for tests!
 
 
 class NWBFileCreator:
