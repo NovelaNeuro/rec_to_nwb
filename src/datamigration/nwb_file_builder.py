@@ -1,19 +1,20 @@
+import datetime
+
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
-from pynwb.behavior import Position, SpatialSeries
-from pynwb.epoch import TimeIntervals
-from pynwb.file import Subject
+
+from src.datamigration.nwb_creator.pos_extractor import POSExtractor
 
 
 class NWBFileCreator:
 
     def __init__(self,
-                 experimenter_name,
-                 lab,
-                 institution,
-                 experiment_description,
-                 session_description,
-                 session_start_time,
-                 identifier,
+                 experimenter_name='experimenter_name',
+                 lab='lab',
+                 institution='institution',
+                 experiment_description='experiment_description',
+                 session_description='session_description',
+                 session_start_time=datetime.datetime.now(),
+                 identifier='identifier',
                  ):
 
         self.experimenter_name = experimenter_name
@@ -28,47 +29,27 @@ class NWBFileCreator:
         self.recording_device = None
         self.subject = None
         self.electrodes = None
-        self.position = None
+        self.position = POSExtractor().getPosition()
 
-    def with_task(self, name, description, id=None, columns=None, colnames=None,
-                  start_time=None, stop_time=None, tags=None, timeseries=None):
-        self.task = TimeIntervals(name, description, id, columns, colnames)
-        if not (start_time is None or stop_time is None):
-            self.task.add_interval(start_time, stop_time, tags, timeseries)
-        return self
-
-    def with_generated_task(self, task):
-        self.task = task
-        return self
-
-    def with_electrode_locations(self, electrodes):
-        self.electrodes = electrodes
-        return self
-
-    def with_recording_device(self, recording_device):
-        self.recording_device = recording_device
-        return self
-
-    def with_subject(self, age, description, genotype, sex, species, subject_id, weight, date_of_borth):
-        self.subject = Subject(age, description, genotype, sex, species, subject_id, weight, date_of_borth)
-        return self
-
-    def with_generated_subject(self, subject):
-        self.subject = subject
-        return self
-
-    def with_position(self, name, data, reference_frame, timestamps):
-        spatial_series = SpatialSeries(name=name,
-                                       data=data,
-                                       reference_frame=reference_frame,
-                                       timestamps=timestamps,
-                                       )
-        self.position = Position(spatial_series=spatial_series)
-        return self
-
-    def with_generated_position(self, position):
-        self.position = position
-        return self
+    # def get_generated_task(self):
+    #     self.task = task
+    #     return self
+    #
+    # def get_electrode_locations(self):
+    #     self.electrodes = electrodes
+    #     return self
+    #
+    # def get_recording_device(self):
+    #     self.recording_device = recording_device
+    #     return self
+    #
+    # def get_generated_subject(self):
+    #     self.subject = subject
+    #     return self
+    #
+    # def get_generated_position(self):
+    #     self.position = position
+    #     return self
 
     def build(self):
         nwbfile = NWBFile(session_description=self.session_description,
