@@ -59,42 +59,6 @@ class MetadataExtractor:
             except yaml.YAMLError as exc:
                 print(exc)
 
-    def get_experimenter_name(self):
-        return self.experimenter_name
-
-    def get_lab(self):
-        return self.lab
-
-    def get_institution(self):
-        return self.institution
-
-    def get_experiment_description(self):
-        return self.experiment_description
-
-    def get_session_description(self):
-        return self.session_description
-
-    def get_identifier(self):
-        pass
-
-    def get_session_start_time(self):
-        return self.session_start_time
-
-    def get_subject(self):
-        return self.subject
-
-    def get_task(self):
-        return self.task
-
-    def get_devices(self):
-        return self.devices
-
-    def get_electrode_groups(self):
-        return self.electrode_groups
-
-    def get_electrodes(self):
-        return self.electrodes
-
 if __name__ == '__main__':
     obj = MetadataExtractor()
     print(obj.__dict__)

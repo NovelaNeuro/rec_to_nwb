@@ -1,5 +1,3 @@
-import datetime
-
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 
 from src.datamigration.nwb_creator.metadata_extractor import MetadataExtractor
@@ -8,49 +6,22 @@ from src.datamigration.nwb_creator.pos_extractor import POSExtractor
 
 class NWBFileCreator:
 
-    def __init__(self,
-                 experimenter_name='experimenter_name',
-                 lab='lab',
-                 institution='institution',
-                 experiment_description='experiment_description',
-                 session_description='session_description',
-                 session_start_time=datetime.datetime.now(),
-                 identifier='identifier',
-                 ):
+    def __init__(self):
         metadate_extractor = MetadataExtractor()
-        self.experimenter_name = experimenter_name
-        self.lab = lab
-        self.institution = institution
-        self.experiment_description = experiment_description
-        self.session_description = session_description
-        self.session_start_time = session_start_time
-        self.identifier = identifier
-        self.task = None
+
+        self.experimenter_name = metadate_extractor.experimenter_name
+        self.lab = metadate_extractor.lab
+        self.institution = metadate_extractor.institution
+        self.experiment_description = metadate_extractor.experiment_description
+        self.session_description = metadate_extractor.session_description
+        self.session_start_time = metadate_extractor.session_start_time
+        self.identifier = metadate_extractor.identifier
+        self.task = metadate_extractor.task
+        self.subject = metadate_extractor.subject
+        self.position = POSExtractor().get_position()
         self.electrode_locations = None
         self.recording_device = None
-        self.subject = metadate_extractor.getSubject()
         self.electrodes = None
-        self.position = POSExtractor().get_position()
-
-    # def get_generated_task(self):
-    #     self.task = task
-    #     return self
-    #
-    # def get_electrode_locations(self):
-    #     self.electrodes = electrodes
-    #     return self
-    #
-    # def get_recording_device(self):
-    #     self.recording_device = recording_device
-    #     return self
-    #
-    # def get_generated_subject(self):
-    #     self.subject = subject
-    #     return self
-    #
-    # def get_generated_position(self):
-    #     self.position = position
-    #     return self
 
     def build(self):
         nwbfile = NWBFile(session_description=self.session_description,
