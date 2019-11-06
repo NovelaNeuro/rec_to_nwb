@@ -21,9 +21,9 @@ task:
   columns: []
   colnames: []
   interval:
-    start_time: 120120120.0
-    stop_time: 240240240.0
-    tags: []
+    start_time: 1.0
+    stop_time: 24.0
+    tags: some tag
     timeseries: []
 device:
   name: [dev1, dev2, dev3]

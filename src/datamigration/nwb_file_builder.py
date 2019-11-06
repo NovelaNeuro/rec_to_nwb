@@ -1,7 +1,11 @@
-from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
+import os
+
+from mountainlab_pytools.mdaio import readmda
+from pynwb import NWBHDF5IO, NWBFile, ProcessingModule, ecephys
 
 from src.datamigration.nwb_creator.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_creator.pos_extractor import POSExtractor
+from src.e2etests.integration.experiment_data import ExperimentData
 
 
 class NWBFileCreator:
@@ -37,7 +41,7 @@ class NWBFileCreator:
                                    experiment_description=self.experiment_description,
                                    subject=self.subject,
                                    )
-        #
+
         task_module = ProcessingModule(name='task', description='testDescription')
         nwb_file_content.add_processing_module(task_module).add(self.task)
 
@@ -77,7 +81,32 @@ class NWBFileCreator:
                 region=electrode_region['region']
             )
 
-        # mda
+        timestamps = readmda(
+            '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda/' + ExperimentData.mda_timestamp)
+
+        mda_files = [mda_file for mda_file in
+                     os.listdir('../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda/') if
+                     (mda_file.endswith('.mda') and mda_file != ExperimentData.mda_timestamp)]
+
+        counter = 0
+        for file in mda_files:
+            for i in range(4):
+                electrode_table_region = nwb_file_content.create_electrode_table_region([i % 2], "description")
+                name = "test " + str(counter * 4 + i)
+                series = ecephys.ElectricalSeries(name,
+                                                  readmda(
+                                                      '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda/' + file)[
+                                                      i],
+                                                  electrode_table_region,
+                                                  timestamps=timestamps,
+                                                  resolution=0.001,
+                                                  comments=name,
+                                                  description="Electrical series registered on electrode " + str(
+                                                      counter * 4 + i))
+                nwb_file_content.add_acquisition(series)
+            counter = counter + 1
+
+
 
         with NWBHDF5IO('example_file_path.nwb', mode='w') as nwb_fileIO:
             nwb_fileIO.write(nwb_file_content)
