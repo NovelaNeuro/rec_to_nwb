@@ -40,12 +40,12 @@ class MetadataExtractor:
                 colnames=metadate_dict['task']['colnames'],
             )
 
-            self.task.add_interval(
-                start_time=metadate_dict['task']['interval']['start_time'],
-                stop_time=metadate_dict['task']['interval']['stop_time'],
-                tags=metadate_dict['task']['interval']['tags'],
-                timeseries=metadate_dict['task']['interval']['timeseries'],
-            )
+            # self.task.add_interval(
+            #     start_time=metadate_dict['task']['interval']['start_time'],
+            #     stop_time=metadate_dict['task']['interval']['stop_time'],
+            #     tags=metadate_dict['task']['interval']['tags'],
+            #     timeseries=metadate_dict['task']['interval']['timeseries'],
+            # )
 
             # Used for recording_device, electrodes, location_electrodes
             self.devices = metadate_dict['device']['name']

@@ -15,7 +15,7 @@ class NWBFileCreator:
         self.experiment_description = metadata_extractor.experiment_description
         self.session_description = metadata_extractor.session_description
         self.session_start_time = metadata_extractor.session_start_time
-        self.identifier = metadata_extractor.identifier
+        self.identifier = str(metadata_extractor.identifier)
 
         self.task = metadata_extractor.task
         self.subject = metadata_extractor.subject
@@ -28,48 +28,50 @@ class NWBFileCreator:
 
 
     def build(self):
-        nwbfile = NWBFile(session_description=self.session_description,
-                          experimenter=self.experimenter_name,
-                          lab=self.lab,
-                          institution=self.institution,
-                          session_start_time=self.session_start_time,
-                          identifier=self.identifier,
-                          experiment_description=self.experiment_description,
-                          subject=self.subject,
-                          )
-
+        nwb_file_content = NWBFile(session_description=self.session_description,
+                                   experimenter=self.experimenter_name,
+                                   lab=self.lab,
+                                   institution=self.institution,
+                                   session_start_time=self.session_start_time,
+                                   identifier=self.identifier,
+                                   experiment_description=self.experiment_description,
+                                   subject=self.subject,
+                                   )
+        #
         task_module = ProcessingModule(name='task', description='testDescription')
-        nwbfile.add_processing_module(task_module).add(self.task)
+        nwb_file_content.add_processing_module(task_module).add(self.task)
 
         position_module = ProcessingModule(name='position', description='testDescription')
-        nwbfile.add_processing_module(position_module).add(self.position)
+        nwb_file_content.add_processing_module(position_module).add(self.position)
 
         # ToDo check if exist
         for device_name in self.devices:
-            nwbfile.create_device(name=device_name)
+            nwb_file_content.create_device(name=device_name)
 
         for electrode_group_dict in self.electrode_groups:
-            nwbfile.create_electrode_table_region(
+            nwb_file_content.create_electrode_group(
                 name=electrode_group_dict['name'],
                 description=electrode_group_dict['description'],
                 location=electrode_group_dict['location'],
-                device=electrode_group_dict['device']
+                device=[nwb_file_content.devices[device_name] for device_name in nwb_file_content.devices
+                        if device_name == electrode_group_dict['device']][0]
             )
 
         for electrode in self.electrodes:
-            nwbfile.add_electrode(
+            nwb_file_content.add_electrode(
                 x=electrode['x'],
                 y=electrode['y'],
                 z=electrode['z'],
                 imp=electrode['imp'],
                 location=electrode['location'],
                 filtering=electrode['filtering'],
-                group=electrode['group'],
+                group=[nwb_file_content.electrode_groups[group_name] for group_name in nwb_file_content.electrode_groups
+                       if group_name == electrode['group']][0],
                 id=electrode['id']
             )
 
         for electrode_region in self.electrode_regions:
-            nwbfile.create_electrode_table_region(
+            nwb_file_content.create_electrode_table_region(
                 name=electrode_region['name'],
                 description=electrode_region['description'],
                 region=electrode_region['region']
@@ -77,12 +79,12 @@ class NWBFileCreator:
 
         # mda
 
-        with NWBHDF5IO('example_file_path.nwb', mode='w') as nwb_file:
-            nwb_file.write(nwbfile)
+        with NWBHDF5IO('example_file_path.nwb', mode='w') as nwb_fileIO:
+            nwb_fileIO.write(nwb_file_content)
 
 
 if __name__ == '__main__':
-    obj = NWBFileCreator()
-    with NWBHDF5IO('example_file_path.nwb', mode='a') as io:
-        nwbfile = io.read()
-        print(nwbfile)
+    obj = NWBFileCreator().build()
+    # print(type(obj.lab))
+    with NWBHDF5IO('example_file_path.nwb', mode='r') as io:
+        nwb_file = io.read()

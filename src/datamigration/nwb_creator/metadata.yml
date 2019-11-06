@@ -70,12 +70,12 @@ electrode region:
   {
     name: region 1,
     description: description 1,
-    region: [1, 2]
+    region: [0, 1]
   },
   {
     name: region 2,
     description: description 2,
-    region: [2]
+    region: [1]
   }
   ]
 
