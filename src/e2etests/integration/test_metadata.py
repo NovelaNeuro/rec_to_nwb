@@ -5,7 +5,7 @@ from datetime import datetime
 from dateutil.tz import tzlocal
 from pynwb.epoch import TimeIntervals
 
-from src.datamigration.nwb_file_creator import NWBFileCreator
+from src.datamigration.nwb_file_builder import NWBFileCreator
 
 
 class TestMetadata(unittest.TestCase):

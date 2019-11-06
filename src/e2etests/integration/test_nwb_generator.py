@@ -10,7 +10,7 @@ from pynwb.epoch import TimeIntervals
 from pynwb.file import Subject
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from src.datamigration.nwb_file_creator import NWBFileCreator
+from src.datamigration.nwb_file_builder import NWBFileCreator
 from src.e2etests.integration.experiment_data import ExperimentData
 
 
