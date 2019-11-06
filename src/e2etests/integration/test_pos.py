@@ -1,9 +1,10 @@
 import unittest
 
 import pandas as pd
-from experiment_data import ExperimentData
-from pynwb.behavior import Position
+from pynwb.behavior import SpatialSeries, Position
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
+
+from experiment_data import ExperimentData
 
 
 class TestPOSMigration(unittest.TestCase):
@@ -15,12 +16,15 @@ class TestPOSMigration(unittest.TestCase):
 
     def test_reading_pos(self):
         position_online = pd.DataFrame(self.pos_online['data'])
-        position = Position()
-        position.create_spatial_series(
+
+        series = SpatialSeries(
             name="TestName",
             data=(position_online.xloc, position_online.yloc, position_online.xloc2, position_online.yloc2),
             # What should be inside this field?
             reference_frame="Description defining what the zero-position is",
             timestamps=position_online.time.tolist()
         )
+        position = Position(spatial_series=series)
         self.assertEqual(position_online.shape, (32658, 5), 'Shape should be (32658, 5)')
+
+        print(position)  # added just to avoid pylint warnings about unused position

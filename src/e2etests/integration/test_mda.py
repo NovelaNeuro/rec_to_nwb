@@ -1,8 +1,9 @@
 import os
 import unittest
 
-from experiment_data import ExperimentData
 from mountainlab_pytools.mdaio import readmda
+
+from experiment_data import ExperimentData
 
 
 class TestMDAMigration(unittest.TestCase):
@@ -14,6 +15,7 @@ class TestMDAMigration(unittest.TestCase):
 
         mda_files = [mda_file for mda_file in os.listdir(ExperimentData.mda_path) if
                      (mda_file.endswith('.mda') and mda_file != ExperimentData.mda_timestamp)]
+        print(mda_files)
 
     def test_reading_mda(self):
         self.assertIsNotNone(self.timestamps)
