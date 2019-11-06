@@ -2,6 +2,7 @@ import datetime
 
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 
+from src.datamigration.nwb_creator.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_creator.pos_extractor import POSExtractor
 
 
@@ -16,7 +17,7 @@ class NWBFileCreator:
                  session_start_time=datetime.datetime.now(),
                  identifier='identifier',
                  ):
-
+        metadate_extractor = MetadataExtractor()
         self.experimenter_name = experimenter_name
         self.lab = lab
         self.institution = institution
@@ -27,9 +28,9 @@ class NWBFileCreator:
         self.task = None
         self.electrode_locations = None
         self.recording_device = None
-        self.subject = None
+        self.subject = metadate_extractor.getSubject()
         self.electrodes = None
-        self.position = POSExtractor().getPosition()
+        self.position = POSExtractor().get_position()
 
     # def get_generated_task(self):
     #     self.task = task

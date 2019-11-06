@@ -10,7 +10,7 @@ class POSExtractor:
                  path_to_pos='../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.1.pos/20190718_beans_01_s1.1.pos_online.dat'):
         self.path_to_pos = path_to_pos
 
-    def getPosition(self):
+    def get_position(self):
         self.pos_online = readTrodesExtractedDataFile(self.path_to_pos)
         position_online = pd.DataFrame(self.pos_online['data'])
         position = Position()
