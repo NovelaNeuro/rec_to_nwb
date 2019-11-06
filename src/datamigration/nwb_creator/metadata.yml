@@ -1,0 +1,23 @@
+experimenter name: hulk
+lab: hulk`s lab
+institution: stark industrice
+experiment description: project avengers
+session description: winter soldier
+identifier: 12345
+session start time:
+  -2019
+  -10
+  -31
+subject:
+  age: 23
+  description: big bad thanos
+  genotype: who knows
+  sex: mele
+  species: eternal deviant hybrid
+  subject id: thanos id
+  weight: 120
+  date of birth:
+    -2000
+    -6
+    -16
+
