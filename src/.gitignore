@@ -107,4 +107,4 @@ venv.bak/
 ../.idea/
 
 #testexample
-/e2etests/integration/example_file_path.nwb
+*.nwb
