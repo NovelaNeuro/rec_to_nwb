@@ -7,13 +7,13 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 class NWBFileCreator:
 
-    def __init__(self, pos_path, metadata_path, mda_path, mda_timestamp_path, output_file_path='output_sample.nwb'):
+    def __init__(self, pos_path, metadata_path, mda_path, mda_timestamp_name, output_file_path='output.nwb'):
 
         self.mda_path = mda_path
-        self.mda_timestamp_path = mda_timestamp_path
+        self.mda_timestamp_path = mda_timestamp_name
         self.output_file_path = output_file_path
 
-        self.position = POSExtractor(pos_path).get_position()
+        self.pos_extractor = POSExtractor(pos_path)
 
         metadata_extractor = MetadataExtractor(metadata_path)
 
@@ -48,7 +48,8 @@ class NWBFileCreator:
         nwb_file_content.add_processing_module(task_module).add(self.task)
 
         position_module = ProcessingModule(name='position', description='testDescription')
-        nwb_file_content.add_processing_module(position_module).add(self.position)
+        position = self.pos_extractor.get_position()
+        nwb_file_content.add_processing_module(position_module).add(position)
 
         # ToDo check if exist
         for device_name in self.devices:
@@ -83,7 +84,7 @@ class NWBFileCreator:
                 region=electrode_region['region']
             )
 
-        # Temporary hard-coded table_region
+        # todo Temporary hard-coded table_region
         electrode_table_region = nwb_file_content.create_electrode_table_region([0], "sample description")
 
         series_table = MdaExtractor(self.mda_path, self.mda_timestamp_path, electrode_table_region)
@@ -96,13 +97,3 @@ class NWBFileCreator:
         return self.output_file_path
 
 
-
-# if __name__ == '__main__':
-obj = NWBFileCreator(
-    '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.1.pos/20190718_beans_01_s1.1.pos_online.dat',
-    '../e2etests/test_data/beans/preprocessing/20190718/metadata.yml',
-    '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda',
-    '20190718_beans_01_s1.timestamps.mda').build()
-# with NWBHDF5IO('output_sample.nwb', mode='r') as io:
-#     nwb_file = io.read()
-#     print(nwb_file)
