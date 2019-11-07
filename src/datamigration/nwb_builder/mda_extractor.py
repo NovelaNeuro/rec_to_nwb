@@ -24,7 +24,6 @@ class MdaExtractor:
         for file in mda_files:
             potentials = readmda(self.path + '/' + file),
             potentials_array = np.asarray(potentials)
-            print(type(potentials_array))
             for i in range(4):
                 name = "e-series " + str(counter)
                 series.append(ecephys.ElectricalSeries(name,
@@ -34,7 +33,7 @@ class MdaExtractor:
                                                        # Alternatively, could specify starting_time and rate as follows
                                                        # starting_time=ephys_timestamps[0],
                                                        # rate=rate,
-                                                       resolution=0.001,
+                                                       resolution=0.001,  # todo should we set up this in matadata.yml?
                                                        comments="sample comment",
                                                        description="Electrical series registered on electrode " + str(
                                                            counter)))
