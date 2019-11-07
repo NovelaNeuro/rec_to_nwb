@@ -83,6 +83,7 @@ class NWBFileCreator:
                 region=electrode_region['region']
             )
 
+        # Temporary hard-coded table_region
         electrode_table_region = nwb_file_content.create_electrode_table_region([0], "sample description")
 
         series_table = MdaExtractor(self.mda_path, self.mda_timestamp_path, electrode_table_region)
