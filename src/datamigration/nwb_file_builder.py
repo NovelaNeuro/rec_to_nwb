@@ -3,8 +3,8 @@ import os
 import numpy as np
 from mountainlab_pytools.mdaio import readmda
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule, ecephys
-from src.datamigration.nwb_creator.metadata_extractor import MetadataExtractor
-from src.datamigration.nwb_creator.pos_extractor import POSExtractor
+from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
+from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 from src.e2etests.integration.experiment_data import \
     ExperimentData  # todo you cannot use ExperimentData in implementation!!!This is only for tests!
@@ -12,9 +12,10 @@ from src.e2etests.integration.experiment_data import \
 
 class NWBFileCreator:
 
-    def __init__(self):
+    def __init__(self, output_file_path='output_sample.nwb'):
         metadata_extractor = MetadataExtractor()
 
+        self.output_file_path = output_file_path
         self.experimenter_name = metadata_extractor.experimenter_name
         self.lab = metadata_extractor.lab
         self.institution = metadata_extractor.institution
@@ -31,7 +32,6 @@ class NWBFileCreator:
         self.electrode_groups = metadata_extractor.electrode_groups
         self.electrodes = metadata_extractor.electrodes
         self.electrode_regions = metadata_extractor.electrode_regions
-
 
     def build(self):
         nwb_file_content = NWBFile(session_description=self.session_description,
@@ -112,15 +112,15 @@ class NWBFileCreator:
                 nwb_file_content.add_acquisition(series)
             counter = counter + 1
 
-
-
-        with NWBHDF5IO('example_file_path.nwb', mode='w') as nwb_fileIO:
+        with NWBHDF5IO(self.output_file_path, mode='w') as nwb_fileIO:
             nwb_fileIO.write(nwb_file_content)
 
+        return self.output_file_path
 
-if __name__ == '__main__':
+
+# if __name__ == '__main__':
     # obj = NWBFileCreator().build()
     # print(type(obj.lab))
-    with NWBHDF5IO('example_file_path.nwb', mode='r') as io:
-        nwb_file = io.read()
-        print(nwb_file)
+    # with NWBHDF5IO('example_file_path.nwb_builder', mode='r') as io:
+    #     nwb_file = io.read()
+    #     print(nwb_file)
