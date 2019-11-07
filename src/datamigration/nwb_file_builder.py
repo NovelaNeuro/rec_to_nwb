@@ -1,14 +1,7 @@
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 
-from src.datamigration.nwb.metadata_extractor import MetadataExtractor
-from src.datamigration.nwb.pos_extractor import POSExtractor
-import numpy as np
-from mountainlab_pytools.mdaio import readmda
-from pynwb import NWBHDF5IO, NWBFile, ProcessingModule, ecephys
-
-
-from src.e2etests.integration.experiment_data import \
-    ExperimentData  # todo you cannot use ExperimentData in implementation!!!This is only for tests!
+from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
+from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 
 class NWBFileCreator:
@@ -130,6 +123,6 @@ class NWBFileCreator:
 #     obj = NWBFileCreator(
 #         '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.1.pos/20190718_beans_01_s1.1.pos_online.dat',
 #         '../e2etests/test_data/beans/preprocessing/20190718/metadata.yml').build()
-#     with NWBHDF5IO('example_file_path.nwb_builder', mode='r') as io:
+#     with NWBHDF5IO('output_sample.nwb', mode='r') as io:
 #         nwb_file = io.read()
 #         print(nwb_file)
