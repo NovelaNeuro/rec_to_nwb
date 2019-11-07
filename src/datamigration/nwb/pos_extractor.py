@@ -4,7 +4,6 @@ from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 
 class POSExtractor:
-    # From this location this won`t work. We want to create more relative path in ExperimentData? (ExperimentData.pos_path + ExperimentData.pos_file)
     # todo resolve Warning
     def __init__(self, path):
         self.path = path

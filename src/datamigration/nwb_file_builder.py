@@ -1,19 +1,16 @@
-import os
+from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 
-import numpy as np
-from mountainlab_pytools.mdaio import readmda
-from pynwb import NWBHDF5IO, NWBFile, ProcessingModule, ecephys
-from src.datamigration.nwb_creator.metadata_extractor import MetadataExtractor
-from src.datamigration.nwb_creator.pos_extractor import POSExtractor
-
-from src.e2etests.integration.experiment_data import \
-    ExperimentData  # todo you cannot use ExperimentData in implementation!!!This is only for tests!
+from src.datamigration.nwb.metadata_extractor import MetadataExtractor
+from src.datamigration.nwb.pos_extractor import POSExtractor
 
 
 class NWBFileCreator:
 
-    def __init__(self):
-        metadata_extractor = MetadataExtractor()
+    def __init__(self, pos_path, metadata_path):
+
+        self.position = POSExtractor(pos_path).get_position()
+
+        metadata_extractor = MetadataExtractor(metadata_path)
 
         self.experimenter_name = metadata_extractor.experimenter_name
         self.lab = metadata_extractor.lab
@@ -25,13 +22,11 @@ class NWBFileCreator:
 
         self.task = metadata_extractor.task
         self.subject = metadata_extractor.subject
-        self.position = POSExtractor().get_position()
 
         self.devices = metadata_extractor.devices
         self.electrode_groups = metadata_extractor.electrode_groups
         self.electrodes = metadata_extractor.electrodes
         self.electrode_regions = metadata_extractor.electrode_regions
-
 
     def build(self):
         nwb_file_content = NWBFile(session_description=self.session_description,
@@ -83,34 +78,37 @@ class NWBFileCreator:
                 region=electrode_region['region']
             )
 
-        timestamps = readmda(
-            '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda/' + ExperimentData.mda_timestamp)
-        mda_files = [mda_file for mda_file in
-                     os.listdir('../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda/') if
-                     (mda_file.endswith('.mda') and mda_file != ExperimentData.mda_timestamp)]
-
-        electrode_table_region = nwb_file_content.create_electrode_table_region([0, 1], "description")
-        data_len = 1000
-        rate = 10.0
-        ephys_timestamps = np.arange(data_len) / rate
-
-        counter = 0
-        for file in mda_files:
-            for i in range(4):
-                name = "test " + str(counter * 4 + i)
-
-                series = ecephys.ElectricalSeries(name,
-                                                  readmda(
-                                                      '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda/' + file)[
-                                                      i],
-                                                  electrode_table_region,
-                                                  timestamps=ephys_timestamps,
-                                                  resolution=0.001,
-                                                  comments=name,
-                                                  description="Electrical series registered on electrode " + str(
-                                                      counter * 4 + i))
-                nwb_file_content.add_acquisition(series)
-            counter = counter + 1
+        #
+        # timestamps = readmda(
+        #     '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda/' + ExperimentData.mda_timestamp)
+        # mda_files = [mda_file for mda_file in
+        #              os.listdir('../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda/') if
+        #              (mda_file.endswith('.mda') and mda_file != ExperimentData.mda_timestamp)]
+        #
+        # electrode_table_region = nwb_file_content.create_electrode_table_region([0, 1], "description")
+        # data_len = 1000
+        # rate = 10.0
+        # ephys_timestamps = np.arange(data_len) / rate
+        # timestamps_list = timestamps.tolist()
+        # counter = 0
+        # counter_time = 0
+        # for file in mda_files:
+        #     for i in range(4):
+        #         counter_time = counter_time + 1
+        #         name = "test " + str(counter * 4 + i)
+        #
+        #         series = ecephys.ElectricalSeries(name,
+        #                                           readmda(
+        #                                               '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda/' + file)[
+        #                                               i],
+        #                                           electrode_table_region,
+        #                                           timestamps=timestamps_list,
+        #                                           resolution=0.001,
+        #                                           comments=name,
+        #                                           description="Electrical series registered on electrode " + str(
+        #                                               counter * 4 + i))
+        #         nwb_file_content.add_acquisition(series)
+        #     counter = counter + 1
 
 
 
@@ -119,7 +117,9 @@ class NWBFileCreator:
 
 
 if __name__ == '__main__':
-    # obj = NWBFileCreator().build()
+    obj = NWBFileCreator(
+        '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.1.pos/20190718_beans_01_s1.1.pos_online.dat',
+        '../e2etests/test_data/beans/preprocessing/20190718/metadata.yml').build()
     # print(type(obj.lab))
     with NWBHDF5IO('example_file_path.nwb', mode='r') as io:
         nwb_file = io.read()
