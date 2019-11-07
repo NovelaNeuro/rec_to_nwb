@@ -17,3 +17,4 @@ class ExperimentData:
 
     mda_path = preprocessing_root_path + date + mda_folder
     pos_path = preprocessing_root_path + date + pos_folder
+    metadata_path = preprocessing_root_path + date + 'metadata.yml'
