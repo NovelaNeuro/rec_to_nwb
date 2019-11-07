@@ -7,14 +7,16 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 class NWBFileCreator:
 
+    def __init__(self, pos_path, metadata_path, mda_path, mda_timestamp_path, output_file_path='output_sample.nwb'):
 
-    def __init__(self, pos_path, metadata_path, output_file_path='output_sample.nwb'):
+        self.mda_path = mda_path
+        self.mda_timestamp_path = mda_timestamp_path
+        self.output_file_path = output_file_path
 
         self.position = POSExtractor(pos_path).get_position()
 
         metadata_extractor = MetadataExtractor(metadata_path)
 
-        self.output_file_path = output_file_path
         self.experimenter_name = metadata_extractor.experimenter_name
         self.lab = metadata_extractor.lab
         self.institution = metadata_extractor.institution
@@ -83,8 +85,7 @@ class NWBFileCreator:
 
         electrode_table_region = nwb_file_content.create_electrode_table_region([0], "sample description")
 
-        series_table = MdaExtractor('../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda',
-                                    '20190718_beans_01_s1.timestamps.mda', electrode_table_region)
+        series_table = MdaExtractor(self.mda_path, self.mda_timestamp_path, electrode_table_region)
         for series in series_table.get_mda():
             nwb_file_content.add_acquisition(series)
 
@@ -96,9 +97,11 @@ class NWBFileCreator:
 
 
 # if __name__ == '__main__':
-# obj = NWBFileCreator(
-#     '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.1.pos/20190718_beans_01_s1.1.pos_online.dat',
-#     '../e2etests/test_data/beans/preprocessing/20190718/metadata.yml').build()
+obj = NWBFileCreator(
+    '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.1.pos/20190718_beans_01_s1.1.pos_online.dat',
+    '../e2etests/test_data/beans/preprocessing/20190718/metadata.yml',
+    '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.mda',
+    '20190718_beans_01_s1.timestamps.mda').build()
 # with NWBHDF5IO('output_sample.nwb', mode='r') as io:
 #     nwb_file = io.read()
 #     print(nwb_file)
