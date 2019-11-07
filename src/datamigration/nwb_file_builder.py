@@ -88,7 +88,7 @@ class NWBFileCreator:
         for series in series_table.get_mda():
             nwb_file_content.add_acquisition(series)
 
-        with NWBHDF5IO(self.output_file_path, mode='w') as nwb_fileIO:
+        with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
             nwb_fileIO.write(nwb_file_content)
 
         return self.output_file_path

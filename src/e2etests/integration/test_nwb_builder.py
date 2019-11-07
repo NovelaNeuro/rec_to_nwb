@@ -16,6 +16,7 @@ class TestNWBBuilder(unittest.TestCase):
         )
 
     def test_run_nwb_generation_from_preprocessed_data(self):
-        with NWBHDF5IO(self.nwbCreator.build(), mode='r') as io:
+        nwb_file_path = self.nwbCreator.build()
+        with NWBHDF5IO(path=nwb_file_path, mode='r') as io:
             nwb_file = io.read()
             print(nwb_file)
