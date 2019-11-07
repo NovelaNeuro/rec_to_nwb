@@ -60,10 +60,10 @@ class NWBGenerator(unittest.TestCase):
         return position
 
     def test_file_exist(self):
-        self.assertNotEqual(0, os.path.getsize('example_file_path.nwb'))
+        self.assertNotEqual(0, os.path.getsize('example_file_path.nwb_builder'))
 
     def test_task(self):
-        with NWBHDF5IO('example_file_path.nwb', mode='a') as io:
+        with NWBHDF5IO('example_file_path.nwb_builder', mode='a') as io:
             nwbfile = io.read()
             self.assertEqual(
                 isinstance(nwbfile.processing['task'].data_interfaces['name_test'], pynwb.epoch.TimeIntervals),
@@ -72,7 +72,7 @@ class NWBGenerator(unittest.TestCase):
             )
 
     def test_subject(self):
-        with NWBHDF5IO('example_file_path.nwb', mode='a') as io:
+        with NWBHDF5IO('example_file_path.nwb_builder', mode='a') as io:
             nwbfile = io.read()
             self.assertEqual(
                 isinstance(nwbfile.subject, pynwb.file.Subject),
@@ -81,7 +81,7 @@ class NWBGenerator(unittest.TestCase):
             )
 
     def test_position(self):
-        with NWBHDF5IO('example_file_path.nwb', mode='a') as io:
+        with NWBHDF5IO('example_file_path.nwb_builder', mode='a') as io:
             nwbfile = io.read()
             self.assertEqual(
                 isinstance(nwbfile.processing['position'].data_interfaces['Position'], pynwb.behavior.Position),

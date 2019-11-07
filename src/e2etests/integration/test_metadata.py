@@ -12,4 +12,4 @@ class TestMetadata(unittest.TestCase):
         self.assertEqual('hulk', self.metadata.experimenter_name)
         # todo add the rest of the properties, I know it is painful
 
-    # todo add test with creating nwb with the values taken from metadata.yml in separated file.
+    # todo add test with creating nwb_builder with the values taken from metadata.yml in separated file.

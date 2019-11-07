@@ -2,16 +2,25 @@ from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 
 from src.datamigration.nwb.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb.pos_extractor import POSExtractor
+import numpy as np
+from mountainlab_pytools.mdaio import readmda
+from pynwb import NWBHDF5IO, NWBFile, ProcessingModule, ecephys
+
+
+from src.e2etests.integration.experiment_data import \
+    ExperimentData  # todo you cannot use ExperimentData in implementation!!!This is only for tests!
 
 
 class NWBFileCreator:
 
-    def __init__(self, pos_path, metadata_path):
+
+    def __init__(self, pos_path, metadata_path, output_file_path='output_sample.nwb'):
 
         self.position = POSExtractor(pos_path).get_position()
 
         metadata_extractor = MetadataExtractor(metadata_path)
 
+        self.output_file_path = output_file_path
         self.experimenter_name = metadata_extractor.experimenter_name
         self.lab = metadata_extractor.lab
         self.institution = metadata_extractor.institution
@@ -110,17 +119,17 @@ class NWBFileCreator:
         #         nwb_file_content.add_acquisition(series)
         #     counter = counter + 1
 
-
-
-        with NWBHDF5IO('example_file_path.nwb', mode='w') as nwb_fileIO:
+        with NWBHDF5IO(self.output_file_path, mode='w') as nwb_fileIO:
             nwb_fileIO.write(nwb_file_content)
 
+        return self.output_file_path
 
-if __name__ == '__main__':
-    obj = NWBFileCreator(
-        '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.1.pos/20190718_beans_01_s1.1.pos_online.dat',
-        '../e2etests/test_data/beans/preprocessing/20190718/metadata.yml').build()
-    # print(type(obj.lab))
-    with NWBHDF5IO('example_file_path.nwb', mode='r') as io:
-        nwb_file = io.read()
-        print(nwb_file)
+
+
+# if __name__ == '__main__':
+#     obj = NWBFileCreator(
+#         '../e2etests/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.1.pos/20190718_beans_01_s1.1.pos_online.dat',
+#         '../e2etests/test_data/beans/preprocessing/20190718/metadata.yml').build()
+#     with NWBHDF5IO('example_file_path.nwb_builder', mode='r') as io:
+#         nwb_file = io.read()
+#         print(nwb_file)
