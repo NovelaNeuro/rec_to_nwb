@@ -1,7 +1,6 @@
 import unittest
-
-from experiment_data import ExperimentData
-from src.datamigration.nwb.mda_extractor import MdaExtractor
+from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
+from .experiment_data import ExperimentData
 
 
 class TestMDAMigration(unittest.TestCase):

@@ -1,7 +1,5 @@
 import unittest
-
 from pynwb import NWBHDF5IO
-
 from src.datamigration.nwb_file_builder import NWBFileCreator
 from src.e2etests.integration.experiment_data import ExperimentData
 
