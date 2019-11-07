@@ -1,13 +1,17 @@
 import os
 
+import numpy as np
 from mountainlab_pytools.mdaio import readmda
+from pynwb import ecephys
 
 
 class MdaExtractor:
 
-    def __init__(self, path, timestamp_file_name):
+    def __init__(self, path, timestamp_file_name, electrode_table_region):
         self.path = path
         self.timestamp_file_name = timestamp_file_name
+        self.electrode_table_region = electrode_table_region
+
 
     def get_mda(self):
         timestamps = readmda(self.path + '/' + self.timestamp_file_name)
@@ -16,19 +20,23 @@ class MdaExtractor:
                      (mda_file.endswith('.mda') and mda_file != self.timestamp_file_name)]
 
         counter = 0
+        series = []
         for file in mda_files:
-            electrode_table_region = nwbfile.create_electrode_table_region([counter % 4], "sample description")
-            name = "e-series" + str(counter)
-            series = ecephys.ElectricalSeries(name,
-                                              readmda(self.path + '/' + file)[counter % 4],
-                                              electrode_table_region,
-                                              timestamps=timestamps,
-                                              # Alternatively, could specify starting_time and rate as follows
-                                              # starting_time=ephys_timestamps[0],
-                                              # rate=rate,
-                                              resolution=0.001,
-                                              comments="sample comment",
-                                              description="Electrical series registered on electrode " + str(counter))
-            nwbfile.add_acquisition(series)
-            counter = counter + 1
-
+            potentials = readmda(self.path + '/' + file),
+            potentials_array = np.asarray(potentials)
+            print(type(potentials_array))
+            for i in range(4):
+                name = "e-series " + str(counter)
+                series.append(ecephys.ElectricalSeries(name,
+                                                       potentials_array[0, i],
+                                                       self.electrode_table_region,
+                                                       timestamps=timestamps,
+                                                       # Alternatively, could specify starting_time and rate as follows
+                                                       # starting_time=ephys_timestamps[0],
+                                                       # rate=rate,
+                                                       resolution=0.001,
+                                                       comments="sample comment",
+                                                       description="Electrical series registered on electrode " + str(
+                                                           counter)))
+                counter = counter + 1
+        return series
