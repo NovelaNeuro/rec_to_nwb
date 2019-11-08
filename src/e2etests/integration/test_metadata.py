@@ -1,6 +1,5 @@
 import unittest
-
-from src.datamigration.nwb.metadata_extractor import MetadataExtractor
+from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 
 
 class TestMetadata(unittest.TestCase):

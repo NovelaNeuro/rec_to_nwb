@@ -4,9 +4,9 @@ from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 
 class POSExtractor:
-    # todo resolve Warning
     def __init__(self, path):
         self.path = path
+        self.pos_online = None
 
     def get_position(self):
         self.pos_online = readTrodesExtractedDataFile(self.path)

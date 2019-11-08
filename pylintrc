@@ -53,6 +53,9 @@ enable=use-symbolic-message-instead,useless-supression,fixme
 # --disable=W"
 
 disable=R0902,
+    E1101,
+    R0913,
+    E1121,
     attribute-defined-outside-init,
     duplicate-code,
     invalid-name,

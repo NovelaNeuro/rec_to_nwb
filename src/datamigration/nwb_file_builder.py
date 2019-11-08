@@ -1,5 +1,4 @@
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
-
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
@@ -51,7 +50,6 @@ class NWBFileCreator:
         position = self.pos_extractor.get_position()
         nwb_file_content.add_processing_module(position_module).add(position)
 
-        # ToDo check if exist
         for device_name in self.devices:
             nwb_file_content.create_device(name=device_name)
 
@@ -84,14 +82,13 @@ class NWBFileCreator:
                 region=electrode_region['region']
             )
 
-        # todo Temporary hard-coded table_region
         electrode_table_region = nwb_file_content.create_electrode_table_region([0], "sample description")
 
         series_table = MdaExtractor(self.mda_path, self.mda_timestamp_path, electrode_table_region)
         for series in series_table.get_mda():
             nwb_file_content.add_acquisition(series)
 
-        with NWBHDF5IO(self.output_file_path, mode='w') as nwb_fileIO:
+        with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
             nwb_fileIO.write(nwb_file_content)
 
         return self.output_file_path
