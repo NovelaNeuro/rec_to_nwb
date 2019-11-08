@@ -56,3 +56,10 @@ class MetadataExtractor:
             self.electrodes = metadate_dict['electrode']
             self.electrode_regions = metadate_dict['electrode region']
             # ToDo Check if group / device exist if not we create it or raise exception?
+
+            self.apparatus = metadate_dict['apparatus']
+
+
+if __name__ == '__main__':
+    obj = MetadataExtractor('../../e2etests/test_data/beans/preprocessing/20190718/metadata.yml')
+    print(obj.apparatus)
