@@ -1,10 +1,11 @@
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
+
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 
-class NWBFileCreator:
+class NWBFileBuilder:
 
     def __init__(self, pos_path, metadata_path, mda_path, mda_timestamp_name, output_file_path='output.nwb'):
 
