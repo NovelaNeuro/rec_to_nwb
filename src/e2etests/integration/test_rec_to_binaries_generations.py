@@ -12,7 +12,7 @@ class TestRecToBinGeneration(unittest.TestCase):
         print('Test requires test_data folder with raw folder at e2etests location')
 
     @classmethod
-    def test_generation_preprocessing(self):
+    def test_generation_preprocessing(cls):
         extract_trodes_rec_file(ExperimentData.root_path, ExperimentData.animal_name, parallel_instances=4)
         assert os.path.isdir(ExperimentData.preprocessing_root_path) == 1
         assert os.path.isdir(ExperimentData.preprocessing_root_path + "20190718") == 1
