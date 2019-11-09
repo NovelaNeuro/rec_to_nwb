@@ -6,7 +6,7 @@ from src.datamigration.xml_extractor import XMLExtractor
 from src.test.e2etests.experiment_data import ExperimentData
 
 
-class TestHeaderExtraction(unittest.TestCase):
+class TestHeaderGenerations(unittest.TestCase):
 
     def setUp(self):
         self.xml_extractor = XMLExtractor(
