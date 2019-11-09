@@ -18,3 +18,10 @@ class ExperimentData:
     mda_path = preprocessing_root_path + date + mda_folder
     pos_path = preprocessing_root_path + date + pos_folder
     metadata_path = preprocessing_root_path + date + 'metadata.yml'
+
+    rec_file = '20190718_beans_01_s1.rec'
+    xml_file = 'fl_lab_header.xml'
+
+    rec_path = raw_root_path + date + rec_file
+    xml_path = preprocessing_root_path + date + xml_file
+    xsd_path = '../data/fl_lab_header.xsd'
