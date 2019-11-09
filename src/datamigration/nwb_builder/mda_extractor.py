@@ -12,7 +12,6 @@ class MdaExtractor:
         self.timestamp_file_name = timestamp_file_name
         self.electrode_table_region = electrode_table_region
 
-
     def get_mda(self):
         timestamps = readmda(self.path + self.timestamp_file_name)
 
@@ -22,7 +21,7 @@ class MdaExtractor:
         counter = 0
         series = []
         for file in mda_files:
-            potentials = readmda(self.path + '/' + file),
+            potentials = readmda(self.path + '/' + file)
             potentials_array = np.asarray(potentials)
             for i in range(4):
                 name = "e-series " + str(counter)
@@ -30,7 +29,7 @@ class MdaExtractor:
                                                        potentials_array[0, i],
                                                        self.electrode_table_region,
                                                        timestamps=timestamps,
-                                                       resolution=0.001,  # todo should we set up this in matadata.yml?
+                                                       resolution=0.001,
                                                        comments="sample comment",
                                                        description="Electrical series registered on electrode " + str(
                                                            counter)))

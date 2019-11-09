@@ -34,7 +34,6 @@ class MetadataExtractor:
                 date_of_birth=date_of_birth
             )
 
-            # todo compare task= Time().add() z task = Time()  task.add()
             self.task = TimeIntervals(
                 name=metadate_dict['task']['name'],
                 description=metadate_dict['task']['description'],
@@ -50,9 +49,7 @@ class MetadataExtractor:
                 timeseries=metadate_dict['task']['interval']['timeseries'],
             )
 
-            # Used for recording_device, electrodes, location_electrodes
             self.devices = metadate_dict['device']['name']
             self.electrode_groups = metadate_dict['electrode group']
             self.electrodes = metadate_dict['electrode']
             self.electrode_regions = metadate_dict['electrode region']
-            # ToDo Check if group / device exist if not we create it or raise exception?
