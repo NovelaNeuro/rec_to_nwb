@@ -53,4 +53,5 @@ class MetadataExtractor:
             self.electrode_groups = metadate_dict['electrode group']
             self.electrodes = metadate_dict['electrode']
             self.electrode_regions = metadate_dict['electrode region']
-            self.apparatus = metadate_dict['apparatus']
+            self.apparatus = metadate_dict['apparatus']['data']
+

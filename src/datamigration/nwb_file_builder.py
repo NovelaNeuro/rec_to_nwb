@@ -1,5 +1,5 @@
+from hdmf.common import VectorData, DynamicTable
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
-
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
@@ -27,6 +27,7 @@ class NWBFileBuilder:
 
         self.task = metadata_extractor.task
         self.subject = metadata_extractor.subject
+        self.apparatus = metadata_extractor.apparatus
 
         self.devices = metadata_extractor.devices
         self.electrode_groups = metadata_extractor.electrode_groups
@@ -44,12 +45,25 @@ class NWBFileBuilder:
                                    subject=self.subject,
                                    )
 
-        task_module = ProcessingModule(name='task', description='testDescription')
+        task_module = ProcessingModule(name='task', description='Sample description')
         nwb_file_content.add_processing_module(task_module).add(self.task)
 
-        position_module = ProcessingModule(name='position', description='testDescription')
+        position_module = ProcessingModule(name='position', description='Sample description')
         position = self.pos_extractor.get_position()
         nwb_file_content.add_processing_module(position_module).add(position)
+
+        apparatus_columns = []
+        for counter in range(len(self.apparatus)):
+            apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=self.apparatus[counter]))
+        apparatus_dynamic_table = DynamicTable(
+            name='apparatus',
+            description='Sample description',
+            id=None,
+            columns=apparatus_columns
+        )
+        apparatus_module = ProcessingModule(name='apparatus', description='Sample description')
+        apparatus_module.add_container(apparatus_dynamic_table)
+        nwb_file_content.add_processing_module(apparatus_module)
 
         for device_name in self.devices:
             nwb_file_content.create_device(name=device_name)
@@ -93,5 +107,3 @@ class NWBFileBuilder:
             nwb_fileIO.write(nwb_file_content)
 
         return self.output_file_path
-
-
