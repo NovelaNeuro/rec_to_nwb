@@ -23,11 +23,11 @@ class MdaExtractor:
         for file in mda_files:
             potentials = readmda(self.path + '/' + file)
             potentials_array = np.asarray(potentials)
+
             for i in range(4):
-                name = "e-series " + str(counter)
-                series.append(ecephys.ElectricalSeries(name,
-                                                       potentials_array[0, i],
-                                                       self.electrode_table_region,
+                series.append(ecephys.ElectricalSeries(name="e-series " + str(counter),
+                                                       data=potentials_array[i],
+                                                       electrodes=self.electrode_table_region,
                                                        timestamps=timestamps,
                                                        resolution=0.001,
                                                        comments="sample comment",
