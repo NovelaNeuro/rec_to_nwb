@@ -10,13 +10,13 @@ class TestHeaderGenerations(unittest.TestCase):
 
     def setUp(self):
         self.xml_extractor = XMLExtractor(
-            rec_path='../' + ExperimentData.rec_path,
-            xml_path='../' + ExperimentData.preprocessing_root_path + ExperimentData.date + ExperimentData.xml_file,
-            xsd_path='../' + ExperimentData.xsd_path
+            rec_path=ExperimentData.rec_path,
+            xml_path=ExperimentData.preprocessing_root_path + ExperimentData.date + ExperimentData.xml_file,
+            xsd_path=ExperimentData.xsd_path
         )
 
     def test_generation_xml(self):
         self.xml_extractor.extract_xml_from_rec_file()
         assert os.path.exists(
-            '../' + ExperimentData.preprocessing_root_path + ExperimentData.date + ExperimentData.xml_file
+            ExperimentData.preprocessing_root_path + ExperimentData.date + ExperimentData.xml_file
         ) == 1
