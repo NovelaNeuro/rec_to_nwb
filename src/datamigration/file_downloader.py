@@ -52,7 +52,7 @@ class FileDownloader(AbstractFileDownloader):
             Parameters:
                 :param url: url to file
         """
-        logging.info('Downloading package from: ' + url)
+        logging.info('Downloading package from: %s', url)
         headers = {'user-agent': 'Wget/1.16 (linux-gnu)'}
         request = requests.get(url, stream=True, headers=headers)
         with open(self.path, 'wb') as binary_file:

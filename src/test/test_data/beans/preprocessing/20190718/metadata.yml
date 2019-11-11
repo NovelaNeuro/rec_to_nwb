@@ -1,0 +1,82 @@
+experimenter name: hulk
+lab: hulk`s lab
+institution: stark industrice
+experiment description: project avengers
+session description: winter soldier
+identifier: 12345
+session start time: 10/31/2019 20:15:30
+subject:
+  age: 23
+  description: big bad thanos
+  genotype: who knows
+  sex: mele
+  species: eternal deviant hybrid
+  subject id: thanos id
+  weight: 120
+  date of birth: 06/16/2001
+  timezone: America/Los_Angeles
+task:
+  name: novela task
+  description: some description
+  id: []
+  columns: []
+  colnames: []
+  interval:
+    start_time: 1.0
+    stop_time: 24.0
+    tags: some tag
+    timeseries: []
+device:
+  name: [dev1, dev2, dev3]
+electrode group:
+  [
+  {
+    name: electrode group 1,
+    description: some description 1,
+    location: some location 1,
+    device: dev1
+  },
+  {
+    name: electrode group 2,
+    description: some description 2,
+    location: some location 2,
+    device: dev2
+  }
+  ]
+electrode:
+  [
+  {
+    x: 1.0,
+    y: 1.0,
+    z: 1.0,
+    imp: 3.0,
+    location: hippocampus,
+    filtering: no filter,
+    group: electrode group 1,
+    id: 1
+  },
+  {
+    x: 2.0,
+    y: 2.0,
+    z: 2.0,
+    imp: 5.0,
+    location: neocortex,
+    filtering: yes filter,
+    group: electrode group 2,
+    id: 2
+  }
+  ]
+electrode region:
+  [
+  {
+    name: region 1,
+    description: description 1,
+    region: [0, 1]
+  },
+  {
+    name: region 2,
+    description: description 2,
+    region: [1]
+  }
+  ]
+
