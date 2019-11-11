@@ -1,62 +1,53 @@
 import os
 
 
-class Directory:
-    def __init__(self):
-        print('aaa')
+class Dataset:
+    def __init__(self, name):
+        self.name = name
+        self.data = dict([])
 
-    def get_directories(self, path):
+    def add_data_to_dataset(self, folder_path, data_type):
+        self.data[data_type] = folder_path
+
+    def get_data_path_from_dataset(self, data_type):
+        return self.data[data_type]
+
+    def get_all_data_from_dataset(self, data_type):
+        return os.listdir(self.data[data_type])
+
+
+class DataScanner:
+    def __init__(self, path):
+        self.path = path
+        self.data = self.get_data()
+
+    def get_data(self):
+        animal_names = os.listdir(self.path)
+        animals = dict([])
+        for animal_name in animal_names:
+            animals[animal_name] = self.get_experiments(animal_name)
+        return animals
+
+    def get_experiments(self, animal_name):
+        path = self.path + animal_name + '/preprocessing'
+        dates = os.listdir(path)
+        experiment_dates = dict([])
+        for date in dates:
+            experiment_dates[date] = self.get_datasets(path + '/' + date)
+        return experiment_dates
+
+    def get_datasets(self, path):
+        existing_datasets = set()
+        datasets = dict([])
         directories = os.listdir(path)
-
-
-class Data_Directory(Directory):
-    def __init__(self, path):
-        self.path = path
-        self.animal_directories = self.get_animal_directories(self, path)
-
-    def get_animal_directories(self, path):
-        animal_directories = os.listdir(path)
-        return animal_directories
-
-
-class Animal_Directory(Directory):
-    def __init__(self, path):
-        self.path = path
-        self.preprocessing_path = path + '/preprocessing'
-
-    def get_date_directories(self):
-        date_directories = [directory for directory in os.listdir(self.preprocessing_path) if
-                            directory.isnumeric() and len(directory) == 8]  # 8 numbers for date (yyyymmdd)
-        return date_directories
-
-
-class Date_Directory(Directory):
-    def __init__(self, path):
-        self.path = path
-        self.mda_folder = 'aaa'
-        self.mda_files = self.get_mda_files(self, path)
-        self.mda_timestamp = self.get_mda_timestamp_file(self, path)
-
-    def get_all_directories(self):
-        print('aaa')
-
-    def get_mda_files(self):
-        mda_files = [mda_file for mda_file in os.listdir(self.path + self.mda_folder) if
-                     mda_file.endswith('.mda') and not (mda_file.endswith('timestamp.mda'))]
-        return mda_files
-
-    def get_mda_timestamp_file(self, path):
-        timestamp_files = [mda_file for mda_file in os.listdir(self.path + self.mda_folder) if
-                           mda_file.endswith('timestamp.mda')]
-        return timestamp_files
-
-    def split_into_datasets(self):
-        print('aaa')
-
-    def get_datasets(self):
-        print('aaaa')
-
-
-class Dataset(Directory):
-    def __init__(self):
-        print('asd')
+        for dir in directories:
+            dir_split = dir.split('_')
+            dir_last_part = dir_split.pop().split('.')
+            dataset_name = dir_split.pop() + '_' + dir_last_part[0]
+            if not (dataset_name in existing_datasets):
+                datasets[dataset_name] = Dataset(dataset_name)
+                existing_datasets.add(dataset_name)
+            for dataset in datasets.values():
+                if dataset_name == dataset.name:
+                    dataset.add_data_to_dataset(path + '/' + dir, dir_last_part.pop())
+        return datasets
