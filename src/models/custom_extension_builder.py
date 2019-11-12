@@ -173,6 +173,7 @@ class CustomExtensionsBuilder:
             "Extension for use in Novela Neurotechnologies",
             "novelaNeurotechnologies"
         )
+
         ext_fl_electrodes = create_fl_electordes()
         ext_fl_electrode_group = create_fl_electorde_group()
 
