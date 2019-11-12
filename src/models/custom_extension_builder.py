@@ -165,9 +165,10 @@ def create_fl_electorde_group():
 
 
 class CustomExtensionsBuilder:
-    def __init__(self):
-        ext_source = 'novelaNeurotechnologies.specs.yaml'
-        ns_path = 'novelaNeurotechnologies.namespace.yaml'
+    def __init__(self, ext_source='novelaNeurotechnologies.specs.yaml',
+                 ns_path='novelaNeurotechnologies.namespace.yaml'):
+        self.ext_source = ext_source
+        self.ns_path = ns_path
 
         ns_builder = NWBNamespaceBuilder(
             "Extension for use in Novela Neurotechnologies",
@@ -177,7 +178,7 @@ class CustomExtensionsBuilder:
         ext_fl_electrodes = create_fl_electordes()
         ext_fl_electrode_group = create_fl_electorde_group()
 
-        ns_builder.add_spec(ext_source, ext_fl_electrodes)
-        ns_builder.add_spec(ext_source, ext_fl_electrode_group)
+        ns_builder.add_spec(self.ext_source, ext_fl_electrodes)
+        ns_builder.add_spec(self.ext_source, ext_fl_electrode_group)
 
-        ns_builder.export(ns_path)
+        ns_builder.export(self.ns_path)
