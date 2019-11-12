@@ -50,7 +50,7 @@ class DataScanner:
                     existing_datasets.add(dataset_name)
                 for dataset in datasets.values():
                     if dataset_name == dataset.name:
-                        dataset.add_data_to_dataset(path + '/' + dir, dir_last_part.pop())
+                        dataset.add_data_to_dataset(path + '/' + dir + '/', dir_last_part.pop())
         return datasets
 
     def get_all_animals(self):
