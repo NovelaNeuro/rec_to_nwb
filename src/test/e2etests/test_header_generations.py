@@ -2,7 +2,7 @@ import os
 import unittest
 
 from src.datamigration.xml_extractor import XMLExtractor
-from src.test.e2etests.experiment_data import ExperimentData
+from .experiment_data import ExperimentData
 
 
 class TestHeaderGenerations(unittest.TestCase):
