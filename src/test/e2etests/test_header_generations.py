@@ -1,5 +1,4 @@
 import os
-
 import unittest
 
 from src.datamigration.xml_extractor import XMLExtractor
@@ -17,6 +16,6 @@ class TestHeaderGenerations(unittest.TestCase):
 
     def test_generation_xml(self):
         self.xml_extractor.extract_xml_from_rec_file()
-        assert os.path.exists(
+        self.assertTrue(os.path.exists(
             ExperimentData.preprocessing_root_path + ExperimentData.date + ExperimentData.xml_file
-        ) == 1
+        ))
