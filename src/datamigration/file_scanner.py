@@ -51,3 +51,12 @@ class DataScanner:
                 if dataset_name == dataset.name:
                     dataset.add_data_to_dataset(path + '/' + dir, dir_last_part.pop())
         return datasets
+
+    def get_all_animals(self):
+        return list(self.data.keys())
+
+    def get_all_experiment_dates(self, animal):
+        return list(self.data[animal].keys())
+
+    def get_all_datasets(self, animal, date):
+        return list(self.data[animal][date].keys())
