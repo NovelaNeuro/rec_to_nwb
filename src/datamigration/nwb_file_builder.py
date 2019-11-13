@@ -2,7 +2,6 @@ from hdmf.common import VectorData, DynamicTable
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule, load_namespaces, get_class
 
 from src.datamigration.header.module.header import Header
-from src.datamigration.header.module.spike_n_trode import SpikeNTrode
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
@@ -39,7 +38,8 @@ class NWBFileBuilder:
         self.electrodes = metadata_extractor.electrodes
         self.electrode_regions = metadata_extractor.electrode_regions
 
-        self.spike_n_trodes = SpikeNTrode(Header(xml_path).configuration)
+        self.spike_n_trodes = Header(xml_path).configuration.spike_configuration.spike_n_trodes
+
 
     def build(self):
         nwb_file_content = NWBFile(session_description=self.session_description,
@@ -61,7 +61,8 @@ class NWBFileBuilder:
 
         apparatus_columns = []
         for counter in range(len(self.apparatus)):
-            apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=self.apparatus[counter]))
+            apparatus_columns.append(
+                VectorData(name='col ' + str(counter), description='', data=self.apparatus[counter]))
         apparatus_dynamic_table = DynamicTable(
             name='apparatus',
             description='Sample description',
@@ -75,39 +76,88 @@ class NWBFileBuilder:
         for device_name in self.devices:
             nwb_file_content.create_device(name=device_name)
 
-        # Read one group from xml. Add all electrodes. Loop.
+        FLElectrode = get_class('fl_Electrode', 'novelaNeurotechnologies')
+        FLElectrodeGroup = get_class('fl_ElectrodeGroup', 'novelaNeurotechnologies')
 
-
-
-        for electrode_group_dict in self.electrode_groups:
-            nwb_file_content.create_electrode_group(
-                name=electrode_group_dict['name'],
-                description=electrode_group_dict['description'],
-                location=electrode_group_dict['location'],
-                device=[nwb_file_content.devices[device_name] for device_name in nwb_file_content.devices
-                        if device_name == electrode_group_dict['device']][0]
+        electrode_counter = 0
+        fl_electrodes_group = []
+        for group_index in range(len(self.spike_n_trodes)):
+            electrode_group = FLElectrodeGroup(
+                name='ElectrodeGroup ' + self.spike_n_trodes[group_index].id,
+                description='description',
+                location='location',
+                device=nwb_file_content.devices['dev1'],
+                filterOn=self.spike_n_trodes[group_index].filter_on,
+                lowFilter=self.spike_n_trodes[group_index].low_filter,
+                lfpRefOn=self.spike_n_trodes[group_index].lfp_ref_on,
+                color=self.spike_n_trodes[group_index].color,
+                highFilter=self.spike_n_trodes[group_index].hight_filter,
+                lfpFilterOn=self.spike_n_trodes[group_index].lfp_filter_on,
+                moduleDataOn=self.spike_n_trodes[group_index].module_data_on,
+                LFPHighFilter=self.spike_n_trodes[group_index].lfp_high_filter,
+                refGroup=self.spike_n_trodes[group_index].ref_group,
+                LFPChan=self.spike_n_trodes[group_index].lfp_chan,
+                refNTrodeID=self.spike_n_trodes[group_index].ref_n_trode_id,
+                refChan=self.spike_n_trodes[group_index].ref_chan,
+                groupRefOn=self.spike_n_trodes[group_index].group_ref_on,
+                refOn=self.spike_n_trodes[group_index].ref_on,
+                id=self.spike_n_trodes[group_index].id,
             )
+            fl_electrodes_group.append(electrode_group)
 
-        flElectrode = get_class('fl_Electrode', 'novelaNeurotechnologies')
+            fl_electrodes = []
+            spike_channels = self.spike_n_trodes[group_index].spike_channels
+            for electrode_index in (range(len(spike_channels))):
+                fl_electrodes.append(
+                    FLElectrode(
+                        name='Electrode ' + str(electrode_counter),
+                        x=1.0,
+                        y=1.0,
+                        z=1.0,
+                        imp=1.0,
+                        location='sample location',
+                        filtering='sample filtering',
+                        group=electrode_group,
+                        id=electrode_counter,
+                        maxDisp=spike_channels[electrode_index].max_disp,
+                        triggerOn=spike_channels[electrode_index].trigger_on,
+                        hwChan=spike_channels[electrode_index].hw_chan,
+                        thresh=spike_channels[electrode_index].thresh,
+                    )
+                )
+                electrode_counter = electrode_counter + 1
 
-        fl_electrode = []
+        # fl_electrode = FLElectrode(
+        #     name='Electrode ',
+        #     x=1.0,
+        #     y=2.0,
+        #     z=3.0,
+        #     imp=4.0,
+        #     location='sample location',
+        #     filtering='sample filtering',
+        #     group=fl_electrodes_group,
+        #     id=1,
+        #     maxDisp=1,
+        # )
+        # electrode_group_module = ProcessingModule(name='electrode_group', description='Sample description')
+        # electrode_group_module.add_container(fl_electrodes_group)
+        # nwb_file_content.add_processing_module(electrode_group_module)
 
-        for electrode in self.spike_n_trodes.spike_channels:
-            nwb_file_content.add_acquisition(
-                flElectrode(
-                    x=1.0,
-                    y=2.0,
-                    z=3.0,
-                    imp=4.0,
-                    location=electrode['location'],
-                    filtering=electrode['filtering'],
-                    group=
-                    [nwb_file_content.electrode_groups[group_name] for group_name in nwb_file_content.electrode_groups
-                     if group_name == electrode['group']][0],
-                    id=electrode['id'],
-                    maxDisp=123,
-                    name='Electrode ' + str(electrode['id'])
-                ))
+        # for electrode in self.electrodes:
+        #         flElectrode(
+        #             x=1.0,
+        #             y=2.0,
+        #             z=3.0,
+        #             imp=4.0,
+        #             location=electrode['location'],
+        #             filtering=electrode['filtering'],
+        #             group=
+        #             [nwb_file_content.electrode_groups[group_name] for group_name in nwb_file_content.electrode_groups
+        #              if group_name == electrode['group']][0],
+        #             id=electrode['id'],
+        #             maxDisp=123,
+        #             name='Electrode ' + str(electrode['id'])
+        #         ))
 
         #
         # for electrode_group_dict in self.electrode_groups:

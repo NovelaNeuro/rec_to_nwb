@@ -23,8 +23,8 @@ class TestNWBBuilder(unittest.TestCase):
         nwb_file_path = self.nwbBuilder.build()
         with NWBHDF5IO(path=nwb_file_path, mode='r') as io:
             nwb_file = io.read()
-            print(nwb_file)
-            print('Details: ')
-            print('Position: ' + str(nwb_file.processing['position'].data_interfaces['Position']))
-            print('Task: ' + str(nwb_file.processing['task'].data_interfaces['novela task']))
-            print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
+            # print(nwb_file)
+            # print('Details: ')
+            # print('Position: ' + str(nwb_file.processing['position'].data_interfaces['Position']))
+            # print('Task: ' + str(nwb_file.processing['task'].data_interfaces['novela task']))
+            # print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))

@@ -1,6 +1,6 @@
 import unittest
 
-from src.models.custom_extension_builder import CustomExtensionsBuilder
+from src.datamigration.models.custom_extension_builder import CustomExtensionsBuilder
 from src.test.e2etests.experiment_data import ExperimentData
 
 

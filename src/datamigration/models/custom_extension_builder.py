@@ -53,23 +53,23 @@ def create_fl_electordes():
                             NWBAttributeSpec(
                                 name='maxDisp',
                                 doc='maxDisp sample description',
-                                dtype='int'
+                                dtype='text'
                             ),
-                            # NWBAttributeSpec(
-                            #     name='triggerOn',
-                            #     doc='triggerOn sample description',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='hwChan',
-                            #     doc='hwChan sample description',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='thresh',
-                            #     doc='thresh sample description',
-                            #     dtype='int'
-                            # ),
+                            NWBAttributeSpec(
+                                name='triggerOn',
+                                doc='triggerOn sample description',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='hwChan',
+                                doc='hwChan sample description',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='thresh',
+                                doc='thresh sample description',
+                                dtype='text'
+                            ),
                         ],
                         # ToDo not found Electrode type
                         # neurodata_type_inc='Electrode',
@@ -98,6 +98,7 @@ def create_fl_electorde_group():
                             NWBAttributeSpec(
                                 name='device',
                                 doc='the device that was used to record from this electrode group',
+                                # Link to Probe
                                 dtype=RefSpec(
                                     target_type='Device',
                                     reftype='object'
@@ -106,78 +107,78 @@ def create_fl_electorde_group():
                             NWBAttributeSpec(
                                 name='filterOn',
                                 doc='filterOn sample doc',
-                                dtype='int'
+                                dtype='text'
                             ),
-                            # NWBAttributeSpec(
-                            #     name='lowFilter',
-                            #     doc='lowFilter sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='lfpRefOn',
-                            #     doc='lfpRefOn sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='color',
-                            #     doc='color sample doc',
-                            #     dtype='text'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='highFilter',
-                            #     doc='highFilter sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='lfpFilterOn',
-                            #     doc='lfpFilterOn sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='moduleDataOn',
-                            #     doc='moduleDataOn sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='LFPHighFilter',
-                            #     doc='LFPHighFilter sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='refGroup',
-                            #     doc='refGroup sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='LFPChan',
-                            #     doc='LFPChan sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='refNTrodeID',
-                            #     doc='refNTrodeID sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='refChan',
-                            #     doc='refChan sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='groupRefOn',
-                            #     doc='groupRefOn sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='refOn',
-                            #     doc='refOn sample doc',
-                            #     dtype='int'
-                            # ),
-                            # NWBAttributeSpec(
-                            #     name='id',
-                            #     doc='id sample doc',
-                            #     dtype='int'
-                            # ),
+                            NWBAttributeSpec(
+                                name='lowFilter',
+                                doc='lowFilter sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='lfpRefOn',
+                                doc='lfpRefOn sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='color',
+                                doc='color sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='highFilter',
+                                doc='highFilter sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='lfpFilterOn',
+                                doc='lfpFilterOn sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='moduleDataOn',
+                                doc='moduleDataOn sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='LFPHighFilter',
+                                doc='LFPHighFilter sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='refGroup',
+                                doc='refGroup sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='LFPChan',
+                                doc='LFPChan sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='refNTrodeID',
+                                doc='refNTrodeID sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='refChan',
+                                doc='refChan sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='groupRefOn',
+                                doc='groupRefOn sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='refOn',
+                                doc='refOn sample doc',
+                                dtype='text'
+                            ),
+                            NWBAttributeSpec(
+                                name='id',
+                                doc='id sample doc',
+                                dtype='text'
+                            ),
 
                         ],
                         neurodata_type_inc='ElectrodeGroup',
