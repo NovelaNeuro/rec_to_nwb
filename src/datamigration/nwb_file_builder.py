@@ -1,5 +1,6 @@
 from hdmf.common import VectorData, DynamicTable
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
+
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
@@ -97,13 +98,20 @@ class NWBFileBuilder:
                 region=electrode_region['region']
             )
 
-        electrode_table_region = nwb_file_content.create_electrode_table_region([0], "sample description")
-
-        series_table = MdaExtractor(self.mda_path, self.mda_timestamp_path, electrode_table_region)
-        for series in series_table.get_mda():
-            nwb_file_content.add_acquisition(series)
-
         with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
             nwb_fileIO.write(nwb_file_content)
+            nwb_fileIO.close()
 
+        i = 0
+        data_chunk_size = 1
+        while i < 64:  # switch to function from file scanner after its merged into master
+            with NWBHDF5IO(path=self.output_file_path, mode='a') as IO:
+                nwb_fileIO = IO.read()
+                electrode_table_region = nwb_fileIO.create_electrode_table_region([0], "sample description")
+                series_table = MdaExtractor(self.mda_path, self.mda_timestamp_path, electrode_table_region)
+                for series in series_table.get_mda(i, data_chunk_size):
+                    nwb_fileIO.add_acquisition(series)
+                IO.write(nwb_fileIO)
+                IO.close()
+                i = i + data_chunk_size
         return self.output_file_path
