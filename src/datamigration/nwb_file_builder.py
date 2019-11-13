@@ -35,7 +35,7 @@ class NWBFileBuilder:
         self.electrodes = metadata_extractor.electrodes
         self.electrode_regions = metadata_extractor.electrode_regions
 
-    def build(self, mda_data_chunk_size=6):
+    def build(self, mda_data_chunk_size=1):
         nwb_file_content = NWBFile(session_description=self.session_description,
                                    experimenter=self.experimenter_name,
                                    lab=self.lab,
