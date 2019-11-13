@@ -12,9 +12,9 @@ class MdaExtractor:
         self.timestamp_file_name = timestamp_file_name
         self.electrode_table_region = electrode_table_region
 
-    def get_mda(self, file_number, data_chunk_size):
-        if (file_number + data_chunk_size) > 64:  # add something from scanner
-            data_chunk_size = 64 - file_number
+    def get_mda(self, first_file_number, data_chunk_size):
+        if (first_file_number + data_chunk_size) > 64:  # add something from scanner
+            data_chunk_size = 64 - first_file_number
 
         timestamps = readmda(self.path + self.timestamp_file_name)
 
@@ -23,13 +23,14 @@ class MdaExtractor:
 
         counter = 0
         series = []
-        for j in range(data_chunk_size):
-            file = mda_files[file_number + j]
+        for file_number in range(data_chunk_size):
+            current_file_number = first_file_number + file_number
+            file = mda_files[current_file_number]
             potentials = readmda(self.path + '/' + file)
             potentials_array = np.asarray(potentials)
-            for i in range(4):
-                series.append(ecephys.ElectricalSeries(name="e-series " + str((file_number + j) * 4 + i),
-                                                       data=potentials_array[i],
+            for series_number in range(4):
+                series.append(ecephys.ElectricalSeries(name="e-series " + str(current_file_number * 4 + series_number),
+                                                       data=potentials_array[series_number],
                                                        electrodes=self.electrode_table_region,
                                                        timestamps=timestamps,
                                                        resolution=0.001,
