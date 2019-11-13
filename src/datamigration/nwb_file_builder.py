@@ -1,7 +1,9 @@
 from hdmf.common import VectorData, DynamicTable
-from pynwb import NWBHDF5IO, NWBFile, ProcessingModule, load_namespaces, get_class
+from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 
 from src.datamigration.header.module.header import Header
+from src.datamigration.models.FLElectrodes import FLElectrodes, FLElectrodesContainer
+from src.datamigration.models.FLElectrodesGroup import FLElectrodesGroup, FLElectrodesGroupContainer
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
@@ -9,9 +11,6 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 class NWBFileBuilder:
 
     def __init__(self, pos_path, metadata_path, mda_path, mda_timestamp_name, xml_path, output_file_path='output.nwb'):
-        # ToDo HardCoded namespaces, it is ok?
-        ns_path = "novelaNeurotechnologies.namespace.yaml"
-        load_namespaces(ns_path)
 
         self.mda_path = mda_path
         self.mda_timestamp_path = mda_timestamp_name
@@ -76,40 +75,41 @@ class NWBFileBuilder:
         for device_name in self.devices:
             nwb_file_content.create_device(name=device_name)
 
-        FLElectrode = get_class('fl_Electrode', 'novelaNeurotechnologies')
-        FLElectrodeGroup = get_class('fl_ElectrodeGroup', 'novelaNeurotechnologies')
+
 
         electrode_counter = 0
-        fl_electrodes_group = []
+        fl_electrode_group_container = FLElectrodesGroupContainer()
         for group_index in range(len(self.spike_n_trodes)):
-            electrode_group = FLElectrodeGroup(
-                name='ElectrodeGroup ' + self.spike_n_trodes[group_index].id,
-                description='description',
-                location='location',
-                device=nwb_file_content.devices['dev1'],
-                filterOn=self.spike_n_trodes[group_index].filter_on,
-                lowFilter=self.spike_n_trodes[group_index].low_filter,
-                lfpRefOn=self.spike_n_trodes[group_index].lfp_ref_on,
-                color=self.spike_n_trodes[group_index].color,
-                highFilter=self.spike_n_trodes[group_index].hight_filter,
-                lfpFilterOn=self.spike_n_trodes[group_index].lfp_filter_on,
-                moduleDataOn=self.spike_n_trodes[group_index].module_data_on,
-                LFPHighFilter=self.spike_n_trodes[group_index].lfp_high_filter,
-                refGroup=self.spike_n_trodes[group_index].ref_group,
-                LFPChan=self.spike_n_trodes[group_index].lfp_chan,
-                refNTrodeID=self.spike_n_trodes[group_index].ref_n_trode_id,
-                refChan=self.spike_n_trodes[group_index].ref_chan,
-                groupRefOn=self.spike_n_trodes[group_index].group_ref_on,
-                refOn=self.spike_n_trodes[group_index].ref_on,
-                id=self.spike_n_trodes[group_index].id,
+            electrode_group = (
+                FLElectrodesGroup(
+                    name='ElectrodeGroup ' + self.spike_n_trodes[group_index].id,
+                    description='description',
+                    location='location',
+                    device=nwb_file_content.devices['dev1'],
+                    filterOn=self.spike_n_trodes[group_index].filter_on,
+                    lowFilter=self.spike_n_trodes[group_index].low_filter,
+                    lfpRefOn=self.spike_n_trodes[group_index].lfp_ref_on,
+                    color=self.spike_n_trodes[group_index].color,
+                    highFilter=self.spike_n_trodes[group_index].hight_filter,
+                    lfpFilterOn=self.spike_n_trodes[group_index].lfp_filter_on,
+                    moduleDataOn=self.spike_n_trodes[group_index].module_data_on,
+                    LFPHighFilter=self.spike_n_trodes[group_index].lfp_high_filter,
+                    refGroup=self.spike_n_trodes[group_index].ref_group,
+                    LFPChan=self.spike_n_trodes[group_index].lfp_chan,
+                    refNTrodeID=self.spike_n_trodes[group_index].ref_n_trode_id,
+                    refChan=self.spike_n_trodes[group_index].ref_chan,
+                    groupRefOn=self.spike_n_trodes[group_index].group_ref_on,
+                    refOn=self.spike_n_trodes[group_index].ref_on,
+                    id=self.spike_n_trodes[group_index].id,
+                )
             )
-            fl_electrodes_group.append(electrode_group)
+            fl_electrode_group_container.add_electrodes_group(electrode_group)
 
-            fl_electrodes = []
+            fl_electrode_container = FLElectrodesContainer()
             spike_channels = self.spike_n_trodes[group_index].spike_channels
             for electrode_index in (range(len(spike_channels))):
-                fl_electrodes.append(
-                    FLElectrode(
+                fl_electrode_container.add_electrodes(
+                    FLElectrodes(
                         name='Electrode ' + str(electrode_counter),
                         x=1.0,
                         y=1.0,
@@ -126,7 +126,8 @@ class NWBFileBuilder:
                     )
                 )
                 electrode_counter = electrode_counter + 1
-
+        print(fl_electrode_group_container)
+        # print(fl_electrode_container)
         # fl_electrode = FLElectrode(
         #     name='Electrode ',
         #     x=1.0,
