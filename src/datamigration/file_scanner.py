@@ -61,3 +61,11 @@ class DataScanner:
 
     def get_all_datasets(self, animal, date):
         return list(self.data[animal][date].keys())
+
+    def get_metadata(self, animal, date, dataset):
+        return self.data[animal][date][dataset].get_data_path_from_dataset('metadata') + 'metadata.yml'
+
+    def get_mda_timestamps(self, animal, date, dataset):
+        for file in self.data['beans']['20190718']['01_s1'].get_all_data_from_dataset('mda'):
+            if file.endswith('timestamps.mda'):
+                return self.data['beans']['20190718']['01_s1'].get_data_path_from_dataset('mda') + file

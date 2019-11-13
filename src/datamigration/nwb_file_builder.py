@@ -1,22 +1,28 @@
 from hdmf.common import VectorData, DynamicTable
+from mountainlab_pytools.mdaio import readmda
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 
+import src.datamigration.file_scanner as fs
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 
 class NWBFileBuilder:
-
-    def __init__(self, pos_path, metadata_path, mda_path, mda_timestamp_name, output_file_path='output.nwb'):
-
-        self.mda_path = mda_path
-        self.mda_timestamp_path = mda_timestamp_name
+    def __init__(self, data_path, animal_name, date, dataset, output_file_path='output.nwb'):
+        self.data_folder = fs.DataScanner(data_path)
+        self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
+        self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
+        self.mda_file_count = len(self.data_folder.data[animal_name][date][dataset].
+                                  get_all_data_from_dataset('mda')) - 2  # timestamp and log files are not counted
         self.output_file_path = output_file_path
 
-        self.pos_extractor = POSExtractor(pos_path)
+        for file in self.data_folder.data[animal_name][date][dataset].get_all_data_from_dataset('pos'):
+            if file.endswith('pos_online.dat'):
+                self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
+                                                  get_data_path_from_dataset('pos') + file)
 
-        metadata_extractor = MetadataExtractor(metadata_path)
+        metadata_extractor = MetadataExtractor(self.data_folder.get_metadata(animal_name, date, dataset))
 
         self.experimenter_name = metadata_extractor.experimenter_name
         self.lab = metadata_extractor.lab
@@ -102,13 +108,14 @@ class NWBFileBuilder:
             nwb_fileIO.write(nwb_file_content)
             nwb_fileIO.close()
 
+        timestamps = readmda(self.mda_timestamps_path)
+        mda_extractor = MdaExtractor(self.mda_path, timestamps)
         file_number = 0
-        while file_number < 64:  # switch to function from file scanner after its merged into master
+        while file_number < self.mda_file_count:  # switch to function from file scanner after its merged into master
             with NWBHDF5IO(path=self.output_file_path, mode='a') as IO:
                 nwb_fileIO = IO.read()
                 electrode_table_region = nwb_fileIO.create_electrode_table_region([0], "sample description")
-                series_table = MdaExtractor(self.mda_path, self.mda_timestamp_path, electrode_table_region)
-                for series in series_table.get_mda(file_number, mda_data_chunk_size):
+                for series in mda_extractor.get_mda(file_number, mda_data_chunk_size, electrode_table_region):
                     nwb_fileIO.add_acquisition(series)
                 IO.write(nwb_fileIO)
                 IO.close()
