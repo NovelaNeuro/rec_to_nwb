@@ -17,6 +17,9 @@ class CustomExtensionsBuilder:
         self.electrodes_container = self.create_fl_electrodes_container()
         self.electrodes_group = self.create_fl_electordes_group()
         self.electrodes_group_container = self.create_fl_electordes_group_container()
+        self.probes = self.create_fl_probes()
+
+        ns_builder.add_spec(self.ext_source, self.probes)
 
         # ns_builder.add_spec(self.ext_source, self.electrodes)
         ns_builder.add_spec(self.ext_source, self.electrodes_container)
@@ -227,6 +230,23 @@ class CustomExtensionsBuilder:
                             doc='A container of ElectrodesGroup', quantity='?',
                             groups=[self.electrodes_group])
 
+    def create_fl_shanks(self):
+        return NWBGroupSpec('A custom Shanks interface',
+                            neurodata_type_def='FLShanks',
+                            attributes=[
+                                NWBAttributeSpec(
+                                    name='name',
+                                    doc='unique name of the shank',
+                                    dtype='text'
+                                ),
+                                NWBAttributeSpec(
+                                    name='electrodes',
+                                    doc='the electrodes colection associated with the shank',
+                                    dtype='list'
+                                )
+                                        ]
+                            )
+
     def create_fl_probes(self):
         return NWBGroupSpec('A custom Probes interface',
                             neurodata_type_def='FLProbes',
@@ -239,7 +259,10 @@ class CustomExtensionsBuilder:
                                 NWBAttributeSpec(
                                     name='shanks',
                                     doc='the shanks colection associated with the probe',
-                                    dtype='list'
+                                    dtype=RefSpec(
+                                        target_type='FLShank',
+                                        reftype='object'
+                                    )
                                 )
                                         ]
                             )
