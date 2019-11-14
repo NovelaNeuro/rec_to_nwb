@@ -242,7 +242,10 @@ class CustomExtensionsBuilder:
                                 NWBAttributeSpec(
                                     name='electrodes',
                                     doc='the electrodes colection associated with the shank',
-                                    dtype='list'
+                                    dtype=RefSpec(
+                                        target_type='electrodes',
+                                        reftype='object'
+                                    )
                                 )
                                         ]
                             )
