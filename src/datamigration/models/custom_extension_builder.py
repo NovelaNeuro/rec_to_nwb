@@ -226,3 +226,20 @@ class CustomExtensionsBuilder:
                             name='ElectrodesGroup container',
                             doc='A container of ElectrodesGroup', quantity='?',
                             groups=[self.electrodes_group])
+
+    def create_fl_probes(self):
+        return NWBGroupSpec('A custom Probes interface',
+                            neurodata_type_def='FLProbes',
+                            attributes=[
+                                NWBAttributeSpec(
+                                    name='probe_id',
+                                    doc='unique id of the probe',
+                                    dtype='text'
+                                ),
+                                NWBAttributeSpec(
+                                    name='shanks',
+                                    doc='the shanks colection associated with the probe',
+                                    dtype='list'
+                                )
+                                        ]
+                            )
