@@ -14,7 +14,8 @@ class TestNWBBuilder(unittest.TestCase):
             animal_name='beans',
             date='20190718',
             dataset='01_s1',
-            output_file_path='output.nwb'
+            output_file_location='',
+            output_file_name='output.nwb'
         )
 
     # @unittest.skip("Super heavy NWB generation")

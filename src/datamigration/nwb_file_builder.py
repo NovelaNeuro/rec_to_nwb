@@ -1,3 +1,5 @@
+import os
+
 from hdmf.common import VectorData, DynamicTable
 from mountainlab_pytools.mdaio import readmda
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
@@ -9,13 +11,14 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 
 class NWBFileBuilder:
-    def __init__(self, data_path, animal_name, date, dataset, output_file_path='output.nwb'):
+    def __init__(self, data_path, animal_name, date, dataset, output_file_location='', output_file_name='output.nwb'):
         self.data_folder = fs.DataScanner(data_path)
         self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
         self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
         self.mda_file_count = len(self.data_folder.data[animal_name][date][dataset].
                                   get_all_data_from_dataset('mda')) - 2  # timestamp and log files are not counted
-        self.output_file_path = output_file_path
+        self.output_file_location = output_file_location
+        self.output_file_path = output_file_location + output_file_name
 
         for file in self.data_folder.data[animal_name][date][dataset].get_all_data_from_dataset('pos'):
             if file.endswith('pos_online.dat'):
@@ -42,6 +45,11 @@ class NWBFileBuilder:
         self.electrode_regions = metadata_extractor.electrode_regions
 
     def build(self, mda_data_chunk_size=1):
+        log_file = open(self.output_file_location + 'nwb_builder.log', 'w')
+        log_file.write("Begining nwb file build" + '\n')
+        log_file.write("File Location:" + '\n')
+        log_file.write(os.path.abspath(self.output_file_location + self.output_file_path))
+        log_file.write('\n')
         nwb_file_content = NWBFile(session_description=self.session_description,
                                    experimenter=self.experimenter_name,
                                    lab=self.lab,
@@ -108,6 +116,8 @@ class NWBFileBuilder:
             nwb_fileIO.write(nwb_file_content)
             nwb_fileIO.close()
 
+        log_file.write("begining mda extraction" + '\n')
+        log_file.close()
         timestamps = readmda(self.mda_timestamps_path)
         mda_extractor = MdaExtractor(self.mda_path, timestamps)
         file_number = 0
@@ -121,5 +131,12 @@ class NWBFileBuilder:
                     nwb_fileIO.add_acquisition(series)
                 IO.write(nwb_fileIO)
                 IO.close()
+            log_file = open(self.output_file_location + 'nwb_builder.log', 'a')
+            log_file.write("finished extraction of mda files " + str(file_number) + ' to ' + str(
+                file_number + mda_data_chunk_size - 1) + '\n')
+            log_file.close()
             file_number = file_number + mda_data_chunk_size
+        log_file = open(self.output_file_location + 'nwb_builder.log', 'a')
+        log_file.write("finished building nwb file" + '\n')
+        log_file.close()
         return self.output_file_path
