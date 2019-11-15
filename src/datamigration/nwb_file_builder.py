@@ -77,7 +77,7 @@ class NWBFileBuilder:
             columns=apparatus_columns
         )
         apparatus_module = ProcessingModule(name='apparatus', description='Sample description')
-        apparatus_module.add_container(apparatus_dynamic_table)
+        apparatus_module.add(apparatus_dynamic_table)
         nwb_file_content.add_processing_module(apparatus_module)
 
         for device_name in self.devices:
