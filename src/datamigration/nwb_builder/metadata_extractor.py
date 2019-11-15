@@ -5,11 +5,14 @@ import yaml
 from pynwb.epoch import TimeIntervals
 from pynwb.file import Subject
 
+from src.datamigration.file_scanner import DataScanner
+
 
 class MetadataExtractor:
 
-    def __init__(self, configuration_path='metadata.yml'):
-        self.configuration_path = configuration_path
+    def __init__(self, data_path, animal_name='beans', date='20190718', dataset='01_s1'):
+        self.data_folder = DataScanner(data_path)
+        self.configuration_path = self.data_folder.get_metadata(animal_name, date, dataset)
         with open(self.configuration_path, 'r') as stream:
             metadate_dict = yaml.safe_load(stream)
             self.experimenter_name = metadate_dict['experimenter name']
