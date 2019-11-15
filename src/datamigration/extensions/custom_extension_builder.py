@@ -26,7 +26,7 @@ class CustomExtensionsBuilder:
         # ns_builder.add_spec(self.ext_source, self.electrodes_group)
         ns_builder.add_spec(self.ext_source, self.electrodes_group_container)
 
-        # ToDo change path to src/datamigration/models/
+        # ToDo change path to src/datamigration/extensions/
         ns_builder.export(self.ns_path)
 
     def create_fl_electordes(self):

@@ -2,8 +2,8 @@ from hdmf.common import VectorData, DynamicTable
 from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 
 from src.datamigration.header.module.header import Header
-from src.datamigration.models.FLElectrodes import FLElectrodes, FLElectrodesContainer
-from src.datamigration.models.FLElectrodesGroup import FLElectrodesGroup, FLElectrodesGroupContainer
+from src.datamigration.extensions.fl_electrodes import FLElectrodes, FLElectrodesContainer
+from src.datamigration.extensions.fl_electrodes_group import FLElectrodesGroup, FLElectrodesGroupContainer
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor

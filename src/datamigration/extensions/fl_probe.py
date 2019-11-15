@@ -1,12 +1,14 @@
-from pynwb import load_namespaces, NWBContainer, register_class
+from pynwb import load_namespaces, register_class
 from pynwb.core import MultiContainerInterface
+from pynwb.device import Device
+from pynwb.ecephys import ElectrodeGroup
 
 ns_path = "novelaNeurotechnologies.namespace.yaml"
 load_namespaces(ns_path)
 
 
 @register_class('FLShanks', 'novelaNeurotechnologies')
-class FLShanks(NWBContainer):
+class FLShanks(ElectrodeGroup):
     __nwbfields__ = ('name', 'electrodes')
 
     def __init__(self, **kwargs):
@@ -15,7 +17,7 @@ class FLShanks(NWBContainer):
 
 
 @register_class('FLProbe', 'novelaNeurotechnologies')
-class FLProbes(NWBContainer):
+class FLProbes(Device):
     __nwbfields__ = ('probe_id', 'shanks')
 
     def __init__(self, **kwargs):

@@ -18,7 +18,7 @@ class TestNWBBuilder(unittest.TestCase):
             output_file_path='output.nwb'
         )
 
-    # @unittest.skip("Super heavy NWB generation")
+    @unittest.skip("Super heavy NWB generation")
     def test_run_nwb_generation_from_preprocessed_data(self):
         nwb_file_path = self.nwbBuilder.build()
         with NWBHDF5IO(path=nwb_file_path, mode='r') as io:
