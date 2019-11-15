@@ -66,6 +66,6 @@ class DataScanner:
         return self.data[animal][date][dataset].get_data_path_from_dataset('metadata') + 'metadata.yml'
 
     def get_mda_timestamps(self, animal, date, dataset):
-        for file in self.data['beans']['20190718']['01_s1'].get_all_data_from_dataset('mda'):
+        for file in self.data[animal][date][dataset].get_all_data_from_dataset('mda'):
             if file.endswith('timestamps.mda'):
-                return self.data['beans']['20190718']['01_s1'].get_data_path_from_dataset('mda') + file
+                return self.data[animal][date][dataset].get_data_path_from_dataset('mda') + file

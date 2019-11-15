@@ -25,7 +25,7 @@ class NWBFileBuilder:
                 self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
 
-        metadata_extractor = MetadataExtractor(self.data_folder.get_metadata(animal_name, date, dataset))
+        metadata_extractor = MetadataExtractor(data_path)
 
         self.experimenter_name = metadata_extractor.experimenter_name
         self.lab = metadata_extractor.lab

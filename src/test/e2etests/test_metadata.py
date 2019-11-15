@@ -7,7 +7,7 @@ from .experiment_data import ExperimentData
 class TestMetadata(unittest.TestCase):
 
     def setUp(self):
-        self.metadata = MetadataExtractor(configuration_path=ExperimentData.metadata_path)
+        self.metadata = MetadataExtractor(data_path=ExperimentData.root_path)
 
     def test_reading_metadata(self):
         self.assertEqual('hulk', self.metadata.experimenter_name)
