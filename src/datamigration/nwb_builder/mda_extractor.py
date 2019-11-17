@@ -7,10 +7,9 @@ from pynwb import ecephys
 
 class MdaExtractor:
 
-    def __init__(self, path, timestamps, series_no_per_file=2):
+    def __init__(self, path, timestamps):
         self.path = path
         self.timestamps = timestamps
-        self.series_no_per_file = series_no_per_file
 
     def get_mda(self, first_file_number, data_chunk_size, electrode_table_region, no_of_files=64):
 
