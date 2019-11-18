@@ -125,7 +125,7 @@ class NWBFileBuilder:
         while file_number < self.mda_file_count:  # switch to function from file scanner after its merged into master
             with NWBHDF5IO(path=self.output_file_path, mode='a') as IO:
                 nwb_fileIO = IO.read()
-                electrode_table_region = nwb_fileIO.create_electrode_table_region([0], "sample description")
+                electrode_table_region = nwb_fileIO.create_electrode_table_region([0, 1], "sample description")
                 for series in mda_extractor.get_mda(file_number, mda_data_chunk_size, electrode_table_region,
                                                     self.mda_file_count):
                     nwb_fileIO.add_acquisition(series)
