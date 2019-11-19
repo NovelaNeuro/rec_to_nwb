@@ -23,9 +23,10 @@ class MdaExtractor:
         for file_number in range(data_chunk_size):
             current_file_number = first_file_number + file_number
             file = mda_files[current_file_number]
+            file_id = file.split('.')[1]
             potentials = readmda(self.path + '/' + file)
             potentials_array = np.asarray(potentials)
-            series.append(ecephys.ElectricalSeries(name="e-series " + str(current_file_number),
+            series.append(ecephys.ElectricalSeries(name="e-series " + file_id,
                                                    data=potentials_array,
                                                    electrodes=electrode_table_region,
                                                    timestamps=self.timestamps,
