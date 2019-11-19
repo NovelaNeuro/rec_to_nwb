@@ -4,6 +4,7 @@ from mountainlab_pytools.mdaio import readmda
 from pynwb import NWBHDF5IO, NWBFile
 
 import src.datamigration.file_scanner as fs
+from src.datamigration.file_scanner import DataScanner
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from .experiment_data import ExperimentData
@@ -12,6 +13,10 @@ from .experiment_data import ExperimentData
 class TestMDAMigration(unittest.TestCase):
 
     def setUp(self):
+        self.data_scanner = DataScanner(ExperimentData.root_path)
+        animal = self.data_scanner.get_all_animals()[0]
+        date = self.data_scanner.get_all_experiment_dates(animal)[0]
+        dataset = self.data_scanner.get_all_datasets(animal, date)[0]
         self.builder = NWBFileBuilder(ExperimentData.root_path, 'beans', '20190718', '01_s1')
 
     def test_reading_mda(self):
