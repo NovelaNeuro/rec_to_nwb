@@ -20,10 +20,12 @@ class FakeDataSetGeneratorUtil:
         self.files['mda'] = self.mda_files
         self.files['time'] = self.time_files
         self.files['DIO'] = self.mda_files
-        self.files['LFP'] = self.time_files
+        self.files['LFP'] = self.LFP_files
         self.files['metadata'] = []
         self.files['mountain'] = []
         self.files['spikes'] = self.spike_files
+
+
 
     def generate_new_data(self, animal_name, date, dataset):
         animal_path = self.data_path + '/' + animal_name
@@ -43,23 +45,23 @@ class FakeDataSetGeneratorUtil:
                                    extension,
                                    self.generate_directory_name(animal_name, date, dataset, ''))
 
-            self.create_fake_mda(date_path + '/preprocessing',
-                                 self.generate_directory_name(animal_name, date, dataset, ''))
-            self.create_fake_DIO(date_path + '/preprocessing',
-                                 self.generate_directory_name(animal_name, date, dataset, ''))
-            self.create_fake_LFP(date_path + '/preprocessing',
-                                 self.generate_directory_name(animal_name, date, dataset, ''))
-            self.create_fake_spike(date_path + '/preprocessing',
-                                   self.generate_directory_name(animal_name, date, dataset, ''))
-            self.create_fake_metadata(date_path + '/preprocessing',
-                                      self.generate_directory_name(animal_name, date, dataset, ''))
+        self.create_fake_mda(date_path + '/preprocessing',
+                             self.generate_directory_name(animal_name, date, dataset, ''))
+        self.create_fake_DIO(date_path + '/preprocessing',
+                             self.generate_directory_name(animal_name, date, dataset, ''))
+        self.create_fake_LFP(date_path + '/preprocessing',
+                             self.generate_directory_name(animal_name, date, dataset, ''))
+        self.create_fake_spike(date_path + '/preprocessing',
+                               self.generate_directory_name(animal_name, date, dataset, ''))
+        self.create_fake_metadata(date_path + '/preprocessing',
+                                  self.generate_directory_name(animal_name, date, dataset, ''))
 
     def generate_directory_name(self, animal_name, date, dataset, extension):
         if not extension == 'pos':
             return date + '_' + animal_name + '_' + dataset + '.' + extension
         else:
             return date + '_' + animal_name + '_' + dataset + '.1.' + extension
-            # requires some research if it is always 1
+            #requires some research if it is always 1
 
     def create_fake_files(self, path, extension, filename_front):
         for file in self.files[extension]:
