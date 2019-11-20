@@ -17,6 +17,8 @@ probe = Probe(name='some_probe_name', Probe_name='some_other_probe_name')
 
 nwbfile.add_device(probe)
 nwbfile.create_electrode_group(name='some novela electrode group', description='some desc', location='xyzlocation', device=probe)
+nwbfile.create_electrode_group(name='some novela electrode group2', description='some desc1', location='xyzlocation33', device=probe)
+nwbfile.create_electrode_group(name='some novela electrode group3', description='some desc2', location='xyzlocation44', device=probe)
 
 io = NWBHDF5IO('cache_spec_example.nwb', mode='w')
 io.write(nwbfile)
