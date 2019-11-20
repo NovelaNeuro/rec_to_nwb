@@ -1,12 +1,10 @@
 from datetime import datetime
-import numpy as np
+
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
-from pynwb.ecephys import ElectricalSeries
-
 from pynwb import NWBHDF5IO
 
-from src.datamigration.extensions.fl_probe_usage import Probe
+from src.fl_probe import Probe
 
 start_time = datetime(2017, 4, 3, 11, tzinfo=tzlocal())
 create_date = datetime(2017, 4, 15, 12, tzinfo=tzlocal())

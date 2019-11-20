@@ -1,0 +1,8 @@
+groups:
+  - neurodata_type_def: Probe
+    neurodata_type_inc: Device
+    doc: A custom Device for my lab
+    attributes:
+      - name: Probe_name
+        dtype: text
+        doc: the probe name
