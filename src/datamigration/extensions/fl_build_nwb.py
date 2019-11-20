@@ -16,6 +16,7 @@ nwbfile = NWBFile('demonstrate caching', 'NWB456', start_time,
 probe = Probe(name='some_probe_name', Probe_name='some_other_probe_name')
 
 nwbfile.add_device(probe)
+nwbfile.create_electrode_group(name='some novela electrode group', description='some desc', location='xyzlocation', device=probe)
 
 io = NWBHDF5IO('cache_spec_example.nwb', mode='w')
 io.write(nwbfile)
@@ -25,4 +26,4 @@ io.close()
 io = NWBHDF5IO('cache_spec_example.nwb', mode='r', load_namespaces=True)
 nwbfile = io.read()
 
-print(nwbfile.devices)
+print(nwbfile.electrode_groups)
