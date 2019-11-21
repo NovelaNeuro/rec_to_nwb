@@ -96,22 +96,17 @@ class NWBFileBuilder:
                 region=electrode_region['region']
             )
 
-        with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
-            nwb_fileIO.write(nwb_file_content)
-            nwb_fileIO.close()
-
         log_file.write("begining mda extraction" + '\n')
 
         timestamps = readmda(self.mda_timestamps_path)
         mda_extractor = MdaExtractor(self.mda_path, timestamps)
 
-        with NWBHDF5IO(path=self.output_file_path, mode='a') as IO:
-            nwb_fileIO = IO.read()
-            electrode_table_region = nwb_fileIO.create_electrode_table_region([0, 1], "sample description")
-            series = mda_extractor.get_mda(electrode_table_region, 21839001)
-            nwb_fileIO.add_acquisition(series)
-            IO.write(nwb_fileIO)
-            IO.close()
+        with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
+            electrode_table_region = nwb_file_content.create_electrode_table_region([0, 1], "sample description")
+            series = mda_extractor.get_mda(electrode_table_region)
+            nwb_file_content.add_acquisition(series)
+            nwb_fileIO.write(nwb_file_content)
+            nwb_fileIO.close()
         log_file.write("finished mda extraction" + '\n')
         log_file.close()
         return self.output_file_path
