@@ -1,8 +1,8 @@
 import os
 
-import numpy as np
-from mountainlab_pytools.mdaio import readmda
 from pynwb import ecephys
+
+from src.datamigration.nwb_builder.data_iterator import DataIterator
 
 
 class MdaExtractor:
@@ -11,26 +11,18 @@ class MdaExtractor:
         self.path = path
         self.timestamps = timestamps
 
-    def get_mda(self, first_file_number, data_chunk_size, electrode_table_region, no_of_files=64):
-
-        if (first_file_number + data_chunk_size) > no_of_files:  # add something from scanner
-            data_chunk_size = no_of_files - first_file_number
-
-        mda_files = [mda_file for mda_file in os.listdir(self.path) if
+    def get_mda(self, electrode_table_region, columns_in_each_file=21839001):
+        mda_names = [mda_file for mda_file in os.listdir(self.path) if
                      (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
-        series = []
-
-        for file_number in range(data_chunk_size):
-            current_file_number = first_file_number + file_number
-            file = mda_files[current_file_number]
-            file_id = file.split('.')[1]
-            potentials = readmda(self.path + '/' + file)
-            potentials_array = np.asarray(potentials)
-            series.append(ecephys.ElectricalSeries(name="e-series " + file_id,
-                                                   data=potentials_array,
-                                                   electrodes=electrode_table_region,
-                                                   timestamps=self.timestamps,
-                                                   resolution=0.001,
-                                                   comments="sample comment",
-                                                   description="Electrical series registered on electrode "))
+        mda_files = []
+        for mda_file in mda_names:
+            mda_files.append(self.path + mda_file)
+        data = DataIterator(mda_files, columns_in_each_file)
+        series = ecephys.ElectricalSeries(name="e-series",
+                                          data=data,
+                                          electrodes=electrode_table_region,
+                                          timestamps=self.timestamps,
+                                          resolution=0.001,
+                                          comments="sample comment",
+                                          description="Electrical series registered on electrode")
         return series

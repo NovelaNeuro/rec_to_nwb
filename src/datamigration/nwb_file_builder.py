@@ -28,7 +28,7 @@ class NWBFileBuilder:
 
         self.metadata = MetadataExtractor(config_path)
 
-    def build(self, mda_data_chunk_size=1):
+    def build(self):
         log_file = open(self.output_file_location + 'nwb_builder.log', 'w')
         log_file.write("Begining nwb file build" + '\n')
         log_file.write("File Location:" + '\n')
@@ -101,26 +101,17 @@ class NWBFileBuilder:
             nwb_fileIO.close()
 
         log_file.write("begining mda extraction" + '\n')
-        log_file.close()
+
         timestamps = readmda(self.mda_timestamps_path)
         mda_extractor = MdaExtractor(self.mda_path, timestamps)
-        file_number = 0
 
-        while file_number < self.mda_file_count:  # switch to function from file scanner after its merged into master
-            with NWBHDF5IO(path=self.output_file_path, mode='a') as IO:
-                nwb_fileIO = IO.read()
-                electrode_table_region = nwb_fileIO.create_electrode_table_region([0, 1], "sample description")
-                for series in mda_extractor.get_mda(file_number, mda_data_chunk_size, electrode_table_region,
-                                                    self.mda_file_count):
-                    nwb_fileIO.add_acquisition(series)
-                IO.write(nwb_fileIO)
-                IO.close()
-            log_file = open(self.output_file_location + 'nwb_builder.log', 'a')
-            log_file.write("finished extraction of mda files " + str(file_number) + ' to ' + str(
-                file_number + mda_data_chunk_size - 1) + '\n')
-            log_file.close()
-            file_number = file_number + mda_data_chunk_size
-        log_file = open(self.output_file_location + 'nwb_builder.log', 'a')
-        log_file.write("finished building nwb file" + '\n')
+        with NWBHDF5IO(path=self.output_file_path, mode='a') as IO:
+            nwb_fileIO = IO.read()
+            electrode_table_region = nwb_fileIO.create_electrode_table_region([0, 1], "sample description")
+            series = mda_extractor.get_mda(electrode_table_region, 21839001)
+            nwb_fileIO.add_acquisition(series)
+            IO.write(nwb_fileIO)
+            IO.close()
+        log_file.write("finished mda extraction" + '\n')
         log_file.close()
         return self.output_file_path
