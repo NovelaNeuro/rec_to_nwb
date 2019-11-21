@@ -10,7 +10,7 @@ from src.datamigration.file_scanner import DataScanner
 
 class MetadataExtractor:
 
-    def __init__(self, data_path, animal_name='jaq', date='20190911', dataset='01_s1'):
+    def __init__(self, data_path, animal_name='beans', date='20190718', dataset='01_s1'):
         self.data_folder = DataScanner(data_path)
         self.configuration_path = self.data_folder.get_metadata(animal_name, date, dataset)
         with open(self.configuration_path, 'r') as stream:

@@ -3,9 +3,9 @@ from unittest import TestCase
 
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
-
-from src.datamigration.extension.fl_probe import Probe
 from src.datamigration.extension.fl_shank import Shank
+
+from src.datamigration.extension.probe import Probe
 
 
 class TestProbe(TestCase):
