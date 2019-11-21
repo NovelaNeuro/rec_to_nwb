@@ -1,11 +1,9 @@
 import os
 
-from hdmf.common import VectorData, DynamicTable
-from mountainlab_pytools.mdaio import readmda
-from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
+from pynwb import NWBFile
+from src.datamigration.extension.fl_probe import Probe
 
 import src.datamigration.file_scanner as fs
-from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
@@ -60,83 +58,86 @@ class NWBFileBuilder:
                                    subject=self.subject,
                                    )
 
-        task_module = ProcessingModule(name='task', description='Sample description')
-        nwb_file_content.add_processing_module(task_module).add(self.task)
+        probe = Probe(name='Probe1', Probe_name='aaa')
+        nwb_file_content.add_device(probe)
 
-        position_module = ProcessingModule(name='position', description='Sample description')
-        position = self.pos_extractor.get_position()
-        nwb_file_content.add_processing_module(position_module).add(position)
-
-        apparatus_columns = []
-        for counter in range(len(self.apparatus)):
-            apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=self.apparatus[counter]))
-        apparatus_dynamic_table = DynamicTable(
-            name='apparatus',
-            description='Sample description',
-            id=None,
-            columns=apparatus_columns
-        )
-        apparatus_module = ProcessingModule(name='apparatus', description='Sample description')
-        apparatus_module.add(apparatus_dynamic_table)
-        nwb_file_content.add_processing_module(apparatus_module)
-
-        for device_name in self.devices:
-            nwb_file_content.create_device(name=device_name)
-
-        for electrode_group_dict in self.electrode_groups:
-            nwb_file_content.create_electrode_group(
-                name=electrode_group_dict['name'],
-                description=electrode_group_dict['description'],
-                location=electrode_group_dict['location'],
-                device=[nwb_file_content.devices[device_name] for device_name in nwb_file_content.devices
-                        if device_name == electrode_group_dict['device']][0]
-            )
-
-        for electrode in self.electrodes:
-            nwb_file_content.add_electrode(
-                x=electrode['x'],
-                y=electrode['y'],
-                z=electrode['z'],
-                imp=electrode['imp'],
-                location=electrode['location'],
-                filtering=electrode['filtering'],
-                group=[nwb_file_content.electrode_groups[group_name] for group_name in nwb_file_content.electrode_groups
-                       if group_name == electrode['group']][0],
-                id=electrode['id']
-            )
-
-        for electrode_region in self.electrode_regions:
-            nwb_file_content.create_electrode_table_region(
-                name=electrode_region['name'],
-                description=electrode_region['description'],
-                region=electrode_region['region']
-            )
-
-        with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
-            nwb_fileIO.write(nwb_file_content)
-            nwb_fileIO.close()
-
-        log_file.write("begining mda extraction" + '\n')
-        log_file.close()
-        timestamps = readmda(self.mda_timestamps_path)
-        mda_extractor = MdaExtractor(self.mda_path, timestamps)
-        file_number = 0
-
-        while file_number < self.mda_file_count:  # switch to function from file scanner after its merged into master
-            with NWBHDF5IO(path=self.output_file_path, mode='a') as IO:
-                nwb_fileIO = IO.read()
-                electrode_table_region = nwb_fileIO.create_electrode_table_region([0, 1], "sample description")
-                for series in mda_extractor.get_mda(file_number, mda_data_chunk_size, electrode_table_region,
-                                                    self.mda_file_count):
-                    nwb_fileIO.add_acquisition(series)
-                IO.write(nwb_fileIO)
-                IO.close()
-            log_file = open(self.output_file_location + 'nwb_builder.log', 'a')
-            log_file.write("finished extraction of mda files " + str(file_number) + ' to ' + str(
-                file_number + mda_data_chunk_size - 1) + '\n')
-            log_file.close()
-            file_number = file_number + mda_data_chunk_size
-        log_file = open(self.output_file_location + 'nwb_builder.log', 'a')
-        log_file.write("finished building nwb file" + '\n')
-        log_file.close()
-        return self.output_file_path
+        # task_module = ProcessingModule(name='task', description='Sample description')
+        # nwb_file_content.add_processing_module(task_module).add(self.task)
+        #
+        # position_module = ProcessingModule(name='position', description='Sample description')
+        # position = self.pos_extractor.get_position()
+        # nwb_file_content.add_processing_module(position_module).add(position)
+        #
+        # apparatus_columns = []
+        # for counter in range(len(self.apparatus)):
+        #     apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=self.apparatus[counter]))
+        # apparatus_dynamic_table = DynamicTable(
+        #     name='apparatus',
+        #     description='Sample description',
+        #     id=None,
+        #     columns=apparatus_columns
+        # )
+        # apparatus_module = ProcessingModule(name='apparatus', description='Sample description')
+        # apparatus_module.add(apparatus_dynamic_table)
+        # nwb_file_content.add_processing_module(apparatus_module)
+        #
+        # for device_name in self.devices:
+        #     nwb_file_content.create_device(name=device_name)
+        #
+        # for electrode_group_dict in self.electrode_groups:
+        #     nwb_file_content.create_electrode_group(
+        #         name=electrode_group_dict['name'],
+        #         description=electrode_group_dict['description'],
+        #         location=electrode_group_dict['location'],
+        #         device=[nwb_file_content.devices[device_name] for device_name in nwb_file_content.devices
+        #                 if device_name == electrode_group_dict['device']][0]
+        #     )
+        #
+        # for electrode in self.electrodes:
+        #     nwb_file_content.add_electrode(
+        #         x=electrode['x'],
+        #         y=electrode['y'],
+        #         z=electrode['z'],
+        #         imp=electrode['imp'],
+        #         location=electrode['location'],
+        #         filtering=electrode['filtering'],
+        #         group=[nwb_file_content.electrode_groups[group_name] for group_name in nwb_file_content.electrode_groups
+        #                if group_name == electrode['group']][0],
+        #         id=electrode['id']
+        #     )
+        #
+        # for electrode_region in self.electrode_regions:
+        #     nwb_file_content.create_electrode_table_region(
+        #         name=electrode_region['name'],
+        #         description=electrode_region['description'],
+        #         region=electrode_region['region']
+        #     )
+        #
+        # with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
+        #     nwb_fileIO.write(nwb_file_content)
+        #     nwb_fileIO.close()
+        #
+        # log_file.write("begining mda extraction" + '\n')
+        # log_file.close()
+        # timestamps = readmda(self.mda_timestamps_path)
+        # mda_extractor = MdaExtractor(self.mda_path, timestamps)
+        # file_number = 0
+        #
+        # while file_number < self.mda_file_count:  # switch to function from file scanner after its merged into master
+        #     with NWBHDF5IO(path=self.output_file_path, mode='a') as IO:
+        #         nwb_fileIO = IO.read()
+        #         electrode_table_region = nwb_fileIO.create_electrode_table_region([0, 1], "sample description")
+        #         for series in mda_extractor.get_mda(file_number, mda_data_chunk_size, electrode_table_region,
+        #                                             self.mda_file_count):
+        #             nwb_fileIO.add_acquisition(series)
+        #         IO.write(nwb_fileIO)
+        #         IO.close()
+        #     log_file = open(self.output_file_location + 'nwb_builder.log', 'a')
+        #     log_file.write("finished extraction of mda files " + str(file_number) + ' to ' + str(
+        #         file_number + mda_data_chunk_size - 1) + '\n')
+        #     log_file.close()
+        #     file_number = file_number + mda_data_chunk_size
+        # log_file = open(self.output_file_location + 'nwb_builder.log', 'a')
+        # log_file.write("finished building nwb file" + '\n')
+        # log_file.close()
+        # return self.output_file_path
