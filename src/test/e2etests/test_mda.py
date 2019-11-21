@@ -12,7 +12,7 @@ from .experiment_data import ExperimentData
 class TestMDAMigration(unittest.TestCase):
 
     def setUp(self):
-        self.builder = NWBFileBuilder(ExperimentData.root_path, 'beans', '20190718', '01_s1')
+        self.builder = NWBFileBuilder(ExperimentData.root_path, 'jaq', '20190911', '01_s1')
 
     def test_reading_mda(self):
         self.builder.build()
