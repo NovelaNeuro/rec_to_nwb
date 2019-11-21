@@ -1,7 +1,7 @@
 import os
 
 from pynwb import NWBFile
-from src.datamigration.extension.fl_probe import Probe
+from src.datamigration.extension.fl_probe_schema import Probe
 
 import src.datamigration.file_scanner as fs
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor

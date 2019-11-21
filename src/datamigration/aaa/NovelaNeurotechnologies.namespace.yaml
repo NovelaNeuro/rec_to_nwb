@@ -1,8 +1,0 @@
-namespaces:
-  - doc: Extension for use in my Lab
-    name: mylab
-    schema:
-      - namespace: core
-        neurodata_types:
-          - Device
-      - source: NovelaNeurotechnologies.extensions.yaml
