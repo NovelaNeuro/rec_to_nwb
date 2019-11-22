@@ -14,7 +14,7 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
   - pip install mountainlab_pytools
-
+  - conda install -c conda-forge vdom
   #  - conda create -q -n test-environment --file src/environment.yml python=$TRAVIS_PYTHON_VERSION
   - conda env create -q -n test-environment -f src/environment.yml python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
