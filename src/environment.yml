@@ -3,7 +3,6 @@ channels:
   - conda-forge
   - defaults
   - novelakrk
-  - flatiron
 dependencies:
   - asn1crypto
   - blas
@@ -45,6 +44,6 @@ dependencies:
   - xmlschema
   - zlib
   - rec_to_binaries
-  - mountainlab_pytools
+  - flatiron::mountainlab_pytools
 
 
