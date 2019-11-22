@@ -5,6 +5,7 @@ class Dataset:
     def __init__(self, name):
         self.name = name
         self.data = dict([])
+        self.datasets = None
 
     def add_data_to_dataset(self, folder_path, data_type):
         self.data[data_type] = folder_path
@@ -34,11 +35,12 @@ class DataScanner:
         experiment_dates = dict([])
         for date in dates:
             experiment_dates[date] = self.get_datasets(path + '/' + date)
+
         return experiment_dates
 
     def get_datasets(self, path):
         existing_datasets = set()
-        datasets = dict([])
+        self.datasets = dict([])
         directories = os.listdir(path)
         for directory in directories:
             dir_split = directory.split('_')
@@ -46,12 +48,12 @@ class DataScanner:
                 dir_last_part = dir_split.pop().split('.')
                 dataset_name = dir_split.pop() + '_' + dir_last_part[0]
                 if not (dataset_name in existing_datasets):
-                    datasets[dataset_name] = Dataset(dataset_name)
+                    self.datasets[dataset_name] = Dataset(dataset_name)
                     existing_datasets.add(dataset_name)
-                for dataset in datasets.values():
+                for dataset in self.datasets.values():
                     if dataset_name == dataset.name:
                         dataset.add_data_to_dataset(path + '/' + directory + '/', dir_last_part.pop())
-        return datasets
+        return self.datasets
 
     def get_all_animals(self):
         return list(self.data.keys())
@@ -69,3 +71,5 @@ class DataScanner:
         for file in self.data[animal][date][dataset].get_all_data_from_dataset('mda'):
             if file.endswith('timestamps.mda'):
                 return self.data[animal][date][dataset].get_data_path_from_dataset('mda') + file
+
+        return None

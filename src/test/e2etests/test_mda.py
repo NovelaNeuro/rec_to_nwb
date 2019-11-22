@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from mountainlab_pytools.mdaio import readmda
@@ -20,6 +21,9 @@ class TestMDAMigration(unittest.TestCase):
         with NWBHDF5IO(path='mda_test.nwb', mode='r') as io:
             nwb_file = io.read()
             print(nwb_file)
+
+    def tearDown(self):
+        os.remove('mda_test.nwb')
 
 
 class NWBFileBuilder:
@@ -111,3 +115,6 @@ class NWBFileBuilder:
             IO.write(nwb_fileIO)
             IO.close()
         return self.output_file_path
+
+
+
