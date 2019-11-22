@@ -51,9 +51,8 @@ class NWBFileBuilder:
         nwb_file_content.add_processing_module(position_module).add(position)
 
         apparatus_columns = []
-        for counter in range(len(self.metadata.apparatus)):
-            apparatus_columns.append(
-                VectorData(name='col ' + str(counter), description='', data=self.metadata.apparatus[counter]))
+        for counter, row in enumerate(self.metadata.apparatus):
+            apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=row))
         apparatus_dynamic_table = DynamicTable(
             name='apparatus',
             description='Sample description',
