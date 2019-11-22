@@ -40,10 +40,10 @@ dependencies:
   - six
   - sqlite
   - urllib3
-  - wheel
   - xmlschema
   - zlib
   - rec_to_binaries
   - mountainlab_pytools
+  - wheel
 
 
