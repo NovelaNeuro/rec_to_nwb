@@ -13,18 +13,10 @@ install:
   - conda update -q conda
   # Useful for debugging any issues with conda
   - conda info -a
-  - pip install mountainlab_pytools
-  - conda install -c conda-forge vdom
-  #  - conda create -q -n test-environment --file src/environment.yml python=$TRAVIS_PYTHON_VERSION
   - conda env create -q -n test-environment -f src/environment.yml python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
   - python src/setup.py install
-#  - pip install pylint
-#  - pip install xmlschema
-#  - pip install pytz
-#  - pip install pynwb
-#  - pip install pandas
-#  - pip install rec_to_binaries
+  - pip install pylint
 # command to run tests
 script:
   - python -m unittest discover src/test/
