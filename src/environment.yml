@@ -44,6 +44,6 @@ dependencies:
   - xmlschema
   - zlib
   - rec_to_binaries
-  - flatiron::mountainlab_pytools
+  - mountainlab_pytools
 
 
