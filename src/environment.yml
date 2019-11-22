@@ -44,6 +44,6 @@ dependencies:
   - xmlschema
   - zlib
   - rec_to_binaries
-  - mountainlab_pytools>=0.7.5
+  - mountainlab_pytools
 
 
