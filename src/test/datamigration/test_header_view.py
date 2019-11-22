@@ -1,12 +1,15 @@
+import os
 import unittest
 
 from src.datamigration.header.module import header
+
+path = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestHeaderInterface(unittest.TestCase):
 
     def setUp(self):
-        self.header = header.Header('datamigration/fl_lab_sample_header.xml')
+        self.header = header.Header(path + '/fl_lab_sample_header.xml')
 
     def test_configuration_tag(self):
         configuration = self.header.configuration
