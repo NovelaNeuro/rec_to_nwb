@@ -1,3 +1,4 @@
+import logging
 import os
 
 from hdmf.common import VectorData, DynamicTable
@@ -17,7 +18,7 @@ class NWBFileBuilder:
         self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
         self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
         self.mda_file_count = len(self.data_folder.data[animal_name][date][dataset].
-                                  get_all_data_from_dataset('mda')) - 2  # timestamp and log files are not counted
+                                  get_all_data_from_dataset('mda')) - 2  # timestamp and logging files are not counted
         self.output_file_location = output_file_location
         self.output_file_path = output_file_location + output_file_name
 
@@ -25,15 +26,12 @@ class NWBFileBuilder:
             if file.endswith('pos_online.dat'):
                 self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
-
         self.metadata = MetadataExtractor(config_path)
 
     def build(self):
-        log_file = open(self.output_file_location + 'nwb_builder.log', 'w')
-        log_file.write("Begining nwb file build" + '\n')
-        log_file.write("File Location:" + '\n')
-        log_file.write(os.path.abspath(self.output_file_location + self.output_file_path))
-        log_file.write('\n')
+        logging.info("Begining nwb file build" + '\n')
+        logging.info(
+            "File Location:" + '\n' + os.path.abspath(self.output_file_location + self.output_file_path + '\n'))
         nwb_file_content = NWBFile(session_description=self.metadata.session_description,
                                    experimenter=self.metadata.experimenter_name,
                                    lab=self.metadata.lab,
@@ -96,17 +94,18 @@ class NWBFileBuilder:
                 region=electrode_region['region']
             )
 
-        log_file.write("begining mda extraction" + '\n')
+        logging.info("begining mda extraction" + '\n')
 
         timestamps = readmda(self.mda_timestamps_path)
         mda_extractor = MdaExtractor(self.mda_path, timestamps)
 
+        electrode_table_region = nwb_file_content.create_electrode_table_region([0, 1], "first and second electrode")
+        series = mda_extractor.get_mda(electrode_table_region)
+        nwb_file_content.add_acquisition(series)
+        return nwb_file_content
+
+    def write(self, content):
         with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
-            electrode_table_region = nwb_file_content.create_electrode_table_region([0, 1], "sample description")
-            series = mda_extractor.get_mda(electrode_table_region)
-            nwb_file_content.add_acquisition(series)
-            nwb_fileIO.write(nwb_file_content)
+            nwb_fileIO.write(content)
             nwb_fileIO.close()
-        log_file.write("finished mda extraction" + '\n')
-        log_file.close()
         return self.output_file_path

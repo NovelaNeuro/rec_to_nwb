@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from pynwb import NWBHDF5IO
@@ -5,6 +6,7 @@ from pynwb import NWBHDF5IO
 from src.datamigration.nwb_file_builder import NWBFileBuilder
 from .experiment_data import ExperimentData
 
+path = os.path.dirname(os.path.abspath(__file__))
 
 class TestNWBBuilder(unittest.TestCase):
 
@@ -19,10 +21,13 @@ class TestNWBBuilder(unittest.TestCase):
             output_file_name='output.nwb'
         )
 
-    @unittest.skip("Super heavy NWB generation")
+    @unittest.skip("Content generation")
     def test_run_nwb_generation_from_preprocessed_data(self):
-        nwb_file_path = self.nwbBuilder.build()
-        with NWBHDF5IO(path=nwb_file_path, mode='r') as io:
+        self.nwb_file_content = self.nwbBuilder.build()
+
+    @unittest.skip("NWB file write")
+    def test_creating_nwb_file(self):
+        with NWBHDF5IO(path=self.nwbBuilder.output_file_path, mode='r') as io:
             nwb_file = io.read()
             print(nwb_file)
             print('Details: ')
