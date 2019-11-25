@@ -1,7 +1,6 @@
 from datetime import datetime
 from unittest import TestCase
 
-from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
 from src.datamigration.extension.probe import Probe
@@ -11,8 +10,8 @@ from src.datamigration.extension.shank import Shank
 class TestExtensions(TestCase):
 
     def setUp(self):
-        start_time = datetime(2017, 4, 3, 11, tzinfo=tzlocal())
-        create_date = datetime(2017, 4, 15, 12, tzinfo=tzlocal())
+        start_time = datetime(2017, 4, 3, 11)
+        create_date = datetime(2017, 4, 15, 12)
 
         self.nwb_file = NWBFile('', '1', start_time,
                                 file_create_date=create_date)

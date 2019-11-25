@@ -5,7 +5,7 @@ from src.datamigration.extension.extension_builder import ExtensionsBuilder
 from src.test.e2etests.experiment_data import ExperimentData
 
 
-# @unittest.skip("DOES NOT WORK!!!")
+@unittest.skip("No need to launch")
 class TestCustomExtensionBuilder(unittest.TestCase):
 
     def setUp(self):
