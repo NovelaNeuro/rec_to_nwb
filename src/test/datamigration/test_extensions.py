@@ -11,10 +11,11 @@ class TestExtensions(TestCase):
 
     def setUp(self):
         start_time = datetime(2017, 4, 3, 11)
-        create_date = datetime(2017, 4, 15, 12)
 
-        self.nwb_file = NWBFile('', '1', start_time,
-                                file_create_date=create_date)
+        self.nwb_file = NWBFile(session_description='NWBFile extensions test',
+                                identifier='NWB123',
+                                session_start_time=start_time,
+                                )
 
         self.probe = Probe(name='Probe1', probe_id='1')
         self.nwb_file.add_device(self.probe)
