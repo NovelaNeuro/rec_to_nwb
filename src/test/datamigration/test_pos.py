@@ -16,4 +16,4 @@ class TestPOSMigration(unittest.TestCase):
     def test_reading_pos(self):
         pos_extractor = POSExtractor(path=self.path_to_beans)
         pos_extractor.get_position()
-        self.assertEqual((50051, 5), pd.DataFrame(pos_extractor.pos_online['data']).shape, 'Shape should be (32658, 5)')
+        self.assertEqual((32658, 5), pd.DataFrame(pos_extractor.pos_online['data']).shape, 'Shape should be (32658, 5)')
