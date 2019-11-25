@@ -14,7 +14,7 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 
 class NWBFileBuilder:
-    def __init__(self, data_path, animal_name, date, dataset, xml_path, output_file_location='',
+    def __init__(self, data_path, animal_name, date, dataset, config_path, xml_path, output_file_location='',
                  output_file_name='output.nwb'):
         self.data_folder = fs.DataScanner(data_path)
         self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
@@ -29,7 +29,7 @@ class NWBFileBuilder:
                 self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
 
-        self.metadata = MetadataExtractor(data_path)
+        self.metadata = MetadataExtractor(config_path)
 
         self.spike_n_trodes = Header(xml_path).configuration.spike_configuration.spike_n_trodes
 
@@ -104,7 +104,11 @@ class NWBFileBuilder:
                 )
             )
 
-        for electrode in self.metadata.electrodes:
+        electrode_per_group = len(self.metadata.electrodes) / len(self.metadata.electrode_groups)
+        for electrode_index, electrode in enumerate(self.metadata.electrodes):
+            if electrode_index % electrode_per_group == 0:
+                spike_channels = self.spike_n_trodes[electrode_index].spike_channels
+
             nwb_file_content.add_electrode(
                 x=electrode['x'],
                 y=electrode['y'],
@@ -114,7 +118,12 @@ class NWBFileBuilder:
                 filtering=electrode['filtering'],
                 group=[nwb_file_content.electrode_groups[group_name] for group_name in nwb_file_content.electrode_groups
                        if group_name == electrode['group']][0],
-                id=electrode['id']
+                id=electrode['id'],
+                # id=electrode_index,
+                maxDisp=spike_channels[electrode_index].max_disp,
+                triggerOn=spike_channels[electrode_index].trigger_on,
+                hwChan=spike_channels[electrode_index].hw_chan,
+                thresh=spike_channels[electrode_index].thresh,
             )
 
         for electrode_region in self.metadata.electrode_regions:
