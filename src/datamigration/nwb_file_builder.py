@@ -78,7 +78,13 @@ class NWBFileBuilder:
                 )
             )
 
+        maxDisp = []
+        triggerOn = []
+        hwChan = []
+        thresh = []
         for group_index, electrode_group_dict in enumerate(self.metadata.electrode_groups):
+            spike_channels = self.spike_n_trodes[group_index].spike_channels
+
             nwb_file_content.add_electrode_group(
                 Shank(
                     name=electrode_group_dict['name'],
@@ -104,11 +110,14 @@ class NWBFileBuilder:
                 )
             )
 
-        electrode_per_group = len(self.metadata.electrodes) / len(self.metadata.electrode_groups)
-        for electrode_index, electrode in enumerate(self.metadata.electrodes):
-            if electrode_index % electrode_per_group == 0:
-                spike_channels = self.spike_n_trodes[electrode_index].spike_channels
+            for spike_channel in spike_channels:
+                maxDisp.append(spike_channel.max_disp),
+                triggerOn.append(spike_channel.trigger_on),
+                hwChan.append(spike_channel.hw_chan),
+                thresh.append(spike_channel.thresh),
 
+
+        for electrode_index, electrode in enumerate(self.metadata.electrodes):
             nwb_file_content.add_electrode(
                 x=electrode['x'],
                 y=electrode['y'],
@@ -119,12 +128,28 @@ class NWBFileBuilder:
                 group=[nwb_file_content.electrode_groups[group_name] for group_name in nwb_file_content.electrode_groups
                        if group_name == electrode['group']][0],
                 id=electrode['id'],
-                # id=electrode_index,
-                maxDisp=spike_channels[electrode_index].max_disp,
-                triggerOn=spike_channels[electrode_index].trigger_on,
-                hwChan=spike_channels[electrode_index].hw_chan,
-                thresh=spike_channels[electrode_index].thresh,
             )
+
+        nwb_file_content.electrodes.add_column(
+            name='maxDisp',
+            description='maxDisp sample description',
+            data=maxDisp
+        )
+        nwb_file_content.electrodes.add_column(
+            name='thresh',
+            description='thresh sample description',
+            data=thresh
+        )
+        nwb_file_content.electrodes.add_column(
+            name='hwChan',
+            description='hwChan sample description',
+            data=hwChan
+        )
+        nwb_file_content.electrodes.add_column(
+            name='triggerOn',
+            description='triggerOn sample description',
+            data=triggerOn
+        )
 
         for electrode_region in self.metadata.electrode_regions:
             nwb_file_content.create_electrode_table_region(

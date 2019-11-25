@@ -11,53 +11,16 @@ class ExtensionsBuilder:
             name="NovelaNeurotechnologies"
         )
 
-        self.electrodes = self.create_fl_electordes()
         self.shank = self.create_shank()
         self.probes = self.create_probe()
 
-        ns_builder.add_spec(self.ext_source, self.electrodes)
         ns_builder.add_spec(self.ext_source, self.shank)
         ns_builder.add_spec(self.ext_source, self.probes)
 
         ns_builder.include_type('ElectrodeGroup', namespace='core')
-        # ns_builder.include_type('ElectrodeTable', namespace='core')
         ns_builder.include_type('Device', namespace='core')
 
         ns_builder.export(self.ns_path)
-
-    def create_fl_electordes(self):
-        return NWBGroupSpec(
-            'A custom Electrodes interface',
-            neurodata_type_def='FLElectrodes',
-            # neurodata_type_inc='ElectrodeTable',
-            attributes=[
-                # NWBAttributeSpec(
-                #     name='id',
-                #     doc='a unique identifier for the electrode',
-                #     dtype='int'
-                # ),
-                NWBAttributeSpec(
-                    name='maxDisp',
-                    doc='maxDisp sample description',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='triggerOn',
-                    doc='triggerOn sample description',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='hwChan',
-                    doc='hwChan sample description',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='thresh',
-                    doc='thresh sample description',
-                    dtype='text'
-                ),
-            ],
-        )
 
     def create_shank(self):
         return NWBGroupSpec(

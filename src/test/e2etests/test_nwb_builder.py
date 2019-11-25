@@ -16,12 +16,12 @@ class TestNWBBuilder(unittest.TestCase):
             date='20190718',
             dataset='01_s1',
             config_path='datamigration/res/metadata.yml',
-            xml_path='../datamigration/fl_lab_sample_header.xml',
+            xml_path='datamigration/res/fl_lab_sample_header.xml',
             output_file_location='',
             output_file_name='output.nwb'
         )
 
-    # @unittest.skip("Super heavy NWB generation")
+    @unittest.skip("Super heavy NWB generation")
     def test_run_nwb_generation_from_preprocessed_data(self):
         nwb_file_path = self.nwbBuilder.build(mda_data_chunk_size=4)
         with NWBHDF5IO(path=nwb_file_path, mode='r') as io:
