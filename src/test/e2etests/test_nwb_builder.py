@@ -14,6 +14,7 @@ class TestNWBBuilder(unittest.TestCase):
             animal_name='beans',
             date='20190718',
             dataset='01_s1',
+            config_path='datamigration/res/metadata.yml',
             output_file_location='',
             output_file_name='output.nwb'
         )
