@@ -6,13 +6,16 @@ from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 
 import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
+from src.datamigration.extension.shank import Shank
+from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 
 class NWBFileBuilder:
-    def __init__(self, data_path, animal_name, date, dataset, output_file_location='', output_file_name='output.nwb'):
+    def __init__(self, data_path, animal_name, date, dataset, xml_path, output_file_location='',
+                 output_file_name='output.nwb'):
         self.data_folder = fs.DataScanner(data_path)
         self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
         self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
@@ -27,6 +30,9 @@ class NWBFileBuilder:
                                                   get_data_path_from_dataset('pos') + file)
 
         self.metadata = MetadataExtractor(data_path)
+
+        self.spike_n_trodes = Header(xml_path).configuration.spike_configuration.spike_n_trodes
+
 
     def build(self, mda_data_chunk_size=1):
         log_file = open(self.output_file_location + 'nwb_builder.log', 'w')
@@ -72,13 +78,30 @@ class NWBFileBuilder:
                 )
             )
 
-        for electrode_group_dict in self.metadata.electrode_groups:
-            nwb_file_content.create_electrode_group(
-                name=electrode_group_dict['name'],
-                description=electrode_group_dict['description'],
-                location=electrode_group_dict['location'],
-                device=[nwb_file_content.devices[device_name] for device_name in nwb_file_content.devices
-                        if device_name == electrode_group_dict['device']][0]
+        for group_index, electrode_group_dict in enumerate(self.metadata.electrode_groups):
+            nwb_file_content.add_electrode_group(
+                Shank(
+                    name=electrode_group_dict['name'],
+                    description=electrode_group_dict['description'],
+                    location=electrode_group_dict['location'],
+                    device=[nwb_file_content.devices[device_name] for device_name in nwb_file_content.devices
+                            if device_name == electrode_group_dict['device']][0],
+                    filterOn=self.spike_n_trodes[group_index].filter_on,
+                    lowFilter=self.spike_n_trodes[group_index].low_filter,
+                    lfpRefOn=self.spike_n_trodes[group_index].lfp_ref_on,
+                    color=self.spike_n_trodes[group_index].color,
+                    highFilter=self.spike_n_trodes[group_index].hight_filter,
+                    lfpFilterOn=self.spike_n_trodes[group_index].lfp_filter_on,
+                    moduleDataOn=self.spike_n_trodes[group_index].module_data_on,
+                    LFPHighFilter=self.spike_n_trodes[group_index].lfp_high_filter,
+                    refGroup=self.spike_n_trodes[group_index].ref_group,
+                    LFPChan=self.spike_n_trodes[group_index].lfp_chan,
+                    refNTrodeID=self.spike_n_trodes[group_index].ref_n_trode_id,
+                    refChan=self.spike_n_trodes[group_index].ref_chan,
+                    groupRefOn=self.spike_n_trodes[group_index].group_ref_on,
+                    refOn=self.spike_n_trodes[group_index].ref_on,
+                    id=self.spike_n_trodes[group_index].id,
+                )
             )
 
         for electrode in self.metadata.electrodes:
