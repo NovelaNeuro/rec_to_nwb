@@ -45,5 +45,6 @@ dependencies:
   - zlib
   - rec_to_binaries
   - mountainlab_pytools
+  - vdom
 
 

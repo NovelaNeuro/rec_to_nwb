@@ -1,15 +1,17 @@
+import os
 import unittest
 
 import pandas as pd
 
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
-from .experiment_data import ExperimentData
 
+path = os.path.dirname(os.path.abspath(__file__))
 
 class TestPOSMigration(unittest.TestCase):
 
     def setUp(self):
-        self.path_to_beans = ExperimentData.pos_path + ExperimentData.pos_file
+        self.path_to_beans = path + '/res/1.pos_online.dat'
+
 
     def test_reading_pos(self):
         pos_extractor = POSExtractor(path=self.path_to_beans)

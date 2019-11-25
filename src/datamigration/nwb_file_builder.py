@@ -2,7 +2,7 @@ import os
 
 from hdmf.common import VectorData, DynamicTable
 from mountainlab_pytools.mdaio import readmda
-from pynwb import NWBFile, ProcessingModule, NWBHDF5IO
+from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
 
 import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
@@ -26,24 +26,7 @@ class NWBFileBuilder:
                 self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
 
-        metadata_extractor = MetadataExtractor(data_path)
-
-        self.experimenter_name = metadata_extractor.experimenter_name
-        self.lab = metadata_extractor.lab
-        self.institution = metadata_extractor.institution
-        self.experiment_description = metadata_extractor.experiment_description
-        self.session_description = metadata_extractor.session_description
-        self.session_start_time = metadata_extractor.session_start_time
-        self.identifier = str(metadata_extractor.identifier)
-
-        self.task = metadata_extractor.task
-        self.subject = metadata_extractor.subject
-        self.apparatus = metadata_extractor.apparatus
-
-        self.devices = metadata_extractor.devices
-        self.electrode_groups = metadata_extractor.electrode_groups
-        self.electrodes = metadata_extractor.electrodes
-        self.electrode_regions = metadata_extractor.electrode_regions
+        self.metadata = MetadataExtractor(data_path)
 
     def build(self, mda_data_chunk_size=1):
         log_file = open(self.output_file_location + 'nwb_builder.log', 'w')
@@ -51,26 +34,26 @@ class NWBFileBuilder:
         log_file.write("File Location:" + '\n')
         log_file.write(os.path.abspath(self.output_file_location + self.output_file_path))
         log_file.write('\n')
-        nwb_file_content = NWBFile(session_description=self.session_description,
-                                   experimenter=self.experimenter_name,
-                                   lab=self.lab,
-                                   institution=self.institution,
-                                   session_start_time=self.session_start_time,
-                                   identifier=self.identifier,
-                                   experiment_description=self.experiment_description,
-                                   subject=self.subject,
+        nwb_file_content = NWBFile(session_description=self.metadata.session_description,
+                                   experimenter=self.metadata.experimenter_name,
+                                   lab=self.metadata.lab,
+                                   institution=self.metadata.institution,
+                                   session_start_time=self.metadata.session_start_time,
+                                   identifier=str(self.metadata.identifier),
+                                   experiment_description=self.metadata.experiment_description,
+                                   subject=self.metadata.subject,
                                    )
+
         task_module = ProcessingModule(name='task', description='Sample description')
-        nwb_file_content.add_processing_module(task_module).add(self.task)
+        nwb_file_content.add_processing_module(task_module).add(self.metadata.task)
 
         position_module = ProcessingModule(name='position', description='Sample description')
         position = self.pos_extractor.get_position()
         nwb_file_content.add_processing_module(position_module).add(position)
 
         apparatus_columns = []
-        for counter in range(len(self.apparatus)):
-            apparatus_columns.append(
-                VectorData(name='col ' + str(counter), description='', data=self.apparatus[counter]))
+        for counter, row in enumerate(self.metadata.apparatus):
+            apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=row))
         apparatus_dynamic_table = DynamicTable(
             name='apparatus',
             description='Sample description',
@@ -81,7 +64,7 @@ class NWBFileBuilder:
         apparatus_module.add(apparatus_dynamic_table)
         nwb_file_content.add_processing_module(apparatus_module)
 
-        for counter, device_name in enumerate(self.devices):
+        for counter, device_name in enumerate(self.metadata.devices):
             nwb_file_content.add_device(
                 Probe(
                     name=device_name,
@@ -89,7 +72,7 @@ class NWBFileBuilder:
                 )
             )
 
-        for electrode_group_dict in self.electrode_groups:
+        for electrode_group_dict in self.metadata.electrode_groups:
             nwb_file_content.create_electrode_group(
                 name=electrode_group_dict['name'],
                 description=electrode_group_dict['description'],
@@ -98,7 +81,7 @@ class NWBFileBuilder:
                         if device_name == electrode_group_dict['device']][0]
             )
 
-        for electrode in self.electrodes:
+        for electrode in self.metadata.electrodes:
             nwb_file_content.add_electrode(
                 x=electrode['x'],
                 y=electrode['y'],
@@ -111,7 +94,7 @@ class NWBFileBuilder:
                 id=electrode['id']
             )
 
-        for electrode_region in self.electrode_regions:
+        for electrode_region in self.metadata.electrode_regions:
             nwb_file_content.create_electrode_table_region(
                 name=electrode_region['name'],
                 description=electrode_region['description'],
