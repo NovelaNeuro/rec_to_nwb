@@ -1,0 +1,58 @@
+groups:
+  - neurodata_type_def: Shank
+    neurodata_type_inc: ElectrodeGroup
+    name: Shank default name
+    doc: A custom ElectrodesGroup interface
+    attributes:
+      - name: filterOn
+        dtype: text
+        doc: filterOn sample doc
+      - name: lowFilter
+        dtype: text
+        doc: lowFilter sample doc
+      - name: lfpRefOn
+        dtype: text
+        doc: lfpRefOn sample doc
+      - name: color
+        dtype: text
+        doc: color sample doc
+      - name: highFilter
+        dtype: text
+        doc: highFilter sample doc
+      - name: lfpFilterOn
+        dtype: text
+        doc: lfpFilterOn sample doc
+      - name: moduleDataOn
+        dtype: text
+        doc: moduleDataOn sample doc
+      - name: LFPHighFilter
+        dtype: text
+        doc: LFPHighFilter sample doc
+      - name: refGroup
+        dtype: text
+        doc: refGroup sample doc
+      - name: LFPChan
+        dtype: text
+        doc: LFPChan sample doc
+      - name: refNTrodeID
+        dtype: text
+        doc: refNTrodeID sample doc
+      - name: refChan
+        dtype: text
+        doc: refChan sample doc
+      - name: groupRefOn
+        dtype: text
+        doc: groupRefOn sample doc
+      - name: refOn
+        dtype: text
+        doc: refOn sample doc
+      - name: id
+        dtype: text
+        doc: id sample doc
+  - neurodata_type_def: Probe
+    neurodata_type_inc: Device
+    doc: A custom Probes interface
+    attributes:
+      - name: probe_id
+        dtype: text
+        doc: unique id of the probe

@@ -1,5 +1,8 @@
+import os
+
 from pynwb.spec import NWBGroupSpec, NWBNamespaceBuilder, NWBAttributeSpec
 
+path = os.path.dirname(os.path.abspath(__file__))
 
 class ExtensionsBuilder:
     def __init__(self, ext_source, ns_path):
@@ -20,7 +23,7 @@ class ExtensionsBuilder:
         ns_builder.include_type('ElectrodeGroup', namespace='core')
         ns_builder.include_type('Device', namespace='core')
 
-        ns_builder.export(self.ns_path)
+        ns_builder.export(path=self.ns_path, outdir=path)
 
     def create_shank(self):
         return NWBGroupSpec(
