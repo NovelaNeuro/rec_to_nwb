@@ -27,7 +27,6 @@ class ExtensionsBuilder:
 
     def create_shank(self):
         return NWBGroupSpec(
-            name='Shank default name',
             doc='A custom ElectrodesGroup interface',
             neurodata_type_def='Shank',
             neurodata_type_inc='ElectrodeGroup',
@@ -113,7 +112,7 @@ class ExtensionsBuilder:
 
     def create_probe(self):
         return NWBGroupSpec(
-            'A custom Probes interface',
+            doc='A custom Probes interface',
             neurodata_type_def='Probe',
             neurodata_type_inc='Device',
             attributes=[
