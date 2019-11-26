@@ -1,9 +1,8 @@
+from src.datamigration.datetime import datetime
 from unittest import TestCase
 
-from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
-from src.datamigration.datetime.datetime import datetime
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 
@@ -11,13 +10,10 @@ from src.datamigration.extension.shank import Shank
 class TestExtensions(TestCase):
 
     def setUp(self):
-        create_date = datetime(2019, 10, 26, 12, tzinfo=tzlocal())
-        self.nwb_file = NWBFile('my first synthetic recording', 'EXAMPLE_ID', datetime.now(tzlocal()),
-                                experimenter='Dr. Bilbo Baggins',
-                                lab='Bag End Laboratory',
-                                institution='University of Middle Earth at the Shire',
-                                experiment_description='I went on an adventure with thirteen dwarves to reclaim vast treasures.',
-                                session_id='LONELYMTN')
+
+        self.nwb_file = NWBFile(session_description='NWBFile extensions test',
+                                identifier='NWB123',
+                                session_start_time=datetime(2017, 4, 3, 11))
 
         self.probe = Probe(name='Probe1', probe_id='1')
         self.nwb_file.add_device(self.probe)
