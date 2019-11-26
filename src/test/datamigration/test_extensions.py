@@ -1,9 +1,9 @@
-from datetime import datetime
 from unittest import TestCase
 
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
+from src.datamigration.datetime.datetime import datetime
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 
