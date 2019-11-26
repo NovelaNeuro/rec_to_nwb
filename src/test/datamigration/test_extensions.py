@@ -1,4 +1,4 @@
-from src.datamigration.datetime import datetime
+from src.datamigration.datetime.datetime import datetime
 from unittest import TestCase
 
 from pynwb import NWBFile
