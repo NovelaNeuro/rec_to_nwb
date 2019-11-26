@@ -14,7 +14,7 @@ class TestExtensions(TestCase):
 
         self.nwb_file = NWBFile(session_description='NWBFile extensions test',
                                 identifier='NWB123',
-                                session_start_time=datetime(2017, 4, 3, 11, tzinfo=tzlocal()))
+                                session_start_time=datetime(2017, 4, 3, 11))
 
         self.probe = Probe(name='Probe1', probe_id='1')
         self.nwb_file.add_device(self.probe)
