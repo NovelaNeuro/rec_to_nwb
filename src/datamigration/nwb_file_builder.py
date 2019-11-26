@@ -55,7 +55,7 @@ class NWBFileBuilder:
 
         position_module = ProcessingModule(name='position', description='Sample description')
         position = self.pos_extractor.get_position()
-        nwb_file_content.add_processing_module(position_module).add(position)
+        nwb_file_content.add_processing_module(position_module).add_data_interface(position)
 
         apparatus_columns = []
         for counter, row in enumerate(self.metadata.apparatus):
