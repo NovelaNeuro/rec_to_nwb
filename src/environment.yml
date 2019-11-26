@@ -4,7 +4,6 @@ channels:
   - defaults
   - novelakrk
 dependencies:
-  - datetime
   - asn1crypto
   - blas
   - ca-certificates
