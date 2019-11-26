@@ -19,7 +19,3 @@ class TestFileScanner(unittest.TestCase):
                          self.data_folder.data['beans']['20190718']['01_s1'].get_data_path_from_dataset('mda'))
         self.assertEqual(len(self.data_folder.data['beans']['20190718']['01_s1'].get_all_data_from_dataset('metadata')),
                          1)
-
-        # self.assertEqual(['beans'], self.data_folder.get_all_animals())
-        # self.assertEqual(['20190718'], self.data_folder.get_all_experiment_dates('beans'))
-        # self.assertEqual(['01_s1'], self.data_folder.get_all_datasets('beans', '20190718'))
