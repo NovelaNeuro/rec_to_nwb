@@ -39,7 +39,6 @@ class TestNWBBuilder(unittest.TestCase):
 
             print(nwb_file.electrodes)
 
-
     @unittest.skip("No need to read it every time")
     def test_read_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
@@ -116,7 +115,6 @@ class TestNWBBuilder(unittest.TestCase):
             self.assertEqual(electrodegroup1.refOn, xml_electrodegroup1.ref_on)
             self.assertEqual(electrodegroup1.id, xml_electrodegroup1.id)
 
-
             self.assertEqual(electrodegroup2.name, 'electrode group 2')
             self.assertEqual(electrodegroup2.description, 'some description 2')
             self.assertEqual(electrodegroup2.location, 'some location 2')
@@ -136,7 +134,6 @@ class TestNWBBuilder(unittest.TestCase):
             self.assertEqual(electrodegroup2.groupRefOn, xml_electrodegroup2.group_ref_on)
             self.assertEqual(electrodegroup2.refOn, xml_electrodegroup2.ref_on)
             self.assertEqual(electrodegroup2.id, xml_electrodegroup2.id)
-
 
     @unittest.skip("Need NWBFile")
     def test_check_electrodes(self):
@@ -173,5 +170,3 @@ class TestNWBBuilder(unittest.TestCase):
             self.assertEqual(electrode['maxDisp'][3], xml_electrodes4.max_disp)
             self.assertEqual(electrode['thresh'][3], xml_electrodes4.thresh)
             self.assertEqual(electrode['triggerOn'][3], xml_electrodes4.trigger_on)
-
-
