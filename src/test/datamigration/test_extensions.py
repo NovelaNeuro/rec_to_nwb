@@ -11,11 +11,10 @@ from src.datamigration.extension.shank import Shank
 class TestExtensions(TestCase):
 
     def setUp(self):
-        start_time = datetime(2017, 4, 3, 11, tzinfo=tzlocal())
 
         self.nwb_file = NWBFile(session_description='NWBFile extensions test',
                                 identifier='NWB123',
-                                session_start_time=start_time)
+                                session_start_time=datetime(2017, 4, 3, 11, tzinfo=tzlocal()))
 
         self.probe = Probe(name='Probe1', probe_id='1')
         self.nwb_file.add_device(self.probe)
