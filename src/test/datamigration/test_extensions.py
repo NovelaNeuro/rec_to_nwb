@@ -1,8 +1,6 @@
-
+from datetime import datetime
 from unittest import TestCase
 
-from dateutil.tz import tzlocal
-from pandas._libs.index import datetime
 from pynwb import NWBFile
 
 from src.datamigration.extension.probe import Probe
