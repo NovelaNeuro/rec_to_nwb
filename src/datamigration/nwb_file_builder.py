@@ -1,3 +1,4 @@
+import logging
 import os
 
 from hdmf.common import VectorData, DynamicTable
@@ -20,7 +21,7 @@ class NWBFileBuilder:
         self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
         self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
         self.mda_file_count = len(self.data_folder.data[animal_name][date][dataset].
-                                  get_all_data_from_dataset('mda')) - 2  # timestamp and log files are not counted
+                                  get_all_data_from_dataset('mda')) - 2  # timestamp and logging files are not counted
         self.output_file_location = output_file_location
         self.output_file_path = output_file_location + output_file_name
 
@@ -28,18 +29,13 @@ class NWBFileBuilder:
             if file.endswith('pos_online.dat'):
                 self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
-
         self.metadata = MetadataExtractor(config_path)
 
-        self.spike_n_trodes = Header(xml_path).configuration.spike_configuration.spike_n_trodes
+    def build(self):
+        logging.info("Begining nwb file build" + '\n')
+        logging.info(
+            "File Location:" + '\n' + os.path.abspath(self.output_file_location + self.output_file_path + '\n'))
 
-
-    def build(self, mda_data_chunk_size=1):
-        log_file = open(self.output_file_location + 'nwb_builder.log', 'w')
-        log_file.write("Begining nwb file build" + '\n')
-        log_file.write("File Location:" + '\n')
-        log_file.write(os.path.abspath(self.output_file_location + self.output_file_path))
-        log_file.write('\n')
         nwb_file_content = NWBFile(session_description=self.metadata.session_description,
                                    experimenter=self.metadata.experimenter_name,
                                    lab=self.metadata.lab,
@@ -158,31 +154,18 @@ class NWBFileBuilder:
                 region=electrode_region['region']
             )
 
-        with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
-            nwb_fileIO.write(nwb_file_content)
-            nwb_fileIO.close()
+        logging.info("begining mda extraction" + '\n')
 
-        log_file.write("begining mda extraction" + '\n')
-        log_file.close()
         timestamps = readmda(self.mda_timestamps_path)
         mda_extractor = MdaExtractor(self.mda_path, timestamps)
-        file_number = 0
 
-        while file_number < self.mda_file_count:  # switch to function from file scanner after its merged into master
-            with NWBHDF5IO(path=self.output_file_path, mode='a') as IO:
-                nwb_fileIO = IO.read()
-                electrode_table_region = nwb_fileIO.create_electrode_table_region([0, 1], "sample description")
-                for series in mda_extractor.get_mda(file_number, mda_data_chunk_size, electrode_table_region,
-                                                    self.mda_file_count):
-                    nwb_fileIO.add_acquisition(series)
-                IO.write(nwb_fileIO)
-                IO.close()
-            log_file = open(self.output_file_location + 'nwb_builder.log', 'a')
-            log_file.write("finished extraction of mda files " + str(file_number) + ' to ' + str(
-                file_number + mda_data_chunk_size - 1) + '\n')
-            log_file.close()
-            file_number = file_number + mda_data_chunk_size
-        log_file = open(self.output_file_location + 'nwb_builder.log', 'a')
-        log_file.write("finished building nwb file" + '\n')
-        log_file.close()
+        electrode_table_region = nwb_file_content.create_electrode_table_region([0, 1], "first and second electrode")
+        series = mda_extractor.get_mda(electrode_table_region)
+        nwb_file_content.add_acquisition(series)
+        return nwb_file_content
+
+    def write(self, content):
+        with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
+            nwb_fileIO.write(content)
+            nwb_fileIO.close()
         return self.output_file_path
