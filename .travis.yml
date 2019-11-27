@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.7"
+  - "3.7.4"
 before_install:
 # command to install dependencies
 install:

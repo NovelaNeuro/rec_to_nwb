@@ -25,3 +25,7 @@ class ExperimentData:
     rec_path = raw_root_path + date + rec_file
     xml_path = preprocessing_root_path + date + xml_file
     xsd_path = '../data/fl_lab_header.xsd'
+
+    path_to_extensions = '../datamigration/extension/'
+    novela_namespaces = 'NovelaNeurotechnologies.namespace.yaml'
+    novela_specs = 'NovelaNeurotechnologies.specs.yaml'

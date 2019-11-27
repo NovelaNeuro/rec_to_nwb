@@ -1,0 +1,9 @@
+namespaces:
+  - doc: Extension for use in Novela Neurotechnologies
+    name: NovelaNeurotechnologies
+    schema:
+      - namespace: core
+        neurodata_types:
+          - ElectrodeGroup
+          - Device
+      - source: NovelaNeurotechnologies.specs.yaml
