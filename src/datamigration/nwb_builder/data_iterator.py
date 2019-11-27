@@ -22,8 +22,7 @@ class DataIterator(AbstractDataChunkIterator):
             self.__curr_index += 1
             del new_data
             return chunk
-        else:
-            raise StopIteration
+        raise StopIteration
 
     next = __next__
 
