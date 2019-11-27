@@ -1,6 +1,5 @@
 from datetime import datetime
-from unittest import TestCase
-
+import unittest
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
@@ -10,7 +9,8 @@ from src.datamigration.extension.shank import Shank
 start_time = datetime(2017, 4, 3, 11, tzinfo=tzlocal())
 create_date = datetime(2017, 4, 15, 12, tzinfo=tzlocal())
 
-class TestExtensions(TestCase):
+@unittest.skip("No need to launch extensions")
+class TestExtensions(unittest.TestCase):
 
     def setUp(self):
         self.nwb_file = NWBFile(session_description='demonstrate external files',
