@@ -56,7 +56,7 @@ class TestNWBBuilder(unittest.TestCase):
             location = []
             filtering = []
             group = []
-            id = []
+            electrode_ide = []
             maxDisp = []
             thresh = []
             hwChan = []
@@ -70,7 +70,7 @@ class TestNWBBuilder(unittest.TestCase):
                 location.append(nwb_file.electrodes['location'][i])
                 filtering.append(nwb_file.electrodes['filtering'][i])
                 group.append(nwb_file.electrodes['group'][i])
-                id.append(nwb_file.electrodes.id[i])
+                electrode_ide.append(nwb_file.electrodes.id[i])
                 maxDisp.append(nwb_file.electrodes['maxDisp'][i])
                 thresh.append(nwb_file.electrodes['thresh'][i])
                 hwChan.append(nwb_file.electrodes['hwChan'][i])
@@ -83,7 +83,7 @@ class TestNWBBuilder(unittest.TestCase):
             print(location)
             print(filtering)
             print(group)
-            print(id)
+            print(electrode_ide)
             print(maxDisp)
             print(thresh)
             print(hwChan)

@@ -25,7 +25,8 @@ class ExtensionsBuilder:
 
         ns_builder.export(path=self.ns_path, outdir=path)
 
-    def create_shank(self):
+    @staticmethod
+    def create_shank():
         return NWBGroupSpec(
             doc='A custom ElectrodesGroup interface',
             neurodata_type_def='Shank',
@@ -110,7 +111,8 @@ class ExtensionsBuilder:
             ],
         )
 
-    def create_probe(self):
+    @staticmethod
+    def create_probe():
         return NWBGroupSpec(
             doc='A custom Probes interface',
             neurodata_type_def='Probe',

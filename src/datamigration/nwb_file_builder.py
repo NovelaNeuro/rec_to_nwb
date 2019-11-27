@@ -3,7 +3,7 @@ import os
 
 from hdmf.common import VectorData, DynamicTable
 from mountainlab_pytools.mdaio import readmda
-from pynwb import NWBHDF5IO, NWBFile, ProcessingModule
+from pynwb import NWBHDF5IO, NWBFile
 
 import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
@@ -46,25 +46,33 @@ class NWBFileBuilder:
                                    subject=self.metadata.subject,
                                    )
 
-        task_module = ProcessingModule(name='task', description='Sample description')
-        nwb_file_content.add_processing_module(task_module).add(self.metadata.task)
+        nwb_file_content.create_processing_module(
+            name='task',
+            description='Sample description'
+        ).add_data_interface(self.metadata.task)
 
-        position_module = ProcessingModule(name='position', description='Sample description')
-        position = self.pos_extractor.get_position()
-        nwb_file_content.add_processing_module(position_module).add_data_interface(position)
+        nwb_file_content.create_processing_module(
+            name='position',
+            description='Sample description'
+        ).add_data_interface(
+            self.pos_extractor.get_position()
+        )
 
         apparatus_columns = []
         for counter, row in enumerate(self.metadata.apparatus):
             apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=row))
-        apparatus_dynamic_table = DynamicTable(
+
+        nwb_file_content.create_processing_module(
             name='apparatus',
-            description='Sample description',
-            id=None,
-            columns=apparatus_columns
+            description='Sample description'
+        ).add_data_interface(
+            DynamicTable(
+                name='apparatus',
+                description='Sample description',
+                id=None,
+                columns=apparatus_columns
+            )
         )
-        apparatus_module = ProcessingModule(name='apparatus', description='Sample description')
-        apparatus_module.add(apparatus_dynamic_table)
-        nwb_file_content.add_processing_module(apparatus_module)
 
         for counter, device_name in enumerate(self.metadata.devices):
             nwb_file_content.add_device(
@@ -107,13 +115,12 @@ class NWBFileBuilder:
             )
 
             for spike_channel in spike_channels:
-                maxDisp.append(spike_channel.max_disp),
-                triggerOn.append(spike_channel.trigger_on),
-                hwChan.append(spike_channel.hw_chan),
-                thresh.append(spike_channel.thresh),
+                maxDisp.append(spike_channel.max_disp)
+                triggerOn.append(spike_channel.trigger_on)
+                hwChan.append(spike_channel.hw_chan)
+                thresh.append(spike_channel.thresh)
 
-
-        for electrode_index, electrode in enumerate(self.metadata.electrodes):
+        for electrode in self.metadata.electrodes:
             nwb_file_content.add_electrode(
                 x=electrode['x'],
                 y=electrode['y'],
