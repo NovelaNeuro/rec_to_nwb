@@ -107,13 +107,12 @@ class NWBFileBuilder:
             )
 
             for spike_channel in spike_channels:
-                maxDisp.append(spike_channel.max_disp),
-                triggerOn.append(spike_channel.trigger_on),
-                hwChan.append(spike_channel.hw_chan),
-                thresh.append(spike_channel.thresh),
+                maxDisp.append(spike_channel.max_disp)
+                triggerOn.append(spike_channel.trigger_on)
+                hwChan.append(spike_channel.hw_chan)
+                thresh.append(spike_channel.thresh)
 
-
-        for electrode_index, electrode in enumerate(self.metadata.electrodes):
+        for electrode in self.metadata.electrodes:
             nwb_file_content.add_electrode(
                 x=electrode['x'],
                 y=electrode['y'],

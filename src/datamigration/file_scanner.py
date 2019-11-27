@@ -21,22 +21,8 @@ class DataScanner:
         self.path = path
         self.data = self.get_data()
 
-    def get_data(self):
-        animal_names = os.listdir(self.path)
-        animals = dict([])
-        for animal_name in animal_names:
-            animals[animal_name] = self.get_experiments(animal_name)
-        return animals
-
-    def get_experiments(self, animal_name):
-        path = self.path + animal_name + '/preprocessing'
-        dates = os.listdir(path)
-        experiment_dates = dict([])
-        for date in dates:
-            experiment_dates[date] = self.get_datasets(path + '/' + date)
-        return experiment_dates
-
-    def get_datasets(self, path):
+    @staticmethod
+    def get_datasets(path):
         existing_datasets = set()
         datasets = dict([])
         directories = os.listdir(path)
@@ -52,6 +38,21 @@ class DataScanner:
                     if dataset_name == dataset.name:
                         dataset.add_data_to_dataset(path + '/' + directory + '/', dir_last_part.pop())
         return datasets
+
+    def get_data(self):
+        animal_names = os.listdir(self.path)
+        animals = dict([])
+        for animal_name in animal_names:
+            animals[animal_name] = self.get_experiments(animal_name)
+        return animals
+
+    def get_experiments(self, animal_name):
+        path = self.path + animal_name + '/preprocessing'
+        dates = os.listdir(path)
+        experiment_dates = dict([])
+        for date in dates:
+            experiment_dates[date] = self.get_datasets(path + '/' + date)
+        return experiment_dates
 
     def get_all_animals(self):
         return list(self.data.keys())
@@ -69,3 +70,4 @@ class DataScanner:
         for file in self.data[animal][date][dataset].get_all_data_from_dataset('mda'):
             if file.endswith('timestamps.mda'):
                 return self.data[animal][date][dataset].get_data_path_from_dataset('mda') + file
+        return False
