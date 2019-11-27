@@ -4,7 +4,7 @@ import unittest
 import dateutil
 from pynwb import NWBFile
 
-start_time = datetime.time(1, 2, tzinfo=dateutil.tz.UTC)
+start_time = datetime.time(1, tzinfo=dateutil.tz.UTC)
 
 
 class TestTravis(unittest.TestCase):
@@ -15,8 +15,5 @@ class TestTravis(unittest.TestCase):
                                 session_start_time=start_time
                                 )
 
-
-
     def test_travis(self):
         self.assertIsNotNone(self.nwb_file)
-        self.assertIsInstance(start_time, datetime)
