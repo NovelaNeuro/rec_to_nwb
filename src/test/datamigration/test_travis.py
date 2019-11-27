@@ -1,10 +1,11 @@
-import datetime
 import unittest
+from datetime import datetime
 
-import dateutil
 from pynwb import NWBFile
 
-start_time = datetime.time(1, tzinfo=dateutil.tz.UTC)
+# start_time = datetime.date(1)
+timestamp = 1545730073
+dt_object = datetime.fromtimestamp(timestamp)
 
 
 class TestTravis(unittest.TestCase):
@@ -12,7 +13,7 @@ class TestTravis(unittest.TestCase):
     def setUp(self):
         self.nwb_file = NWBFile(session_description='demonstrate external files',
                                 identifier='NWBE1',
-                                session_start_time=start_time
+                                session_start_time=dt_object
                                 )
 
     def test_travis(self):
