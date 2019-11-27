@@ -8,14 +8,13 @@ from pynwb import NWBHDF5IO, NWBFile
 import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
-from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 
 class NWBFileBuilder:
-    def __init__(self, data_path, animal_name, date, dataset, config_path, xml_path, output_file_location='',
+    def __init__(self, data_path, animal_name, date, dataset, config_path, output_file_location='',
                  output_file_name='output.nwb'):
         self.data_folder = fs.DataScanner(data_path)
         self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
@@ -32,9 +31,8 @@ class NWBFileBuilder:
         self.metadata = MetadataExtractor(config_path)
 
     def build(self):
-        logging.info("Begining nwb file build" + '\n')
-        logging.info(
-            "File Location:" + '\n' + os.path.abspath(self.output_file_location + self.output_file_path + '\n'))
+        logging.debug('Begining nwb file build\n')
+        logging.debug('File Location: %s', os.path.abspath(self.output_file_location + self.output_file_path))
 
         nwb_file_content = NWBFile(session_description=self.metadata.session_description,
                                    experimenter=self.metadata.experimenter_name,
@@ -161,7 +159,7 @@ class NWBFileBuilder:
                 region=electrode_region['region']
             )
 
-        logging.info("begining mda extraction" + '\n')
+        logging.debug('begining mda extraction')
 
         timestamps = readmda(self.mda_timestamps_path)
         mda_extractor = MdaExtractor(self.mda_path, timestamps)

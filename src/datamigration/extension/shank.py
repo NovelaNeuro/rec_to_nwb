@@ -34,6 +34,24 @@ class Shank(ElectrodeGroup):
             {'name': 'id', 'type': str, 'doc': 'thresh sample description'},
     ))
     def __init__(self, **kwargs):
+        super().__init__(**{kwargs_item: kwargs[kwargs_item]
+                            for kwargs_item in kwargs.copy()
+                            if kwargs_item != 'filterOn'
+                            if kwargs_item != 'lowFilter'
+                            if kwargs_item != 'lfpRefOn'
+                            if kwargs_item != 'color'
+                            if kwargs_item != 'highFilter'
+                            if kwargs_item != 'lfpFilterOn'
+                            if kwargs_item != 'moduleDataOn'
+                            if kwargs_item != 'LFPHighFilter'
+                            if kwargs_item != 'refGroup'
+                            if kwargs_item != 'LFPChan'
+                            if kwargs_item != 'refNTrodeID'
+                            if kwargs_item != 'refChan'
+                            if kwargs_item != 'groupRefOn'
+                            if kwargs_item != 'refOn'
+                            if kwargs_item != 'id'
+                            })
         call_docval_func(super(Shank, self).__init__, kwargs)
         self.filterOn = kwargs['filterOn']
         self.lowFilter = kwargs['lowFilter']

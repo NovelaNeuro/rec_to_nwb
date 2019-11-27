@@ -23,7 +23,6 @@ class TestNWBBuilder(unittest.TestCase):
             date='20190718',
             dataset='01_s1',
             config_path='datamigration/res/metadata.yml',
-            xml_path=self.xml_path,
             output_file_location='',
             output_file_name=self.output_name
         )
