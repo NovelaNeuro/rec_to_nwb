@@ -1,17 +1,17 @@
 import unittest
 from datetime import datetime
 
+from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
 
 class TestTravis(unittest.TestCase):
+
+    def setUp(self):
+        self.nwb_file = NWBFile(session_description='demonstrate external files',
+                                identifier='NWBE1',
+                                session_start_time=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
+                                )
+
     def test_travis(self):
-        nwb_file_content = NWBFile(session_description='session_description',
-                                   experimenter='experimenter_name',
-                                   lab='lab',
-                                   institution='institution',
-                                   session_start_time=datetime(2017, 4, 3, 11),
-                                   identifier='identifier',
-                                   experiment_description='experiment_description'
-                                   )
-        self.assertIsNotNone(1)
+        self.assertIsNotNone(self.nwb_file)
