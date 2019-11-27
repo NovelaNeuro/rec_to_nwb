@@ -4,8 +4,8 @@ from datetime import datetime
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
-start_time = datetime(2017, 4, 3, 11, tzinfo=tzlocal())
-create_date = datetime(2017, 4, 15, 12, tzinfo=tzlocal())
+start_time = datetime(2017, 4, 3, tzinfo=tzlocal())
+create_date = datetime(2017, 4, 15, tzinfo=tzlocal())
 
 
 class TestTravis(unittest.TestCase):
