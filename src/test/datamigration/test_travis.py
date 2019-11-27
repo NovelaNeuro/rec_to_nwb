@@ -12,8 +12,7 @@ class TestTravis(unittest.TestCase):
 
     def setUp(self):
         self.nwb_file = NWBFile(session_description='demonstrate external files',
-                                identifier='NWBE1',
-                                session_start_time=dt_object
+                                identifier='NWBE1'
                                 )
 
     def test_travis(self):
