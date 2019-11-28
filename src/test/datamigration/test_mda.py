@@ -3,7 +3,7 @@ import unittest
 from datetime import datetime
 
 import numpy as np
-from mountainlab_pytools.mdaio import readmda, writemda16i
+from mountainlab_pytools.mdaio import readmda
 from pynwb import NWBFile
 
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
@@ -16,7 +16,6 @@ class TestMDAMigration(unittest.TestCase):
         self.create_test_file()
 
     def test_reading_mda(self):
-        self.create_test_mda()
         nwb_file_content = self.create_test_file()
         electrode_table_region = nwb_file_content.create_electrode_table_region([0], "sample description")
         timestamps = readmda(self.path + '/res/mda_test/test.timestamps.mda')
@@ -55,20 +54,3 @@ class TestMDAMigration(unittest.TestCase):
         )
 
         return nwb_file_content
-
-    def create_test_mda(self):
-        data_timestamps = np.array(np.arange(100))
-        data = np.array([[1, 1, 1, 1, 1],
-                         [1, 1, 1, 1, 1],
-                         [1, 1, 1, 1, 1],
-                         [1, 1, 1, 1, 1]])
-        writemda16i(data_timestamps, fname='res/mda_test/test.timestamps.mda')
-        writemda16i(data, fname='res/mda_test/test1.mda')
-        writemda16i(data, fname='res/mda_test/test2.mda')
-        writemda16i(data, fname='res/mda_test/test3.mda')
-
-    def tearDown(self):
-        os.remove('res/mda_test/test1.mda')
-        os.remove('res/mda_test/test2.mda')
-        os.remove('res/mda_test/test3.mda')
-        os.remove('res/mda_test/test.timestamps.mda')
