@@ -9,9 +9,9 @@ subject:
   age: 23
   description: big bad thanos
   genotype: who knows
-  sex: mele
+  sex: female
   species: eternal deviant hybrid
-  subject id: thanos id
+  subject id: Th1
   weight: 120
   date of birth: 06/16/2001
   timezone: America/Los_Angeles
@@ -64,6 +64,26 @@ electrode:
     filtering: yes filter,
     group: electrode group 2,
     id: 2
+  },
+  {
+    x: 1.0,
+    y: 1.0,
+    z: 1.0,
+    imp: 3.0,
+    location: hippocampus,
+    filtering: no filter,
+    group: electrode group 1,
+    id: 3
+  },
+  {
+    x: 2.0,
+    y: 2.0,
+    z: 2.0,
+    imp: 5.0,
+    location: neocortex,
+    filtering: yes filter,
+    group: electrode group 2,
+    id: 4
   }
   ]
 electrode region:
