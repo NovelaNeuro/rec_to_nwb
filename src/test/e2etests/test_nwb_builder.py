@@ -9,30 +9,35 @@ from .experiment_data import ExperimentData
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+
 class TestNWBBuilder(unittest.TestCase):
+    is_set_up_done = False
 
     def setUp(self):
         # ToDo I pass path to our sample header due to lack of proper metadata. In sample header we have only 2 records for ElectrodeGroup to fabricate with our sample metadata.yml
         self.output_name = 'output.nwb'
         self.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
         self.xml_group = Header(self.xml_path).configuration.spike_configuration.spike_n_trodes
-
         self.nwbBuilder = NWBFileBuilder(
             data_path=ExperimentData.root_path,
             animal_name='beans',
             date='20190718',
             dataset='01_s1',
             config_path='datamigration/res/metadata.yml',
+            xml_path=self.xml_path,
             output_file_location='',
             output_file_name=self.output_name
         )
+        if not self.__class__.is_set_up_done:
+            self.run_nwb_generation_from_preprocessed_data()
+            self.__class__.is_set_up_done = True
 
-    @unittest.skip("Content generation")
-    def test_run_nwb_generation_from_preprocessed_data(self):
-        self.nwb_file_content = self.nwbBuilder.build()
+    def run_nwb_generation_from_preprocessed_data(self):
+        nwb_file_content = self.nwbBuilder.build_nwb()
+        self.nwbBuilder.write_nwb(nwb_file_content)
 
-    @unittest.skip("NWB file write")
-    def test_creating_nwb_file(self):
+    @unittest.skip("NWB file read")
+    def test_read_nwb_file(self):
         with NWBHDF5IO(path=self.nwbBuilder.output_file_path, mode='r') as io:
             nwb_file = io.read()
             print(nwb_file)

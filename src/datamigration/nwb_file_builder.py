@@ -8,13 +8,14 @@ from pynwb import NWBHDF5IO, NWBFile
 import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
+from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 
 class NWBFileBuilder:
-    def __init__(self, data_path, animal_name, date, dataset, config_path, output_file_location='',
+    def __init__(self, data_path, animal_name, date, dataset, config_path, xml_path, output_file_location='',
                  output_file_name='output.nwb'):
         self.data_folder = fs.DataScanner(data_path)
         self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
@@ -30,7 +31,9 @@ class NWBFileBuilder:
                                                   get_data_path_from_dataset('pos') + file)
         self.metadata = MetadataExtractor(config_path)
 
-    def build(self):
+        self.spike_n_trodes = Header(xml_path).configuration.spike_configuration.spike_n_trodes
+
+    def build_nwb(self):
         logging.debug('Begining nwb file build\n')
         logging.debug('File Location: %s', os.path.abspath(self.output_file_location + self.output_file_path))
 
@@ -169,7 +172,7 @@ class NWBFileBuilder:
         nwb_file_content.add_acquisition(series)
         return nwb_file_content
 
-    def write(self, content):
+    def write_nwb(self, content):
         with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
             nwb_fileIO.write(content)
             nwb_fileIO.close()
