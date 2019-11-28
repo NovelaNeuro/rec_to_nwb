@@ -36,7 +36,7 @@ class TestNWBBuilder(unittest.TestCase):
         nwb_file_content = self.nwbBuilder.build_nwb()
         self.nwbBuilder.write_nwb(nwb_file_content)
 
-    # @unittest.skip("NWB file read")
+    @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
         with NWBHDF5IO(path=self.nwbBuilder.output_file_path, mode='r') as io:
             nwb_file = io.read()
@@ -48,7 +48,7 @@ class TestNWBBuilder(unittest.TestCase):
 
             print(nwb_file.electrodes)
 
-    #@unittest.skip("No need to read it every time")
+    @unittest.skip("No need to read it every time")
     def test_read_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -93,7 +93,7 @@ class TestNWBBuilder(unittest.TestCase):
             print(hwChan)
             print(triggerOn)
 
-    #@unittest.skip("Need NWBFile")
+    @unittest.skip("Need NWBFile")
     def test_check_electrode_groups(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -144,7 +144,7 @@ class TestNWBBuilder(unittest.TestCase):
             self.assertEqual(electrodegroup2.refOn, xml_electrodegroup2.ref_on)
             self.assertEqual(electrodegroup2.id, xml_electrodegroup2.id)
 
-    # @unittest.skip("Need NWBFile")
+    @unittest.skip("Need NWBFile")
     def test_check_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()

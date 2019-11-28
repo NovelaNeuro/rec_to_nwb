@@ -33,8 +33,7 @@ class NWBFileBuilder:
 
         self.spike_n_trodes = Header(xml_path).configuration.spike_configuration.spike_n_trodes
 
-
-    def build(self):
+    def build_nwb(self):
         logging.debug('Begining nwb file build\n')
         logging.debug('File Location: %s', os.path.abspath(self.output_file_location + self.output_file_path))
 
@@ -173,7 +172,7 @@ class NWBFileBuilder:
         nwb_file_content.add_acquisition(series)
         return nwb_file_content
 
-    def write(self, content):
+    def write_nwb(self, content):
         with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
             nwb_fileIO.write(content)
             nwb_fileIO.close()
