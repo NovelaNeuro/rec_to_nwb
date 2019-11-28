@@ -4,6 +4,7 @@ from src.datamigration.nwb_file_builder import NWBFileBuilder
 from .experiment_data import ExperimentData
 
 
+@unittest.skip("NWB file creation")
 class TestNwbFullGeneration(unittest.TestCase):
 
     @classmethod
