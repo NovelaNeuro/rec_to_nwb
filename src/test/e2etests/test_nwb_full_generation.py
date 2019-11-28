@@ -8,7 +8,7 @@ class TestNwbFullGeneration(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        self.nwbBuilder = NWBFileBuilder(
+        cls.nwbBuilder = NWBFileBuilder(
             data_path=ExperimentData.root_path,
             animal_name='beans',
             date='20190718',
@@ -17,7 +17,8 @@ class TestNwbFullGeneration(unittest.TestCase):
             header_path='datamigration/res/fl_lab_sample_header.xml')
 
     def test_generate_nwb(self):
-        self.nwbBuilder.build()
+        content = self.nwbBuilder.build()
+        self.nwbBuilder.write(content)
         self.assertIsNotNone(self.nwbBuilder)
 
     @classmethod

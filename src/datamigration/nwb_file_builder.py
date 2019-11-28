@@ -53,24 +53,13 @@ class NWBFileBuilder:
 
         self.__add_electrodes_extensions(content, self.spike_n_trodes)
 
-        regions = self.__add_electrode_regions(content)
-
-        self.__build_mda(content, regions)
+        self.__build_mda(content)
         return content
 
-    def __add_electrode_regions(self, content):
-        regions = []
-        for electrode_region in self.metadata.electrode_regions:
-            region = self.__create_region(content, electrode_region)
-            regions.append(region)
-
-        return regions
-
-    def __create_region(self, content, electrode_region):
+    def __create_region(self, content):
         region = content.create_electrode_table_region(
-            name=electrode_region['name'],
-            description=electrode_region['description'],
-            region=electrode_region['region'])
+            description=self.metadata.electrode_regions[0]['description'],
+            region=self.metadata.electrode_regions[0]['region'])
         return region
 
     def __add_electrodes_extensions(self, content, spike_n_trodes):
@@ -132,8 +121,8 @@ class NWBFileBuilder:
             name=electrode_group_dict['name'],
             description=electrode_group_dict['description'],
             location=electrode_group_dict['location'],
-            device=[probes[device_name] for device_name in probes
-                    if device_name == electrode_group_dict['device']][0],
+            device=[probe for probe in probes
+                    if probe.name == electrode_group_dict['device']][0],
             filterOn=spike_n_trodes[group_index].filter_on,
             lowFilter=spike_n_trodes[group_index].low_filter,
             lfpRefOn=spike_n_trodes[group_index].lfp_ref_on,
@@ -165,10 +154,10 @@ class NWBFileBuilder:
             content.add_device(probe)
         return probes
 
-    def __build_mda(self, content, regions):
+    def __build_mda(self, content):
         timestamps = readmda(self.mda_timestamps_path)
         mda_extractor = MdaExtractor(self.mda_path, timestamps)
-        electrode_table_region = content.create_electrode_table_region(regions, "first and second electrode")
+        electrode_table_region = self.__create_region(content)
         series = mda_extractor.get_mda(electrode_table_region)
         content.add_acquisition(series)
 

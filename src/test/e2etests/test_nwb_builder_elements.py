@@ -25,7 +25,6 @@ class TestNWBBuilder(unittest.TestCase):
             dataset='01_s1',
             config_path='datamigration/res/metadata.yml',
             header_path=self.xml_path,
-            output_file_location='',
             output_file=self.output_name
         )
         if not self.__class__.is_set_up_done:
@@ -38,7 +37,7 @@ class TestNWBBuilder(unittest.TestCase):
 
     @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
-        with NWBHDF5IO(path=self.nwbBuilder.output_file_path, mode='r') as io:
+        with NWBHDF5IO(path=self.nwbBuilder.output_file, mode='r') as io:
             nwb_file = io.read()
             print(nwb_file)
             print('Details: ')
