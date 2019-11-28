@@ -9,20 +9,21 @@ from .experiment_data import ExperimentData
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+
 class TestNWBBuilder(unittest.TestCase):
 
     def setUp(self):
         # ToDo I pass path to our sample header due to lack of proper metadata. In sample header we have only 2 records for ElectrodeGroup to fabricate with our sample metadata.yml
         self.output_name = 'output.nwb'
-        self.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
-        self.xml_group = Header(self.xml_path).configuration.spike_configuration.spike_n_trodes
+        self.xml_path = ExperimentData.xml_path
+        self.xml_electrode_group = Header(self.xml_path).configuration.spike_configuration.spike_n_trodes
 
         self.nwbBuilder = NWBFileBuilder(
             data_path=ExperimentData.root_path,
-            animal_name='beans',
-            date='20190718',
+            animal_name=ExperimentData.animal_name,
+            date=ExperimentData.date,
             dataset='01_s1',
-            config_path='datamigration/res/metadata.yml',
+            config_path=ExperimentData.metadata_path,
             output_file_location='',
             output_file_name=self.output_name
         )
@@ -96,8 +97,8 @@ class TestNWBBuilder(unittest.TestCase):
             electrodegroup1 = nwb_file.electrode_groups['electrode group 1']
             electrodegroup2 = nwb_file.electrode_groups['electrode group 2']
 
-            xml_electrodegroup1 = self.xml_group[0]
-            xml_electrodegroup2 = self.xml_group[1]
+            xml_electrodegroup1 = self.xml_electrode_group[0]
+            xml_electrodegroup2 = self.xml_electrode_group[1]
 
             self.assertEqual(electrodegroup1.name, 'electrode group 1')
             self.assertEqual(electrodegroup1.description, 'some description 1')
@@ -146,8 +147,8 @@ class TestNWBBuilder(unittest.TestCase):
 
             electrode = nwb_file.electrodes
 
-            xml_electrodes1 = self.xml_group[0].spike_channels[0]
-            xml_electrodes4 = self.xml_group[1].spike_channels[1]
+            xml_electrodes1 = self.xml_electrode_group[0].spike_channels[0]
+            xml_electrodes4 = self.xml_electrode_group[1].spike_channels[1]
 
             self.assertEqual(electrode['x'][0], 1.0)
             self.assertEqual(electrode['y'][0], 1.0)
