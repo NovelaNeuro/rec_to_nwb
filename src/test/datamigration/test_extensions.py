@@ -14,9 +14,9 @@ class TestExtensions(unittest.TestCase):
 
     def setUp(self):
         self.nwb_file = NWBFile(session_description='demonstrate external files',
-                           identifier='NWBE1',
-                           session_start_time=start_time,
-                           file_create_date=create_date)
+                                identifier='NWBE1',
+                                session_start_time=start_time,
+                                file_create_date=create_date)
 
         self.probe = Probe(name='Probe1', probe_id='1')
         self.nwb_file.add_device(self.probe)
