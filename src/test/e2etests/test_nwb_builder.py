@@ -9,14 +9,15 @@ from .experiment_data import ExperimentData
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+
 class TestNWBBuilder(unittest.TestCase):
+    is_set_up_done = False
 
     def setUp(self):
         # ToDo I pass path to our sample header due to lack of proper metadata. In sample header we have only 2 records for ElectrodeGroup to fabricate with our sample metadata.yml
         self.output_name = 'output.nwb'
         self.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
         self.xml_group = Header(self.xml_path).configuration.spike_configuration.spike_n_trodes
-
         self.nwbBuilder = NWBFileBuilder(
             data_path=ExperimentData.root_path,
             animal_name='beans',
@@ -27,13 +28,16 @@ class TestNWBBuilder(unittest.TestCase):
             output_file_location='',
             output_file_name=self.output_name
         )
+        if not self.__class__.is_set_up_done:
+            self.run_nwb_generation_from_preprocessed_data()
+            self.__class__.is_set_up_done = True
 
-    @unittest.skip("Content generation")
-    def test_run_nwb_generation_from_preprocessed_data(self):
-        self.nwb_file_content = self.nwbBuilder.build()
+    def run_nwb_generation_from_preprocessed_data(self):
+        nwb_file_content = self.nwbBuilder.build_nwb()
+        self.nwbBuilder.write_nwb(nwb_file_content)
 
-    @unittest.skip("NWB file write")
-    def test_creating_nwb_file(self):
+    # @unittest.skip("NWB file read")
+    def test_read_nwb_file(self):
         with NWBHDF5IO(path=self.nwbBuilder.output_file_path, mode='r') as io:
             nwb_file = io.read()
             print(nwb_file)
@@ -44,7 +48,7 @@ class TestNWBBuilder(unittest.TestCase):
 
             print(nwb_file.electrodes)
 
-    @unittest.skip("No need to read it every time")
+    #@unittest.skip("No need to read it every time")
     def test_read_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -89,7 +93,7 @@ class TestNWBBuilder(unittest.TestCase):
             print(hwChan)
             print(triggerOn)
 
-    @unittest.skip("Need NWBFile")
+    #@unittest.skip("Need NWBFile")
     def test_check_electrode_groups(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -140,7 +144,7 @@ class TestNWBBuilder(unittest.TestCase):
             self.assertEqual(electrodegroup2.refOn, xml_electrodegroup2.ref_on)
             self.assertEqual(electrodegroup2.id, xml_electrodegroup2.id)
 
-    @unittest.skip("Need NWBFile")
+    # @unittest.skip("Need NWBFile")
     def test_check_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
