@@ -24,17 +24,17 @@ class TestNWBBuilder(unittest.TestCase):
             date='20190718',
             dataset='01_s1',
             config_path='datamigration/res/metadata.yml',
-            xml_path=self.xml_path,
+            header_path=self.xml_path,
             output_file_location='',
-            output_file_name=self.output_name
+            output_file=self.output_name
         )
         if not self.__class__.is_set_up_done:
             self.run_nwb_generation_from_preprocessed_data()
             self.__class__.is_set_up_done = True
 
     def run_nwb_generation_from_preprocessed_data(self):
-        nwb_file_content = self.nwbBuilder.build_nwb()
-        self.nwbBuilder.write_nwb(nwb_file_content)
+        nwb_file_content = self.nwbBuilder.build()
+        self.nwbBuilder.write(nwb_file_content)
 
     @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
