@@ -14,7 +14,7 @@ class TestHeaderGenerations(unittest.TestCase):
             xsd_path=ExperimentData.xsd_path
         )
 
-    @unittest.skip("DOES NOT WORK!!!")
+    @unittest.skip("Need rec files")
     def test_generation_xml(self):
         self.xml_extractor.extract_xml_from_rec_file()
         self.assertTrue(os.path.exists(
