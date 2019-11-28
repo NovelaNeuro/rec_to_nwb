@@ -16,7 +16,7 @@ class Probe(Device):
             {'name': 'probe_id', 'type': 'str', 'doc': 'unique id of the probe'},))
     def __init__(self, **kwargs):
         super().__init__(**{kwargs_item: kwargs[kwargs_item]
-                            for kwargs_item in kwargs.copy()
+                            for kwargs_item in kwargs
                             if kwargs_item != 'probe_id'
                             })
         call_docval_func(super(Probe, self).__init__, kwargs)
