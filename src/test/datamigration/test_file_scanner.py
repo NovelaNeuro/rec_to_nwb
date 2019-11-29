@@ -25,8 +25,9 @@ class TestFileScanner(unittest.TestCase):
                          self.data_folder.data['alien']['21251015']['01_s1'].get_data_path_from_dataset('mda'))
         self.assertEqual((path + '/res/scanner_test/alien/preprocessing/21251015/21251015_alien_01_s1.metadata/'),
                          self.data_folder.data['alien']['21251015']['01_s1'].get_data_path_from_dataset('metadata'))
-        self.assertEqual((path + '/res/scanner_test/alien/preprocessing/21251015/21251015_alien_01_s1.mountain/'),
-                         self.data_folder.data['alien']['21251015']['01_s1'].get_data_path_from_dataset('mountain'))
+        # in test data mountain folder is empty so its not uploaded to git
+        # self.assertEqual((path + '/res/scanner_test/alien/preprocessing/21251015/21251015_alien_01_s1.mountain/'),
+        # self.data_folder.data['alien']['21251015']['01_s1'].get_data_path_from_dataset('mountain'))
         self.assertEqual((path + '/res/scanner_test/alien/preprocessing/21251015/21251015_alien_01_s1.spikes/'),
                          self.data_folder.data['alien']['21251015']['01_s1'].get_data_path_from_dataset('spikes'))
         self.assertEqual((path + '/res/scanner_test/alien/preprocessing/21251015/21251015_alien_01_s1.time/'),
@@ -34,14 +35,15 @@ class TestFileScanner(unittest.TestCase):
 
     def test_number_of_files(self):
         self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('pos')), 3)
-        self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('DIO')), 8)
-        self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('LFP')), 5)
-        self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('mda')), 5)
+        self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('DIO')), 7)
+        self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('LFP')), 4)
+        self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('mda')), 4)
         self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('metadata')),
                          1)
-        self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('mountain')),
-                         0)
+        # in test data mountain folder is empty so its not uploaded to git
+        # self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('mountain')),
+        #                 0)
         self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('spikes')),
-                         4)
-        self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('time')),
                          3)
+        self.assertEqual(len(self.data_folder.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('time')),
+                         2)
