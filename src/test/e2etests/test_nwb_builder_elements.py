@@ -33,7 +33,7 @@ class TestNWBElementBuilder(unittest.TestCase):
 
     #@unittest.skip("NWB file read")
     def test_read_nwb_file(self):
-            nwb_file = cls.nwb_file_output
+            nwb_file = TestNWBElementBuilder.nwb_file_output
             print(nwb_file)
             print('Details: ')
             print('Position: ' + str(nwb_file.processing['position'].data_interfaces['Position']))
@@ -43,7 +43,7 @@ class TestNWBElementBuilder(unittest.TestCase):
 
     #@unittest.skip("Electrodes read")
     def test_read_electrodes(self):
-            nwb_file = cls.nwb_file_output
+            nwb_file = TestNWBElementBuilder.nwb_file_output
             electrodes_len = len(nwb_file.electrodes)
             x = []
             y = []
@@ -86,13 +86,13 @@ class TestNWBElementBuilder(unittest.TestCase):
             print(triggerOn)
 
     #@unittest.skip("Need NWBFile")
-    def test_check_electrode_groups(self, cls):
-            nwb_file = cls.nwb_file_output
+    def test_check_electrode_groups(self):
+            nwb_file = TestNWBElementBuilder.nwb_file_output
             electrodegroup1 = nwb_file.electrode_groups['electrode group 1']
             electrodegroup2 = nwb_file.electrode_groups['electrode group 2']
 
-            xml_electrodegroup1 = cls.xml_group[0]
-            xml_electrodegroup2 = cls.xml_group[1]
+            xml_electrodegroup1 = TestNWBElementBuilder.xml_group[0]
+            xml_electrodegroup2 = TestNWBElementBuilder.xml_group[1]
 
             self.assertEqual(electrodegroup1.name, 'electrode group 1')
             self.assertEqual(electrodegroup1.description, 'some description 1')
@@ -135,12 +135,12 @@ class TestNWBElementBuilder(unittest.TestCase):
             self.assertEqual(electrodegroup2.id, xml_electrodegroup2.id)
 
     #@unittest.skip("Need NWBFile")
-    def test_check_electrodes(self, cls):
-            nwb_file = cls.nwb_file_output
+    def test_check_electrodes(self):
+            nwb_file = TestNWBElementBuilder.nwb_file_output
             electrode = nwb_file.electrodes
 
-            xml_electrodes1 = cls.xml_group[0].spike_channels[0]
-            xml_electrodes4 = cls.xml_group[1].spike_channels[1]
+            xml_electrodes1 = TestNWBElementBuilder.xml_group[0].spike_channels[0]
+            xml_electrodes4 = TestNWBElementBuilder.xml_group[1].spike_channels[1]
 
             self.assertEqual(electrode['x'][0], 1.0)
             self.assertEqual(electrode['y'][0], 1.0)
@@ -170,7 +170,7 @@ class TestNWBElementBuilder(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        del cls.nwbBuilder
-        cls.nwb_file.close()
+        del TestNWBElementBuilder.nwbBuilder
+        TestNWBElementBuilder.nwb_file.close()
         if os.path.isfile('output.nwb'):
             os.remove('output.nwb')
