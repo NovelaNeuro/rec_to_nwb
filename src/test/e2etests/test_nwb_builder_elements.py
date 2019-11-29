@@ -31,7 +31,7 @@ class TestNWBElementBuilder(unittest.TestCase):
 
 
 
-    #@unittest.skip("NWB file read")
+    @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
             nwb_file = TestNWBElementBuilder.nwb_file_output
             print(nwb_file)
@@ -41,7 +41,7 @@ class TestNWBElementBuilder(unittest.TestCase):
             print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
             print(nwb_file.electrodes)
 
-    #@unittest.skip("Electrodes read")
+    @unittest.skip("Electrodes read")
     def test_read_electrodes(self):
             nwb_file = TestNWBElementBuilder.nwb_file_output
             electrodes_len = len(nwb_file.electrodes)
@@ -85,7 +85,7 @@ class TestNWBElementBuilder(unittest.TestCase):
             print(hwChan)
             print(triggerOn)
 
-    #@unittest.skip("Need NWBFile")
+    @unittest.skip("Need NWBFile")
     def test_check_electrode_groups(self):
             nwb_file = TestNWBElementBuilder.nwb_file_output
             electrodegroup1 = nwb_file.electrode_groups['electrode group 1']
@@ -134,7 +134,7 @@ class TestNWBElementBuilder(unittest.TestCase):
             self.assertEqual(electrodegroup2.refOn, xml_electrodegroup2.ref_on)
             self.assertEqual(electrodegroup2.id, xml_electrodegroup2.id)
 
-    #@unittest.skip("Need NWBFile")
+    @unittest.skip("Need NWBFile")
     def test_check_electrodes(self):
             nwb_file = TestNWBElementBuilder.nwb_file_output
             electrode = nwb_file.electrodes
