@@ -4,51 +4,30 @@ import unittest
 from pynwb import NWBHDF5IO
 
 from src.datamigration.header.module.header import Header
-from src.datamigration.nwb_file_builder import NWBFileBuilder
-from .experiment_data import ExperimentData
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestNWBBuilder(unittest.TestCase):
-    is_set_up_done = False
+class TestNWBElementBuilder(unittest.TestCase):
 
     def setUp(self):
         # ToDo I pass path to our sample header due to lack of proper metadata. In sample header we have only 2 records for ElectrodeGroup to fabricate with our sample metadata.yml
         self.output_name = 'output.nwb'
         self.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
         self.xml_group = Header(self.xml_path).configuration.spike_configuration.spike_n_trodes
-        self.nwbBuilder = NWBFileBuilder(
-            data_path=ExperimentData.root_path,
-            animal_name='beans',
-            date='20190718',
-            dataset='01_s1',
-            config_path='datamigration/res/metadata.yml',
-            xml_path=self.xml_path,
-            output_file_location='',
-            output_file_name=self.output_name
-        )
-        if not self.__class__.is_set_up_done:
-            self.run_nwb_generation_from_preprocessed_data()
-            self.__class__.is_set_up_done = True
-
-    def run_nwb_generation_from_preprocessed_data(self):
-        nwb_file_content = self.nwbBuilder.build_nwb()
-        self.nwbBuilder.write_nwb(nwb_file_content)
 
     @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
-        with NWBHDF5IO(path=self.nwbBuilder.output_file_path, mode='r') as io:
+        with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
             print(nwb_file)
             print('Details: ')
             print('Position: ' + str(nwb_file.processing['position'].data_interfaces['Position']))
             print('Task: ' + str(nwb_file.processing['task'].data_interfaces['novela task']))
             print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
-
             print(nwb_file.electrodes)
 
-    @unittest.skip("No need to read it every time")
+    @unittest.skip("Electrodes read")
     def test_read_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()

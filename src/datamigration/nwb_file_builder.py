@@ -1,6 +1,3 @@
-import logging
-import os
-
 from hdmf.common import VectorData, DynamicTable
 from mountainlab_pytools.mdaio import readmda
 from pynwb import NWBHDF5IO, NWBFile
@@ -15,29 +12,24 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 
 class NWBFileBuilder:
-    def __init__(self, data_path, animal_name, date, dataset, config_path, xml_path, output_file_location='',
-                 output_file_name='output.nwb'):
+
+    def __init__(self, data_path, animal_name, date, dataset, config_path, header_path, output_file='output.nwb'):
         self.data_folder = fs.DataScanner(data_path)
         self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
         self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
-        self.mda_file_count = len(self.data_folder.data[animal_name][date][dataset].
-                                  get_all_data_from_dataset('mda')) - 2  # timestamp and logging files are not counted
-        self.output_file_location = output_file_location
-        self.output_file_path = output_file_location + output_file_name
+        self.output_file = output_file
 
         for file in self.data_folder.data[animal_name][date][dataset].get_all_data_from_dataset('pos'):
             if file.endswith('pos_online.dat'):
                 self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
         self.metadata = MetadataExtractor(config_path)
+        self.header_path = header_path
+        self.spike_n_trodes = Header(header_path).configuration.spike_configuration.spike_n_trodes
 
-        self.spike_n_trodes = Header(xml_path).configuration.spike_configuration.spike_n_trodes
+    def build(self):
 
-    def build_nwb(self):
-        logging.debug('Begining nwb file build\n')
-        logging.debug('File Location: %s', os.path.abspath(self.output_file_location + self.output_file_path))
-
-        nwb_file_content = NWBFile(session_description=self.metadata.session_description,
+        content = NWBFile(session_description=self.metadata.session_description,
                                    experimenter=self.metadata.experimenter_name,
                                    lab=self.metadata.lab,
                                    institution=self.metadata.institution,
@@ -47,23 +39,133 @@ class NWBFileBuilder:
                                    subject=self.metadata.subject,
                                    )
 
-        nwb_file_content.create_processing_module(
-            name='task',
-            description='Sample description'
-        ).add_data_interface(self.metadata.task)
+        self.__build_task(content)
 
-        nwb_file_content.create_processing_module(
-            name='position',
-            description='Sample description'
-        ).add_data_interface(
-            self.pos_extractor.get_position()
+        self.__build_position(content)
+
+        self.__build_aparatus(content)
+
+        probes = self.__add_devices(content)
+
+        self.__build_shanks(content, probes, self.spike_n_trodes)
+
+        self.__add_electrodes(content)
+
+        self.__add_electrodes_extensions(content, self.spike_n_trodes)
+
+        self.__build_mda(content)
+        return content
+
+    def __create_region(self, content):
+        region = content.create_electrode_table_region(
+            description=self.metadata.electrode_regions[0]['description'],
+            region=self.metadata.electrode_regions[0]['region'])
+        return region
+
+    def __add_electrodes_extensions(self, content, spike_n_trodes):
+        maxDisp = []
+        triggerOn = []
+        hwChan = []
+        thresh = []
+        for trode in spike_n_trodes:
+            for channel in trode.spike_channels:
+                maxDisp.append(channel.max_disp)
+                triggerOn.append(channel.trigger_on)
+                hwChan.append(channel.hw_chan)
+                thresh.append(channel.thresh)
+        content.electrodes.add_column(
+            name='maxDisp',
+            description='maxDisp sample description',
+            data=maxDisp
+        )
+        content.electrodes.add_column(
+            name='thresh',
+            description='thresh sample description',
+            data=thresh
+        )
+        content.electrodes.add_column(
+            name='hwChan',
+            description='hwChan sample description',
+            data=hwChan
+        )
+        content.electrodes.add_column(
+            name='triggerOn',
+            description='triggerOn sample description',
+            data=triggerOn
         )
 
+    def __add_electrodes(self, content):
+        for electrode in self.metadata.electrodes:
+            content.add_electrode(
+                x=electrode['x'],
+                y=electrode['y'],
+                z=electrode['z'],
+                imp=electrode['imp'],
+                location=electrode['location'],
+                filtering=electrode['filtering'],
+                group=[content.electrode_groups[group_name] for group_name in content.electrode_groups
+                       if group_name == electrode['group']][0],
+                id=electrode['id'],
+            )
+
+    def __build_shanks(self, content, probes, spike_n_trodes):
+        shanks = []
+        for group_index, electrode_group_dict in enumerate(self.metadata.electrode_groups):
+            shank = self.__create_shank(electrode_group_dict, group_index, probes, spike_n_trodes)
+            shanks.append(shank)
+        for shank in shanks:
+            content.add_electrode_group(shank)
+
+    def __create_shank(self, electrode_group_dict, group_index, probes, spike_n_trodes):
+        shank = Shank(
+            name=electrode_group_dict['name'],
+            description=electrode_group_dict['description'],
+            location=electrode_group_dict['location'],
+            device=[probe for probe in probes
+                    if probe.name == electrode_group_dict['device']][0],
+            filterOn=spike_n_trodes[group_index].filter_on,
+            lowFilter=spike_n_trodes[group_index].low_filter,
+            lfpRefOn=spike_n_trodes[group_index].lfp_ref_on,
+            color=spike_n_trodes[group_index].color,
+            highFilter=spike_n_trodes[group_index].hight_filter,
+            lfpFilterOn=spike_n_trodes[group_index].lfp_filter_on,
+            moduleDataOn=spike_n_trodes[group_index].module_data_on,
+            LFPHighFilter=spike_n_trodes[group_index].lfp_high_filter,
+            refGroup=spike_n_trodes[group_index].ref_group,
+            LFPChan=spike_n_trodes[group_index].lfp_chan,
+            refNTrodeID=spike_n_trodes[group_index].ref_n_trode_id,
+            refChan=spike_n_trodes[group_index].ref_chan,
+            groupRefOn=spike_n_trodes[group_index].group_ref_on,
+            refOn=spike_n_trodes[group_index].ref_on,
+            id=spike_n_trodes[group_index].id,
+        )
+        return shank
+
+    def __add_devices(self, content):
+        probes = []
+        for counter, device_name in enumerate(self.metadata.devices):
+            probes.append(Probe(
+                name=device_name,
+                probe_id=str(counter)
+            )
+            )
+
+        for probe in probes:
+            content.add_device(probe)
+        return probes
+
+    def __build_mda(self, content):
+        timestamps = readmda(self.mda_timestamps_path)
+        mda_extractor = MdaExtractor(self.mda_path, timestamps)
+        electrode_table_region = self.__create_region(content)
+        series = mda_extractor.get_mda(electrode_table_region)
+        content.add_acquisition(series)
+
+    def __build_aparatus(self, content):
         apparatus_columns = []
         for counter, row in enumerate(self.metadata.apparatus):
             apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=row))
-
-        nwb_file_content.create_processing_module(
+        content.create_processing_module(
             name='apparatus',
             description='Sample description'
         ).add_data_interface(
@@ -75,105 +177,22 @@ class NWBFileBuilder:
             )
         )
 
-        for counter, device_name in enumerate(self.metadata.devices):
-            nwb_file_content.add_device(
-                Probe(
-                    name=device_name,
-                    probe_id=str(counter)
-                )
-            )
-
-        maxDisp = []
-        triggerOn = []
-        hwChan = []
-        thresh = []
-        for group_index, electrode_group_dict in enumerate(self.metadata.electrode_groups):
-            spike_channels = self.spike_n_trodes[group_index].spike_channels
-
-            nwb_file_content.add_electrode_group(
-                Shank(
-                    name=electrode_group_dict['name'],
-                    description=electrode_group_dict['description'],
-                    location=electrode_group_dict['location'],
-                    device=[nwb_file_content.devices[device_name] for device_name in nwb_file_content.devices
-                            if device_name == electrode_group_dict['device']][0],
-                    filterOn=self.spike_n_trodes[group_index].filter_on,
-                    lowFilter=self.spike_n_trodes[group_index].low_filter,
-                    lfpRefOn=self.spike_n_trodes[group_index].lfp_ref_on,
-                    color=self.spike_n_trodes[group_index].color,
-                    highFilter=self.spike_n_trodes[group_index].hight_filter,
-                    lfpFilterOn=self.spike_n_trodes[group_index].lfp_filter_on,
-                    moduleDataOn=self.spike_n_trodes[group_index].module_data_on,
-                    LFPHighFilter=self.spike_n_trodes[group_index].lfp_high_filter,
-                    refGroup=self.spike_n_trodes[group_index].ref_group,
-                    LFPChan=self.spike_n_trodes[group_index].lfp_chan,
-                    refNTrodeID=self.spike_n_trodes[group_index].ref_n_trode_id,
-                    refChan=self.spike_n_trodes[group_index].ref_chan,
-                    groupRefOn=self.spike_n_trodes[group_index].group_ref_on,
-                    refOn=self.spike_n_trodes[group_index].ref_on,
-                    id=self.spike_n_trodes[group_index].id,
-                )
-            )
-
-            for spike_channel in spike_channels:
-                maxDisp.append(spike_channel.max_disp)
-                triggerOn.append(spike_channel.trigger_on)
-                hwChan.append(spike_channel.hw_chan)
-                thresh.append(spike_channel.thresh)
-
-        for electrode in self.metadata.electrodes:
-            nwb_file_content.add_electrode(
-                x=electrode['x'],
-                y=electrode['y'],
-                z=electrode['z'],
-                imp=electrode['imp'],
-                location=electrode['location'],
-                filtering=electrode['filtering'],
-                group=[nwb_file_content.electrode_groups[group_name] for group_name in nwb_file_content.electrode_groups
-                       if group_name == electrode['group']][0],
-                id=electrode['id'],
-            )
-
-        nwb_file_content.electrodes.add_column(
-            name='maxDisp',
-            description='maxDisp sample description',
-            data=maxDisp
-        )
-        nwb_file_content.electrodes.add_column(
-            name='thresh',
-            description='thresh sample description',
-            data=thresh
-        )
-        nwb_file_content.electrodes.add_column(
-            name='hwChan',
-            description='hwChan sample description',
-            data=hwChan
-        )
-        nwb_file_content.electrodes.add_column(
-            name='triggerOn',
-            description='triggerOn sample description',
-            data=triggerOn
+    def __build_position(self, content):
+        content.create_processing_module(
+            name='position',
+            description='Sample description'
+        ).add_data_interface(
+            self.pos_extractor.get_position()
         )
 
-        for electrode_region in self.metadata.electrode_regions:
-            nwb_file_content.create_electrode_table_region(
-                name=electrode_region['name'],
-                description=electrode_region['description'],
-                region=electrode_region['region']
-            )
+    def __build_task(self, content):
+        content.create_processing_module(
+            name='task',
+            description='Sample description'
+        ).add_data_interface(self.metadata.task)
 
-        logging.debug('begining mda extraction')
-
-        timestamps = readmda(self.mda_timestamps_path)
-        mda_extractor = MdaExtractor(self.mda_path, timestamps)
-
-        electrode_table_region = nwb_file_content.create_electrode_table_region([0, 1], "first and second electrode")
-        series = mda_extractor.get_mda(electrode_table_region)
-        nwb_file_content.add_acquisition(series)
-        return nwb_file_content
-
-    def write_nwb(self, content):
-        with NWBHDF5IO(path=self.output_file_path, mode='w') as nwb_fileIO:
+    def write(self, content):
+        with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
             nwb_fileIO.write(content)
             nwb_fileIO.close()
-        return self.output_file_path
+        return self.output_file
