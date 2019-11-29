@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from src.datamigration.nwb_file_builder import NWBFileBuilder
@@ -11,8 +12,8 @@ class TestNwbFullGeneration(unittest.TestCase):
     def setUpClass(cls):
         cls.nwbBuilder = NWBFileBuilder(
             data_path=ExperimentData.root_path,
-            animal_name='beans',
-            date='20190718',
+            animal_name='jaq',
+            date='20190911',
             dataset='01_s1',
             config_path='datamigration/res/metadata.yml',
             header_path='datamigration/res/fl_lab_sample_header.xml')
@@ -25,3 +26,5 @@ class TestNwbFullGeneration(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         del cls.nwbBuilder
+        if os.path.isfile('output.nwb'):
+            os.remove('output.nwb')
