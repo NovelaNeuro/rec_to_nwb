@@ -5,6 +5,7 @@ import src.datamigration.file_scanner as fs
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+
 class TestFileScanner(unittest.TestCase):
     def setUp(self):
         self.data_folder = fs.DataScanner(path + '/res/scanner_test/')

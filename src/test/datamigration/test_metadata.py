@@ -2,6 +2,8 @@ import os
 import unittest
 
 import pytz
+from pynwb.epoch import TimeIntervals
+from pynwb.file import Subject
 
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 
@@ -16,6 +18,7 @@ class TestMetadata(unittest.TestCase):
     def test_reading_base_metadata(self):
         self.assertEqual('hulk', self.metadata.experimenter_name)
         self.assertEqual('hulk`s lab', self.metadata.lab)
+        self.assertEqual('stark industrice', self.metadata.institution)
         self.assertEqual('project avengers', self.metadata.experiment_description)
         self.assertEqual('winter soldier', self.metadata.session_description)
         self.assertEqual(12345, self.metadata.identifier)
@@ -23,6 +26,7 @@ class TestMetadata(unittest.TestCase):
 
     def test_reading_subject(self):
         self.assertIsNotNone(self.metadata.subject)
+        self.assertIsInstance(self.metadata.subject, Subject)
         self.assertEqual('23', self.metadata.subject.age)
         self.assertEqual('big bad thanos', self.metadata.subject.description)
         self.assertEqual('who knows', self.metadata.subject.genotype)
@@ -33,8 +37,17 @@ class TestMetadata(unittest.TestCase):
         self.assertEqual('06/16/2001', self.metadata.subject.date_of_birth.strftime("%m/%d/%Y"))
         self.assertEqual(pytz.timezone("America/Los_Angeles").zone, self.metadata.subject.date_of_birth.tzinfo.zone)
 
-    # todo implement after filling the examples
     def test_reading_task(self):
-        pass
+        self.assertIsNotNone(self.metadata.task)
+        self.assertIsInstance(self.metadata.task, TimeIntervals)
+        self.assertEqual('novela task', self.metadata.task.name)
+        self.assertEqual('some description', self.metadata.task.description)
+        self.assertEqual(('start_time', 'stop_time', 'tags'), self.metadata.task.colnames)
+        # self.assertEqual(['start_time' 'stop_time' 'tags'], self.metadata.task.columns)
+        # print(self.metadata.task.columns[0])
+
+
+
+
 
     # todo add missing tests for the new fields

@@ -137,7 +137,6 @@ class TestHeaderInterface(unittest.TestCase):
         self.assertEqual('1', spike_n_trode[1].module_data_on)
         self.assertEqual('10', spike_n_trode[1].ref_n_trode_id)
 
-
     def test_spike_channel_tag(self):
         spike_channels = \
             self.header.configuration.spike_configuration.spike_n_trodes[1].spike_channels
@@ -147,12 +146,3 @@ class TestHeaderInterface(unittest.TestCase):
         self.assertEqual('225', spike_channels[0].max_disp)
         self.assertEqual('60', spike_channels[0].thresh)
         self.assertEqual('1', spike_channels[0].trigger_on)
-
-
-
-
-
-
-
-
-

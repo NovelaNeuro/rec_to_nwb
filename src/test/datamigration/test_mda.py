@@ -25,7 +25,8 @@ class TestMDAMigration(unittest.TestCase):
         self.assertEqual(5, np.size(series.data, 1))
         self.assertEqual(12, np.size(series.data, 0))
 
-    def create_test_file(self):
+    @staticmethod
+    def create_test_file():
         nwb_file_content = NWBFile(session_description='session_description',
                                    experimenter='experimenter_name',
                                    lab='lab',

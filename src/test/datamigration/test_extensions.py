@@ -1,22 +1,22 @@
-from datetime import datetime
 import unittest
+from datetime import datetime
+
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 
-start_time = datetime(2017, 4, 3, 11, tzinfo=tzlocal())
-create_date = datetime(2017, 4, 15, 12, tzinfo=tzlocal())
-
 
 class TestExtensions(unittest.TestCase):
 
     def setUp(self):
-        self.nwb_file = NWBFile(session_description='demonstrate external files',
-                           identifier='NWBE1',
-                           session_start_time=start_time,
-                           file_create_date=create_date)
+        self.nwb_file = NWBFile(
+            session_description='demonstrate external files',
+            identifier='NWBE1',
+            session_start_time=datetime(2017, 4, 3, 11, tzinfo=tzlocal()),
+            file_create_date=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
+        )
 
         self.probe = Probe(name='Probe1', probe_id='1')
         self.nwb_file.add_device(self.probe)

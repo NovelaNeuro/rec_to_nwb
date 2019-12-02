@@ -16,7 +16,7 @@ class TestNWBElementBuilder(unittest.TestCase):
         self.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
         self.xml_group = Header(self.xml_path).configuration.spike_configuration.spike_n_trodes
 
-    @unittest.skip("NWB file read")
+    # @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
