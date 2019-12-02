@@ -10,21 +10,22 @@ from src.datamigration.extension.shank import Shank
 
 class TestExtensions(unittest.TestCase):
 
-    def setUp(self):
-        self.nwb_file = NWBFile(
+    @classmethod
+    def setUpClass(cls):
+        cls.nwb_file = NWBFile(
             session_description='demonstrate external files',
             identifier='NWBE1',
             session_start_time=datetime(2017, 4, 3, 11, tzinfo=tzlocal()),
             file_create_date=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
         )
 
-        self.probe = Probe(name='Probe1', probe_id='1')
-        self.nwb_file.add_device(self.probe)
-        self.shank = Shank(
+        cls.probe = Probe(name='Probe1', probe_id='1')
+        cls.nwb_file.add_device(cls.probe)
+        cls.shank = Shank(
             name='Shank1',
             description='sample description',
             location='sample location',
-            device=self.probe,
+            device=cls.probe,
             filterOn='filter on',
             lowFilter='low filter',
             lfpRefOn='lfp_ref_on',

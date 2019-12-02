@@ -7,8 +7,10 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestFileScanner(unittest.TestCase):
-    def setUp(self):
-        self.data_folder = fs.DataScanner(path + '/res/scanner_test/')
+
+    @classmethod
+    def setUpClass(cls):
+        cls.data_folder = fs.DataScanner(path + '/res/scanner_test/')
 
     def test_finding_all_datasets(self):
         self.assertEqual(len(self.data_folder.data.values()), 1)
