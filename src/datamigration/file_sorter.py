@@ -7,9 +7,8 @@ class FileSorter:
                 max_filename_length = len(filename)
             elif len(filename) < min_filename_length:
                 min_filename_length = len(filename)
-
         sorted_files = []
-        for i in range(min_filename_length, max_filename_length):
+        for i in range(min_filename_length, max_filename_length + 1):
             temp_data = []
             for filename in filenames:
                 if len(filename) == i:
