@@ -8,6 +8,7 @@ for index in range(32):
     index += 1
     d_in = readTrodesExtractedDataFile('C:/Users/wmery/PycharmProjects/LorenFranksDataMigration/src/test/test_data/jaq/preprocessing/20190911/20190911_jaq_01_s1.DIO/20190911_jaq_01_s1.dio_Din'+str(index)+'.dat')
     log.write(str(d_in))
+    log.write('\n')
     log.write(str(index))
 
 
