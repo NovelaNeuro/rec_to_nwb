@@ -2,7 +2,7 @@ import os
 import unittest
 
 from src.datamigration.xml_extractor import XMLExtractor
-from .experiment_data import ExperimentData
+from src.test.e2etests.experiment_data import ExperimentData
 
 
 class TestHeaderGenerations(unittest.TestCase):
@@ -14,6 +14,7 @@ class TestHeaderGenerations(unittest.TestCase):
             xsd_path=ExperimentData.xsd_path
         )
 
+    @unittest.skip("Need rec files")
     def test_generation_xml(self):
         self.xml_extractor.extract_xml_from_rec_file()
         self.assertTrue(os.path.exists(

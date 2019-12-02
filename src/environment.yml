@@ -14,7 +14,7 @@ dependencies:
   - elementpath
   - h5py
   - hdf5
-  - hdmf
+  - hdmf=1.3.3
   - idna
   - libblas
   - libcblas
@@ -24,13 +24,12 @@ dependencies:
   - numpy
   - openssl
   - pandas
-  - pip
   - pycparser
   - pynwb
   - pyopenssl
   - pysocks
   - python=3.7.4
-  - python-dateutil
+  - python-dateutil=2.8.0=py_0
   - pytz
   - requests
   - ruamel.yaml
@@ -45,5 +44,6 @@ dependencies:
   - zlib
   - rec_to_binaries
   - mountainlab_pytools
-
+  - vdom
+  - pip
 
