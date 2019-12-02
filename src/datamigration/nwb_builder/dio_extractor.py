@@ -53,4 +53,10 @@ with NWBHDF5IO('output_file.nwb', mode='w') as nwb_fileIO:
 
 
 with NWBHDF5IO('output_file.nwb', mode='r') as nwb_fileIO:
-    print((nwb_fileIO.read().processing['behaviour']['behavioral name'].get_timeseries('behavioral timeseries').data))
+    with open('log.txt', mode='w') as io:
+        for i in (nwb_fileIO.read().processing['behaviour']['behavioral name'].get_timeseries('behavioral timeseries').timestamps[:]):
+            io.write(str(i))
+        for i in ((nwb_fileIO.read().processing['behaviour']['behavioral name'].get_timeseries('behavioral timeseries').data[:])):
+            io.write(str(i))
+    print(nwb_fileIO.read().processing['behaviour']['behavioral name'].get_timeseries('behavioral timeseries').data[:])
+    print(nwb_fileIO.read().processing['behaviour']['behavioral name'].get_timeseries('behavioral timeseries').timestamps[:])
