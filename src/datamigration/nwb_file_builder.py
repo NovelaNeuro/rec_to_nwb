@@ -6,6 +6,7 @@ import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
+from src.datamigration.nwb_builder.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
@@ -13,7 +14,7 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, dataset, config_path, header_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, dataset, config_path, header_path, dio_path, output_file='output.nwb'):
         self.data_folder = fs.DataScanner(data_path)
         self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
         self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
@@ -26,18 +27,19 @@ class NWBFileBuilder:
         self.metadata = MetadataExtractor(config_path)
         self.header_path = header_path
         self.spike_n_trodes = Header(header_path).configuration.spike_configuration.spike_n_trodes
+        self.dio_path = dio_path
 
     def build(self):
 
         content = NWBFile(session_description=self.metadata.session_description,
-                                   experimenter=self.metadata.experimenter_name,
-                                   lab=self.metadata.lab,
-                                   institution=self.metadata.institution,
-                                   session_start_time=self.metadata.session_start_time,
-                                   identifier=str(self.metadata.identifier),
-                                   experiment_description=self.metadata.experiment_description,
-                                   subject=self.metadata.subject,
-                                   )
+                          experimenter=self.metadata.experimenter_name,
+                          lab=self.metadata.lab,
+                          institution=self.metadata.institution,
+                          session_start_time=self.metadata.session_start_time,
+                          identifier=str(self.metadata.identifier),
+                          experiment_description=self.metadata.experiment_description,
+                          subject=self.metadata.subject,
+                          )
 
         self.__build_task(content)
 
@@ -52,6 +54,8 @@ class NWBFileBuilder:
         self.__add_electrodes(content)
 
         self.__add_electrodes_extensions(content, self.spike_n_trodes)
+
+        self.__build_dio(content)
 
         self.__build_mda(content)
         return content
@@ -190,6 +194,14 @@ class NWBFileBuilder:
             name='task',
             description='Sample description'
         ).add_data_interface(self.metadata.task)
+
+    def __build_dio(self, content):
+        content.create_processing_module(
+            name='behavior',
+            description='Sample behavior description'
+        ).add_data_interface(
+            DioExtractor(self.dio_path).get_dio()
+        )
 
     def write(self, content):
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
