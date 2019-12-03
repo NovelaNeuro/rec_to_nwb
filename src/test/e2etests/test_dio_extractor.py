@@ -3,7 +3,7 @@ import src.datamigration.file_scanner as fs
 from src.datamigration.nwb_builder.dio_extractor import DioExtractor
 from src.test.e2etests.experiment_data import ExperimentData
 
-
+@unittest.skip('DIO reguire real dio files')
 class TestDio(unittest.TestCase):
 
     def setUp(self):
