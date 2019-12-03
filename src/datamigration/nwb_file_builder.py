@@ -62,7 +62,8 @@ class NWBFileBuilder:
             region=self.metadata.electrode_regions[0]['region'])
         return region
 
-    def __add_electrodes_extensions(self, content, spike_n_trodes):
+    @staticmethod
+    def __add_electrodes_extensions(content, spike_n_trodes):
         maxDisp = []
         triggerOn = []
         hwChan = []
@@ -116,7 +117,8 @@ class NWBFileBuilder:
         for shank in shanks:
             content.add_electrode_group(shank)
 
-    def __create_shank(self, electrode_group_dict, group_index, probes, spike_n_trodes):
+    @staticmethod
+    def __create_shank(electrode_group_dict, group_index, probes, spike_n_trodes):
         shank = Shank(
             name=electrode_group_dict['name'],
             description=electrode_group_dict['description'],
