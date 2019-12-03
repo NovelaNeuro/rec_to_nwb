@@ -28,6 +28,7 @@ class NWBFileBuilder:
         self.header_path = header_path
         self.spike_n_trodes = Header(header_path).configuration.spike_configuration.spike_n_trodes
         self.dio_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('DIO')
+        self.dio = DioExtractor(self.dio_path)
 
     def build(self):
 
@@ -200,7 +201,7 @@ class NWBFileBuilder:
             name='behavior',
             description='Sample behavior description'
         ).add_data_interface(
-            DioExtractor(self.dio_path).get_dio()
+            self.dio.get_dio()
         )
 
     def write(self, content):
