@@ -63,7 +63,8 @@ disable=R0902,
     protected-access,
     too-few-public-methods,
     # handled by black
-    format
+    format,
+    E1136
 
 
 [REPORTS]
