@@ -26,7 +26,7 @@ class MdaExtractor:
         mda_len = np.size(array_from_single_mda, 1)
         mda_num_rows = np.size(array_from_single_mda, 0)
         del array_from_single_mda
-        data = DataIterator(mda_files, mda_len, mda_num_rows, len(self.mda_data_paths))
+        data = DataIterator(mda_files, mda_len, mda_num_rows, len(self.mda_data))
 
         series = ecephys.ElectricalSeries(name="e-series",
                                           data=data,

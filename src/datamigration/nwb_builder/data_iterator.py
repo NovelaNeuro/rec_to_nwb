@@ -4,7 +4,7 @@ from mountainlab_pytools.mdaio import readmda
 
 class DataIterator(AbstractDataChunkIterator):
 
-    def __init__(self, path_to_files, channel_files, num_steps, num_rows, num_datasets):
+    def __init__(self, channel_files, num_steps, num_rows, num_datasets):
         self.shape = (num_rows * len(channel_files), num_steps * num_datasets)
         self.channel_files = channel_files
         self.num_steps = num_steps
