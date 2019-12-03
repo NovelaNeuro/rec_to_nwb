@@ -12,8 +12,8 @@ class TestNwbFullGeneration(unittest.TestCase):
     def setUpClass(cls):
         cls.nwbBuilder = NWBFileBuilder(
             data_path=ExperimentData.root_path,
-            animal_name='jaq',
-            date='20190911',
+            animal_name='beans',
+            date='20190718',
             dataset='01_s1',
             config_path='datamigration/res/metadata.yml',
             header_path='datamigration/res/fl_lab_sample_header.xml')
