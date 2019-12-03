@@ -14,7 +14,7 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, dataset, config_path, header_path, dio_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, dataset, config_path, header_path, output_file='output.nwb'):
         self.data_folder = fs.DataScanner(data_path)
         self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
         self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
@@ -27,7 +27,7 @@ class NWBFileBuilder:
         self.metadata = MetadataExtractor(config_path)
         self.header_path = header_path
         self.spike_n_trodes = Header(header_path).configuration.spike_configuration.spike_n_trodes
-        self.dio_path = dio_path
+        self.dio_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('DIO')
 
     def build(self):
 

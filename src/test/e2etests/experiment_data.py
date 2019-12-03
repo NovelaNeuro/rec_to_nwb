@@ -2,6 +2,7 @@ class ExperimentData:
     animal_name = 'jaq/'
     date = '20190911/'
     raw = 'raw/'
+    data_set = '01_s1'
     preprocessing = 'preprocessing/'
 
     mda_folder = '20190911_jaq_01_s1.mda/'
