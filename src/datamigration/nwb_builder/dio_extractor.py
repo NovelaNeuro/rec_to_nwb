@@ -11,16 +11,29 @@ class DioExtractor:
         self.dio_path = dio_path
 
     def get_dio(self):
-        behavioral_timestamps = []
-        behavioral_timeseries = []
+        behavioral_timestamps_in = []
+        behavioral_timeseries_in = []
+        behavioral_timestamps_out = []
+        behavioral_timeseries_out = []
         for filename in os.listdir(self.dio_path):
             if filename.endswith(".dat"):
                 dio_data = readTrodesExtractedDataFile(self.dio_path + '/' + filename)
-                for recorded_event in dio_data['data']:
-                    behavioral_timestamps.append(recorded_event[0])
-                    behavioral_timeseries.append(recorded_event[1])
+                if 'Din' in filename:
+                    for recorded_event in dio_data['data']:
+                        behavioral_timestamps_in.append(recorded_event[0])
+                        behavioral_timeseries_in.append(recorded_event[1])
+                else:
+                    for recorded_event in dio_data['data']:
+                        behavioral_timestamps_out.append(recorded_event[0])
+                        behavioral_timeseries_out.append(recorded_event[1])
 
         return BehavioralEvents(name='behavioral name',
-                                time_series=TimeSeries(name='behavioral timeseries',
-                                                       data=behavioral_timeseries,
-                                                       timestamps=behavioral_timestamps))
+                                time_series=[
+                                             TimeSeries(name='behavioral timeseries in',
+                                                        data=behavioral_timeseries_in,
+                                                        timestamps=behavioral_timestamps_in),
+                                             TimeSeries(name='behavioral timeseries out',
+                                                        data=behavioral_timeseries_out,
+                                                        timestamps=behavioral_timestamps_out)
+                                             ]
+                                )
