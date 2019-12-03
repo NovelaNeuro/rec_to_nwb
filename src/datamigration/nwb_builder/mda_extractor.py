@@ -10,16 +10,18 @@ from src.datamigration.nwb_builder.data_iterator import DataIterator
 class MdaExtractor:
 
     def __init__(self, path, mda_data, timestamps):
-        self.mda_data_paths = mda_data_paths[0]
+        self.path = path
+        self.mda_data = mda_data
         self.timestamps = timestamps
 
     def get_mda(self, electrode_table_region):
-        for path in self.mda_data:
-            mda_names = [mda_file for mda_file in os.listdir(self.mda_data_paths) if
+        mda_data_path = [self.path + mda_file for mda_file in self.mda_data]
+        for single_dataset_mda_data_path in mda_data_path:
+            mda_names = [mda_file for mda_file in os.listdir(single_dataset_mda_data_path) if
                          (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
             mda_files = []
             for mda_file in mda_names:
-                mda_files.append(path + mda_file)
+                mda_files.append(single_dataset_mda_data_path + mda_file)
         array_from_single_mda = readmda(mda_files[0])
         mda_len = np.size(array_from_single_mda, 1)
         mda_num_rows = np.size(array_from_single_mda, 0)
