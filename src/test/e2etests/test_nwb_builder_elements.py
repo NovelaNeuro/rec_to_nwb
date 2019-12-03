@@ -4,36 +4,22 @@ import unittest
 from pynwb import NWBHDF5IO
 
 from src.datamigration.header.module.header import Header
-from src.datamigration.nwb_file_builder import NWBFileBuilder
-from src.test.e2etests.experiment_data import ExperimentData
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestNWBElementBuilder(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        cls.nwbBuilder = NWBFileBuilder(
-            data_path=ExperimentData.root_path,
-            animal_name='jaq',
-            date='20190911',
-            dataset='01_s1',
-            config_path='datamigration/res/metadata.yml',
-            header_path='datamigration/res/fl_lab_sample_header.xml')
-
-        cls.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
-        cls.xml_group = Header(cls.xml_path).configuration.spike_configuration.spike_n_trodes
-
-        cls.nwbBuilder.write(cls.nwbBuilder.build())
-        cls.nwb_file = NWBHDF5IO('output.nwb', mode='r')
-        cls.nwb_file_output = cls.nwb_file.read()
-
-
+    def setUp(self):
+        # ToDo I pass path to our sample header due to lack of proper metadata. In sample header we have only 2 records for ElectrodeGroup to fabricate with our sample metadata.yml
+        self.output_name = 'output.nwb'
+        self.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
+        self.xml_group = Header(self.xml_path).configuration.spike_configuration.spike_n_trodes
 
     @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
-            nwb_file = TestNWBElementBuilder.nwb_file_output
+        with NWBHDF5IO(path=self.output_name, mode='r') as io:
+            nwb_file = io.read()
             print(nwb_file)
             print('Details: ')
             print('Position: ' + str(nwb_file.processing['position'].data_interfaces['Position']))
@@ -43,7 +29,8 @@ class TestNWBElementBuilder(unittest.TestCase):
 
     @unittest.skip("Electrodes read")
     def test_read_electrodes(self):
-            nwb_file = TestNWBElementBuilder.nwb_file_output
+        with NWBHDF5IO(path=self.output_name, mode='r') as io:
+            nwb_file = io.read()
             electrodes_len = len(nwb_file.electrodes)
             x = []
             y = []
@@ -87,12 +74,14 @@ class TestNWBElementBuilder(unittest.TestCase):
 
     @unittest.skip("Need NWBFile")
     def test_check_electrode_groups(self):
-            nwb_file = TestNWBElementBuilder.nwb_file_output
+        with NWBHDF5IO(path=self.output_name, mode='r') as io:
+            nwb_file = io.read()
+
             electrodegroup1 = nwb_file.electrode_groups['electrode group 1']
             electrodegroup2 = nwb_file.electrode_groups['electrode group 2']
 
-            xml_electrodegroup1 = TestNWBElementBuilder.xml_group[0]
-            xml_electrodegroup2 = TestNWBElementBuilder.xml_group[1]
+            xml_electrodegroup1 = self.xml_group[0]
+            xml_electrodegroup2 = self.xml_group[1]
 
             self.assertEqual(electrodegroup1.name, 'electrode group 1')
             self.assertEqual(electrodegroup1.description, 'some description 1')
@@ -136,11 +125,13 @@ class TestNWBElementBuilder(unittest.TestCase):
 
     @unittest.skip("Need NWBFile")
     def test_check_electrodes(self):
-            nwb_file = TestNWBElementBuilder.nwb_file_output
+        with NWBHDF5IO(path=self.output_name, mode='r') as io:
+            nwb_file = io.read()
+
             electrode = nwb_file.electrodes
 
-            xml_electrodes1 = TestNWBElementBuilder.xml_group[0].spike_channels[0]
-            xml_electrodes4 = TestNWBElementBuilder.xml_group[1].spike_channels[1]
+            xml_electrodes1 = self.xml_group[0].spike_channels[0]
+            xml_electrodes4 = self.xml_group[1].spike_channels[1]
 
             self.assertEqual(electrode['x'][0], 1.0)
             self.assertEqual(electrode['y'][0], 1.0)
@@ -167,10 +158,3 @@ class TestNWBElementBuilder(unittest.TestCase):
             self.assertEqual(electrode['maxDisp'][3], xml_electrodes4.max_disp)
             self.assertEqual(electrode['thresh'][3], xml_electrodes4.thresh)
             self.assertEqual(electrode['triggerOn'][3], xml_electrodes4.trigger_on)
-
-    @classmethod
-    def tearDownClass(cls):
-        del TestNWBElementBuilder.nwbBuilder
-        TestNWBElementBuilder.nwb_file.close()
-        if os.path.isfile('output.nwb'):
-            os.remove('output.nwb')
