@@ -15,7 +15,10 @@ class NWBFileBuilder:
 
     def __init__(self, data_path, animal_name, date, dataset, config_path, header_path, output_file='output.nwb'):
         self.data_folder = fs.DataScanner(data_path)
-        self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
+        self.mda_paths = [];
+        for current_dataset in self.data_folder.get_all_datasets(animal_name, date):
+            self.mda_paths.append(
+                self.data_folder.data[animal_name][date][current_dataset].get_data_path_from_dataset('mda'))
         self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
         self.output_file = output_file
 
@@ -30,14 +33,14 @@ class NWBFileBuilder:
     def build(self):
 
         content = NWBFile(session_description=self.metadata.session_description,
-                                   experimenter=self.metadata.experimenter_name,
-                                   lab=self.metadata.lab,
-                                   institution=self.metadata.institution,
-                                   session_start_time=self.metadata.session_start_time,
-                                   identifier=str(self.metadata.identifier),
-                                   experiment_description=self.metadata.experiment_description,
-                                   subject=self.metadata.subject,
-                                   )
+                          experimenter=self.metadata.experimenter_name,
+                          lab=self.metadata.lab,
+                          institution=self.metadata.institution,
+                          session_start_time=self.metadata.session_start_time,
+                          identifier=str(self.metadata.identifier),
+                          experiment_description=self.metadata.experiment_description,
+                          subject=self.metadata.subject,
+                          )
 
         self.__build_task(content)
 
@@ -156,7 +159,7 @@ class NWBFileBuilder:
 
     def __build_mda(self, content):
         timestamps = readmda(self.mda_timestamps_path)
-        mda_extractor = MdaExtractor(self.mda_path, timestamps)
+        mda_extractor = MdaExtractor(self.mda_paths, timestamps)
         electrode_table_region = self.__create_region(content)
         series = mda_extractor.get_mda(electrode_table_region)
         content.add_acquisition(series)
