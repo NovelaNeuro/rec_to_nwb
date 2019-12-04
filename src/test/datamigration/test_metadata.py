@@ -17,9 +17,9 @@ class TestMetadata(unittest.TestCase):
         cls.metadata = MetadataExtractor(config_path=path + '/res/metadata.yml')
 
     def test_reading_rec_link(self):
-        self.assertIsNotNone(self.metadata.link_to_rec)
+        self.assertIsNotNone(self.metadata.rec_file_link)
         self.assertEqual('https://drive.google.com/open?id=1jIsDYgNsrmEDkFT0XLlIZY3LwVDLXa7H',
-                         self.metadata.link_to_rec)
+                         self.metadata.rec_file_link)
 
     def test_reading_base_metadata(self):
         self.assertEqual('hulk', self.metadata.experimenter_name)
