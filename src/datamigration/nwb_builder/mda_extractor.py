@@ -9,13 +9,12 @@ from src.datamigration.nwb_builder.data_iterator import DataIterator
 
 class MdaExtractor:
 
-    def __init__(self, path, mda_data, timestamps):
-        self.path = path
+    def __init__(self, mda_data, timestamps):
         self.mda_data = mda_data
         self.timestamps = timestamps
 
     def get_mda(self, electrode_table_region):
-        mda_data_path = [self.path + mda_file for mda_file in self.mda_data]
+        mda_data_path = [mda_file for mda_file in self.mda_data]
         for single_dataset_mda_data_path in mda_data_path:
             mda_names = [mda_file for mda_file in os.listdir(single_dataset_mda_data_path) if
                          (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
@@ -26,7 +25,7 @@ class MdaExtractor:
         mda_len = np.size(array_from_single_mda, 1)
         mda_num_rows = np.size(array_from_single_mda, 0)
         del array_from_single_mda
-        data = DataIterator(mda_files, mda_len, mda_num_rows, len(self.mda_data))
+        data = DataIterator(mda_files, mda_len, mda_num_rows, 1)
 
         series = ecephys.ElectricalSeries(name="e-series",
                                           data=data,
