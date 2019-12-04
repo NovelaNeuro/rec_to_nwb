@@ -2,6 +2,7 @@ class ExperimentData:
     animal_name = 'beans/'
     date = '20190718/'
     raw = 'raw/'
+    data_set = '01_s1'
     preprocessing = 'preprocessing/'
 
     mda_folder = '20190718_beans_01_s1.mda/'
@@ -10,6 +11,8 @@ class ExperimentData:
 
     pos_folder = '20190718_beans_01_s1.1.pos/'
     pos_file = '20190718_beans_01_s1.1.pos_online.dat'
+
+    dio_folder = '20190718_beans_01_s1.DIO/'
 
     root_path = 'test_data/'
     raw_root_path = root_path + animal_name + raw

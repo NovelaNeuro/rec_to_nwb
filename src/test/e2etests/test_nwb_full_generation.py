@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from src.datamigration.nwb_file_builder import NWBFileBuilder
@@ -26,3 +27,5 @@ class TestNwbFullGeneration(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         del cls.nwbBuilder
+        if os.path.isfile('output.nwb'):
+            os.remove('output.nwb')
