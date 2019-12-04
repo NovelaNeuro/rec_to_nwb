@@ -11,6 +11,7 @@ class MetadataExtractor:
     def __init__(self, config_path):
         with open(config_path, 'r') as stream:
             metadata_dict = yaml.safe_load(stream)
+            self.rec_file_link = metadata_dict['rec file link']
             self.experimenter_name = metadata_dict['experimenter name']
             self.lab = metadata_dict['lab']
             self.institution = metadata_dict['institution']

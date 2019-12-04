@@ -11,9 +11,10 @@ from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 
 class TestMDAMigration(unittest.TestCase):
 
-    def setUp(self):
-        self.path = os.path.dirname(os.path.abspath(__file__))
-        self.create_test_file()
+    @classmethod
+    def setUpClass(cls):
+        cls.path = os.path.dirname(os.path.abspath(__file__))
+        cls.create_test_file()
 
     def test_reading_mda(self):
         nwb_file_content = self.create_test_file()
