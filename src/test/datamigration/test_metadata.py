@@ -45,9 +45,9 @@ class TestMetadata(unittest.TestCase):
 
     def test_reading_task(self):
         """
-        We take slices self.metadata.task['start_time'][:],
-        we also can take first element: self.metadata.task['start_time'][0],
-        but can`t take whole object self.metadata.task['start_time']
+            We take slices self.metadata.task['start_time'][:],
+            we also can take first element: self.metadata.task['start_time'][0],
+            but can`t take whole object self.metadata.task['start_time']
         """
         self.assertIsNotNone(self.metadata.task)
         self.assertIsInstance(self.metadata.task, TimeIntervals)
