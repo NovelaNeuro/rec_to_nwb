@@ -16,7 +16,8 @@ class TestNwbFullGeneration(unittest.TestCase):
             date='20190718',
             dataset='01_s1',
             config_path='datamigration/res/metadata.yml',
-            header_path='datamigration/res/fl_lab_sample_header.xml')
+            header_path='datamigration/res/fl_lab_sample_header.xml'
+        )
 
     def test_generate_nwb(self):
         content = self.nwbBuilder.build()
