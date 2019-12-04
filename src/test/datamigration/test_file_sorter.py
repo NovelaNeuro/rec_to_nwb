@@ -12,9 +12,10 @@ class TestFilenameSorter(unittest.TestCase):
         self.sorted_strings = self.file_sorter.sort_filenames(self.strings_to_sort)
         self.sorted_filenames = self.file_sorter.sort_filenames(self.filenames_to_sort)
 
+    def test_string_sorting(self):
+        self.assertEqual(self.sorted_strings, self.correct_order_of_strings)
 
     def test_filename_sorting(self):
-        self.assertEqual(self.sorted_strings, self.correct_order_of_strings)
         self.assertEqual(self.sorted_filenames[1], '20190718_beans_01_s1.nt2.mda')
         self.assertEqual(self.sorted_filenames[9], '20190718_beans_01_s1.nt10.mda')
         self.assertEqual(self.sorted_filenames[18], '20190718_beans_01_s1.nt19.mda')
