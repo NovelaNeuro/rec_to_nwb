@@ -32,15 +32,16 @@ class NWBFileBuilder:
 
     def build(self):
 
-        content = NWBFile(session_description=self.metadata.session_description,
-                          experimenter=self.metadata.experimenter_name,
-                          lab=self.metadata.lab,
-                          institution=self.metadata.institution,
-                          session_start_time=self.metadata.session_start_time,
-                          identifier=str(self.metadata.identifier),
-                          experiment_description=self.metadata.experiment_description,
-                          subject=self.metadata.subject,
-                          )
+        content = NWBFile(
+            session_description=self.metadata.session_description,
+            experimenter=self.metadata.experimenter_name,
+            lab=self.metadata.lab,
+            institution=self.metadata.institution,
+            session_start_time=self.metadata.session_start_time,
+            identifier=str(self.metadata.identifier),
+            experiment_description=self.metadata.experiment_description,
+            subject=self.metadata.subject,
+        )
 
         self.__build_task(content)
 
