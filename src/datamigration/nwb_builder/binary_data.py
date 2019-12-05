@@ -26,16 +26,3 @@ class MdaData(BinaryData):
     def read_data(self, dataset_num, file_num):
         return readmda(self.directories[dataset_num][file_num])
 
-
-if __name__ == "__main__":
-    path = 'C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/'
-    directories = []
-    dataset1 = []
-    dataset2 = []
-    for i in range(1, 4):
-        dataset1.append(path + '20190718_beans_01_s1.nt' + str(i) + '.mda')
-        dataset2.append(path + '20190718_beans_01_s1.nt' + str(i) + '.mda')
-    directories.append(dataset1)
-    directories.append(dataset2)
-    mdadata = MdaData(directories)
-    print(mdadata.get_final_data_shape())
