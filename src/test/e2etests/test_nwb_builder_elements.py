@@ -19,16 +19,19 @@ class TestNWBElementBuilder(unittest.TestCase):
         cls.xml_group = Header(cls.xml_path).configuration.spike_configuration.spike_n_trodes
         cls.metadata = MetadataExtractor(config_path=path + '../../datamigration/res/metadata.yml')
 
-    @unittest.skip("NWB file read")
+    # @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
+            # print(nwb_file)
             print(nwb_file)
-            print('Details: ')
-            print('Position: ' + str(nwb_file.processing['position'].data_interfaces['Position']))
-            print('Task: ' + str(nwb_file.processing['task'].data_interfaces['novela task']))
-            print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
-            print(nwb_file.electrodes)
+            print(str(nwb_file))
+            print(nwb_file.__repr__())
+            # print('Details: ')
+            # print('Position: ' + str(nwb_file.processing['position'].data_interfaces['Position']))
+            # print('Task: ' + str(nwb_file.processing['task'].data_interfaces['novela task']))
+            # print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
+            # print(nwb_file.electrodes)
 
     @unittest.skip("Electrodes read")
     def test_read_electrodes(self):
