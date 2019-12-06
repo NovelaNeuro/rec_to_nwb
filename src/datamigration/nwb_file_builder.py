@@ -1,9 +1,8 @@
 from hdmf.common import VectorData, DynamicTable
 from mountainlab_pytools.mdaio import readmda
-from pynwb import NWBHDF5IO
+from pynwb import NWBHDF5IO, NWBFile
 
 import src.datamigration.file_scanner as fs
-from src.datamigration.extension.nwbfile import FLNWBFile
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
@@ -33,7 +32,7 @@ class NWBFileBuilder:
 
     def build(self):
 
-        content = FLNWBFile(
+        content = NWBFile(
             session_description=self.metadata.session_description,
             experimenter=self.metadata.experimenter_name,
             lab=self.metadata.lab,

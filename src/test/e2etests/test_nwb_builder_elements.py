@@ -5,33 +5,43 @@ from pynwb import NWBHDF5IO
 
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
+from src.datamigration.nwb_file_builder import NWBFileBuilder
+from src.test.e2etests.experiment_data import ExperimentData
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestNWBElementBuilder(unittest.TestCase):
 
+    # ToDo Make one module from test_nwb_builder_elements and test_nwb_full_generation. Make setUpModule() and tearDownModule
     @classmethod
     def setUpClass(cls):
-        # ToDo I pass path to our sample header due to lack of proper metadata. In sample header we have only 2 records for ElectrodeGroup to fabricate with our sample metadata.yml
-        cls.output_name = 'output.nwb'
-        cls.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
+        cls.output_name = path + '../../output.nwb'
+        cls.xml_path = path + '../../datamigration/res/fl_lab_sample_header.xml'
         cls.xml_group = Header(cls.xml_path).configuration.spike_configuration.spike_n_trodes
         cls.metadata = MetadataExtractor(config_path=path + '../../datamigration/res/metadata.yml')
 
-    # @unittest.skip("NWB file read")
+        cls.nwbBuilder = NWBFileBuilder(
+            data_path=ExperimentData.root_path,
+            animal_name='beans',
+            date='20190718',
+            dataset='01_s1',
+            config_path='datamigration/res/metadata.yml',
+            header_path='datamigration/res/fl_lab_sample_header.xml'
+        )
+        content = cls.nwbBuilder.build()
+        cls.nwbBuilder.write(content)
+
+    @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
-            # print(nwb_file)
             print(nwb_file)
-            print(str(nwb_file))
-            print(nwb_file.__repr__())
-            # print('Details: ')
-            # print('Position: ' + str(nwb_file.processing['position'].data_interfaces['Position']))
-            # print('Task: ' + str(nwb_file.processing['task'].data_interfaces['novela task']))
-            # print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
-            # print(nwb_file.electrodes)
+            print('Details: ')
+            print('Position: ' + str(nwb_file.processing['position'].data_interfaces['Position']))
+            print('Task: ' + str(nwb_file.processing['task'].data_interfaces['novela task']))
+            print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
+            print(nwb_file.electrodes)
 
     @unittest.skip("Electrodes read")
     def test_read_electrodes(self):
@@ -167,3 +177,9 @@ class TestNWBElementBuilder(unittest.TestCase):
         self.assertEqual(nwb_file.electrodes['maxDisp'][electrode_index], xml_electrode.max_disp)
         self.assertEqual(nwb_file.electrodes['thresh'][electrode_index], xml_electrode.thresh)
         self.assertEqual(nwb_file.electrodes['triggerOn'][electrode_index], xml_electrode.trigger_on)
+
+    @classmethod
+    def tearDownClass(cls):
+        del cls.nwbBuilder
+        if os.path.isfile('output.nwb'):
+            os.remove('output.nwb')
