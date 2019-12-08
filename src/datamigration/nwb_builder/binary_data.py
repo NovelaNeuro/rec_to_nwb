@@ -10,7 +10,7 @@ class BinaryData:
         self.file_lenghts = [self.get_data_shape(i)[1] for i in range(self.num_datasets)]
 
     def get_final_data_shape(self):
-        return [self.num_rows_per_file * self.single_dataset_len, sum(self.file_lenghts)]
+        return self.num_rows_per_file * self.single_dataset_len, sum(self.file_lenghts)
 
 
     def read_data(self, dataset_num, file_num):

@@ -12,6 +12,7 @@ class DataIterator(AbstractDataChunkIterator):
         self.__curr_index = 0
         self.current_file = 0
         self.current_dataset = 0
+        self.dataset_file_lenght = data.file_lenghts
         self.num_rows = data.num_rows_per_file
         self.num_files_in_single_dataset = data.single_dataset_len
 
@@ -23,10 +24,9 @@ class DataIterator(AbstractDataChunkIterator):
             new_data = self.data.read_data(self.current_dataset, self.current_file)
             chunk = DataChunk(data=new_data,
                               selection=np.s_[((self.current_file) * self.num_rows):
-                                              ((((self.current_file) + 1) * self.num_rows)),
-                                        (self.current_dataset * self.num_steps):
-                                        ((self.current_dataset + 1) *
-                                         self.num_steps)])
+                                              (((self.current_file) + 1) * self.num_rows),
+                                        sum(self.dataset_file_lenght[0:self.current_dataset]):
+                                        sum(self.dataset_file_lenght[0:self.current_dataset + 1])])
             self.__curr_index += 1
             self.current_file += 1
             if self.current_file >= self.num_files_in_single_dataset:
