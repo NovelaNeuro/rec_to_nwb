@@ -17,7 +17,7 @@ class TestNWBElementBuilder(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.output_name = path + '../../output.nwb'
-        cls.xml_path = path + '../../test/datamigration/res/fl_lab_sample_header.xml'
+        cls.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
         cls.xml_group = Header(cls.xml_path).configuration.spike_configuration.spike_n_trodes
         cls.metadata = MetadataExtractor(config_path=path + '../../datamigration/res/metadata.yml')
 
