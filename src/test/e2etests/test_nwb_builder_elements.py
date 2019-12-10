@@ -16,7 +16,7 @@ class TestNWBElementBuilder(unittest.TestCase):
         self.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
         self.xml_group = Header(self.xml_path).configuration.spike_configuration.spike_n_trodes
 
-    @unittest.skip("NWB file read")
+    # @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -27,7 +27,7 @@ class TestNWBElementBuilder(unittest.TestCase):
             print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
             print(nwb_file.electrodes)
 
-    @unittest.skip("Electrodes read")
+    # @unittest.skip("Electrodes read")
     def test_read_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -72,7 +72,7 @@ class TestNWBElementBuilder(unittest.TestCase):
             print(hwChan)
             print(triggerOn)
 
-    @unittest.skip("Need NWBFile")
+    #  @unittest.skip("Need NWBFile")
     def test_check_electrode_groups(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -123,7 +123,7 @@ class TestNWBElementBuilder(unittest.TestCase):
             self.assertEqual(electrodegroup2.refOn, xml_electrodegroup2.ref_on)
             self.assertEqual(electrodegroup2.id, xml_electrodegroup2.id)
 
-    @unittest.skip("Need NWBFile")
+    # @unittest.skip("Need NWBFile")
     def test_check_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()

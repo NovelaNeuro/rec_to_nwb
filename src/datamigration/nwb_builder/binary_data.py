@@ -12,7 +12,6 @@ class BinaryData:
     def get_final_data_shape(self):
         return self.num_rows_per_file * self.single_dataset_len, sum(self.file_lenghts)
 
-
     def read_data(self, dataset_num, file_num):
         return [0]  # to be overloaded by inheriting classes
 
@@ -26,3 +25,15 @@ class MdaData(BinaryData):
     def read_data(self, dataset_num, file_num):
         return readmda(self.directories[dataset_num][file_num])
 
+
+class MdaTimestamps(BinaryData):
+    def read_data(self, dataset_num, file_num):
+        return readmda(self.directories[dataset_num][file_num])
+
+    def get_data_shape(self, dataset_num):
+        dim1 = 1
+        dim2 = np.size(self.read_data(dataset_num, 0), 0)
+        return dim1, dim2
+
+    def get_final_data_shape(self):
+        return sum(self.file_lenghts)

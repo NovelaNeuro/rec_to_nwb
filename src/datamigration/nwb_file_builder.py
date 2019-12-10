@@ -1,5 +1,4 @@
 from hdmf.common import VectorData, DynamicTable
-from mountainlab_pytools.mdaio import readmda
 from pynwb import NWBHDF5IO, NWBFile
 
 import src.datamigration.file_scanner as fs
@@ -13,18 +12,20 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, dataset, config_path, header_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, dataset1, config_path, header_path, output_file='output.nwb'):
+        self.animal_name = animal_name
+        self.date = date
+
         self.data_folder = fs.DataScanner(data_path)
-        self.mda_paths = [];
-        for current_dataset in self.data_folder.get_all_datasets(animal_name, date):
-            self.mda_paths.append(
-                self.data_folder.data[animal_name][date][current_dataset].get_data_path_from_dataset('mda'))
-        self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
+        self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
+        self.datasets = [self.data_folder.data[animal_name][date][dataset] for dataset in self.dataset_names]
+
+        self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset1)
         self.output_file = output_file
 
-        for file in self.data_folder.data[animal_name][date][dataset].get_all_data_from_dataset('pos'):
+        for file in self.data_folder.data[animal_name][date][dataset1].get_all_data_from_dataset('pos'):
             if file.endswith('pos_online.dat'):
-                self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
+                self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset1].
                                                   get_data_path_from_dataset('pos') + file)
         self.metadata = MetadataExtractor(config_path)
         self.header_path = header_path
@@ -158,8 +159,15 @@ class NWBFileBuilder:
         return probes
 
     def __build_mda(self, content):
-        timestamps = readmda(self.mda_timestamps_path)
-        mda_extractor = MdaExtractor(self.mda_paths, timestamps)
+        all_mda = []
+        timestamps = []
+        for dataset in self.datasets:
+            data_from_current_dataset = [dataset.get_data_path_from_dataset('mda') + mda_file for mda_file in
+                                         dataset.get_all_data_from_dataset('mda') if
+                                         (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
+            all_mda.append(data_from_current_dataset)
+            timestamps.append(self.data_folder.get_mda_timestamps(self.animal_name, self.date, dataset.name))
+        mda_extractor = MdaExtractor(all_mda, timestamps)
         electrode_table_region = self.__create_region(content)
         series = mda_extractor.get_mda(electrode_table_region)
         content.add_acquisition(series)
