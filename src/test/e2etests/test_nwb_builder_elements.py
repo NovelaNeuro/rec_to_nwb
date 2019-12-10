@@ -11,6 +11,7 @@ from src.test.e2etests.experiment_data import ExperimentData
 path = os.path.dirname(os.path.abspath(__file__))
 
 
+@unittest.skip("Need NWBFile")
 class TestNWBElementBuilder(unittest.TestCase):
 
     # ToDo Make one module from test_nwb_builder_elements and test_nwb_full_generation. Make setUpModule() and tearDownModule
@@ -32,7 +33,6 @@ class TestNWBElementBuilder(unittest.TestCase):
         content = cls.nwbBuilder.build()
         cls.nwbBuilder.write(content)
 
-    @unittest.skip("NWB file read")
     def test_read_nwb_file(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -43,7 +43,6 @@ class TestNWBElementBuilder(unittest.TestCase):
             print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
             print(nwb_file.electrodes)
 
-    @unittest.skip("Electrodes read")
     def test_read_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -88,7 +87,6 @@ class TestNWBElementBuilder(unittest.TestCase):
             print(hwChan)
             print(triggerOn)
 
-    @unittest.skip("Need NWBFile")
     def test_check_electrode_groups(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -107,7 +105,6 @@ class TestNWBElementBuilder(unittest.TestCase):
             self.assert_electrode_group(nwb_file, electrode_group_1, metadata_electrode_group_index_1,
                                         xml_electrode_group_1)
 
-    @unittest.skip("Need NWBFile")
     def test_check_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
