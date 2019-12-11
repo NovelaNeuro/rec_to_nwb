@@ -23,8 +23,8 @@ class TestMDAMigration(unittest.TestCase):
         mda_extractor = MdaExtractor(mda_files, timestamps)
         series = mda_extractor.get_mda(electrode_table_region)
         self.assertEqual(100, np.size(series.timestamps, 0))
-        self.assertEqual(5, np.size(series.data, 1))
-        self.assertEqual(12, np.size(series.data, 0))
+        self.assertEqual(12, np.size(series.data, 1))
+        self.assertEqual(5, np.size(series.data, 0))
 
     @staticmethod
     def create_test_file():

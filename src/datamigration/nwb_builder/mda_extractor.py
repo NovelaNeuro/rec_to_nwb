@@ -8,13 +8,11 @@ class MdaExtractor:
 
     def __init__(self, mda_data, timestamps):
         self.mda_data = mda_data
-        print(mda_data)
         self.timestamps = timestamps
-        print(timestamps)
 
     def get_mda(self, electrode_table_region):
         data = MdaData(self.mda_data)
-        extracted_data = DataIterator(data)
+        extracted_data = DataIterator(data, transpose=True)
         timestamps = MdaTimestamps([self.timestamps])
         extracted_timestamps = DataIterator1D(timestamps)
         series = ecephys.ElectricalSeries(name="e-series",
