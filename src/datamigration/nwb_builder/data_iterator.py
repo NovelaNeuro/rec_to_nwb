@@ -1,25 +1,37 @@
 import numpy as np
 from hdmf.data_utils import AbstractDataChunkIterator, DataChunk
-from mountainlab_pytools.mdaio import readmda
+
 
 class DataIterator(AbstractDataChunkIterator):
 
-    def __init__(self, channel_files, num_steps, num_rows):
-        self.shape = (num_rows * len(channel_files), num_steps)
-        self.channel_files = channel_files
-        self.num_steps = num_steps
+    def __init__(self, data):
+        self.data = data
+        self.files = data.directories
+        self.num_steps = data.num_datasets * data.single_dataset_len
         self.__curr_index = 0
-        self.num_rows = num_rows
+        self.current_file = 0
+        self.current_dataset = 0
+        self.dataset_file_lenght = data.file_lenghts
+        self.num_rows = data.num_rows_per_file
+        self.num_files_in_single_dataset = data.single_dataset_len
+        self.shape = data.get_final_data_shape()
+
     def __iter__(self):
         return self
 
     def __next__(self):
-        if self.__curr_index < len(self.channel_files):
-            new_data = readmda(self.channel_files[self.__curr_index])
+        if self.__curr_index < self.num_steps:
+            new_data = self.data.read_data(self.current_dataset, self.current_file)
             chunk = DataChunk(data=new_data,
-                              selection=np.s_[((self.__curr_index) *
-                                               self.num_rows):((((self.__curr_index) + 1) * self.num_rows)), :])
+                              selection=np.s_[(self.current_file * self.num_rows):
+                                              ((self.current_file + 1) * self.num_rows),
+                                        sum(self.dataset_file_lenght[0:self.current_dataset]):
+                                        sum(self.dataset_file_lenght[0:self.current_dataset + 1])])
             self.__curr_index += 1
+            self.current_file += 1
+            if self.current_file >= self.num_files_in_single_dataset:
+                self.current_dataset += 1
+                self.current_file = 0
             del new_data
             return chunk
         raise StopIteration
@@ -39,3 +51,28 @@ class DataIterator(AbstractDataChunkIterator):
     @property
     def maxshape(self):
         return self.shape
+
+
+class DataIterator1D(DataIterator):
+
+    def __init__(self, data):
+        self.data = data
+        self.files = data.directories
+        self.num_steps = data.num_datasets
+        self.__curr_index = 0
+        self.current_dataset = 0
+        self.dataset_file_lenght = data.file_lenghts
+        self.shape = data.get_final_data_shape()
+
+    def __next__(self):
+        if self.__curr_index < self.num_steps:
+            new_data = self.data.read_data(self.current_dataset)
+            chunk = DataChunk(data=new_data,
+                              selection=np.s_[sum(self.dataset_file_lenght[0:self.current_dataset]):
+                                              sum(self.dataset_file_lenght[0:self.current_dataset + 1]), ])
+            self.__curr_index += 1
+            del new_data
+            return chunk
+        raise StopIteration
+
+    next = __next__
