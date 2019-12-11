@@ -14,7 +14,6 @@ path = os.path.dirname(os.path.abspath(__file__))
 @unittest.skip("Need NWBFile")
 class TestNWBElementBuilder(unittest.TestCase):
 
-    # ToDo Make one module from test_nwb_builder_elements and test_nwb_full_generation. Make setUpModule() and tearDownModule
     @classmethod
     def setUpClass(cls):
         cls.output_name = path + '../../output.nwb'
