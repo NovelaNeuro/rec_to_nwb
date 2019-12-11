@@ -30,8 +30,6 @@ class MdaTimestamps(BinaryData):
     def __init__(self, directories):
         self.directories = directories
         self.num_datasets = np.size(directories, 1)
-        print(self.num_datasets)
-        print(self.get_data_shape(1))
         self.file_lenghts = [self.get_data_shape(i) for i in range(self.num_datasets)]
 
     def read_data(self, dataset_num):
