@@ -21,7 +21,7 @@ class MdaExtractor:
         series = ecephys.ElectricalSeries(name="e-series",
                                           data=extracted_data,
                                           electrodes=electrode_table_region,
-                                          timestamps=timestampz,
+                                          timestamps=extracted_timestamps,
                                           resolution=0.001,
                                           comments="sample comment",
                                           description="Electrical series registered on electrode")
