@@ -11,7 +11,7 @@ from src.test.e2etests.experiment_data import ExperimentData
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-# @unittest.skip("Need NWBFile")
+@unittest.skip("Need NWBFile")
 class TestNWBElementBuilder(unittest.TestCase):
 
     @classmethod
