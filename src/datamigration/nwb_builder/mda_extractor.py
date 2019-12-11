@@ -1,4 +1,3 @@
-from mountainlab_pytools.mdaio import readmda
 from pynwb import ecephys
 
 from src.datamigration.nwb_builder.binary_data import MdaData, MdaTimestamps
@@ -15,9 +14,7 @@ class MdaExtractor:
         data = MdaData(self.mda_data)
         extracted_data = DataIterator(data)
         timestamps = MdaTimestamps([self.timestamps])
-        timestampz = readmda(self.timestamps[0])
         extracted_timestamps = DataIterator1D(timestamps)
-
         series = ecephys.ElectricalSeries(name="e-series",
                                           data=extracted_data,
                                           electrodes=electrode_table_region,
