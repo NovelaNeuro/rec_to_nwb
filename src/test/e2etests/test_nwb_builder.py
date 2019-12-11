@@ -11,7 +11,7 @@ from src.test.e2etests.experiment_data import ExperimentData
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-@unittest.skip("Need NWBFile")
+# @unittest.skip("Need NWBFile")
 class TestNWBElementBuilder(unittest.TestCase):
 
     @classmethod
@@ -174,6 +174,7 @@ class TestNWBElementBuilder(unittest.TestCase):
         self.assertEqual(nwb_file.electrodes['thresh'][electrode_index], xml_electrode.thresh)
         self.assertEqual(nwb_file.electrodes['triggerOn'][electrode_index], xml_electrode.trigger_on)
 
+    @classmethod
     def tearDownClass(cls):
         if os.path.isfile('output.nwb'):
             os.remove('output.nwb')
