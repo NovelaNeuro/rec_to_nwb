@@ -12,20 +12,20 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, dataset1, config_path, header_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, dataset, config_path, header_path, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
 
         self.data_folder = fs.DataScanner(data_path)
         self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
-        self.datasets = [self.data_folder.data[animal_name][date][dataset] for dataset in self.dataset_names]
+        self.datasets = [self.data_folder.data[animal_name][date][dataset_mda] for dataset_mda in self.dataset_names]
 
-        self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset1)
+        self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
         self.output_file = output_file
 
-        for file in self.data_folder.data[animal_name][date][dataset1].get_all_data_from_dataset('pos'):
+        for file in self.data_folder.data[animal_name][date][dataset].get_all_data_from_dataset('pos'):
             if file.endswith('pos_online.dat'):
-                self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset1].
+                self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
         self.metadata = MetadataExtractor(config_path)
         self.header_path = header_path
