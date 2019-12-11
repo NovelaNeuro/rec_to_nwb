@@ -4,19 +4,35 @@ import unittest
 from pynwb import NWBHDF5IO
 
 from src.datamigration.header.module.header import Header
+from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
+from src.datamigration.nwb_file_builder import NWBFileBuilder
+from src.test.e2etests.experiment_data import ExperimentData
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
+@unittest.skip("Need NWBFile")
 class TestNWBElementBuilder(unittest.TestCase):
 
-    def setUp(self):
-        # ToDo I pass path to our sample header due to lack of proper metadata. In sample header we have only 2 records for ElectrodeGroup to fabricate with our sample metadata.yml
-        self.output_name = 'output.nwb'
-        self.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
-        self.xml_group = Header(self.xml_path).configuration.spike_configuration.spike_n_trodes
+    # ToDo Make one module from test_nwb_builder_elements and test_nwb_full_generation. Make setUpModule() and tearDownModule
+    @classmethod
+    def setUpClass(cls):
+        cls.output_name = path + '../../output.nwb'
+        cls.xml_path = 'datamigration/res/fl_lab_sample_header.xml'
+        cls.xml_group = Header(cls.xml_path).configuration.spike_configuration.spike_n_trodes
+        cls.metadata = MetadataExtractor(config_path=path + '../../datamigration/res/metadata.yml')
 
-    @unittest.skip("NWB file read")
+        cls.nwbBuilder = NWBFileBuilder(
+            data_path=ExperimentData.root_path,
+            animal_name='beans',
+            date='20190718',
+            dataset='01_s1',
+            config_path='datamigration/res/metadata.yml',
+            header_path='datamigration/res/fl_lab_sample_header.xml'
+        )
+        content = cls.nwbBuilder.build()
+        cls.nwbBuilder.write(content)
+
     def test_read_nwb_file(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -27,7 +43,6 @@ class TestNWBElementBuilder(unittest.TestCase):
             print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
             print(nwb_file.electrodes)
 
-    @unittest.skip("Electrodes read")
     def test_read_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -72,89 +87,96 @@ class TestNWBElementBuilder(unittest.TestCase):
             print(hwChan)
             print(triggerOn)
 
-    @unittest.skip("Need NWBFile")
     def test_check_electrode_groups(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
 
-            electrodegroup1 = nwb_file.electrode_groups['electrode group 1']
-            electrodegroup2 = nwb_file.electrode_groups['electrode group 2']
+            electrode_group_0 = nwb_file.electrode_groups['electrode group 1']
+            electrode_group_1 = nwb_file.electrode_groups['electrode group 2']
 
-            xml_electrodegroup1 = self.xml_group[0]
-            xml_electrodegroup2 = self.xml_group[1]
+            xml_electrode_group_0 = self.xml_group[0]
+            xml_electrode_group_1 = self.xml_group[1]
 
-            self.assertEqual(electrodegroup1.name, 'electrode group 1')
-            self.assertEqual(electrodegroup1.description, 'some description 1')
-            self.assertEqual(electrodegroup1.location, 'some location 1')
-            self.assertEqual(electrodegroup1.device, nwb_file.devices['dev1'])
-            self.assertEqual(electrodegroup1.filterOn, xml_electrodegroup1.filter_on)
-            self.assertEqual(electrodegroup1.lowFilter, xml_electrodegroup1.low_filter)
-            self.assertEqual(electrodegroup1.lfpRefOn, xml_electrodegroup1.lfp_ref_on)
-            self.assertEqual(electrodegroup1.color, xml_electrodegroup1.color)
-            self.assertEqual(electrodegroup1.highFilter, xml_electrodegroup1.hight_filter)
-            self.assertEqual(electrodegroup1.lfpFilterOn, xml_electrodegroup1.lfp_filter_on)
-            self.assertEqual(electrodegroup1.moduleDataOn, xml_electrodegroup1.module_data_on)
-            self.assertEqual(electrodegroup1.LFPHighFilter, xml_electrodegroup1.lfp_high_filter)
-            self.assertEqual(electrodegroup1.refGroup, xml_electrodegroup1.ref_group)
-            self.assertEqual(electrodegroup1.LFPChan, xml_electrodegroup1.lfp_chan)
-            self.assertEqual(electrodegroup1.refNTrodeID, xml_electrodegroup1.ref_n_trode_id)
-            self.assertEqual(electrodegroup1.refChan, xml_electrodegroup1.ref_chan)
-            self.assertEqual(electrodegroup1.groupRefOn, xml_electrodegroup1.group_ref_on)
-            self.assertEqual(electrodegroup1.refOn, xml_electrodegroup1.ref_on)
-            self.assertEqual(electrodegroup1.id, xml_electrodegroup1.id)
+            metadata_electrode_group_index_0 = 0
+            metadata_electrode_group_index_1 = 1
 
-            self.assertEqual(electrodegroup2.name, 'electrode group 2')
-            self.assertEqual(electrodegroup2.description, 'some description 2')
-            self.assertEqual(electrodegroup2.location, 'some location 2')
-            self.assertEqual(electrodegroup2.device, nwb_file.devices['dev2'])
-            self.assertEqual(electrodegroup2.filterOn, xml_electrodegroup2.filter_on)
-            self.assertEqual(electrodegroup2.lowFilter, xml_electrodegroup2.low_filter)
-            self.assertEqual(electrodegroup2.lfpRefOn, xml_electrodegroup2.lfp_ref_on)
-            self.assertEqual(electrodegroup2.color, xml_electrodegroup2.color)
-            self.assertEqual(electrodegroup2.highFilter, xml_electrodegroup2.hight_filter)
-            self.assertEqual(electrodegroup2.lfpFilterOn, xml_electrodegroup2.lfp_filter_on)
-            self.assertEqual(electrodegroup2.moduleDataOn, xml_electrodegroup2.module_data_on)
-            self.assertEqual(electrodegroup2.LFPHighFilter, xml_electrodegroup2.lfp_high_filter)
-            self.assertEqual(electrodegroup2.refGroup, xml_electrodegroup2.ref_group)
-            self.assertEqual(electrodegroup2.LFPChan, xml_electrodegroup2.lfp_chan)
-            self.assertEqual(electrodegroup2.refNTrodeID, xml_electrodegroup2.ref_n_trode_id)
-            self.assertEqual(electrodegroup2.refChan, xml_electrodegroup2.ref_chan)
-            self.assertEqual(electrodegroup2.groupRefOn, xml_electrodegroup2.group_ref_on)
-            self.assertEqual(electrodegroup2.refOn, xml_electrodegroup2.ref_on)
-            self.assertEqual(electrodegroup2.id, xml_electrodegroup2.id)
+            self.assert_electrode_group(nwb_file, electrode_group_0, metadata_electrode_group_index_0,
+                                        xml_electrode_group_0)
+            self.assert_electrode_group(nwb_file, electrode_group_1, metadata_electrode_group_index_1,
+                                        xml_electrode_group_1)
 
-    @unittest.skip("Need NWBFile")
     def test_check_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
 
-            electrode = nwb_file.electrodes
+            xml_electrodes_0 = self.xml_group[0].spike_channels[0]
+            xml_electrodes_1 = self.xml_group[0].spike_channels[1]
+            xml_electrodes_2 = self.xml_group[1].spike_channels[0]
+            xml_electrodes_3 = self.xml_group[1].spike_channels[1]
 
-            xml_electrodes1 = self.xml_group[0].spike_channels[0]
-            xml_electrodes4 = self.xml_group[1].spike_channels[1]
+            electrode_index_0 = 0
+            electrode_index_1 = 1
+            electrode_index_2 = 2
+            electrode_index_3 = 3
 
-            self.assertEqual(electrode['x'][0], 1.0)
-            self.assertEqual(electrode['y'][0], 1.0)
-            self.assertEqual(electrode['z'][0], 1.0)
-            self.assertEqual(electrode['imp'][0], 3.0)
-            self.assertEqual(electrode['location'][0], 'hippocampus')
-            self.assertEqual(electrode['filtering'][0], 'no filter')
-            self.assertEqual(electrode['group'][0], nwb_file.electrode_groups['electrode group 1'])
-            self.assertEqual(electrode.id[0], 1)
-            self.assertEqual(electrode['hwChan'][0], xml_electrodes1.hw_chan)
-            self.assertEqual(electrode['maxDisp'][0], xml_electrodes1.max_disp)
-            self.assertEqual(electrode['thresh'][0], xml_electrodes1.thresh)
-            self.assertEqual(electrode['triggerOn'][0], xml_electrodes1.trigger_on)
+            electrode_metadata_index_0 = 0
+            electrode_metadata_index_1 = 1
+            electrode_metadata_index_2 = 2
+            electrode_metadata_index_3 = 3
 
-            self.assertEqual(electrode['x'][3], 2.0)
-            self.assertEqual(electrode['y'][3], 2.0)
-            self.assertEqual(electrode['z'][3], 2.0)
-            self.assertEqual(electrode['imp'][3], 5.0)
-            self.assertEqual(electrode['location'][3], 'neocortex')
-            self.assertEqual(electrode['filtering'][3], 'yes filter')
-            self.assertEqual(electrode['group'][3], nwb_file.electrode_groups['electrode group 2'])
-            self.assertEqual(electrode.id[3], 4)
-            self.assertEqual(electrode['hwChan'][3], xml_electrodes4.hw_chan)
-            self.assertEqual(electrode['maxDisp'][3], xml_electrodes4.max_disp)
-            self.assertEqual(electrode['thresh'][3], xml_electrodes4.thresh)
-            self.assertEqual(electrode['triggerOn'][3], xml_electrodes4.trigger_on)
+            self.assert_electrode(nwb_file, electrode_index_0, electrode_metadata_index_0, xml_electrodes_0)
+            self.assert_electrode(nwb_file, electrode_index_1, electrode_metadata_index_1, xml_electrodes_1)
+            self.assert_electrode(nwb_file, electrode_index_2, electrode_metadata_index_2, xml_electrodes_2)
+            self.assert_electrode(nwb_file, electrode_index_3, electrode_metadata_index_3, xml_electrodes_3)
+
+    def assert_electrode_group(self, nwb_file, electrode_group, metadata_electrode_group_index, xml_electrode_group):
+        self.assertEqual(electrode_group.name, self.metadata.electrode_groups[metadata_electrode_group_index]['name'])
+        self.assertEqual(electrode_group.description,
+                         self.metadata.electrode_groups[metadata_electrode_group_index]['description'])
+        self.assertEqual(electrode_group.location,
+                         self.metadata.electrode_groups[metadata_electrode_group_index]['location'])
+        self.assertEqual(electrode_group.device,
+                         nwb_file.devices[self.metadata.electrode_groups[metadata_electrode_group_index]['device']])
+        self.assertEqual(electrode_group.filterOn, xml_electrode_group.filter_on)
+        self.assertEqual(electrode_group.lowFilter, xml_electrode_group.low_filter)
+        self.assertEqual(electrode_group.lfpRefOn, xml_electrode_group.lfp_ref_on)
+        self.assertEqual(electrode_group.color, xml_electrode_group.color)
+        self.assertEqual(electrode_group.highFilter, xml_electrode_group.hight_filter)
+        self.assertEqual(electrode_group.lfpFilterOn, xml_electrode_group.lfp_filter_on)
+        self.assertEqual(electrode_group.moduleDataOn, xml_electrode_group.module_data_on)
+        self.assertEqual(electrode_group.LFPHighFilter, xml_electrode_group.lfp_high_filter)
+        self.assertEqual(electrode_group.refGroup, xml_electrode_group.ref_group)
+        self.assertEqual(electrode_group.LFPChan, xml_electrode_group.lfp_chan)
+        self.assertEqual(electrode_group.refNTrodeID, xml_electrode_group.ref_n_trode_id)
+        self.assertEqual(electrode_group.refChan, xml_electrode_group.ref_chan)
+        self.assertEqual(electrode_group.groupRefOn, xml_electrode_group.group_ref_on)
+        self.assertEqual(electrode_group.refOn, xml_electrode_group.ref_on)
+        self.assertEqual(electrode_group.id, xml_electrode_group.id)
+
+    def assert_electrode(self, nwb_file, electrode_index, metadata_electrodes_index, xml_electrode):
+        self.assertEqual(nwb_file.electrodes['x'][electrode_index],
+                         self.metadata.electrodes[metadata_electrodes_index]['x'])
+        self.assertEqual(nwb_file.electrodes['y'][electrode_index],
+                         self.metadata.electrodes[metadata_electrodes_index]['y'])
+        self.assertEqual(nwb_file.electrodes['z'][electrode_index],
+                         self.metadata.electrodes[metadata_electrodes_index]['z'])
+        self.assertEqual(nwb_file.electrodes['imp'][electrode_index],
+                         self.metadata.electrodes[metadata_electrodes_index]['imp'])
+        self.assertEqual(nwb_file.electrodes['location'][electrode_index],
+                         self.metadata.electrodes[metadata_electrodes_index]['location'])
+        self.assertEqual(nwb_file.electrodes['filtering'][electrode_index],
+                         self.metadata.electrodes[metadata_electrodes_index]['filtering'])
+        self.assertEqual(nwb_file.electrodes['group'][electrode_index],
+                         nwb_file.electrode_groups[self.metadata.electrodes[metadata_electrodes_index]['group']])
+        self.assertEqual(nwb_file.electrodes.id[electrode_index],
+                         self.metadata.electrodes[metadata_electrodes_index]['id'])
+        self.assertEqual(nwb_file.electrodes['hwChan'][electrode_index], xml_electrode.hw_chan)
+        self.assertEqual(nwb_file.electrodes['maxDisp'][electrode_index], xml_electrode.max_disp)
+        self.assertEqual(nwb_file.electrodes['thresh'][electrode_index], xml_electrode.thresh)
+        self.assertEqual(nwb_file.electrodes['triggerOn'][electrode_index], xml_electrode.trigger_on)
+
+    @classmethod
+    def tearDownClass(cls):
+        del cls.nwbBuilder
+        if os.path.isfile('output.nwb'):
+            os.remove('output.nwb')
