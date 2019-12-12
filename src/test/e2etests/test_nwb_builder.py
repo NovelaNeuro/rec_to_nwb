@@ -10,23 +10,10 @@ from src.test.e2etests.experiment_data import ExperimentData
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-@unittest.skip('Module set up generating nwbFile')
-def setUpModule():
-    nwbBuilder = NWBFileBuilder(
-            data_path=ExperimentData.root_path,
-            animal_name='beans',
-            date='20190718',
-            dataset='01_s1',
-            config_path='datamigration/res/metadata.yml',
-            header_path='datamigration/res/fl_lab_sample_header.xml'
-                                    )
-    content = nwbBuilder.build()
-    nwbBuilder.write(content)
 
 @unittest.skip("Need NWBFile")
 class TestNWBElementBuilder(unittest.TestCase):
 
-    # ToDo Make one module from test_nwb_builder_elements and test_nwb_full_generation. Make setUpModule() and tearDownModule
     @classmethod
     def setUpClass(cls):
         cls.output_name = path + '../../output.nwb'
@@ -187,6 +174,7 @@ class TestNWBElementBuilder(unittest.TestCase):
         self.assertEqual(nwb_file.electrodes['thresh'][electrode_index], xml_electrode.thresh)
         self.assertEqual(nwb_file.electrodes['triggerOn'][electrode_index], xml_electrode.trigger_on)
 
-def tearDownModule():
-    if os.path.isfile('output.nwb'):
-        os.remove('output.nwb')
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.isfile('output.nwb'):
+            os.remove('output.nwb')
