@@ -5,6 +5,7 @@ from src.datamigration.xml_extractor import XMLExtractor
 from src.test.e2etests.experiment_data import ExperimentData
 
 
+@unittest.skip("Need rec files")
 class TestHeaderGenerations(unittest.TestCase):
 
     def setUp(self):
