@@ -3,7 +3,6 @@ import unittest
 from datetime import datetime
 
 import numpy as np
-from mountainlab_pytools.mdaio import readmda
 from pynwb import NWBFile
 
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
@@ -19,10 +18,11 @@ class TestMDAMigration(unittest.TestCase):
     def test_reading_mda(self):
         nwb_file_content = self.create_test_file()
         electrode_table_region = nwb_file_content.create_electrode_table_region([0], "sample description")
-        timestamps = readmda(self.path + '/res/mda_test/test.timestamps.mda')
-        mda_extractor = MdaExtractor(self.path + '/res/mda_test/', timestamps)
+        timestamps = [self.path + '/res/mda_test/test.timestamps.mda']
+        mda_files = [[self.path + '/res/mda_test/test' + str(i) + '.mda' for i in range(1, 4)]]
+        mda_extractor = MdaExtractor(mda_files, timestamps)
         series = mda_extractor.get_mda(electrode_table_region)
-        self.assertEqual(100, len(series.timestamps))
+        self.assertEqual(100, np.size(series.timestamps, 0))
         self.assertEqual(5, np.size(series.data, 1))
         self.assertEqual(12, np.size(series.data, 0))
 

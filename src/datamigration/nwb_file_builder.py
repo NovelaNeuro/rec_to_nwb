@@ -1,12 +1,10 @@
 from hdmf.common import VectorData, DynamicTable
-from mountainlab_pytools.mdaio import readmda
 from pynwb import NWBHDF5IO, NWBFile
 
 import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
-from src.datamigration.nwb_builder.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
@@ -15,8 +13,13 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 class NWBFileBuilder:
 
     def __init__(self, data_path, animal_name, date, dataset, config_path, header_path, output_file='output.nwb'):
+        self.animal_name = animal_name
+        self.date = date
+
         self.data_folder = fs.DataScanner(data_path)
-        self.mda_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('mda')
+        self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
+        self.datasets = [self.data_folder.data[animal_name][date][dataset_mda] for dataset_mda in self.dataset_names]
+
         self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
         self.output_file = output_file
 
@@ -27,21 +30,18 @@ class NWBFileBuilder:
         self.metadata = MetadataExtractor(config_path)
         self.header_path = header_path
         self.spike_n_trodes = Header(header_path).configuration.spike_configuration.spike_n_trodes
-        self.dio_path = self.data_folder.data[animal_name][date][dataset].get_data_path_from_dataset('DIO')
-        self.dio = DioExtractor(self.dio_path)
 
     def build(self):
 
-        content = NWBFile(
-            session_description=self.metadata.session_description,
-            experimenter=self.metadata.experimenter_name,
-            lab=self.metadata.lab,
-            institution=self.metadata.institution,
-            session_start_time=self.metadata.session_start_time,
-            identifier=str(self.metadata.identifier),
-            experiment_description=self.metadata.experiment_description,
-            subject=self.metadata.subject,
-        )
+        content = NWBFile(session_description=self.metadata.session_description,
+                          experimenter=self.metadata.experimenter_name,
+                          lab=self.metadata.lab,
+                          institution=self.metadata.institution,
+                          session_start_time=self.metadata.session_start_time,
+                          identifier=str(self.metadata.identifier),
+                          experiment_description=self.metadata.experiment_description,
+                          subject=self.metadata.subject,
+                          )
 
         self.__build_task(content)
 
@@ -57,8 +57,6 @@ class NWBFileBuilder:
 
         self.__add_electrodes_extensions(content, self.spike_n_trodes)
 
-        self.__build_dio(content)
-
         self.__build_mda(content)
         return content
 
@@ -68,8 +66,7 @@ class NWBFileBuilder:
             region=self.metadata.electrode_regions[0]['region'])
         return region
 
-    @staticmethod
-    def __add_electrodes_extensions(content, spike_n_trodes):
+    def __add_electrodes_extensions(self, content, spike_n_trodes):
         maxDisp = []
         triggerOn = []
         hwChan = []
@@ -123,8 +120,7 @@ class NWBFileBuilder:
         for shank in shanks:
             content.add_electrode_group(shank)
 
-    @staticmethod
-    def __create_shank(electrode_group_dict, group_index, probes, spike_n_trodes):
+    def __create_shank(self, electrode_group_dict, group_index, probes, spike_n_trodes):
         shank = Shank(
             name=electrode_group_dict['name'],
             description=electrode_group_dict['description'],
@@ -163,8 +159,15 @@ class NWBFileBuilder:
         return probes
 
     def __build_mda(self, content):
-        timestamps = readmda(self.mda_timestamps_path)
-        mda_extractor = MdaExtractor(self.mda_path, timestamps)
+        all_mda = []
+        timestamps = []
+        for dataset in self.datasets:
+            data_from_current_dataset = [dataset.get_data_path_from_dataset('mda') + mda_file for mda_file in
+                                         dataset.get_all_data_from_dataset('mda') if
+                                         (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
+            all_mda.append(data_from_current_dataset)
+            timestamps.append(self.data_folder.get_mda_timestamps(self.animal_name, self.date, dataset.name))
+        mda_extractor = MdaExtractor(all_mda, timestamps)
         electrode_table_region = self.__create_region(content)
         series = mda_extractor.get_mda(electrode_table_region)
         content.add_acquisition(series)
@@ -198,14 +201,6 @@ class NWBFileBuilder:
             name='task',
             description='Sample description'
         ).add_data_interface(self.metadata.task)
-
-    def __build_dio(self, content):
-        content.create_processing_module(
-            name='behavior',
-            description='Sample behavior description'
-        ).add_data_interface(
-            self.dio.get_dio()
-        )
 
     def write(self, content):
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
