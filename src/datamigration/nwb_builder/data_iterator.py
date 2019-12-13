@@ -16,7 +16,6 @@ class DataIterator(AbstractDataChunkIterator):
         self.num_files_in_single_dataset = data.single_dataset_len
         self.shape = [data.get_final_data_shape()[1], data.get_final_data_shape()[0]]
 
-
     def __iter__(self):
         return self
 
@@ -42,7 +41,6 @@ class DataIterator(AbstractDataChunkIterator):
                      sum(self.dataset_file_lenght[0:self.current_dataset + 1]),
                (self.current_file * self.num_rows):
                ((self.current_file + 1) * self.num_rows)]
-
 
     def recommended_chunk_shape(self):
         return None  # Use autochunking
