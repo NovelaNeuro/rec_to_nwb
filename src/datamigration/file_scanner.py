@@ -15,6 +15,11 @@ class Dataset:
     def get_all_data_from_dataset(self, data_type):
         return os.listdir(self.data[data_type])
 
+    def get_mda_timestamps(self):
+        for file in self.get_all_data_from_dataset('mda'):
+            if file.endswith('timestamps.mda'):
+                return self.get_data_path_from_dataset('mda') + file
+
 
 class DataScanner:
     def __init__(self, path):
