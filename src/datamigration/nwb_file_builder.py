@@ -1,3 +1,5 @@
+import os
+
 from hdmf.common import VectorData, DynamicTable
 from pynwb import NWBHDF5IO, NWBFile
 
@@ -10,18 +12,20 @@ from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 from src.datamigration.xml_extractor import XMLExtractor
 
+path = os.path.dirname(os.path.abspath(__file__))
+
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, dataset, config_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, dataset, config_path, xsd_path, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
-        xml_extracotr = XMLExtractor(rec_path=(data_path + animal_name + '/raw' + '/' + date + '/20190718_beans_01_s1.rec'),
-                                        xsd_path='C:/Users/wmery/PycharmProjects/LorenFranksDataMigration/src/data/fl_lab_header.xsd',
-                                        xml_path='header.xml'
-                                        )
+        xml_extractor = XMLExtractor(rec_path=(data_path + animal_name + '/raw' + '/' + date + '/20190718_beans_01_s1.rec'),
+                                     xsd_path=xsd_path,
+                                     xml_path='header.xml'
+                                     )
 
-        xml_extracotr.extract_xml_from_rec_file()
+        xml_extractor.extract_xml_from_rec_file()
         self.header_path = 'header.xml'
         self.data_folder = fs.DataScanner(data_path)
         self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
@@ -49,7 +53,7 @@ class NWBFileBuilder:
                           subject=self.metadata.subject,
                           )
 
-        self.__build_task(content)
+        #self.__build_task(content)
 
         self.__build_position(content)
 
@@ -110,11 +114,10 @@ class NWBFileBuilder:
                 x=electrode['x'],
                 y=electrode['y'],
                 z=electrode['z'],
-                imp=electrode['imp'],
-                location=electrode['location'],
+                imp=1.0,
+                location='necessary location',
                 filtering=electrode['filtering'],
-                group=[content.electrode_groups[group_name] for group_name in content.electrode_groups
-                       if group_name == electrode['group']][0],
+                group=content.electrode_groups['1'],
                 id=electrode['id'],
             )
 
@@ -128,7 +131,7 @@ class NWBFileBuilder:
 
     def __create_shank(self, electrode_group_dict, group_index, probes, spike_n_trodes):
         shank = Shank(
-            name=electrode_group_dict['name'],
+            name=str(electrode_group_dict['name']),
             description=electrode_group_dict['description'],
             location=electrode_group_dict['location'],
             device=[probe for probe in probes
@@ -147,7 +150,7 @@ class NWBFileBuilder:
             refChan=spike_n_trodes[group_index].ref_chan,
             groupRefOn=spike_n_trodes[group_index].group_ref_on,
             refOn=spike_n_trodes[group_index].ref_on,
-            id=spike_n_trodes[group_index].id,
+            id=str(spike_n_trodes[group_index].id),
         )
         return shank
 
