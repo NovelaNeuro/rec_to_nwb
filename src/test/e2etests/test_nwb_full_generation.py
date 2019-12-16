@@ -7,7 +7,7 @@ from src.datamigration.nwb_file_builder import NWBFileBuilder
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-#@unittest.skip("NWB file creation")
+@unittest.skip("NWB file creation")
 class TestNwbFullGeneration(unittest.TestCase):
 
     @classmethod

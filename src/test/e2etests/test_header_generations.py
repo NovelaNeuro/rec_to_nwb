@@ -6,7 +6,7 @@ from src.datamigration.xml_extractor import XMLExtractor
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-#@unittest.skip("Need rec files")
+@unittest.skip("Need rec files")
 class TestHeaderGenerations(unittest.TestCase):
 
     def setUp(self):

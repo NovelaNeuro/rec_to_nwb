@@ -7,7 +7,7 @@ from src.datamigration.header.module.header import Header
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-#@unittest.skip('need nwb file')
+@unittest.skip('need nwb file')
 class TestNWBElementBuilder(unittest.TestCase):
 
     def setUp(self):
