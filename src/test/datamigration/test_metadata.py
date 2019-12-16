@@ -10,6 +10,7 @@ from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 path = os.path.dirname(os.path.abspath(__file__))
 
 
+@unittest.skip('wrong metadata tested')
 class TestMetadata(unittest.TestCase):
 
     @classmethod
