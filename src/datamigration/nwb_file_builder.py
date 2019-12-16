@@ -168,15 +168,7 @@ class NWBFileBuilder:
         return probes
 
     def __build_mda(self, content):
-        all_mda = []
-        timestamps = []
-        for dataset in self.datasets:
-            data_from_current_dataset = [dataset.get_data_path_from_dataset('mda') + mda_file for mda_file in
-                                         dataset.get_all_data_from_dataset('mda') if
-                                         (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
-            all_mda.append(data_from_current_dataset)
-            timestamps.append(self.data_folder.get_mda_timestamps(self.animal_name, self.date, dataset.name))
-        mda_extractor = MdaExtractor(all_mda, timestamps)
+        mda_extractor = MdaExtractor(self.datasets)
         electrode_table_region = self.__create_region(content)
         series = mda_extractor.get_mda(electrode_table_region)
         content.add_acquisition(series)
