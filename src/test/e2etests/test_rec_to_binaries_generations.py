@@ -3,8 +3,6 @@ import unittest
 
 from rec_to_binaries import extract_trodes_rec_file
 
-from .experiment_data import ExperimentData
-
 
 class TestRecToBinGeneration(unittest.TestCase):
 
@@ -13,6 +11,6 @@ class TestRecToBinGeneration(unittest.TestCase):
 
     @unittest.skip("Super heavy REC to Preprocessing Generation")
     def test_generation_preprocessing(self):
-        extract_trodes_rec_file(ExperimentData.root_path, ExperimentData.animal_name, parallel_instances=4)
-        self.assertTrue(os.path.isdir(ExperimentData.preprocessing_root_path))
-        self.assertTrue(os.path.isdir(ExperimentData.preprocessing_root_path + "20190718"))
+        extract_trodes_rec_file('testdata/', 'beans', parallel_instances=4)
+        self.assertTrue(os.path.isdir('testdata/beans/preprocessing'))
+        self.assertTrue(os.path.isdir('testdata/beans/preprocessing' + "20190718"))

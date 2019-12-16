@@ -12,7 +12,7 @@ from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, dataset, config_path, header_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, dataset, metadata_path, header_path, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
 
@@ -27,7 +27,7 @@ class NWBFileBuilder:
             if file.endswith('pos_online.dat'):
                 self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
-        self.metadata = MetadataExtractor(config_path)
+        self.metadata = MetadataExtractor(metadata_path)
         self.header_path = header_path
         self.spike_n_trodes = Header(header_path).configuration.spike_configuration.spike_n_trodes
 
