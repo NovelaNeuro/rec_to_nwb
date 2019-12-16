@@ -1,8 +1,10 @@
 import os
 import unittest
+from pathlib import Path
 
 from src.datamigration.nwb_file_builder import NWBFileBuilder
-from .experiment_data import ExperimentData
+
+path = os.path.dirname(os.path.abspath(__file__))
 
 
 @unittest.skip("NWB file creation")
@@ -11,12 +13,12 @@ class TestNwbFullGeneration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.nwbBuilder = NWBFileBuilder(
-            data_path=ExperimentData.root_path,
+            data_path=path + '../../test_data/',
             animal_name='beans',
             date='20190718',
             dataset='01_s1',
-            config_path='datamigration/res/metadata.yml',
-            header_path='datamigration/res/fl_lab_sample_header.xml'
+            metadata_path= path + '../../datamigration/res/metadata.yml',
+            header_path= path + '../../datamigration/res/fl_lab_sample_header.xml'
         )
 
     def test_generate_nwb(self):

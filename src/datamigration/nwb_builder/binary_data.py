@@ -1,6 +1,7 @@
 import numpy as np
 from mountainlab_pytools.mdaio import readmda
 
+
 class BinaryData:
     def __init__(self, directories):
         self.directories = directories
