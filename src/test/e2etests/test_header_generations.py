@@ -12,7 +12,7 @@ class TestHeaderGenerations(unittest.TestCase):
     def setUp(self):
         self.xml_extractor = XMLExtractor(
             rec_path=path + '../../test_data/beans/raw/20190718/20190718_beans_01_s1.rec',
-            xml_path=path + 'header.xml',
+            xml_path='header.xml',
             xsd_path=path + '../../data/fl_lab_header.xsd'
         )
 
