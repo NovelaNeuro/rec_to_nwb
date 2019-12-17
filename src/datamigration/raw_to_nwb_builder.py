@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from rec_to_binaries import extract_trodes_rec_file
 
@@ -32,7 +33,6 @@ class RawToNWBBuilder:
         self.nwbBuilder.write(content)
 
     def cleanup(self):
-        if os.path.exists('header.xml'):
-            os.remove('header.xml')
-        if os.path.exists('preprocessing'):
-            os.rmdir('preprocessing')
+        preprocessing = self.data_path + '/' + self.animal_name + '/preprocessing'
+        if os.path.exists(preprocessing):
+            shutil.rmtree(preprocessing)

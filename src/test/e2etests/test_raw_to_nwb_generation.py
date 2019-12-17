@@ -8,7 +8,7 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-#@unittest.skip("Super heavy RAW to NWB Generation")
+# @unittest.skip("Super heavy RAW to NWB Generation")
 class TestRawToNWBGeneration(unittest.TestCase):
 
     def setUp(self):
@@ -24,5 +24,9 @@ class TestRawToNWBGeneration(unittest.TestCase):
         self.builder.build_nwb()
         self.assertTrue(os.path.exists('raw2nwb_output.nwb'), 'NWBFile did not build')
 
-    def tearDown(self):
+    def test_empty_trash(self):
         self.builder.cleanup()
+        self.assertTrue(os.path.exists('raw2nwb_output.nwb'), 'NWBFile did not build')
+
+    # def tearDown(self):
+    #     self.builder.cleanup()
