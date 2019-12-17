@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 from src.datamigration.raw_to_nwb_builder import RawToNWBBuilder
+from src.datamigration.rec_file_finder import RecFileFinder
 
 path = Path(__file__).parent.parent
 path.resolve()
@@ -24,9 +25,10 @@ class TestRawToNWBGeneration(unittest.TestCase):
         self.builder.build_nwb()
         self.assertTrue(os.path.exists('raw2nwb_output.nwb'), 'NWBFile did not build')
 
-    def test_empty_trash(self):
-        self.builder.cleanup()
-        self.assertTrue(os.path.exists('raw2nwb_output.nwb'), 'NWBFile did not build')
+    def test_should_find_rec_files_in_given_location(self):
+        finder = RecFileFinder()
+        files = finder.find_rec_files(str(path) + '/test_data')
+        self.assertEqual(1, len(files))
 
-    # def tearDown(self):
-    #     self.builder.cleanup()
+    def tearDown(self):
+        self.builder.cleanup()
