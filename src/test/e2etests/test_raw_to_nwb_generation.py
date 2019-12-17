@@ -1,9 +1,11 @@
 import os
 import unittest
+from pathlib import Path
 
 from src.datamigration.raw_to_nwb_builder import RawToNWBBuilder
 
-path = os.path.dirname(os.path.abspath(__file__))
+path = Path(__file__).parent.parent
+path.resolve()
 
 
 @unittest.skip("Super heavy RAW to NWB Generation")
@@ -11,10 +13,10 @@ class TestRawToNWBGeneration(unittest.TestCase):
 
     def setUp(self):
         self.builder = RawToNWBBuilder(animal_name='beans',
-                                       data_path=path + '/../test_data/',
+                                       data_path=str(path) + '/test_data/',
                                        date='20190718',
                                        dataset='01_s1',
-                                       metadata_path=path + '/../datamigration/res/metadata.yml',
+                                       metadata_path=str(path) + '/datamigration/res/metadata.yml',
                                        output_path='raw2nwb_output.nwb'
                                        )
 

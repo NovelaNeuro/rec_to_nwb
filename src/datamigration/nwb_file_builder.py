@@ -39,7 +39,7 @@ class NWBFileBuilder:
             if file.endswith('pos_online.dat'):
                 self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
-        self.metadata = MetadataExtractor(metadata_path)
+        self.metadata = MetadataExtractor(config_path=metadata_path)
         self.spike_n_trodes = Header('header.xml').configuration.spike_configuration.spike_n_trodes
 
     def build(self):
