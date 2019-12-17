@@ -8,7 +8,7 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-@unittest.skip("Super heavy RAW to NWB Generation")
+#@unittest.skip("Super heavy RAW to NWB Generation")
 class TestRawToNWBGeneration(unittest.TestCase):
 
     def setUp(self):

@@ -32,5 +32,7 @@ class RawToNWBBuilder:
         self.nwbBuilder.write(content)
 
     def cleanup(self):
-        os.remove('header.xml')
-        os.rmdir('preprocessing')
+        if os.path.exists('header.xml'):
+            os.remove('header.xml')
+        if os.path.exists('preprocessing'):
+            os.rmdir('preprocessing')
