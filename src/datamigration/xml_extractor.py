@@ -84,6 +84,8 @@ class XMLExtractor:
 
     def is_valid(self):
         """ Check if XML is valid with XSD file """
-        xsd_file = XMLSchema(self.xsd_path)
-        xml_file = ElementTree.parse(self.get_xml_path())
-        return xsd_file.is_valid(xml_file)
+        if self.xsd_path is not None:
+            xsd_file = XMLSchema(self.xsd_path)
+            xml_file = ElementTree.parse(self.get_xml_path())
+            return xsd_file.is_valid(xml_file)
+        return False
