@@ -17,16 +17,17 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, dataset, config_path, xsd_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, dataset, metadata_path, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
-        xml_extractor = XMLExtractor(rec_path=(data_path + animal_name + '/raw' + '/' + date + '/20190718_beans_01_s1.rec'),
-                                     xsd_path=xsd_path,
+        xml_extractor = XMLExtractor(rec_path=(data_path + animal_name
+                                               + '/raw' + '/' + date
+                                               + '/20190718_beans_01_s1.rec'
+                                               ),
                                      xml_path='header.xml'
                                      )
 
         xml_extractor.extract_xml_from_rec_file()
-        self.header_path = 'header.xml'
         self.data_folder = fs.DataScanner(data_path)
         self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
         self.datasets = [self.data_folder.data[animal_name][date][dataset_mda] for dataset_mda in self.dataset_names]
@@ -38,8 +39,8 @@ class NWBFileBuilder:
             if file.endswith('pos_online.dat'):
                 self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
-        self.metadata = MetadataExtractor(config_path)
-        self.spike_n_trodes = Header(self.header_path).configuration.spike_configuration.spike_n_trodes
+        self.metadata = MetadataExtractor(metadata_path)
+        self.spike_n_trodes = Header('header.xml').configuration.spike_configuration.spike_n_trodes
 
     def build(self):
 
@@ -53,7 +54,7 @@ class NWBFileBuilder:
                           subject=self.metadata.subject,
                           )
 
-        #self.__build_task(content)
+        #ToDo : task building with new metadata ---self.__build_task(content)
 
         self.__build_position(content)
 
