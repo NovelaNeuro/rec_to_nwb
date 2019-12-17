@@ -21,7 +21,7 @@ class TestMDAMigration(unittest.TestCase):
         nwb_file_content = self.create_test_file()
         electrode_table_region = nwb_file_content.create_electrode_table_region([0], "sample description")
         mda_extractor = MdaExtractor([self.dataset])
-        series = mda_extractor.get_mda(electrode_table_region)
+        series = mda_extractor.get_mda(electrode_table_region, 1.0)
         self.assertEqual(100, np.size(series.timestamps, 0))
         self.assertEqual(12, np.size(series.data, 1))
         self.assertEqual(5, np.size(series.data, 0))
