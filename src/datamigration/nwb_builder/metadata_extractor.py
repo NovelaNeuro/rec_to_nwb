@@ -54,4 +54,4 @@ class MetadataExtractor:
             self.electrodes = metadata_dict['electrode']
             self.electrode_regions = metadata_dict['electrode region']
             self.apparatus = metadata_dict['apparatus']['data']
-            #self.behavioral_event = metadata_dict['behavioral_events']
+            self.behavioral_event = metadata_dict['behavioral_events']
