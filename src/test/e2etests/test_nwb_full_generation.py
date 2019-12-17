@@ -20,7 +20,7 @@ class TestNwbFullGeneration(unittest.TestCase):
             animal_name='beans',
             date='20190718',
             dataset='01_s1',
-            metadata_path=str(path) + '/datamigration/res/metadata.yml',
+            metadata_path=str(path) + '/res/metadata.yml',
            )
 
     def test_generate_nwb(self):

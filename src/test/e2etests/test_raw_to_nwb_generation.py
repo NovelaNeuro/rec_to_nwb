@@ -16,7 +16,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
                                        data_path=str(path) + '/test_data/',
                                        date='20190718',
                                        dataset='01_s1',
-                                       metadata_path=str(path) + '/datamigration/res/metadata.yml',
+                                       metadata_path=str(path) + '/res/metadata.yml',
                                        output_path='raw2nwb_output.nwb'
                                        )
 

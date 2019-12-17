@@ -183,7 +183,6 @@ electrode group:
   ]
 electrode:
   [
-  # Group 1 - Probe 1, Shank 1
   {
     filtering:     None,
     group:         1,
@@ -440,7 +439,6 @@ electrode:
     y:             806.0,
     z:             0.0,
   },
-  # Group 2 - Probe 1, Shank 2
   {
     filtering:     None,
     group:         2,
