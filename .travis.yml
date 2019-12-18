@@ -18,7 +18,7 @@ install:
   - conda activate test-environment
   - python src/setup.py install
   - pip install pylint
-  - chown -R $USER:$USER src/test/datamigration/res/test_xmls
+  - chown -R $USER:$USER src/test/
 # command to run tests
 script:
   - python -m unittest discover src/test/
