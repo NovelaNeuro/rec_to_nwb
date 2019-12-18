@@ -18,6 +18,7 @@ install:
   - conda activate test-environment
   - python src/setup.py install
   - pip install pylint
+  - chown -R $USER:$USER /path/to/directory
 # command to run tests
 script:
   - python -m unittest discover src/test/
