@@ -159,9 +159,10 @@ class NWBFileBuilder:
         return probes
 
     def __build_mda(self, content):
+        sampling_rate = Header(self.header_path).configuration.hardware_configuration.sampling_rate
         mda_extractor = MdaExtractor(self.datasets)
         electrode_table_region = self.__create_region(content)
-        series = mda_extractor.get_mda(electrode_table_region)
+        series = mda_extractor.get_mda(electrode_table_region, sampling_rate)
         content.add_acquisition(series)
 
     def __build_aparatus(self, content):
