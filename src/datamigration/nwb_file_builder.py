@@ -1,3 +1,4 @@
+import logging
 import os
 
 from hdmf.common import VectorData, DynamicTable
@@ -7,6 +8,8 @@ import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
+from src.datamigration.header_extractor import HeaderFilesExtractor
+from src.datamigration.header_reader import HeaderReader
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
@@ -22,12 +25,20 @@ class NWBFileBuilder:
     def __init__(self, data_path, animal_name, date, dataset, metadata_path, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
-        self.rec_files = RecFileFinder().find_rec_files(data_path + animal_name + '/raw')
-        header_validation = HeaderComparator(self.rec_files)
-        if not header_validation.compare():
-            raise Exception('Headers are not the same in all rec files')
-        header_validation.clean()
-        XMLExtractor(rec_path=self.rec_files[0], xml_path='header.xml').extract_xml_from_rec_file()
+        rec_files = RecFileFinder().find_rec_files(data_path + animal_name + '/raw')
+
+        header_extractor = HeaderFilesExtractor()
+        xml_files = header_extractor.extract(rec_files)
+
+        xml_headers = HeaderReader(xml_files).read_headers()
+
+        comparator = HeaderComparator(xml_headers)
+
+        if not comparator.compare():
+            message = 'Rec files: ' + rec_files + ' contain incosistent xml headers!'
+            logging.warn(message)
+
+        XMLExtractor(rec_path=rec_files[0], xml_path='header.xml').extract_xml_from_rec_file()
         self.data_folder = fs.DataScanner(data_path)
         self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
         self.datasets = [self.data_folder.data[animal_name][date][dataset_mda] for dataset_mda in self.dataset_names]
