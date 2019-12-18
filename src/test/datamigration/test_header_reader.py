@@ -6,6 +6,7 @@ from src.datamigration.nwb_builder.header_checker.header_reader import HeaderRea
 path = os.path.dirname(os.path.abspath(__file__))
 
 
+@unittest.skip('local test need to be launched with e2etests')
 class TestHeaderReader(unittest.TestCase):
 
     def setUp(self):
