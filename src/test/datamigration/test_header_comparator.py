@@ -20,14 +20,14 @@ class TestHeaderComparator(unittest.TestCase):
         cls.list_with_one_string = ['string only one but powerful']
 
     def test_comparing_diferent_headers(self):
-        header_comparator = HeaderComparator(TestHeaderComparator.list_with_diferent_strings)
+        header_comparator = HeaderComparator(self.list_with_diferent_strings)
         self.assertFalse(header_comparator.compare())
 
     def test_comparing_same_headers(self):
-        header_comparator = HeaderComparator(TestHeaderComparator.list_with_same_strings)
+        header_comparator = HeaderComparator(self.list_with_same_strings)
         self.assertTrue(header_comparator.compare())
 
     def test_comparing_one_header(self):
-        header_comparator = HeaderComparator(TestHeaderComparator.list_with_one_strings)
+        header_comparator = HeaderComparator(self.list_with_one_string)
         self.assertTrue(header_comparator.compare())
 
