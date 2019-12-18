@@ -8,7 +8,7 @@ class HeaderReader:
         self.xml_files = xml_files
 
     def read_headers(self):
-        for xml_file in xml_files:
+        for xml_file in self.xml_files:
             with open(xml_file, 'r') as content:
                 self.xml_headers.append(content.read())
             os.remove(xml_file)
