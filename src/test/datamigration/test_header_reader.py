@@ -9,8 +9,8 @@ path = os.path.dirname(os.path.abspath(__file__))
 class TestHeaderReader(unittest.TestCase):
 
     def setUp(self):
-        xml_1 = open(path + '/res/test_xmls/test1.xml', 'w')
-        xml_1.write('string string string')
+        with open(path + '/res/test_xmls/test1.xml', 'w') as xml_1:
+            xml_1.write('string string string')
         xml_2 = open(path + '/res/test_xmls/test2.xml', 'w')
         xml_2.write('random test strings')
         xml_3 = open(path + '/res/test_xmls/test3.xml', 'w')
