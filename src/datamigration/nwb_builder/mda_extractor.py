@@ -18,7 +18,7 @@ class MdaExtractor:
         self.mda_data = all_mda
         self.timestamps = timestamps
 
-    def get_mda(self, electrode_table_region):
+    def get_mda(self, electrode_table_region, sampling_rate):
         data = MdaData(self.mda_data)
         extracted_data = DataIterator(data)
         timestamps = MdaTimestamps([self.timestamps])
@@ -27,7 +27,7 @@ class MdaExtractor:
                                           data=extracted_data,
                                           electrodes=electrode_table_region,
                                           timestamps=extracted_timestamps,
-                                          resolution=0.001,
+                                          resolution=sampling_rate,
                                           comments="sample comment",
                                           description="Electrical series registered on electrode")
         return series
