@@ -4,6 +4,7 @@ from pynwb.spec import NWBGroupSpec, NWBNamespaceBuilder, NWBAttributeSpec
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+
 class ExtensionsBuilder:
     def __init__(self, ext_source, ns_path):
         self.ext_source = ext_source

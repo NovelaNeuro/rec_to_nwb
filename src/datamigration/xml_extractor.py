@@ -28,8 +28,8 @@ class XMLExtractor:
     xml_path = ''
     xsd_path = ''
 
-    def __init__(self, rec_path='REC_sample.xml', xml_path='output.xml',
-                 xsd_path='../data/fl_lab_header.xsd'):
+    def __init__(self, rec_path='../data/REC_sample.xml', xml_path='../data/output.xml',
+                 xsd_path=None):
         self.rec_path = rec_path
         self.xml_path = xml_path
         self.xsd_path = xsd_path
@@ -84,7 +84,8 @@ class XMLExtractor:
 
     def is_valid(self):
         """ Check if XML is valid with XSD file """
-
-        xsd_file = XMLSchema(self.xsd_path)
-        xml_file = ElementTree.parse(self.get_xml_path())
-        return xsd_file.is_valid(xml_file)
+        if self.xsd_path is not None:
+            xsd_file = XMLSchema(self.xsd_path)
+            xml_file = ElementTree.parse(self.get_xml_path())
+            return xsd_file.is_valid(xml_file)
+        return False

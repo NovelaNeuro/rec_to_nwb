@@ -1,3 +1,6 @@
+import logging
+import os
+
 from hdmf.common import VectorData, DynamicTable
 from pynwb import NWBHDF5IO, NWBFile
 
@@ -5,17 +8,34 @@ import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
+from src.datamigration.nwb_builder.header_checker.header_extractor import HeaderFilesExtractor
+from src.datamigration.nwb_builder.header_checker.header_reader import HeaderReader
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
+from src.datamigration.nwb_builder.header_checker.rec_file_finder import RecFileFinder
+from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
+from src.datamigration.xml_extractor import XMLExtractor
+
+path = os.path.dirname(os.path.abspath(__file__))
 
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, dataset, metadata_path, header_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, dataset, metadata_path, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
 
+        rec_files = RecFileFinder().find_rec_files(data_path + animal_name + '/raw')
+        header_extractor = HeaderFilesExtractor()
+        xml_files = header_extractor.extract(rec_files)
+        xml_headers = HeaderReader(xml_files).read_headers()
+        comparator = HeaderComparator(xml_headers)
+        if not comparator.compare():
+            message = 'Rec files: ' + str(rec_files) + ' contain incosistent xml headers!'
+            logging.warning(message)
+
+        XMLExtractor(rec_path=rec_files[0], xml_path='header.xml').extract_xml_from_rec_file()
         self.data_folder = fs.DataScanner(data_path)
         self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
         self.datasets = [self.data_folder.data[animal_name][date][dataset_mda] for dataset_mda in self.dataset_names]
@@ -27,9 +47,8 @@ class NWBFileBuilder:
             if file.endswith('pos_online.dat'):
                 self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
                                                   get_data_path_from_dataset('pos') + file)
-        self.metadata = MetadataExtractor(metadata_path)
-        self.header_path = header_path
-        self.spike_n_trodes = Header(header_path).configuration.spike_configuration.spike_n_trodes
+        self.metadata = MetadataExtractor(config_path=metadata_path)
+        self.spike_n_trodes = Header('header.xml').configuration.spike_configuration.spike_n_trodes
 
     def build(self):
 
@@ -43,7 +62,7 @@ class NWBFileBuilder:
                           subject=self.metadata.subject,
                           )
 
-        self.__build_task(content)
+        #ToDo : task building with new metadata ---self.__build_task(content)
 
         self.__build_position(content)
 
@@ -104,11 +123,10 @@ class NWBFileBuilder:
                 x=electrode['x'],
                 y=electrode['y'],
                 z=electrode['z'],
-                imp=electrode['imp'],
-                location=electrode['location'],
+                imp=1.0,
+                location='necessary location',
                 filtering=electrode['filtering'],
-                group=[content.electrode_groups[group_name] for group_name in content.electrode_groups
-                       if group_name == electrode['group']][0],
+                group=content.electrode_groups['1'],
                 id=electrode['id'],
             )
 
@@ -122,7 +140,7 @@ class NWBFileBuilder:
 
     def __create_shank(self, electrode_group_dict, group_index, probes, spike_n_trodes):
         shank = Shank(
-            name=electrode_group_dict['name'],
+            name=str(electrode_group_dict['name']),
             description=electrode_group_dict['description'],
             location=electrode_group_dict['location'],
             device=[probe for probe in probes
@@ -141,7 +159,7 @@ class NWBFileBuilder:
             refChan=spike_n_trodes[group_index].ref_chan,
             groupRefOn=spike_n_trodes[group_index].group_ref_on,
             refOn=spike_n_trodes[group_index].ref_on,
-            id=spike_n_trodes[group_index].id,
+            id=str(spike_n_trodes[group_index].id),
         )
         return shank
 
@@ -159,7 +177,7 @@ class NWBFileBuilder:
         return probes
 
     def __build_mda(self, content):
-        sampling_rate = Header(self.header_path).configuration.hardware_configuration.sampling_rate
+        sampling_rate = Header('header.xml').configuration.hardware_configuration.sampling_rate
         mda_extractor = MdaExtractor(self.datasets)
         electrode_table_region = self.__create_region(content)
         series = mda_extractor.get_mda(electrode_table_region, sampling_rate)
