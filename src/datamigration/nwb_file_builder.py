@@ -195,7 +195,7 @@ class NWBFileBuilder:
         content.add_acquisition(series)
 
     def __build_dio(self, content):
-        extracted_dio = DioExtractor(data_path=self.data_path,
+        extracted_dio = DioExtractor(data_path=self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date,
                                      metadata=self.metadata)
         content.create_processing_module(
             name='behavioral_event',
