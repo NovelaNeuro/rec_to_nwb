@@ -1,8 +1,6 @@
 import datetime
 
-import pytz
 import yaml
-from pynwb.epoch import TimeIntervals
 from pynwb.file import Subject
 
 
