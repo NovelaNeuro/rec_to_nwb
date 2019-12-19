@@ -82,7 +82,7 @@ class NWBFileBuilder:
         xml_headers = header_reader.read_headers()
         comparator = HeaderComparator(xml_headers)
         if not comparator.compare():
-            message = 'Rec files: ' + rec_files + ' contain incosistent xml headers!'
+            message = 'Rec files: ' + str(rec_files) + ' contain incosistent xml headers!'
             differences = header_reader.headers_differences
             logging.warning(message + differences)
 
