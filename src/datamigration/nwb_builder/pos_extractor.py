@@ -16,8 +16,6 @@ class POSExtractor:
         print(self.all_pos)
 
     def get_position(self):
-        # self.pos_online = readTrodesExtractedDataFile(self.path)
-        # df_position = pd.DataFrame(self.pos_online['data'])
         pos_data = PosData(directories=self.all_pos)
         pos_timestamps = PosTimestamps(directories=self.all_pos)
         extracted_pos = DataIterator(pos_data)

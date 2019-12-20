@@ -41,22 +41,6 @@ class PosData(BinaryData):
         return position.xloc, position.yloc, position.xloc2, position.yloc2
 
 
-# class PosTimestamps(BinaryData):
-#     def __init__(self, directories):
-#         self.directories = directories
-#         self.num_datasets = np.size(directories, 1)
-#         self.file_lenghts = [self.get_data_shape(i) for i in range(self.num_datasets)]
-#
-#     def read_data(self, dataset_num):
-#         return readmda(self.directories[0][dataset_num])
-#
-#     def get_data_shape(self, dataset_num):
-#         dim1 = np.size(self.read_data(dataset_num), 0)
-#         return dim1
-#
-#     def get_final_data_shape(self):
-#         return sum(self.file_lenghts),
-#
 
 class BinaryData1D(ABC):
     def __init__(self, directories):
