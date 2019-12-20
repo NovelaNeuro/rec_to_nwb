@@ -9,13 +9,13 @@ from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.dio_extractor import DioExtractor
+from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
 from src.datamigration.nwb_builder.header_checker.header_extractor import HeaderFilesExtractor
 from src.datamigration.nwb_builder.header_checker.header_reader import HeaderReader
+from src.datamigration.nwb_builder.header_checker.rec_file_finder import RecFileFinder
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
-from src.datamigration.nwb_builder.header_checker.rec_file_finder import RecFileFinder
-from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
 from src.datamigration.xml_extractor import XMLExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -23,7 +23,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, dataset, metadata_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, metadata_path, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
@@ -31,15 +31,12 @@ class NWBFileBuilder:
         self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
         self.datasets = [self.data_folder.data[animal_name][date][dataset_mda] for dataset_mda in self.dataset_names]
 
-        self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
         self.output_file = output_file
 
-        for file in self.data_folder.data[animal_name][date][dataset].get_all_data_from_dataset('pos'):
-            if file.endswith('pos_online.dat'):
-                self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
-                                                  get_data_path_from_dataset('pos') + file)
         self.metadata = MetadataExtractor(config_path=metadata_path)
-        self.spike_n_trodes = Header('header.xml').configuration.spike_configuration.spike_n_trodes
+        self.__check_headers_compatibility()
+        self.spike_n_trodes = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
+                                     self.date + '/header.xml').configuration.spike_configuration.spike_n_trodes
 
     def build(self):
 
@@ -54,8 +51,6 @@ class NWBFileBuilder:
                           )
 
         # ToDo : task building with new metadata ---self.__build_task(content)
-
-        self.__check_headers_compatibility()
 
         self.__build_position(content)
 
@@ -86,7 +81,9 @@ class NWBFileBuilder:
             differences = header_reader.headers_differences
             logging.warning(message, differences,)
 
-        XMLExtractor(rec_path=rec_files[0], xml_path='header.xml').extract_xml_from_rec_file()
+        XMLExtractor(rec_path=rec_files[0],
+                     xml_path=self.data_path + '/' + self.animal_name + '/preprocessing/' +
+                              self.date + '/header.xml').extract_xml_from_rec_file()
 
     def __create_region(self, content):
         region = content.create_electrode_table_region(
@@ -188,7 +185,8 @@ class NWBFileBuilder:
         return probes
 
     def __build_mda(self, content):
-        sampling_rate = Header('header.xml').configuration.hardware_configuration.sampling_rate
+        sampling_rate = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
+                               self.date + '/header.xml').configuration.hardware_configuration.sampling_rate
         mda_extractor = MdaExtractor(self.datasets)
         electrode_table_region = self.__create_region(content)
         series = mda_extractor.get_mda(electrode_table_region, sampling_rate)
@@ -221,11 +219,12 @@ class NWBFileBuilder:
         )
 
     def __build_position(self, content):
+        pos_extractor = POSExtractor(self.datasets)
         content.create_processing_module(
             name='position',
             description='Sample description'
         ).add_data_interface(
-            self.pos_extractor.get_position()
+            pos_extractor.get_position()
         )
 
     def __build_task(self, content):
