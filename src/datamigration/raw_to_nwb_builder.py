@@ -31,6 +31,7 @@ class RawToNWBBuilder:
         )
         content = self.nwbBuilder.build()
         self.nwbBuilder.write(content)
+        return content
 
     def cleanup(self):
         preprocessing = self.data_path + '/' + self.animal_name + '/preprocessing'
