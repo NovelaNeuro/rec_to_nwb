@@ -8,11 +8,10 @@ from src.datamigration.nwb_file_builder import NWBFileBuilder
 
 class RawToNWBBuilder:
 
-    def __init__(self, data_path, animal_name, date, dataset, metadata_path, output_path):
+    def __init__(self, data_path, animal_name, date, metadata_path, output_path):
         self.animal_name = animal_name
         self.data_path = data_path
         self.date = date
-        self.dataset = dataset
         self.metadata_path = metadata_path
         self.output_path = output_path
 
@@ -25,7 +24,6 @@ class RawToNWBBuilder:
             data_path=self.data_path,
             animal_name=self.animal_name,
             date=self.date,
-            dataset=self.dataset,
             metadata_path=self.metadata_path,
             output_file=self.output_path
         )
