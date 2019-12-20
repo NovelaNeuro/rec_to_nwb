@@ -34,6 +34,7 @@ class NWBFileBuilder:
         self.output_file = output_file
 
         self.metadata = MetadataExtractor(config_path=metadata_path)
+        self.__check_headers_compatibility()
         self.spike_n_trodes = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
                                      self.date + '/header.xml').configuration.spike_configuration.spike_n_trodes
 
@@ -50,8 +51,6 @@ class NWBFileBuilder:
                           )
 
         # ToDo : task building with new metadata ---self.__build_task(content)
-
-        self.__check_headers_compatibility()
 
         self.__build_position(content)
 
