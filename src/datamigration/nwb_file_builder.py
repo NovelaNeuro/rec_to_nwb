@@ -8,13 +8,13 @@ import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
+from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
 from src.datamigration.nwb_builder.header_checker.header_extractor import HeaderFilesExtractor
 from src.datamigration.nwb_builder.header_checker.header_reader import HeaderReader
+from src.datamigration.nwb_builder.header_checker.rec_file_finder import RecFileFinder
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
-from src.datamigration.nwb_builder.header_checker.rec_file_finder import RecFileFinder
-from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
 from src.datamigration.xml_extractor import XMLExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -43,10 +43,6 @@ class NWBFileBuilder:
         self.mda_timestamps_path = self.data_folder.get_mda_timestamps(animal_name, date, dataset)
         self.output_file = output_file
 
-        for file in self.data_folder.data[animal_name][date][dataset].get_all_data_from_dataset('pos'):
-            if file.endswith('pos_online.dat'):
-                self.pos_extractor = POSExtractor(self.data_folder.data[animal_name][date][dataset].
-                                                  get_data_path_from_dataset('pos') + file)
         self.metadata = MetadataExtractor(config_path=metadata_path)
         self.spike_n_trodes = Header('header.xml').configuration.spike_configuration.spike_n_trodes
 
@@ -200,11 +196,12 @@ class NWBFileBuilder:
         )
 
     def __build_position(self, content):
+        pos_extractor = POSExtractor(self.datasets)
         content.create_processing_module(
             name='position',
             description='Sample description'
         ).add_data_interface(
-            self.pos_extractor.get_position()
+            pos_extractor.get_position()
         )
 
     def __build_task(self, content):
