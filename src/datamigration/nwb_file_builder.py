@@ -8,6 +8,7 @@ import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
 from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
+from src.datamigration.nwb_builder.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.header_checker.header_extractor import HeaderFilesExtractor
 from src.datamigration.nwb_builder.header_checker.header_reader import HeaderReader
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
@@ -25,17 +26,7 @@ class NWBFileBuilder:
     def __init__(self, data_path, animal_name, date, dataset, metadata_path, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
-
-        rec_files = RecFileFinder().find_rec_files(data_path + animal_name + '/raw')
-        header_extractor = HeaderFilesExtractor()
-        xml_files = header_extractor.extract(rec_files)
-        xml_headers = HeaderReader(xml_files).read_headers()
-        comparator = HeaderComparator(xml_headers)
-        if not comparator.compare():
-            message = 'Rec files: ' + str(rec_files) + ' contain incosistent xml headers!'
-            logging.warning(message)
-
-        XMLExtractor(rec_path=rec_files[0], xml_path='header.xml').extract_xml_from_rec_file()
+        self.data_path = data_path
         self.data_folder = fs.DataScanner(data_path)
         self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
         self.datasets = [self.data_folder.data[animal_name][date][dataset_mda] for dataset_mda in self.dataset_names]
@@ -62,7 +53,9 @@ class NWBFileBuilder:
                           subject=self.metadata.subject,
                           )
 
-        #ToDo : task building with new metadata ---self.__build_task(content)
+        # ToDo : task building with new metadata ---self.__build_task(content)
+
+        self.__check_headers_compatibility()
 
         self.__build_position(content)
 
@@ -74,10 +67,26 @@ class NWBFileBuilder:
 
         self.__add_electrodes(content)
 
+        self.__build_dio(content)
+
         self.__add_electrodes_extensions(content, self.spike_n_trodes)
 
         self.__build_mda(content)
         return content
+
+    def __check_headers_compatibility(self,):
+        rec_files = RecFileFinder().find_rec_files(self.data_path + self.animal_name + '/raw')
+        header_extractor = HeaderFilesExtractor()
+        xml_files = header_extractor.extract(rec_files)
+        header_reader = HeaderReader(xml_files)
+        xml_headers = header_reader.read_headers()
+        comparator = HeaderComparator(xml_headers)
+        if not comparator.compare():
+            message = 'Rec files: ' + str(rec_files) + ' contain incosistent xml headers!'
+            differences = header_reader.headers_differences
+            logging.warning(message, differences,)
+
+        XMLExtractor(rec_path=rec_files[0], xml_path='header.xml').extract_xml_from_rec_file()
 
     def __create_region(self, content):
         region = content.create_electrode_table_region(
@@ -85,7 +94,8 @@ class NWBFileBuilder:
             region=self.metadata.electrode_regions[0]['region'])
         return region
 
-    def __add_electrodes_extensions(self, content, spike_n_trodes):
+    @staticmethod
+    def __add_electrodes_extensions(content, spike_n_trodes):
         maxDisp = []
         triggerOn = []
         hwChan = []
@@ -138,7 +148,8 @@ class NWBFileBuilder:
         for shank in shanks:
             content.add_electrode_group(shank)
 
-    def __create_shank(self, electrode_group_dict, group_index, probes, spike_n_trodes):
+    @staticmethod
+    def __create_shank(electrode_group_dict, group_index, probes, spike_n_trodes):
         shank = Shank(
             name=str(electrode_group_dict['name']),
             description=electrode_group_dict['description'],
@@ -182,6 +193,16 @@ class NWBFileBuilder:
         electrode_table_region = self.__create_region(content)
         series = mda_extractor.get_mda(electrode_table_region, sampling_rate)
         content.add_acquisition(series)
+
+    def __build_dio(self, content):
+        extracted_dio = DioExtractor(data_path=self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date,
+                                     metadata=self.metadata)
+        content.create_processing_module(
+            name='behavioral_event',
+            description=''
+        ).add_data_interface(
+            extracted_dio.get_dio()
+        )
 
     def __build_aparatus(self, content):
         apparatus_columns = []

@@ -7,5 +7,4 @@ class HeaderComparator:
         if len(self.xml_headers) > 1:
             header_1 = self.xml_headers[0]
             return all(header == header_1 for header in self.xml_headers)
-        else:
-            return True
+        return True

@@ -1,4 +1,6 @@
 class FileSorter:
-    def sort_filenames(self, filenames):
+
+    @staticmethod
+    def sort_filenames(filenames):
         filenames.sort(key=lambda item: (len(item), item))
         return filenames
