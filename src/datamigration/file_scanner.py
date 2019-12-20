@@ -19,6 +19,7 @@ class Dataset:
         for file in self.get_all_data_from_dataset('mda'):
             if file.endswith('timestamps.mda'):
                 return self.get_data_path_from_dataset('mda') + file
+        return None
 
 
 class DataScanner:

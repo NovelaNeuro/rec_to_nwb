@@ -3,18 +3,17 @@ import os
 from pynwb.base import TimeSeries
 from pynwb.behavior import BehavioralEvents
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
-from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 
 
 class DioExtractor:
 
-    def __init__(self, data_path, metadata_path):
+    def __init__(self, data_path, metadata):
         self.data_path = data_path
         self.dio_paths = [dio_set for dio_set in os.listdir(data_path) if dio_set.endswith('DIO')]
-        self.metadata = MetadataExtractor(metadata_path)
+        self.metadata = metadata
 
     def get_dio(self):
-        behavioral_event = BehavioralEvents(name='',)
+        behavioral_event = BehavioralEvents(name='list of processed DIO`s',)
         for dio_time_series in self.metadata.behavioral_event:
             temp_timeseries = []
             temp_timestamps = []
@@ -31,4 +30,5 @@ class DioExtractor:
                                                                    description=dio_time_series['description'],
                                                                    )
                                             )
+
         return behavioral_event
