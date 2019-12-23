@@ -19,7 +19,7 @@ class BinaryData:
         return self.num_rows_per_file * self.single_dataset_len, sum(self.file_lenghts)
 
     def read_data(self, dataset_num, file_num):
-        return [0]  # to be overloaded by inheriting classes
+        pass
 
     def get_data_shape(self, dataset_num):
         dim1 = np.size(self.read_data(dataset_num, 0), 0)
