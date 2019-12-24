@@ -1,0 +1,25 @@
+probe_type: tetrode_12.5
+probe_description: four wire electrode
+num_shanks: 1
+shanks:
+ shank_num_0:
+   probe_electrode_0:
+     contact_size: 12.5
+     rel_x: 0
+     rel_y: 0
+     rel_z: 0
+   probe_electrode_1:
+     contact_size: 12.5
+     rel_x: 0
+     rel_y: 0
+     rel_z: 0
+   probe_electrode_2:
+     contact_size: 12.5
+     rel_x: 0
+     rel_y: 0
+     rel_z: 0
+   probe_electrode_3:
+     contact_size: 12.5
+     rel_x: 0
+     rel_y: 0
+     rel_z: 0
