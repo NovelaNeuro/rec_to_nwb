@@ -233,10 +233,6 @@ class NWBFileBuilder:
             description='Sample description',
         )
 
-        # DynamicTable already have 'description' field.
-        # We want new columns fields, so we need to convert metadata from:
-        # task into task_name
-        # description into task_description
         nwb_table.add_column(
             name='task_name',
             description='Sample description',
