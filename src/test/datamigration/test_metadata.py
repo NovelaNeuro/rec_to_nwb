@@ -10,6 +10,7 @@ from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 path = os.path.dirname(os.path.abspath(__file__))
 
 
+# ToDo make universal test (type of fields, not none etc)
 @unittest.skip('ToDo needed to prepare this tests for correct metadata')
 class TestMetadata(unittest.TestCase):
 

@@ -50,7 +50,7 @@ class NWBFileBuilder:
                           subject=self.metadata.subject,
                           )
 
-        # ToDo : task building with new metadata ---self.__build_task(content)
+        self.__build_task(content)
 
         self.__build_position(content)
 
@@ -231,7 +231,14 @@ class NWBFileBuilder:
         content.create_processing_module(
             name='task',
             description='Sample description'
-        ).add_data_interface(self.metadata.task)
+        )
+        for task in self.metadata.tasks:
+            content.processing['task'].add_data_interface(
+                DynamicTable(
+                    name=task['name'],
+                    description=task['description']
+                )
+            )
 
     def write(self, content):
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
