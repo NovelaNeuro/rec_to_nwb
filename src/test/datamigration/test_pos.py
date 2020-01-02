@@ -14,7 +14,8 @@ class TestPOSMigration(unittest.TestCase):
         self.pos_extractor = POSExtractor(datasets=[self.dataset])
         self.position = self.pos_extractor.get_position()
 
-    def create_test_dataset(self):
+    @staticmethod
+    def create_test_dataset():
         dataset = Dataset('test_dataset')
         dataset.add_data_to_dataset(path + '/res/pos_test/', 'pos')
         return dataset
