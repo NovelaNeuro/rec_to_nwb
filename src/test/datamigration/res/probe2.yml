@@ -2,133 +2,135 @@ probe_type: 32c-2s8mm6cm-20um-40um-dl
 probe_description: 32 channel polyimide probe
 num_shanks: 2
 shanks:
-   shank_num: 0
-        probe_electrode_0:
+  - shank_num: 0
+    electrodes:
+      - electrode: probe_electrode_0
           rel_x: 20
           rel_y: 0
           rel_z: 0
-        probe_electrode_1:
+      - electrode: probe_electrode_1
           rel_x: 60
           rel_y: 0
           rel_z: 0
-        probe_electrode_2:
+      - electrode: probe_electrode_2
           rel_x: 100
           rel_y: 0
           rel_z: 0
-        probe_electrode_3:
+      - electrode: probe_electrode_3
           rel_x: 140
           rel_y: 0
           rel_z: 0
-        probe_electrode_4:
+      - electrode: probe_electrode_4
           rel_x: 180
           rel_y: 0
           rel_z: 0
-        probe_electrode_5:
+      - electrode: probe_electrode_5
           rel_x: 220
           rel_y: 0
           rel_z: 0
-        probe_electrode_6:
+      - electrode: probe_electrode_6
           rel_x: 260
           rel_y: 0
           rel_z: 0
-        probe_electrode_7:
+      - electrode: probe_electrode_7
           rel_x: 300
           rel_y: 0
           rel_z: 0
-        probe_electrode_8:
+      - electrode: probe_electrode_8
           rel_x: 340
           rel_y: 0
           rel_z: 0
-        probe_electrode_9:
+      - electrode: probe_electrode_9
           rel_x: 380
           rel_y: 0
           rel_z: 0
-        probe_electrode_10:
+      - electrode: probe_electrode_10
           rel_x: 420
           rel_y: 0
           rel_z: 0
-        probe_electrode_11:
+      - electrode: probe_electrode_11
           rel_x: 460
           rel_y: 0
           rel_z: 0
-        probe_electrode_12:
+      - electrode: probe_electrode_12
           rel_x: 500
           rel_y: 0
           rel_z: 0
-        probe_electrode_13:
+      - electrode: probe_electrode_13
           rel_x: 540
           rel_y: 0
           rel_z: 0
-        probe_electrode_14:
+      - electrode: probe_electrode_14
           rel_x: 580
           rel_y: 0
           rel_z: 0
-        probe_electrode_15:
+      - electrode: probe_electrode_15
           rel_x: 620
           rel_y: 0
           rel_z: 0
-    shank_num: 1
-        probe_electrode_16:
+  - shank_num: 1
+    electrodes:
+      - electrode: probe_electrode_16
           rel_x: 20
           rel_y: 250
           rel_z: 0
-        probe_electrode_17:
+      - electrode: probe_electrode_17
           rel_x: 60
           rel_y: 300
           rel_z: 0
-        probe_electrode_18:
+      - electrode: probe_electrode_18
           rel_x: 100
           rel_y: 300
           rel_z: 0
-        probe_electrode_19:
+      - electrode: probe_electrode_19
           rel_x: 140
           rel_y: 300
           rel_z: 0
-        probe_electrode_20:
+      - electrode: probe_electrode_20
           rel_x: 180
           rel_y: 300
           rel_z: 0
-        probe_electrode_21:
+      - electrode: probe_electrode_21
           rel_x: 220
           rel_y: 300
           rel_z: 0
-        probe_electrode_22:
+      - electrode: probe_electrode_22
           rel_x: 260
           rel_y: 300
           rel_z: 0
-        probe_electrode_23:
+      - electrode: probe_electrode_23
           rel_x: 300
           rel_y: 300
           rel_z: 0
-        probe_electrode_24:
+      - electrode: probe_electrode_24
           rel_x: 340
           rel_y: 300
           rel_z: 0
-        probe_electrode_25:
+      - electrode: probe_electrode_25
           rel_x: 380
           rel_y: 300
           rel_z: 0
-        probe_electrode_26:
+      - electrode: probe_electrode_26
           rel_x: 420
           rel_y: 300
           rel_z: 0
-        probe_electrode_27:
+      - electrode: probe_electrode_27
           rel_x: 460
           rel_y: 300
           rel_z: 0
-        probe_electrode_28:
+      - electrode: probe_electrode_28
           rel_x: 500
           rel_y: 300
           rel_z: 0
-        probe_electrode_29:
+      - electrode: probe_electrode_29
           rel_x: 540
           rel_y: 300
           rel_z: 0
-        probe_electrode_30:
+      - electrode: probe_electrode_30
           rel_x: 580
           rel_y: 300
           rel_z: 0
-        probe_electrode_31:
+      - electrode: probe_electrode_31
           rel_x: 620
           rel_y: 300
           rel_z: 0

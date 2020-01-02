@@ -18,9 +18,11 @@ class TestNwbFullGeneration(unittest.TestCase):
             data_path=str(path) + '/test_data/',
             animal_name='beans',
             date='20190718',
-            metadata_path=str(path) + '/res/metadata.yml',
+            metadata_path=str(path) + '/datamigration/res/metadata.yml',
+            probes_path=str(path) + '/datamigration/res/'
            )
 
+    @unittest.skip("NWB file creation")
     def test_generate_nwb(self):
         content = self.nwbBuilder.build()
         self.nwbBuilder.write(content)

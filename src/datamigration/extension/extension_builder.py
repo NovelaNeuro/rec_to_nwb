@@ -124,5 +124,15 @@ class ExtensionsBuilder:
                     doc='unique id of the probe',
                     dtype='text'
                 ),
+                NWBAttributeSpec(
+                    name='probe_type',
+                    doc='unique id of the probe',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='probe_description',
+                    doc='unique id of the probe',
+                    dtype='text'
+                ),
             ]
         )

@@ -16,6 +16,7 @@ from src.datamigration.nwb_builder.header_checker.rec_file_finder import RecFile
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
+from src.datamigration.nwb_builder.probe_extractor import ProbesExtractor
 from src.datamigration.xml_extractor import XMLExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -23,7 +24,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, metadata_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, metadata_path, probes_path, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
@@ -34,6 +35,7 @@ class NWBFileBuilder:
         self.output_file = output_file
 
         self.metadata = MetadataExtractor(config_path=metadata_path)
+        self.probes_yml = ProbesExtractor(probes_path=probes_path)
         self.__check_headers_compatibility()
         self.spike_n_trodes = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
                                      self.date + '/header.xml').configuration.spike_configuration.spike_n_trodes
@@ -173,12 +175,23 @@ class NWBFileBuilder:
 
     def __add_devices(self, content):
         probes = []
-        for counter, device_name in enumerate(self.metadata.devices):
-            probes.append(Probe(
-                name=device_name,
-                probe_id=str(counter)
+        for probe in self.probes_yml.probes:
+            probes.append(
+                Probe(
+                    name=probe['id'],
+                    probe_type=probe['type'],
+                    probe_description=['description'],
+                    device_name=self.metadata.devices[0]
+                )
             )
-            )
+
+        # for counter, device_name in enumerate(self.metadata.devices):
+        #     probes.append(
+        #         Probe(
+        #             name=device_name,
+        #             probe_id=str(counter)
+        #         )
+        #     )
 
         for probe in probes:
             content.add_device(probe)
