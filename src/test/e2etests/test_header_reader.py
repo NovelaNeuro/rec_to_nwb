@@ -7,7 +7,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 
 @unittest.skip('test need to create files localy not working on travis')
-class MyTestCase(unittest.TestCase):
+class TestHeaderReader(unittest.TestCase):
 
     def setUp(self):
         with open(path + '/../datamigration/res/test_xmls/test1.xml', 'w') as xml_1:
