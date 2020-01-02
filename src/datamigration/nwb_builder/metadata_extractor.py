@@ -32,6 +32,8 @@ class MetadataExtractor:
                 #date_of_birth=date_of_birth,
             )
 
+            self.tasks = metadata_dict['tasks']
+
             # self.task = TimeIntervals(
             #     name=metadata_dict['task']['name'],
             #     description=metadata_dict['task']['description'],
