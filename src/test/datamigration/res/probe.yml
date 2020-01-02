@@ -1,3 +1,4 @@
+probe_name: probe
 probe_type: tetrode_12.5
 probe_description: 'four wire electrode'
 num_shanks: 1

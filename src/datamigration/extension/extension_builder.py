@@ -120,18 +120,18 @@ class ExtensionsBuilder:
             neurodata_type_inc='Device',
             attributes=[
                 NWBAttributeSpec(
-                    name='probe_id',
-                    doc='unique id of the probe',
+                    name='device_name',
+                    doc='name of the device',
                     dtype='text'
                 ),
                 NWBAttributeSpec(
                     name='probe_type',
-                    doc='unique id of the probe',
+                    doc='type of the probe',
                     dtype='text'
                 ),
                 NWBAttributeSpec(
                     name='probe_description',
-                    doc='unique id of the probe',
+                    doc='description of the probe',
                     dtype='text'
                 ),
             ]

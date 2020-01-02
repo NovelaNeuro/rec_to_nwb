@@ -1,3 +1,4 @@
+probe_name: probe2
 probe_type: 32c-2s8mm6cm-20um-40um-dl
 probe_description: 32 channel polyimide probe
 num_shanks: 2

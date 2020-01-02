@@ -62,11 +62,11 @@ class NWBFileBuilder:
 
         self.__build_shanks(content, probes, self.spike_n_trodes)
 
-        self.__add_electrodes(content)
+        # self.__add_electrodes(content)
 
         self.__build_dio(content)
 
-        self.__add_electrodes_extensions(content, self.spike_n_trodes)
+        # self.__add_electrodes_extensions(content, self.spike_n_trodes)
 
         self.__build_mda(content)
         return content
@@ -175,24 +175,15 @@ class NWBFileBuilder:
 
     def __add_devices(self, content):
         probes = []
-        for probe in self.probes_yml.probes:
+        for probe_dict in self.probes_yml.probes_content:
             probes.append(
                 Probe(
-                    name=probe['id'],
-                    probe_type=probe['type'],
-                    probe_description=['description'],
+                    name=probe_dict['probe_name'],
+                    probe_type=probe_dict['probe_type'],
+                    probe_description=probe_dict['probe_description'],
                     device_name=self.metadata.devices[0]
                 )
             )
-
-        # for counter, device_name in enumerate(self.metadata.devices):
-        #     probes.append(
-        #         Probe(
-        #             name=device_name,
-        #             probe_id=str(counter)
-        #         )
-        #     )
-
         for probe in probes:
             content.add_device(probe)
         return probes

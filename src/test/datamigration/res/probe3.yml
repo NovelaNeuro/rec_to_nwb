@@ -1,3 +1,4 @@
+probe_name: probe3
 probe_type: 128c-4s8mm6cm-20um-40um-sl
 probe_description: '128 channel polyimide probe'
 num_shanks: 4

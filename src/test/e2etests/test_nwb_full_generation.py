@@ -22,7 +22,6 @@ class TestNwbFullGeneration(unittest.TestCase):
             probes_path=str(path) + '/datamigration/res/'
            )
 
-    @unittest.skip("NWB file creation")
     def test_generate_nwb(self):
         content = self.nwbBuilder.build()
         self.nwbBuilder.write(content)
