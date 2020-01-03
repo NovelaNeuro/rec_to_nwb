@@ -125,11 +125,6 @@ class ExtensionsBuilder:
                     dtype='text'
                 ),
                 NWBAttributeSpec(
-                    name='probe_type',
-                    doc='type of the probe',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
                     name='probe_description',
                     doc='description of the probe',
                     dtype='text'

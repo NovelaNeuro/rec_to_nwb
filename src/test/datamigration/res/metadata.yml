@@ -104,7 +104,26 @@ device:
     location: mPFC
     device: 128c-4s8mm6cm-20um-40um-sl
     description: 'Probe 2'
-
+  - name: 3
+    location: mPFC
+    device: tetrode_12.5
+    description: 'Probe 2'
+  - name: 4
+    location: mPFC
+    device: 32c-2s8mm6cm-20um-40um-dl
+    description: 'Probe 2'
+  - name: 5
+    location: mPFC
+    device: 32c-2s8mm6cm-20um-40um-dl
+    description: 'Probe 2'
+  - name: 6
+    location: mPFC
+    device: 128c-4s8mm6cm-20um-40um-sl
+    description: 'Probe 1'
+  - name: 7
+    location: mPFC
+    device: 128c-4s8mm6cm-20um-40um-sl
+    description: 'Probe 2'
 #
 #ntrode probe channel map:
 #  - ntrode_id: 1

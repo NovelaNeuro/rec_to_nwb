@@ -52,6 +52,9 @@ groups:
     neurodata_type_inc: Device
     doc: A custom Probes interface
     attributes:
-      - name: probe_id
+      - name: device_name
         dtype: text
-        doc: unique id of the probe
+        doc: name of the device
+      - name: probe_description
+        dtype: text
+        doc: description of the probe

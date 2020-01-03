@@ -1,9 +1,9 @@
-probe_name: probe3
 probe_type: 128c-4s8mm6cm-20um-40um-sl
 probe_description: '128 channel polyimide probe'
 num_shanks: 4
 shanks:
   - shank_num: 0
+    electrode_group_name: 0
     electrodes:
       - electrode: probe_electrode_0
         rel_x: 0
@@ -134,6 +134,7 @@ shanks:
         rel_y: 0
         rel_z: 0
   - shank_num: 1
+    electrode_group_name: 1
     electrodes:
       - electrode: probe_electrode_32
         rel_x: 0
@@ -264,6 +265,7 @@ shanks:
         rel_y: 300
         rel_z: 0
   - shank_num: 2
+    electrode_group_name: 6
     electrodes:
       - electrode: probe_electrode_64
         rel_x: 0
@@ -394,6 +396,7 @@ shanks:
         rel_y: 600
         rel_z: 0
   - shank_num: 3
+    electrode_group_name: 7
     electrodes:
       - electrode: probe_electrode_96
         rel_x: 0

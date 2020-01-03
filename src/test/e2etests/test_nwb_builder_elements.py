@@ -27,6 +27,7 @@ class TestNWBElementBuilder(unittest.TestCase):
             print('Apparatus: ' + str(nwb_file.processing['apparatus'].data_interfaces['apparatus']))
             print(nwb_file.electrodes)
 
+
     @unittest.skip("Electrodes read")
     def test_read_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
@@ -39,11 +40,10 @@ class TestNWBElementBuilder(unittest.TestCase):
             location = []
             filtering = []
             group = []
-            electrode_ide = []
-            maxDisp = []
-            thresh = []
-            hwChan = []
-            triggerOn = []
+            electrode_id = []
+            rel_x = []
+            rel_y = []
+            rel_z = []
 
             for i in range(electrodes_len):
                 x.append(nwb_file.electrodes['x'][i])
@@ -53,11 +53,10 @@ class TestNWBElementBuilder(unittest.TestCase):
                 location.append(nwb_file.electrodes['location'][i])
                 filtering.append(nwb_file.electrodes['filtering'][i])
                 group.append(nwb_file.electrodes['group'][i])
-                electrode_ide.append(nwb_file.electrodes.id[i])
-                maxDisp.append(nwb_file.electrodes['maxDisp'][i])
-                thresh.append(nwb_file.electrodes['thresh'][i])
-                hwChan.append(nwb_file.electrodes['hwChan'][i])
-                triggerOn.append(nwb_file.electrodes['triggerOn'][i])
+                electrode_id.append(nwb_file.electrodes.id[i])
+                rel_x.append(nwb_file.electrodes['rel_x'][i])
+                rel_y.append(nwb_file.electrodes['rel_y'][i])
+                rel_z.append(nwb_file.electrodes['rel_z'][i])
 
             print(x)
             print(y)
@@ -66,11 +65,10 @@ class TestNWBElementBuilder(unittest.TestCase):
             print(location)
             print(filtering)
             print(group)
-            print(electrode_ide)
-            print(maxDisp)
-            print(thresh)
-            print(hwChan)
-            print(triggerOn)
+            print(electrode_id)
+            print(rel_x)
+            print(rel_y)
+            print(rel_z)
 
     @unittest.skip("Need NWBFile")
     def test_check_electrode_groups(self):

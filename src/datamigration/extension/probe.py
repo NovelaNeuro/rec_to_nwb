@@ -10,21 +10,18 @@ load_namespaces(ns_path)
 
 @register_class('Probe', 'NovelaNeurotechnologies')
 class Probe(Device):
-    __nwbfields__ = ('device_name', 'probe_type', 'probe_description')
+    __nwbfields__ = ('device_name', 'probe_description')
 
     @docval(*get_docval(Device.__init__) + (
             {'name': 'device_name', 'type': 'str', 'doc': 'name of the device'},
-            {'name': 'probe_type', 'type': 'str', 'doc': 'type of the probe'},
             {'name': 'probe_description', 'type': 'str', 'doc': 'description of the probe'},
     ))
     def __init__(self, **kwargs):
         super().__init__(**{kwargs_item: kwargs[kwargs_item]
                             for kwargs_item in kwargs.copy()
                             if kwargs_item != 'device_name'
-                            if kwargs_item != 'probe_type'
                             if kwargs_item != 'probe_description'
                             })
         call_docval_func(super(Probe, self).__init__, kwargs)
         self.device_name = kwargs['device_name']
-        self.probe_type = kwargs['probe_type']
         self.probe_description = kwargs['probe_description']

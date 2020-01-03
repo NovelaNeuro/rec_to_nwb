@@ -1,9 +1,9 @@
-probe_name: probe
 probe_type: tetrode_12.5
 probe_description: 'four wire electrode'
 num_shanks: 1
 shanks:
     - shank_num: 0
+      electrode_group_name: 3
       electrodes:
           - electrode: probe_electrode_0
             contact_size: 12.5

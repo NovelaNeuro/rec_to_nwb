@@ -3,10 +3,10 @@ import os
 
 from hdmf.common import VectorData, DynamicTable
 from pynwb import NWBHDF5IO, NWBFile
+from pynwb.ecephys import ElectrodeGroup
 
 import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
-from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
@@ -56,19 +56,18 @@ class NWBFileBuilder:
 
         self.__build_position(content)
 
-        self.__build_aparatus(content)
+        self.__build_apparatus(content)
 
         probes = self.__add_devices(content)
 
-        self.__build_shanks(content, probes, self.spike_n_trodes)
+        groups = self.__add_electrode_group(content, probes)
 
-        # self.__add_electrodes(content)
+        self.__add_electrodes(content, groups)
 
-        self.__build_dio(content)
+        # self.__build_dio(content)
 
-        # self.__add_electrodes_extensions(content, self.spike_n_trodes)
+        # self.__build_mda(content)
 
-        self.__build_mda(content)
         return content
 
     def __check_headers_compatibility(self,):
@@ -93,93 +92,69 @@ class NWBFileBuilder:
             region=self.metadata.electrode_regions[0]['region'])
         return region
 
-    @staticmethod
-    def __add_electrodes_extensions(content, spike_n_trodes):
-        maxDisp = []
-        triggerOn = []
-        hwChan = []
-        thresh = []
-        for trode in spike_n_trodes:
-            for channel in trode.spike_channels:
-                maxDisp.append(channel.max_disp)
-                triggerOn.append(channel.trigger_on)
-                hwChan.append(channel.hw_chan)
-                thresh.append(channel.thresh)
+    def __add_electrodes(self, content, groups):
+        rel_x = []
+        rel_y = []
+        rel_z = []
+        for probe_file in self.probes_yml.probes_content:
+            for shank in probe_file['shanks']:
+                group = next((group for group in groups
+                              if group.name == str(shank['electrode_group_name'])),
+                             'Error, no corresponding electrode_group')
+                location = group.location
+                for electrode in shank['electrodes']:
+                    content.add_electrode(
+                        x=0.0,
+                        y=0.0,
+                        z=0.0,
+                        imp=0.0,
+                        location=location,
+                        filtering='None',
+                        group=group,
+                        id=int(electrode['electrode'].split('probe_electrode_')[1]),
+                    )
+                    rel_x.append(electrode['rel_x'])
+                    rel_y.append(electrode['rel_y'])
+                    rel_z.append(electrode['rel_z'])
+
         content.electrodes.add_column(
-            name='maxDisp',
-            description='maxDisp sample description',
-            data=maxDisp
+            name='rel_x',
+            description='rel_x sample description',
+            data=rel_x
         )
         content.electrodes.add_column(
-            name='thresh',
-            description='thresh sample description',
-            data=thresh
+            name='rel_y',
+            description='rel_y sample description',
+            data=rel_y
         )
         content.electrodes.add_column(
-            name='hwChan',
-            description='hwChan sample description',
-            data=hwChan
-        )
-        content.electrodes.add_column(
-            name='triggerOn',
-            description='triggerOn sample description',
-            data=triggerOn
+            name='rel_z',
+            description='rel_z sample description',
+            data=rel_z
         )
 
-    def __add_electrodes(self, content):
-        for electrode in self.metadata.electrodes:
-            content.add_electrode(
-                x=electrode['x'],
-                y=electrode['y'],
-                z=electrode['z'],
-                imp=1.0,
-                location='necessary location',
-                filtering=electrode['filtering'],
-                group=content.electrode_groups['1'],
-                id=electrode['id'],
+    def __add_electrode_group(self, content, probes):
+        groups = []
+        for electrode_group_dict in self.metadata.electrode_groups:
+            groups.append(
+                ElectrodeGroup(
+                    name=str(electrode_group_dict['name']),
+                    description=electrode_group_dict['description'],
+                    location=electrode_group_dict['location'],
+                    device=[probe for probe in probes
+                            if probe.name == electrode_group_dict['device']][0]
+                )
             )
-
-    def __build_shanks(self, content, probes, spike_n_trodes):
-        shanks = []
-        for group_index, electrode_group_dict in enumerate(self.metadata.electrode_groups):
-            shank = self.__create_shank(electrode_group_dict, group_index, probes, spike_n_trodes)
-            shanks.append(shank)
-        for shank in shanks:
-            content.add_electrode_group(shank)
-
-    @staticmethod
-    def __create_shank(electrode_group_dict, group_index, probes, spike_n_trodes):
-        shank = Shank(
-            name=str(electrode_group_dict['name']),
-            description=electrode_group_dict['description'],
-            location=electrode_group_dict['location'],
-            device=[probe for probe in probes
-                    if probe.name == electrode_group_dict['device']][0],
-            filterOn=spike_n_trodes[group_index].filter_on,
-            lowFilter=spike_n_trodes[group_index].low_filter,
-            lfpRefOn=spike_n_trodes[group_index].lfp_ref_on,
-            color=spike_n_trodes[group_index].color,
-            highFilter=spike_n_trodes[group_index].hight_filter,
-            lfpFilterOn=spike_n_trodes[group_index].lfp_filter_on,
-            moduleDataOn=spike_n_trodes[group_index].module_data_on,
-            LFPHighFilter=spike_n_trodes[group_index].lfp_high_filter,
-            refGroup=spike_n_trodes[group_index].ref_group,
-            LFPChan=spike_n_trodes[group_index].lfp_chan,
-            refNTrodeID=spike_n_trodes[group_index].ref_n_trode_id,
-            refChan=spike_n_trodes[group_index].ref_chan,
-            groupRefOn=spike_n_trodes[group_index].group_ref_on,
-            refOn=spike_n_trodes[group_index].ref_on,
-            id=str(spike_n_trodes[group_index].id),
-        )
-        return shank
+        for group in groups:
+            content.add_electrode_group(group)
+        return groups
 
     def __add_devices(self, content):
         probes = []
         for probe_dict in self.probes_yml.probes_content:
             probes.append(
                 Probe(
-                    name=probe_dict['probe_name'],
-                    probe_type=probe_dict['probe_type'],
+                    name=probe_dict['probe_type'],
                     probe_description=probe_dict['probe_description'],
                     device_name=self.metadata.devices[0]
                 )
@@ -206,7 +181,7 @@ class NWBFileBuilder:
             extracted_dio.get_dio()
         )
 
-    def __build_aparatus(self, content):
+    def __build_apparatus(self, content):
         apparatus_columns = []
         for counter, row in enumerate(self.metadata.apparatus):
             apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=row))
