@@ -15,102 +15,13 @@ class ExtensionsBuilder:
             name="NovelaNeurotechnologies"
         )
 
-        self.shank = self.create_shank()
         self.probes = self.create_probe()
 
-        ns_builder.add_spec(self.ext_source, self.shank)
         ns_builder.add_spec(self.ext_source, self.probes)
 
-        ns_builder.include_type('ElectrodeGroup', namespace='core')
         ns_builder.include_type('Device', namespace='core')
 
         ns_builder.export(path=self.ns_path, outdir=path)
-
-    @staticmethod
-    def create_shank():
-        return NWBGroupSpec(
-            doc='A custom ElectrodesGroup interface',
-            neurodata_type_def='Shank',
-            neurodata_type_inc='ElectrodeGroup',
-            attributes=[
-                NWBAttributeSpec(
-                    name='filterOn',
-                    doc='filterOn sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='lowFilter',
-                    doc='lowFilter sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='lfpRefOn',
-                    doc='lfpRefOn sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='color',
-                    doc='color sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='highFilter',
-                    doc='highFilter sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='lfpFilterOn',
-                    doc='lfpFilterOn sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='moduleDataOn',
-                    doc='moduleDataOn sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='LFPHighFilter',
-                    doc='LFPHighFilter sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='refGroup',
-                    doc='refGroup sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='LFPChan',
-                    doc='LFPChan sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='refNTrodeID',
-                    doc='refNTrodeID sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='refChan',
-                    doc='refChan sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='groupRefOn',
-                    doc='groupRefOn sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='refOn',
-                    doc='refOn sample doc',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='id',
-                    doc='id sample doc',
-                    dtype='text'
-                ),
-
-            ],
-        )
 
     @staticmethod
     def create_probe():
