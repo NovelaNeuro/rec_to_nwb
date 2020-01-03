@@ -64,9 +64,9 @@ class NWBFileBuilder:
 
         self.__add_electrodes(content, groups)
 
-        # self.__build_dio(content)
+        self.__build_dio(content)
 
-        # self.__build_mda(content)
+        self.__build_mda(content)
 
         return content
 
