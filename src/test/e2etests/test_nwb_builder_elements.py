@@ -70,7 +70,8 @@ class TestNWBElementBuilder(unittest.TestCase):
             print(rel_y)
             print(rel_z)
 
-    @unittest.skip("Need NWBFile")
+    # TODO fix test
+    @unittest.skip("Need adjust for the new metadata / for all metadata | Need NWBFile")
     def test_check_electrode_groups(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()
@@ -121,7 +122,8 @@ class TestNWBElementBuilder(unittest.TestCase):
             self.assertEqual(electrodegroup2.refOn, xml_electrodegroup2.ref_on)
             self.assertEqual(electrodegroup2.id, xml_electrodegroup2.id)
 
-    @unittest.skip("Need NWBFile")
+    # TODO fix test
+    @unittest.skip("Need adjust for the new metadata / for all metadata | Need NWBFile")
     def test_check_electrodes(self):
         with NWBHDF5IO(path=self.output_name, mode='r') as io:
             nwb_file = io.read()

@@ -6,6 +6,8 @@ from src.datamigration.nwb_builder.probe_extractor import ProbesExtractor
 path = os.path.dirname(os.path.abspath(__file__))
 
 
+# TODO new test
+@unittest.skip("Need new test")
 class TestProbeExtractor(unittest.TestCase):
 
     def setUp(self):

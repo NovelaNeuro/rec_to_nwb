@@ -124,7 +124,7 @@ device:
     location: mPFC
     device: 128c-4s8mm6cm-20um-40um-sl
     description: 'Probe 2'
-#
+# ToDo change to appropriate form
 #ntrode probe channel map:
 #  - ntrode_id: 1
 #    probe: 0
