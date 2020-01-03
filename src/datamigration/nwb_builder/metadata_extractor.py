@@ -26,6 +26,23 @@ class MetadataExtractor:
                 weight=str(metadata_dict['subject']['weight']),
             )
 
+            self.tasks = metadata_dict['tasks']
+
+            # self.task = TimeIntervals(
+            #     name=metadata_dict['task']['name'],
+            #     description=metadata_dict['task']['description'],
+            #     id=metadata_dict['task']['id'],
+            #     columns=metadata_dict['task']['columns'],
+            #     colnames=metadata_dict['task']['colnames'],
+            # )
+
+            # self.task.add_interval(
+            #     start_time=metadata_dict['task']['interval']['start_time'],
+            #     stop_time=metadata_dict['task']['interval']['stop_time'],
+            #     tags=str(metadata_dict['task']['interval']['tags']),
+            #     timeseries=metadata_dict['task']['interval']['timeseries'],
+            # )
+
             self.devices = metadata_dict['device']['name']
             self.electrode_groups = metadata_dict['electrode group']
             # self.electrodes = metadata_dict['electrode']

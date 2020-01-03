@@ -19,7 +19,7 @@ class BinaryData:
         return self.num_rows_per_file * self.single_dataset_len, sum(self.file_lenghts)
 
     def read_data(self, dataset_num, file_num):
-        return [0]  # to be overloaded by inheriting classes
+        pass
 
     def get_data_shape(self, dataset_num):
         dim1 = np.size(self.read_data(dataset_num, 0), 0)
@@ -71,7 +71,10 @@ class MdaTimestamps(BinaryData1D):
         return np.size(self.directories, 1)
 
     def read_data(self, dataset_num, file_num=0):
-        return readmda(self.directories[0][dataset_num])
+        data = readmda(self.directories[0][dataset_num])
+        for i in range(np.size(data, 0)):
+            data[i] = data[i] / 1000
+        return data
 
     def get_data_shape(self, dataset_num):
         dim1 = np.size(self.read_data(dataset_num), 0)
@@ -90,6 +93,8 @@ class PosTimestamps(BinaryData1D):
         pos_online = readTrodesExtractedDataFile(self.directories[dataset_num][0])
         position = pd.DataFrame(pos_online['data'])
         timestamps = position.time.to_numpy()
+        for i in range(np.size(timestamps, 0)):
+            timestamps[i] = timestamps[i] / 1000
         return timestamps
 
     def get_data_shape(self, dataset_num):

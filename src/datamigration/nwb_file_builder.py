@@ -52,7 +52,7 @@ class NWBFileBuilder:
                           subject=self.metadata.subject,
                           )
 
-        # ToDo : task building with new metadata ---self.__build_task(content)
+        self.__build_task(content)
 
         self.__build_position(content)
 
@@ -79,8 +79,13 @@ class NWBFileBuilder:
         comparator = HeaderComparator(xml_headers)
         if not comparator.compare():
             message = 'Rec files: ' + str(rec_files) + ' contain incosistent xml headers!'
-            differences = header_reader.headers_differences
+            differences = [diff for diff in header_reader.headers_differences
+                           if not 'systemTimeAtCreation' in str(diff) and not 'timestampAtCreation'
+                                                                              in str(diff)]
             logging.warning(message, differences,)
+            with open('headers_comparission_log.log', 'w') as headers_log:
+                headers_log.write(str(message + '\n'))
+                headers_log.write(str(differences))
 
         XMLExtractor(rec_path=rec_files[0],
                      xml_path=self.data_path + '/' + self.animal_name + '/preprocessing/' +
@@ -207,10 +212,26 @@ class NWBFileBuilder:
         )
 
     def __build_task(self, content):
+        nwb_table = DynamicTable(
+            name='task',
+            description='Sample description',
+        )
+
+        nwb_table.add_column(
+            name='task_name',
+            description='Sample description',
+        )
+        nwb_table.add_column(
+            name='task_description',
+            description='Sample description',
+        )
+        for task in self.metadata.tasks:
+            nwb_table.add_row(task)
+
         content.create_processing_module(
             name='task',
             description='Sample description'
-        ).add_data_interface(self.metadata.task)
+        ).add_data_interface(nwb_table)
 
     def write(self, content):
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
