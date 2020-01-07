@@ -79,8 +79,8 @@ class NWBFileBuilder:
         if not comparator.compare():
             message = 'Rec files: ' + str(rec_files) + ' contain incosistent xml headers!'
             differences = [diff for diff in header_reader.headers_differences
-                           if not 'systemTimeAtCreation' in str(diff) and not 'timestampAtCreation'
-                           in str(diff)]
+                           if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
+                           not in str(diff)]
             logging.warning(message, differences,)
             with open('headers_comparission_log.log', 'w') as headers_log:
                 headers_log.write(str(message + '\n'))
