@@ -8,12 +8,13 @@ from src.datamigration.nwb_file_builder import NWBFileBuilder
 
 class RawToNWBBuilder:
 
-    def __init__(self, data_path, animal_name, date, metadata_path, output_path):
+    def __init__(self, data_path, animal_name, date, metadata_path, probes_path, output_path):
         self.animal_name = animal_name
         self.data_path = data_path
         self.date = date
         self.metadata_path = metadata_path
         self.output_path = output_path
+        self.probes_path = probes_path
 
     def __preprocess_data(self):
         extract_trodes_rec_file(self.data_path, self.animal_name, parallel_instances=4)
@@ -25,7 +26,8 @@ class RawToNWBBuilder:
             animal_name=self.animal_name,
             date=self.date,
             metadata_path=self.metadata_path,
-            output_file=self.output_path
+            output_file=self.output_path,
+            probes_path=self.probes_path
         )
         content = self.nwbBuilder.build()
         self.nwbBuilder.write(content)

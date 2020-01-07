@@ -41,12 +41,12 @@ apparatus:
 tasks:
   [
   {
-    name:          Sleep,
-    description:   The animal sleeps in a small empty box.
+    task_name:          Sleep,
+    task_description:   The animal sleeps in a small empty box.
   },
   {
-    name:            Stem+Leaf,
-    description:     Spatial Bandit,
+    task_name:            Stem+Leaf,
+    task_description:     Spatial Bandit,
   }
   ]
 

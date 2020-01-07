@@ -13,7 +13,7 @@ class TestDio(unittest.TestCase):
 
     def setUp(self):
         self.dio_data = DioExtractor(data_path=str(path) + '/test_data/beans/preprocessing/20190718/',
-                                     metadata=MetadataExtractor(config_path=str(path) + '/res/metadata.yml')).get_dio()
+                                     metadata=MetadataExtractor(config_path=str(path) + '/datamigration/res/metadata.yml')).get_dio()
 
     def test_dio_extractor(self):
         self.assertIsNotNone(self.dio_data)

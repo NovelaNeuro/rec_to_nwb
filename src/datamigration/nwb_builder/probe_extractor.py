@@ -7,7 +7,6 @@ import yaml
 class ProbesExtractor:
 
     def __init__(self, probes_path):
-        # self.probe = Probe(probe_folder_path)
         self.probes_content = []
         for probe_file in os.listdir(probes_path):
             if fnmatch.fnmatch(probe_file, "probe*.yml"):

@@ -15,8 +15,9 @@ class TestRawToNWBGeneration(unittest.TestCase):
         self.builder = RawToNWBBuilder(animal_name='beans',
                                        data_path=str(path) + '/test_data/',
                                        date='20190718',
-                                       metadata_path=str(path) + '/res/metadata.yml',
-                                       output_path='raw2nwb_output.nwb'
+                                       metadata_path=str(path) + '/datamigration/res/metadata.yml',
+                                       output_path='raw2nwb_output.nwb',
+                                       probes_path=str(path) + '/datamigration/res/'
                                        )
 
     def test_from_raw_to_nwb_generation(self):
