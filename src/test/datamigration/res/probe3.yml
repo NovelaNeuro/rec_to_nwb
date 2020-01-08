@@ -3,527 +3,801 @@ probe_description: '128 channel polyimide probe'
 num_shanks: 4
 contact_size: 20
 shanks:
-  - shank_num: 0
+  [
+  {
+    shank_num: 0
     electrode_group_name: 0
     electrodes:
-      - electrode: probe_electrode_0
+      [
+      {
+        electrode: probe_electrode_0
         rel_x: 0
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_1
+      },
+      {
+        electrode: probe_electrode_1
         rel_x: 40
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_2
+      },
+      {
+        electrode: probe_electrode_2
         rel_x: 80
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_3
+      },
+      {
+        electrode: probe_electrode_3
         rel_x: 120
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_4
+      },
+      {
+        electrode: probe_electrode_4
         rel_x: 160
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_5
+      },
+      {
+        electrode: probe_electrode_5
         rel_x: 200
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_6
+      },
+      {
+        electrode: probe_electrode_6
         rel_x: 240
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_7
+      },
+      {
+        electrode: probe_electrode_7
         rel_x: 280
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_8
+      },
+      {
+        electrode: probe_electrode_8
         rel_x: 320
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_9
+      },
+      {
+        electrode: probe_electrode_9
         rel_x: 360
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_10
+      },
+      {
+        electrode: probe_electrode_10
         rel_x: 400
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_11
+      },
+      {
+        electrode: probe_electrode_11
         rel_x: 440
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_12
+      },
+      {
+        electrode: probe_electrode_12
         rel_x: 480
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_13
+      },
+      {
+        electrode: probe_electrode_13
         rel_x: 520
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_14
+      },
+      {
+        electrode: probe_electrode_14
         rel_x: 560
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_15
+      },
+      {
+        electrode: probe_electrode_15
         rel_x: 600
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_16
+      },
+      {
+        electrode: probe_electrode_16
         rel_x: 640
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_17
+      },
+      {
+        electrode: probe_electrode_17
         rel_x: 680
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_18
+      },
+      {
+        electrode: probe_electrode_18
         rel_x: 720
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_19
+      },
+      {
+        electrode: probe_electrode_19
         rel_x: 760
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_20
+      },
+      {
+        electrode: probe_electrode_20
         rel_x: 800
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_21
+      },
+      {
+        electrode: probe_electrode_21
         rel_x: 840
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_22
+      },
+      {
+        electrode: probe_electrode_22
         rel_x: 880
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_23
+      },
+      {
+        electrode: probe_electrode_23
         rel_x: 920
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_24
+      },
+      {
+        electrode: probe_electrode_24
         rel_x: 960
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_25
+      },
+      {
+        electrode: probe_electrode_25
         rel_x: 1000
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_26
+      },
+      {
+        electrode: probe_electrode_26
         rel_x: 1040
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_27
+      },
+      {
+        electrode: probe_electrode_27
         rel_x: 1080
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_28
+      },
+      {
+        electrode: probe_electrode_28
         rel_x: 1120
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_29
+      },
+      {
+        electrode: probe_electrode_29
         rel_x: 1160
         rel_y: 0
         rel_z: 0
-      - electrode: probe_electrode_30
+      },
+      {
+        electrode: probe_electrode_30
         rel_x: 1200
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_31
+      },
+      {
+        electrode: probe_electrode_31
         rel_x: 1240
         rel_y: 0
         rel_z: 0
-  - shank_num: 1
+      }
+      ]
+  },
+  {
+    shank_num: 1
     electrode_group_name: 1
     electrodes:
-      - electrode: probe_electrode_32
+      [
+      {
+        electrode: probe_electrode_32
         rel_x: 0
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_33
+      },
+      {
+        electrode: probe_electrode_33
         rel_x: 40
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_34
+      },
+      {
+        electrode: probe_electrode_34
         rel_x: 80
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_35
+      },
+      {
+        electrode: probe_electrode_35
         rel_x: 120
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_36
+      },
+      {
+        electrode: probe_electrode_36
         rel_x: 160
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_37
+      },
+      {
+        electrode: probe_electrode_37
         rel_x: 200
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_38
+      },
+      {
+        electrode: probe_electrode_38
         rel_x: 240
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_39
+      },
+      {
+        electrode: probe_electrode_39
         rel_x: 280
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_40
+      },
+      {
+        electrode: probe_electrode_40
         rel_x: 320
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_41
+      },
+      {
+        electrode: probe_electrode_41
         rel_x: 360
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_42
+      },
+      {
+        electrode: probe_electrode_42
         rel_x: 400
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_43
+      },
+      {
+        electrode: probe_electrode_43
         rel_x: 440
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_44
+      },
+      {
+        electrode: probe_electrode_44
         rel_x: 480
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_45
+      },
+      {
+        electrode: probe_electrode_45
         rel_x: 520
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_46
+      },
+      {
+        electrode: probe_electrode_46
         rel_x: 560
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_47
+      },
+      {
+        electrode: probe_electrode_47
         rel_x: 600
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_48
+      },
+      {
+        electrode: probe_electrode_48
         rel_x: 640
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_49
+      },
+      {
+        electrode: probe_electrode_49
         rel_x: 680
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_50
+      },
+      {
+        electrode: probe_electrode_50
         rel_x: 720
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_51
+      },
+      {
+        electrode: probe_electrode_51
         rel_x: 760
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_52
+      },
+      {
+        electrode: probe_electrode_52
         rel_x: 800
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_53
+      },
+      {
+        electrode: probe_electrode_53
+      }
         rel_x: 840
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_54
+      },
+      {
+        electrode: probe_electrode_54
         rel_x: 880
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_55
+      },
+      {
+        electrode: probe_electrode_55
         rel_x: 920
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_56
+      },
+      {
+        electrode: probe_electrode_56
         rel_x: 960
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_57
+      },
+      {
+        electrode: probe_electrode_57
         rel_x: 1000
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_58
+      },
+      {
+        electrode: probe_electrode_58
         rel_x: 1040
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_59
+      },
+      {
+        electrode: probe_electrode_59
         rel_x: 1080
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_60
+      },
+      {
+        electrode: probe_electrode_60
         rel_x: 1120
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_61
+      },
+      {
+        electrode: probe_electrode_61
         rel_x: 1160
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_62
+      },
+      {
+        electrode: probe_electrode_62
         rel_x: 1200
         rel_y: 300
         rel_z: 0
-      - electrode: probe_electrode_63
+      },
+      {
+        electrode: probe_electrode_63
         rel_x: 1240
         rel_y: 300
         rel_z: 0
-  - shank_num: 2
+      }
+      ]
+  },
+  {
+    shank_num: 2
     electrode_group_name: 6
     electrodes:
-      - electrode: probe_electrode_64
+      [
+      {
+        electrode: probe_electrode_64
         rel_x: 0
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_65
+      },
+      {
+        electrode: probe_electrode_65
         rel_x: 40
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_66
+      },
+      {
+        electrode: probe_electrode_66
         rel_x: 80
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_67
+      },
+      {
+        electrode: probe_electrode_67
         rel_x: 120
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_68
+      },
+      {
+        electrode: probe_electrode_68
         rel_x: 160
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_69
+      },
+      {
+        electrode: probe_electrode_69
         rel_x: 200
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_70
+      },
+      {
+        electrode: probe_electrode_70
         rel_x: 240
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_71
+      },
+      {
+        electrode: probe_electrode_71
         rel_x: 280
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_72
+      },
+      {
+        electrode: probe_electrode_72
         rel_x: 320
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_73
+      },
+      {
+        electrode: probe_electrode_73
         rel_x: 360
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_74
+      },
+      {
+        electrode: probe_electrode_74
         rel_x: 400
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_75
+      },
+      {
+        electrode: probe_electrode_75
         rel_x: 440
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_76
+      },
+      {
+        electrode: probe_electrode_76
         rel_x: 480
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_77
+      },
+      {
+        electrode: probe_electrode_77
         rel_x: 520
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_78
+      },
+      {
+        electrode: probe_electrode_78
         rel_x: 560
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_79
+      },
+      {
+        electrode: probe_electrode_79
         rel_x: 600
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_80
+      },
+      {
+        electrode: probe_electrode_80
         rel_x: 640
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_81
+      },
+      {
+        electrode: probe_electrode_81
         rel_x: 680
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_82
+      },
+      {
+        electrode: probe_electrode_82
         rel_x: 720
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_83
+      },
+      {
+        electrode: probe_electrode_83
         rel_x: 760
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_84
+      },
+      {
+        electrode: probe_electrode_84
         rel_x: 800
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_85
+      },
+      {
+        electrode: probe_electrode_85
         rel_x: 840
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_86
+      },
+      {
+        electrode: probe_electrode_86
         rel_x: 880
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_87
+      },
+      {
+        electrode: probe_electrode_87
         rel_x: 920
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_88
+      },
+      {
+        electrode: probe_electrode_88
         rel_x: 960
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_89
+      },
+      {
+        electrode: probe_electrode_89
         rel_x: 1000
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_90
+      },
+      {
+        electrode: probe_electrode_90
         rel_x: 1040
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_91
+      },
+      {
+        electrode: probe_electrode_91
         rel_x: 1080
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_92
+      },
+      {
+        electrode: probe_electrode_92
         rel_x: 1120
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_93
+      },
+      {
+        electrode: probe_electrode_93
         rel_x: 1160
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_94
+      },
+      {
+        electrode: probe_electrode_94
         rel_x: 1200
         rel_y: 600
         rel_z: 0
-      - electrode: probe_electrode_95
+      },
+      {
+        electrode: probe_electrode_95
         rel_x: 1240
         rel_y: 600
         rel_z: 0
-  - shank_num: 3
+      }
+      ]
+  }
+  {
+    shank_num: 3
     electrode_group_name: 7
     electrodes:
-      - electrode: probe_electrode_96
+      [
+      {
+        electrode: probe_electrode_96
         rel_x: 0
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_97
+      },
+      {
+        electrode: probe_electrode_97
         rel_x: 40
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_98
+      },
+      {
+        electrode: probe_electrode_98
         rel_x: 80
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_99
+      },
+      {
+        electrode: probe_electrode_99
         rel_x: 120
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_100
+      },
+      {
+        electrode: probe_electrode_100
         rel_x: 160
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_101
+      },
+      {
+        electrode: probe_electrode_101
         rel_x: 200
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_102
+      },
+      {
+        electrode: probe_electrode_102
         rel_x: 240
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_103
+      },
+      {
+        electrode: probe_electrode_103
         rel_x: 280
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_104
+      },
+      {
+        electrode: probe_electrode_104
         rel_x: 320
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_105
+      },
+      {
+        electrode: probe_electrode_105
         rel_x: 360
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_106
+      },
+      {
+        electrode: probe_electrode_106
         rel_x: 400
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_107
+      },
+      {
+        electrode: probe_electrode_107
         rel_x: 440
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_108
+      },
+      {
+        electrode: probe_electrode_108
         rel_x: 480
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_109
+      },
+      {
+        electrode: probe_electrode_109
         rel_x: 520
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_110
+      },
+      {
+        electrode: probe_electrode_110
         rel_x: 560
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_111
+      },
+      {
+        electrode: probe_electrode_111
         rel_x: 600
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_112
+      },
+      { electrode: probe_electrode_112
         rel_x: 640
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_113
+      },
+      {
+        electrode: probe_electrode_113
         rel_x: 680
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_114
+      },
+      {
+        electrode: probe_electrode_114
         rel_x: 720
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_115
+      },
+      {
+        electrode: probe_electrode_115
         rel_x: 760
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_116
+      },
+      {
+        electrode: probe_electrode_116
         rel_x: 800
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_117
+      },
+      {
+        electrode: probe_electrode_117
         rel_x: 840
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_118
+      },
+      {
+        electrode: probe_electrode_118
         rel_x: 880
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_119
+      },
+      {
+        electrode: probe_electrode_119
         rel_x: 920
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_120
+      },
+      {
+        electrode: probe_electrode_120
         rel_x: 960
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_121
+      },
+      {
+        electrode: probe_electrode_121
         rel_x: 1000
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_122
+      },
+      {
+        electrode: probe_electrode_122
         rel_x: 1040
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_123
+      },
+      {
+        electrode: probe_electrode_123
         rel_x: 1080
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_124
+      },
+      {
+        electrode: probe_electrode_124
         rel_x: 1120
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_125
+      },
+      {
+        electrode: probe_electrode_125
         rel_x: 1160
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_126
+      },
+      {
+        electrode: probe_electrode_126
         rel_x: 1200
         rel_y: 900
         rel_z: 0
-      - electrode: probe_electrode_127
+      },
+      {
+        electrode: probe_electrode_127
         rel_x: 1240
         rel_y: 900
         rel_z: 0
+      }
+      ]
+  }
+  ]
