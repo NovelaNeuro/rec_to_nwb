@@ -3,6 +3,9 @@ import datetime
 import yaml
 from pynwb.file import Subject
 
+from src.datamigration.nwb_builder.ElectrodeGroupDescription import ElectrodeGroupDescription
+from src.datamigration.nwb_builder.NTrode import NTrode
+
 
 class MetadataExtractor:
 
@@ -28,7 +31,12 @@ class MetadataExtractor:
 
             self.tasks = metadata_dict['tasks']
             self.devices = metadata_dict['device']['name']
-            self.electrode_groups = metadata_dict['electrode group']
             self.electrode_regions = metadata_dict['electrode region']
             self.apparatus = metadata_dict['apparatus']['data']
             self.behavioral_event = metadata_dict['behavioral_events']
+
+            self.ntrodes = [NTrode(map_dict) for map_dict in metadata_dict['ntrode probe channel map']]
+
+            self.electrode_groups = [ElectrodeGroupDescription(electrode_group_dict)
+                                     for electrode_group_dict
+                                     in metadata_dict['electrode group']]
