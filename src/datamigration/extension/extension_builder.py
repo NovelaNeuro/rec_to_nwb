@@ -1,7 +1,7 @@
 import os
 
-from pynwb.spec import NWBGroupSpec, NWBNamespaceBuilder, NWBAttributeSpec
-
+from pynwb.spec import NWBGroupSpec, NWBNamespaceBuilder, NWBAttributeSpec, NWBDatasetSpec
+from pynwb.spec import NWBDtypeSpec
 path = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -29,12 +29,20 @@ class ExtensionsBuilder:
             doc='A custom Probes interface',
             neurodata_type_def='Probe',
             neurodata_type_inc='ElectrodeGroup',
+            datasets=[
+                NWBDatasetSpec(
+                    doc='names of the nodes this edge connects',
+                    name='ntrodes',
+                    dtype='int',
+                    dims=[1],
+                    shape=[2])],
             attributes=[
                 NWBAttributeSpec(
                     name='id',
                     doc='name of the device',
                     dtype='int'
                 ),
+
                 # NWBAttributeSpec(
                 #     name='ntrodes',
                 #     doc='name of the device',

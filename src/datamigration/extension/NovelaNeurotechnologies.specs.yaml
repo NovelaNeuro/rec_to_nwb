@@ -6,3 +6,11 @@ groups:
   - name: id
     dtype: int
     doc: name of the device
+  datasets:
+  - name: ntrodes
+    dtype: int
+    dims:
+    - 1
+    shape:
+    - 2
+    doc: names of the nodes this edge connects

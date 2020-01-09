@@ -21,7 +21,7 @@ content = NWBFile(session_description='self.metadata.session_description',
 probe = Probe(id=6,
                                  # probe_type='probiusz typ',
                                  # electrode_groups=[1, 2, 3],
-                                 # ntrodes=[5, 5, 5],
+                                 ntrodes=[5, 5],
                                  # contact_size=4.5,
                                  # num_shanks=4,
                                  name='EGname',
@@ -40,4 +40,4 @@ nwb_file = NWBHDF5IO('output_file.nwb', 'r')
 nwbfile_read = nwb_file.read()
 
 print(nwbfile_read.electrode_groups['EGname'])
-print(' do some')
+print(list(nwbfile_read.electrode_groups['EGname'].ntrodes))

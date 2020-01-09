@@ -11,11 +11,11 @@ load_namespaces(ns_path)
 
 @register_class('Probe', 'NovelaNeurotechnologies')
 class Probe(ElectrodeGroup):
-    __nwbfields__ = ('id',)
+    __nwbfields__ = ('id','ntrodes')
 #, 'ntrodes', 'electrode_groups', 'num_shanks', 'contact_size', 'probe_type'
     @docval(*get_docval(ElectrodeGroup.__init__) + (
             {'name': 'id', 'type': 'int', 'doc': 'id of probe'},
-            # {'name': 'ntrodes', 'type': 'list', 'doc': 'ntrodes list'},
+            {'name': 'ntrodes', 'type': 'array_data', 'doc': 'ntrodes list'},
             # {'name': 'electrode_groups', 'type': 'list', 'doc': 'list of electrode groups'},
             # {'name': 'num_shanks', 'type': 'int', 'doc': 'number of shanks'},
             # {'name': 'contact_size', 'type': 'float', 'doc': 'contact size value'},
@@ -26,7 +26,7 @@ class Probe(ElectrodeGroup):
         super().__init__(**{kwargs_item: kwargs[kwargs_item]
                             for kwargs_item in kwargs.copy()
                             if kwargs_item != 'id'
-                            # if kwargs_item != 'ntrodes'
+                            if kwargs_item != 'ntrodes'
                             # if kwargs_item != 'electrode_groups'
                             # if kwargs_item != 'num_shanks'
                             # if kwargs_item != 'contact_size'
@@ -34,7 +34,7 @@ class Probe(ElectrodeGroup):
                             })
         call_docval_func(super(Probe, self).__init__, kwargs)
         self.id = kwargs['id']
-        # self.ntrodes = kwargs['ntrodes']
+        self.ntrodes = kwargs['ntrodes']
         # self.electrode_groups = kwargs['electrode_groups']
         # self.num_shanks = kwargs['num_shanks']
         # self.contact_size = kwargs['contact_size']
