@@ -3,211 +3,137 @@ probe_description: 32 channel polyimide probe
 num_shanks: 2
 contact_size: 20
 shanks:
-  [
-  {
-    shank_num: 0
-      electrode_group_name: 4
-      electrodes:
-        [
-        {
-          electrode: probe_electrode_0
-          rel_x: 20
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_1
-          rel_x: 60
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_2
-          rel_x: 100
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_3
-          rel_x: 140
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_4
-          rel_x: 180
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_5
-          rel_x: 220
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_6
-          rel_x: 260
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_7
-          rel_x: 300
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_8
-          rel_x: 340
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_9
-          rel_x: 380
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_10
-          rel_x: 420
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_11
-          rel_x: 460
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_12
-          rel_x: 500
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_13
-          rel_x: 540
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_14
-          rel_x: 580
-          rel_y: 0
-          rel_z: 0
-        },
-        {
-          electrode: probe_electrode_15
-          rel_x: 620
-          rel_y: 0
-          rel_z: 0
-        },
-        ]
-  },
-    {
-      shank_num: 1
-      electrode_group_name: 5
-      electrodes:
-        [
-        {
-          electrode: probe_electrode_16
+  - shank_num: 0
+    electrode_group_name: 4
+    electrodes:
+          - id: 0
+            rel_x: 20
+            rel_y: 0
+            rel_z: 0
+          - id: 1
+            rel_x: 60
+            rel_y: 0
+            rel_z: 0
+          - id: 2
+            rel_x: 100
+            rel_y: 0
+            rel_z: 0
+          - id: 3
+            rel_x: 140
+            rel_y: 0
+            rel_z: 0
+          - id: 4
+            rel_x: 180
+            rel_y: 0
+            rel_z: 0
+          - id: 5
+            rel_x: 220
+            rel_y: 0
+            rel_z: 0
+          - id: 6
+            rel_x: 260
+            rel_y: 0
+            rel_z: 0
+          - id: 7
+            rel_x: 300
+            rel_y: 0
+            rel_z: 0
+          - id: 8
+            rel_x: 340
+            rel_y: 0
+            rel_z: 0
+          - id: 9
+            rel_x: 380
+            rel_y: 0
+            rel_z: 0
+          - id: 10
+            rel_x: 420
+            rel_y: 0
+            rel_z: 0
+          - id: 11
+            rel_x: 460
+            rel_y: 0
+            rel_z: 0
+          - id: 12
+            rel_x: 500
+            rel_y: 0
+            rel_z: 0
+          - id: 13
+            rel_x: 540
+            rel_y: 0
+            rel_z: 0
+          - id: 14
+            rel_x: 580
+            rel_y: 0
+            rel_z: 0
+          - id: 15
+            rel_x: 620
+            rel_y: 0
+            rel_z: 0
+  - shank_num: 1
+    electrode_group_name: 5
+    electrodes:
+        - id: 16
           rel_x: 20
           rel_y: 250
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_17
+        - id: 17
           rel_x: 60
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_18
+        - id: 18
           rel_x: 100
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_19
+        - id: 19
           rel_x: 140
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_20
+        - id: 20
           rel_x: 180
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_21
+        - id: 21
           rel_x: 220
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_22
+        - id: 22
           rel_x: 260
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_23
+        - id: 23
           rel_x: 300
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_24
+        - id: 24
           rel_x: 340
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_25
+        - id: 25
           rel_x: 380
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_26
+        - id: 26
           rel_x: 420
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_27
+        - id: 27
           rel_x: 460
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_28
+        - id: 28
           rel_x: 500
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_29
+        - id: 29
           rel_x: 540
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_30
+        - id: 30
           rel_x: 580
           rel_y: 300
           rel_z: 0
-        },
-        {
-          electrode: probe_electrode_31
+        - id: 31
           rel_x: 620
           rel_y: 300
           rel_z: 0
-        }
-        ]
-  }
-  ]
