@@ -7,10 +7,9 @@ groups:
     dtype: int
     doc: name of the device
   datasets:
-  - name: ntrodes
-    dtype: int
-    dims:
-    - 1
-    shape:
-    - 2
-    doc: names of the nodes this edge connects
+  - name: devices
+    dtype:
+      target_type: Device
+      reftype: object
+    doc: links to implanted/explanted devices
+    quantity: '?'

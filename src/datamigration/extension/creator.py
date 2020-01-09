@@ -3,8 +3,8 @@ from pynwb import NWBHDF5IO, NWBFile
 from datetime import datetime
 
 from pynwb.device import Device
-from src.datamigration.extension.probe import Probe
 
+from src.datamigration.extension.probe import Probe
 
 start_time = datetime(2017, 4, 3, 11, tzinfo=tzlocal())
 
@@ -17,21 +17,11 @@ content = NWBFile(session_description='self.metadata.session_description',
                   experiment_description='self.metadata.experiment_description',
                   devices=[Device(name='trodes')]
                   )
-
-probe = Probe(id=6,
-                                 # probe_type='probiusz typ',
-                                 # electrode_groups=[1, 2, 3],
-                                 ntrodes=[5, 5],
-                                 # contact_size=4.5,
-                                 # num_shanks=4,
-                                 name='EGname',
-                                 description='byly sobie swinki trzy',
-                                 location='krakow',
-                                 device=content.devices['trodes'],
-                                 )
-print(probe)
+devices = [Device(name='n1'), Device(name='n2')]
+probe = Probe(name='somename', devices=devices, location='l1', description='d1', device=content.devices['trodes'], id=1)
+print(probe.devices)
 content.add_electrode_group(probe)
-print(content.electrode_groups['EGname'])
+print(content.electrode_groups['somename'])
 with NWBHDF5IO(path='output_file.nwb', mode='w') as nwb_fileIO:
     nwb_fileIO.write(content)
     nwb_fileIO.close()
@@ -39,5 +29,4 @@ with NWBHDF5IO(path='output_file.nwb', mode='w') as nwb_fileIO:
 nwb_file = NWBHDF5IO('output_file.nwb', 'r')
 nwbfile_read = nwb_file.read()
 
-print(nwbfile_read.electrode_groups['EGname'])
-print(list(nwbfile_read.electrode_groups['EGname'].ntrodes))
+print(nwbfile_read.electrode_groups['somename'])

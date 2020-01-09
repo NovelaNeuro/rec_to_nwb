@@ -1,4 +1,7 @@
 import os
+import numpy as np
+from hdmf.spec import RefSpec
+from pynwb.core import MultiContainerInterface
 
 from pynwb.spec import NWBGroupSpec, NWBNamespaceBuilder, NWBAttributeSpec, NWBDatasetSpec
 from pynwb.spec import NWBDtypeSpec
@@ -15,11 +18,13 @@ class ExtensionsBuilder:
             name="NovelaNeurotechnologies"
         )
 
-        self.probes = self.create_probe()
+        self.probe = self.create_probe()
 
-        ns_builder.add_spec(self.ext_source, self.probes)
+        ns_builder.add_spec(self.ext_source, self.probe)
 
         ns_builder.include_type('ElectrodeGroup', namespace='core')
+        ns_builder.include_type('Device', namespace='core')
+
 
         ns_builder.export(path=self.ns_path, outdir=path)
 
@@ -29,19 +34,18 @@ class ExtensionsBuilder:
             doc='A custom Probes interface',
             neurodata_type_def='Probe',
             neurodata_type_inc='ElectrodeGroup',
-            datasets=[
-                NWBDatasetSpec(
-                    doc='names of the nodes this edge connects',
-                    name='ntrodes',
-                    dtype='int',
-                    dims=[1],
-                    shape=[2])],
+            datasets=[NWBDatasetSpec(name='devices', quantity='?',
+                                     doc='links to implanted/explanted devices',
+                                     dtype=RefSpec('Device', 'object'))],
             attributes=[
                 NWBAttributeSpec(
                     name='id',
                     doc='name of the device',
                     dtype='int'
                 ),
+            ]
+        )
+
 
                 # NWBAttributeSpec(
                 #     name='ntrodes',
@@ -69,7 +73,6 @@ class ExtensionsBuilder:
                 #     dtype='text'
                 # ),
 
-            ]
-        )
+
 a = ExtensionsBuilder('NovelaNeurotechnologies.specs.yaml', 'NovelaNeurotechnologies.namespace.yaml')
 

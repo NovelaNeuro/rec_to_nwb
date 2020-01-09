@@ -5,4 +5,5 @@ namespaces:
   - namespace: core
     neurodata_types:
     - ElectrodeGroup
+    - Device
   - source: NovelaNeurotechnologies.specs.yaml
