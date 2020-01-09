@@ -19,7 +19,7 @@ class ExtensionsBuilder:
 
         ns_builder.add_spec(self.ext_source, self.probes)
 
-        ns_builder.include_type('Device', namespace='core')
+        ns_builder.include_type('ElectrodeGroup', namespace='core')
 
         ns_builder.export(path=self.ns_path, outdir=path)
 
@@ -28,17 +28,13 @@ class ExtensionsBuilder:
         return NWBGroupSpec(
             doc='A custom Probes interface',
             neurodata_type_def='Probe',
-            neurodata_type_inc='Device',
+            neurodata_type_inc='ElecrodeGroup',
             attributes=[
                 NWBAttributeSpec(
-                    name='device_name',
+                    name='id',
                     doc='name of the device',
-                    dtype='text'
-                ),
-                NWBAttributeSpec(
-                    name='probe_description',
-                    doc='description of the probe',
-                    dtype='text'
-                ),
+                    dtype='int'
+                )
             ]
         )
+

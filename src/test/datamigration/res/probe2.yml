@@ -3,7 +3,7 @@ probe_description: 32 channel polyimide probe
 num_shanks: 2
 contact_size: 20
 shanks:
-  - shank_num: 0
+  - id: 0
     electrode_group_name: 4
     electrodes:
           - id: 0
@@ -70,7 +70,7 @@ shanks:
             rel_x: 620
             rel_y: 0
             rel_z: 0
-  - shank_num: 1
+  - id: 1
     electrode_group_name: 5
     electrodes:
         - id: 16
