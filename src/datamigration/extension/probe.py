@@ -5,7 +5,11 @@ from pynwb import register_class, load_namespaces
 
 from pynwb.ecephys import ElectrodeGroup
 
+ns_path = os.path.dirname(os.path.abspath(__file__)) + "/NovelaNeurotechnologies.namespace.yaml"
+load_namespaces(ns_path)
 
+
+@register_class('Probe', 'NovelaNeurotechnologies')
 class Probe(ElectrodeGroup):
     __nwbfields__ = ('id', 'ntrodes', 'electrode_groups', 'num_shanks', 'contact_size', 'probe_type')
 

@@ -7,6 +7,7 @@ from pynwb.device import Device
 from src.datamigration.extension.extension_builder import ExtensionsBuilder
 from src.datamigration.extension.probe import Probe
 
+
 start_time = datetime(2017, 4, 3, 11, tzinfo=tzlocal())
 
 content = NWBFile(session_description='self.metadata.session_description',
@@ -33,7 +34,6 @@ probe = Probe(id=6,
 print(probe)
 content.add_electrode_group(probe)
 print(content.electrode_groups['EGname'])
-a = ExtensionsBuilder('NovelaNeurotechnologies.specs.yaml', 'NovelaNeurotechnologies.namespace.yaml')
 with NWBHDF5IO(path='output_file.nwb', mode='w') as nwb_fileIO:
     nwb_fileIO.write(content)
     nwb_fileIO.close()
