@@ -1,6 +1,6 @@
 groups:
 - neurodata_type_def: Probe
-  neurodata_type_inc: ElecrodeGroup
+  neurodata_type_inc: ElectrodeGroup
   doc: A custom Probes interface
   attributes:
   - name: id

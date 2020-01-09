@@ -28,13 +28,40 @@ class ExtensionsBuilder:
         return NWBGroupSpec(
             doc='A custom Probes interface',
             neurodata_type_def='Probe',
-            neurodata_type_inc='ElecrodeGroup',
+            neurodata_type_inc='ElectrodeGroup',
             attributes=[
                 NWBAttributeSpec(
                     name='id',
                     doc='name of the device',
                     dtype='int'
-                )
+                ),
+                # NWBAttributeSpec(
+                #     name='ntrodes',
+                #     doc='name of the device',
+                #     dtype='list'
+                # ),
+                # NWBAttributeSpec(
+                #     name='electrode_groups',
+                #     doc='name of the device',
+                #     dtype='list'
+                # ),
+                # NWBAttributeSpec(
+                #     name='contact_size',
+                #     doc='name of the device',
+                #     dtype='float'
+                # ),
+                # NWBAttributeSpec(
+                #     name='num_shanks',
+                #     doc='name of the device',
+                #     dtype='int'
+                # ),
+                # NWBAttributeSpec(
+                #     name='probe_type',
+                #     doc='name of the device',
+                #     dtype='text'
+                # ),
+
             ]
         )
+a = ExtensionsBuilder('NovelaNeurotechnologies.specs.yaml', 'NovelaNeurotechnologies.namespace.yaml')
 

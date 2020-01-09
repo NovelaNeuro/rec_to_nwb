@@ -3,8 +3,6 @@ from pynwb import NWBHDF5IO, NWBFile
 from datetime import datetime
 
 from pynwb.device import Device
-
-from src.datamigration.extension.extension_builder import ExtensionsBuilder
 from src.datamigration.extension.probe import Probe
 
 
@@ -21,11 +19,11 @@ content = NWBFile(session_description='self.metadata.session_description',
                   )
 
 probe = Probe(id=6,
-                                 probe_type='probiusz typ',
-                                 electrode_groups=[1, 2, 3],
-                                 ntrodes=[5, 5, 5],
-                                 contact_size=4.5,
-                                 num_shanks=4,
+                                 # probe_type='probiusz typ',
+                                 # electrode_groups=[1, 2, 3],
+                                 # ntrodes=[5, 5, 5],
+                                 # contact_size=4.5,
+                                 # num_shanks=4,
                                  name='EGname',
                                  description='byly sobie swinki trzy',
                                  location='krakow',
