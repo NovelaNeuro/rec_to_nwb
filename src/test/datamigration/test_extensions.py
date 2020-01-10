@@ -5,7 +5,7 @@ from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
 from src.datamigration.extension.probe import Probe
-from src.datamigration.extension.shank import Shank
+from src.datamigration.extension.fl_electrode_group import Shank
 
 
 class TestExtensions(unittest.TestCase):

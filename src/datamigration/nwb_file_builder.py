@@ -5,8 +5,8 @@ from hdmf.common import VectorData, DynamicTable
 from pynwb import NWBHDF5IO, NWBFile
 
 import src.datamigration.file_scanner as fs
+from src.datamigration.extension.fl_electrode_group import Shank
 from src.datamigration.extension.probe import Probe
-from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
@@ -58,18 +58,18 @@ class NWBFileBuilder:
 
         probes = self.__add_devices(content)
 
-        self.__build_shanks(content, probes, self.spike_n_trodes)
+        #self.__build_shanks(content, probes, self.spike_n_trodes)
 
-        self.__add_electrodes(content)
+        #self.__add_electrodes(content)
 
-        self.__build_dio(content)
+        #self.__build_dio(content)
 
-        self.__add_electrodes_extensions(content, self.spike_n_trodes)
+        #self.__add_electrodes_extensions(content, self.spike_n_trodes)
 
-        self.__build_mda(content)
+        #self.__build_mda(content)
         return content
 
-    def __check_headers_compatibility(self,):
+    def __check_headers_compatibility(self,):#todo extract to another file!
         rec_files = RecFileFinder().find_rec_files(self.data_path + self.animal_name + '/raw')
         header_extractor = HeaderFilesExtractor()
         xml_files = header_extractor.extract(rec_files)
@@ -179,9 +179,12 @@ class NWBFileBuilder:
     def __add_devices(self, content):
         probes = []
         for counter, device_name in enumerate(self.metadata.devices):
-            probes.append(Probe(
+            probes.append(Probe(#todo read probes here!
+                id=1,
+                contact_size=20.0,
+                probe_type='type',
+                num_shanks=2,
                 name=device_name,
-                probe_id=str(counter)
             )
             )
 
