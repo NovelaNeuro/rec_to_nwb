@@ -6,7 +6,7 @@ from pynwb import NWBHDF5IO, NWBFile
 
 import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
-from src.datamigration.extension.shank import Shank
+from src.datamigration.extension.fl_electrode_group import Shank
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
