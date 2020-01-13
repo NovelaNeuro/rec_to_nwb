@@ -147,17 +147,20 @@ class NWBFileBuilder:
     def __build_electrode_groups(self, content):
         fl_groups = []
         for electrode_group_metadata in self.metadata['electrode_groups']:
-            group = self.__create_electrde_group(electrode_group_metadata)
+            group = self.__create_electrde_group(content, electrode_group_metadata)
             fl_groups.append(group)
         for fl_group in fl_groups:
             content.add_electrode_group(fl_group)
 
     @staticmethod
-    def __create_electrode_group(metadata):
+    def __create_electrode_group(content, metadata):
+        for device in content.devices:
+            if device.name == metadata["probe_id"]:
+                device_name = device.name
         electrode_group = FLElectrodeGroup(
             probe_id=str(metadata["probe_id"]),
             id=str(metadata['id']),
-            device=str(metadata['device']),
+            device=content.devices[device_name],
             location=str(metadata['location']),
             description=str(metadata['description']),
             name=str(metadata["id"])
@@ -167,13 +170,17 @@ class NWBFileBuilder:
     def __build_ntrodes(self, content):
         fl_ntrodes = []
         for ntrode_metadata in self.metadata['ntrode probe channel map']:
-            fl_ntrode = self.__create_ntrode(ntrode_metadata)
+            fl_ntrode = self.__create_ntrode(content, ntrode_metadata)
             fl_ntrodes.append(fl_ntrode)
         for fl_ntrode in fl_ntrodes:
             content.add_ntrode(fl_ntrode)
 
     @staticmethod
-    def __create_ntrode(metadata):
+    def __create_ntrode(content, metadata):
+        for device in content.devices:
+            if device.name == metadata["probe_id"]:
+                device_name = device.name
+
         map_list = []
         for map_element in metadata['map'].keys():
             map_list.append((map_element, metadata['map'][map_element]))
@@ -181,7 +188,7 @@ class NWBFileBuilder:
         electrode_group = FLElectrodeGroup(
             probe_id=str(metadata["probe_id"]),
             ntrode_id=str(metadata['ntrode_id']),
-            device=str(metadata['-']),
+            device=content.devices[device_name],
             location=str(metadata['-']),
             description=str(metadata['-']),
             name=str(metadata["-"]),
@@ -196,7 +203,8 @@ class NWBFileBuilder:
                 probe_type=fl_probe["probe_type"],
                 contact_size=fl_probe["contact_size"],
                 num_shanks=fl_probe['num_shanks'],
-                id=fl_probe["id"]
+                id=fl_probe["id"],
+                name=fl_probe["id"]
             )
             )
 
