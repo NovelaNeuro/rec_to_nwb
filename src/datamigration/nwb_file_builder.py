@@ -6,7 +6,7 @@ from pynwb import NWBHDF5IO, NWBFile
 
 import src.datamigration.file_scanner as fs
 from src.datamigration.extension.probe import Probe
-from src.datamigration.extension.fl_electrode_group import Shank
+from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
@@ -14,7 +14,6 @@ from src.datamigration.nwb_builder.header_checker.header_extractor import Header
 from src.datamigration.nwb_builder.header_checker.header_reader import HeaderReader
 from src.datamigration.nwb_builder.header_checker.rec_file_finder import RecFileFinder
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
-from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 from src.datamigration.xml_extractor import XMLExtractor
 
@@ -23,7 +22,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, metadata_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, nwb_metadata, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
@@ -33,7 +32,8 @@ class NWBFileBuilder:
 
         self.output_file = output_file
 
-        self.metadata = MetadataExtractor(config_path=metadata_path)
+        self.metadata = nwb_metadata.metadata
+        self.probes = nwb_metadata.probes
         self.__check_headers_compatibility()
         self.spike_n_trodes = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
                                      self.date + '/header.xml').configuration.spike_configuration.spike_n_trodes
@@ -58,13 +58,13 @@ class NWBFileBuilder:
 
         probes = self.__add_devices(content)
 
-        self.__build_shanks(content, probes, self.spike_n_trodes)
+        self.__build_electrode_groups(content, probes, self.metadata)
 
-        self.__add_electrodes(content)
+        #self.__add_electrodes(content)
 
         self.__build_dio(content)
 
-        self.__add_electrodes_extensions(content, self.spike_n_trodes)
+       # self.__add_electrodes_extensions(content, self.spike_n_trodes)
 
         self.__build_mda(content)
         return content
@@ -142,6 +142,26 @@ class NWBFileBuilder:
                 id=electrode['id'],
             )
 
+    def __build_electrode_groups(self, content, probes, metadata):
+        fl_groups = []
+        for electrode_group_metadata in self.metadata['electrode_groups']:
+            group = self.__create_electrde_group(electrode_group_metadata, probes)
+            fl_groups.append(group)
+        for fl_group in fl_groups:
+            content.add_electrode_group(fl_group)
+
+    @staticmethod
+    def __create_electrode_group(metadata, probes):
+        electrode_group = FLElectrodeGroup(
+            probe_id=str(metadata["probe_id"]),
+            id=str(metadata['id']),
+            device=str(metadata['device']),
+            location=str(metadata['location']),
+            description=str(metadata['description']),
+            name=str(metadata["id"])
+        )
+        return electrode_group
+
     def __build_shanks(self, content, probes, spike_n_trodes):
         shanks = []
         for group_index, electrode_group_dict in enumerate(self.metadata.electrode_groups):
@@ -178,10 +198,12 @@ class NWBFileBuilder:
 
     def __add_devices(self, content):
         probes = []
-        for counter, device_name in enumerate(self.metadata.devices):
+        for fl_probe in enumerate(self.probes):
             probes.append(Probe(
-                name=device_name,
-                probe_id=str(counter)
+                probe_type=fl_probe["probe_type"],
+                contact_size=fl_probe["contact_size"],
+                num_shanks=fl_probe['num_shanks'],
+                id=fl_probe["id"]
             )
             )
 

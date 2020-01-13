@@ -2,6 +2,7 @@ probe_type: 128c-4s8mm6cm-20um-40um-sl
 probe_description: '128 channel polyimide probe'
 num_shanks: 4
 contact_size: 20
+id: 3
 shanks:
   - shank_num: 0
     electrode_group_name: 0

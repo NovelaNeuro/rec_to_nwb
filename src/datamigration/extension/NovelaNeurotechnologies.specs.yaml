@@ -25,3 +25,13 @@ groups:
   - name: num_shanks
     dtype: int
     doc: number of shanks in probe
+- neurodata_type_def: NTrode
+  neurodata_type_inc: ElectrodeGroup
+  doc: A custom ntrode ElectrodesGroup interface
+  attributes:
+  - name: ntrode_id
+    dtype: int
+    doc: id of electrode group
+  - name: probe_id
+    dtype: int
+    doc: id of probe

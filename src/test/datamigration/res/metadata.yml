@@ -95,7 +95,7 @@ device:
     - Trodes
 
 
-electrode group:
+electrode groups:
   - id: 0
     location: mPFC
     device: 128c-4s8mm6cm-20um-40um-sl

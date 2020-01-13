@@ -17,9 +17,11 @@ class ExtensionsBuilder:
 
         self.fl_electrode_group = self.create_fl_electrode_group()
         self.probes = self.create_probe()
+        self.ntrode = self.create_ntrode()
 
         ns_builder.add_spec(self.ext_source, self.fl_electrode_group)
         ns_builder.add_spec(self.ext_source, self.probes)
+        ns_builder.add_spec(self.ext_source, self.ntrode)
 
         ns_builder.include_type('ElectrodeGroup', namespace='core')
         ns_builder.include_type('Device', namespace='core')
@@ -45,6 +47,27 @@ class ExtensionsBuilder:
                             ),
 
                         ],
+        )
+
+    @staticmethod
+    def create_ntrode():
+        return NWBGroupSpec(
+            doc='A custom ntrode ElectrodesGroup interface',
+            neurodata_type_def='NTrode',
+            neurodata_type_inc='ElectrodeGroup',
+            attributes=[
+                NWBAttributeSpec(
+                    name='ntrode_id',
+                    doc='id of electrode group',
+                    dtype='int'
+                ),
+                NWBAttributeSpec(
+                    name='probe_id',
+                    doc='id of probe',
+                    dtype='int'
+                ),
+
+            ],
         )
 
     @staticmethod
