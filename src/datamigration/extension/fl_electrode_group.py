@@ -21,7 +21,7 @@ class FLElectrodeGroup(ElectrodeGroup):
         super().__init__(**{kwargs_item: kwargs[kwargs_item]
                             for kwargs_item in kwargs.copy()
                             if kwargs_item != 'id'
-                            if kwargs_item != '_probe_id'
+                            if kwargs_item != 'probe_id'
                             })
         call_docval_func(super(FLElectrodeGroup, self).__init__, kwargs)
         self.id = kwargs['id']
