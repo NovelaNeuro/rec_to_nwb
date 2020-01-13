@@ -60,6 +60,8 @@ class NWBFileBuilder:
 
         self.__build_electrode_groups(content, probes, self.metadata)
 
+        self.__build_ntrodes(self, content)
+
         #self.__add_electrodes(content)
 
         self.__build_dio(content)
@@ -162,43 +164,34 @@ class NWBFileBuilder:
         )
         return electrode_group
 
-    def __build_shanks(self, content, probes, spike_n_trodes):
-        shanks = []
-        for group_index, electrode_group_dict in enumerate(self.metadata.electrode_groups):
-            shank = self.__create_shank(electrode_group_dict, group_index, probes, spike_n_trodes)
-            shanks.append(shank)
-        for shank in shanks:
-            content.add_electrode_group(shank)
+    def __build_ntrodes(self, content):
+        fl_ntrodes = []
+        for ntrode_metadata in self.metadata['ntrode probe channel map']:
+            fl_ntrode = self.__create_ntrode(ntrode_metadata)
+            fl_ntrodes.append(fl_ntrode)
+        for fl_ntrode in fl_ntrodes:
+            content.add_ntrode(fl_ntrode)
 
     @staticmethod
-    def __create_shank(electrode_group_dict, group_index, probes, spike_n_trodes):
-        shank = Shank(
-            name=str(electrode_group_dict['name']),
-            description=electrode_group_dict['description'],
-            location=electrode_group_dict['location'],
-            device=[probe for probe in probes
-                    if probe.name == electrode_group_dict['device']][0],
-            filterOn=spike_n_trodes[group_index].filter_on,
-            lowFilter=spike_n_trodes[group_index].low_filter,
-            lfpRefOn=spike_n_trodes[group_index].lfp_ref_on,
-            color=spike_n_trodes[group_index].color,
-            highFilter=spike_n_trodes[group_index].hight_filter,
-            lfpFilterOn=spike_n_trodes[group_index].lfp_filter_on,
-            moduleDataOn=spike_n_trodes[group_index].module_data_on,
-            LFPHighFilter=spike_n_trodes[group_index].lfp_high_filter,
-            refGroup=spike_n_trodes[group_index].ref_group,
-            LFPChan=spike_n_trodes[group_index].lfp_chan,
-            refNTrodeID=spike_n_trodes[group_index].ref_n_trode_id,
-            refChan=spike_n_trodes[group_index].ref_chan,
-            groupRefOn=spike_n_trodes[group_index].group_ref_on,
-            refOn=spike_n_trodes[group_index].ref_on,
-            id=str(spike_n_trodes[group_index].id),
+    def __create_ntrode(metadata):
+        map_list = []
+        for map_element in metadata['map'].keys():
+            map_list.append((map_element, metadata['map'][map_element]))
+
+        electrode_group = FLElectrodeGroup(
+            probe_id=str(metadata["probe_id"]),
+            ntrode_id=str(metadata['ntrode_id']),
+            device=str(metadata['-']),
+            location=str(metadata['-']),
+            description=str(metadata['-']),
+            name=str(metadata["-"]),
+            map=map_list
         )
-        return shank
+        return electrode_group
 
     def __add_devices(self, content):
         probes = []
-        for fl_probe in enumerate(self.probes):
+        for fl_probe in self.probes:
             probes.append(Probe(
                 probe_type=fl_probe["probe_type"],
                 contact_size=fl_probe["contact_size"],

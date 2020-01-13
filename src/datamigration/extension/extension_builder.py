@@ -61,7 +61,7 @@ class ExtensionsBuilder:
                     name='map',
                     dtype='int',
                     dims=[2],
-                    shape=[3])],
+                    shape=[32])],
             attributes=[
                 NWBAttributeSpec(
                     name='ntrode_id',

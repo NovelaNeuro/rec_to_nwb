@@ -41,5 +41,5 @@ groups:
     dims:
     - 2
     shape:
-    - 3
+    - 32
     doc: map of ntrodes
