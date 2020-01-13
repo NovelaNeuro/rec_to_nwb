@@ -9,7 +9,7 @@ ns_path = os.path.dirname(os.path.abspath(__file__)) + "/NovelaNeurotechnologies
 load_namespaces(ns_path)
 
 
-@register_class('FLElectrodeGroup', 'NovelaNeurotechnologies')
+@register_class('NTrode', 'NovelaNeurotechnologies')
 class NTrode(ElectrodeGroup):
     __nwbfields__ = ('ntrode_id', 'probe_id', 'map')
 
