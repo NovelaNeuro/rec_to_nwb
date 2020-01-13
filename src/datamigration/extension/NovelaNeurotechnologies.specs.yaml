@@ -35,3 +35,11 @@ groups:
   - name: probe_id
     dtype: int
     doc: id of probe
+  datasets:
+  - name: map
+    dtype: int
+    dims:
+    - 2
+    shape:
+    - 3
+    doc: map of ntrodes

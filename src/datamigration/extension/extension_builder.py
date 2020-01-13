@@ -1,6 +1,6 @@
 import os
 
-from pynwb.spec import NWBGroupSpec, NWBNamespaceBuilder, NWBAttributeSpec
+from pynwb.spec import NWBGroupSpec, NWBNamespaceBuilder, NWBAttributeSpec, NWBDatasetSpec
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -55,6 +55,13 @@ class ExtensionsBuilder:
             doc='A custom ntrode ElectrodesGroup interface',
             neurodata_type_def='NTrode',
             neurodata_type_inc='ElectrodeGroup',
+            datasets=[
+                NWBDatasetSpec(
+                    doc='map of ntrodes',
+                    name='map',
+                    dtype='int',
+                    dims=[2],
+                    shape=[3])],
             attributes=[
                 NWBAttributeSpec(
                     name='ntrode_id',
