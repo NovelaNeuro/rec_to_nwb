@@ -35,7 +35,7 @@ class NWBFileBuilder:
 
         self.output_file = output_file
 
-        self.metadata = nwb_metadata.metadata.metadata
+        self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
         self.__check_headers_compatibility()
         self.spike_n_trodes = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
