@@ -142,16 +142,16 @@ class NWBFileBuilder:
                 id=electrode['id'],
             )
 
-    def __build_electrode_groups(self, content, probes, metadata):
+    def __build_electrode_groups(self, content):
         fl_groups = []
         for electrode_group_metadata in self.metadata['electrode_groups']:
-            group = self.__create_electrde_group(electrode_group_metadata, probes)
+            group = self.__create_electrde_group(electrode_group_metadata)
             fl_groups.append(group)
         for fl_group in fl_groups:
             content.add_electrode_group(fl_group)
 
     @staticmethod
-    def __create_electrode_group(metadata, probes):
+    def __create_electrode_group(metadata):
         electrode_group = FLElectrodeGroup(
             probe_id=str(metadata["probe_id"]),
             id=str(metadata['id']),

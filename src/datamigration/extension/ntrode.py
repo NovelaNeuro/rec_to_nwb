@@ -23,6 +23,6 @@ class NTrode(ElectrodeGroup):
                             if kwargs_item != 'ntrode_id'
                             if kwargs_item != 'probe_id'
                             })
-        call_docval_func(super(Ntrode, self).__init__, kwargs)
+        call_docval_func(super(NTrode, self).__init__, kwargs)
         self.id = kwargs['ntrode_id']
         self.probe_id = kwargs['probe_id']
