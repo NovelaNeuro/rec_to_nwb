@@ -79,7 +79,8 @@ class DataScanner:
                 return self.data[animal][date][dataset].get_data_path_from_dataset('mda') + file
         return False
 
-    def get_probes_from_directory(self, path):
+    @staticmethod
+    def get_probes_from_directory(path):
         probes = []
         for probe_file in os.listdir(path):
             if fnmatch.fnmatch(probe_file, "probe*.yml"):

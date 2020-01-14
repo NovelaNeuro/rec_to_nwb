@@ -1,57 +1,45 @@
 groups:
-  - neurodata_type_def: Shank
-    neurodata_type_inc: ElectrodeGroup
-    doc: A custom ElectrodesGroup interface
-    attributes:
-      - name: filterOn
-        dtype: text
-        doc: filterOn sample doc
-      - name: lowFilter
-        dtype: text
-        doc: lowFilter sample doc
-      - name: lfpRefOn
-        dtype: text
-        doc: lfpRefOn sample doc
-      - name: color
-        dtype: text
-        doc: color sample doc
-      - name: highFilter
-        dtype: text
-        doc: highFilter sample doc
-      - name: lfpFilterOn
-        dtype: text
-        doc: lfpFilterOn sample doc
-      - name: moduleDataOn
-        dtype: text
-        doc: moduleDataOn sample doc
-      - name: LFPHighFilter
-        dtype: text
-        doc: LFPHighFilter sample doc
-      - name: refGroup
-        dtype: text
-        doc: refGroup sample doc
-      - name: LFPChan
-        dtype: text
-        doc: LFPChan sample doc
-      - name: refNTrodeID
-        dtype: text
-        doc: refNTrodeID sample doc
-      - name: refChan
-        dtype: text
-        doc: refChan sample doc
-      - name: groupRefOn
-        dtype: text
-        doc: groupRefOn sample doc
-      - name: refOn
-        dtype: text
-        doc: refOn sample doc
-      - name: id
-        dtype: text
-        doc: id sample doc
-  - neurodata_type_def: Probe
-    neurodata_type_inc: Device
-    doc: A custom Probes interface
-    attributes:
-      - name: probe_id
-        dtype: text
-        doc: unique id of the probe
+- neurodata_type_def: FLElectrodeGroup
+  neurodata_type_inc: ElectrodeGroup
+  doc: A custom ElectrodesGroup interface
+  attributes:
+  - name: id
+    dtype: int
+    doc: id of electrode group
+  - name: probe_id
+    dtype: int
+    doc: id of probe
+- neurodata_type_def: Probe
+  neurodata_type_inc: Device
+  doc: A custom Probes interface
+  attributes:
+  - name: id
+    dtype: int
+    doc: unique id of the probe
+  - name: contact_size
+    dtype: float
+    doc: value of contact size in float
+  - name: probe_type
+    dtype: text
+    doc: type of the probe
+  - name: num_shanks
+    dtype: int
+    doc: number of shanks in probe
+- neurodata_type_def: NTrode
+  neurodata_type_inc: ElectrodeGroup
+  doc: A custom ntrode ElectrodesGroup interface
+  attributes:
+  - name: ntrode_id
+    dtype: int
+    doc: id of electrode group
+  - name: probe_id
+    dtype: int
+    doc: id of probe
+  datasets:
+  - name: map
+    dtype: int
+    dims:
+    - 2
+    shape:
+    - 32
+    doc: map of ntrodes

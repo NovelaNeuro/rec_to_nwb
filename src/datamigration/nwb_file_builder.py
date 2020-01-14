@@ -1,12 +1,16 @@
+import datetime
 import logging
 import os
+import uuid
 
 from hdmf.common import VectorData, DynamicTable
 from pynwb import NWBHDF5IO, NWBFile
+from pynwb.file import Subject
 
 import src.datamigration.file_scanner as fs
+from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
+from src.datamigration.extension.ntrode import NTrode
 from src.datamigration.extension.probe import Probe
-from src.datamigration.extension.shank import Shank
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
@@ -14,7 +18,6 @@ from src.datamigration.nwb_builder.header_checker.header_extractor import Header
 from src.datamigration.nwb_builder.header_checker.header_reader import HeaderReader
 from src.datamigration.nwb_builder.header_checker.rec_file_finder import RecFileFinder
 from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
-from src.datamigration.nwb_builder.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.pos_extractor import POSExtractor
 from src.datamigration.xml_extractor import XMLExtractor
 
@@ -23,7 +26,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, metadata_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, nwb_metadata, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
@@ -33,21 +36,31 @@ class NWBFileBuilder:
 
         self.output_file = output_file
 
-        self.metadata = MetadataExtractor(config_path=metadata_path)
+        self.metadata = nwb_metadata.metadata
+        self.probes = nwb_metadata.probes
         self.__check_headers_compatibility()
         self.spike_n_trodes = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
                                      self.date + '/header.xml').configuration.spike_configuration.spike_n_trodes
 
-    def build(self):
 
-        content = NWBFile(session_description=self.metadata.session_description,
-                          experimenter=self.metadata.experimenter_name,
-                          lab=self.metadata.lab,
-                          institution=self.metadata.institution,
-                          session_start_time=self.metadata.session_start_time,
-                          identifier=str(self.metadata.identifier),
-                          experiment_description=self.metadata.experiment_description,
-                          subject=self.metadata.subject,
+    def build(self):
+        content = NWBFile(session_description=self.metadata['session description'],
+                          experimenter=self.metadata['experimenter name'],
+                          lab=self.metadata['lab'],
+                          institution=self.metadata['institution'],
+                          session_start_time=datetime.datetime.strptime(
+                              self.metadata['session start time'], '%m/%d/%Y %H:%M:%S'
+                          ),
+                          identifier=str(uuid.uuid1()),
+                          experiment_description=self.metadata['experiment description'],
+                          subject=Subject(
+                              description=self.metadata['subject']['description'],
+                              genotype=self.metadata['subject']['genotype'],
+                              sex=self.metadata['subject']['sex'],
+                              species=self.metadata['subject']['species'],
+                              subject_id=self.metadata['subject']['subject id'],
+                              weight=str(self.metadata['subject']['weight']),
+                          ),
                           )
 
         self.__build_task(content)
@@ -56,17 +69,20 @@ class NWBFileBuilder:
 
         self.__build_aparatus(content)
 
-        probes = self.__add_devices(content)
+        self.__build_devices(content)
 
-        self.__build_shanks(content, probes, self.spike_n_trodes)
+        self.__build_electrode_groups(content)
 
-        self.__add_electrodes(content)
+        self.__build_ntrodes(content)
+
+        #self.__add_electrodes(content)
 
         self.__build_dio(content)
 
-        self.__add_electrodes_extensions(content, self.spike_n_trodes)
+       # self.__add_electrodes_extensions(content, self.spike_n_trodes)
 
-        self.__build_mda(content)
+        # self.__build_mda(content)
+
         return content
 
     def __check_headers_compatibility(self,):
@@ -92,8 +108,10 @@ class NWBFileBuilder:
 
     def __create_region(self, content):
         region = content.create_electrode_table_region(
-            description=self.metadata.electrode_regions[0]['description'],
-            region=self.metadata.electrode_regions[0]['region'])
+            description=self.metadata['electrode region']['description'],
+            region=self.metadata['electrode region']['region'],
+            name=self.metadata['electrode region']['name']
+        )
         return region
 
     @staticmethod
@@ -142,52 +160,69 @@ class NWBFileBuilder:
                 id=electrode['id'],
             )
 
-    def __build_shanks(self, content, probes, spike_n_trodes):
-        shanks = []
-        for group_index, electrode_group_dict in enumerate(self.metadata.electrode_groups):
-            shank = self.__create_shank(electrode_group_dict, group_index, probes, spike_n_trodes)
-            shanks.append(shank)
-        for shank in shanks:
-            content.add_electrode_group(shank)
+    def __build_electrode_groups(self, content):
+        fl_groups = []
+        for electrode_group_metadata in self.metadata['electrode groups']:
+            group = self.__create_electrode_group(electrode_group_metadata, content.devices)
+            fl_groups.append(group)
+        for fl_group in fl_groups:
+            content.add_electrode_group(fl_group)
 
     @staticmethod
-    def __create_shank(electrode_group_dict, group_index, probes, spike_n_trodes):
-        shank = Shank(
-            name=str(electrode_group_dict['name']),
-            description=electrode_group_dict['description'],
-            location=electrode_group_dict['location'],
-            device=[probe for probe in probes
-                    if probe.name == electrode_group_dict['device']][0],
-            filterOn=spike_n_trodes[group_index].filter_on,
-            lowFilter=spike_n_trodes[group_index].low_filter,
-            lfpRefOn=spike_n_trodes[group_index].lfp_ref_on,
-            color=spike_n_trodes[group_index].color,
-            highFilter=spike_n_trodes[group_index].hight_filter,
-            lfpFilterOn=spike_n_trodes[group_index].lfp_filter_on,
-            moduleDataOn=spike_n_trodes[group_index].module_data_on,
-            LFPHighFilter=spike_n_trodes[group_index].lfp_high_filter,
-            refGroup=spike_n_trodes[group_index].ref_group,
-            LFPChan=spike_n_trodes[group_index].lfp_chan,
-            refNTrodeID=spike_n_trodes[group_index].ref_n_trode_id,
-            refChan=spike_n_trodes[group_index].ref_chan,
-            groupRefOn=spike_n_trodes[group_index].group_ref_on,
-            refOn=spike_n_trodes[group_index].ref_on,
-            id=str(spike_n_trodes[group_index].id),
-        )
-        return shank
+    def __create_electrode_group(metadata, devices):
+        probe_id = str(metadata["probe_id"])
+        device = devices[probe_id]
 
-    def __add_devices(self, content):
+        electrode_group = FLElectrodeGroup(
+            probe_id=metadata["probe_id"],
+            id=metadata['id'],
+            device=device,
+            location=str(metadata['location']),
+            description=str(metadata['description']),
+            name='electrode group ' + str(metadata["id"])
+        )
+        return electrode_group
+
+    def __build_ntrodes(self, content):
+        fl_ntrodes = []
+        for ntrode_metadata in self.metadata['ntrode probe channel map']:
+            fl_ntrode = self.__create_ntrode(ntrode_metadata, content.devices)
+            fl_ntrodes.append(fl_ntrode)
+        for fl_ntrode in fl_ntrodes:
+            content.add_electrode_group(fl_ntrode)
+
+    @staticmethod
+    def __create_ntrode(metadata, devices):
+        probe_id = str(metadata["probe_id"])
+        device = devices[probe_id]
+
+        map_list = []
+        for map_element in metadata['map'].keys():
+            map_list.append((map_element, metadata['map'][map_element]))
+
+        ntrode = NTrode(
+            probe_id=metadata["probe_id"],
+            ntrode_id=metadata['ntrode_id'],
+            device=device,
+            location='-',
+            description='-',
+            name='ntrode ' + str(metadata['ntrode_id']),
+            map=map_list
+        )
+        return ntrode
+
+    def __build_devices(self, content):
         probes = []
-        for counter, device_name in enumerate(self.metadata.devices):
+        for fl_probe in self.probes:
             probes.append(Probe(
-                name=device_name,
-                probe_id=str(counter)
-            )
-            )
+                probe_type=fl_probe["probe_type"],
+                contact_size=fl_probe["contact_size"],
+                num_shanks=fl_probe['num_shanks'],
+                id=fl_probe["id"],
+                name=str(fl_probe["id"])))
 
         for probe in probes:
             content.add_device(probe)
-        return probes
 
     def __build_mda(self, content):
         sampling_rate = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
@@ -209,7 +244,7 @@ class NWBFileBuilder:
 
     def __build_aparatus(self, content):
         apparatus_columns = []
-        for counter, row in enumerate(self.metadata.apparatus):
+        for counter, row in enumerate(self.metadata['apparatus']['data']):
             apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=row))
         content.create_processing_module(
             name='apparatus',
@@ -246,7 +281,7 @@ class NWBFileBuilder:
             name='task_description',
             description='Sample description',
         )
-        for task in self.metadata.tasks:
+        for task in self.metadata['tasks']:
             nwb_table.add_row(task)
 
         content.create_processing_module(

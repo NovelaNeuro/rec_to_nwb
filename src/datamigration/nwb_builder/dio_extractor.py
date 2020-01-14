@@ -14,7 +14,7 @@ class DioExtractor:
 
     def get_dio(self):
         behavioral_event = BehavioralEvents(name='list of processed DIO`s',)
-        for dio_time_series in self.metadata.behavioral_event:
+        for dio_time_series in self.metadata['behavioral_events']:
             temp_timeseries = []
             temp_timestamps = []
             for dio_set in self.dio_paths:

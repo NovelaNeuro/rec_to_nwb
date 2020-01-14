@@ -1,105 +1,24 @@
-rec file link: 'https://drive.google.com/open?id=1jIsDYgNsrmEDkFT0XLlIZY3LwVDLXa7H'
-experimenter name: hulk
-lab: hulk`s lab
-institution: stark industrice
-experiment description: project avengers
-session description: winter soldier
-identifier: 12345
-session start time: 10/31/2019 20:15:30
+experimenter name: Alison Comrie
+lab:               Loren Frank
+institution:       University of California, San Francisco
+experiment description: Reinforcement learning
+session description: Reinforcement leaarning
+session_id:        beans_01
+session start time: 07/18/2019 20:15:30
 subject:
-  age: 23
-  description: big bad thanos
-  genotype: who knows
-  sex: female
-  species: eternal deviant hybrid
-  subject id: Th1
-  weight: 120
-  date of birth: 06/16/2001
-  timezone: America/Los_Angeles
-task:
-  name: novela task
-  description: some description
-  id: []
-  columns: []
-  colnames: []
-  interval:
-    start_time: 1.0
-    stop_time: 24.0
-    tags: some tag
-    timeseries: []
-device:
-  name: [dev1, dev2, dev3]
-electrode group:
-  [
-  {
-    name: electrode group 1,
-    description: some description 1,
-    location: some location 1,
-    device: dev1
-  },
-  {
-    name: electrode group 2,
-    description: some description 2,
-    location: some location 2,
-    device: dev2
-  }
-  ]
-electrode:
-  [
-  {
-    x: 1.0,
-    y: 1.0,
-    z: 1.0,
-    imp: 3.0,
-    location: hippocampus,
-    filtering: no filter,
-    group: electrode group 1,
-    id: 1
-  },
-  {
-    x: 2.0,
-    y: 2.0,
-    z: 2.0,
-    imp: 5.0,
-    location: neocortex,
-    filtering: yes filter,
-    group: electrode group 2,
-    id: 2
-  },
-  {
-    x: 1.0,
-    y: 1.0,
-    z: 1.0,
-    imp: 3.0,
-    location: hippocampus,
-    filtering: no filter,
-    group: electrode group 1,
-    id: 3
-  },
-  {
-    x: 2.0,
-    y: 2.0,
-    z: 2.0,
-    imp: 5.0,
-    location: neocortex,
-    filtering: yes filter,
-    group: electrode group 2,
-    id: 4
-  }
-  ]
+  description:     Long Evans Rat
+  genotype:        Wild Type
+  sex:             Male
+  species:         Rat
+  subject id:      Beans
+  weight:          Unknown
+
 electrode region:
-  [
-  {
-    name: region 1,
-    description: description 1,
-    region: [0, 1]
-  },
-  {
-    name: region 2,
-    description: description 2,
-    region: [1]
-  }
-  ]
+  name: region 1,
+  description: description 1,
+  region: [0, 1]
+
+
 apparatus:
   data:
     [
@@ -109,3 +28,378 @@ apparatus:
     [0, 1, 0, 0, 1],
     [0, 1, 1, 0, 1]
     ]
+
+tasks:
+  [
+  {
+    task_name:          Sleep,
+    task_description:   The animal sleeps in a small empty box.
+  },
+  {
+    task_name:            Stem+Leaf,
+    task_description:     Spatial Bandit,
+  }
+  ]
+
+behavioral_events:
+  - name: Din1
+    description: Poke1
+  - name: Din2
+    description: Poke2
+  - name: Din3
+    description: Poke3
+  - name: Din4
+    description: Poke4
+  - name: Din5
+    description: Poke5
+  - name: Din6
+    description: Poke6
+  - name: Din13
+    description: Camera_Ticks
+  - name: Dout1
+    description: Light1
+  - name: Dout2
+    description: Light2
+  - name: Dout3
+    description: Light3
+  - name: Dout4
+    description: Light4
+  - name: Dout5
+    description: Light5
+  - name: Dout6
+    description: Light6
+  - name: Dout7
+    description: Pump1
+  - name: Dout8
+    description: Pump2
+  - name: Dout9
+    description: Pump3
+  - name: Dout10
+    description: Pump4
+  - name: Dout11
+    description: Pump5
+  - name: Dout12
+    description: Pump6
+
+device:
+  name:
+    - Trodes
+
+electrode groups:
+  - id: 0
+    location: mPFC
+    device: 128c-4s8mm6cm-20um-40um-sl
+    probe_id: 1
+    description: 'Probe 1'
+  - id: 1
+    location: mPFC
+    device: 128c-4s8mm6cm-20um-40um-sl
+    probe_id: 2
+    description: 'Probe 2'
+  - id: 3
+    location: mPFC
+    device: tetrode_12.5
+    probe_id: 2
+    description: 'Probe 2'
+  - id: 4
+    location: mPFC
+    device: 32c-2s8mm6cm-20um-40um-dl
+    probe_id: 2
+    description: 'Probe 2'
+  - id: 5
+    location: mPFC
+    device: 32c-2s8mm6cm-20um-40um-dl
+    probe_id: 2
+    description: 'Probe 2'
+  - id: 6
+    location: mPFC
+    device: 128c-4s8mm6cm-20um-40um-sl
+    probe_id: 1
+    description: 'Probe 1'
+  - id: 7
+    location: mPFC
+    device: 128c-4s8mm6cm-20um-40um-sl
+    probe_id: 2
+    description: 'Probe 2'
+
+ntrode probe channel map:
+  - ntrode_id: 1
+    probe_id: 1
+    map:
+      0: 0
+      1: 1
+      2: 2
+      3: 3
+      4: 4
+      5: 5
+      6: 6
+      7: 7
+      8: 8
+      9: 9
+      10: 10
+      11: 11
+      12: 12
+      13: 13
+      14: 14
+      15: 15
+      16: 16
+      17: 17
+      18: 18
+      19: 19
+      20: 20
+      21: 21
+      22: 22
+      23: 23
+      24: 24
+      25: 25
+      26: 26
+      27: 27
+      28: 28
+      29: 29
+      30: 30
+      31: 31
+  - ntrode_id: 2
+    probe_id: 1
+    map:
+      0: 32
+      1: 33
+      2: 34
+      3: 35
+      4: 36
+      5: 37
+      6: 38
+      7: 39
+      8: 40
+      9: 41
+      10: 42
+      11: 43
+      12: 44
+      13: 45
+      14: 46
+      15: 47
+      16: 48
+      17: 49
+      18: 50
+      19: 51
+      20: 52
+      21: 53
+      22: 54
+      23: 55
+      24: 56
+      25: 57
+      26: 58
+      27: 59
+      28: 60
+      29: 61
+      30: 62
+      31: 63
+  - ntrode_id: 3
+    probe_id: 1
+    map:
+      0: 64
+      1: 65
+      2: 66
+      3: 67
+      4: 68
+      5: 69
+      6: 70
+      7: 71
+      8: 72
+      9: 73
+      10: 74
+      11: 75
+      12: 76
+      13: 77
+      14: 78
+      15: 79
+      16: 80
+      17: 81
+      18: 82
+      19: 83
+      20: 84
+      21: 85
+      22: 86
+      23: 87
+      24: 88
+      25: 89
+      26: 90
+      27: 91
+      28: 92
+      29: 93
+      30: 94
+      31: 95
+  - ntrode_id: 4
+    probe_id: 1
+    map:
+      0: 96
+      1: 97
+      2: 98
+      3: 99
+      4: 100
+      5: 101
+      6: 102
+      7: 103
+      8: 104
+      9: 105
+      10: 106
+      11: 107
+      12: 108
+      13: 109
+      14: 110
+      15: 111
+      16: 112
+      17: 113
+      18: 114
+      19: 115
+      20: 116
+      21: 117
+      22: 118
+      23: 119
+      24: 120
+      25: 121
+      26: 122
+      27: 123
+      28: 124
+      29: 125
+      30: 126
+      31: 127
+  - ntrode_id: 5
+    probe_id: 1
+    map:
+      0: 0
+      1: 1
+      2: 2
+      3: 3
+      4: 4
+      5: 5
+      6: 6
+      7: 7
+      8: 8
+      9: 9
+      10: 10
+      11: 11
+      12: 12
+      13: 13
+      14: 14
+      15: 15
+      16: 16
+      17: 17
+      18: 18
+      19: 19
+      20: 20
+      21: 21
+      22: 22
+      23: 23
+      24: 24
+      25: 25
+      26: 26
+      27: 27
+      28: 28
+      29: 29
+      30: 30
+      31: 31
+  - ntrode_id: 6
+    probe_id: 1
+    map:
+      0: 32
+      1: 33
+      2: 34
+      3: 35
+      4: 36
+      5: 37
+      6: 38
+      7: 39
+      8: 40
+      9: 41
+      10: 42
+      11: 43
+      12: 44
+      13: 45
+      14: 46
+      15: 47
+      16: 48
+      17: 49
+      18: 50
+      19: 51
+      20: 52
+      21: 53
+      22: 54
+      23: 55
+      24: 56
+      25: 57
+      26: 58
+      27: 59
+      28: 60
+      29: 61
+      30: 62
+      31: 63
+  - ntrode_id: 7
+    probe_id: 1
+    map:
+      0: 64
+      1: 65
+      2: 66
+      3: 67
+      4: 68
+      5: 69
+      6: 70
+      7: 71
+      8: 72
+      9: 73
+      10: 74
+      11: 75
+      12: 76
+      13: 77
+      14: 78
+      15: 79
+      16: 80
+      17: 81
+      18: 82
+      19: 83
+      20: 84
+      21: 85
+      22: 86
+      23: 87
+      24: 88
+      25: 89
+      26: 90
+      27: 91
+      28: 92
+      29: 93
+      30: 94
+      31: 95
+  - ntrode_id: 8
+    probe_id: 1
+    map:
+      0: 96
+      1: 97
+      2: 98
+      3: 99
+      4: 100
+      5: 101
+      6: 102
+      7: 103
+      8: 104
+      9: 105
+      10: 106
+      11: 107
+      12: 108
+      13: 109
+      14: 110
+      15: 111
+      16: 112
+      17: 113
+      18: 114
+      19: 115
+      20: 116
+      21: 117
+      22: 118
+      23: 119
+      24: 120
+      25: 121
+      26: 122
+      27: 123
+      28: 124
+      29: 125
+      30: 126
+      31: 127
