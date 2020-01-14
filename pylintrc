@@ -64,7 +64,8 @@ disable=R0902,
     too-few-public-methods,
     # handled by black
     format,
-    E1136
+    E1136,
+    R1707
 
 
 [REPORTS]

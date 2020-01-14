@@ -200,7 +200,7 @@ class NWBFileBuilder:
         for map_element in metadata['map'].keys():
             map_list.append((map_element, metadata['map'][map_element]))
 
-        electrode_group = NTrode(
+        ntrode = NTrode(
             probe_id=metadata["probe_id"],
             ntrode_id=metadata['ntrode_id'],
             device=device,
@@ -209,7 +209,7 @@ class NWBFileBuilder:
             name='ntrode ' + str(metadata['ntrode_id']),
             map=map_list
         )
-        return electrode_group
+        return ntrode
 
     def __build_devices(self, content):
         probes = []
