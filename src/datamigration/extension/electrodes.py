@@ -13,11 +13,10 @@ class Electrodes():
 
     def add_electrode_property(self, new_column_name,
                                data_for_existing_electrodes=[], column_description='No description'):
-        data = [i for i in range(len(self.metadata.electrodes))]
         self.nwb_file_content.electrodes.add_column(
             name=new_column_name,
             description=column_description,
-            data=data
+            data=data_for_existing_electrodes
         )
 
     def add_all_electrode_properties(self):
