@@ -1,6 +1,7 @@
 import datetime
 import logging
 import os
+import uuid
 
 from hdmf.common import VectorData, DynamicTable
 from pynwb import NWBHDF5IO, NWBFile
@@ -50,7 +51,7 @@ class NWBFileBuilder:
                           session_start_time=datetime.datetime.strptime(
                               self.metadata['session start time'], '%m/%d/%Y %H:%M:%S'
                           ),
-                          identifier=str(self.metadata['identifier']),
+                          identifier=str(uuid.uuid1()),
                           experiment_description=self.metadata['experiment description'],
                           subject=Subject(
                               description=self.metadata['subject']['description'],
