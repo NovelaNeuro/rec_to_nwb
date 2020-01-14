@@ -2,6 +2,7 @@ import os
 import unittest
 from pathlib import Path
 
+from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
 from src.datamigration.raw_to_nwb_builder import RawToNWBBuilder
 
 path = Path(__file__).parent.parent
@@ -15,7 +16,11 @@ class TestRawToNWBGeneration(unittest.TestCase):
         self.builder = RawToNWBBuilder(animal_name='beans',
                                        data_path=str(path) + '/test_data/',
                                        date='20190718',
-                                       metadata_path=str(path) + '/res/metadata.yml',
+                                       nwb_metadata=NWBMetadata(str(path) + '/datamigration/res/metadata.yml',
+                                                                [str(path) + '/datamigration/res/probe1.yml',
+                                                                 str(path) + '/datamigration/res/probe2.yml',
+                                                                 str(path) + '/datamigration/res/probe3.yml'
+                                                                 ]),
                                        output_path='raw2nwb_output.nwb'
                                        )
 

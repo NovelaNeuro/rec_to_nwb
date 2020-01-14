@@ -4,8 +4,9 @@ from datetime import datetime
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
+from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
+from src.datamigration.extension.ntrode import NTrode
 from src.datamigration.extension.probe import Probe
-from src.datamigration.extension.shank import Shank
 
 
 class TestExtensions(unittest.TestCase):
@@ -19,56 +20,64 @@ class TestExtensions(unittest.TestCase):
             file_create_date=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
         )
 
-        cls.probe = Probe(name='Probe1', probe_id='1')
+        cls.probe = Probe(
+            name='Probe1',
+            id=1,
+            probe_type='some type',
+            contact_size=20.0,
+            num_shanks=2,
+        )
         cls.nwb_file.add_device(cls.probe)
-        cls.shank = Shank(
-            name='Shank1',
+
+        cls.fl_electrode_group = FLElectrodeGroup(
+            name='FLElectrodeGroup1',
             description='sample description',
             location='sample location',
             device=cls.probe,
-            filterOn='filter on',
-            lowFilter='low filter',
-            lfpRefOn='lfp_ref_on',
-            color='color',
-            highFilter='hight_filter',
-            lfpFilterOn='lfp_filter_on',
-            moduleDataOn='module_data_on',
-            LFPHighFilter='lfp_high_filter',
-            refGroup='ref_group',
-            LFPChan='lfp_chan',
-            refNTrodeID='ref_n_trode_id',
-            refChan='ref_chan',
-            groupRefOn='group_ref_on',
-            refOn='ref_on',
-            id='id')
+            id=1,
+            probe_id=1
+        )
+        cls.nwb_file.add_electrode_group(cls.fl_electrode_group)
+
+        cls.n_trode = NTrode(
+            name='NTrode1',
+            description='sample description',
+            location='sample location',
+            device=cls.probe,
+            probe_id=1,
+            ntrode_id=1,
+            map=[[0, 0], [1, 1], [2, 2]]
+        )
+        cls.nwb_file.add_electrode_group(cls.n_trode)
 
     def test_probe_creation(self):
         return_probe = self.nwb_file.get_device(name='Probe1')
+
         self.assertEqual(self.probe, return_probe)
         self.assertEqual(self.probe.name, return_probe.name)
-        self.assertEqual(self.probe.probe_id, return_probe.probe_id)
+        self.assertEqual(self.probe.id, return_probe.id)
+        self.assertEqual(self.probe.contact_size, return_probe.contact_size)
+        self.assertEqual(self.probe.num_shanks, return_probe.num_shanks)
 
-    def test_shank_creation(self):
-        self.nwb_file.add_electrode_group(self.shank)
-        return_shank = self.nwb_file.get_electrode_group(name='Shank1')
+    def test_fl_electrode_group_creation(self):
+        return_fl_electrode_group = self.nwb_file.get_electrode_group(name='FLElectrodeGroup1')
 
-        self.assertEqual(self.shank, return_shank)
-        self.assertEqual(self.shank.name, return_shank.name)
-        self.assertEqual(self.shank.description, return_shank.description)
-        self.assertEqual(self.shank.location, return_shank.location)
-        self.assertEqual(self.shank.device, return_shank.device)
-        self.assertEqual(self.shank.filterOn, return_shank.filterOn)
-        self.assertEqual(self.shank.lowFilter, return_shank.lowFilter)
-        self.assertEqual(self.shank.lfpRefOn, return_shank.lfpRefOn)
-        self.assertEqual(self.shank.color, return_shank.color)
-        self.assertEqual(self.shank.highFilter, return_shank.highFilter)
-        self.assertEqual(self.shank.lfpFilterOn, return_shank.lfpFilterOn)
-        self.assertEqual(self.shank.moduleDataOn, return_shank.moduleDataOn)
-        self.assertEqual(self.shank.LFPHighFilter, return_shank.LFPHighFilter)
-        self.assertEqual(self.shank.refGroup, return_shank.refGroup)
-        self.assertEqual(self.shank.LFPChan, return_shank.LFPChan)
-        self.assertEqual(self.shank.refNTrodeID, return_shank.refNTrodeID)
-        self.assertEqual(self.shank.refChan, return_shank.refChan)
-        self.assertEqual(self.shank.groupRefOn, return_shank.groupRefOn)
-        self.assertEqual(self.shank.refOn, return_shank.refOn)
-        self.assertEqual(self.shank.id, return_shank.id)
+        self.assertEqual(self.fl_electrode_group, return_fl_electrode_group)
+        self.assertEqual(self.fl_electrode_group.name, return_fl_electrode_group.name)
+        self.assertEqual(self.fl_electrode_group.description, return_fl_electrode_group.description)
+        self.assertEqual(self.fl_electrode_group.location, return_fl_electrode_group.location)
+        self.assertEqual(self.fl_electrode_group.device, return_fl_electrode_group.device)
+        self.assertEqual(self.fl_electrode_group.probe_id, return_fl_electrode_group.probe_id)
+        self.assertEqual(self.fl_electrode_group.id, return_fl_electrode_group.id)
+
+    def test_n_trode_creation(self):
+        return_n_trode = self.nwb_file.get_electrode_group(name='NTrode1')
+
+        self.assertEqual(self.n_trode, return_n_trode)
+        self.assertEqual(self.n_trode.name, return_n_trode.name)
+        self.assertEqual(self.n_trode.description, return_n_trode.description)
+        self.assertEqual(self.n_trode.location, return_n_trode.location)
+        self.assertEqual(self.n_trode.device, return_n_trode.device)
+        self.assertEqual(self.n_trode.probe_id, return_n_trode.probe_id)
+        self.assertEqual(self.n_trode.ntrode_id, return_n_trode.ntrode_id)
+        self.assertEqual(self.n_trode.map, return_n_trode.map)

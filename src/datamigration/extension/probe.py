@@ -10,14 +10,23 @@ load_namespaces(ns_path)
 
 @register_class('Probe', 'NovelaNeurotechnologies')
 class Probe(Device):
-    __nwbfields__ = ('probe_id',)
+    __nwbfields__ = ('id', 'contact_size', 'probe_type', 'num_shanks')
 
     @docval(*get_docval(Device.__init__) + (
-            {'name': 'probe_id', 'type': 'str', 'doc': 'unique id of the probe'},))
+            {'name': 'id', 'type': 'int', 'doc': 'unique id of the probe'},
+            {'name': 'contact_size', 'type': 'float', 'doc': 'value of contact size as float'},
+            {'name': 'probe_type', 'type': 'str', 'doc': 'type of probe'},
+            {'name': 'num_shanks', 'type': 'int', 'doc': 'number of shanks associated with probe'}))
     def __init__(self, **kwargs):
         super().__init__(**{kwargs_item: kwargs[kwargs_item]
                             for kwargs_item in kwargs.copy()
-                            if kwargs_item != 'probe_id'
+                            if kwargs_item != 'probe_type'
+                            if kwargs_item != 'id'
+                            if kwargs_item != 'contact_size'
+                            if kwargs_item != 'num_shanks'
                             })
         call_docval_func(super(Probe, self).__init__, kwargs)
-        self.probe_id = kwargs['probe_id']
+        self.id = kwargs['id']
+        self.probe_type = kwargs['probe_type']
+        self.contact_size = kwargs['contact_size']
+        self.num_shanks = kwargs['num_shanks']
