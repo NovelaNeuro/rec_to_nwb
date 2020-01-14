@@ -25,7 +25,7 @@ class RawToNWBBuilder:
         extract_trodes_rec_file(self.data_path, self.animal_name, parallel_instances=4)
 
     def build_nwb(self):
-        #self.__preprocess_data()
+        self.__preprocess_data()
         self.nwbBuilder = NWBFileBuilder(
             data_path=self.data_path,
             animal_name=self.animal_name,
