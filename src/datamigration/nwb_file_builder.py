@@ -68,11 +68,11 @@ class NWBFileBuilder:
 
         self.__build_aparatus(content)
 
-        probes = self.__add_devices(content)
+        self.__build_devices(content)
 
-        self.__build_electrode_groups(content, probes)
+        self.__build_electrode_groups(content)
 
-        self.__build_ntrodes(content, probes)
+        self.__build_ntrodes(content)
 
         #self.__add_electrodes(content)
 
@@ -159,10 +159,10 @@ class NWBFileBuilder:
                 id=electrode['id'],
             )
 
-    def __build_electrode_groups(self, content, probes):
+    def __build_electrode_groups(self, content):
         fl_groups = []
         for electrode_group_metadata in self.metadata['electrode groups']:
-            group = self.__create_electrode_group(electrode_group_metadata, probes)
+            group = self.__create_electrode_group(electrode_group_metadata, content.devices)
             fl_groups.append(group)
         for fl_group in fl_groups:
             content.add_electrode_group(fl_group)
@@ -183,10 +183,10 @@ class NWBFileBuilder:
         )
         return electrode_group
 
-    def __build_ntrodes(self, content, probes):
+    def __build_ntrodes(self, content):
         fl_ntrodes = []
         for ntrode_metadata in self.metadata['ntrode probe channel map']:
-            fl_ntrode = self.__create_ntrode(ntrode_metadata, probes)
+            fl_ntrode = self.__create_ntrode(ntrode_metadata, content.devices)
             fl_ntrodes.append(fl_ntrode)
         for fl_ntrode in fl_ntrodes:
             content.add_electrode_group(fl_ntrode)
@@ -212,7 +212,7 @@ class NWBFileBuilder:
         )
         return electrode_group
 
-    def __add_devices(self, content):
+    def __build_devices(self, content):
         probes = []
         for fl_probe in self.probes:
             probes.append(Probe(
@@ -220,13 +220,10 @@ class NWBFileBuilder:
                 contact_size=fl_probe["contact_size"],
                 num_shanks=fl_probe['num_shanks'],
                 id=fl_probe["id"],
-                name=str(fl_probe["id"])
-            )
-            )
+                name=str(fl_probe["id"])))
 
         for probe in probes:
             content.add_device(probe)
-        return probes
 
     def __build_mda(self, content):
         sampling_rate = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +

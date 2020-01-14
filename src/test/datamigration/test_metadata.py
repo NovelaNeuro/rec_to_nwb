@@ -60,7 +60,7 @@ class TestMetadata(unittest.TestCase):
         self.assertIn('description', electrode_groups_fields)
 
     def test_reading_ntrode_probe_channel_map_field(self):
-        ntrode_probe_channel_map_fields = self.nwb_metadata.metadata['ntrode_probe_channel_map'][0].keys()
+        ntrode_probe_channel_map_fields = self.nwb_metadata.metadata['ntrode probe channel map'][0].keys()
         self.assertIn('map', ntrode_probe_channel_map_fields)
         self.assertIn('probe_id', ntrode_probe_channel_map_fields)
         self.assertIn('ntrode_id', ntrode_probe_channel_map_fields)
