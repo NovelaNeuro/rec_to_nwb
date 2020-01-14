@@ -45,6 +45,7 @@ dependencies:
   - rec_to_binaries
   - mountainlab_pytools
   - vdom
+  - yaml
   - pip:
       - xmldiff
 

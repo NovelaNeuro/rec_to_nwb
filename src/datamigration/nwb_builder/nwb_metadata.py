@@ -1,4 +1,4 @@
-from conda_env.yaml import yaml
+import yaml
 
 from src.datamigration.nwb_builder.probe_extractor import ProbesExtractor
 
