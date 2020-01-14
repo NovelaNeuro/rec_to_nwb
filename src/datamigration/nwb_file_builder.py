@@ -169,11 +169,10 @@ class NWBFileBuilder:
             content.add_electrode_group(fl_group)
 
     @staticmethod
-    def __create_electrode_group(metadata, probes):
-        for probe in probes:
-            if probe.name == str(metadata["probe_id"]):
-                device = probe
-                break
+    def __create_electrode_group(metadata, devices):
+        probe_id = str(metadata["probe_id"])
+        device = devices[probe_id]
+
         electrode_group = FLElectrodeGroup(
             probe_id=metadata["probe_id"],
             id=metadata['id'],
@@ -193,11 +192,10 @@ class NWBFileBuilder:
             content.add_electrode_group(fl_ntrode)
 
     @staticmethod
-    def __create_ntrode(metadata, probes):
-        for probe in probes:
-            if probe.name == str(metadata["probe_id"]):
-                device = probe
-                break
+    def __create_ntrode(metadata, devices):
+        probe_id = str(metadata["probe_id"])
+        device = devices[probe_id]
+
         map_list = []
         for map_element in metadata['map'].keys():
             map_list.append((map_element, metadata['map'][map_element]))
