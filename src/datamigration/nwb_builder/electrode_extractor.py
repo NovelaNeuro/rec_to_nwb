@@ -13,7 +13,7 @@ class ElectrodeExtractor:
             for shank in shanks:
                 electrodes_from_current_shank = shank["electrodes"]
                 for electrode in electrodes_from_current_shank:
-                    electrode["shank"] = shank["shank_num"]
+                    electrode["shank"] = shank["id"]
                     electrode["electrode_group"] = shank["electrode_group_name"]
                 electrodes = electrodes + electrodes_from_current_shank
         for electrode in electrodes:
@@ -28,8 +28,10 @@ class ElectrodeExtractor:
 
 
 if __name__ == "__main__":
-    prb = "C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/probe3.yml"
-    prbs = [prb, prb]
+    prbs = []
+    prbs.append("C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/probe1.yml")
+    prbs.append("C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/probe2.yml")
+    prbs.append("C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/probe3.yml")
     ext = ElectrodeExtractor(prbs)
     trodes = ext.get_all_electrodes()
     print(trodes)
