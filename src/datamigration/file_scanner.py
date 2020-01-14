@@ -83,5 +83,5 @@ class DataScanner:
         probes = []
         for probe_file in os.listdir(path):
             if fnmatch.fnmatch(probe_file, "probe*.yml"):
-                probes.append(probe_file)
+                probes.append(path + '/' + probe_file)
         return probes

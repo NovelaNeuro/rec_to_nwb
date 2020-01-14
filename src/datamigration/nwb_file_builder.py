@@ -24,7 +24,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, metadata_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, metadata_path, probe_path, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
@@ -34,6 +34,7 @@ class NWBFileBuilder:
 
         self.output_file = output_file
 
+        self.probes = self.data_folder.get_probes_from_directory(probe_path)
         self.metadata = MetadataExtractor(config_path=metadata_path)
         self.__check_headers_compatibility()
         self.spike_n_trodes = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
@@ -96,11 +97,7 @@ class NWBFileBuilder:
         return region
 
     def __add_electrodes(self, content):
-        prbs = []
-        prbs.append("C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/probe1.yml")
-        prbs.append("C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/probe2.yml")
-        prbs.append("C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/probe3.yml")
-        electrode_table = Electrodes(nwb_file_content=content, probe_files=prbs,
+        electrode_table = Electrodes(nwb_file_content=content, probe_files=self.probes,
                                      electrode_groups=content.electrode_groups)
 
     def __build_shanks(self, content, probes, spike_n_trodes):
