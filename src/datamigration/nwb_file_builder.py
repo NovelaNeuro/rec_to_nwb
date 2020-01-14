@@ -96,9 +96,12 @@ class NWBFileBuilder:
         return region
 
     def __add_electrodes(self, content):
-        electrode_table = Electrodes(nwb_file_content=content, metadata=self.metadata)
-        electrode_table.add_electrodes()
-        electrode_table.add_electrode_property("tak")
+        prbs = []
+        prbs.append("C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/probe1.yml")
+        prbs.append("C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/probe2.yml")
+        prbs.append("C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/datamigration/res/probe3.yml")
+        electrode_table = Electrodes(nwb_file_content=content, probe_files=prbs,
+                                     electrode_groups=content.electrode_groups)
 
     def __build_shanks(self, content, probes, spike_n_trodes):
         shanks = []
