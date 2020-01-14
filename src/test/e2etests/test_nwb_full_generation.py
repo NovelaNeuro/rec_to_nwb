@@ -30,8 +30,8 @@ class TestNwbFullGeneration(unittest.TestCase):
         self.nwbBuilder.write(content)
         self.assertIsNotNone(self.nwbBuilder)
 
-    # @classmethod
-    # def tearDownClass(cls):
-    #     del cls.nwbBuilder
-    #     if os.path.isfile('output.nwb'):
-    #         os.remove('output.nwb')
+    @classmethod
+    def tearDownClass(cls):
+        del cls.nwbBuilder
+        if os.path.isfile('output.nwb'):
+            os.remove('output.nwb')
