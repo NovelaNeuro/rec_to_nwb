@@ -8,7 +8,7 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-#@unittest.skip("NWB file creation")
+@unittest.skip("NWB file creation")
 class TestNwbFullGeneration(unittest.TestCase):
 
     @classmethod
