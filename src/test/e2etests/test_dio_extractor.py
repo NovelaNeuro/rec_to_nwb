@@ -14,7 +14,7 @@ path.resolve()
 class TestDio(unittest.TestCase):
 
     def setUp(self):
-        self.dio_data = DioExtractor(data_path=str(path) + '/test_data/beans/_preprocessing/20190718/',
+        self.dio_data = DioExtractor(data_path=str(path) + '/test_data/beans/preprocessing/20190718/',
                                      metadata=NWBMetadata(metadata_path=str(path) + '/datamigration/res/metadata.yml',
                                                           probes_paths=[]).metadata)
 
