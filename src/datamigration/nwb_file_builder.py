@@ -8,12 +8,12 @@ from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
 import src.datamigration.file_scanner as fs
-from src.datamigration.extension.electrodes import Electrodes
 from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
 from src.datamigration.extension.ntrode import NTrode
 from src.datamigration.extension.probe import Probe
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.dio_extractor import DioExtractor
+from src.datamigration.nwb_builder.electrode_table_builder import ElectrodeTableBuilder
 from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
 from src.datamigration.nwb_builder.header_checker.header_extractor import HeaderFilesExtractor
 from src.datamigration.nwb_builder.header_checker.header_reader import HeaderReader
@@ -37,7 +37,6 @@ class NWBFileBuilder:
 
         self.output_file = output_file
 
-        self.probes_for_electrode_extraction = nwb_metadata.probes_paths
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
         self.__check_headers_compatibility()
@@ -77,7 +76,7 @@ class NWBFileBuilder:
 
         self.__build_ntrodes(content)
 
-        self.__add_electrodes(content)
+        self.__build_electrodes(content)
 
         self.__build_dio(content)
 
@@ -117,9 +116,9 @@ class NWBFileBuilder:
         )
         return region
 
-    def __add_electrodes(self, content):
-        electrode_table = Electrodes(nwb_file_content=content, probe_files=self.probes_for_electrode_extraction,
-                                     electrode_groups=content.electrode_groups)
+    def __build_electrodes(self, content):
+        electrode_table = ElectrodeTableBuilder(nwb_file_content=content, probes=self.probes,
+                                                electrode_groups=content.electrode_groups)
 
     def __build_electrode_groups(self, content):
         fl_groups = []

@@ -10,4 +10,3 @@ class NWBMetadata:
             metadata_dict = yaml.safe_load(stream)
             self.metadata = metadata_dict
         self.probes = ProbesExtractor(probes_paths).probes_content
-        self.probes_paths = probes_paths

@@ -4,7 +4,7 @@ num_shanks: 1
 contact_size: 12.5
 id: 1
 shanks:
-  - id: 0
+  - shank_id: 0
     electrode_group_name: 3
     electrodes:
       - id: 0
