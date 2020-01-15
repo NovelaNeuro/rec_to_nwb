@@ -44,7 +44,7 @@ class Electrodes():
                 imp=1.0,
                 location='necessary location',
                 filtering="have no idea",
-                group=self.electrode_groups['electrode group 0'],
+                group=self.electrode_groups['electrode group ' + str(electrode["electrode_group"])],
                 id=id,  # from header
             )
             id += 1
