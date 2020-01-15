@@ -27,7 +27,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, nwb_metadata, probe_path, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, nwb_metadata, output_file='output.nwb'):
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
@@ -37,7 +37,7 @@ class NWBFileBuilder:
 
         self.output_file = output_file
 
-        self.probes = self.data_folder.get_probes_from_directory(probe_path)
+        self.probes_for_electrode_extraction = nwb_metadata.probes_paths
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
         self.__check_headers_compatibility()
@@ -77,13 +77,13 @@ class NWBFileBuilder:
 
         self.__build_ntrodes(content)
 
-        #self.__add_electrodes(content)
+        self.__add_electrodes(content)
 
         self.__build_dio(content)
 
-       # self.__add_electrodes_extensions(content, self.spike_n_trodes)
+        # self.__add_electrodes_extensions(content, self.spike_n_trodes)
 
-        # self.__build_mda(content)
+        self.__build_mda(content)
 
         return content
 
@@ -112,12 +112,13 @@ class NWBFileBuilder:
         region = content.create_electrode_table_region(
             description=self.metadata['electrode region']['description'],
             region=self.metadata['electrode region']['region'],
-            name=self.metadata['electrode region']['name']
+            # name=self.metadata['electrode region']['name']
+            name='electrodes'
         )
         return region
 
     def __add_electrodes(self, content):
-        electrode_table = Electrodes(nwb_file_content=content, probe_files=self.probes,
+        electrode_table = Electrodes(nwb_file_content=content, probe_files=self.probes_for_electrode_extraction,
                                      electrode_groups=content.electrode_groups)
 
     def __build_electrode_groups(self, content):

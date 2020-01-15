@@ -44,7 +44,7 @@ class Electrodes():
                 imp=1.0,
                 location='necessary location',
                 filtering="have no idea",
-                group=self.electrode_groups['1'],
+                group=self.electrode_groups['electrode group 0'],
                 id=id,  # from header
             )
             id += 1
