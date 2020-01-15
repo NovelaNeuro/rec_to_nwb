@@ -5,7 +5,7 @@ class ElectrodeTableBuilder():
     def __init__(self, nwb_file_content, probes, electrode_groups):
         self.nwb_file_content = nwb_file_content
         self.electrode_groups = electrode_groups
-        self.electrode_extractor = ElectrodeExtractor(probes)
+        self.electrode_extractor = ElectrodeExtractor(probes=probes)
         self.electrodes = self.get_data_from_ymls()
         self.add_electrodes()
         self.add_all_electrode_properties()

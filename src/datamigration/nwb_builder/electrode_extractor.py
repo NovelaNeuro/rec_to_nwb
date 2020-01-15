@@ -9,10 +9,18 @@ class ElectrodeExtractor:
             electrodes_from_current_shank = shank["electrodes"]
             for electrode in electrodes_from_current_shank:
                 electrode["shank_id"] = shank["shank_id"]
-                electrode["electrode_group"] = shank["electrode_group_name"]
+                electrode["electrode_group"] = shank["electrode_group_id"]
             electrodes = electrodes + electrodes_from_current_shank
+
         for electrode in electrodes:
-            electrode["probe"] = probe_dict["id"]
+            electrode["probe_id"] = probe_dict["id"]
+
+        # ToDo Thats wrong of course. Iterate over two sets of data
+        # for electrode in electrodes:
+        #     for spike_trodes in Header('Header.xml').configuration.spike_configuration.spike_n_trodes:
+        #         for spiken_channel in spike_trodes.spike_channels:
+        #             electrode["hwChan"] = spiken_channel.hw_chan
+
         return electrodes
 
     def get_all_electrodes(self):

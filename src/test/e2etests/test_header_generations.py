@@ -19,7 +19,6 @@ class TestHeaderGenerations(unittest.TestCase):
             xsd_path=str(path.parent) + '/data/fl_lab_header.xsd'
         )
 
-    @unittest.skip("Need rec files")
     def test_generation_xml(self):
         self.xml_extractor.extract_xml_from_rec_file()
         self.assertTrue(
