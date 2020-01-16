@@ -1,3 +1,6 @@
+from src.datamigration.header.module.header import Header
+
+
 class ElectrodeExtractor:
     def __init__(self, probes):
         self.probes = probes
@@ -15,8 +18,18 @@ class ElectrodeExtractor:
         for electrode in electrodes:
             electrode["probe_id"] = probe_dict["id"]
 
+        #obtain list of spike channels in header(header injection needs to be set properly)
+        spike_channels_list = []
+        for spike_trode in Header('Header.xml').configuration.spike_configuration.spike_n_trodes:
+            for spike_channel in spike_trode.spike_channels:
+                spike_channels_list.append(spike_channel)
+
+        #zip 2 iterables into single touple iteration
+        for spike_channel, electrode in zip(spike_channels_list, electrodes):
+            electrode["hwChan"] = spike_channel.hw_chan
+
         # ToDo Thats wrong of course. Iterate over two sets of data
-        # for electrode in electrodes:
+        # for electrode,spike_ in electrodes:
         #     for spike_trodes in Header('Header.xml').configuration.spike_configuration.spike_n_trodes:
         #         for spiken_channel in spike_trodes.spike_channels:
         #             electrode["hwChan"] = spiken_channel.hw_chan
