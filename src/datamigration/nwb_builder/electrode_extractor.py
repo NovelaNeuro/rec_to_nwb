@@ -28,12 +28,6 @@ class ElectrodeExtractor:
         for spike_channel, electrode in zip(spike_channels_list, electrodes):
             electrode["hwChan"] = spike_channel.hw_chan
 
-        # ToDo Thats wrong of course. Iterate over two sets of data
-        # for electrode,spike_ in electrodes:
-        #     for spike_trodes in Header('Header.xml').configuration.spike_configuration.spike_n_trodes:
-        #         for spiken_channel in spike_trodes.spike_channels:
-        #             electrode["hwChan"] = spiken_channel.hw_chan
-
         return electrodes
 
     def get_all_electrodes(self):
