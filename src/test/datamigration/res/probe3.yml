@@ -4,8 +4,8 @@ num_shanks: 4
 contact_size: 20.0
 id: 3
 shanks:
-  - shank_num: 0
-    electrode_group_name: 0
+  - shank_id: 0
+    electrode_group_id: 0
     electrodes:
       - id: 0
         rel_x: 0
@@ -135,8 +135,8 @@ shanks:
         rel_x: 1240
         rel_y: 0
         rel_z: 0
-  - shank_num: 1
-    electrode_group_name: 1
+  - shank_id: 1
+    electrode_group_id: 1
     electrodes:
       - id: 32
         rel_x: 0
@@ -266,8 +266,8 @@ shanks:
         rel_x: 1240
         rel_y: 300
         rel_z: 0
-  - shank_num: 2
-    electrode_group_name: 6
+  - shank_id: 2
+    electrode_group_id: 6
     electrodes:
       - id: 64
         rel_x: 0
@@ -397,8 +397,8 @@ shanks:
         rel_x: 1240
         rel_y: 600
         rel_z: 0
-  - shank_num: 3
-    electrode_group_name: 7
+  - shank_id: 3
+    electrode_group_id: 7
     electrodes:
       - id: 96
         rel_x: 0

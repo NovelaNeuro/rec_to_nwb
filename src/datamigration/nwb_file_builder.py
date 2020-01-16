@@ -13,6 +13,7 @@ from src.datamigration.extension.ntrode import NTrode
 from src.datamigration.extension.probe import Probe
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.dio_extractor import DioExtractor
+from src.datamigration.nwb_builder.electrode_table_builder import ElectrodeTableBuilder
 from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
 from src.datamigration.nwb_builder.header_checker.header_extractor import HeaderFilesExtractor
 from src.datamigration.nwb_builder.header_checker.header_reader import HeaderReader
@@ -39,8 +40,9 @@ class NWBFileBuilder:
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
         self.__check_headers_compatibility()
-        self.spike_n_trodes = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
-                                     self.date + '/header.xml').configuration.spike_configuration.spike_n_trodes
+        self.header = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
+                             self.date + '/header.xml')
+        self.spike_n_trodes = self.header.configuration.spike_configuration.spike_n_trodes
 
 
     def build(self):
@@ -75,13 +77,13 @@ class NWBFileBuilder:
 
         self.__build_ntrodes(content)
 
-        #self.__add_electrodes(content)
+        self.__build_electrodes(content)
 
         self.__build_dio(content)
 
-       # self.__add_electrodes_extensions(content, self.spike_n_trodes)
+        # self.__add_electrodes_extensions(content, self.spike_n_trodes)
 
-        # self.__build_mda(content)
+        self.__build_mda(content)
 
         return content
 
@@ -110,55 +112,15 @@ class NWBFileBuilder:
         region = content.create_electrode_table_region(
             description=self.metadata['electrode region']['description'],
             region=self.metadata['electrode region']['region'],
-            name=self.metadata['electrode region']['name']
+            # name=self.metadata['electrode region']['name']
+            name='electrodes'
         )
         return region
 
-    @staticmethod
-    def __add_electrodes_extensions(content, spike_n_trodes):
-        maxDisp = []
-        triggerOn = []
-        hwChan = []
-        thresh = []
-        for trode in spike_n_trodes:
-            for channel in trode.spike_channels:
-                maxDisp.append(channel.max_disp)
-                triggerOn.append(channel.trigger_on)
-                hwChan.append(channel.hw_chan)
-                thresh.append(channel.thresh)
-        content.electrodes.add_column(
-            name='maxDisp',
-            description='maxDisp sample description',
-            data=maxDisp
-        )
-        content.electrodes.add_column(
-            name='thresh',
-            description='thresh sample description',
-            data=thresh
-        )
-        content.electrodes.add_column(
-            name='hwChan',
-            description='hwChan sample description',
-            data=hwChan
-        )
-        content.electrodes.add_column(
-            name='triggerOn',
-            description='triggerOn sample description',
-            data=triggerOn
-        )
+    def __build_electrodes(self, content):
+        ElectrodeTableBuilder(nwb_file_content=content, probes=self.probes,
+                              electrode_groups=content.electrode_groups, header=self.header)
 
-    def __add_electrodes(self, content):
-        for electrode in self.metadata.electrodes:
-            content.add_electrode(
-                x=electrode['x'],
-                y=electrode['y'],
-                z=electrode['z'],
-                imp=1.0,
-                location='necessary location',
-                filtering=electrode['filtering'],
-                group=content.electrode_groups['1'],
-                id=electrode['id'],
-            )
 
     def __build_electrode_groups(self, content):
         fl_groups = []
@@ -225,8 +187,7 @@ class NWBFileBuilder:
             content.add_device(probe)
 
     def __build_mda(self, content):
-        sampling_rate = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
-                               self.date + '/header.xml').configuration.hardware_configuration.sampling_rate
+        sampling_rate = self.header.configuration.hardware_configuration.sampling_rate
         mda_extractor = MdaExtractor(self.datasets)
         electrode_table_region = self.__create_region(content)
         series = mda_extractor.get_mda(electrode_table_region, sampling_rate)

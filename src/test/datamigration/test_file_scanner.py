@@ -55,6 +55,6 @@ class TestFileScanner(unittest.TestCase):
     def test_get_probes(self):
         probes = self.data_folder.get_probes_from_directory(self.probe_path)
         probes.sort()
-        self.assertEqual('probe1.yml', probes[0], 'should be probe1.yml')
-        self.assertEqual('probe2.yml', probes[1], 'should be probe2.yml')
-        self.assertEqual('probe21.yml', probes[2], 'should be probe21.yml')
+        self.assertTrue(probes[0].endswith('probe1.yml'))
+        self.assertTrue(probes[1].endswith('probe2.yml'))
+        self.assertTrue(probes[2].endswith('probe21.yml'))
