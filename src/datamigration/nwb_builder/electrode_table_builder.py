@@ -2,10 +2,10 @@ from src.datamigration.nwb_builder.electrode_extractor import ElectrodeExtractor
 
 
 class ElectrodeTableBuilder():
-    def __init__(self, nwb_file_content, probes, electrode_groups):
+    def __init__(self, nwb_file_content, probes, electrode_groups, header):
         self.nwb_file_content = nwb_file_content
         self.electrode_groups = electrode_groups
-        self.electrode_extractor = ElectrodeExtractor(probes=probes)
+        self.electrode_extractor = ElectrodeExtractor(probes=probes, header=header)
         self.electrodes = self.get_data_from_ymls()
         self.add_electrodes()
         self.add_all_electrode_properties()
@@ -15,7 +15,6 @@ class ElectrodeTableBuilder():
 
     def add_electrode_property(self, new_column_name,
                                data_for_existing_electrodes=[], column_description='No description'):
-        print(new_column_name + " has " + str(len(data_for_existing_electrodes)) + " rows")
         self.nwb_file_content.electrodes.add_column(
             name=new_column_name,
             description=column_description,
@@ -26,7 +25,6 @@ class ElectrodeTableBuilder():
         base_properties = ["x", "y", "z", "imp", "location", "filtering", "electrode_group", "id"]
         new_properties = []
         keys = [k for k in self.electrodes[0]]
-        print(keys)
         for key in keys:
             if key not in base_properties:
                 new_properties.append(key)
@@ -48,4 +46,3 @@ class ElectrodeTableBuilder():
                 id=id,  # from header
             )
             id += 1
-        print("there is " + str(id) + "electrodes")

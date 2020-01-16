@@ -1,9 +1,7 @@
-from src.datamigration.header.module.header import Header
-
-
 class ElectrodeExtractor:
-    def __init__(self, probes):
+    def __init__(self, probes, header):
         self.probes = probes
+        self.header = header
 
     def get_all_electrodes_from_probe(self, probe_dict):
         electrodes = []
@@ -20,7 +18,7 @@ class ElectrodeExtractor:
 
         #obtain list of spike channels in header(header injection needs to be set properly)
         spike_channels_list = []
-        for spike_trode in Header('Header.xml').configuration.spike_configuration.spike_n_trodes:
+        for spike_trode in self.header.configuration.spike_configuration.spike_n_trodes:
             for spike_channel in spike_trode.spike_channels:
                 spike_channels_list.append(spike_channel)
 
