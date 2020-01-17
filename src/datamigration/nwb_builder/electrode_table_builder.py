@@ -14,7 +14,7 @@ class ElectrodeTableBuilder():
         return self.electrode_extractor.get_all_electrodes()
 
     def add_electrode_property(self, new_column_name,
-                               data_for_existing_electrodes=[], column_description='No description'):
+                               data_for_existing_electrodes, column_description='No description'):
         self.nwb_file_content.electrodes.add_column(
             name=new_column_name,
             description=column_description,
@@ -33,7 +33,7 @@ class ElectrodeTableBuilder():
             self.add_electrode_property(new_property, data)
 
     def add_electrodes(self):
-        id = 0
+        current_id = 0
         for electrode in self.electrodes:
             self.nwb_file_content.add_electrode(
                 x=0.0,
@@ -43,6 +43,6 @@ class ElectrodeTableBuilder():
                 location='necessary location',
                 filtering="have no idea",
                 group=self.electrode_groups['electrode group ' + str(electrode["electrode_group"])],
-                id=id,  # from header
+                id=current_id,  # from header
             )
-            id += 1
+            current_id += 1
