@@ -1,7 +1,7 @@
 from src.datamigration.nwb_builder.electrode_extractor import ElectrodeExtractor
 
 
-class ElectrodeTableBuilder():
+class ElectrodeTableBuilder:
     def __init__(self, nwb_file_content, probes, electrode_groups, header):
         self.nwb_file_content = nwb_file_content
         self.electrode_groups = electrode_groups
@@ -24,7 +24,7 @@ class ElectrodeTableBuilder():
     def add_all_electrode_properties(self):
         base_properties = ["x", "y", "z", "imp", "location", "filtering", "electrode_group", "id"]
         new_properties = []
-        keys = [k for k in self.electrodes[0]]
+        keys = self.electrodes[0].keys()
         for key in keys:
             if key not in base_properties:
                 new_properties.append(key)
@@ -43,6 +43,5 @@ class ElectrodeTableBuilder():
                 location='necessary location',
                 filtering="have no idea",
                 group=self.electrode_groups['electrode group ' + str(electrode["electrode_group"])],
-                id=current_id,  # from header
-            )
-            current_id += 1
+                id=current_id)
+        current_id += 1

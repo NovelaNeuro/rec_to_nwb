@@ -41,7 +41,6 @@ class PosData(BinaryData):
         return position.xloc, position.yloc, position.xloc2, position.yloc2
 
 
-
 class BinaryData1D(ABC):
     def __init__(self, directories):
         self.directories = directories
