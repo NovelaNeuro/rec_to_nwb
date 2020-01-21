@@ -6,7 +6,7 @@ from src.datamigration.nwb_builder.data_iterator import DataIterator, DataIterat
 
 class MdaExtractor:
 
-    def __init__(self, datasets):
+    def __init__(self, datasets, experiment_start_time):
         all_mda = []
         timestamps = []
         for dataset in datasets:
@@ -17,11 +17,12 @@ class MdaExtractor:
             timestamps.append(dataset.get_mda_timestamps())
         self.mda_data = all_mda
         self.timestamps = timestamps
+        self.experiment_start_time = experiment_start_time
 
     def get_mda(self, electrode_table_region, sampling_rate):
         data = MdaData(self.mda_data)
         extracted_data = DataIterator(data)
-        timestamps = MdaTimestamps([self.timestamps])
+        timestamps = MdaTimestamps([self.timestamps], self.experiment_start_time, float(sampling_rate))
         extracted_timestamps = DataIterator1D(timestamps)
         series = ecephys.ElectricalSeries(name="e-series",
                                           data=extracted_data,

@@ -64,7 +64,15 @@ class BinaryData1D(ABC):
         pass
 
 
-class MdaTimestamps(BinaryData1D):
+class MdaTimestamps(ABC):
+    def __init__(self, directories, experiment_start_time, sampling_rate):
+        self.directories = directories
+        self.num_datasets = self.get_num_datasets()
+        self.sampling_rate = sampling_rate
+        self.experiment_start_time_in_sec = experiment_start_time.timestamp()
+        self.file_lenghts = [self.get_data_shape(i) for i in range(self.num_datasets)]
+
+
 
     def get_num_datasets(self):
         return np.size(self.directories, 1)
@@ -72,7 +80,8 @@ class MdaTimestamps(BinaryData1D):
     def read_data(self, dataset_num, file_num=0):
         data = readmda(self.directories[0][dataset_num])
         for i in range(np.size(data, 0)):
-            data[i] = data[i] / 1000
+            data[i] = data[i] / self.sampling_rate
+            data[i] += self.experiment_start_time_in_sec
         return data
 
     def get_data_shape(self, dataset_num):
