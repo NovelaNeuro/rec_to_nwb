@@ -13,7 +13,6 @@ class POSExtractor:
                                          dataset.get_all_data_from_dataset('pos') if
                                          (pos_file.endswith('.pos_online.dat'))]
             self.all_pos.append(data_from_current_dataset)
-        print(self.all_pos)
 
     def get_position(self):
         pos_data = PosData(directories=self.all_pos)

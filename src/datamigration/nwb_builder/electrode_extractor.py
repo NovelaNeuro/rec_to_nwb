@@ -16,13 +16,11 @@ class ElectrodeExtractor:
         for electrode in electrodes:
             electrode["probe_id"] = probe_dict["id"]
 
-        #obtain list of spike channels in header(header injection needs to be set properly)
         spike_channels_list = []
         for spike_trode in self.header.configuration.spike_configuration.spike_n_trodes:
             for spike_channel in spike_trode.spike_channels:
                 spike_channels_list.append(spike_channel)
 
-        #zip 2 iterables into single touple iteration
         for spike_channel, electrode in zip(spike_channels_list, electrodes):
             electrode["hwChan"] = spike_channel.hw_chan
 
