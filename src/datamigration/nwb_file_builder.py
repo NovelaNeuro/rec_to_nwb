@@ -196,10 +196,7 @@ class NWBFileBuilder:
     def __build_dio(self, content):
         extracted_dio = DioExtractor(data_path=self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date,
                                      metadata=self.metadata)
-        content.create_processing_module(
-            name='behavioral_event',
-            description=''
-        ).add_data_interface(
+        content.processing["behavior"].add_data_interface(
             extracted_dio.get_dio()
         )
 
@@ -207,13 +204,10 @@ class NWBFileBuilder:
         apparatus_columns = []
         for counter, row in enumerate(self.metadata['apparatus']['data']):
             apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=row))
-        content.create_processing_module(
-            name='apparatus',
-            description='Sample description'
-        ).add_data_interface(
+        content.processing["behavior"].add_data_interface(
             DynamicTable(
                 name='apparatus',
-                description='Sample description',
+                description='None',
                 id=None,
                 columns=apparatus_columns
             )
@@ -221,33 +215,30 @@ class NWBFileBuilder:
 
     def __build_position(self, content):
         pos_extractor = POSExtractor(self.datasets)
-        content.create_processing_module(
-            name='position',
-            description='Sample description'
-        ).add_data_interface(
+        content.processing["behavior"].add_data_interface(
             pos_extractor.get_position()
         )
 
     def __build_task(self, content):
         nwb_table = DynamicTable(
             name='task',
-            description='Sample description',
+            description='None',
         )
 
         nwb_table.add_column(
             name='task_name',
-            description='Sample description',
+            description='None',
         )
         nwb_table.add_column(
             name='task_description',
-            description='Sample description',
+            description='None',
         )
         for task in self.metadata['tasks']:
             nwb_table.add_row(task)
 
         content.create_processing_module(
-            name='task',
-            description='Sample description'
+            name='behavior',
+            description='task information in behavior module'
         ).add_data_interface(nwb_table)
 
     def write(self, content):
