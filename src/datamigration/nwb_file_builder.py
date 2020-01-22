@@ -64,6 +64,7 @@ class NWBFileBuilder:
                               weight=str(self.metadata['subject']['weight']),
                           ),
                           )
+        self.__create_processing_module(content)
 
         self.__build_task(content)
 
@@ -81,11 +82,15 @@ class NWBFileBuilder:
 
         self.__build_dio(content)
 
-        # self.__add_electrodes_extensions(content, self.spike_n_trodes)
-
         self.__build_mda(content)
 
         return content
+
+    def __create_processing_module(self, content):
+        content.create_processing_module(
+            name='behavior',
+            description='processing module for all behavior-related data'
+        )
 
     def __check_headers_compatibility(self,):
         rec_files = RecFileFinder().find_rec_files(self.data_path + self.animal_name + '/raw')
@@ -236,10 +241,7 @@ class NWBFileBuilder:
         for task in self.metadata['tasks']:
             nwb_table.add_row(task)
 
-        content.create_processing_module(
-            name='behavior',
-            description='task information in behavior module'
-        ).add_data_interface(nwb_table)
+        content.processing['behavior'].add_data_interface(nwb_table)
 
     def write(self, content):
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
