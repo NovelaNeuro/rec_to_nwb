@@ -64,6 +64,7 @@ class NWBFileBuilder:
                               weight=str(self.metadata['subject']['weight']),
                           ),
                           )
+        self.__create_processing_module(content)
 
         self.__build_task(content)
 
@@ -81,11 +82,16 @@ class NWBFileBuilder:
 
         self.__build_dio(content)
 
-        # self.__add_electrodes_extensions(content, self.spike_n_trodes)
-
         self.__build_mda(content)
 
         return content
+
+    @staticmethod
+    def __create_processing_module(content):
+        content.create_processing_module(
+            name='behavior',
+            description='processing module for all behavior-related data'
+        )
 
     def __check_headers_compatibility(self,):
         rec_files = RecFileFinder().find_rec_files(self.data_path + self.animal_name + '/raw')
@@ -198,10 +204,7 @@ class NWBFileBuilder:
     def __build_dio(self, content):
         extracted_dio = DioExtractor(data_path=self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date,
                                      metadata=self.metadata)
-        content.create_processing_module(
-            name='behavioral_event',
-            description=''
-        ).add_data_interface(
+        content.processing["behavior"].add_data_interface(
             extracted_dio.get_dio()
         )
 
@@ -209,13 +212,10 @@ class NWBFileBuilder:
         apparatus_columns = []
         for counter, row in enumerate(self.metadata['apparatus']['data']):
             apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=row))
-        content.create_processing_module(
-            name='apparatus',
-            description='Sample description'
-        ).add_data_interface(
+        content.processing["behavior"].add_data_interface(
             DynamicTable(
                 name='apparatus',
-                description='Sample description',
+                description='None',
                 id=None,
                 columns=apparatus_columns
             )
@@ -223,34 +223,28 @@ class NWBFileBuilder:
 
     def __build_position(self, content):
         pos_extractor = POSExtractor(self.datasets)
-        content.create_processing_module(
-            name='position',
-            description='Sample description'
-        ).add_data_interface(
+        content.processing["behavior"].add_data_interface(
             pos_extractor.get_position()
         )
 
     def __build_task(self, content):
         nwb_table = DynamicTable(
             name='task',
-            description='Sample description',
+            description='None',
         )
 
         nwb_table.add_column(
             name='task_name',
-            description='Sample description',
+            description='None',
         )
         nwb_table.add_column(
             name='task_description',
-            description='Sample description',
+            description='None',
         )
         for task in self.metadata['tasks']:
             nwb_table.add_row(task)
 
-        content.create_processing_module(
-            name='task',
-            description='Sample description'
-        ).add_data_interface(nwb_table)
+        content.processing['behavior'].add_data_interface(nwb_table)
 
     def write(self, content):
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
