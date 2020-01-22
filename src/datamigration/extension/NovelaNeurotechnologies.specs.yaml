@@ -43,3 +43,48 @@ groups:
     shape:
     - 32
     doc: map of ntrodes
+- neurodata_type_def: Apparatus
+  neurodata_type_inc: NWBDataInterface
+  doc: a graph of nodes and edges
+  quantity: '*'
+  attributes:
+  - name: name
+    dtype: text
+    doc: the name of this apparatus
+  - name: help
+    dtype: text
+    value: Behavioral Apparatus
+    doc: help doc
+  groups:
+  - neurodata_type_def: Node
+    neurodata_type_inc: NWBDataInterface
+    doc: nodes in the graph
+    quantity: '*'
+    attributes:
+    - name: name
+      dtype: text
+      doc: the name of this node
+    - name: value
+      dtype: int
+      doc: the value of this node
+    - name: help
+      dtype: text
+      value: Apparatus Node
+      doc: help doc
+  - neurodata_type_def: Edge
+    neurodata_type_inc: NWBDataInterface
+    doc: edges in the graph
+    quantity: '*'
+    attributes:
+    - name: help
+      dtype: text
+      value: Apparatus Edge
+      doc: help doc
+    datasets:
+    - name: edge_nodes
+      dtype: text
+      dims:
+      - first_node_name|second_node_name
+      shape:
+      - 2
+      doc: names of the nodes this edge connects

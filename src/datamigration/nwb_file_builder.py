@@ -8,7 +8,10 @@ from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
 import src.datamigration.file_scanner as fs
+from src.datamigration.extension.apparatus import Apparatus
+from src.datamigration.extension.edge import Edge
 from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
+from src.datamigration.extension.node import Node
 from src.datamigration.extension.ntrode import NTrode
 from src.datamigration.extension.probe import Probe
 from src.datamigration.header.module.header import Header
@@ -204,18 +207,38 @@ class NWBFileBuilder:
         )
 
     def __build_aparatus(self, content):
-        apparatus_columns = []
-        for counter, row in enumerate(self.metadata['apparatus']['data']):
-            apparatus_columns.append(VectorData(name='col ' + str(counter), description='', data=row))
+        nodes = []
+        edges = []
+        col_nodes = []
+        global_counter = 0
+        for row_counter, row in enumerate(self.metadata['apparatus']['data']):
+            for col_counter, col in enumerate(row):
+                col_nodes.append(
+                    Node(
+                        name=str(global_counter),
+                        value=col
+                    )
+                )
+                global_counter = global_counter + 1
+
+            nodes.extend(col_nodes)
+            edges.append(
+                Edge(
+                    name='edge' + str(row_counter),
+                    edge_nodes=col_nodes
+                )
+            )
+            col_nodes = []
+        print(nodes)
+
         content.create_processing_module(
             name='apparatus',
             description='Sample description'
         ).add_data_interface(
-            DynamicTable(
+            Apparatus(
                 name='apparatus',
-                description='Sample description',
-                id=None,
-                columns=apparatus_columns
+                edges=edges,
+                nodes=nodes
             )
         )
 
