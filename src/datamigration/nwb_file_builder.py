@@ -3,7 +3,7 @@ import logging
 import os
 import uuid
 
-from hdmf.common import VectorData, DynamicTable
+from hdmf.common import DynamicTable
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
@@ -215,7 +215,7 @@ class NWBFileBuilder:
             for col_counter, col in enumerate(row):
                 col_nodes.append(
                     Node(
-                        name=str(global_counter),
+                        name='node' + str(global_counter),
                         value=col
                     )
                 )
