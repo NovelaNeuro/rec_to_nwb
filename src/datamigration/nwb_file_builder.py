@@ -86,7 +86,8 @@ class NWBFileBuilder:
 
         return content
 
-    def __create_processing_module(self, content):
+    @staticmethod
+    def __create_processing_module(content):
         content.create_processing_module(
             name='behavior',
             description='processing module for all behavior-related data'
