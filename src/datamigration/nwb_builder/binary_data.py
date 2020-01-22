@@ -103,3 +103,30 @@ class PosTimestamps(BinaryData1D):
 
     def get_final_data_shape(self):
         return sum(self.file_lenghts),
+
+
+class NewTimestamps():
+    def __init__(self, directories):
+        self.directories = directories
+        self.num_datasets = self.get_num_datasets()
+        self.file_lenghts = [self.get_data_shape(i) for i in range(self.num_datasets)]
+
+    def get_num_datasets(self):
+        return np.size(self.directories, 1)
+
+    def read_data(self, dataset_num, file_num=0):
+        data_time = []
+        data_timestamps = []
+        data = readmda(self.directories[0][dataset_num])
+        for i in range(np.size(data, 1)):
+            data_timestamps.append(data[0][i] / 1000)
+            data_time.append(data[1][i] / 1000)
+
+        return data
+
+    def get_data_shape(self, dataset_num):
+        dim1 = np.size(self.read_data(dataset_num), 1)
+        return dim1
+
+    def get_final_data_shape(self):
+        return sum(self.file_lenghts),
