@@ -1,10 +1,7 @@
 import os
 
-from hdmf import docval
-from hdmf.utils import get_docval, call_docval_func
 from pynwb import load_namespaces, register_class
 from pynwb.core import MultiContainerInterface
-from pynwb.ecephys import ElectrodeGroup
 
 from src.datamigration.extension.edge import Edge
 from src.datamigration.extension.node import Node
