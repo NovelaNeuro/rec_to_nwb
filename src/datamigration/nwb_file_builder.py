@@ -73,7 +73,7 @@ class NWBFileBuilder:
 
         self.__build_position(content)
 
-        self.__build_aparatus(content)
+        self.__build_apparatus(content)
 
         self.__build_devices(content)
 
@@ -211,7 +211,7 @@ class NWBFileBuilder:
             extracted_dio.get_dio()
         )
 
-    def __build_aparatus(self, content):
+    def __build_apparatus(self, content):
         nodes = []
         edges = []
         col_nodes = []
@@ -234,7 +234,6 @@ class NWBFileBuilder:
                 )
             )
             col_nodes = []
-        print(nodes)
 
         content.processing["behavior"].add_data_interface(
             Apparatus(
