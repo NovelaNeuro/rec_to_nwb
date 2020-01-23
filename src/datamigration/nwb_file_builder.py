@@ -16,7 +16,6 @@ from src.datamigration.extension.ntrode import NTrode
 from src.datamigration.extension.probe import Probe
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.dio_extractor import DioExtractor
-from src.datamigration.nwb_builder.electrode_table_builder import ElectrodeTableBuilder
 from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
 from src.datamigration.nwb_builder.header_checker.header_extractor import HeaderFilesExtractor
 from src.datamigration.nwb_builder.header_checker.header_reader import HeaderReader
@@ -47,6 +46,8 @@ class NWBFileBuilder:
                              self.date + '/header.xml')
         self.spike_n_trodes = self.header.configuration.spike_configuration.spike_n_trodes
 
+        self.global_device_counter = 0
+        self.global_electrode_counter = 0
 
     def build(self):
         content = NWBFile(session_description=self.metadata['session description'],
@@ -75,17 +76,13 @@ class NWBFileBuilder:
 
         self.__build_apparatus(content)
 
-        self.__build_devices(content)
+        self.__build_general(content)
 
-        self.__build_electrode_groups(content)
-
-        self.__build_ntrodes(content)
-
-        self.__build_electrodes(content)
-
-        self.__build_dio(content)
-
-        self.__build_mda(content)
+        # self.__build_ntrodes(content)
+        #
+        # self.__build_dio(content)
+        #
+        # self.__build_mda(content)
 
         return content
 
@@ -96,7 +93,7 @@ class NWBFileBuilder:
             description='processing module for all behavior-related data'
         )
 
-    def __check_headers_compatibility(self,):
+    def __check_headers_compatibility(self, ):
         rec_files = RecFileFinder().find_rec_files(self.data_path + self.animal_name + '/raw')
         header_extractor = HeaderFilesExtractor()
         xml_files = header_extractor.extract(rec_files)
@@ -108,7 +105,7 @@ class NWBFileBuilder:
             differences = [diff for diff in header_reader.headers_differences
                            if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
                            not in str(diff)]
-            logging.warning(message, differences,)
+            logging.warning(message, differences, )
             with open('headers_comparission_log.log', 'w') as headers_log:
                 headers_log.write(str(message + '\n'))
                 headers_log.write(str(differences))
@@ -126,33 +123,72 @@ class NWBFileBuilder:
         )
         return region
 
-    def __build_electrodes(self, content):
-        ElectrodeTableBuilder(nwb_file_content=content, probes=self.probes,
-                              electrode_groups=content.electrode_groups, header=self.header)
-
-
-    def __build_electrode_groups(self, content):
-        fl_groups = []
+    def __build_general(self, content):
+        """
+            For each electrode group in metadata.yml, check if device exist.
+            If not create one.
+            Create electrode_group
+            Create electrodes from corresponding probe_type in probe.yml
+        """
         for electrode_group_metadata in self.metadata['electrode groups']:
-            group = self.__create_electrode_group(electrode_group_metadata, content.devices)
-            fl_groups.append(group)
-        for fl_group in fl_groups:
-            content.add_electrode_group(fl_group)
+            device = self.__check_device(content, electrode_group_metadata['device_type'])
+            electrode_group = self.__create_electrode_group(content, electrode_group_metadata, device)
+            # ToDo create electrodes
+            # self.__create_electrodes(content, electrode_group_metadata['device_type'])
+
+    def __check_device(self, content, device_type):
+        for device_name in content.devices:
+            device = content.get_device(device_name)
+            if device.probe_type == device_type:
+                return device
+        return self.__create_device(content, device_type)
+
+    def __create_device(self, content, device_type):
+        probe = None
+        for fl_probe in self.probes:
+            if fl_probe['probe_type'] == device_type:
+                probe = Probe(
+                    probe_type=fl_probe["probe_type"],
+                    contact_size=fl_probe["contact_size"],
+                    num_shanks=fl_probe['num_shanks'],
+                    id=self.global_device_counter,
+                    name=str(self.global_device_counter)
+                )
+        content.add_device(probe)
+        self.global_device_counter += 1
+
+        return probe
 
     @staticmethod
-    def __create_electrode_group(metadata, devices):
-        probe_id = str(metadata["probe_id"])
-        device = devices[probe_id]
-
+    def __create_electrode_group(content, metadata, device):
         electrode_group = FLElectrodeGroup(
-            probe_id=metadata["probe_id"],
             id=metadata['id'],
             device=device,
             location=str(metadata['location']),
             description=str(metadata['description']),
             name='electrode group ' + str(metadata["id"])
         )
+        content.add_electrode_group(electrode_group)
         return electrode_group
+
+    def __create_electrodes(self, content, electrode_group, device_type):
+        for fl_probe in self.probes:
+            if fl_probe['probe_type'] == device_type:
+
+                for shank in fl_probe['shanks']:
+                    for electrode in shank['electrodes']:
+                        content.add_electrode(
+                                x=0.0,
+                                y=0.0,
+                                z=0.0,
+                                imp=1.0,
+                                location='None',
+                                filtering='None',
+                                group=electrode_group,
+                                id=self.global_electrode_counter)
+                        self.global_electrode_counter += 1
+
+
 
     def __build_ntrodes(self, content):
         fl_ntrodes = []
@@ -181,19 +217,6 @@ class NWBFileBuilder:
             map=map_list
         )
         return ntrode
-
-    def __build_devices(self, content):
-        probes = []
-        for fl_probe in self.probes:
-            probes.append(Probe(
-                probe_type=fl_probe["probe_type"],
-                contact_size=fl_probe["contact_size"],
-                num_shanks=fl_probe['num_shanks'],
-                id=fl_probe["id"],
-                name=str(fl_probe["id"])))
-
-        for probe in probes:
-            content.add_device(probe)
 
     def __build_mda(self, content):
         sampling_rate = self.header.configuration.hardware_configuration.sampling_rate

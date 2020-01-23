@@ -88,39 +88,13 @@ device:
 electrode groups:
   - id: 0
     location: mPFC
-    device: 128c-4s8mm6cm-20um-40um-sl
-    probe_id: 1
+    device_type: 128c-4s8mm6cm-20um-40um-sl
     description: 'Probe 1'
   - id: 1
     location: mPFC
-    device: 128c-4s8mm6cm-20um-40um-sl
-    probe_id: 2
+    device_type: 128c-4s8mm6cm-20um-40um-sl
     description: 'Probe 2'
-  - id: 3
-    location: mPFC
-    device: tetrode_12.5
-    probe_id: 2
-    description: 'Probe 2'
-  - id: 4
-    location: mPFC
-    device: 32c-2s8mm6cm-20um-40um-dl
-    probe_id: 2
-    description: 'Probe 2'
-  - id: 5
-    location: mPFC
-    device: 32c-2s8mm6cm-20um-40um-dl
-    probe_id: 2
-    description: 'Probe 2'
-  - id: 6
-    location: mPFC
-    device: 128c-4s8mm6cm-20um-40um-sl
-    probe_id: 1
-    description: 'Probe 1'
-  - id: 7
-    location: mPFC
-    device: 128c-4s8mm6cm-20um-40um-sl
-    probe_id: 2
-    description: 'Probe 2'
+
 
 ntrode probe channel map:
   - ntrode_id: 1
