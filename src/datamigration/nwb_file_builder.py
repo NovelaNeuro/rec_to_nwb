@@ -46,12 +46,6 @@ class NWBFileBuilder:
                              self.date + '/header.xml')
         self.spike_n_trodes = self.header.configuration.spike_configuration.spike_n_trodes
 
-        self.global_device_counter = 0
-        self.global_electrode_counter = 0
-        self.rel_x = []
-        self.rel_y = []
-        self.rel_z = []
-
     def build(self):
         content = NWBFile(session_description=self.metadata['session description'],
                           experimenter=self.metadata['experimenter name'],
@@ -133,21 +127,29 @@ class NWBFileBuilder:
             Create electrode_group
             Create electrodes from corresponding probe_type in probe.yml
         """
+
+        global_device_counter = 0
+        global_electrode_counter = 0
+        rel_x = []
+        rel_y = []
+        rel_z = []
+
         for electrode_group_metadata in self.metadata['electrode groups']:
-            device = self.__check_device(content, electrode_group_metadata['device_type'])
+            device = self.__check_device(content, electrode_group_metadata['device_type'], global_device_counter)
             electrode_group = self.__create_electrode_group(content, electrode_group_metadata, device)
-            self.__create_electrodes(content, electrode_group, electrode_group_metadata['device_type'])
+            self.__create_electrodes(content, electrode_group, electrode_group_metadata['device_type'], rel_x, rel_y,
+                                     rel_z, global_electrode_counter)
 
-        self.add_extensions_to_electrodes(content)
+        self.add_extensions_to_electrodes(content, rel_x, rel_y, rel_z)
 
-    def __check_device(self, content, device_type):
+    def __check_device(self, content, device_type, global_device_counter):
         for device_name in content.devices:
             device = content.get_device(device_name)
             if device.probe_type == device_type:
                 return device
-        return self.__create_device(content, device_type)
+        return self.__create_device(content, device_type, global_device_counter)
 
-    def __create_device(self, content, device_type):
+    def __create_device(self, content, device_type, global_device_counter):
         probe = None
         for fl_probe in self.probes:
             if fl_probe['probe_type'] == device_type:
@@ -155,11 +157,11 @@ class NWBFileBuilder:
                     probe_type=fl_probe["probe_type"],
                     contact_size=fl_probe["contact_size"],
                     num_shanks=fl_probe['num_shanks'],
-                    id=self.global_device_counter,
-                    name=str(self.global_device_counter)
+                    id=global_device_counter,
+                    name=str(global_device_counter)
                 )
         content.add_device(probe)
-        self.global_device_counter += 1
+        global_device_counter += 1
 
         return probe
 
@@ -175,7 +177,7 @@ class NWBFileBuilder:
         content.add_electrode_group(electrode_group)
         return electrode_group
 
-    def __create_electrodes(self, content, electrode_group, device_type):
+    def __create_electrodes(self, content, electrode_group, device_type, rel_x, rel_y, rel_z, global_electrode_counter):
         for fl_probe in self.probes:
             if fl_probe['probe_type'] == device_type:
 
@@ -189,13 +191,13 @@ class NWBFileBuilder:
                                 location='None',
                                 filtering='None',
                                 group=electrode_group,
-                                id=self.global_electrode_counter)
-                        self.rel_x.append(electrode['rel_x'])
-                        self.rel_y.append(electrode['rel_y'])
-                        self.rel_z.append(electrode['rel_z'])
-                        self.global_electrode_counter += 1
+                                id=global_electrode_counter)
+                        rel_x.append(electrode['rel_x'])
+                        rel_y.append(electrode['rel_y'])
+                        rel_z.append(electrode['rel_z'])
+                        global_electrode_counter += 1
 
-    def add_extensions_to_electrodes(self, content):
+    def add_extensions_to_electrodes(self, content, rel_x, rel_y, rel_z):
         spike_channels_list = []
         hw_chan = []
         for spike_n_trode in self.header.configuration.spike_configuration.spike_n_trodes:
@@ -215,19 +217,19 @@ class NWBFileBuilder:
         content.electrodes.add_column(
             name='rel_x',
             description='None',
-            data=self.rel_x
+            data=rel_x
         )
 
         content.electrodes.add_column(
             name='rel_y',
             description='None',
-            data=self.rel_y
+            data=rel_y
         )
 
         content.electrodes.add_column(
             name='rel_z',
             description='None',
-            data=self.rel_z
+            data=rel_z
         )
 
 
