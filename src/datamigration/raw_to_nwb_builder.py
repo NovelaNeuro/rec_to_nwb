@@ -12,10 +12,10 @@ path.resolve()
 
 class RawToNWBBuilder:
 
-    def __init__(self, data_path, animal_name, date, nwb_metadata, output_path):
+    def __init__(self, data_path, animal_name, dates, nwb_metadata, output_path):
         self.animal_name = animal_name
         self.data_path = data_path
-        self.date = date
+        self.dates = dates
         self.metadata = nwb_metadata.metadata
         self.output_path = output_path
         self.probes = nwb_metadata.probes
@@ -26,16 +26,17 @@ class RawToNWBBuilder:
 
     def build_nwb(self):
         self.__preprocess_data()
-        self.nwbBuilder = NWBFileBuilder(
-            data_path=self.data_path,
-            animal_name=self.animal_name,
-            date=self.date,
-            nwb_metadata=self.nwb_metadata,
-            output_file=self.output_path
-            )
-        content = self.nwbBuilder.build()
-        self.nwbBuilder.write(content)
-        return content
+        for date in self.dates:
+            nwbBuilder = NWBFileBuilder(
+                                        data_path=self.data_path,
+                                        animal_name=self.animal_name,
+                                        date=date,
+                                        nwb_metadata=self.nwb_metadata,
+                                        output_file=self.output_path + self.animal_name + date + ".nwb"
+                                        )
+            content = nwbBuilder.build()
+            nwbBuilder.write(content)
+        return None
 
     def cleanup(self):
         preprocessing = self.data_path + '/' + self.animal_name + '/preprocessing'

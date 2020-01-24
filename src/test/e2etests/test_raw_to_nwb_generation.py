@@ -15,13 +15,13 @@ class TestRawToNWBGeneration(unittest.TestCase):
     def setUp(self):
         self.builder = RawToNWBBuilder(animal_name='beans',
                                        data_path=str(path) + '/test_data/',
-                                       date='20190718',
+                                       date=['20190718'],
                                        nwb_metadata=NWBMetadata(str(path) + '/datamigration/res/metadata.yml',
                                                                 [str(path) + '/datamigration/res/probe1.yml',
                                                                  str(path) + '/datamigration/res/probe2.yml',
                                                                  str(path) + '/datamigration/res/probe3.yml'
                                                                  ]),
-                                       output_path='raw2nwb_output.nwb'
+                                       output_path='raw2nwb_output'
                                        )
 
     def test_from_raw_to_nwb_generation(self):
