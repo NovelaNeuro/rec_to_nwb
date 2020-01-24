@@ -1,4 +1,4 @@
-import xml.etree.ElementTree as ET
+import defusedxml.cElementTree as ET
 
 from .configuration import Configuration
 
