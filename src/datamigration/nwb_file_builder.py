@@ -48,7 +48,6 @@ class NWBFileBuilder:
 
         self.global_device_counter = 0
         self.global_electrode_counter = 0
-        self.global_electrode_probes = []
         self.rel_x = []
         self.rel_y = []
         self.rel_z = []
@@ -195,7 +194,6 @@ class NWBFileBuilder:
                         self.rel_y.append(electrode['rel_y'])
                         self.rel_z.append(electrode['rel_z'])
                         self.global_electrode_counter += 1
-                self.global_electrode_probes.append(fl_probe)
 
     def add_extensions_to_electrodes(self, content):
         spike_channels_list = []
