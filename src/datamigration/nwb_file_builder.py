@@ -48,6 +48,10 @@ class NWBFileBuilder:
 
         self.global_device_counter = 0
         self.global_electrode_counter = 0
+        self.global_electrode_probes = []
+        self.rel_x = []
+        self.rel_y = []
+        self.rel_z = []
 
     def build(self):
         content = NWBFile(session_description=self.metadata['session description'],
@@ -78,11 +82,11 @@ class NWBFileBuilder:
 
         self.__build_general(content)
 
-        # self.__build_ntrodes(content)
-        #
-        # self.__build_dio(content)
-        #
-        # self.__build_mda(content)
+        self.__build_ntrodes(content)
+
+        self.__build_dio(content)
+
+        self.__build_mda(content)
 
         return content
 
@@ -133,8 +137,9 @@ class NWBFileBuilder:
         for electrode_group_metadata in self.metadata['electrode groups']:
             device = self.__check_device(content, electrode_group_metadata['device_type'])
             electrode_group = self.__create_electrode_group(content, electrode_group_metadata, device)
-            # ToDo create electrodes
-            # self.__create_electrodes(content, electrode_group_metadata['device_type'])
+            self.__create_electrodes(content, electrode_group, electrode_group_metadata['device_type'])
+
+        self.add_extensions_to_electrodes(content)
 
     def __check_device(self, content, device_type):
         for device_name in content.devices:
@@ -186,8 +191,46 @@ class NWBFileBuilder:
                                 filtering='None',
                                 group=electrode_group,
                                 id=self.global_electrode_counter)
+                        self.rel_x.append(electrode['rel_x'])
+                        self.rel_y.append(electrode['rel_y'])
+                        self.rel_z.append(electrode['rel_z'])
                         self.global_electrode_counter += 1
+                self.global_electrode_probes.append(fl_probe)
 
+    def add_extensions_to_electrodes(self, content):
+        spike_channels_list = []
+        hw_chan = []
+        for spike_n_trode in self.header.configuration.spike_configuration.spike_n_trodes:
+            for spike_channel in spike_n_trode.spike_channels:
+                spike_channels_list.append(spike_channel)
+
+        for spike_channel, electrode in zip(spike_channels_list, content.electrodes):
+            hw_chan.append(spike_channel.hw_chan)
+
+
+        content.electrodes.add_column(
+            name='hwChan',
+            description='None',
+            data=hw_chan
+        )
+
+        content.electrodes.add_column(
+            name='rel_x',
+            description='None',
+            data=self.rel_x
+        )
+
+        content.electrodes.add_column(
+            name='rel_y',
+            description='None',
+            data=self.rel_y
+        )
+
+        content.electrodes.add_column(
+            name='rel_z',
+            description='None',
+            data=self.rel_z
+        )
 
 
     def __build_ntrodes(self, content):
