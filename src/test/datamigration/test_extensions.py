@@ -38,7 +38,6 @@ class TestExtensions(unittest.TestCase):
             location='sample location',
             device=cls.probe,
             id=1,
-            probe_id=1
         )
         cls.nwb_file.add_electrode_group(cls.fl_electrode_group)
 
@@ -122,7 +121,6 @@ class TestExtensions(unittest.TestCase):
         self.assertEqual(self.fl_electrode_group.description, return_fl_electrode_group.description)
         self.assertEqual(self.fl_electrode_group.location, return_fl_electrode_group.location)
         self.assertEqual(self.fl_electrode_group.device, return_fl_electrode_group.device)
-        self.assertEqual(self.fl_electrode_group.probe_id, return_fl_electrode_group.probe_id)
         self.assertEqual(self.fl_electrode_group.id, return_fl_electrode_group.id)
 
     def test_n_trode_creation(self):
