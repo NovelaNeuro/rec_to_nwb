@@ -41,7 +41,6 @@ class PosData(BinaryData):
         return position.xloc, position.yloc, position.xloc2, position.yloc2
 
 
-
 class BinaryData1D(ABC):
     def __init__(self, directories):
         self.directories = directories
@@ -65,16 +64,31 @@ class BinaryData1D(ABC):
         pass
 
 
-class MdaTimestamps(BinaryData1D):
+class MdaTimestamps(ABC):
+    def __init__(self, directories, continuous_time_directories):
+        self.cont_time_dict = {}
+        self.directories = directories
+        self.countinuous_time_directories = continuous_time_directories
+        self.num_datasets = self.get_num_datasets()
+        self.file_lenghts = [self.get_data_shape(i) for i in range(self.num_datasets)]
+
 
     def get_num_datasets(self):
         return np.size(self.directories, 1)
 
     def read_data(self, dataset_num, file_num=0):
-        data = readmda(self.directories[0][dataset_num])
-        for i in range(np.size(data, 0)):
-            data[i] = data[i] / 1000
-        return data
+        timestamps = readmda(self.directories[0][dataset_num])
+        data_float = np.ndarray([np.size(timestamps, 0), ], dtype="float64")
+        continuous_time = readTrodesExtractedDataFile(self.countinuous_time_directories[0][dataset_num])
+        continuous_time_dict = {}
+        for data in continuous_time['data']:
+            continuous_time_dict[str(data[0])] = float(data[1])
+        for i in range(np.shape(timestamps)[0]):
+            if not timestamps[i] == 0:
+                data_float[i] = float(continuous_time_dict[str(timestamps[i])]) / 1E9
+            else:
+                data_float[i] = 0.0
+        return data_float
 
     def get_data_shape(self, dataset_num):
         dim1 = np.size(self.read_data(dataset_num), 0)
@@ -99,33 +113,6 @@ class PosTimestamps(BinaryData1D):
 
     def get_data_shape(self, dataset_num):
         dim1 = np.size(self.read_data(dataset_num), 0)
-        return dim1
-
-    def get_final_data_shape(self):
-        return sum(self.file_lenghts),
-
-
-class NewTimestamps():
-    def __init__(self, directories):
-        self.directories = directories
-        self.num_datasets = self.get_num_datasets()
-        self.file_lenghts = [self.get_data_shape(i) for i in range(self.num_datasets)]
-
-    def get_num_datasets(self):
-        return np.size(self.directories, 1)
-
-    def read_data(self, dataset_num, file_num=0):
-        data_time = []
-        data_timestamps = []
-        data = readmda(self.directories[0][dataset_num])
-        for i in range(np.size(data, 1)):
-            data_timestamps.append(data[0][i] / 1000)
-            data_time.append(data[1][i] / 1000)
-
-        return data
-
-    def get_data_shape(self, dataset_num):
-        dim1 = np.size(self.read_data(dataset_num), 1)
         return dim1
 
     def get_final_data_shape(self):

@@ -94,7 +94,7 @@ class DataIterator1D(AbstractDataChunkIterator):
 
     @property
     def dtype(self):
-        return np.dtype('int16')
+        return np.dtype('float64')
 
     @property
     def maxshape(self):

@@ -22,6 +22,12 @@ class Dataset:
                 return self.get_data_path_from_dataset('mda') + file
         return None
 
+    def get_continuous_time(self):
+        for file in self.get_all_data_from_dataset('time'):
+            if file.endswith('continuoustime.dat'):
+                return self.get_data_path_from_dataset('time') + file
+        return None
+
 
 class DataScanner:
     def __init__(self, path):
@@ -77,7 +83,14 @@ class DataScanner:
         for file in self.data[animal][date][dataset].get_all_data_from_dataset('mda'):
             if file.endswith('timestamps.mda'):
                 return self.data[animal][date][dataset].get_data_path_from_dataset('mda') + file
-        return False
+        return None
+
+    def get_continuous_time(self, animal, date, dataset):
+        for file in self.data[animal][date][dataset].get_all_data_from_dataset('time'):
+            if file.endswith('continuoustime.dat'):
+                return self.data[animal][date][dataset].get_data_path_from_dataset('time') + file
+        return None
+
 
     @staticmethod
     def get_probes_from_directory(path):
