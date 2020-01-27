@@ -1,3 +1,4 @@
+import logging
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -109,13 +110,22 @@ class PosTimestamps(BinaryData1D):
         timestamps = position.time.to_numpy()
         data_float = np.ndarray([np.size(timestamps, 0), ], dtype="float64")
         continuous_time = readTrodesExtractedDataFile(
-            "C:/Users/wbodo/Documents/GitHub/LorenFranksDataMigration/src/test/test_data/beans\preprocessing/20190718/20190718_beans_01_s1.time/20190718_beans_01_s1.continuoustime.dat")
+            "/Users/marcin/Novela/GitHub/LorenFranksDataMigration/src/test/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/20190718_beans_01_s1.continuoustime.dat")
         continuous_time_dict = {}
         for data in continuous_time['data']:
             continuous_time_dict[str(data[0])] = float(data[1])
         for i in range(np.shape(timestamps)[0]):
             if not timestamps[i] == 0:
-                data_float[i] = float(continuous_time_dict[str(timestamps[i])])
+
+                key = str(timestamps[i])
+                try:
+                    value = continuous_time_dict[key]
+                    data_float[i] = float(value)
+                except KeyError as error:
+                    message = 'Following key: ' + str(key) + ' does not exist!' + str(error)
+                    logging.exception(message)
+                    data_float[i] = float('nan')
+
             else:
                 data_float[i] = 0.0
         return timestamps
