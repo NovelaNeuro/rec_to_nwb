@@ -21,7 +21,8 @@ class TestRawToNWBGeneration(unittest.TestCase):
                                                                  str(path) + '/datamigration/res/probe2.yml',
                                                                  str(path) + '/datamigration/res/probe3.yml'
                                                                  ]),
-                                       output_path='raw2nwb_output.nwb'
+                                       output_path='raw2nwb_output.nwb',
+                                       extract_spikes=False,
                                        )
 
     def test_from_raw_to_nwb_generation(self):
