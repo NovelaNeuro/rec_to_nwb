@@ -55,8 +55,7 @@ class TestMetadata(unittest.TestCase):
         electrode_groups_fields = self.nwb_metadata.metadata['electrode groups'][0].keys()
         self.assertIn('id', electrode_groups_fields)
         self.assertIn('location', electrode_groups_fields)
-        self.assertIn('device', electrode_groups_fields)
-        self.assertIn('probe_id', electrode_groups_fields)
+        self.assertIn('device_type', electrode_groups_fields)
         self.assertIn('description', electrode_groups_fields)
 
     def test_reading_ntrode_probe_channel_map_field(self):
