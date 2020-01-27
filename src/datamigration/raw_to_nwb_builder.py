@@ -12,7 +12,20 @@ path.resolve()
 
 class RawToNWBBuilder:
 
-    def __init__(self, data_path, animal_name, dates, nwb_metadata, output_path):
+
+    def __init__(self, data_path, animal_name, dates, nwb_metadata, output_path,
+                                    extract_analog=False,
+                                    extract_spikes=False,
+                                    extract_lfps=False,
+                                    extract_dio=True,
+                                    extract_time=True,
+                                    extract_mda=True):
+        self.extract_analog = extract_analog
+        self.extract_spikes = extract_spikes
+        self.extract_dio = extract_dio
+        self.extract_lfps = extract_lfps
+        self.extract_mda = extract_mda
+        self.extract_time = extract_time
         self.animal_name = animal_name
         self.data_path = data_path
         self.dates = dates
@@ -22,7 +35,13 @@ class RawToNWBBuilder:
         self.nwb_metadata = nwb_metadata
 
     def __preprocess_data(self):
-        extract_trodes_rec_file(self.data_path, self.animal_name, parallel_instances=4)
+        extract_trodes_rec_file(self.data_path, self.animal_name, parallel_instances=4,
+                                extract_analog=self.extract_analog,
+                                extract_dio=self.extract_dio,
+                                extract_time=self.extract_time,
+                                extract_mda=self.extract_mda,
+                                extract_lfps=self.extract_lfps,
+                                extract_spikes=self.extract_spikes, )
 
     def build_nwb(self):
         self.__preprocess_data()
