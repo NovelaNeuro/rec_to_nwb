@@ -46,12 +46,6 @@ class ExtensionsBuilder:
                                 doc='id of electrode group',
                                 dtype='int'
                             ),
-                            NWBAttributeSpec(
-                                name='probe_id',
-                                doc='id of probe',
-                                dtype='int'
-                            ),
-
                         ],
         )
 

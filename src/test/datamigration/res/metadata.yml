@@ -88,43 +88,17 @@ device:
 electrode groups:
   - id: 0
     location: mPFC
-    device: 128c-4s8mm6cm-20um-40um-sl
-    probe_id: 1
+    device_type: 128c-4s8mm6cm-20um-40um-sl
     description: 'Probe 1'
   - id: 1
     location: mPFC
-    device: 128c-4s8mm6cm-20um-40um-sl
-    probe_id: 2
+    device_type: 128c-4s8mm6cm-20um-40um-sl
     description: 'Probe 2'
-  - id: 3
-    location: mPFC
-    device: tetrode_12.5
-    probe_id: 2
-    description: 'Probe 2'
-  - id: 4
-    location: mPFC
-    device: 32c-2s8mm6cm-20um-40um-dl
-    probe_id: 2
-    description: 'Probe 2'
-  - id: 5
-    location: mPFC
-    device: 32c-2s8mm6cm-20um-40um-dl
-    probe_id: 2
-    description: 'Probe 2'
-  - id: 6
-    location: mPFC
-    device: 128c-4s8mm6cm-20um-40um-sl
-    probe_id: 1
-    description: 'Probe 1'
-  - id: 7
-    location: mPFC
-    device: 128c-4s8mm6cm-20um-40um-sl
-    probe_id: 2
-    description: 'Probe 2'
+
 
 ntrode probe channel map:
   - ntrode_id: 1
-    probe_id: 1
+    probe_id: 0 #Changed to 0 - now it corresponding to information above in electrode_group. Id is no longer hardcoded.
     map:
       0: 0
       1: 1
@@ -159,7 +133,7 @@ ntrode probe channel map:
       30: 30
       31: 31
   - ntrode_id: 2
-    probe_id: 1
+    probe_id: 0
     map:
       0: 32
       1: 33
@@ -194,7 +168,7 @@ ntrode probe channel map:
       30: 62
       31: 63
   - ntrode_id: 3
-    probe_id: 1
+    probe_id: 0
     map:
       0: 64
       1: 65
@@ -229,7 +203,7 @@ ntrode probe channel map:
       30: 94
       31: 95
   - ntrode_id: 4
-    probe_id: 1
+    probe_id: 0
     map:
       0: 96
       1: 97
@@ -264,7 +238,7 @@ ntrode probe channel map:
       30: 126
       31: 127
   - ntrode_id: 5
-    probe_id: 1
+    probe_id: 0
     map:
       0: 0
       1: 1
@@ -299,7 +273,7 @@ ntrode probe channel map:
       30: 30
       31: 31
   - ntrode_id: 6
-    probe_id: 1
+    probe_id: 0
     map:
       0: 32
       1: 33
@@ -334,7 +308,7 @@ ntrode probe channel map:
       30: 62
       31: 63
   - ntrode_id: 7
-    probe_id: 1
+    probe_id: 0
     map:
       0: 64
       1: 65
@@ -369,7 +343,7 @@ ntrode probe channel map:
       30: 94
       31: 95
   - ntrode_id: 8
-    probe_id: 1
+    probe_id: 0
     map:
       0: 96
       1: 97
