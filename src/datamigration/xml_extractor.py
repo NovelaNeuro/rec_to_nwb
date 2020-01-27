@@ -6,8 +6,8 @@ Class:
 
 
 import logging
-from xml.etree import ElementTree
 
+import defusedxml.cElementTree as ElementTree
 from xmlschema import XMLSchema
 
 
