@@ -47,5 +47,6 @@ dependencies:
   - yaml
   - pip:
       - xmldiff
-      - rec_to_binaries==0.2.1.dev0
+      - rec-to-binaries==0.2.1.dev0
+
 
