@@ -1,3 +1,4 @@
+import logging
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -85,7 +86,7 @@ class MdaTimestamps(ABC):
             continuous_time_dict[str(data[0])] = float(data[1])
         for i in range(np.shape(timestamps)[0]):
             if not timestamps[i] == 0:
-                data_float[i] = float(continuous_time_dict[str(timestamps[i])]) / 1E9
+                data_float[i] = float(continuous_time_dict[str(timestamps[i])])
             else:
                 data_float[i] = 0.0
         return data_float
@@ -107,8 +108,26 @@ class PosTimestamps(BinaryData1D):
         pos_online = readTrodesExtractedDataFile(self.directories[dataset_num][0])
         position = pd.DataFrame(pos_online['data'])
         timestamps = position.time.to_numpy()
-        for i in range(np.size(timestamps, 0)):
-            timestamps[i] = timestamps[i] / 1000
+        data_float = np.ndarray([np.size(timestamps, 0), ], dtype="float64")
+        continuous_time = readTrodesExtractedDataFile(
+            "/Users/marcin/Novela/GitHub/LorenFranksDataMigration/src/test/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/20190718_beans_01_s1.continuoustime.dat")
+        continuous_time_dict = {}
+        for data in continuous_time['data']:
+            continuous_time_dict[str(data[0])] = float(data[1])
+        for i in range(np.shape(timestamps)[0]):
+            if not timestamps[i] == 0:
+
+                key = str(timestamps[i])
+                try:
+                    value = continuous_time_dict[key]
+                    data_float[i] = float(value)
+                except KeyError as error:
+                    message = 'Following key: ' + str(key) + ' does not exist!' + str(error)
+                    logging.exception(message)
+                    data_float[i] = float('nan')
+
+            else:
+                data_float[i] = 0.0
         return timestamps
 
     def get_data_shape(self, dataset_num):
