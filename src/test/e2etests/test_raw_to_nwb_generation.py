@@ -21,7 +21,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
                                                                  str(path) + '/datamigration/res/probe2.yml',
                                                                  str(path) + '/datamigration/res/probe3.yml'
                                                                  ]),
-                                       output_path=''
+                                       output_path='',
                                        extract_spikes=False,
                                        )
 
