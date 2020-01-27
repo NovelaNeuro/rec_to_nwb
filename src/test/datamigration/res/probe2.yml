@@ -2,10 +2,8 @@ probe_type: 32c-2s8mm6cm-20um-40um-dl
 probe_description: 32 channel polyimide probe
 num_shanks: 2
 contact_size: 20.0
-id: 2
 shanks:
   - shank_id: 0
-    electrode_group_id: 4
     electrodes:
       - id: 0
         rel_x: 20
@@ -72,7 +70,6 @@ shanks:
         rel_y: 0
         rel_z: 0
   - shank_id: 1
-    electrode_group_id: 5
     electrodes:
       - id: 16
         rel_x: 20

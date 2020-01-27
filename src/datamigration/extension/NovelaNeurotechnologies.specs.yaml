@@ -6,9 +6,6 @@ groups:
   - name: id
     dtype: int
     doc: id of electrode group
-  - name: probe_id
-    dtype: int
-    doc: id of probe
 - neurodata_type_def: Probe
   neurodata_type_inc: Device
   doc: A custom Probes interface
