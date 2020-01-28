@@ -4,6 +4,10 @@ from src.datamigration.nwb_builder.binary_data import MdaData, MdaTimestamps
 from src.datamigration.nwb_builder.data_iterator import DataIterator, DataIterator1D
 
 
+class WrongDataException(Exception):
+    def __init__(self, message):
+        self.message = message
+
 class MdaExtractor:
 
     def __init__(self, datasets):
@@ -14,6 +18,10 @@ class MdaExtractor:
             data_from_current_dataset = [dataset.get_data_path_from_dataset('mda') + mda_file for mda_file in
                                          dataset.get_all_data_from_dataset('mda') if
                                          (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
+            if (data_from_current_dataset is None or
+                    dataset.get_mda_timestamps() is None or
+                    dataset.get_continuous_time() is None):
+                raise WrongDataException("incomplete data in dataset " + str(dataset.name))
             self.mda_data.append(data_from_current_dataset)
             self.timestamps.append(dataset.get_mda_timestamps())
             self.continuous_time.append(dataset.get_continuous_time())

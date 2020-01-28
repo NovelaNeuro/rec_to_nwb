@@ -1,5 +1,4 @@
 import logging
-from abc import ABC
 
 import numpy as np
 import pandas as pd
@@ -42,7 +41,7 @@ class PosData(BinaryData):
         return position.xloc, position.yloc, position.xloc2, position.yloc2
 
 
-class MdaTimestamps(ABC):
+class MdaTimestamps():
     def __init__(self, directories, continuous_time_directories):
         self.cont_time_dict = {}
         self.directories = directories

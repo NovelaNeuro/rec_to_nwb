@@ -4,6 +4,10 @@ from src.datamigration.nwb_builder.binary_data import PosData, PosTimestamps
 from src.datamigration.nwb_builder.data_iterator import DataIterator, DataIterator1D
 
 
+class WrongDataException(Exception):
+    def __init__(self, message):
+        self.message = message
+
 class POSExtractor:
     def __init__(self, datasets):
         self.datasets = datasets
@@ -13,6 +17,9 @@ class POSExtractor:
             data_from_current_dataset = [dataset.get_data_path_from_dataset('pos') + pos_file for pos_file in
                                          dataset.get_all_data_from_dataset('pos') if
                                          (pos_file.endswith('.pos_online.dat'))]
+            if (data_from_current_dataset is None or
+                    dataset.get_continuous_time() is None):
+                raise WrongDataException("incomplete data in dataset " + str(dataset.name))
             self.all_pos.append(data_from_current_dataset)
             self.continuous_time.append(dataset.get_continuous_time())
         print(self.all_pos)
