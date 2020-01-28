@@ -23,6 +23,11 @@ class TestRawToNWBGeneration(unittest.TestCase):
                                                                  ]),
                                        output_path='',
                                        extract_spikes=False,
+                                       extract_mda=True,
+                                       extract_time=True,
+                                       extract_lfps=False,
+                                       extract_analog=False,
+                                       extract_dio=True,
                                        )
 
     def test_from_raw_to_nwb_generation(self):

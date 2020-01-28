@@ -30,13 +30,15 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class NWBFileBuilder:
 
-    def __init__(self, data_path, animal_name, date, nwb_metadata, output_file='output.nwb'):
+    def __init__(self, data_path, animal_name, date, nwb_metadata, output_file='output.nwb', process_dio=True, process_mda=True):
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
         self.data_folder = fs.DataScanner(data_path)
         self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
         self.datasets = [self.data_folder.data[animal_name][date][dataset_mda] for dataset_mda in self.dataset_names]
+        self.process_dio = process_dio
+        self.process_mda = process_mda
 
         self.output_file = output_file
 
@@ -78,9 +80,11 @@ class NWBFileBuilder:
 
         self.__build_ntrodes(content)
 
-        self.__build_dio(content)
+        if self.process_dio:
+            self.__build_dio(content)
 
-        self.__build_mda(content)
+        if self.process_mda:
+            self.__build_mda(content)
 
         return content
 
