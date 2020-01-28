@@ -93,24 +93,20 @@ class PosTimestamps():
     def read_data(self, dataset_num, file_num=0):
         pos_online = readTrodesExtractedDataFile(self.directories[dataset_num][0])
         position = pd.DataFrame(pos_online['data'])
-        timestamps = position.time.to_numpy()
+        timestamps = position.time.to_numpy(dtype='int64')
         data_float = np.ndarray([np.size(timestamps, 0), ], dtype="float64")
-        continuous_time = readTrodesExtractedDataFile(self.continuous_time_directories[0][dataset_num])
+        continuous_time = readTrodesExtractedDataFile(self.continuous_time_directories[dataset_num])
         continuous_time_dict = {str(data[0]): float(data[1]) for data in continuous_time['data']}
         for i in range(np.shape(timestamps)[0]):
-            if not timestamps[i] == 0:
-
-                key = str(timestamps[i])
-                try:
-                    value = continuous_time_dict[key]
-                    data_float[i] = float(value) / 1E9
-                except KeyError as error:
-                    message = 'Following key: ' + str(key) + ' does not exist!' + str(error)
-                    logging.exception(message)
-                    data_float[i] = float('nan')
-
-            else:
-                data_float[i] = 0.0
+            key = str(timestamps[i])
+            try:
+                value = continuous_time_dict[key]
+                data_float[i] = float(value) / 1E9
+            except KeyError as error:
+                message = 'Following key: ' + str(key) + ' does not exist!' + str(error)
+                logging.exception(message)
+                data_float[i] = float('nan')
+                print(message)
         return data_float
 
     def get_data_shape(self, dataset_num):

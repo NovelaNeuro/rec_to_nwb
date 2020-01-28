@@ -22,11 +22,10 @@ class POSExtractor:
                 raise WrongDataException("incomplete data in dataset " + str(dataset.name))
             self.all_pos.append(data_from_current_dataset)
             self.continuous_time.append(dataset.get_continuous_time())
-        print(self.all_pos)
 
     def get_position(self):
         pos_data = PosData(directories=self.all_pos)
-        pos_timestamps = PosTimestamps(directories=self.all_pos, continuous_time_directories=[self.continuous_time])
+        pos_timestamps = PosTimestamps(directories=self.all_pos, continuous_time_directories=self.continuous_time)
         extracted_pos = DataIterator(pos_data)
         extracted_timestamps = DataIterator1D(pos_timestamps)
         position = Position()
