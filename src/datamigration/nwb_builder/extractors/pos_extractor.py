@@ -1,7 +1,7 @@
 from pynwb.behavior import Position
 
-from src.datamigration.nwb_builder.binary_data import PosData, PosTimestamps
-from src.datamigration.nwb_builder.data_iterator import DataIterator, DataIterator1D
+from src.datamigration.nwb_builder.utility_tools.binary_data import PosData, PosTimestamps
+from src.datamigration.nwb_builder.utility_tools.data_iterator import DataIterator, DataIterator1D
 
 
 class POSExtractor:

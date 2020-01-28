@@ -5,8 +5,8 @@ from datetime import datetime
 import numpy as np
 from pynwb import NWBFile
 
-from src.datamigration.file_scanner import Dataset
-from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
+from src.datamigration.tools.file_scanner import Dataset
+from src.datamigration.nwb_builder.extractors.mda_extractor import MdaExtractor
 
 
 class TestMDAMigration(unittest.TestCase):

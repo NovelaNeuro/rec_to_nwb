@@ -1,7 +1,7 @@
 from pynwb import ecephys
 
-from src.datamigration.nwb_builder.binary_data import MdaData, MdaTimestamps
-from src.datamigration.nwb_builder.data_iterator import DataIterator, DataIterator1D
+from src.datamigration.nwb_builder.utility_tools.binary_data import MdaData, MdaTimestamps
+from src.datamigration.nwb_builder.utility_tools.data_iterator import DataIterator, DataIterator1D
 
 
 class MdaExtractor:

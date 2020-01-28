@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from src.datamigration.nwb_builder.header_checker.header_reader import HeaderReader
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_reader import HeaderReader
 
 path = os.path.dirname(os.path.abspath(__file__))
 

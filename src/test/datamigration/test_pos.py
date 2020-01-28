@@ -1,8 +1,8 @@
 import os
 import unittest
 
-from src.datamigration.file_scanner import Dataset
-from src.datamigration.nwb_builder.pos_extractor import POSExtractor
+from src.datamigration.tools.file_scanner import Dataset
+from src.datamigration.nwb_builder.extractors.pos_extractor import POSExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 
