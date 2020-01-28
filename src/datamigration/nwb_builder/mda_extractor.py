@@ -1,12 +1,9 @@
 from pynwb import ecephys
 
+from src.datamigration.exceptions.missing_data_exception import MissingDataException
 from src.datamigration.nwb_builder.binary_data import MdaData, MdaTimestamps
 from src.datamigration.nwb_builder.data_iterator import DataIterator, DataIterator1D
 
-
-class WrongDataException(Exception):
-    def __init__(self, message):
-        self.message = message
 
 class MdaExtractor:
 
@@ -21,7 +18,15 @@ class MdaExtractor:
             if (data_from_current_dataset is None or
                     dataset.get_mda_timestamps() is None or
                     dataset.get_continuous_time() is None):
-                raise WrongDataException("incomplete data in dataset " + str(dataset.name))
+                if data_from_current_dataset is None:
+                    raise MissingDataException("incomplete data in dataset " + str(dataset.name) +
+                                               ", missing mda files")
+                elif dataset.get_mda_timestamps() is None:
+                    raise MissingDataException("incomplete data in dataset " + str(dataset.name) +
+                                               ", missing mda timestamps")
+                elif dataset.get_continuous_time() is None:
+                    raise MissingDataException("incomplete data in dataset " + str(dataset.name) +
+                                               "missing continuous time file")
             self.mda_data.append(data_from_current_dataset)
             self.timestamps.append(dataset.get_mda_timestamps())
             self.continuous_time.append(dataset.get_continuous_time())

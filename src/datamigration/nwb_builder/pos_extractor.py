@@ -1,12 +1,9 @@
 from pynwb.behavior import Position
 
+from src.datamigration.exceptions.missing_data_exception import MissingDataException
 from src.datamigration.nwb_builder.binary_data import PosData, PosTimestamps
 from src.datamigration.nwb_builder.data_iterator import DataIterator, DataIterator1D
 
-
-class WrongDataException(Exception):
-    def __init__(self, message):
-        self.message = message
 
 class POSExtractor:
     def __init__(self, datasets):
@@ -19,7 +16,12 @@ class POSExtractor:
                                          (pos_file.endswith('.pos_online.dat'))]
             if (data_from_current_dataset is None or
                     dataset.get_continuous_time() is None):
-                raise WrongDataException("incomplete data in dataset " + str(dataset.name))
+                if data_from_current_dataset is None:
+                    raise MissingDataException("incomplete data in dataset " + str(dataset.name) +
+                                               ", missing mda files")
+                elif dataset.get_continuous_time() is None:
+                    raise MissingDataException("incomplete data in dataset " + str(dataset.name) +
+                                               "missing continuous time file")
             self.all_pos.append(data_from_current_dataset)
             self.continuous_time.append(dataset.get_continuous_time())
 
