@@ -43,7 +43,7 @@ class DataIterator(AbstractDataChunkIterator):
                ((self.current_file + 1) * self.num_rows)]
 
     def recommended_chunk_shape(self):
-        return None  # Use autochunking
+        return None
 
     def recommended_data_shape(self):
         return self.shape
@@ -87,7 +87,7 @@ class DataIterator1D(AbstractDataChunkIterator):
                      sum(self.dataset_file_lenght[0:self.current_dataset + 1]), ]
 
     def recommended_chunk_shape(self):
-        return None  # Use autochunking
+        return None
 
     def recommended_data_shape(self):
         return self.shape

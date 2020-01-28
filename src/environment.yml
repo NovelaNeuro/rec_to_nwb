@@ -42,10 +42,11 @@ dependencies:
   - wheel
   - xmlschema
   - zlib
-  - rec_to_binaries
   - mountainlab_pytools
   - vdom
   - yaml
   - pip:
       - xmldiff
+      - rec-to-binaries==0.2.1.dev0
+
 

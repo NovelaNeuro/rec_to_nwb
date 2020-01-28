@@ -6,4 +6,5 @@ namespaces:
     neurodata_types:
     - ElectrodeGroup
     - Device
+    - NWBDataInterface
   - source: NovelaNeurotechnologies.specs.yaml
