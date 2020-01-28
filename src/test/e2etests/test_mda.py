@@ -11,7 +11,7 @@ from src.datamigration.nwb_builder.mda_extractor import MdaExtractor
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-@unittest.skip("test requires continuoustime.dat file and can't be used on travis")
+# @unittest.skip("test requires continuoustime.dat file and can't be used on travis")
 class TestMDAMigration(unittest.TestCase):
 
     @classmethod
@@ -23,7 +23,7 @@ class TestMDAMigration(unittest.TestCase):
         self.dataset = self.create_test_dataset()
         nwb_file_content = self.create_test_file()
         electrode_table_region = nwb_file_content.create_electrode_table_region([0], "sample description")
-        mda_extractor = MdaExtractor([self.dataset], datetime(2017, 4, 3, 11))
+        mda_extractor = MdaExtractor([self.dataset])
         series = mda_extractor.get_mda(electrode_table_region, 1.0)
         self.assertEqual(100, np.size(series.timestamps, 0))
         self.assertEqual(12, np.size(series.data, 1))

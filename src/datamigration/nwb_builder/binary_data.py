@@ -57,12 +57,9 @@ class MdaTimestamps():
         timestamps = readmda(self.directories[0][dataset_num])
         data_float = np.ndarray([np.size(timestamps, 0), ], dtype="float64")
         continuous_time = readTrodesExtractedDataFile(self.continuous_time_directories[0][dataset_num])
-        continuous_time_dict = {}
-        for data in continuous_time['data']:
-            continuous_time_dict[str(data[0])] = float(data[1])
+        continuous_time_dict = {str(data[0]): float(data[1]) for data in continuous_time['data']}
         for i in range(np.shape(timestamps)[0]):
             if not timestamps[i] == 0:
-
                 key = str(timestamps[i])
                 try:
                     value = continuous_time_dict[key]
@@ -71,7 +68,6 @@ class MdaTimestamps():
                     message = 'Following key: ' + str(key) + ' does not exist!' + str(error)
                     logging.exception(message)
                     data_float[i] = float('nan')
-
             else:
                 data_float[i] = 0.0
         return data_float
@@ -100,9 +96,7 @@ class PosTimestamps():
         timestamps = position.time.to_numpy()
         data_float = np.ndarray([np.size(timestamps, 0), ], dtype="float64")
         continuous_time = readTrodesExtractedDataFile(self.continuous_time_directories[0][dataset_num])
-        continuous_time_dict = {}
-        for data in continuous_time['data']:
-            continuous_time_dict[str(data[0])] = float(data[1])
+        continuous_time_dict = {str(data[0]): float(data[1]) for data in continuous_time['data']}
         for i in range(np.shape(timestamps)[0]):
             if not timestamps[i] == 0:
 
