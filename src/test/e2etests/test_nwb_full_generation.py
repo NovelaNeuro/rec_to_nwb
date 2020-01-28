@@ -24,6 +24,8 @@ class TestNwbFullGeneration(unittest.TestCase):
                                       str(path) + '/datamigration/res/probe2.yml',
                                       str(path) + '/datamigration/res/probe3.yml'
                                       ]),
+            process_dio=True,
+            process_mda=True
            )
 
     def test_generate_nwb(self):
