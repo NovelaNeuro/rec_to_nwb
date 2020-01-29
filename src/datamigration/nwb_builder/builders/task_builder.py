@@ -1,21 +1,26 @@
 from hdmf.common import DynamicTable
 
 
-def build_task(metadata, nwb_content):
-    nwb_table = DynamicTable(
-        name='task',
-        description='None',
-    )
+class TaskBuilder:
 
-    nwb_table.add_column(
-        name='task_name',
-        description='None',
-    )
-    nwb_table.add_column(
-        name='task_description',
-        description='None',
-    )
-    for task in metadata['tasks']:
-        nwb_table.add_row(task)
+    def __init__(self, metadata):
+        self.metadata = metadata
 
-    nwb_content.processing['behavior'].add_data_interface(nwb_table)
+    def build(self):
+        nwb_table = DynamicTable(
+            name='task',
+            description='None',
+        )
+
+        nwb_table.add_column(
+            name='task_name',
+            description='None',
+        )
+        nwb_table.add_column(
+            name='task_description',
+            description='None',
+        )
+        for task in self.metadata['tasks']:
+            nwb_table.add_row(task)
+
+        return nwb_table
