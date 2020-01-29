@@ -7,7 +7,7 @@ from pynwb import NWBFile
 
 from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb_builder.builders.processing_module_builder import ProcessingModuleCreator
-from src.datamigration.nwb_builder.builders.processing_module_injector import ProcessingModuleInjector
+from src.datamigration.nwb_builder.injectors.processing_module_injector import ProcessingModuleInjector
 from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
 
 path = os.path.dirname(os.path.abspath(__file__))
