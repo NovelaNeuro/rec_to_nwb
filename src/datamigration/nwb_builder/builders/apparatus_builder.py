@@ -5,9 +5,8 @@ from src.datamigration.extension.node import Node
 
 class ApparatusBuilder:
 
-    def __init__(self, metadata, nwb_content):
+    def __init__(self, metadata):
         self.metadata = metadata
-        self.nwb_content = nwb_content
         self.nodes = []
         self.edges = []
 

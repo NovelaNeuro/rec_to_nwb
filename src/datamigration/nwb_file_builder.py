@@ -14,7 +14,7 @@ from src.datamigration.nwb_builder.builders.electrode_structure_builder import b
 from src.datamigration.nwb_builder.builders.mda_builder import build_mda
 from src.datamigration.nwb_builder.builders.ntrodes_builder import build_ntrodes
 from src.datamigration.nwb_builder.builders.pos_builder import build_position
-from src.datamigration.nwb_builder.builders.processing_module_builder import build_processing_module
+from src.datamigration.nwb_builder.builders.processing_module_injector import build_processing_module
 from src.datamigration.nwb_builder.builders.task_builder import build_task
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import check_headers_compatibility
 
