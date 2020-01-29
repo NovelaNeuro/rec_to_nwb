@@ -1,6 +1,19 @@
-from src.datamigration.nwb_builder.extractors.pos_extractor import POSExtractor
+from pynwb.behavior import Position
 
 
-def build_position(datasets, nwb_content):
-    pos_extractor = POSExtractor(datasets)
-    nwb_content.processing["behavior"].add_data_interface(pos_extractor.get_position())
+class PosBuilder:
+
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def build(position_data, timestamps):
+        position = Position()
+        position.create_spatial_series(
+            name="series",
+            data=position_data,
+            reference_frame="Description defining what the zero-position is",
+            timestamps=timestamps
+        )
+
+        return position
