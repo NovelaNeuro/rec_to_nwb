@@ -265,9 +265,7 @@ class NWBFileBuilder:
 
     def __build_mda(self, content):
         sampling_rate = self.header.configuration.hardware_configuration.sampling_rate
-        experiment_start_time = datetime.datetime.strptime(
-            self.metadata['session start time'], '%m/%d/%Y %H:%M:%S')
-        mda_extractor = MdaExtractor(self.datasets, experiment_start_time)
+        mda_extractor = MdaExtractor(self.datasets)
         electrode_table_region = self.__create_region(content)
         series = mda_extractor.get_mda(electrode_table_region, sampling_rate)
         content.add_acquisition(series)
