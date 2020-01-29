@@ -1,0 +1,2 @@
+class MissingDataException(Exception):
+    pass
