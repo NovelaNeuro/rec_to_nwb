@@ -77,6 +77,7 @@ class DataIterator1D(AbstractDataChunkIterator):
             chunk = DataChunk(data=new_data,
                               selection=self.get_selection())
             self.__curr_index += 1
+            self.current_dataset += 1
             del new_data
             return chunk
         raise StopIteration
@@ -94,7 +95,7 @@ class DataIterator1D(AbstractDataChunkIterator):
 
     @property
     def dtype(self):
-        return np.dtype('int16')
+        return np.dtype('float64')
 
     @property
     def maxshape(self):

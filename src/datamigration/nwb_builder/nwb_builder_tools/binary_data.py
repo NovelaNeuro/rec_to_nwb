@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+import logging
 
 import numpy as np
 import pandas as pd
@@ -41,48 +41,36 @@ class PosData(BinaryData):
         return position.xloc, position.yloc, position.xloc2, position.yloc2
 
 
-class BinaryData1D(ABC):
-    def __init__(self, directories):
+class MdaTimestamps():
+    def __init__(self, directories, continuous_time_directories):
+        self.cont_time_dict = {}
         self.directories = directories
+        self.continuous_time_directories = continuous_time_directories
         self.num_datasets = self.get_num_datasets()
         self.file_lenghts = [self.get_data_shape(i) for i in range(self.num_datasets)]
-
-    @abstractmethod
-    def get_num_datasets(self):
-        pass
-
-    @abstractmethod
-    def read_data(self, dataset_num, file_num=0):
-        pass
-
-    @abstractmethod
-    def get_data_shape(self, dataset_num):
-        pass
-
-    @abstractmethod
-    def get_final_data_shape(self):
-        pass
-
-
-class MdaTimestamps(ABC):
-    def __init__(self, directories, experiment_start_time, sampling_rate):
-        self.directories = directories
-        self.num_datasets = self.get_num_datasets()
-        self.sampling_rate = sampling_rate
-        self.experiment_start_time_in_sec = experiment_start_time.timestamp()
-        self.file_lenghts = [self.get_data_shape(i) for i in range(self.num_datasets)]
-
 
 
     def get_num_datasets(self):
         return np.size(self.directories, 1)
 
     def read_data(self, dataset_num, file_num=0):
-        data = readmda(self.directories[0][dataset_num])
-        for i in range(np.size(data, 0)):
-            data[i] = data[i] / self.sampling_rate
-            data[i] += self.experiment_start_time_in_sec
-        return data
+        timestamps = readmda(self.directories[0][dataset_num])
+        timestamps64 = np.ndarray([np.size(timestamps, 0), ], dtype="int64")
+        for i in range(np.shape(timestamps)[0]):
+            timestamps64[i] = timestamps[i]
+        data_float = np.ndarray([np.size(timestamps, 0), ], dtype="float64")
+        continuous_time = readTrodesExtractedDataFile(self.continuous_time_directories[dataset_num])
+        continuous_time_dict = {str(data[0]): float(data[1]) for data in continuous_time['data']}
+        for i in range(np.shape(timestamps)[0]):
+            key = str(timestamps[i])
+            try:
+                value = continuous_time_dict[key]
+                data_float[i] = float(value) / 1E9
+            except KeyError as error:
+                message = 'Following key: ' + str(key) + ' does not exist!' + str(error)
+                logging.exception(message)
+                data_float[i] = float('nan')
+        return data_float
 
     def get_data_shape(self, dataset_num):
         dim1 = np.size(self.read_data(dataset_num), 0)
@@ -92,7 +80,12 @@ class MdaTimestamps(ABC):
         return sum(self.file_lenghts),
 
 
-class PosTimestamps(BinaryData1D):
+class PosTimestamps():
+    def __init__(self, directories, continuous_time_directories):
+        self.directories = directories
+        self.continuous_time_directories = continuous_time_directories
+        self.num_datasets = self.get_num_datasets()
+        self.file_lenghts = [self.get_data_shape(i) for i in range(self.num_datasets)]
 
     def get_num_datasets(self):
         return np.size(self.directories, 0)
@@ -100,10 +93,20 @@ class PosTimestamps(BinaryData1D):
     def read_data(self, dataset_num, file_num=0):
         pos_online = readTrodesExtractedDataFile(self.directories[dataset_num][0])
         position = pd.DataFrame(pos_online['data'])
-        timestamps = position.time.to_numpy()
-        for i in range(np.size(timestamps, 0)):
-            timestamps[i] = timestamps[i] / 1000
-        return timestamps
+        timestamps = position.time.to_numpy(dtype='int64')
+        data_float = np.ndarray([np.size(timestamps, 0), ], dtype="float64")
+        continuous_time = readTrodesExtractedDataFile(self.continuous_time_directories[dataset_num])
+        continuous_time_dict = {str(data[0]): float(data[1]) for data in continuous_time['data']}
+        for i in range(np.shape(timestamps)[0]):
+            key = str(timestamps[i])
+            try:
+                value = continuous_time_dict[key]
+                data_float[i] = float(value) / 1E9
+            except KeyError as error:
+                message = 'Following key: ' + str(key) + ' does not exist!' + str(error)
+                logging.exception(message)
+                data_float[i] = float('nan')
+        return data_float
 
     def get_data_shape(self, dataset_num):
         dim1 = np.size(self.read_data(dataset_num), 0)
