@@ -15,18 +15,10 @@ class MdaExtractor:
             data_from_current_dataset = [dataset.get_data_path_from_dataset('mda') + mda_file for mda_file in
                                          dataset.get_all_data_from_dataset('mda') if
                                          (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
-            if (data_from_current_dataset is None or
-                    dataset.get_mda_timestamps() is None or
-                    dataset.get_continuous_time() is None):
-                if data_from_current_dataset is None:
-                    raise MissingDataException("incomplete data in dataset " + str(dataset.name) +
-                                               ", missing mda files")
-                elif dataset.get_mda_timestamps() is None:
-                    raise MissingDataException("incomplete data in dataset " + str(dataset.name) +
-                                               ", missing mda timestamps")
-                elif dataset.get_continuous_time() is None:
-                    raise MissingDataException("incomplete data in dataset " + str(dataset.name) +
-                                               "missing continuous time file")
+            if (
+                    data_from_current_dataset is None or dataset.get_mda_timestamps() is None or dataset.get_continuous_time() is None):
+                raise MissingDataException("Incomplete data in dataset " + str(dataset.name) + ", missing mda files")
+
             self.mda_data.append(data_from_current_dataset)
             self.timestamps.append(dataset.get_mda_timestamps())
             self.continuous_time.append(dataset.get_continuous_time())

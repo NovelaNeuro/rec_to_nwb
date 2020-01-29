@@ -14,13 +14,8 @@ class POSExtractor:
             data_from_current_dataset = [dataset.get_data_path_from_dataset('pos') + pos_file for pos_file in
                                          dataset.get_all_data_from_dataset('pos') if
                                          (pos_file.endswith('.pos_online.dat'))]
-            if (data_from_current_dataset is None or
-                    dataset.get_continuous_time() is None):
-                if data_from_current_dataset is None:
-                    raise MissingDataException("incomplete data in dataset " + str(dataset.name) +
-                                               ", missing mda files")
-                elif dataset.get_continuous_time() is None:
-                    raise MissingDataException("incomplete data in dataset " + str(dataset.name) +
+            if (data_from_current_dataset is None or dataset.get_continuous_time() is None):
+                raise MissingDataException("Incomplete data in dataset " + str(dataset.name) +
                                                "missing continuous time file")
             self.all_pos.append(data_from_current_dataset)
             self.continuous_time.append(dataset.get_continuous_time())
