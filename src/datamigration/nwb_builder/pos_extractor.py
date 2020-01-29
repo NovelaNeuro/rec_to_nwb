@@ -27,7 +27,7 @@ class POSExtractor:
         extracted_timestamps = DataIterator1D(pos_timestamps)
         position = Position()
         position.create_spatial_series(
-            name=" The name of this TimeSeries dataset",
+            name="series",
             data=extracted_pos,
             reference_frame="Description defining what the zero-position is",
             timestamps=extracted_timestamps
