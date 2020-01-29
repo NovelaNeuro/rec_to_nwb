@@ -45,7 +45,7 @@ class DioExtractor:
                             try:
                                 value = continuous_time_dict[key]
                                 temp_timestamps.append(float(value) / 1E9)
-                            except KeyError as error:
+                            except KeyError:
                                 temp_timestamps.append(float('nan'))
                 timestamps[dio_time_series['name']].extend(temp_timestamps)
                 timeseries[dio_time_series['name']].extend(temp_timeseries)
