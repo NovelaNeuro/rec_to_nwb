@@ -9,7 +9,7 @@ import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.builders.apparatus_builder import build_apparatus
 from src.datamigration.nwb_builder.builders.dio_builder import build_dio
-from src.datamigration.nwb_builder.builders.electrode_structure_builder import build_electrode_structure
+from src.datamigration.nwb_builder.builders.electrode_structure_builder import ElectrodeStructureBuilder
 from src.datamigration.nwb_builder.builders.mda_builder import build_mda
 from src.datamigration.nwb_builder.builders.ntrodes_builder import build_ntrodes
 from src.datamigration.nwb_builder.builders.pos_builder import build_position
@@ -76,7 +76,7 @@ class NWBFileBuilder:
 
         build_apparatus(self.metadata, nwb_content)
 
-        build_electrode_structure(metadata=self.metadata,
+        ElectrodeStructureBuilder().build_electrode_structure(metadata=self.metadata,
                                   header=self.header,
                                   nwb_content=nwb_content,
                                   probes=self.probes)

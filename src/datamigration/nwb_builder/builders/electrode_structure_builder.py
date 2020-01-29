@@ -10,37 +10,37 @@ from src.datamigration.nwb_builder.managers.probe_manager import ProbeManager
 
 class ElectrodeStructureBuilder:
 
+    @staticmethod
+    def build_electrode_structure(header, metadata, nwb_content, probes):
+        """
+            For each electrode group in metadata.yml, check if device exist.
+            If not create one.
+            Create electrode_group
+            Create electrodes from corresponding probe_type in probe.yml
+        """
 
-def build_electrode_structure(header, metadata, nwb_content, probes):
-    """
-        For each electrode group in metadata.yml, check if device exist.
-        If not create one.
-        Create electrode_group
-        Create electrodes from corresponding probe_type in probe.yml
-    """
+        device_counter = 0
+        electrodes_builder = ElectrodesBuilder()
+        electrodes_header_extension_creator = ElectrodesHeaderExtensionCreator().create_electrodes_header_extension(header)
 
-    device_counter = 0
-    electrodes_builder = ElectrodesBuilder()
-    electrodes_header_extension_creator = ElectrodesHeaderExtensionCreator().create_electrodes_header_extension(header)
+        for electrode_group_metadata in metadata['electrode groups']:
+            probe_metadata = ProbeManager().get_probe_file(probes, electrode_group_metadata['device_type'])
 
-    for electrode_group_metadata in metadata['electrode groups']:
-        probe_metadata = ProbeManager().get_probe_file(probes, electrode_group_metadata['device_type'])
+            device = DeviceCreator().create_device(probe_metadata, device_counter)
+            device_counter += 1
+            DeviceInjector(nwb_content).join_device(device)
 
-        device = DeviceCreator().create_device(probe_metadata, device_counter)
-        device_counter += 1
-        DeviceInjector(nwb_content).join_device(device)
+            electrode_group = ElectrodeGroupBuilder().create_electrode_group(electrode_group_metadata, device)
+            ElectrodeGroupInjector(nwb_content).join_electrode_group(electrode_group)
 
-        electrode_group = ElectrodeGroupBuilder().create_electrode_group(electrode_group_metadata, device)
-        ElectrodeGroupInjector(nwb_content).join_electrode_group(electrode_group)
-
-        electrodes_builder.build(probe_metadata, nwb_content, electrode_group)
+            electrodes_builder.build(probe_metadata, nwb_content, electrode_group)
 
 
-    ElectrodesExtensionInjector().inject_extensions(
-        nwb_content,
-        electrodes_builder.get_electrodes_metadata_extension(),
-        electrodes_header_extension_creator
-    )
+        ElectrodesExtensionInjector().inject_extensions(
+            nwb_content,
+            electrodes_builder.get_electrodes_metadata_extension(),
+            electrodes_header_extension_creator
+        )
 
 
 
