@@ -3,7 +3,9 @@ from src.datamigration.nwb_builder.nwb_builder_tools.binary_data import MdaData,
 from src.datamigration.nwb_builder.nwb_builder_tools.data_iterator import DataIterator, DataIterator1D
 from src.datamigration.nwb_builder.nwb_builder_tools.mda_object import MDAObject
 
+
 # ToDo Is it SOLID?
+# Should be: extract here and manager to get MDAObject
 class MdaExtractor:
 
     def __init__(self, datasets):
@@ -32,4 +34,3 @@ class MdaExtractor:
         extracted_timestamps = DataIterator1D(timestamps)
 
         return MDAObject(extracted_mda, extracted_timestamps)
-

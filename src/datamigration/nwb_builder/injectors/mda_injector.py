@@ -1,3 +1,5 @@
 class MdaInjector:
-    def inject_mda(self, mda, nwb_content):
 
+    @staticmethod
+    def inject_mda(mda, nwb_content):
+        nwb_content.add_acquisition(mda)
