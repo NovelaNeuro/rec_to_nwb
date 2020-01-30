@@ -9,10 +9,9 @@ from src.datamigration.exceptions.missing_data_exception import MissingDataExcep
 
 class DioExtractor:
 
-    def __init__(self, data_path, metadata):
-        self.data_path = data_path
-        self.dio_paths = [dio_set for dio_set in os.listdir(data_path) if dio_set.endswith('DIO')]
-        self.time_paths = [dio_set for dio_set in os.listdir(data_path) if dio_set.endswith('.time')]
+    def __init__(self, datasets, metadata):
+        self.datasets = datasets
+        self.dio_directories = datasets
         self.metadata = metadata
         self.all_dio_timeseries = metadata['behavioral_events']
 
@@ -37,8 +36,8 @@ class DioExtractor:
                 if dio_time_series['name'] + '.' in dio_file:
                     dio_data = readTrodesExtractedDataFile(self.data_path + '/' + dio_set + '/' + dio_file)
                     for recorded_event in dio_data['data']:
-                        single_timeseries = create_timeseries_for_single_event(dio_time_series, recorded_event,
-                                                                               continuous_time_dict)
+                        single_timeseries = self.create_timeseries_for_single_event(dio_time_series, recorded_event,
+                                                                                    continuous_time_dict)
 
     def create_timeseries_for_single_event(self, time_series, event, continuous_time_dict):
         time_series["dio_timeseries"].append(event[1])
