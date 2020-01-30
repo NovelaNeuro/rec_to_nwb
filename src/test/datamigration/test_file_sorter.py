@@ -1,6 +1,6 @@
 import unittest
 
-from src.datamigration.file_sorter import FileSorter
+from src.datamigration.tools.file_sorter import FileSorter
 
 
 class TestFilenameSorter(unittest.TestCase):

@@ -2,7 +2,7 @@
 import os
 import unittest
 
-from src.datamigration.nwb_builder.probe_extractor import ProbesExtractor
+from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 

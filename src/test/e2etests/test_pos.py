@@ -1,8 +1,9 @@
 import os
 import unittest
 
-from src.datamigration.file_scanner import Dataset
-from src.datamigration.nwb_builder.pos_extractor import POSExtractor
+from src.datamigration.nwb_builder.builders.pos_builder import PosBuilder
+from src.datamigration.tools.file_scanner import Dataset
+from src.datamigration.nwb_builder.extractors.pos_extractor import POSExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -14,6 +15,7 @@ class TestPOSExtraction(unittest.TestCase):
         self.dataset = self.create_test_dataset()
         self.pos_extractor = POSExtractor(datasets=[self.dataset])
         self.position = self.pos_extractor.get_position()
+        self.timestamps = self.pos_extractor.get_timestamps()
 
     @staticmethod
     def create_test_dataset():
@@ -24,9 +26,9 @@ class TestPOSExtraction(unittest.TestCase):
         return dataset
 
     def test_reading_pos_extractor(self):
-        self.assertIsNotNone(self.pos_extractor)
-        self.assertIsInstance(self.pos_extractor, POSExtractor)
-        self.assertEqual([32658, 4], self.position['Fields'].data.shape,
+        pos_data = PosBuilder.build(self.position, self.timestamps)
+        self.assertIsNotNone(pos_data)
+        self.assertEqual([32658, 4], pos_data['Fields'].data.shape,
                          'Shape should be [32658, 4]')
-        self.assertEqual((32658,), self.position['Fields'].timestamps.shape,
+        self.assertEqual((32658,), pos_data['Fields'].timestamps.shape,
                          'Shape should be (32658,)')
