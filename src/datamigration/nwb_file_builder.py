@@ -7,14 +7,14 @@ from pynwb.file import Subject
 
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
-from src.datamigration.nwb_builder.builders.apparatus_builder import build_apparatus
+from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb_builder.builders.dio_builder import build_dio
 from src.datamigration.nwb_builder.builders.electrode_structure_builder import ElectrodeStructureBuilder
-from src.datamigration.nwb_builder.builders.mda_builder import build_mda
 from src.datamigration.nwb_builder.builders.ntrodes_builder import build_ntrodes
-from src.datamigration.nwb_builder.builders.pos_builder import build_position
-from src.datamigration.nwb_builder.builders.task_builder import build_task
-from src.datamigration.nwb_builder.injectors.processing_module_injector import build_processing_module
+from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
+from src.datamigration.nwb_builder.builders.processing_module_builder import ProcessingModuleBuilder
+from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
+from src.datamigration.nwb_builder.managers.processing_module_manager import ProcessingModuleManager
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import check_headers_compatibility
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -50,6 +50,10 @@ class NWBFileBuilder:
                              self.date + '/header.xml')
         self.spike_n_trodes = self.header.configuration.spike_configuration.spike_n_trodes
 
+        self.task_builder = TaskBuilder(self.metadata)
+        self.position_builder = PositionBuilder(self.datasets)
+        self.apparatus_builder = ApparatusBuilder(self.metadata)
+
     def build(self):
         nwb_content = NWBFile(session_description=self.metadata['session description'],
                               experimenter=self.metadata['experimenter name'],
@@ -68,21 +72,30 @@ class NWBFileBuilder:
                                               weight=str(self.metadata['subject']['weight']),
                                              ),
                               )
-        build_processing_module('behavior', 'processing module for all behavior-related data', nwb_content)
 
-        build_task(self.metadata, nwb_content)
+        processing_module_builder = ProcessingModuleBuilder(nwb_content)
+        processing_module = processing_module_builder.build('behavior', 'processing module for all behavior-related data')
+        processing_module_manager = ProcessingModuleManager(processing_module)
 
-        build_position(self.datasets, nwb_content)
+        task = self.task_builder.build()
+        processing_module_manager.add_data(task)
 
-        build_apparatus(self.metadata, nwb_content)
+        position = self.position_builder.build()
+        processing_module_manager.add_data(position)
 
-        ElectrodeStructureBuilder().build_electrode_structure(metadata=self.metadata,
-                                  header=self.header,
-                                  nwb_content=nwb_content,
-                                  probes=self.probes)
+        apparatus = self.apparatus_builder.build()
+        processing_module_manager.add_data(apparatus)
+
+        ElectrodeStructureBuilder().build_electrode_structure(
+            metadata=self.metadata,
+            header=self.header,
+            nwb_content=nwb_content,
+            probes=self.probes
+        )
 
         build_ntrodes(self.metadata, nwb_content)
 
+        # ToDo Waiting for WB
         if self.process_dio:
             build_dio(self.metadata,
                       self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date,

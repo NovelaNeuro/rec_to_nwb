@@ -1,9 +1,9 @@
 import os
 import unittest
 
-from src.datamigration.nwb_builder.builders.pos_builder import PosBuilder
+from src.datamigration.nwb_builder.builders.position_builder import PosBuilder
+from src.datamigration.nwb_builder.extractors.position_extractor import PositionExtractor
 from src.datamigration.tools.file_scanner import Dataset
-from src.datamigration.nwb_builder.extractors.pos_extractor import POSExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -13,7 +13,7 @@ class TestPOSExtraction(unittest.TestCase):
 
     def setUp(self):
         self.dataset = self.create_test_dataset()
-        self.pos_extractor = POSExtractor(datasets=[self.dataset])
+        self.pos_extractor = PositionExtractor(datasets=[self.dataset])
         self.position = self.pos_extractor.get_position()
         self.timestamps = self.pos_extractor.get_timestamps()
 
