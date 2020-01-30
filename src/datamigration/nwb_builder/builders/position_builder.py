@@ -10,5 +10,5 @@ class PositionBuilder:
     def build(self):
         position_data = self.position_extractor.get_position()
         timestamps = self.position_extractor.get_timestamps()
-        return self.position_creator.create( position_data, timestamps)
+        return self.position_creator.create_position(position_data, timestamps)
 
