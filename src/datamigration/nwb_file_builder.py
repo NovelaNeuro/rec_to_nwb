@@ -10,7 +10,7 @@ from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb_builder.builders.dio_builder import build_dio
 from src.datamigration.nwb_builder.builders.electrode_structure_builder import ElectrodeStructureBuilder
-from src.datamigration.nwb_builder.builders.ntrodes_builder import build_ntrodes
+from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
 from src.datamigration.nwb_builder.builders.processing_module_builder import ProcessingModuleBuilder
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
@@ -53,6 +53,7 @@ class NWBFileBuilder:
         self.task_builder = TaskBuilder(self.metadata)
         self.position_builder = PositionBuilder(self.datasets)
         self.apparatus_builder = ApparatusBuilder(self.metadata)
+        self.ntrodes_builder = NTrodesBuilder(self.metadata)
 
     def build(self):
         nwb_content = NWBFile(session_description=self.metadata['session description'],
@@ -93,7 +94,7 @@ class NWBFileBuilder:
             probes=self.probes
         )
 
-        build_ntrodes(self.metadata, nwb_content)
+        self.ntrodes_builder.build(nwb_content)
 
         # ToDo Waiting for WB
         if self.process_dio:
