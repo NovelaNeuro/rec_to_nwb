@@ -20,7 +20,7 @@ class MDABuilder:
         mda_series = ecephys.ElectricalSeries(name="e-series",
                                               data=extracted_mda_data.mda_data,
                                               electrodes=electrode_table_region,
-                                              timestamps=extracted_mda_data.mda_timestamsp,
+                                              timestamps=extracted_mda_data.mda_timestamps,
                                               resolution=sampling_rate,
                                               comments="sample comment",
                                               description="Electrical series registered on electrode")
