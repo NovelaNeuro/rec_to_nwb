@@ -9,6 +9,7 @@ import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb_builder.builders.electrode_structure_builder import ElectrodeStructureBuilder
+from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
 from src.datamigration.nwb_builder.builders.processing_module_builder import ProcessingModuleBuilder
@@ -53,6 +54,8 @@ class NWBFileBuilder:
         self.position_builder = PositionBuilder(self.datasets)
         self.apparatus_builder = ApparatusBuilder(self.metadata)
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
+        # self.dio_builder = DioBuilder()
+        self.mda_builder = MdaBuilder()
 
     def build(self):
         nwb_content = NWBFile(session_description=self.metadata['session description'],
@@ -101,11 +104,8 @@ class NWBFileBuilder:
         #               self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date,
         #               nwb_content)
 
-        # if self.process_mda:
-        #     build_mda(self.header,
-        #               self.metadata,
-        #               self.datasets,
-        #               nwb_content)
+        if self.process_mda:
+            self.mda_builder.build(nwb_content)
 
         return nwb_content
 
