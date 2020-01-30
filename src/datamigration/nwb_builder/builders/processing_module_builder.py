@@ -7,10 +7,7 @@ class ProcessingModuleBuilder:
         self.creator = ProcessingModuleCreator()
         self.injector = ProcessingModuleInjector(nwb_content)
 
-
-
     def build(self, name, description):
         processing_module = self.creator.create_processing_module(name, description)
         self.injector.join_processing_module(processing_module)
         return processing_module
-

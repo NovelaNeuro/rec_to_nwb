@@ -7,7 +7,6 @@ class NTrodesBuilder:
     def __init__(self, metadata):
         self.metadata = metadata
         self.ntrodes_extractor = NTrodesExtractor()
-
         self.ntrodes_creator = NTrodesCreator()
         self.ntrodes_injector = NTrodesInjector()
 
