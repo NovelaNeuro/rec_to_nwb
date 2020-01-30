@@ -4,7 +4,7 @@ class ElectrodesExtensionInjector:
         nwb_content.electrodes.add_column(
             name='hwChan',
             description='None',
-            data=electrodes_header_extension.hw_chan
+            data=electrodes_header_extension
         )
 
         nwb_content.electrodes.add_column(

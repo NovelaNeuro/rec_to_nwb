@@ -46,16 +46,17 @@ class NWBFileBuilder:
 
         check_headers_compatibility(self.data_path, self.animal_name, self.date)
 
-        self.header = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
+        header = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
                              self.date + '/header.xml')
-        self.spike_n_trodes = self.header.configuration.spike_configuration.spike_n_trodes
+        self.spike_n_trodes = header.configuration.spike_configuration.spike_n_trodes
 
         self.task_builder = TaskBuilder(self.metadata)
         self.position_builder = PositionBuilder(self.datasets)
         self.apparatus_builder = ApparatusBuilder(self.metadata)
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
+        self.electrode_structure_builder = ElectrodeStructureBuilder(header, self.metadata, self.probes)
         # self.dio_builder = DioBuilder()
-        self.mda_builder = MdaBuilder()
+        self.mda_builder = MdaBuilder(self.metadata, header, self.datasets)
 
     def build(self):
         nwb_content = NWBFile(session_description=self.metadata['session description'],
@@ -89,12 +90,7 @@ class NWBFileBuilder:
         apparatus = self.apparatus_builder.build()
         processing_module_manager.add_data(apparatus)
 
-        ElectrodeStructureBuilder().build_electrode_structure(
-            metadata=self.metadata,
-            header=self.header,
-            nwb_content=nwb_content,
-            probes=self.probes
-        )
+        self.electrode_structure_builder.build(nwb_content)
 
         self.ntrodes_builder.build(nwb_content)
 
