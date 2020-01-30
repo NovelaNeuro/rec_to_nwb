@@ -1,9 +1,7 @@
 import os
 import unittest
-from datetime import datetime
 
 import numpy as np
-from pynwb import NWBFile
 
 from src.datamigration.tools.file_scanner import Dataset
 from src.datamigration.nwb_builder.extractors.mda_extractor import MdaExtractor
@@ -32,34 +30,3 @@ class TestMDAExtraction(unittest.TestCase):
         dataset.add_data_to_dataset(path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/',
                                     'time')
         return dataset
-    #
-    # @staticmethod
-    # def create_test_file():
-    #     nwb_file_content = NWBFile(session_description='session_description',
-    #                                experimenter='experimenter_name',
-    #                                lab='lab',
-    #                                institution='institution',
-    #                                session_start_time=datetime(2017, 4, 3, 11),
-    #                                identifier='identifier',
-    #                                experiment_description='experiment_description'
-    #                                )
-    #     nwb_file_content.create_device(name='device_name')
-    #     nwb_file_content.create_electrode_group(
-    #         name='group_name',
-    #         description='description',
-    #         location='location',
-    #         device=nwb_file_content.devices['device_name']
-    #     )
-    #
-    #     nwb_file_content.add_electrode(
-    #         x=1.0,
-    #         y=1.0,
-    #         z=1.0,
-    #         imp=1.0,
-    #         location='location',
-    #         filtering='filtering',
-    #         group=nwb_file_content.electrode_groups['group_name'],
-    #         id=1
-    #     )
-    #
-    #     return nwb_file_content

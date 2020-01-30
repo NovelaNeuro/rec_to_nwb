@@ -1,7 +1,5 @@
 import unittest
 
-from src.datamigration.nwb_builder.utility_tools.electrode_addentum import ElectrodeAddendum
-
 
 class TestElectrodeAddendum(unittest.TestCase):
 
