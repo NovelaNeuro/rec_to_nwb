@@ -6,7 +6,7 @@ from src.datamigration.nwb_builder.injectors.ntrodes_injector import NTrodesInje
 class NTrodesBuilder:
     def __init__(self, metadata):
         self.metadata = metadata
-        self.ntrodes_extractor = NTrodesExtractor(metadata)
+        self.ntrodes_extractor = NTrodesExtractor()
 
         self.ntrodes_creator = NTrodesCreator()
         self.ntrodes_injector = NTrodesInjector()

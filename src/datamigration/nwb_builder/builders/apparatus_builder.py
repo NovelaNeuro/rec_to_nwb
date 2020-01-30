@@ -6,7 +6,7 @@ class ApparatusBuilder:
 
     def __init__(self, metadata):
         self.metadata = metadata
-        self.apparatus_extractor = ApparatusExtractor()
+        self.apparatus_extractor = ApparatusExtractor(metadata)
         self.apparatus_creator = ApparatusCreator()
 
     def build(self):

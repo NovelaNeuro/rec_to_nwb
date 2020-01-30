@@ -8,7 +8,6 @@ from pynwb.file import Subject
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
-from src.datamigration.nwb_builder.builders.dio_builder import build_dio
 from src.datamigration.nwb_builder.builders.electrode_structure_builder import ElectrodeStructureBuilder
 from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
@@ -96,17 +95,17 @@ class NWBFileBuilder:
 
         self.ntrodes_builder.build(nwb_content)
 
-        # ToDo Waiting for WB
-        if self.process_dio:
-            build_dio(self.metadata,
-                      self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date,
-                      nwb_content)
+        # # ToDo Waiting for WB
+        # if self.process_dio:
+        #     build_dio(self.metadata,
+        #               self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date,
+        #               nwb_content)
 
-        if self.process_mda:
-            build_mda(self.header,
-                      self.metadata,
-                      self.datasets,
-                      nwb_content)
+        # if self.process_mda:
+        #     build_mda(self.header,
+        #               self.metadata,
+        #               self.datasets,
+        #               nwb_content)
 
         return nwb_content
 

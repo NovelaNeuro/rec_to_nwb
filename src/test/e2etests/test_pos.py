@@ -1,7 +1,6 @@
 import os
 import unittest
 
-from src.datamigration.nwb_builder.builders.position_builder import PosBuilder
 from src.datamigration.nwb_builder.extractors.position_extractor import PositionExtractor
 from src.datamigration.tools.file_scanner import Dataset
 
