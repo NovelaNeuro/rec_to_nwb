@@ -6,8 +6,9 @@ from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
 from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
-from src.datamigration.nwb_builder.builders.processing_module_builder import ProcessingModuleCreator
+from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.injectors.processing_module_injector import ProcessingModuleInjector
+from src.datamigration.nwb_builder.managers.processing_module_manager import ProcessingModuleManager
 from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -26,10 +27,11 @@ class TestExtensions(unittest.TestCase):
 
     def test_apparatus_creation(self):
         injector = ProcessingModuleInjector(self.nwb_file)
-        processing_module_creator = ProcessingModuleCreator('apparatus', 'apparatus description')
+        processing_module = ProcessingModuleCreator.create_processing_module('apparatus', 'apparatus description')
         aparatus_before_injection = ApparatusBuilder(self.metadata).build()
-        processing_module_creator.add_data(aparatus_before_injection)
-        injector.join_processing_module(processing_module_creator.processing_module)
+        processing_module_menager = ProcessingModuleManager(processing_module)
+        processing_module_menager.add_data(aparatus_before_injection)
+        injector.join_processing_module(processing_module)
 
         return_apparatus = self.nwb_file.processing['apparatus']['apparatus']
 

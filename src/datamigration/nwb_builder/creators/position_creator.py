@@ -1,13 +1,10 @@
 from pynwb.behavior import Position
 
 
-class PosBuilder:
-
-    def __init__(self):
-        pass
+class PositionCreator:
 
     @staticmethod
-    def build(position_data, timestamps):
+    def create_position(position_data, timestamps):
         position = Position()
         position.create_spatial_series(
             name="series",
@@ -15,5 +12,4 @@ class PosBuilder:
             reference_frame="Description defining what the zero-position is",
             timestamps=timestamps
         )
-
         return position
