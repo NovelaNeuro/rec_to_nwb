@@ -10,7 +10,7 @@ class PositionExtractor:
         self.all_pos = []
         self.continuous_time = []
 
-        for dataset in datasets:
+        for dataset in self.datasets:
             data_from_current_dataset = [dataset.get_data_path_from_dataset('pos') + pos_file for pos_file in
                                          dataset.get_all_data_from_dataset('pos') if
                                          (pos_file.endswith('.pos_online.dat'))]

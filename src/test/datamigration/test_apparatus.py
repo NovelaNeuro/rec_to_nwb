@@ -26,7 +26,7 @@ class TestExtensions(unittest.TestCase):
 
     def test_apparatus_creation(self):
         injector = ProcessingModuleInjector(self.nwb_file)
-        processing_module_creator = ProcessingModuleCreator('apparatus', 'apparatus description')
+        processing_module_creator = ProcessingModuleCreator.create_processing_module('apparatus', 'apparatus description')
         aparatus_before_injection = ApparatusBuilder(self.metadata).build()
         processing_module_creator.add_data(aparatus_before_injection)
         injector.join_processing_module(processing_module_creator.processing_module)

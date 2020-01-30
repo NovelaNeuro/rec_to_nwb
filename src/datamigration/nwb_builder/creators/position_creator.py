@@ -3,7 +3,8 @@ from pynwb.behavior import Position
 
 class PositionCreator:
 
-    def create_position(self, position_data, timestamps):
+    @staticmethod
+    def create_position(position_data, timestamps):
         position = Position()
         position.create_spatial_series(
             name="series",
