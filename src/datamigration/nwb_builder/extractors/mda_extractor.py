@@ -4,8 +4,6 @@ from src.datamigration.nwb_builder.nwb_builder_tools.data_iterator import DataIt
 from src.datamigration.nwb_builder.nwb_builder_tools.mda_object import MdaObject
 
 
-# ToDo Is it SOLID?
-# Should be: extract here and manager to get MdaObject
 class MdaExtractor:
 
     def __init__(self, datasets):

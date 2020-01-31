@@ -24,17 +24,17 @@ class TestApparatus(unittest.TestCase):
             file_create_date=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
         )
         self.metadata = NWBMetadata(str(path) + '/res/metadata.yml', []).metadata
-
-    def test_apparatus_creation(self):
         injector = ProcessingModuleInjector(self.nwb_file)
         processing_module = ProcessingModuleCreator.create_processing_module('apparatus', 'apparatus description')
-        apparatus_before_injection = ApparatusBuilder(self.metadata).build()
+        self.apparatus_before_injection = ApparatusBuilder(self.metadata).build()
         processing_module_manager = ProcessingModuleManager(processing_module)
-        processing_module_manager.add_data(apparatus_before_injection)
+        processing_module_manager.add_data(self.apparatus_before_injection)
         injector.join_processing_module(processing_module)
+
+    def test_apparatus_creation(self):
 
         return_apparatus = self.nwb_file.processing['apparatus']['apparatus']
 
         self.assertEqual('apparatus', return_apparatus.name)
-        self.assertEqual(apparatus_before_injection.edges, return_apparatus.edges)
-        self.assertEqual(apparatus_before_injection.nodes, return_apparatus.nodes)
+        self.assertEqual(self.apparatus_before_injection.edges, return_apparatus.edges)
+        self.assertEqual(self.apparatus_before_injection.nodes, return_apparatus.nodes)

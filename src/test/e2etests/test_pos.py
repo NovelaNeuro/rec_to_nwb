@@ -8,7 +8,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 
 @unittest.skip("test requires continuoustime.dat file and can't be used on travis")
-class TestPOSExtraction(unittest.TestCase):
+class TestPositionExtraction(unittest.TestCase):
 
     def setUp(self):
         self.dataset = self.create_test_dataset()
