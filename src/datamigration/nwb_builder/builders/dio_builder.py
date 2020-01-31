@@ -1,9 +1,14 @@
+from pynwb.behavior import BehavioralEvents
+
+from src.datamigration.nwb_builder.creators.dio_creator import DioCreator
 from src.datamigration.nwb_builder.extractors.dio_extractor import DioExtractor
 
 
-def build_dio(metadata, data_path, nwb_content):
-    extracted_dio = DioExtractor(data_path=data_path,
-                                 metadata=metadata)
-    nwb_content.processing["behavior"].add_data_interface(
-        extracted_dio.get_dio()
-    )
+class DioBuilder():
+    def __init__(self, nwb_content, datasets, metadata):
+        dio_creator = DioCreator()
+        dio_extractor = DioExtractor(datasets=datasets, metadata=metadata)
+        extracted_dio = dio_extractor.get_dio()
+        behavioral_event = BehavioralEvents(name='list of processed DIO`s', )
+        dio_time_series = dio_creator.create_dio_time_series(behavioral_event, extracted_dio)
+        nwb_content.processing["behavior"].add_data_interface(dio_time_series)

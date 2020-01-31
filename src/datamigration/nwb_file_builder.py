@@ -8,6 +8,7 @@ from pynwb.file import Subject
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
+from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
 from src.datamigration.nwb_builder.builders.electrode_structure_builder import ElectrodeStructureBuilder
 from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
@@ -55,7 +56,6 @@ class NWBFileBuilder:
         self.apparatus_builder = ApparatusBuilder(self.metadata)
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
         self.electrode_structure_builder = ElectrodeStructureBuilder(header, self.metadata, self.probes)
-        # self.dio_builder = DioBuilder()
         self.mda_builder = MdaBuilder(self.metadata, header, self.datasets)
 
     def build(self):
@@ -81,27 +81,25 @@ class NWBFileBuilder:
         processing_module = processing_module_builder.build('behavior', 'processing module for all behavior-related data')
         processing_module_manager = ProcessingModuleManager(processing_module)
 
-        task = self.task_builder.build()
-        processing_module_manager.add_data(task)
+        # task = self.task_builder.build()
+        # processing_module_manager.add_data(task)
+        #
+        # position = self.position_builder.build()
+        # processing_module_manager.add_data(position)
+        #
+        # apparatus = self.apparatus_builder.build()
+        # processing_module_manager.add_data(apparatus)
+        #
+        # self.electrode_structure_builder.build(nwb_content)
+        #
+        # self.ntrodes_builder.build(nwb_content)
 
-        position = self.position_builder.build()
-        processing_module_manager.add_data(position)
-
-        apparatus = self.apparatus_builder.build()
-        processing_module_manager.add_data(apparatus)
-
-        self.electrode_structure_builder.build(nwb_content)
-
-        self.ntrodes_builder.build(nwb_content)
-
-        # # ToDo Waiting for WB
         # if self.process_dio:
-        #     build_dio(self.metadata,
-        #               self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date,
-        #               nwb_content)
-
-        if self.process_mda:
-            self.mda_builder.build(nwb_content)
+        #     build_dio(nwb_content=nwb_content, datasets=self.datasets, metadata=self.metadata)
+        #
+        dio_builder = DioBuilder(nwb_content, self.datasets, self.metadata)
+        # if self.process_mda:
+        #     self.mda_builder.build(nwb_content)
 
         return nwb_content
 
