@@ -3,7 +3,8 @@ from src.datamigration.extension.ntrode import NTrode
 
 class NTrodesCreator:
 
-    def create_ntrode(self, metadata, device, map_list):
+    @staticmethod
+    def create_ntrode(metadata, device, map_list):
         return NTrode(
             probe_id=metadata["probe_id"],
             ntrode_id=metadata['ntrode_id'],
