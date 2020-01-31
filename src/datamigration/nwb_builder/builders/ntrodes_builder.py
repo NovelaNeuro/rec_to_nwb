@@ -10,7 +10,6 @@ class NTrodesBuilder:
         self.ntrodes_creator = NTrodesCreator()
         self.ntrodes_injector = NTrodesInjector()
 
-
     def build(self, nwb_content):
         for ntrode_metadata in self.metadata['ntrode probe channel map']:
             device = self.ntrodes_extractor.extract_device(ntrode_metadata, nwb_content)
@@ -18,6 +17,3 @@ class NTrodesBuilder:
 
             ntrode = self.ntrodes_creator.create_ntrode(ntrode_metadata, device, map_list)
             self.ntrodes_injector.inject_ntrode(nwb_content, ntrode)
-
-
-

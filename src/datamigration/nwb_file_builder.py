@@ -32,7 +32,6 @@ class NWBFileBuilder:
                  process_dio=True,
                  process_mda=True
                  ):
-
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
@@ -48,7 +47,7 @@ class NWBFileBuilder:
         check_headers_compatibility(self.data_path, self.animal_name, self.date)
 
         header = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
-                             self.date + '/header.xml')
+                        self.date + '/header.xml')
         self.spike_n_trodes = header.configuration.spike_configuration.spike_n_trodes
 
         self.task_builder = TaskBuilder(self.metadata)
@@ -68,21 +67,22 @@ class NWBFileBuilder:
                               lab=self.metadata['lab'],
                               institution=self.metadata['institution'],
                               session_start_time=datetime.datetime.strptime(
-                                                  self.metadata['session start time'], '%m/%d/%Y %H:%M:%S'),
+                                  self.metadata['session start time'], '%m/%d/%Y %H:%M:%S'),
                               identifier=str(uuid.uuid1()),
                               experiment_description=self.metadata['experiment description'],
                               subject=Subject(
-                                              description=self.metadata['subject']['description'],
-                                              genotype=self.metadata['subject']['genotype'],
-                                              sex=self.metadata['subject']['sex'],
-                                              species=self.metadata['subject']['species'],
-                                              subject_id=self.metadata['subject']['subject id'],
-                                              weight=str(self.metadata['subject']['weight']),
-                                             ),
+                                  description=self.metadata['subject']['description'],
+                                  genotype=self.metadata['subject']['genotype'],
+                                  sex=self.metadata['subject']['sex'],
+                                  species=self.metadata['subject']['species'],
+                                  subject_id=self.metadata['subject']['subject id'],
+                                  weight=str(self.metadata['subject']['weight']),
+                              ),
                               )
 
         processing_module_builder = ProcessingModuleBuilder(nwb_content)
-        processing_module = processing_module_builder.build('behavior', 'processing module for all behavior-related data')
+        processing_module = processing_module_builder.build('behavior',
+                                                            'processing module for all behavior-related data')
         processing_module_manager = ProcessingModuleManager(processing_module)
 
         task = self.task_builder.build()
@@ -97,7 +97,6 @@ class NWBFileBuilder:
         self.electrode_structure_builder.build(nwb_content)
 
         self.ntrodes_builder.build(nwb_content)
-
 
         # if self.process_dio:
         #     dio = self.dio_builder.build()
