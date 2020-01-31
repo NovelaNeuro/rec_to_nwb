@@ -11,8 +11,8 @@ class MdaManager:
     def get_sampling_rate(self):
         return self.header.configuration.hardware_configuration.sampling_rate
 
-    def get_electrode_table_region(self):
-        return self.table_region_builder.build()
+    def get_electrode_table_region(self, nwb_content):
+        return self.table_region_builder.build(nwb_content)
 
     def get_extracted_mda_data(self):
         return self.mda_extractor.get_mda_data()

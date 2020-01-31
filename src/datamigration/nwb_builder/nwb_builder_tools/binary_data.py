@@ -53,7 +53,7 @@ class MdaTimestamps():
     def get_num_datasets(self):
         return np.size(self.directories, 1)
 
-    def read_data(self, dataset_num, file_num=0):
+    def read_data(self, dataset_num):
         timestamps = readmda(self.directories[0][dataset_num])
         timestamps64 = np.ndarray([np.size(timestamps, 0), ], dtype="int64")
         for i in range(np.shape(timestamps)[0]):
@@ -90,7 +90,7 @@ class PosTimestamps():
     def get_num_datasets(self):
         return np.size(self.directories, 0)
 
-    def read_data(self, dataset_num, file_num=0):
+    def read_data(self, dataset_num):
         pos_online = readTrodesExtractedDataFile(self.directories[dataset_num][0])
         position = pd.DataFrame(pos_online['data'])
         timestamps = position.time.to_numpy(dtype='int64')

@@ -15,6 +15,8 @@ class ElectrodeStructureBuilder:
         self.probes = probes
 
         self.electrode_extension_injector = ElectrodesExtensionInjector()
+        self.electrodes_builder = ElectrodesBuilder()
+        self.electrodes_header_extension_creator = ElectrodesHeaderExtensionCreator()
 
     def build(self, nwb_content):
         """
@@ -25,9 +27,7 @@ class ElectrodeStructureBuilder:
         """
 
         device_counter = 0
-        electrodes_builder = ElectrodesBuilder()
-        electrodes_header_extension_creator = ElectrodesHeaderExtensionCreator().create_electrodes_header_extension(
-            self.header)
+        electrodes_header_extension = self.electrodes_header_extension_creator.create_electrodes_header_extension(self.header)
 
         for electrode_group_metadata in self.metadata['electrode groups']:
             probe_metadata = ProbeManager().get_probe_file(self.probes, electrode_group_metadata['device_type'])
@@ -39,10 +39,11 @@ class ElectrodeStructureBuilder:
             electrode_group = ElectrodeGroupBuilder().create_electrode_group(electrode_group_metadata, device)
             ElectrodeGroupInjector(nwb_content).join_electrode_group(electrode_group)
 
-            electrodes_builder.build(probe_metadata, nwb_content, electrode_group)
+            self.electrodes_builder.build(probe_metadata, nwb_content, electrode_group)
 
+        electrodes_metadata_extension = self.electrodes_builder.get_electrodes_metadata_extension()
         self.electrode_extension_injector.inject_extensions(
             nwb_content,
-            electrodes_builder.get_electrodes_metadata_extension(),
-            electrodes_header_extension_creator
+            electrodes_metadata_extension,
+            electrodes_header_extension
         )

@@ -12,7 +12,7 @@ class MdaBuilder:
 
     def build(self, nwb_content):
         sampling_rate = self.mda_manager.get_sampling_rate()
-        electrode_table_region = self.mda_manager.get_electrode_table_region()
+        electrode_table_region = self.mda_manager.get_electrode_table_region(nwb_content)
         extracted_mda_data = self.mda_manager.get_extracted_mda_data()
 
         mda = self.mda_creator.create_mda(sampling_rate, electrode_table_region, extracted_mda_data)

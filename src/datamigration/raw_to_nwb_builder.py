@@ -51,7 +51,7 @@ class RawToNWBBuilder:
     def build_nwb(self):
         self.__preprocess_data()
         for date in self.dates:
-            nwbBuilder = NWBFileBuilder(
+            nwb_builder = NWBFileBuilder(
                                         data_path=self.data_path,
                                         animal_name=self.animal_name,
                                         date=date,
@@ -60,8 +60,8 @@ class RawToNWBBuilder:
                                         process_mda=self.extract_mda,
                                         process_dio=self.extract_dio
                                         )
-            content = nwbBuilder.build()
-            nwbBuilder.write(content)
+            content = nwb_builder.build()
+            nwb_builder.write(content)
         return content
 
     def cleanup(self):

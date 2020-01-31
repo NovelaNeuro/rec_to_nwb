@@ -14,7 +14,7 @@ from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestExtensions(unittest.TestCase):
+class TestApparatus(unittest.TestCase):
 
     def setUp(self):
         self.nwb_file = NWBFile(
@@ -28,13 +28,13 @@ class TestExtensions(unittest.TestCase):
     def test_apparatus_creation(self):
         injector = ProcessingModuleInjector(self.nwb_file)
         processing_module = ProcessingModuleCreator.create_processing_module('apparatus', 'apparatus description')
-        aparatus_before_injection = ApparatusBuilder(self.metadata).build()
-        processing_module_menager = ProcessingModuleManager(processing_module)
-        processing_module_menager.add_data(aparatus_before_injection)
+        apparatus_before_injection = ApparatusBuilder(self.metadata).build()
+        processing_module_manager = ProcessingModuleManager(processing_module)
+        processing_module_manager.add_data(apparatus_before_injection)
         injector.join_processing_module(processing_module)
 
         return_apparatus = self.nwb_file.processing['apparatus']['apparatus']
 
         self.assertEqual('apparatus', return_apparatus.name)
-        self.assertEqual(aparatus_before_injection.edges, return_apparatus.edges)
-        self.assertEqual(aparatus_before_injection.nodes, return_apparatus.nodes)
+        self.assertEqual(apparatus_before_injection.edges, return_apparatus.edges)
+        self.assertEqual(apparatus_before_injection.nodes, return_apparatus.nodes)
