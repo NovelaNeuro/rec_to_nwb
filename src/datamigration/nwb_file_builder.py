@@ -16,7 +16,8 @@ from src.datamigration.nwb_builder.builders.position_builder import PositionBuil
 from src.datamigration.nwb_builder.builders.processing_module_builder import ProcessingModuleBuilder
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.managers.processing_module_manager import ProcessingModuleManager
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import check_headers_compatibility
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import check_headers_compatibility, \
+    HeaderChecker
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -44,7 +45,10 @@ class NWBFileBuilder:
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
 
-        check_headers_compatibility(self.data_path, self.animal_name, self.date)
+        header_checker = HeaderChecker(data_path=self.data_path,
+                                       animal_name=self.animal_name,
+                                       date=self.date)
+        header_checker.check_headers_compatibility()
 
         header = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
                         self.date + '/header.xml')
