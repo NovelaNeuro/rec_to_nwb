@@ -8,6 +8,7 @@ from pynwb.file import Subject
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
+from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
 from src.datamigration.nwb_builder.builders.electrode_structure_builder import ElectrodeStructureBuilder
 from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
@@ -55,7 +56,10 @@ class NWBFileBuilder:
         self.apparatus_builder = ApparatusBuilder(self.metadata)
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
         self.electrode_structure_builder = ElectrodeStructureBuilder(header, self.metadata, self.probes)
-        # self.dio_builder = DioBuilder()
+        self.dio_builder = DioBuilder(
+            self.metadata,
+            self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date
+        )
         self.mda_builder = MdaBuilder(self.metadata, header, self.datasets)
 
     def build(self):
@@ -94,11 +98,10 @@ class NWBFileBuilder:
 
         self.ntrodes_builder.build(nwb_content)
 
-        # # ToDo Waiting for WB
+
         # if self.process_dio:
-        #     build_dio(self.metadata,
-        #               self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date,
-        #               nwb_content)
+        #     dio = self.dio_builder.build()
+        #     processing_module_manager.add_data(dio)
 
         if self.process_mda:
             self.mda_builder.build(nwb_content)
