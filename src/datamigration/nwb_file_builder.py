@@ -16,8 +16,7 @@ from src.datamigration.nwb_builder.builders.position_builder import PositionBuil
 from src.datamigration.nwb_builder.builders.processing_module_builder import ProcessingModuleBuilder
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.managers.processing_module_manager import ProcessingModuleManager
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import check_headers_compatibility, \
-    HeaderChecker
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import HeaderChecker
 
 path = os.path.dirname(os.path.abspath(__file__))
 
