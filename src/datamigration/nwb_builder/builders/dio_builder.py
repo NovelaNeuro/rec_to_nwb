@@ -5,9 +5,13 @@ from src.datamigration.nwb_builder.extractors.dio_extractor import DioExtractor
 
 
 class DioBuilder():
-    def __init__(self, nwb_content, datasets, metadata):
+    def __init__(self, datasets, metadata):
+        self.datasets = datasets
+        self.metadata = metadata
+
+    def build(self, nwb_content):
         dio_creator = DioCreator()
-        dio_extractor = DioExtractor(datasets=datasets, metadata=metadata)
+        dio_extractor = DioExtractor(datasets=self.datasets, metadata=self.metadata)
         extracted_dio = dio_extractor.get_dio()
         behavioral_event = BehavioralEvents(name='list of processed DIO`s', )
         dio_time_series = dio_creator.create_dio_time_series(behavioral_event, extracted_dio)
