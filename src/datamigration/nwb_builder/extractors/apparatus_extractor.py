@@ -12,7 +12,7 @@ class ApparatusExtractor:
         col_nodes = []
         global_counter = 0
         for row_counter, row in enumerate(self.metadata['apparatus']['data']):
-            for col_counter, col in enumerate(row):
+            for col in row:
                 col_nodes.append(
                     Node(
                         name='node' + str(global_counter),

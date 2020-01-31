@@ -4,10 +4,7 @@ from datetime import datetime
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
-from src.datamigration.extension.apparatus import Apparatus
-from src.datamigration.extension.edge import Edge
 from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
-from src.datamigration.extension.node import Node
 from src.datamigration.extension.ntrode import NTrode
 from src.datamigration.extension.probe import Probe
 

@@ -2,7 +2,8 @@ from src.datamigration.extension.apparatus import Apparatus
 
 
 class ApparatusCreator:
-    def create_apparatus(self, edges, nodes):
+    @staticmethod
+    def create_apparatus(edges, nodes):
         return Apparatus(
             name='apparatus',
             edges=edges,

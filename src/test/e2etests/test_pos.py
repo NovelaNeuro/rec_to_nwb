@@ -2,13 +2,12 @@ import os
 import unittest
 
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
-from src.datamigration.nwb_builder.extractors.position_extractor import PositionExtractor
 from src.datamigration.tools.file_scanner import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-#@unittest.skip("test requires continuoustime.dat file and can't be used on travis")
+@unittest.skip("test requires continuoustime.dat file and can't be used on travis")
 class TestPOSExtraction(unittest.TestCase):
 
     def setUp(self):
