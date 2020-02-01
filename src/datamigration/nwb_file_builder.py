@@ -13,9 +13,8 @@ from src.datamigration.nwb_builder.builders.electrode_structure_builder import E
 from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
-from src.datamigration.nwb_builder.builders.processing_module_builder import ProcessingModuleBuilder
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
-from src.datamigration.nwb_builder.managers.processing_module_manager import ProcessingModuleManager
+from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import HeaderChecker
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -32,6 +31,7 @@ class NWBFileBuilder:
                  process_dio=True,
                  process_mda=True
                  ):
+
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
@@ -43,15 +43,12 @@ class NWBFileBuilder:
         self.output_file = output_file
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
+        self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
-        header_checker = HeaderChecker(data_path=self.data_path,
-                                       animal_name=self.animal_name,
-                                       date=self.date)
-        header_checker.check_headers_compatibility()
+        self.__headers_validation()
 
         header = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
                         self.date + '/header.xml')
-        self.spike_n_trodes = header.configuration.spike_configuration.spike_n_trodes
 
         self.task_builder = TaskBuilder(self.metadata)
         self.position_builder = PositionBuilder(self.datasets)
@@ -63,6 +60,7 @@ class NWBFileBuilder:
             self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date
         )
         self.mda_builder = MdaBuilder(self.metadata, header, self.datasets)
+
 
     def build(self):
         nwb_content = NWBFile(session_description=self.metadata['session description'],
@@ -83,19 +81,7 @@ class NWBFileBuilder:
                               ),
                               )
 
-        processing_module_builder = ProcessingModuleBuilder(nwb_content)
-        processing_module = processing_module_builder.build('behavior',
-                                                            'processing module for all behavior-related data')
-        processing_module_manager = ProcessingModuleManager(processing_module)
-
-        task = self.task_builder.build()
-        processing_module_manager.add_data(task)
-
-        position = self.position_builder.build()
-        processing_module_manager.add_data(position)
-
-        apparatus = self.apparatus_builder.build()
-        processing_module_manager.add_data(apparatus)
+        self.__build_and_inject_processing_module(nwb_content)
 
         self.electrode_structure_builder.build(nwb_content)
 
@@ -115,3 +101,20 @@ class NWBFileBuilder:
             nwb_fileIO.write(content)
             nwb_fileIO.close()
         return self.output_file
+
+    def __build_and_inject_processing_module(self, nwb_content):
+        task = self.task_builder.build()
+        position = self.position_builder.build()
+        apparatus = self.apparatus_builder.build()
+
+        self.pm_creator.insert(task)
+        self.pm_creator.insert(position)
+        self.pm_creator.insert(apparatus)
+
+        nwb_content.add_processing_module(self.pm_creator.processing_module)
+
+    def __headers_validation(self):
+        header_checker = HeaderChecker(data_path=self.data_path,
+                                       animal_name=self.animal_name,
+                                       date=self.date)
+        header_checker.log_headers_compatibility()

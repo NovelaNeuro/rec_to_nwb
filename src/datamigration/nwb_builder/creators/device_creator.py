@@ -1,7 +1,7 @@
 from src.datamigration.extension.probe import Probe
 
 
-class DeviceCreator:
+class DeviceCreator:  # todo isn't it ProbeFactory? why counter instead of id?
     @staticmethod
     def create_device(probe_metadata, device_counter):
         return Probe(

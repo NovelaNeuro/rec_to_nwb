@@ -1,4 +1,4 @@
-class ProbeManager:
+class ProbeManager:  # todo how does it manage the probe?
 
     @staticmethod
     def get_probe_file(probes, device_type):

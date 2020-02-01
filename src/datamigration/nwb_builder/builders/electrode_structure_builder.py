@@ -8,7 +8,7 @@ from src.datamigration.nwb_builder.injectors.electrodes_extension_injector impor
 from src.datamigration.nwb_builder.managers.probe_manager import ProbeManager
 
 
-class ElectrodeStructureBuilder:
+class ElectrodeStructureBuilder:  # todo rething this class
     def __init__(self, header, metadata, probes):
         self.header = header
         self.metadata = metadata

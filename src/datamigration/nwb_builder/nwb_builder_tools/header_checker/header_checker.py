@@ -14,7 +14,7 @@ class HeaderChecker:
         self.animal_name = animal_name
         self.date = date
 
-    def check_headers_compatibility(self):
+    def log_headers_compatibility(self):  # todo that needs to be refactor and do not find_rec_file inside.
         rec_files = RecFileFinder().find_rec_files(self.data_path + self.animal_name + '/raw')
         header_extractor = HeaderFilesExtractor()
         xml_files = header_extractor.extract(rec_files)
@@ -27,7 +27,8 @@ class HeaderChecker:
                            if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
                            not in str(diff)]
             logging.warning(message, differences, )
-            with open('headers_comparission_log.log', 'w') as headers_log:
+            with open('headers_comparission_log.log',
+                      'w') as headers_log:  #todo that needs to be changed, we should always log to the same file!
                 headers_log.write(str(message + '\n'))
                 headers_log.write(str(differences))
 

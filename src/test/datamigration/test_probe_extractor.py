@@ -1,13 +1,13 @@
 
 import os
-import unittest
+from unittest import TestCase
 
 from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestProbeExtractor(unittest.TestCase):
+class TestProbeExtractor(TestCase):
 
     def setUp(self):
         self.probes = ProbesExtractor([path + '/res/probe1.yml',
