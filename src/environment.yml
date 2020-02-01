@@ -4,6 +4,7 @@ channels:
   - defaults
   - novelakrk
 dependencies:
+  - pip
   - asn1crypto
   - blas
   - ca-certificates
@@ -44,7 +45,7 @@ dependencies:
   - zlib
   - mountainlab_pytools
   - vdom
-  - yaml
+  - pyyaml
   - pip:
       - xmldiff
       - rec-to-binaries==0.2.1.dev0
