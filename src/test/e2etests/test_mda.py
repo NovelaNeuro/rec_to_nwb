@@ -9,7 +9,7 @@ from src.datamigration.nwb_builder.extractors.mda_extractor import MdaExtractor
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-@unittest.skip("test requires continuoustime.dat file and can't be used on travis")
+#@unittest.skip("test requires continuoustime.dat file and can't be used on travis")
 class TestMDAExtraction(unittest.TestCase):
 
     @classmethod

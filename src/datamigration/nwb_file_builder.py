@@ -28,9 +28,9 @@ class NWBFileBuilder:
                  animal_name,
                  date,
                  nwb_metadata,
-                 output_file='output.nwb',
                  process_dio=True,
-                 process_mda=True
+                 process_mda=True,
+                 output_file='output.nwb'
                  ):
 
         self.animal_name = animal_name
@@ -56,10 +56,7 @@ class NWBFileBuilder:
         self.apparatus_builder = ApparatusBuilder(self.metadata)
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
         self.electrode_structure_builder = ElectrodeStructureBuilder(header, self.metadata)
-        self.dio_builder = DioBuilder(
-            self.metadata,
-
-        )
+        self.dio_builder = DioBuilder(self.metadata, self.data_path)
         self.mda_builder = MdaBuilder(self.metadata, header, self.datasets)
 
 
@@ -115,9 +112,10 @@ class NWBFileBuilder:
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
     def __headers_validation(self):
-        header_checker = HeaderChecker(RecFileFinder.find_rec_files(path=(self.data_path
+        rec_finder = RecFileFinder()
+        header_checker = HeaderChecker(rec_finder.find_rec_files(path=(self.data_path
                                                                     + '/' + self.animal_name
-                                                                    + '/preprocessing/'
+                                                                    + '/raw/'
                                                                     + self.date))
                                        )
         header_checker.log_headers_compatibility()

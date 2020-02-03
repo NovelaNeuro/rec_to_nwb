@@ -4,9 +4,11 @@ from pathlib import Path
 class RecFileFinder:
 
     def __init__(self):
-        self.rec_files = []
+        pass
 
-    def find_rec_files(self, path):
+    @staticmethod
+    def find_rec_files(path):
+        rec_files = []
         for file_path in Path(path).glob('**/*.rec'):
-            self.rec_files.append(file_path)
-        return self.rec_files
+            rec_files.append(file_path)
+        return rec_files

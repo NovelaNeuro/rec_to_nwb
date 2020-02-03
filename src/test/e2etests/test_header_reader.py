@@ -6,7 +6,7 @@ from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_reade
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-@unittest.skip('test need to create files localy not working on travis')
+#@unittest.skip('test need to create files localy not working on travis')
 class TestHeaderReader(unittest.TestCase):
 
     def setUp(self):
