@@ -93,28 +93,28 @@ class NWBFileBuilder:
 
             return nwb_content
 
-        def write(self, content):
-            with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
-                nwb_fileIO.write(content)
-                nwb_fileIO.close()
-            return self.output_file
+    def write(self, content):
+        with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
+            nwb_fileIO.write(content)
+            nwb_fileIO.close()
+        return self.output_file
 
-        def __build_and_inject_processing_module(self, nwb_content):
-            task = self.task_builder.build()
-            position = self.position_builder.build()
-            apparatus = self.apparatus_builder.build()
+    def __build_and_inject_processing_module(self, nwb_content):
+        task = self.task_builder.build()
+        position = self.position_builder.build()
+        apparatus = self.apparatus_builder.build()
 
-            self.pm_creator.insert(task)
-            self.pm_creator.insert(position)
-            self.pm_creator.insert(apparatus)
+        self.pm_creator.insert(task)
+        self.pm_creator.insert(position)
+        self.pm_creator.insert(apparatus)
 
-            nwb_content.add_processing_module(self.pm_creator.processing_module)
+        nwb_content.add_processing_module(self.pm_creator.processing_module)
 
-        def __headers_validation(self):
-            rec_finder = RecFileFinder()
-            header_checker = HeaderChecker(rec_finder.find_rec_files(path=(self.data_path
-                                                                           + '/' + self.animal_name
-                                                                           + '/raw/'
-                                                                           + self.date))
-                                           )
-            header_checker.log_headers_compatibility()
+    def __headers_validation(self):
+        rec_finder = RecFileFinder()
+        header_checker = HeaderChecker(rec_finder.find_rec_files(path=(self.data_path
+                                                                       + '/' + self.animal_name
+                                                                       + '/raw/'
+                                                                       + self.date))
+                                       )
+        header_checker.log_headers_compatibility()
