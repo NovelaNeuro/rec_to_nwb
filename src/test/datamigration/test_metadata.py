@@ -1,3 +1,4 @@
+import logging.config
 import os
 from unittest import TestCase
 
@@ -5,15 +6,18 @@ from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+logging.config.fileConfig(fname=path + '/../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
+
 
 class TestMetadata(TestCase):
 
     def setUp(self):
         self.nwb_metadata = NWBMetadata(str(path) + '/res/metadata.yml',
-                                     [str(path) + '/res/probe1.yml',
-                                      str(path) + '/res/probe2.yml',
-                                      str(path) + '/res/probe3.yml'
-                                      ])
+                                        [str(path) + '/res/probe1.yml',
+                                         str(path) + '/res/probe2.yml',
+                                         str(path) + '/res/probe3.yml'
+                                         ])
 
     def test_reading_metadata_fields(self):
         metadata_fields = self.nwb_metadata.metadata.keys()
@@ -63,4 +67,3 @@ class TestMetadata(TestCase):
         self.assertIn('map', ntrode_probe_channel_map_fields)
         self.assertIn('probe_id', ntrode_probe_channel_map_fields)
         self.assertIn('ntrode_id', ntrode_probe_channel_map_fields)
-

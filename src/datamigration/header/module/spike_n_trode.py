@@ -1,4 +1,12 @@
-from .spike_channel import SpikeChannel
+import logging.config
+import os
+
+from src.datamigration.header.module.spike_channel import SpikeChannel
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class SpikeNTrode:

@@ -1,9 +1,13 @@
+import logging.config
 import os
 import unittest
 
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_reader import HeaderReader
 
 path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 @unittest.skip('test need to create files localy not working on travis')

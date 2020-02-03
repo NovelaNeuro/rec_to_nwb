@@ -1,3 +1,4 @@
+import logging.config
 import os
 
 from pynwb.base import TimeSeries
@@ -5,6 +6,11 @@ from pynwb.behavior import BehavioralEvents
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class DioExtractor:

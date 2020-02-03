@@ -1,3 +1,4 @@
+import logging.config
 import os
 
 from pynwb import load_namespaces, register_class
@@ -8,6 +9,11 @@ from src.datamigration.extension.node import Node
 
 ns_path = os.path.dirname(os.path.abspath(__file__)) + "/NovelaNeurotechnologies.namespace.yaml"
 load_namespaces(ns_path)
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 @register_class('Apparatus', 'NovelaNeurotechnologies')

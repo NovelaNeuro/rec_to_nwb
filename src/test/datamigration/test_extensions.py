@@ -1,3 +1,5 @@
+import logging.config
+import os
 from datetime import datetime
 from unittest import TestCase
 
@@ -7,6 +9,11 @@ from pynwb import NWBFile
 from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
 from src.datamigration.extension.ntrode import NTrode
 from src.datamigration.extension.probe import Probe
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=path + '/../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class TestExtensions(TestCase):
@@ -79,4 +86,3 @@ class TestExtensions(TestCase):
         self.assertEqual(self.n_trode.probe_id, return_n_trode.probe_id)
         self.assertEqual(self.n_trode.ntrode_id, return_n_trode.ntrode_id)
         self.assertEqual(self.n_trode.map, return_n_trode.map)
-

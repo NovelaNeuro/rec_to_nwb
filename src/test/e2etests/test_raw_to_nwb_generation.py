@@ -1,3 +1,4 @@
+import logging.config
 import os
 import unittest
 from pathlib import Path
@@ -7,6 +8,9 @@ from src.datamigration.raw_to_nwb_builder import RawToNWBBuilder
 
 path = Path(__file__).parent.parent
 path.resolve()
+
+logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 @unittest.skip("Super heavy RAW to NWB Generation")

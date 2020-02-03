@@ -1,6 +1,14 @@
+import logging.config
+import os
+
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
 from src.datamigration.nwb_builder.nwb_builder_tools.binary_data import PosData, PosTimestamps
 from src.datamigration.nwb_builder.nwb_builder_tools.data_iterator import DataIterator, DataIterator1D
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 # TODO Is it SOLID?

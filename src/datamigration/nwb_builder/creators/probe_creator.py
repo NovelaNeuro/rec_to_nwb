@@ -1,4 +1,12 @@
+import logging.config
+import os
+
 from src.datamigration.extension.probe import Probe
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class ProbeCreator:  # todo isn't it ProbeFactory?

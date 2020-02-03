@@ -1,10 +1,14 @@
-import logging
+import logging.config
+import os
 
-from src.datamigration.nwb_builder.extractors.xml_extractor import XMLExtractor
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_reader import HeaderReader
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class HeaderChecker:
@@ -23,7 +27,7 @@ class HeaderChecker:
             differences = [diff for diff in self.header_reader.headers_differences
                            if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
                            not in str(diff)]
-            logging.warning(message, differences, )
+            logger.warning(message, differences, )
             with open('headers_comparission_log.log',
                       'w') as headers_log:
                 headers_log.write(str(message + '\n'))

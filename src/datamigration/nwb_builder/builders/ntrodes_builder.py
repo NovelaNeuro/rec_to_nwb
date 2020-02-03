@@ -1,6 +1,14 @@
+import logging.config
+import os
+
 from src.datamigration.nwb_builder.creators.ntrodes_creator import NTrodesCreator
 from src.datamigration.nwb_builder.extractors.ntrodes_extractor import NTrodesExtractor
 from src.datamigration.nwb_builder.injectors.ntrodes_injector import NTrodesInjector
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class NTrodesBuilder:

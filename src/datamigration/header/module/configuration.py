@@ -1,9 +1,17 @@
-from .aux_display_configuration import AuxDisplayConfiguration
-from .global_configuration import GlobalConfiguration
-from .hardware_configuration import HardwareConfiguration
-from .module_configuration import ModuleConfiguration
-from .spike_configuration import SpikeConfiguration
-from .stream_display import StreamDisplay
+import logging.config
+import os
+
+from src.datamigration.header.module.aux_display_configuration import AuxDisplayConfiguration
+from src.datamigration.header.module.global_configuration import GlobalConfiguration
+from src.datamigration.header.module.hardware_configuration import HardwareConfiguration
+from src.datamigration.header.module.module_configuration import ModuleConfiguration
+from src.datamigration.header.module.spike_configuration import SpikeConfiguration
+from src.datamigration.header.module.stream_display import StreamDisplay
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class Configuration:

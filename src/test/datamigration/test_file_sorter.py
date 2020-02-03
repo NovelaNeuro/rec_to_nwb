@@ -1,6 +1,13 @@
+import logging.config
+import os
 from unittest import TestCase
 
 from src.datamigration.tools.file_sorter import FileSorter
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=path + '/../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class TestFilenameSorter(TestCase):

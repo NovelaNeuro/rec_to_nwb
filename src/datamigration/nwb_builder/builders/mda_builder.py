@@ -1,6 +1,14 @@
+import logging.config
+import os
+
 from src.datamigration.nwb_builder.creators.mda_creator import MdaCreator
 from src.datamigration.nwb_builder.injectors.mda_injector import MdaInjector
 from src.datamigration.nwb_builder.managers.mda_manager import MdaManager
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class MdaBuilder:

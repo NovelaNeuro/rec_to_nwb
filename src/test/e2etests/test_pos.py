@@ -1,3 +1,4 @@
+import logging.config
 import os
 import unittest
 
@@ -5,6 +6,9 @@ from src.datamigration.nwb_builder.builders.position_builder import PositionBuil
 from src.datamigration.tools.file_scanner import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 @unittest.skip("test requires continuoustime.dat file and can't be used on travis")

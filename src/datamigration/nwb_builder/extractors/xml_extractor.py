@@ -5,10 +5,16 @@ Class:
 """
 
 
-import logging
+import logging.config
+import os
 
 import defusedxml.cElementTree as ElementTree
 from xmlschema import XMLSchema
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class XMLExtractor:
@@ -51,7 +57,7 @@ class XMLExtractor:
         with open(self.rec_path, 'rb') as rec_file:
             binary = '</Configuration>\n'.encode()
             for line in rec_file:
-                logging.info(line)
+                logger.info(line)
                 if line.find(binary) != -1:
                     break
 
@@ -60,7 +66,7 @@ class XMLExtractor:
 
         with open(self.xml_path, 'rb') as xml_file:
             for line in xml_file:
-                logging.info(line)
+                logger.info(line)
 
     def set_rec_path(self, rec_path):
         """ Set path to REC file """

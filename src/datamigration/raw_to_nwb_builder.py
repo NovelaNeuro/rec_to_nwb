@@ -1,3 +1,4 @@
+import logging.config
 import os
 import shutil
 from pathlib import Path
@@ -8,6 +9,9 @@ from src.datamigration.nwb_file_builder import NWBFileBuilder
 
 path = Path(__file__).parent.parent
 path.resolve()
+
+logging.config.fileConfig(fname=str(path) + '/logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class RawToNWBBuilder:

@@ -1,9 +1,16 @@
-import logging
+
+import logging.config
+import os
 
 import numpy as np
 import pandas as pd
 from mountainlab_pytools.mdaio import readmda
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class BinaryData:
@@ -68,7 +75,7 @@ class MdaTimestamps():
                 data_float[i] = float(value) / 1E9
             except KeyError as error:
                 message = 'Following key: ' + str(key) + ' does not exist!' + str(error)
-                logging.exception(message)
+                logger.exception(message)
                 data_float[i] = float('nan')
         return data_float
 
@@ -104,7 +111,7 @@ class PosTimestamps():
                 data_float[i] = float(value) / 1E9
             except KeyError as error:
                 message = 'Following key: ' + str(key) + ' does not exist!' + str(error)
-                logging.exception(message)
+                logger.exception(message)
                 data_float[i] = float('nan')
         return data_float
 

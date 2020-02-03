@@ -1,3 +1,4 @@
+import logging.config
 import os
 
 from hdmf.utils import docval, call_docval_func, get_docval
@@ -6,6 +7,10 @@ from pynwb.device import Device
 
 ns_path = os.path.dirname(os.path.abspath(__file__)) + "/NovelaNeurotechnologies.namespace.yaml"
 load_namespaces(ns_path)
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 @register_class('Probe', 'NovelaNeurotechnologies')

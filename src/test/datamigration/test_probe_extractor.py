@@ -1,10 +1,13 @@
-
+import logging.config
 import os
 from unittest import TestCase
 
 from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=path + '/../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class TestProbeExtractor(TestCase):

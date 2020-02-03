@@ -1,9 +1,13 @@
+import logging.config
 import os
 from unittest import TestCase
 
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
 
 path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=path + '/../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class TestHeaderComparator(TestCase):
@@ -30,4 +34,3 @@ class TestHeaderComparator(TestCase):
     def test_comparing_one_header(self):
         header_comparator = HeaderComparator(self.list_with_one_string)
         self.assertTrue(header_comparator.compare())
-

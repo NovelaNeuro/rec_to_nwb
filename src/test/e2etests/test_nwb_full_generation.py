@@ -1,3 +1,4 @@
+import logging.config
 import os
 import unittest
 from pathlib import Path
@@ -7,6 +8,9 @@ from src.datamigration.nwb_file_builder import NWBFileBuilder
 
 path = Path(__file__).parent.parent
 path.resolve()
+
+logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 @unittest.skip("NWB file creation")
@@ -25,7 +29,7 @@ class TestNwbFullGeneration(unittest.TestCase):
             nwb_metadata=metadata,
             process_dio=False,
             process_mda=True
-           )
+        )
 
     def test_generate_nwb(self):
         content = self.nwb_builder.build()

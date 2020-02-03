@@ -1,4 +1,12 @@
-from .channel import Channel
+import logging.config
+import os
+
+from src.datamigration.header.module.channel import Channel
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class Device:

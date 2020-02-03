@@ -1,11 +1,19 @@
+import logging.config
+import os
+
 from src.datamigration.nwb_builder.builders.electrodes_builder import ElectrodesBuilder
-from src.datamigration.nwb_builder.creators.probe_creator import ProbeCreator
 from src.datamigration.nwb_builder.creators.electrode_group_creator import ElectrodeGroupBuilder
 from src.datamigration.nwb_builder.creators.electrodes_header_extension_creator import ElectrodesHeaderExtensionCreator
+from src.datamigration.nwb_builder.creators.probe_creator import ProbeCreator
 from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
 from src.datamigration.nwb_builder.injectors.device_injector import DeviceInjector
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb_builder.injectors.electrodes_extension_injector import ElectrodesExtensionInjector
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class ElectrodeStructureBuilder:  # todo rething this class || make this singleton
