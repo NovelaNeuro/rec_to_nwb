@@ -16,6 +16,7 @@ from src.datamigration.nwb_builder.builders.position_builder import PositionBuil
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import HeaderChecker
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -54,10 +55,10 @@ class NWBFileBuilder:
         self.position_builder = PositionBuilder(self.datasets)
         self.apparatus_builder = ApparatusBuilder(self.metadata)
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
-        self.electrode_structure_builder = ElectrodeStructureBuilder(header, self.metadata, self.probes)
+        self.electrode_structure_builder = ElectrodeStructureBuilder(header, self.metadata)
         self.dio_builder = DioBuilder(
             self.metadata,
-            self.data_path + '/' + self.animal_name + '/preprocessing/' + self.date
+
         )
         self.mda_builder = MdaBuilder(self.metadata, header, self.datasets)
 
@@ -114,7 +115,9 @@ class NWBFileBuilder:
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
     def __headers_validation(self):
-        header_checker = HeaderChecker(data_path=self.data_path,
-                                       animal_name=self.animal_name,
-                                       date=self.date)
+        header_checker = HeaderChecker(RecFileFinder.find_rec_files(path=(self.data_path
+                                                                    + '/' + self.animal_name
+                                                                    + '/preprocessing/'
+                                                                    + self.date))
+                                       )
         header_checker.log_headers_compatibility()

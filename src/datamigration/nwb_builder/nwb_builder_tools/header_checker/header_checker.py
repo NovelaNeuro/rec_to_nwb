@@ -9,29 +9,22 @@ from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_fin
 
 class HeaderChecker:
 
-    def __init__(self, data_path, animal_name, date):
-        self.data_path = data_path
-        self.animal_name = animal_name
-        self.date = date
-
-    def log_headers_compatibility(self):  # todo that needs to be refactor and do not find_rec_file inside.
-        rec_files = RecFileFinder().find_rec_files(self.data_path + self.animal_name + '/raw')
+    def __init__(self, rec_files_list):
+        self.rec_files_list = rec_files_list
         header_extractor = HeaderFilesExtractor()
-        xml_files = header_extractor.extract(rec_files)
-        header_reader = HeaderReader(xml_files)
-        xml_headers = header_reader.read_headers()
-        comparator = HeaderComparator(xml_headers)
-        if not comparator.compare():
-            message = 'Rec files: ' + str(rec_files) + ' contain incosistent xml headers!'
-            differences = [diff for diff in header_reader.headers_differences
+        self.headers = header_extractor.extract(rec_files_list)
+        self.header_reader = HeaderReader(self.headers)
+        self.xml_headers = self.header_reader.read_headers()
+        self.comparator = HeaderComparator(self.xml_headers)
+
+    def log_headers_compatibility(self):
+        if not self.comparator.compare():
+            message = 'Rec files: ' + str(self.rec_files_list) + ' contain incosistent xml headers!'
+            differences = [diff for diff in self.header_reader.headers_differences
                            if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
                            not in str(diff)]
             logging.warning(message, differences, )
             with open('headers_comparission_log.log',
-                      'w') as headers_log:  #todo that needs to be changed, we should always log to the same file!
+                      'w') as headers_log:
                 headers_log.write(str(message + '\n'))
                 headers_log.write(str(differences))
-
-        XMLExtractor(rec_path=rec_files[0],
-                     xml_path=self.data_path + '/' + self.animal_name + '/preprocessing/'
-                               + self.date + '/header.xml').extract_xml_from_rec_file()

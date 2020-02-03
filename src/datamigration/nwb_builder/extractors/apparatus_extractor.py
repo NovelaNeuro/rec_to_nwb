@@ -2,7 +2,7 @@ from src.datamigration.extension.edge import Edge
 from src.datamigration.extension.node import Node
 
 
-class ApparatusExtractor:  # todo this class is not unit tested
+class ApparatusExtractor:  # todo this class is not unit tested|| its being testedwhile apparaturs builder is used(considering refactor in next pR)
     def __init__(self, metadata):
         self.metadata_aparatus = metadata['apparatus']['data']
 
