@@ -15,6 +15,8 @@ from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilde
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import HeaderChecker
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -43,6 +45,8 @@ class NWBFileBuilder:
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
+
+        self.__headers_validation()
 
         header = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
                         self.date + '/header.xml')
@@ -84,13 +88,33 @@ class NWBFileBuilder:
         if self.process_dio:
             self.dio_builder.build(nwb_content)
 
-        if self.process_mda:
-            self.mda_builder.build(nwb_content)
+            if self.process_mda:
+                self.mda_builder.build(nwb_content)
 
-        return nwb_content
+            return nwb_content
 
-    def write(self, content):
-        with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
-            nwb_fileIO.write(content)
-            nwb_fileIO.close()
-        return self.output_file
+        def write(self, content):
+            with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
+                nwb_fileIO.write(content)
+                nwb_fileIO.close()
+            return self.output_file
+
+        def __build_and_inject_processing_module(self, nwb_content):
+            task = self.task_builder.build()
+            position = self.position_builder.build()
+            apparatus = self.apparatus_builder.build()
+
+            self.pm_creator.insert(task)
+            self.pm_creator.insert(position)
+            self.pm_creator.insert(apparatus)
+
+            nwb_content.add_processing_module(self.pm_creator.processing_module)
+
+        def __headers_validation(self):
+            rec_finder = RecFileFinder()
+            header_checker = HeaderChecker(rec_finder.find_rec_files(path=(self.data_path
+                                                                           + '/' + self.animal_name
+                                                                           + '/raw/'
+                                                                           + self.date))
+                                           )
+            header_checker.log_headers_compatibility()
