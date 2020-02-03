@@ -1,10 +1,8 @@
 import logging
 
-from src.datamigration.nwb_builder.extractors.xml_extractor import XMLExtractor
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_reader import HeaderReader
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 
 class HeaderChecker:
