@@ -23,8 +23,8 @@ class HeaderChecker:
 
     def log_headers_compatibility(self):
         if not self.comparator.compare():
-            message = 'Rec files: ' + str(self.rec_files_list) + ' contain incosistent xml headers!'
+            message = 'Rec files: ' + str(self.rec_files_list) + ' contain incosistent xml headers!\n'
             differences = [diff for diff in self.header_reader.headers_differences
                            if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
                            not in str(diff)]
-            logger.warning(message, differences, )
+            logger.warning(message + differences)
