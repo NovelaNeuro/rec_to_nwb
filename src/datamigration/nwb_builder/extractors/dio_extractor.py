@@ -28,8 +28,12 @@ class DioExtractor:
     def create_timeseries(self, continuous_time_dict, dataset):
         for dio_time_series in self.all_dio_timeseries:
             dio_data = self.dio_manager.get_extracted_dio(dataset=dataset, name=dio_time_series['name'])
-            for recorded_event in dio_data['data']:
-                self.create_timeseries_for_single_event(dio_time_series, recorded_event, continuous_time_dict)
+            try:
+                for recorded_event in dio_data['data']:
+                    self.create_timeseries_for_single_event(dio_time_series, recorded_event, continuous_time_dict)
+            except TypeError as error:
+                message = 'there is no data for event ' + str(dio_time_series['name'])
+
 
     def create_timeseries_for_single_event(self, time_series, event, continuous_time_dict):
         time_series["dio_timeseries"].append(event[1])
