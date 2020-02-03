@@ -1,12 +1,12 @@
 import os
-import unittest
+from unittest import TestCase
 
-import src.datamigration.file_scanner as fs
+import src.datamigration.tools.file_scanner as fs
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestFileScanner(unittest.TestCase):
+class TestFileScanner(TestCase):
 
     @classmethod
     def setUpClass(cls):

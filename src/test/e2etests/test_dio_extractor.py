@@ -3,7 +3,7 @@ from pathlib import Path
 
 from pynwb.behavior import BehavioralEvents
 
-from src.datamigration.nwb_builder.dio_extractor import DioExtractor
+from src.datamigration.nwb_builder.extractors.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
 
 path = Path(__file__).parent.parent

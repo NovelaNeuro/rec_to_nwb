@@ -15,7 +15,7 @@ class DioExtractor:
         self.time_paths = [dio_set for dio_set in os.listdir(data_path) if dio_set.endswith('.time')]
         self.metadata = metadata
 
-    def get_dio(self):
+    def get_dio(self):  # todo refactor as this is too complex and is not unit tested
         behavioral_event = BehavioralEvents(name='list of processed DIO`s',)
         timestamps = {}
         timeseries = {}
@@ -59,3 +59,4 @@ class DioExtractor:
 
 
         return behavioral_event
+

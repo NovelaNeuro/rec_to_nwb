@@ -1,9 +1,9 @@
-import unittest
+from unittest import TestCase
 
-from src.datamigration.file_sorter import FileSorter
+from src.datamigration.tools.file_sorter import FileSorter
 
 
-class TestFilenameSorter(unittest.TestCase):
+class TestFilenameSorter(TestCase):
     def setUp(self):
         self.strings_to_sort = ['name1', 'name11', 'name10', 'name2', 'name21']
         self.correct_order_of_strings = ['name1', 'name2', 'name10', 'name11', 'name21']

@@ -8,7 +8,7 @@ import os
 
 import requests
 
-from src.datamigration.abstract_file_downloader import AbstractFileDownloader
+from src.datamigration.tools.abstract_file_downloader import AbstractFileDownloader
 
 
 class FileDownloader(AbstractFileDownloader):

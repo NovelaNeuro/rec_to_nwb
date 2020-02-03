@@ -1,12 +1,12 @@
 import os
-import unittest
+from unittest import TestCase
 
-from src.datamigration.nwb_builder.header_checker.header_comparator import HeaderComparator
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestHeaderComparator(unittest.TestCase):
+class TestHeaderComparator(TestCase):
 
     @classmethod
     def setUpClass(cls):
