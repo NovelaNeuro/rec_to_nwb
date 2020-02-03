@@ -44,8 +44,6 @@ class NWBFileBuilder:
         self.probes = nwb_metadata.probes
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
-        self.__headers_validation()
-
         header = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
                         self.date + '/header.xml')
 
