@@ -1,7 +1,6 @@
 import datetime
 import os
 import uuid
-
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
@@ -116,6 +115,5 @@ class NWBFileBuilder:
         header_checker = HeaderChecker(rec_finder.find_rec_files(path=(self.data_path
                                                                     + '/' + self.animal_name
                                                                     + '/raw/'
-                                                                    + self.date))
-                                       )
+                                                                    + self.date)))
         header_checker.log_headers_compatibility()
