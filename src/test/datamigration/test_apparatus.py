@@ -11,11 +11,15 @@ path = os.path.dirname(os.path.abspath(__file__))
 class TestApparatus(TestCase):
 
     def test_apparatus_creation(self):
-        self.metadata = NWBMetadata(str(path) + '/res/metadata.yml',
-                                    []).metadata  # todo there is no need to test it with metadata.yml file at all, please build apparatus inline here
-                                                    # Aparratus need to be built basing on yml file(we can refactor whole metadata processing)
-        pm_creator = ProcessingModuleCreator('p_module', 'description')
-        apparatus = ApparatusBuilder(self.metadata).build()
+        apparatus_metadata = [
+                              [1, 0, 1, 0, 1],
+                              [1, 0, 1, 1, 1],
+                              [1, 0, 0, 1, 0],
+                              [0, 1, 0, 0, 1],
+                              [0, 1, 1, 0, 1]
+                              ]
+        pm_creator = ProcessingModuleCreator('apparatus', 'description')
+        apparatus = ApparatusBuilder(apparatus_metadata).build()
 
         pm_creator.insert(apparatus)
 

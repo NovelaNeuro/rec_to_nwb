@@ -2,16 +2,16 @@ from src.datamigration.extension.edge import Edge
 from src.datamigration.extension.node import Node
 
 
-class ApparatusExtractor:  # todo this class is not unit tested|| its being testedwhile apparaturs builder is used(considering refactor in next pR)
-    def __init__(self, metadata):
-        self.metadata_aparatus = metadata['apparatus']['data']
+class ApparatusExtractor:
+    def __init__(self, apparatuus_metadata):
+        self.apparatus_metadata = apparatuus_metadata
 
     def get_data(self):
         nodes = []
         edges = []
         col_nodes = []
         global_counter = 0
-        for row_counter, row in enumerate(self.metadata_aparatus):
+        for row_counter, row in enumerate(self.apparatus_metadata):
             for col in row:
                 col_nodes.append(
                     Node(
