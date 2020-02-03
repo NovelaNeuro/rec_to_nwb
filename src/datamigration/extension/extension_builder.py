@@ -31,7 +31,6 @@ class ExtensionsBuilder:
         ns_builder.include_type('Device', namespace='core')
         ns_builder.include_type('NWBDataInterface', namespace='core')
 
-
         ns_builder.export(path=self.ns_path, outdir=path)
 
     @staticmethod
@@ -107,7 +106,6 @@ class ExtensionsBuilder:
             ]
         )
 
-
     @staticmethod
     def create_node():
         """
@@ -134,7 +132,6 @@ class ExtensionsBuilder:
                                          doc='help doc',
                                          dtype='text',
                                          value='Apparatus Node')])
-
 
     @staticmethod
     def create_edge():
@@ -167,7 +164,6 @@ class ExtensionsBuilder:
                     value='Apparatus Edge')])
 
 
-
     def create_apparatus(self):
         """
             Apparatus
@@ -191,3 +187,4 @@ class ExtensionsBuilder:
                                  value='Behavioral Apparatus')])
 
 build_extensions = ExtensionsBuilder('NovelaNeurotechnologies.specs.yaml', 'NovelaNeurotechnologies.namespace.yaml')
+

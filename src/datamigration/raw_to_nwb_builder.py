@@ -23,7 +23,8 @@ class RawToNWBBuilder:
                  extract_lfps=False,
                  extract_dio=True,
                  extract_time=True,
-                 extract_mda=True
+                 extract_mda=True,
+                 parallel_instances=4
                  ):
         self.extract_analog = extract_analog
         self.extract_spikes = extract_spikes
@@ -38,9 +39,12 @@ class RawToNWBBuilder:
         self.output_path = output_path
         self.probes = nwb_metadata.probes
         self.nwb_metadata = nwb_metadata
+        self.parallel_instances = parallel_instances
 
     def __preprocess_data(self):
-        extract_trodes_rec_file(self.data_path, self.animal_name, parallel_instances=4,
+        extract_trodes_rec_file(self.data_path,
+                                self.animal_name,
+                                parallel_instances=self.parallel_instances,
                                 extract_analog=self.extract_analog,
                                 extract_dio=self.extract_dio,
                                 extract_time=self.extract_time,

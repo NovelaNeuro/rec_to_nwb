@@ -1,5 +1,5 @@
-import unittest
 from datetime import datetime
+from unittest import TestCase
 
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
@@ -9,7 +9,7 @@ from src.datamigration.extension.ntrode import NTrode
 from src.datamigration.extension.probe import Probe
 
 
-class TestExtensions(unittest.TestCase):
+class TestExtensions(TestCase):
 
     @classmethod
     def setUpClass(cls):

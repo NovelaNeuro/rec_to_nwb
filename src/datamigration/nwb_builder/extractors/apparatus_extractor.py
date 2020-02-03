@@ -3,15 +3,15 @@ from src.datamigration.extension.node import Node
 
 
 class ApparatusExtractor:
-    def __init__(self, metadata):
-        self.metadata = metadata
+    def __init__(self, apparatuus_metadata):
+        self.apparatus_metadata = apparatuus_metadata
 
     def get_data(self):
         nodes = []
         edges = []
         col_nodes = []
         global_counter = 0
-        for row_counter, row in enumerate(self.metadata['apparatus']['data']):
+        for row_counter, row in enumerate(self.apparatus_metadata):
             for col in row:
                 col_nodes.append(
                     Node(

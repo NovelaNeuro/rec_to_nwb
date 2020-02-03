@@ -1,12 +1,12 @@
 import os
-import unittest
+from unittest import TestCase
 
 from src.datamigration.header.module import header
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestHeaderInterface(unittest.TestCase):
+class TestHeaderInterface(TestCase):
 
     @classmethod
     def setUpClass(cls):

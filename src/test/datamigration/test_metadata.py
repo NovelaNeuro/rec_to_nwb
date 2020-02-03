@@ -1,12 +1,12 @@
 import os
-import unittest
+from unittest import TestCase
 
 from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestMetadata(unittest.TestCase):
+class TestMetadata(TestCase):
 
     def setUp(self):
         self.nwb_metadata = NWBMetadata(str(path) + '/res/metadata.yml',

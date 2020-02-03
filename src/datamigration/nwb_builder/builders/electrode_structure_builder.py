@@ -1,18 +1,19 @@
 from src.datamigration.nwb_builder.builders.electrodes_builder import ElectrodesBuilder
-from src.datamigration.nwb_builder.creators.device_creator import DeviceCreator
+from src.datamigration.nwb_builder.creators.probe_creator import ProbeCreator
 from src.datamigration.nwb_builder.creators.electrode_group_creator import ElectrodeGroupBuilder
 from src.datamigration.nwb_builder.creators.electrodes_header_extension_creator import ElectrodesHeaderExtensionCreator
+from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
 from src.datamigration.nwb_builder.injectors.device_injector import DeviceInjector
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb_builder.injectors.electrodes_extension_injector import ElectrodesExtensionInjector
-from src.datamigration.nwb_builder.managers.probe_manager import ProbeManager
 
 
-class ElectrodeStructureBuilder:
-    def __init__(self, header, metadata, probes):
+class ElectrodeStructureBuilder:  # todo rething this class || make this singleton
+    def __init__(self, header, metadata, probes_paths):
         self.header = header
         self.metadata = metadata
-        self.probes = probes
+        self.probe_extractor = ProbesExtractor()
+        self.probe_extractor.extract_probes_metadata(probes_paths)
 
         self.electrode_extension_injector = ElectrodesExtensionInjector()
         self.electrodes_builder = ElectrodesBuilder()
@@ -30,9 +31,9 @@ class ElectrodeStructureBuilder:
         electrodes_header_extension = self.electrodes_header_extension_creator.create_electrodes_header_extension(self.header)
 
         for electrode_group_metadata in self.metadata['electrode groups']:
-            probe_metadata = ProbeManager().get_probe_file(self.probes, electrode_group_metadata['device_type'])
+            probe_metadata = self.probe_extractor.get_probe_file(electrode_group_metadata['device_type'])
 
-            device = DeviceCreator().create_device(probe_metadata, device_counter)
+            device = ProbeCreator().create_probe(probe_metadata, device_counter)
             device_counter += 1
             DeviceInjector(nwb_content).join_device(device)
 
