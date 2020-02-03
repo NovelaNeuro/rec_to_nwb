@@ -6,6 +6,7 @@ from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtra
 class NWBMetadata:
 
     def __init__(self, metadata_path, probes_paths):
+        self.probes_paths = probes_paths
         with open(metadata_path, 'r') as stream:
             self.metadata = yaml.safe_load(stream)
         probes_extractor = ProbesExtractor()

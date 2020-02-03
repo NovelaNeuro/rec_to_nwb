@@ -55,7 +55,7 @@ class NWBFileBuilder:
         self.position_builder = PositionBuilder(self.datasets)
         self.apparatus_builder = ApparatusBuilder(self.metadata)
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
-        self.electrode_structure_builder = ElectrodeStructureBuilder(header, self.metadata)
+        self.electrode_structure_builder = ElectrodeStructureBuilder(header, self.metadata, nwb_metadata.probes_paths)
         self.dio_builder = DioBuilder(self.metadata, self.data_path)
         self.mda_builder = MdaBuilder(self.metadata, header, self.datasets)
 

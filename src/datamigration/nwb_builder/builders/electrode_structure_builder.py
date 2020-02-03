@@ -8,10 +8,12 @@ from src.datamigration.nwb_builder.injectors.electrode_group_injector import Ele
 from src.datamigration.nwb_builder.injectors.electrodes_extension_injector import ElectrodesExtensionInjector
 
 
-class ElectrodeStructureBuilder:  # todo rething this class
-    def __init__(self, header, metadata):
+class ElectrodeStructureBuilder:  # todo rething this class || make this singleton
+    def __init__(self, header, metadata, probes_paths):
         self.header = header
         self.metadata = metadata
+        self.probe_extractor = ProbesExtractor()
+        self.probe_extractor.extract_probes_metadata(probes_paths)
 
         self.electrode_extension_injector = ElectrodesExtensionInjector()
         self.electrodes_builder = ElectrodesBuilder()
@@ -29,7 +31,7 @@ class ElectrodeStructureBuilder:  # todo rething this class
         electrodes_header_extension = self.electrodes_header_extension_creator.create_electrodes_header_extension(self.header)
 
         for electrode_group_metadata in self.metadata['electrode groups']:
-            probe_metadata = ProbesExtractor().get_probe_file(electrode_group_metadata['device_type'])
+            probe_metadata = self.probe_extractor.get_probe_file(electrode_group_metadata['device_type'])
 
             device = ProbeCreator().create_probe(probe_metadata, device_counter)
             device_counter += 1

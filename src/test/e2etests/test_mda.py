@@ -3,13 +3,13 @@ import unittest
 
 import numpy as np
 
-from src.datamigration.tools.file_scanner import Dataset
 from src.datamigration.nwb_builder.extractors.mda_extractor import MdaExtractor
+from src.datamigration.tools.file_scanner import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-#@unittest.skip("test requires continuoustime.dat file and can't be used on travis")
+@unittest.skip("test requires continuoustime.dat file and can't be used on travis")
 class TestMDAExtraction(unittest.TestCase):
 
     @classmethod
