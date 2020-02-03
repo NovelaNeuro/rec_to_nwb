@@ -27,4 +27,4 @@ class HeaderChecker:
             differences = [diff for diff in self.header_reader.headers_differences
                            if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
                            not in str(diff)]
-            logger.warning(message + differences)
+            logger.warning('%s , %s', message, differences)
