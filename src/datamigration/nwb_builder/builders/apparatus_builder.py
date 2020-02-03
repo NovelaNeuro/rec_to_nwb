@@ -4,9 +4,8 @@ from src.datamigration.nwb_builder.extractors.apparatus_extractor import Apparat
 
 class ApparatusBuilder:
 
-    def __init__(self, metadata):
-        self.metadata = metadata
-        self.apparatus_extractor = ApparatusExtractor(metadata)
+    def __init__(self, apparatus_metadata):
+        self.apparatus_extractor = ApparatusExtractor(apparatus_metadata)
         self.apparatus_creator = ApparatusCreator()
 
     def build(self):

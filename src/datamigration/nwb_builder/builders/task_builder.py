@@ -1,5 +1,6 @@
 from hdmf.common import DynamicTable
 
+
 class TaskBuilder:
 
     def __init__(self, metadata):
