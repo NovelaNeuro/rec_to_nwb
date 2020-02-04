@@ -10,8 +10,6 @@ class DioExtractor:
     def __init__(self, datasets, metadata):
         self.datasets = datasets
         self.dio_directories = datasets
-        print(type(metadata))
-        print(metadata)
         self.all_dio_timeseries = metadata['behavioral_events']
         self.add_fields_to_dio(all_dio_timeseries=self.all_dio_timeseries)
         self.behavioral_event = BehavioralEvents(name='list of processed DIO`s', )
