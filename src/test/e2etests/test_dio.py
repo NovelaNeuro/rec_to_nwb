@@ -15,7 +15,7 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-@unittest.skip('DIO test require real dio files')
+@unittest.skip('DIO test requires real dio files')
 class TestDio(unittest.TestCase):
 
     def setUp(self):
@@ -29,7 +29,6 @@ class TestDio(unittest.TestCase):
     def test_dio_extractor(self):
         extractor = DioExtractor([self.create_test_dataset()], self.metadata)
         timeseries = extractor.get_dio()
-        print(timeseries[0])
         self.assertTrue(1)
 
     def test_dio_creator(self):
