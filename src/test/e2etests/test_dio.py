@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 from pynwb.behavior import BehavioralEvents
+from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 from src.datamigration.nwb_builder.creators.dio_creator import DioCreator
 from src.datamigration.nwb_builder.extractors.dio_extractor import DioExtractor
@@ -14,7 +15,7 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-# @unittest.skip('DIO test require real dio files')
+@unittest.skip('DIO test require real dio files')
 class TestDio(unittest.TestCase):
 
     def setUp(self):
@@ -53,13 +54,14 @@ class TestDio(unittest.TestCase):
         dataset = self.create_test_dataset()
         manager = DioManager(metadata=self.metadata)
         behavioral_events = manager.get_behavioral_events()
-        dio_1 = manager.get_extracted_dio(dataset, "Din1")
-        dio_data = [(1367266, 0), (9599570, 1), (9603169, 0)]
+        dio_1 = manager.get_dio_dict(dataset.get_data_path_from_dataset('DIO'))
+        dio_data_2 = [(1367266, 0), (9599570, 1), (9603169, 0)]
         self.assertEqual(behavioral_events[0]["name"], "Din1")
         self.assertEqual(behavioral_events[1]["name"], "Din2")
+        dio_data = readTrodesExtractedDataFile(dataset.get_data_path_from_dataset('DIO') + dio_1["Din1"])
         for i in range(3):
             for j in range(2):
-                self.assertEqual(dio_1["data"][i][j], dio_data[i][j])
+                self.assertEqual(dio_data["data"][i][j], dio_data_2[i][j])
 
     def create_test_dataset(self):
         dataset = Dataset('test_dataset')

@@ -88,10 +88,10 @@ class NWBFileBuilder:
         if self.process_dio:
             self.dio_builder.build(nwb_content)
 
-            if self.process_mda:
-                self.mda_builder.build(nwb_content)
+        if self.process_mda:
+            self.mda_builder.build(nwb_content)
 
-            return nwb_content
+        return nwb_content
 
     def write(self, content):
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
