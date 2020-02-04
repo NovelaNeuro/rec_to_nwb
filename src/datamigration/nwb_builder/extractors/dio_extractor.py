@@ -1,5 +1,6 @@
 from pynwb.behavior import BehavioralEvents
 
+from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
 from src.datamigration.nwb_builder.managers.dio_manager import DioManager
 
 
@@ -13,6 +14,7 @@ class DioExtractor:
         self.add_fields_to_dio(all_dio_timeseries=self.all_dio_timeseries)
         self.behavioral_event = BehavioralEvents(name='list of processed DIO`s', )
         self.dio_manager = DioManager(metadata=metadata)
+        self.continuous_time_extractor = ContinuousTimeExtractor()
 
     def get_dio(self):
         for dataset in self.datasets:
