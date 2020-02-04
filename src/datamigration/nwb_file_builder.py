@@ -55,7 +55,7 @@ class NWBFileBuilder:
         self.apparatus_builder = ApparatusBuilder(self.metadata['apparatus']['data'])
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
         self.electrode_structure_builder = ElectrodeStructureBuilder(header, self.metadata, nwb_metadata.probes_paths)
-        self.dio_builder = DioBuilder(self.metadata, self.data_path)
+        self.dio_builder = DioBuilder(self.datasets, self.metadata)
         self.mda_builder = MdaBuilder(self.metadata, header, self.datasets)
 
 
@@ -84,9 +84,8 @@ class NWBFileBuilder:
 
         self.ntrodes_builder.build(nwb_content)
 
-        # if self.process_dio:
-        #     dio = self.dio_builder.build()
-        #     processing_module_manager.add_data(dio)
+        if self.process_dio:
+            self.dio_builder.build(nwb_content)
 
         if self.process_mda:
             self.mda_builder.build(nwb_content)

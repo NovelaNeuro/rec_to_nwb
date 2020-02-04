@@ -1,61 +1,53 @@
-import os
-
-from pynwb.base import TimeSeries
 from pynwb.behavior import BehavioralEvents
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from src.datamigration.exceptions.missing_data_exception import MissingDataException
+from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
+from src.datamigration.nwb_builder.managers.dio_manager import DioManager
 
 
 class DioExtractor:
 
-    def __init__(self, data_path, metadata):
-        self.data_path = data_path
-        self.dio_paths = [dio_set for dio_set in os.listdir(data_path) if dio_set.endswith('DIO')]
-        self.time_paths = [dio_set for dio_set in os.listdir(data_path) if dio_set.endswith('.time')]
-        self.metadata = metadata
+    def __init__(self, datasets, metadata):
+        self.datasets = datasets
+        self.dio_directories = datasets
+        self.all_dio_timeseries = metadata['behavioral_events']
+        self.add_fields_to_dio(all_dio_timeseries=self.all_dio_timeseries)
+        self.behavioral_event = BehavioralEvents(name='list of processed DIO`s', )
+        self.dio_manager = DioManager(metadata=metadata)
+        self.continuous_time_extractor = ContinuousTimeExtractor()
 
-    def get_dio(self):  # todo refactor as this is too complex and is not unit tested
-        behavioral_event = BehavioralEvents(name='list of processed DIO`s',)
-        timestamps = {}
-        timeseries = {}
-        for i in range(len(self.dio_paths)):
-            dio_set = self.dio_paths[i]
-            time_set = self.time_paths[i]
-            for dio_time_series in self.metadata['behavioral_events']:
-                timestamps[dio_time_series['name']] = []
-                timeseries[dio_time_series['name']] = []
-            continuous_time_file = None
-            for file in os.listdir(self.data_path + '/' + time_set):
-                if file.endswith('continuoustime.dat'):
-                    continuous_time_file = self.data_path + '/' + time_set + "/" + file
-            if not continuous_time_file:
-                raise MissingDataException("continuous time file not found")
-            continuous_time = readTrodesExtractedDataFile(continuous_time_file)
-            continuous_time_dict = {str(data[0]): float(data[1]) for data in continuous_time['data']}
-            for dio_time_series in self.metadata['behavioral_events']:
-                temp_timeseries = []
-                temp_timestamps = []
-                for dio_file in os.listdir(self.data_path + '/' + dio_set):
-                    if dio_time_series['name'] + '.' in dio_file:
-                        dio_data = readTrodesExtractedDataFile(self.data_path + '/' + dio_set + '/' + dio_file)
-                        for recorded_event in dio_data['data']:
-                            temp_timeseries.append(recorded_event[1])
-                            key = str(recorded_event[0])
-                            try:
-                                value = continuous_time_dict[key]
-                                temp_timestamps.append(float(value) / 1E9)
-                            except KeyError:
-                                temp_timestamps.append(float('nan'))
-                timestamps[dio_time_series['name']].extend(temp_timestamps)
-                timeseries[dio_time_series['name']].extend(temp_timeseries)
-        for dio_time_series in self.metadata['behavioral_events']:
-            behavioral_event.add_timeseries(time_series=TimeSeries(name=dio_time_series['name'],
-                                                                   data=timeseries[dio_time_series['name']],
-                                                                   timestamps=timestamps[dio_time_series['name']],
-                                                                   description=dio_time_series['description'],
-                                                                   )
-                                            )
+    def get_dio(self):
+        for dataset in self.datasets:
+            self.create_timeseries(dataset=dataset,
+                                   continuous_time_dict=self.continuous_time_extractor.get_continuous_time_dict(
+                                       dataset=dataset))
+        return self.all_dio_timeseries
 
-        return behavioral_event
+    def add_fields_to_dio(self, all_dio_timeseries):
+        for series in all_dio_timeseries:
+            series["dio_timeseries"] = []
+            series["dio_timestamps"] = []
 
+    def create_timeseries(self, continuous_time_dict, dataset):
+        dio_dict = self.dio_manager.get_dio_dict(dataset.get_data_path_from_dataset('DIO'))
+        for dio_time_series in self.all_dio_timeseries:
+            try:
+                dio_data = readTrodesExtractedDataFile(dataset.get_data_path_from_dataset('DIO') +
+                                                       dio_dict[dio_time_series['name']])
+            except KeyError:
+                message = "there is no " + str(dio_time_series['name']) + " file"
+            try:
+                for recorded_event in dio_data['data']:
+                    self.create_timeseries_for_single_event(dio_time_series, recorded_event, continuous_time_dict)
+            except TypeError:
+                message = 'there is no data for event ' + str(dio_time_series['name'])
+
+    def create_timeseries_for_single_event(self, time_series, event, continuous_time_dict):
+        time_series["dio_timeseries"].append(event[1])
+        key = str(event[0])
+        try:
+            value = continuous_time_dict[key]
+            time_series["dio_timestamps"].append(float(value) / 1E9)
+        except KeyError:
+            time_series["dio_timestamps"].append(float('nan'))
+        return time_series

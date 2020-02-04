@@ -3,7 +3,7 @@ import yaml
 
 class ProbesExtractor:
 
-    def __init__(self,):
+    def __init__(self):
         self.probes_content = []
 
     def extract_probes_metadata(self, probes_paths):
