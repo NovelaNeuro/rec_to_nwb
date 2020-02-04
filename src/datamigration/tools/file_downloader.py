@@ -3,12 +3,17 @@
 Class:
     FileDownloader()
 """
-import logging
+import logging.config
 import os
 
 import requests
 
 from src.datamigration.tools.abstract_file_downloader import AbstractFileDownloader
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class FileDownloader(AbstractFileDownloader):
@@ -52,7 +57,7 @@ class FileDownloader(AbstractFileDownloader):
             Parameters:
                 :param url: url to file
         """
-        logging.info('Downloading package from: %s', url)
+        logger.info('Downloading package from: %s', url)
         headers = {'user-agent': 'Wget/1.16 (linux-gnu)'}
         request = requests.get(url, stream=True, headers=headers)
         with open(self.path, 'wb') as binary_file:

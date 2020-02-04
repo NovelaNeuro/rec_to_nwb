@@ -17,7 +17,7 @@ class RawToNWBBuilder:
                  animal_name,
                  dates,
                  nwb_metadata,
-                 output_path,
+                 output_path='',
                  extract_analog=False,
                  extract_spikes=False,
                  extract_lfps=False,
