@@ -23,7 +23,7 @@ class TestNwbFullGeneration(unittest.TestCase):
             animal_name='beans',
             date='20190718',
             nwb_metadata=metadata,
-            process_dio=False,
+            process_dio=True,
             process_mda=True
            )
 

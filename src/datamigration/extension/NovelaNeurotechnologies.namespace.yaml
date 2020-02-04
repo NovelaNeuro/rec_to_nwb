@@ -8,3 +8,4 @@ namespaces:
     - Device
     - NWBDataInterface
   - source: NovelaNeurotechnologies.specs.yaml
+  version: 1.0.0

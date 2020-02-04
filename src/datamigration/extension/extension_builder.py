@@ -12,7 +12,8 @@ class ExtensionsBuilder:
 
         ns_builder = NWBNamespaceBuilder(
             doc="Extension for use in Novela Neurotechnologies",
-            name="NovelaNeurotechnologies"
+            name="NovelaNeurotechnologies",
+            version='1.0.0'
         )
 
         self.fl_electrode_group = self.create_fl_electrode_group()
