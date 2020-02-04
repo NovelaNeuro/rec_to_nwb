@@ -14,8 +14,9 @@ class DioManager:
     def get_dio_dict(self, directory):
         dio_dict = {}
         for file in os.listdir(directory):
-            split_filename = file.split('.')
-            dio_dict[split_filename[-2].split('_')[1]] = file
+            if (file.endswith('.dat')):
+                split_filename = file.split('.')
+                dio_dict[split_filename[-2].split('_')[1]] = file
         return dio_dict
 
     def get_single_extracted_dio(self, dataset, name):
