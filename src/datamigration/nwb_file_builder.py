@@ -9,12 +9,13 @@ import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
-from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodesBuilder
-from src.datamigration.nwb_builder.builders.electrode_group_builder import ElectrodeGroupBuilder
+from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
+from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
+from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
-from src.datamigration.nwb_builder.builders.probe_builder import ProbesDictBuilder
+from src.datamigration.nwb_builder.builders.probes_dict_builder import ProbesDictBuilder
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
@@ -62,13 +63,15 @@ class NWBFileBuilder:
 
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
 
-        self.probes_builder = ProbesDictBuilder()
+        self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
         self.probes_injector = ProbeInjector()
 
-        self.electrode_group_builder = ElectrodeGroupBuilder()
+        self.electrode_group_builder = ElectrodeGroupDictBuilder(self.metadata['electrode groups'])
         self.electrode_group_injector = ElectrodeGroupInjector()
 
-        self.electrode_builder = ElectrodesBuilder()
+        self.electrode_builder = ElectrodeBuilder(self.probes, self.metadata['electrode groups'])
+
+        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'], header)
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
         self.dio_builder = DioBuilder(self.datasets, self.metadata)
@@ -97,21 +100,13 @@ class NWBFileBuilder:
 
         self.__build_and_inject_processing_module(nwb_content)
 
-        probes = self.__build_and_inject_probes(
-            electrode_group_metadata=self.metadata['electrode groups'],
-            probes_metadata=self.probes,
-            nwb_content=nwb_content
-        )
+        probes_dict = self.__build_and_inject_probes(nwb_content)
 
-        electrode_groups = self.__build_and_inject_electrode_group(
-            electrode_group_metadata=self.metadata['electrode groups'],
-            nwb_content=nwb_content,
-            probes=probes
-        )
+        electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
 
-        self.__build_and_inject_electrodes(
+        self.__build_and_inject_electrodes(nwb_content, electrode_group_dict)
 
-        )
+        self.__build_and_inject_electrodes_extensions(nwb_content)
 
         self.ntrodes_builder.build(nwb_content)
 
@@ -140,20 +135,26 @@ class NWBFileBuilder:
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
-    def __build_and_inject_probes(self, electrode_group_metadata, probes_metadata, nwb_content):
-        probes = self.probes_builder.build(electrode_group_metadata, probes_metadata)
-        self.probes_injector.inject_all_probes(nwb_content, probes) #ToDo or dont pass nwb_content and make it here
-        return probes
+    def __build_and_inject_probes(self, nwb_content):
+        probes_dict = self.probes_dict_builder.build()
+        self.probes_injector.inject_all_probes(nwb_content, probes_dict)
+        return probes_dict
 
-    def __build_and_inject_electrode_group(self, electrode_group_metadata, nwb_content, probes):
-        electrode_groups = self.electrode_group_builder.build(electrode_group_metadata, probes)
-        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_groups)
-        return electrode_groups
+    def __build_and_inject_electrode_group(self, nwb_content, probes):
+        electrode_group_dict = self.electrode_group_builder.build(probes)
+        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_group_dict)
+        return electrode_group_dict
 
-    def __build_and_inject_electrodes(self, electrode_group_metadata, nwb_content, probes):
-        self.electrode_builder.build(electrode_group_metadata, probes)
-        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_groups)
-        return electrode_groups
+    def __build_and_inject_electrodes(self, nwb_content, electrode_group_dict):
+        self.electrode_builder.build(nwb_content, electrode_group_dict)
+
+    def __build_and_inject_electrodes_extensions(self, nwb_content):
+        electrodes_metadata_extension, electrodes_header_extension = self.electrode_extension_builder.build()
+        self.electrode_extension_injector.inject_extensions(
+            nwb_content,
+            electrodes_metadata_extension,
+            electrodes_header_extension
+        )
 
     def __headers_validation(self):
         rec_finder = RecFileFinder()

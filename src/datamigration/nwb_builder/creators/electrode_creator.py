@@ -1,8 +1,11 @@
 class ElectrodesCreator:
 
+    def __init__(self):
+        self.electrodes_counter = -1
 
-    @staticmethod
-    def create_electrode(nwb_content, electrode_group, electrodes_counter):
+    def create_electrode(self, nwb_content, electrode_group):
+        self.electrodes_counter += 1
+
         nwb_content.add_electrode(
             x=0.0,
             y=0.0,
@@ -11,5 +14,5 @@ class ElectrodesCreator:
             location='None',
             filtering='None',
             group=electrode_group,
-            id=electrodes_counter
+            id=self.electrodes_counter
         )
