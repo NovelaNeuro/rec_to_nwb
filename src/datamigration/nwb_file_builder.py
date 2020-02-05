@@ -14,7 +14,7 @@ from src.datamigration.nwb_builder.builders.electrode_group_builder import Elect
 from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
-from src.datamigration.nwb_builder.builders.probe_builder import ProbeBuilder
+from src.datamigration.nwb_builder.builders.probe_builder import ProbesDictBuilder
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
@@ -62,7 +62,7 @@ class NWBFileBuilder:
 
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
 
-        self.probes_builder = ProbeBuilder()
+        self.probes_builder = ProbesDictBuilder()
         self.probes_injector = ProbeInjector()
 
         self.electrode_group_builder = ElectrodeGroupBuilder()

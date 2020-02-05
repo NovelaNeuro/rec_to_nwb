@@ -10,7 +10,7 @@ class ProbesExtractor:
                 probes_content.append(yaml.safe_load(stream))
         return probes_content
 
-    def get_probe_file(self, probes_content, device_type):
+    def filtr_by_type(self, probes_content, device_type):
         #ToDo  Maybe we can use dict k = probe_Type v = probe file
         for probe_metadata in probes_content:
             if probe_metadata['probe_type'] == device_type:

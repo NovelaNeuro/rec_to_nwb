@@ -14,7 +14,7 @@ class ElectrodeStructureBuilder:  # todo rething this class || make this singlet
         probes = []
         electrode_groups = []
         for probe_counter, electrode_group_metadata in enumerate(self.metadata['electrode groups']):
-            probe_metadata = self.probe_extractor.get_probe_file(electrode_group_metadata['device_type'])
+            probe_metadata = self.probe_extractor.filtr_by_type(electrode_group_metadata['device_type'])
 
             electrode_group = self.electrodes_group_builder.create_electrode_group(electrode_group_metadata,
                                                                                    probe)  # todo build electrode groups in separate place as well as injecting into nwb
