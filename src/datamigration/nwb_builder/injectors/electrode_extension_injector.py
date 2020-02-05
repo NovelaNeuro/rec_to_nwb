@@ -1,4 +1,4 @@
-class ElectrodesExtensionInjector:
+class ElectrodeExtensionInjector:
     @staticmethod
     def inject_extensions(nwb_content, electrodes_metadata_extension, electrodes_header_extension):
         nwb_content.electrodes.add_column(
