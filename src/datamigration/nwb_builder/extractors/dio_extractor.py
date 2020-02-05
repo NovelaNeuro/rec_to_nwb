@@ -1,9 +1,17 @@
+import logging.config
+import os
+
+import numpy as np
 from pynwb.behavior import BehavioralEvents
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
 from src.datamigration.nwb_builder.managers.dio_manager import DioManager
 
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 class DioExtractor:
 
@@ -46,5 +54,8 @@ class DioExtractor:
         time_series["dio_timeseries"].append(event[1])
         key = str(event[0])
         value = continuous_time_dict.get([key], float('nan')) / 1E9
+        if np.isnan(value):
+            message = 'Following key: ' + str(key) + ' does not exist in continioustime dictionary!'
+            logger.exception(message)
         time_series["dio_timestamps"].append(value)
         return time_series

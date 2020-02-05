@@ -20,7 +20,6 @@ class DioManager:
         return dio_dict
 
     def get_single_extracted_dio(self, dataset, name):
-        dataset = dataset
         dio_set = dataset.get_all_data_from_dataset('DIO')
         dio_path = dataset.get_data_path_from_dataset('DIO')
         for dio_file in dio_set:
