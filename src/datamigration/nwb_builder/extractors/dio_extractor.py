@@ -45,9 +45,6 @@ class DioExtractor:
     def create_timeseries_for_single_event(self, time_series, event, continuous_time_dict):
         time_series["dio_timeseries"].append(event[1])
         key = str(event[0])
-        try:
-            value = continuous_time_dict[key]
-            time_series["dio_timestamps"].append(float(value) / 1E9)
-        except KeyError:
-            time_series["dio_timestamps"].append(float('nan'))
+        value = continuous_time_dict.get([key], float('nan')) / 1E9
+        time_series["dio_timestamps"].append(value)
         return time_series
