@@ -3,10 +3,6 @@ class ElectrodeStructureBuilder:  # todo rething this class || make this singlet
         self.header = header
         self.metadata = metadata
 
-
-
-
-
     def build(self, nwb_content):
         """
             For each electrode group in metadata.yml, check if probe exist.
@@ -26,5 +22,3 @@ class ElectrodeStructureBuilder:  # todo rething this class || make this singlet
             # ElectrodeGroupInjector(nwb_content).join_electrode_group(electrode_group)
             data_for_electrodes.appends(probe_metadata)
             self.electrodes_builder.build(probe_metadata, nwb_content, electrode_group)
-
-

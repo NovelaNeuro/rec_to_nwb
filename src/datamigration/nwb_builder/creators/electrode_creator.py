@@ -1,9 +1,6 @@
 class ElectrodesCreator:
 
 
-    def create_electrode_from_probe(self):
-
-
     @staticmethod
     def create_electrode(nwb_content, electrode_group, electrodes_counter):
         nwb_content.add_electrode(

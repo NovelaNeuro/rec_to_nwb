@@ -62,7 +62,7 @@ class NWBFileBuilder:
 
         self.ntrodes_builder = NTrodesBuilder(self.metadata)
 
-        self.probes_builder = ProbeBuilder(self.probes)
+        self.probes_builder = ProbeBuilder()
         self.probes_injector = ProbeInjector()
 
         self.electrode_group_builder = ElectrodeGroupBuilder()
@@ -99,6 +99,7 @@ class NWBFileBuilder:
 
         probes = self.__build_and_inject_probes(
             electrode_group_metadata=self.metadata['electrode groups'],
+            probes_metadata=self.probes,
             nwb_content=nwb_content
         )
 
@@ -139,8 +140,8 @@ class NWBFileBuilder:
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
-    def __build_and_inject_probes(self, electrode_group_metadata, nwb_content):
-        probes = self.probes_builder.build(electrode_group_metadata)
+    def __build_and_inject_probes(self, electrode_group_metadata, probes_metadata, nwb_content):
+        probes = self.probes_builder.build(electrode_group_metadata, probes_metadata)
         self.probes_injector.inject_all_probes(nwb_content, probes) #ToDo or dont pass nwb_content and make it here
         return probes
 

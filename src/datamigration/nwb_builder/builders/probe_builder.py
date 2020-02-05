@@ -3,14 +3,13 @@ from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtra
 
 
 class ProbeBuilder:
-    def __init__(self, probes_paths):
+    def __init__(self):
         self.probe_extractor = ProbesExtractor()
-        self.probe_extractor.extract_probes_metadata(probes_paths)
         self.probe_creator = ProbeCreator()
 
-    def build(self, electrode_groups_metadata):
+    def build(self, electrode_groups_metadata, probes_metadata):
         probes = {}
         for probe_counter, electrode_group_metadata in enumerate(electrode_groups_metadata):
-            probe_metadata = self.probe_extractor.get_probe_file(electrode_group_metadata['device_type'])
+            probe_metadata = self.probe_extractor.get_probe_file(probes_metadata, electrode_group_metadata['device_type'])
             probes[probe_counter] = self.probe_creator.create_probe(probe_metadata, probe_counter)
         return probes
