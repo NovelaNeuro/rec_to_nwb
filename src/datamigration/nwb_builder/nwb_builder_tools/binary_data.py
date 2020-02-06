@@ -69,13 +69,11 @@ class MdaTimestamps():
         continuous_time_dict = {str(data[0]): float(data[1]) for data in continuous_time['data']}
         for i in range(np.shape(timestamps)[0]):
             key = str(timestamps[i])
-            try:
-                value = continuous_time_dict[key]
-                data_float[i] = float(value) / 1E9
-            except KeyError as error:
-                message = 'Following key: ' + str(key) + ' does not exist!' + str(error)
+            value = continuous_time_dict.get(key, float('nan')) / 1E9
+            data_float[i] = value
+            if np.isnan(value):
+                message = 'Following key: ' + str(key) + ' does not exist in continioustime dictionary!'
                 logger.exception(message)
-                data_float[i] = float('nan')
         return data_float
 
     def get_data_shape(self, dataset_num):
