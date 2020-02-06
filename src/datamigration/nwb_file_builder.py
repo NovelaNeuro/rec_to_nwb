@@ -46,7 +46,7 @@ class NWBFileBuilder:
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
         self.__headers_validation()
-        header = Header(self.valid_header)
+        header = Header(self.header_used_by_builder)
 
         self.task_builder = TaskBuilder(self.metadata)
         self.position_builder = PositionBuilder(self.datasets)
@@ -113,6 +113,6 @@ class NWBFileBuilder:
                                                                     + '/' + self.animal_name
                                                                     + '/raw/'
                                                                     + self.date)))
-        self.valid_header = header_checker.headers[0]
+        self.header_used_by_builder = header_checker.headers[0]
         header_checker.log_headers_compatibility()
         header_checker.remove_headers()
