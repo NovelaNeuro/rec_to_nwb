@@ -15,7 +15,6 @@ from src.datamigration.nwb_builder.builders.position_builder import PositionBuil
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import HeaderChecker
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -47,13 +46,7 @@ class NWBFileBuilder:
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
         self.__headers_validation()
-
-        header_extractor = HeaderFilesExtractor()
-        header_extractor.extract_header_for_processing(data_path=self.data_path,
-                                                       animal_name=self.animal_name,
-                                                       date=self.date)
-        header = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
-                        self.date + '/header.xml')
+        header = Header(self.valid_header)
 
         self.task_builder = TaskBuilder(self.metadata)
         self.position_builder = PositionBuilder(self.datasets)
@@ -120,4 +113,6 @@ class NWBFileBuilder:
                                                                     + '/' + self.animal_name
                                                                     + '/raw/'
                                                                     + self.date)))
+        self.valid_header = header_checker.headers[0]
         header_checker.log_headers_compatibility()
+        header_checker.remove_headers()
