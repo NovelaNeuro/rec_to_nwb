@@ -5,7 +5,6 @@ from unittest.mock import Mock
 from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
 from src.datamigration.extension.probe import Probe
 from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
-from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -13,13 +12,12 @@ path = os.path.dirname(os.path.abspath(__file__))
 class TestElectrodeGroupDictBuilder(TestCase):
 
     def setUp(self):
-        self.metadata = NWBMetadata(str(path) + '/res/nwb_elements_builder_test/metadata.yml',
-                                    [str(path) + '/res/nwb_elements_builder_test/probe1.yml',
-                                     str(path) + '/res/nwb_elements_builder_test/probe2.yml',
-                                     str(path) + '/res/nwb_elements_builder_test/probe3.yml'])
+        metadata = [
+            {'id': 0, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 1'},
+            {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'}]
 
         self.electrode_group_builder = ElectrodeGroupDictBuilder(
-            electrode_groups_metadata=self.metadata.metadata['electrode groups']
+            electrode_groups_metadata=metadata
         )
 
     def test_build_successful_creation(self):
