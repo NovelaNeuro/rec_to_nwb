@@ -28,7 +28,3 @@ class HeaderChecker:
                            if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
                            not in str(diff)]
             logger.warning('%s , %s', message, differences)
-
-    def remove_headers(self):
-        for header in self.headers[1:]:
-            os.remove(header)
