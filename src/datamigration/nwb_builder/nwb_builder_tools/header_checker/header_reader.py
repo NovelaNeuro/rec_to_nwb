@@ -16,5 +16,4 @@ class HeaderReader:
         for xml_file in self.xml_files:
             with open(xml_file, 'r') as content:
                 self.xml_headers.append(content.read())
-            os.remove(xml_file)
         return self.xml_headers
