@@ -11,7 +11,8 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class TestElectrodeExtensionsBuilder(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
             {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'}]
@@ -40,15 +41,15 @@ class TestElectrodeExtensionsBuilder(TestCase):
                            {'id': 97, 'rel_x': 40, 'rel_y': 900, 'rel_z': 0}]}]}
                   ]
 
-        self.header = Header(str(path) + '/res/nwb_elements_builder_test/header.xml')
+        cls.header = Header(str(path) + '/res/nwb_elements_builder_test/header.xml')
 
-        self.electrode_extension_builder = ElectrodeExtensionBuilder(
+        cls.electrode_extension_builder = ElectrodeExtensionBuilder(
             probes_metadata=probes,
             electrode_groups_metadata=metadata,
-            header=self.header
+            header=cls.header
         )
 
-        self.electrodes_metadata_extension, self.electrodes_header_extension = self.electrode_extension_builder.build()
+        cls.electrodes_metadata_extension, cls.electrodes_header_extension = cls.electrode_extension_builder.build()
 
     def test_build_successfulReturn_true(self):
         self.assertIsNotNone(self.electrodes_metadata_extension)

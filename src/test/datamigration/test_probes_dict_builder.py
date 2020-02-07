@@ -9,7 +9,8 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class TestProbesDictBuilder(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
             {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'}]
@@ -38,11 +39,11 @@ class TestProbesDictBuilder(TestCase):
                            {'id': 97, 'rel_x': 40, 'rel_y': 900, 'rel_z': 0}]}]}
                   ]
 
-        self.probes_builder = ProbesDictBuilder(
+        cls.probes_builder = ProbesDictBuilder(
             probes_metadata=probes,
             electrode_groups_metadata=metadata
         )
-        self.probes_dict = self.probes_builder.build()
+        cls.probes_dict = cls.probes_builder.build()
 
     def test_build_successfulReturn_true(self):
         self.assertIsNotNone(self.probes_dict)
