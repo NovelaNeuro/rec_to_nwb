@@ -33,15 +33,6 @@ class BinaryData:
         return dim1, dim2
 
 
-
-class PosData(BinaryData):
-
-    def read_data(self, dataset_num, file_num):
-        pos_online = readTrodesExtractedDataFile(self.directories[dataset_num][file_num])
-        position = pd.DataFrame(pos_online['data'])
-        return position.xloc, position.yloc, position.xloc2, position.yloc2
-
-
 class MdaTimestamps():
     def __init__(self, directories, continuous_time_directories):
         self.cont_time_dict = {}
