@@ -9,9 +9,9 @@ class NWBMetadata:
         self.probes_paths = probes_paths
         with open(metadata_path, 'r') as stream:
             self.metadata = yaml.safe_load(stream)
+
         probes_extractor = ProbesExtractor()
-        probes_extractor.extract_probes_metadata(probes_paths)
-        self.probes = probes_extractor.probes_content
+        self.probes = probes_extractor.extract_probes_metadata(probes_paths)
 
     def __str__(self):
         metadata_info = 'Experimenter: ' + self.metadata['experimenter name'] + \

@@ -1,8 +1,9 @@
 class ElectrodeGroupInjector:
 
-    def __init__(self, nwb_content):
-        self.nwb_content = nwb_content
+    def inject_all_electrode_groups(self, nwb_content, electrode_groups):
+        for electrode_group in electrode_groups.values():
+            self._inject_electrode_group(nwb_content, electrode_group)
 
-
-    def join_electrode_group(self, electrode_group):
-        self.nwb_content.add_electrode_group(electrode_group)
+    @staticmethod
+    def _inject_electrode_group(nwb_content, electrode_group):
+        nwb_content.add_electrode_group(electrode_group)
