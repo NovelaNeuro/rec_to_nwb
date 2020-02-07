@@ -66,12 +66,24 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
             hw_chan=hw_chan
         )
 
+        self.assertIsInstance(self.nwb_file.electrodes['rel_x'], VectorData)
+        self.assertIsInstance(self.nwb_file.electrodes['rel_y'], VectorData)
+        self.assertIsInstance(self.nwb_file.electrodes['rel_z'], VectorData)
+        self.assertIsInstance(self.nwb_file.electrodes['hwChan'], VectorData)
+
+        # hwChan
         self.assertIsInstance(self.nwb_file.electrodes[0][9], int)
+
+        # rel_x
         self.assertIsInstance(self.nwb_file.electrodes[0][10], int)
+
+        # rel_y
         self.assertIsInstance(self.nwb_file.electrodes[0][11], int)
+
+        # rel_z
         self.assertIsInstance(self.nwb_file.electrodes[0][12], int)
 
-    def test_injectExtensions_correctValuesInsideNWB_true(self):
+    def test_injectExtensions_correctValuesInsideNWBWhenEqualHwChan_true(self):
         hw_chan = [0, 1, 2, 3]
 
         self.electrode_extension_injector.inject_extensions(
@@ -80,10 +92,95 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
             hw_chan=hw_chan
         )
 
-        self.assertIsInstance(self.nwb_file.electrodes['rel_x'], VectorData)
-        self.assertIsInstance(self.nwb_file.electrodes['rel_y'], VectorData)
-        self.assertIsInstance(self.nwb_file.electrodes['rel_z'], VectorData)
-        self.assertIsInstance(self.nwb_file.electrodes['hwChan'], VectorData)
+        # hwChan
+        self.assertEqual(self.nwb_file.electrodes[0][9], 0)
+        self.assertEqual(self.nwb_file.electrodes[1][9], 1)
+        self.assertEqual(self.nwb_file.electrodes[2][9], 2)
+        self.assertEqual(self.nwb_file.electrodes[3][9], 3)
+
+        # rel_x
+        self.assertEqual(self.nwb_file.electrodes[0][10], 0)
+        self.assertEqual(self.nwb_file.electrodes[1][10], 0)
+        self.assertEqual(self.nwb_file.electrodes[2][10], 0)
+        self.assertEqual(self.nwb_file.electrodes[3][10], 0)
+
+        # rel_y
+        self.assertEqual(self.nwb_file.electrodes[0][11], 1)
+        self.assertEqual(self.nwb_file.electrodes[1][11], 1)
+        self.assertEqual(self.nwb_file.electrodes[2][11], 1)
+        self.assertEqual(self.nwb_file.electrodes[3][11], 1)
+
+        # rel_z
+        self.assertEqual(self.nwb_file.electrodes[0][12], 2)
+        self.assertEqual(self.nwb_file.electrodes[1][12], 2)
+        self.assertEqual(self.nwb_file.electrodes[2][12], 2)
+        self.assertEqual(self.nwb_file.electrodes[3][12], 2)
+
+    def test_injectExtensions_correctValuesInsideNWBWhenLongerHwChan_true(self):
+        hw_chan = [0, 1, 2, 3, 4, 5]
+
+        self.electrode_extension_injector.inject_extensions(
+            nwb_content=self.nwb_file,
+            electrodes_metadata_extension=self.mock_electrodes_metadata_extension,
+            hw_chan=hw_chan
+        )
+
+        # hwChan
+        self.assertEqual(self.nwb_file.electrodes[0][9], 0)
+        self.assertEqual(self.nwb_file.electrodes[1][9], 1)
+        self.assertEqual(self.nwb_file.electrodes[2][9], 2)
+        self.assertEqual(self.nwb_file.electrodes[3][9], 3)
+
+        # rel_x
+        self.assertEqual(self.nwb_file.electrodes[0][10], 0)
+        self.assertEqual(self.nwb_file.electrodes[1][10], 0)
+        self.assertEqual(self.nwb_file.electrodes[2][10], 0)
+        self.assertEqual(self.nwb_file.electrodes[3][10], 0)
+
+        # rel_y
+        self.assertEqual(self.nwb_file.electrodes[0][11], 1)
+        self.assertEqual(self.nwb_file.electrodes[1][11], 1)
+        self.assertEqual(self.nwb_file.electrodes[2][11], 1)
+        self.assertEqual(self.nwb_file.electrodes[3][11], 1)
+
+        # rel_z
+        self.assertEqual(self.nwb_file.electrodes[0][12], 2)
+        self.assertEqual(self.nwb_file.electrodes[1][12], 2)
+        self.assertEqual(self.nwb_file.electrodes[2][12], 2)
+        self.assertEqual(self.nwb_file.electrodes[3][12], 2)
+
+    def test_injectExtensions_correctValuesInsideNWBWhenShorterHwChan_true(self):
+        hw_chan = [0, 1, 2]
+
+        self.electrode_extension_injector.inject_extensions(
+            nwb_content=self.nwb_file,
+            electrodes_metadata_extension=self.mock_electrodes_metadata_extension,
+            hw_chan=hw_chan
+        )
+
+        # hwChan
+        self.assertEqual(self.nwb_file.electrodes[0][9], 0)
+        self.assertEqual(self.nwb_file.electrodes[1][9], 1)
+        self.assertEqual(self.nwb_file.electrodes[2][9], 2)
+        self.assertEqual(self.nwb_file.electrodes[3][9], 0.0)
+
+        # rel_x
+        self.assertEqual(self.nwb_file.electrodes[0][10], 0)
+        self.assertEqual(self.nwb_file.electrodes[1][10], 0)
+        self.assertEqual(self.nwb_file.electrodes[2][10], 0)
+        self.assertEqual(self.nwb_file.electrodes[3][10], 0)
+
+        # rel_y
+        self.assertEqual(self.nwb_file.electrodes[0][11], 1)
+        self.assertEqual(self.nwb_file.electrodes[1][11], 1)
+        self.assertEqual(self.nwb_file.electrodes[2][11], 1)
+        self.assertEqual(self.nwb_file.electrodes[3][11], 1)
+
+        # rel_z
+        self.assertEqual(self.nwb_file.electrodes[0][12], 2)
+        self.assertEqual(self.nwb_file.electrodes[1][12], 2)
+        self.assertEqual(self.nwb_file.electrodes[2][12], 2)
+        self.assertEqual(self.nwb_file.electrodes[3][12], 2)
 
     def test_injectExtensions_properlyInjectEqualHwChan_true(self):
         hw_chan = [0, 1, 2, 3]
