@@ -1,4 +1,5 @@
 import datetime
+import logging
 import os
 import uuid
 from pynwb import NWBHDF5IO, NWBFile
@@ -14,10 +15,13 @@ from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilde
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_checker import HeaderChecker
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 path = os.path.dirname(os.path.abspath(__file__))
+logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class NWBFileBuilder:
@@ -45,8 +49,14 @@ class NWBFileBuilder:
         self.probes = nwb_metadata.probes
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
-        self.__headers_validation()
-        header = Header(self.header_file)
+        rec_finder = RecFileFinder()
+        rec_files_list = rec_finder.find_rec_files(path=(self.data_path
+                                        + '/' + self.animal_name
+                                        + '/raw/'
+                                        + self.date))
+
+        header_file = self.__headers_processing(rec_files_list)
+        header = Header(header_file)
 
         self.task_builder = TaskBuilder(self.metadata)
         self.position_builder = PositionBuilder(self.datasets)
@@ -107,11 +117,18 @@ class NWBFileBuilder:
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
-    def __headers_validation(self):
-        rec_finder = RecFileFinder()
-        header_checker = HeaderChecker(rec_finder.find_rec_files(path=(self.data_path
-                                                                    + '/' + self.animal_name
-                                                                    + '/raw/'
-                                                                    + self.date)))
-        self.header_file = header_checker.headers[0]
-        header_checker.log_headers_compatibility()
+    def __headers_processing(self, rec_files_list):
+
+        headers_extractor = HeaderFilesExtractor()
+        header_files = headers_extractor.extract_headers_from_rec_files(rec_files_list)
+        header_comparator = HeaderComparator(header_files)
+        headers_differences = header_comparator.compare()
+
+        if headers_differences != []:
+            message = 'Rec files: ' + str(rec_files_list) + ' contain incosistent xml headers!\n'
+            differences = [diff for diff in headers_differences
+                           if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
+                           not in str(diff)]
+            logger.warning('%s , %s', message, differences)
+
+        return header_files[0]

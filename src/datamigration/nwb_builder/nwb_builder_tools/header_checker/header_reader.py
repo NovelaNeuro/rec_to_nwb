@@ -17,3 +17,4 @@ class HeaderReader:
             with open(xml_file, 'r') as content:
                 self.xml_headers.append(content.read())
         return self.xml_headers
+
