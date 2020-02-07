@@ -61,7 +61,7 @@ class TestElectrodeBuilder(TestCase):
         )
 
         # then
-        print(mock_nwb.electrodes)
+        # print(mock_nwb.electrodes)
         # self.assertEqual(256, len(electrodes))
         # self.assertIsInstance(electrodes[0], DynamicTable)
         # self.assertIsInstance(electrodes[1], DynamicTable)
