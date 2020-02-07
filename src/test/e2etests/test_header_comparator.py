@@ -26,4 +26,4 @@ class TestHeaderComparator(unittest.TestCase):
         def test_comparing_headers(self):
             headers_difference = self.header_comparator.compare()
             self.assertNotEqual([], headers_difference)
-            #ToDo add some quality check
+            #ToDo add some quality check for diference in those 3 xmls
