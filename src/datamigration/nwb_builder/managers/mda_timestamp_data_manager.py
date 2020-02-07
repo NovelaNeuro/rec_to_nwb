@@ -16,9 +16,8 @@ class MdaTimestampDataManager():
         self.directories = directories
         self.continuous_time_directories = continuous_time_directories
 
-        self.continuous_time_dict = {}
         self.number_of_datasets = self._get_number_of_datasets()
-        self.files_lengths_in_dataset = self._get_files_length_in_datasets()
+        self.file_lenghts_in_datasets = self._get_files_length_in_datasets()
 
     def read_data(self, dataset_id):
         timestamps = self._read_timestamps(dataset_id)
@@ -31,7 +30,7 @@ class MdaTimestampDataManager():
         return converted_timestamps
 
     def get_final_data_shape(self):
-        return sum(self.files_lengths_in_dataset),
+        return sum(self.file_lenghts_in_datasets),
 
     def _get_number_of_datasets(self):
         return np.size(self.directories, 1)

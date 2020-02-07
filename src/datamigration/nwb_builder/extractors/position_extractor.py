@@ -1,6 +1,6 @@
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
 from src.datamigration.nwb_builder.managers.pos_data_manager import PosDataManager
-from src.datamigration.nwb_builder.nwb_builder_tools.binary_data import PosTimestamps
+from src.datamigration.nwb_builder.managers.pos_timestamp_data_manager import PosTimestampDataManager
 from src.datamigration.nwb_builder.nwb_builder_tools.data_iterator import DataIterator, DataIterator1D
 
 
@@ -28,7 +28,8 @@ class PositionExtractor:
         return extracted_pos
 
     def get_timestamps(self):
-        pos_timestamps = PosTimestamps(directories=self.all_pos, continuous_time_directories=self.continuous_time)
+        pos_timestamps = PosTimestampDataManager(directories=self.all_pos,
+                                                 continuous_time_directories=self.continuous_time)
         extracted_timestamps = DataIterator1D(pos_timestamps)
 
         return extracted_timestamps

@@ -11,7 +11,7 @@ class PosDataManager:
         self.number_of_datasets = self._get_number_of_datasets(directories)
         self.number_of_files_per_dataset = self._get_number_of_files_per_dataset(directories)
         self.number_of_rows_per_file = self._get_data_shape(0)[0]
-        self.files_lengths_in_dataset = self._get_file_length()
+        self.file_lenghts_in_datasets = self._get_file_length()
 
     @staticmethod
     def _get_number_of_datasets(directories):
@@ -35,4 +35,4 @@ class PosDataManager:
         return position.xloc, position.yloc, position.xloc2, position.yloc2
 
     def get_final_data_shape(self):
-        return self.number_of_rows_per_file * self.number_of_files_per_dataset, sum(self.files_lengths_in_dataset)
+        return self.number_of_rows_per_file * self.number_of_files_per_dataset, sum(self.file_lenghts_in_datasets)
