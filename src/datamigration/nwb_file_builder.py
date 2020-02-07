@@ -52,8 +52,8 @@ class NWBFileBuilder:
         self.probes = nwb_metadata.probes
 
         self.__headers_validation()
-        header = Header(self.data_path + '/' + self.animal_name + '/preprocessing/' +
-                        self.date + '/header.xml')
+        header = Header(self.header_file)
+
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
@@ -159,7 +159,8 @@ class NWBFileBuilder:
     def __headers_validation(self):
         rec_finder = RecFileFinder()
         header_checker = HeaderChecker(rec_finder.find_rec_files(path=(self.data_path
-                                                                       + '/' + self.animal_name
-                                                                       + '/raw/'
-                                                                       + self.date)))
+                                                                    + '/' + self.animal_name
+                                                                    + '/raw/'
+                                                                    + self.date)))
+        self.header_file = header_checker.headers[0]
         header_checker.log_headers_compatibility()
