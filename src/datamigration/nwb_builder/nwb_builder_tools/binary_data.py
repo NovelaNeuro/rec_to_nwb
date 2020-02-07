@@ -33,11 +33,6 @@ class BinaryData:
         return dim1, dim2
 
 
-class MdaData(BinaryData):
-
-    def read_data(self, dataset_num, file_num):
-        return readmda(self.directories[dataset_num][file_num])
-
 
 class PosData(BinaryData):
 
@@ -54,7 +49,6 @@ class MdaTimestamps():
         self.continuous_time_directories = continuous_time_directories
         self.num_datasets = self.get_num_datasets()
         self.file_lenghts = [self.get_data_shape(i) for i in range(self.num_datasets)]
-
 
     def get_num_datasets(self):
         return np.size(self.directories, 1)
