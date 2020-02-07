@@ -11,12 +11,13 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class TestElectrodeGroupDictBuilder(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
             {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'}]
 
-        self.electrode_group_builder = ElectrodeGroupDictBuilder(
+        cls.electrode_group_builder = ElectrodeGroupDictBuilder(
             electrode_groups_metadata=metadata
         )
 
@@ -26,7 +27,7 @@ class TestElectrodeGroupDictBuilder(TestCase):
         mock_2.__class__ = Probe
         probes_object_dict = {0: mock_1, 1: mock_2}
 
-        self.electrode_group_dict = self.electrode_group_builder.build(
+        cls.electrode_group_dict = cls.electrode_group_builder.build(
             probes=probes_object_dict
         )
 

@@ -15,7 +15,8 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class TestElectrodeBuilder(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
             {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'}]
@@ -44,25 +45,25 @@ class TestElectrodeBuilder(TestCase):
                            {'id': 97, 'rel_x': 40, 'rel_y': 900, 'rel_z': 0}]}]}
                   ]
 
-        self.electrodes_builder = ElectrodeBuilder(probes, metadata)
+        cls.electrodes_builder = ElectrodeBuilder(probes, metadata)
 
-        self.nwb_file = NWBFile(
+        cls.nwb_file = NWBFile(
             session_description='demonstrate external files',
             identifier='NWBE1',
             session_start_time=datetime(2017, 4, 3, 11, tzinfo=tzlocal()),
             file_create_date=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
         )
 
-        self.mock_eg_1 = Mock()
-        self.mock_eg_2 = Mock()
-        self.mock_eg_1.__class__ = FLElectrodeGroup
-        self.mock_eg_2.__class__ = FLElectrodeGroup
-        self.mock_eg_1.name = 'FLElectrodeGroup1'
-        self.mock_eg_2.name = 'FLElectrodeGroup2'
-        electrode_group_object_dict = {0: self.mock_eg_1, 1: self.mock_eg_2}
+        cls.mock_eg_1 = Mock()
+        cls.mock_eg_2 = Mock()
+        cls.mock_eg_1.__class__ = FLElectrodeGroup
+        cls.mock_eg_2.__class__ = FLElectrodeGroup
+        cls.mock_eg_1.name = 'FLElectrodeGroup1'
+        cls.mock_eg_2.name = 'FLElectrodeGroup2'
+        electrode_group_object_dict = {0: cls.mock_eg_1, 1: cls.mock_eg_2}
 
-        self.electrodes_builder.build(
-            nwb_content=self.nwb_file,
+        cls.electrodes_builder.build(
+            nwb_content=cls.nwb_file,
             electrode_group_dict=electrode_group_object_dict,
         )
 
