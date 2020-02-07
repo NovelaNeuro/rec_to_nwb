@@ -1,7 +1,7 @@
 from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
 
 
-class ElectrodeGroupBuilder:
+class ElectrodeGroupCreator:
 
     @staticmethod
     def create_electrode_group(metadata, device):

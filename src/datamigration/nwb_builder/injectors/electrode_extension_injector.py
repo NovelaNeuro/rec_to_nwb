@@ -1,6 +1,9 @@
-class ElectrodesExtensionInjector:
+class ElectrodeExtensionInjector:
     @staticmethod
     def inject_extensions(nwb_content, electrodes_metadata_extension, electrodes_header_extension):
+
+        # ToDo if len(ext) < len(electrodes) = add 0.0, cut the ext if > ; Log
+
         nwb_content.electrodes.add_column(
             name='hwChan',
             description='None',
