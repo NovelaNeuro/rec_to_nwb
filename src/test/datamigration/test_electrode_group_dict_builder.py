@@ -13,7 +13,7 @@ class TestElectrodeGroupDictBuilder(TestCase):
 
     def setUp(self):
         metadata = [
-            {'id': 0, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 1'},
+            {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
             {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'}]
 
         self.electrode_group_builder = ElectrodeGroupDictBuilder(
