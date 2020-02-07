@@ -14,13 +14,13 @@ class ElectrodeExtensionBuilder:
         self.electrodes_header_extension_creator = ElectrodesHeaderExtensionCreator()
 
     def build(self):
-        self.create_extension_from_metadata(self.electrode_groups_metadata, self.probes_metadata)
+        self._create_extension_from_metadata(self.electrode_groups_metadata, self.probes_metadata)
 
         electrodes_header_extension = self.electrodes_header_extension_creator.create_electrodes_header_extension(self.header)
         electrodes_metadata_extension = self.electrodes_metadata_extension_creator
         return electrodes_metadata_extension, electrodes_header_extension
 
-    def create_extension_from_metadata(self, electrode_groups_metadata, probes_metadata):
+    def _create_extension_from_metadata(self, electrode_groups_metadata, probes_metadata):
         for electrode_group_metadata in electrode_groups_metadata:
             probe_metadata = filter_probe_by_type(probes_metadata, electrode_group_metadata['device_type'])
 

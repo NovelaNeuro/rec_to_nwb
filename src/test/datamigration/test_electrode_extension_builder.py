@@ -4,7 +4,7 @@ from unittest import TestCase
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb_builder.creators.electrode_metadata_extension_creator import \
-   ElectrodesMetadataExtensionCreator
+    ElectrodesMetadataExtensionCreator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -48,8 +48,32 @@ class TestElectrodeExtensionsBuilder(TestCase):
             header=self.header
         )
 
-    def test_build_successful_creation(self):
-        electrodes_metadata_extension, electrodes_header_extension = self.electrode_extension_builder.build()
+        self.electrodes_metadata_extension, self.electrodes_header_extension = self.electrode_extension_builder.build()
 
-        self.assertIsInstance(electrodes_metadata_extension, ElectrodesMetadataExtensionCreator)
-        self.assertIsInstance(electrodes_header_extension, list)
+    def test_build_successfulReturn_true(self):
+        self.assertIsNotNone(self.electrodes_metadata_extension)
+        self.assertIsNotNone(self.electrodes_metadata_extension.rel_x)
+        self.assertIsNotNone(self.electrodes_metadata_extension.rel_y)
+        self.assertIsNotNone(self.electrodes_metadata_extension.rel_z)
+
+        self.assertIsNotNone(self.electrodes_header_extension)
+
+    def test_build_returnCorrectValues_true(self):
+        self.assertEqual(self.electrodes_metadata_extension.rel_x[0], 0)
+        self.assertEqual(self.electrodes_metadata_extension.rel_y[0], 0)
+        self.assertEqual(self.electrodes_metadata_extension.rel_z[0], 0)
+        self.assertEqual(self.electrodes_header_extension[0], '81')
+
+    def test_build_returnCorrectObject_true(self):
+        self.assertIsInstance(self.electrodes_metadata_extension, ElectrodesMetadataExtensionCreator)
+
+        self.assertIsInstance(self.electrodes_metadata_extension.rel_x, list)
+        self.assertIsInstance(self.electrodes_metadata_extension.rel_y, list)
+        self.assertIsInstance(self.electrodes_metadata_extension.rel_z, list)
+
+        self.assertIsInstance(self.electrodes_metadata_extension.rel_x[0], int)
+        self.assertIsInstance(self.electrodes_metadata_extension.rel_y[0], int)
+        self.assertIsInstance(self.electrodes_metadata_extension.rel_z[0], int)
+
+        self.assertIsInstance(self.electrodes_header_extension, list)
+        self.assertIsInstance(self.electrodes_header_extension[0], str)

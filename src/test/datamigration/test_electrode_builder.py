@@ -43,7 +43,7 @@ class TestElectrodeBuilder(TestCase):
 
         self.electrodes_builder = ElectrodeBuilder(probes, metadata)
 
-    def test_build_successful_creation(self):
+    def test_build_successful_creation_true(self):
         # given
         mock_nwb = Mock()
         mock_nwb.__class__ = NWBFile
@@ -59,9 +59,9 @@ class TestElectrodeBuilder(TestCase):
             nwb_content=mock_nwb,
             electrode_group_dict=electrode_group_object_dict,
         )
-        # ToDo Need idea how to test it with mock_nwb
 
         # then
+        print(mock_nwb.electrodes)
         # self.assertEqual(256, len(electrodes))
         # self.assertIsInstance(electrodes[0], DynamicTable)
         # self.assertIsInstance(electrodes[1], DynamicTable)

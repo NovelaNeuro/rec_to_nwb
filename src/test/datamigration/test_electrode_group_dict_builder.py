@@ -20,20 +20,37 @@ class TestElectrodeGroupDictBuilder(TestCase):
             electrode_groups_metadata=metadata
         )
 
-    def test_build_successful_creation(self):
-        # given
         mock_1 = Mock()
         mock_2 = Mock()
         mock_1.__class__ = Probe
         mock_2.__class__ = Probe
         probes_object_dict = {0: mock_1, 1: mock_2}
 
-        # when
-        electrode_group_dict = self.electrode_group_builder.build(
+        self.electrode_group_dict = self.electrode_group_builder.build(
             probes=probes_object_dict
         )
 
-        # then
-        self.assertEqual(2, len(electrode_group_dict))
-        self.assertIsInstance(electrode_group_dict[0], FLElectrodeGroup)
-        self.assertIsInstance(electrode_group_dict[1], FLElectrodeGroup)
+    def test_build_successfulReturn_true(self):
+        self.assertIsNotNone(self.electrode_group_dict)
+
+    def test_build_returnCorrectValues_true(self):
+        self.assertEqual(self.electrode_group_dict[0].location, 'mPFC')
+        self.assertEqual(self.electrode_group_dict[0].description, 'Probe 1')
+        self.assertEqual(self.electrode_group_dict[0].id, 0)
+
+        self.assertEqual(self.electrode_group_dict[1].location, 'mPFC')
+        self.assertEqual(self.electrode_group_dict[1].description, 'Probe 2')
+        self.assertEqual(self.electrode_group_dict[1].id, 1)
+
+    def test_build_correctObjectLength_true(self):
+        self.assertEqual(2, len(self.electrode_group_dict))
+
+    def test_build_returnCorrectType_true(self):
+        self.assertIsInstance(self.electrode_group_dict, dict)
+        self.assertIsInstance(self.electrode_group_dict[0], FLElectrodeGroup)
+        self.assertIsInstance(self.electrode_group_dict[1], FLElectrodeGroup)
+        self.assertIsInstance(self.electrode_group_dict[1].location, str)
+        self.assertIsInstance(self.electrode_group_dict[1].description, str)
+        self.assertIsInstance(self.electrode_group_dict[1].device, Probe)
+        self.assertIsInstance(self.electrode_group_dict[1].id, int)
+

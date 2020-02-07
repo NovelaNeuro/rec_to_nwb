@@ -14,10 +14,10 @@ class ProbesDictBuilder:
     def build(self):
         probes = {}
         for probe_counter, electrode_group_metadata in enumerate(self.electrode_groups_metadata):
-            probes[probe_counter] = self.build_single_probe(electrode_group_metadata, probe_counter, probes)
+            probes[probe_counter] = self._build_single_probe(electrode_group_metadata, probe_counter, probes)
         return probes
 
-    def build_single_probe(self, electrode_group_metadata, probe_counter, probes):
+    def _build_single_probe(self, electrode_group_metadata, probe_counter, probes):
         probe_metadata = filter_probe_by_type(self.probes_metadata,
-                                                            electrode_group_metadata['device_type'])
+                                              electrode_group_metadata['device_type'])
         return self.probe_creator.create_probe(probe_metadata, probe_counter)

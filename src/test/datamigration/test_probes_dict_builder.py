@@ -42,10 +42,34 @@ class TestProbesDictBuilder(TestCase):
             probes_metadata=probes,
             electrode_groups_metadata=metadata
         )
+        self.probes_dict = self.probes_builder.build()
 
-    def test_build_successful_creation(self):
-        probes_dict = self.probes_builder.build()
+    def test_build_successfulReturn_true(self):
+        self.assertIsNotNone(self.probes_dict)
 
-        self.assertEqual(2, len(probes_dict))
-        self.assertIsInstance(probes_dict[0], Probe)
-        self.assertIsInstance(probes_dict[1], Probe)
+    def test_build_returnCorrectValues_true(self):
+        self.assertEqual(self.probes_dict[0].probe_type, 'tetrode_12.5')
+        self.assertEqual(self.probes_dict[0].contact_size, 20.0)
+        self.assertEqual(self.probes_dict[0].num_shanks, 1)
+        self.assertEqual(self.probes_dict[0].id, 0)
+
+        self.assertEqual(self.probes_dict[1].probe_type, '128c-4s8mm6cm-20um-40um-sl')
+        self.assertEqual(self.probes_dict[1].contact_size, 20.0)
+        self.assertEqual(self.probes_dict[1].num_shanks, 4)
+        self.assertEqual(self.probes_dict[1].id, 1)
+
+    def test_build_correctObjectLength_true(self):
+        self.assertEqual(2, len(self.probes_dict))
+
+    def test_build_returnCorrectType_true(self):
+        self.assertIsInstance(self.probes_dict[0], Probe)
+        self.assertIsInstance(self.probes_dict[0].probe_type, str)
+        self.assertIsInstance(self.probes_dict[0].contact_size, float)
+        self.assertIsInstance(self.probes_dict[0].num_shanks, int)
+        self.assertIsInstance(self.probes_dict[0].id, int)
+
+        self.assertIsInstance(self.probes_dict[1], Probe)
+        self.assertIsInstance(self.probes_dict[1].probe_type, str)
+        self.assertIsInstance(self.probes_dict[1].contact_size, float)
+        self.assertIsInstance(self.probes_dict[1].num_shanks, int)
+        self.assertIsInstance(self.probes_dict[1].id, int)
