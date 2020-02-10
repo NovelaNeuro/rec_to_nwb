@@ -6,10 +6,11 @@ from src.datamigration.nwb_builder.managers.metadata_manager import MetadataMana
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestMetadata(TestCase):
+class TestMetadataManager(TestCase):
 
-    def setUp(self):
-        self.nwb_metadata = MetadataManager(str(path) + '/res/metadata.yml',
+    @classmethod
+    def setUpClass(cls):
+        cls.nwb_metadata = MetadataManager(str(path) + '/res/metadata.yml',
                                             [str(path) + '/res/probe1.yml',
                                       str(path) + '/res/probe2.yml',
                                       str(path) + '/res/probe3.yml'
