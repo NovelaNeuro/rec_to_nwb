@@ -68,8 +68,6 @@ class TestElectrodeBuilder(TestCase):
         )
 
     def test_build_correctObjectLength_true(self):
-
-        print(self.nwb_file.electrodes)
         self.assertEqual(12, len(self.nwb_file.electrodes))
 
     def test_build_returnCorrectType_true(self):
