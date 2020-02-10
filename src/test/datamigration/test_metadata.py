@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
+from src.datamigration.nwb_builder.managers.metadata_manager import MetadataManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -9,8 +9,8 @@ path = os.path.dirname(os.path.abspath(__file__))
 class TestMetadata(TestCase):
 
     def setUp(self):
-        self.nwb_metadata = NWBMetadata(str(path) + '/res/metadata.yml',
-                                     [str(path) + '/res/probe1.yml',
+        self.nwb_metadata = MetadataManager(str(path) + '/res/metadata.yml',
+                                            [str(path) + '/res/probe1.yml',
                                       str(path) + '/res/probe2.yml',
                                       str(path) + '/res/probe3.yml'
                                       ])
