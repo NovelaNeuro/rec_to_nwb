@@ -1,5 +1,6 @@
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
-from src.datamigration.nwb_builder.nwb_builder_tools.binary_data import MdaData, MdaTimestamps
+from src.datamigration.nwb_builder.managers.mda_data_manager import MdaDataManager
+from src.datamigration.nwb_builder.managers.mda_timestamp_data_manager import MdaTimestampDataManager
 from src.datamigration.nwb_builder.nwb_builder_tools.data_iterator import DataIterator, DataIterator1D
 from src.datamigration.nwb_builder.nwb_builder_tools.mda_object import MdaObject
 
@@ -28,9 +29,9 @@ class MdaExtractor:
             self.timestamps.append(dataset.get_mda_timestamps())
             self.continuous_time.append(dataset.get_continuous_time())
 
-        data = MdaData(self.mda_data)
+        data = MdaDataManager(self.mda_data)
         extracted_mda = DataIterator(data)
-        timestamps = MdaTimestamps(directories=[self.timestamps], continuous_time_directories=self.continuous_time)
+        timestamps = MdaTimestampDataManager(directories=[self.timestamps], continuous_time_directories=self.continuous_time)
         extracted_timestamps = DataIterator1D(timestamps)
 
         return MdaObject(extracted_mda, extracted_timestamps)
