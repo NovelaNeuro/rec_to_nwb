@@ -14,7 +14,9 @@ class Dataset:
         return self.data[data_type]
 
     def get_all_data_from_dataset(self, data_type):
-        return os.listdir(self.data[data_type])
+        directories = os.listdir(self.data[data_type])
+        directories.sort()
+        return directories
 
     def get_mda_timestamps(self):
         for file in self.get_all_data_from_dataset('mda'):
@@ -39,6 +41,7 @@ class DataScanner:
         existing_datasets = set()
         datasets = dict([])
         directories = os.listdir(path)
+        directories.sort()
         for directory in directories:
             dir_split = directory.split('_')
             if dir_split[0].isdigit():
@@ -54,6 +57,7 @@ class DataScanner:
 
     def get_data(self):
         animal_names = os.listdir(self.path)
+        animal_names.sort()
         animals = dict([])
         for animal_name in animal_names:
             animals[animal_name] = self.get_experiments(animal_name)
@@ -61,7 +65,7 @@ class DataScanner:
 
     def get_experiments(self, animal_name):
         path = self.path + animal_name + '/preprocessing'
-        dates = os.listdir(path)
+        dates = sorted(os.listdir(path))
         experiment_dates = dict([])
         for date in dates:
             experiment_dates[date] = self.get_datasets(path + '/' + date)
@@ -89,7 +93,9 @@ class DataScanner:
     @staticmethod
     def get_probes_from_directory(path):
         probes = []
-        for probe_file in os.listdir(path):
+        files = os.listdir(path)
+        files.sort()
+        for probe_file in files:
             if fnmatch.fnmatch(probe_file, "probe*.yml"):
                 probes.append(path + '/' + probe_file)
         return probes
