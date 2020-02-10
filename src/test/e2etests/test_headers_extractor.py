@@ -21,7 +21,7 @@ class TestHeaderReader(unittest.TestCase):
         self.header_extractor = HeaderFilesExtractor()
 
     def test_extraction_from_rec_files(self):
-        self.xml_files = self.header_extractor.extract_from_rec_files(self.rec_files)
+        self.xml_files = self.header_extractor.extract_headers_from_rec_files(self.rec_files)
         self.assertEqual(4, len(self.xml_files))
         self.assertEqual([
                             str(path) + '/test_data/beans/raw/20190718/20190718_beans_01_s1.rec_header.xml',
