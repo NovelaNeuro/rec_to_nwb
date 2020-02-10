@@ -1,6 +1,6 @@
-from src.datamigration.nwb_builder.creators.ntrodes_creator import NTrodesCreator
-from src.datamigration.nwb_builder.extractors.ntrodes_extractor import NTrodesExtractor
-from src.datamigration.nwb_builder.injectors.ntrodes_injector import NTrodesInjector
+from src.datamigration.data_processing_modules.creators.ntrodes_creator import NTrodesCreator
+from src.datamigration.data_processing_modules.extractors.ntrodes_extractor import NTrodesExtractor
+from src.datamigration.data_processing_modules.injectors.ntrodes_injector import NTrodesInjector
 
 
 class NTrodesBuilder:

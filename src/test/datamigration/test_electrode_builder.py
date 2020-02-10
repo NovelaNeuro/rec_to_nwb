@@ -6,9 +6,9 @@ from unittest.mock import Mock
 from dateutil.tz import tzlocal
 from hdmf.common import DynamicTable, VectorData, ElementIdentifiers
 from pynwb import NWBFile
+from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 
 from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
-from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 

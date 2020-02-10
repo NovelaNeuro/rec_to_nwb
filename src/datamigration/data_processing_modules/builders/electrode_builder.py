@@ -1,4 +1,4 @@
-from src.datamigration.nwb_builder.creators.electrode_creator import ElectrodesCreator
+from src.datamigration.data_processing_modules.creators.electrode_creator import ElectrodesCreator
 from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 
 

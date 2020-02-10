@@ -5,26 +5,26 @@ import uuid
 
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
+from src.datamigration.data_processing_modules.builders.apparatus_builder import ApparatusBuilder
+from src.datamigration.data_processing_modules.builders.dio_builder import DioBuilder
+from src.datamigration.data_processing_modules.builders.electrode_builder import ElectrodeBuilder
+from src.datamigration.data_processing_modules.builders.electrode_extension_builder import ElectrodeExtensionBuilder
+from src.datamigration.data_processing_modules.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
+from src.datamigration.data_processing_modules.builders.mda_builder import MdaBuilder
+from src.datamigration.data_processing_modules.builders.ntrodes_builder import NTrodesBuilder
+from src.datamigration.data_processing_modules.builders.position_builder import PositionBuilder
+from src.datamigration.data_processing_modules.builders.probes_dict_builder import ProbesDictBuilder
+from src.datamigration.data_processing_modules.builders.task_builder import TaskBuilder
+from src.datamigration.data_processing_modules.creators.processing_module_creator import ProcessingModuleCreator
+from src.datamigration.data_processing_modules.injectors.electrode_extension_injector import ElectrodeExtensionInjector
+from src.datamigration.data_processing_modules.injectors.electrode_group_injector import ElectrodeGroupInjector
+from src.datamigration.data_processing_modules.injectors.probe_injector import ProbeInjector
+from src.datamigration.data_processing_modules.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
+from src.datamigration.data_processing_modules.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
+from src.datamigration.data_processing_modules.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
-from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
-from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
-from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
-from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
-from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
-from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
-from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
-from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
-from src.datamigration.nwb_builder.builders.probes_dict_builder import ProbesDictBuilder
-from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
-from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
-from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
-from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
-from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)

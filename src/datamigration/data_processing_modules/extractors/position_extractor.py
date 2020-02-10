@@ -1,7 +1,7 @@
+from src.datamigration.data_processing_modules.managers.pos_data_manager import PosDataManager
+from src.datamigration.data_processing_modules.managers.pos_timestamp_data_manager import PosTimestampDataManager
+from src.datamigration.data_processing_modules.nwb_builder_tools.data_iterator import DataIterator, DataIterator1D
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
-from src.datamigration.nwb_builder.managers.pos_data_manager import PosDataManager
-from src.datamigration.nwb_builder.managers.pos_timestamp_data_manager import PosTimestampDataManager
-from src.datamigration.nwb_builder.nwb_builder_tools.data_iterator import DataIterator, DataIterator1D
 
 
 # TODO Is it SOLID?

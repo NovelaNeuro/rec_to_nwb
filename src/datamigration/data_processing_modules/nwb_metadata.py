@@ -1,6 +1,6 @@
 import yaml
 
-from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
+from src.datamigration.data_processing_modules.extractors.probe_extractor import ProbesExtractor
 
 
 class NWBMetadata:

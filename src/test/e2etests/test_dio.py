@@ -4,11 +4,11 @@ from pathlib import Path
 import numpy as np
 from pynwb.behavior import BehavioralEvents
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
+from src.datamigration.data_processing_modules.creators.dio_creator import DioCreator
+from src.datamigration.data_processing_modules.extractors.dio_extractor import DioExtractor
+from src.datamigration.data_processing_modules.managers.dio_manager import DioManager
+from src.datamigration.data_processing_modules.nwb_metadata import NWBMetadata
 
-from src.datamigration.nwb_builder.creators.dio_creator import DioCreator
-from src.datamigration.nwb_builder.extractors.dio_extractor import DioExtractor
-from src.datamigration.nwb_builder.managers.dio_manager import DioManager
-from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
 from src.datamigration.tools.file_scanner import Dataset
 
 path = Path(__file__).parent.parent

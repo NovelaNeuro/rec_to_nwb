@@ -1,5 +1,5 @@
-from src.datamigration.nwb_builder.creators.probe_creator import ProbeCreator
-from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
+from src.datamigration.data_processing_modules.creators.probe_creator import ProbeCreator
+from src.datamigration.data_processing_modules.extractors.probe_extractor import ProbesExtractor
 from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 
 

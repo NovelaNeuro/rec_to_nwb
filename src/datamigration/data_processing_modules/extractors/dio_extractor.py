@@ -5,8 +5,8 @@ import numpy as np
 from pynwb.behavior import BehavioralEvents
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
-from src.datamigration.nwb_builder.managers.dio_manager import DioManager
+from src.datamigration.data_processing_modules.extractors.continuous_time_extractor import ContinuousTimeExtractor
+from src.datamigration.data_processing_modules.managers.dio_manager import DioManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 

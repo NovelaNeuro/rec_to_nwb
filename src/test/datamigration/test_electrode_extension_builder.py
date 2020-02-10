@@ -1,10 +1,11 @@
 import os
 from unittest import TestCase
 
-from src.datamigration.header.module.header import Header
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb_builder.creators.electrode_metadata_extension_creator import \
     ElectrodesMetadataExtensionCreator
+
+from src.datamigration.header.module.header import Header
 
 path = os.path.dirname(os.path.abspath(__file__))
 

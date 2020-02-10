@@ -2,7 +2,7 @@ import os
 import unittest
 from pathlib import Path
 
-from src.datamigration.nwb_builder.extractors.xml_extractor import XMLExtractor
+from src.datamigration.data_processing_modules.extractors.xml_extractor import XMLExtractor
 
 path = Path(__file__).parent.parent
 path.resolve()

@@ -5,12 +5,12 @@ from unittest.mock import Mock
 from dateutil.tz import tzlocal
 from hdmf.common import VectorData
 from pynwb import NWBFile
-
-from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
 from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb_builder.creators.electrode_metadata_extension_creator import \
     ElectrodesMetadataExtensionCreator
 from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
+
+from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
 
 
 class TestElectrodeExtensionInjector(unittest.TestCase):

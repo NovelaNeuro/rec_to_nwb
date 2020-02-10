@@ -2,8 +2,8 @@ import os
 import unittest
 
 import numpy as np
+from src.datamigration.data_processing_modules.extractors.mda_extractor import MdaExtractor
 
-from src.datamigration.nwb_builder.extractors.mda_extractor import MdaExtractor
 from src.datamigration.tools.file_scanner import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))

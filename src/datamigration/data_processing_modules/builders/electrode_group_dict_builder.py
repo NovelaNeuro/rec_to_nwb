@@ -1,4 +1,4 @@
-from src.datamigration.nwb_builder.creators.electrode_group_creator import ElectrodeGroupCreator
+from src.datamigration.data_processing_modules.creators.electrode_group_creator import ElectrodeGroupCreator
 
 
 class ElectrodeGroupDictBuilder:

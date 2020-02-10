@@ -2,7 +2,8 @@ import os
 import unittest
 from pathlib import Path
 
-from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
+from src.datamigration.data_processing_modules.nwb_metadata import NWBMetadata
+
 from src.datamigration.nwb_file_builder import NWBFileBuilder
 
 path = Path(__file__).parent.parent
