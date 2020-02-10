@@ -11,12 +11,12 @@ class ElectrodeExtensionInjector:
 
     def inject_extensions(self, nwb_content, electrodes_metadata_extension, hw_chan):
 
-        hw_chan = self._validate_and_adjust_hw_chan_length(electrodes_metadata_extension.rel_x, hw_chan)
+        hw_chan = self.__validate_and_adjust_hw_chan_length(electrodes_metadata_extension.rel_x, hw_chan)
 
-        self._join_extensions_to_electrodes(electrodes_metadata_extension, hw_chan, nwb_content)
+        self.__join_extensions_to_electrodes(electrodes_metadata_extension, hw_chan, nwb_content)
 
     @staticmethod
-    def _join_extensions_to_electrodes(electrodes_metadata_extension, hw_chan, nwb_content):
+    def __join_extensions_to_electrodes(electrodes_metadata_extension, hw_chan, nwb_content):
         nwb_content.electrodes.add_column(
             name='hwChan',
             description='None',
@@ -39,7 +39,7 @@ class ElectrodeExtensionInjector:
         )
 
     @staticmethod
-    def _validate_and_adjust_hw_chan_length(rel_x, hw_chan):
+    def __validate_and_adjust_hw_chan_length(rel_x, hw_chan):
         diff_in_length = len(rel_x) - len(hw_chan)
 
         if diff_in_length == 0:
