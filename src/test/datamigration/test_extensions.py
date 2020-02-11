@@ -40,7 +40,7 @@ class TestExtensions(TestCase):
             controller_firmware_version="2.2",
             controller_serial="65535 65535",
             save_displayed_chan_only="1",
-            headstage_firmwavare_version="3.9",
+            headstage_firmware_version="3.9",
             qt_version="5.9.8",
             compile_date="May 16 2019",
             compile_time="10:32:19",
