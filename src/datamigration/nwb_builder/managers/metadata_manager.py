@@ -1,17 +1,23 @@
-import yaml
-
+from src.datamigration.nwb_builder.extractors.metadata_extractor import MetadataExtractor
 from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
 
 
-class NWBMetadata:
+class MetadataManager:
 
     def __init__(self, metadata_path, probes_paths):
         self.probes_paths = probes_paths
-        with open(metadata_path, 'r') as stream:
-            self.metadata = yaml.safe_load(stream)
 
-        probes_extractor = ProbesExtractor()
-        self.probes = probes_extractor.extract_probes_metadata(probes_paths)
+        self.probes_extractor = ProbesExtractor()
+        self.metadata_extractor = MetadataExtractor()
+
+        self.metadata = self.__get_metadata(metadata_path)
+        self.probes = self.__get_probes(probes_paths)
+
+    def __get_metadata(self, metadata_path):
+        return self.metadata_extractor.extract_metadata(metadata_path)
+
+    def __get_probes(self, probes_paths):
+        return self.probes_extractor.extract_probes_metadata(probes_paths)
 
     def __str__(self):
         metadata_info = 'Experimenter: ' + self.metadata['experimenter name'] + \
