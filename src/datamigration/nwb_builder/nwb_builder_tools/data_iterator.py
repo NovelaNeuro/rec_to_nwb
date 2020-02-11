@@ -61,11 +61,11 @@ class DataIterator1D(AbstractDataChunkIterator):
 
     def __init__(self, data):
         self.data = data
-        self.files = data.directories
-        self.num_steps = data.number_of_datasets
+        self.files = data.get_directories()
+        self.num_steps = data.get_number_of_datasets()
         self.__curr_index = 0
         self.current_dataset = 0
-        self.dataset_file_lenght = data.file_lenghts_in_datasets
+        self.dataset_file_lenght = data.get_file_lenghts_in_datasets()
         self.shape = data.get_final_data_shape()
 
     def __iter__(self):

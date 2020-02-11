@@ -54,3 +54,15 @@ class PosTimestampManager(TimestampManagerInterface):
     # override
     def get_final_data_shape(self):
         return sum(self.file_lenghts_in_datasets),
+
+    # override
+    def get_directories(self):
+        return self.directories
+
+    # override
+    def get_number_of_datasets(self):
+        return self.number_of_datasets
+
+    # override
+    def get_file_lenghts_in_datasets(self):
+        return self.file_lenghts_in_datasets

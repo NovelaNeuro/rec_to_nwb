@@ -33,5 +33,3 @@ class PositionExtractor:
         extracted_timestamps = DataIterator1D(pos_timestamps)
 
         return extracted_timestamps
-
-
