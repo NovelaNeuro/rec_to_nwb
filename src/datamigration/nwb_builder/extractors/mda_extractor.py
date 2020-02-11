@@ -1,11 +1,11 @@
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
 from src.datamigration.nwb_builder.nwb_builder_tools.binary_data import MdaData, MdaTimestamps
 from src.datamigration.nwb_builder.nwb_builder_tools.data_iterator import DataIterator, DataIterator1D
-from src.datamigration.nwb_builder.objects.mda_object import MdaObject
+from src.datamigration.nwb_builder.others.mda_content import MdaContent
 
 
 # ToDo Is it SOLID?
-# Should be: extract here and manager to get MdaObject
+# Should be: extract here and manager to get MdaContent
 
 
 class MdaExtractor:
@@ -35,4 +35,4 @@ class MdaExtractor:
         timestamps = MdaTimestamps(directories=[self.timestamps], continuous_time_directories=self.continuous_time)
         extracted_timestamps = DataIterator1D(timestamps)
 
-        return MdaObject(extracted_mda, extracted_timestamps)
+        return MdaContent(extracted_mda, extracted_timestamps)
