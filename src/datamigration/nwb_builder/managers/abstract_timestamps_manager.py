@@ -1,7 +1,7 @@
 import abc
 
 
-class AbstractTimestampDataManager(abc.ABC):
+class TimestampManagerInterface(abc.ABC):
     @abc.abstractmethod
     def read_data(self, dataset_num):
         pass

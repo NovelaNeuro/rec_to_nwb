@@ -2,10 +2,10 @@ import pandas as pd
 from pandas import np
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from src.datamigration.nwb_builder.managers.abstract_data_manager import AbstractDataManager
+from src.datamigration.nwb_builder.managers.abstract_data_manager import DataManagerInterface
 
 
-class PosDataManager(AbstractDataManager):
+class PosDataManager(DataManagerInterface):
     def __init__(self, directories):
         self.directories = directories
 

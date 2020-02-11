@@ -1,7 +1,7 @@
 import abc
 
 
-class AbstractDataManager(abc.ABC):
+class DataManagerInterface(abc.ABC):
     @abc.abstractmethod
     def read_data(self, dataset_num, file_num):
         pass

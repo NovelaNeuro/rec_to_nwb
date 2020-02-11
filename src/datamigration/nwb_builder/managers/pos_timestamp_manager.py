@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from src.datamigration.nwb_builder.managers.abstract_timestamps_data_manager import AbstractTimestampDataManager
+from src.datamigration.nwb_builder.managers.abstract_timestamps_manager import TimestampManagerInterface
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -13,7 +13,7 @@ logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_ex
 logger = logging.getLogger(__name__)
 
 
-class PosTimestampDataManager(AbstractTimestampDataManager):
+class PosTimestampManager(TimestampManagerInterface):
     def __init__(self, directories, continuous_time_directories):
         self.directories = directories
         self.continuous_time_directories = continuous_time_directories
