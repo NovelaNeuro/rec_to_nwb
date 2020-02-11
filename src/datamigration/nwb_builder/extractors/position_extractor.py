@@ -4,13 +4,15 @@ from src.datamigration.nwb_builder.managers.pos_timestamp_data_manager import Po
 from src.datamigration.nwb_builder.nwb_builder_tools.data_iterator import DataIterator, DataIterator1D
 
 
-# TODO Is it SOLID?
 class PositionExtractor:
     def __init__(self, datasets):
         self.datasets = datasets
         self.all_pos = []
         self.continuous_time = []
 
+        self.__extract_data()
+
+    def __extract_data(self):
         for dataset in self.datasets:
             data_from_current_dataset = [dataset.get_data_path_from_dataset('pos') + pos_file for pos_file in
                                          dataset.get_all_data_from_dataset('pos') if
