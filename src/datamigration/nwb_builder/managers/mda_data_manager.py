@@ -1,7 +1,7 @@
 from mountainlab_pytools.mdaio import readmda
 from pandas import np
 
-from src.datamigration.nwb_builder.managers.abstract_data_manager import DataManagerInterface
+from src.datamigration.nwb_builder.managers.data_manager_interface import DataManagerInterface
 
 
 class MdaDataManager(DataManagerInterface):

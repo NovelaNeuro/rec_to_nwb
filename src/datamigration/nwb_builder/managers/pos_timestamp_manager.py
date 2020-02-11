@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from src.datamigration.nwb_builder.managers.abstract_timestamps_manager import TimestampManagerInterface
+from src.datamigration.nwb_builder.managers.timestamps_manager_interface import TimestampManagerInterface
 
 path = os.path.dirname(os.path.abspath(__file__))
 
