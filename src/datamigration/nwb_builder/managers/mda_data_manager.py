@@ -16,15 +16,15 @@ class MdaDataManager(AbstractDataManager):
 
     @staticmethod
     def __get_number_of_datasets(directories):
-        return np.size(directories, 0)
+        return np.shape(directories)[0]
 
     @staticmethod
     def __get_number_of_files_per_dataset(directories):
-        return np.size(directories, 1)
+        return np.shape(directories)[1]
 
     def __get_data_shape(self, dataset_num):
-        dim1 = np.size(self.read_data(dataset_num, 0), 0)
-        dim2 = np.size(self.read_data(dataset_num, 0), 1)
+        dim1 = np.shape(self.read_data(dataset_num, 0))[0]
+        dim2 = np.shape(self.read_data(dataset_num, 0))[1]
         return dim1, dim2
 
     def __get_file_length(self):

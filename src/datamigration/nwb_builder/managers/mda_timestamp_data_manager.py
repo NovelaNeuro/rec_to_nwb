@@ -22,7 +22,7 @@ class MdaTimestampDataManager(AbstractTimestampDataManager):
         self.file_lenghts_in_datasets = self.__get_files_length_in_datasets()
 
     def __get_number_of_datasets(self):
-        return np.size(self.directories, 1)
+        return np.shape(self.directories)[1]
 
     def __get_files_length_in_datasets(self):
         return [self.__get_data_shape(i) for i in range(self.number_of_datasets)]
@@ -47,14 +47,14 @@ class MdaTimestampDataManager(AbstractTimestampDataManager):
 
     @staticmethod
     def __create_timestamps_array(timestamps):
-        return np.ndarray([np.size(timestamps, 0), ], dtype="float64")
+        return np.ndarray([np.shape(timestamps)[0], ], dtype="float64")
 
     @staticmethod
     def __create_continuous_time_dict(continuous_time):
         return {str(data[0]): float(data[1]) for data in continuous_time['data']}
 
     def __get_data_shape(self, dataset_num):
-        dim1 = np.size(self.read_data(dataset_num), 0)
+        dim1 = np.shape(self.read_data(dataset_num))[0]
         return dim1
 
     # override

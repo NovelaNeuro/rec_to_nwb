@@ -26,7 +26,7 @@ class PosTimestampDataManager(AbstractTimestampDataManager):
 
     @staticmethod
     def __convert_timestamps(continuous_time_dict, timestamps):
-        converted_timestamps = np.ndarray([np.size(timestamps, 0), ], dtype="float64")
+        converted_timestamps = np.ndarray([np.shape(timestamps)[0], ], dtype="float64")
         for i in range(np.shape(timestamps)[0]):
             key = str(timestamps[i])
             try:
@@ -51,10 +51,10 @@ class PosTimestampDataManager(AbstractTimestampDataManager):
 
     @staticmethod
     def __get_num_datasets(directories):
-        return np.size(directories, 0)
+        return np.shape(directories)[0]
 
     def __get_data_shape(self, dataset_num):
-        dim1 = np.size(self.read_data(dataset_num), 0)
+        dim1 = np.shape(self.read_data(dataset_num))[0]
         return dim1
 
     # override
