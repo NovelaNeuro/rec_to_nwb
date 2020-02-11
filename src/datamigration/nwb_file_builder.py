@@ -151,7 +151,9 @@ class NWBFileBuilder:
 
     def __build_and_inject_header_device(self, nwb_content, header):
         header_device_creator = HeaderDeviceCreator()
-        header_device = header_device_creator.create_header_device(header=header, name='header_device')
+        header_device = header_device_creator.create_header_device(
+            global_configuration=header.configuration.global_configuration,
+            name='header_device')
         self.header_device_injector.inject_header_device(nwb_content, header_device)
 
     def __build_and_inject_probes(self, nwb_content):
