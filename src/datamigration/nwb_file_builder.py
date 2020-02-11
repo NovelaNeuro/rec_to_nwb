@@ -166,17 +166,20 @@ class NWBFileBuilder:
         )
 
     def __headers_processing(self, rec_files_list):
-
         headers_extractor = HeaderFilesExtractor()
         header_files = headers_extractor.extract_headers_from_rec_files(rec_files_list)
         header_comparator = HeaderComparator(header_files)
         headers_differences = header_comparator.compare()
 
-        if headers_differences != []:
+        self.__is_header_differences_list_empty(headers_differences, rec_files_list)
+
+        return header_files[0]
+
+    @staticmethod
+    def __is_header_differences_list_empty(headers_differences, rec_files_list):
+        if headers_differences:
             message = 'Rec files: ' + str(rec_files_list) + ' contain incosistent xml headers!\n'
             differences = [diff for diff in headers_differences
                            if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
                            not in str(diff)]
             logger.warning('%s , %s', message, differences)
-
-        return header_files[0]
