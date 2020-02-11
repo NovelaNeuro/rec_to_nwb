@@ -50,3 +50,15 @@ class TimestampManagerInterface(abc.ABC):
     def _get_data_shape(self, dataset_num):
         dim1 = np.shape(self.read_data(dataset_num))[0]
         return dim1
+
+    @abc.abstractmethod
+    def get_directories(self):
+        pass
+
+    @abc.abstractmethod
+    def get_number_of_datasets(self):
+        pass
+
+    @abc.abstractmethod
+    def get_file_lenghts_in_datasets(self):
+        pass

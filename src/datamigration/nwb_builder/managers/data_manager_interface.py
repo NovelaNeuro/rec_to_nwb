@@ -13,7 +13,7 @@ class DataManagerInterface(abc.ABC):
         pass
 
     @staticmethod
-    def _get_number_of_files_per_dataset(directories):
+    def get_number_of_files_per_dataset(directories):
         return np.shape(directories)[1]
 
     def _get_data_shape(self, dataset_num):
@@ -25,5 +25,17 @@ class DataManagerInterface(abc.ABC):
         return [self._get_data_shape(i)[1] for i in range(number_of_datasets)]
 
     @staticmethod
-    def _get_number_of_datasets(directories):
+    def get_number_of_datasets(directories):
         return np.shape(directories)[0]
+
+    @abc.abstractmethod
+    def get_directories(self):
+        pass
+
+    @abc.abstractmethod
+    def get_number_of_rows_per_file(self):
+        pass
+
+    @abc.abstractmethod
+    def get_file_lenghts_in_datasets(self):
+        pass
