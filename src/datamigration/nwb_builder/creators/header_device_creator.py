@@ -1,10 +1,10 @@
 from src.datamigration.extension.header_device import HeaderDevice
 
 
-class HeaderDeviceCreator:
+class HeaderDeviceFactory:
 
     @staticmethod
-    def create_header_device(global_configuration, name):
+    def create(global_configuration, name):
         return HeaderDevice(
                             name=name,
                             headstage_serial=global_configuration.headstage_serial,
