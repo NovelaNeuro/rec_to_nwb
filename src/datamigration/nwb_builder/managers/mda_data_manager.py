@@ -1,10 +1,10 @@
 from mountainlab_pytools.mdaio import readmda
 from pandas import np
 
-from src.datamigration.nwb_builder.managers.data_manager import DataManager
+from src.datamigration.nwb_builder.managers.abstract_data_manager import AbstractDataManager
 
 
-class MdaDataManager(DataManager):
+class MdaDataManager(AbstractDataManager):
     def __init__(self, directories):
         self.directories = directories
 
