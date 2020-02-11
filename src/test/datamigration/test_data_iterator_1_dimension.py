@@ -8,3 +8,10 @@ class TestDataIterator(TestCase):
 
 
 def FakeTimestampDataManager():
+    def init
+
+    def read_data():
+        pass
+
+    def get_final_data_shape():
+        pass
