@@ -5,6 +5,7 @@ from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
 from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
+from src.datamigration.extension.header_device import HeaderDevice
 from src.datamigration.extension.ntrode import NTrode
 from src.datamigration.extension.probe import Probe
 
@@ -28,6 +29,31 @@ class TestExtensions(TestCase):
             num_shanks=2,
         )
         cls.nwb_file.add_device(cls.probe)
+
+        cls.header_device = HeaderDevice(
+            name='heade device 1',
+            headstage_serial="00401 00003",
+            headstage_smart_ref_on="0",
+            realtime_mode="0",
+            headstage_auto_settle_on="0",
+            timestamp_at_creation="38699433",
+            controller_firmware_version="2.2",
+            controller_serial="65535 65535",
+            save_displayed_chan_only="1",
+            headstage_firmwavare_version="3.9",
+            qt_version="5.9.8",
+            compile_date="May 16 2019",
+            compile_time="10:32:19",
+            file_prefix="myAnimal",
+            headstage_gyro_sensor_on="0",
+            headstage_mag_sensor_on="0",
+            trodes_version="1.8.2",
+            headstage_accel_sensor_on="0",
+            commit_head="heads/Release_1.8.2-0-g9a3e37c",
+            system_time_at_creation="1563323368633",
+            file_path=''
+        )
+        cls.nwb_file.add_device(cls.header_device)
 
         cls.fl_electrode_group = FLElectrodeGroup(
             name='FLElectrodeGroup1',

@@ -18,9 +18,11 @@ from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilde
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
 from src.datamigration.nwb_builder.builders.probes_dict_builder import ProbesDictBuilder
 from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
+from src.datamigration.nwb_builder.creators.header_device_creator import HeaderDeviceCreator
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
+from src.datamigration.nwb_builder.injectors.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
@@ -62,7 +64,7 @@ class NWBFileBuilder:
                                                          + self.date))
 
         header_file = self.__headers_processing(rec_files_list)
-        header = Header(header_file)
+        self.header = Header(header_file)
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
@@ -74,17 +76,18 @@ class NWBFileBuilder:
 
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
         self.probes_injector = ProbeInjector()
+        self.header_device_injector = HeaderDeviceInjector()
 
         self.electrode_group_builder = ElectrodeGroupDictBuilder(self.metadata['electrode groups'])
         self.electrode_group_injector = ElectrodeGroupInjector()
 
         self.electrode_builder = ElectrodeBuilder(self.probes, self.metadata['electrode groups'])
 
-        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'], header)
+        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'], self.header)
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
         self.dio_builder = DioBuilder(self.datasets, self.metadata)
-        self.mda_builder = MdaBuilder(self.metadata, header, self.datasets)
+        self.mda_builder = MdaBuilder(self.metadata, self.header, self.datasets)
 
 
 
@@ -110,6 +113,8 @@ class NWBFileBuilder:
         self.__build_and_inject_processing_module(nwb_content)
 
         probes_dict = self.__build_and_inject_probes(nwb_content)
+
+        self.__build_and_inject_header_device(nwb_content, self.header)
 
         electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
 
@@ -143,6 +148,11 @@ class NWBFileBuilder:
         self.pm_creator.insert(apparatus)
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
+
+    def __build_and_inject_header_device(self, nwb_content, header):
+        header_device_creator = HeaderDeviceCreator()
+        header_device = header_device_creator.create_header_device(header=header, name='header_device')
+        self.header_device_injector.inject_header_device(nwb_content, header_device)
 
     def __build_and_inject_probes(self, nwb_content):
         probes_dict = self.probes_dict_builder.build()
