@@ -31,7 +31,7 @@ class TestExtensions(TestCase):
         cls.nwb_file.add_device(cls.probe)
 
         cls.header_device = HeaderDevice(
-            name='heade device 1',
+            name='header device 1',
             headstage_serial="00401 00003",
             headstage_smart_ref_on="0",
             realtime_mode="0",
@@ -74,6 +74,15 @@ class TestExtensions(TestCase):
             map=[[0, 0], [1, 1], [2, 2]]
         )
         cls.nwb_file.add_electrode_group(cls.n_trode)
+
+    def test_header_device_creation(self):
+        return_header_device = self.nwb_file.get_device(name='header device 1')
+        self.assertEqual(self.header_device, return_header_device)
+        self.assertEqual(self.header_device.name, return_header_device.name)
+        self.assertEqual("1.8.2", return_header_device.trodes_version)
+        self.assertEqual("1563323368633", return_header_device.system_time_at_creation)
+        self.assertEqual("May 16 2019", return_header_device.compile_date)
+
 
     def test_probe_creation(self):
         return_probe = self.nwb_file.get_device(name='Probe1')
