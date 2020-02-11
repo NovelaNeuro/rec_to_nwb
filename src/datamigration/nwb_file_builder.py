@@ -76,6 +76,7 @@ class NWBFileBuilder:
 
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
         self.probes_injector = ProbeInjector()
+        self.header_device_creator = HeaderDeviceCreator()
         self.header_device_injector = HeaderDeviceInjector()
 
         self.electrode_group_builder = ElectrodeGroupDictBuilder(self.metadata['electrode groups'])
@@ -150,8 +151,7 @@ class NWBFileBuilder:
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
     def __build_and_inject_header_device(self, nwb_content, header):
-        header_device_creator = HeaderDeviceCreator()
-        header_device = header_device_creator.create_header_device(
+        header_device = self.header_device_creator.create_header_device(
             global_configuration=header.configuration.global_configuration,
             name='header_device')
         self.header_device_injector.inject_header_device(nwb_content, header_device)
