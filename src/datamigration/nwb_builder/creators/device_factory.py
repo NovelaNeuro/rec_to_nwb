@@ -1,10 +1,29 @@
+from pynwb.device import Device
+
 from src.datamigration.extension.header_device import HeaderDevice
+from src.datamigration.extension.probe import Probe
 
 
-class HeaderDeviceFactory:
+class DeviceFactory:
 
     @staticmethod
-    def create(global_configuration, name):
+    def create_device(device_name):
+        return Device(
+            name=str(device_name)
+        )
+
+    @staticmethod
+    def create_probe(probe_metadata, probe_id):
+        return Probe(
+                probe_type=probe_metadata['probe_type'],
+                contact_size=probe_metadata['contact_size'],
+                num_shanks=probe_metadata['num_shanks'],
+                id=probe_id,
+                name=str(probe_id)
+            )
+
+    @staticmethod
+    def create_header_device(global_configuration, name):
         return HeaderDevice(
                             name=name,
                             headstage_serial=global_configuration.headstage_serial,
