@@ -9,17 +9,18 @@ class DataIterator1D(AbstractDataChunkIterator):
         self.__current_index = 0
         self.current_dataset = 0
 
+        self.dataset_file_lenght = data.get_file_lenghts_in_datasets()
         self.number_of_steps = self.__get_number_of_datasets(data)
         self.dataset_file_length = self.__get_dataset_file_length(data)
         self.shape = self.__get_data_shape(data)
 
     @staticmethod
     def __get_number_of_datasets(data):
-        return data.number_of_datasets
+        return data.get_number_of_datasets()
 
     @staticmethod
     def __get_dataset_file_length(data):
-        return data.file_lenghts_in_datasets
+        return data.get_file_lenghts_in_datasets()
 
     @staticmethod
     def __get_data_shape(data):

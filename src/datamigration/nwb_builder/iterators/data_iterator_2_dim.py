@@ -19,19 +19,19 @@ class DataIterator2D(AbstractDataChunkIterator):
 
     @staticmethod
     def __get_all_files_from_all_datasets(data):
-        return data.number_of_datasets * data.number_of_files_per_dataset
+        return data.get_number_of_datasets() * data.get_number_of_files_per_dataset()
 
     @staticmethod
     def __get_dataset_file_length(data):
-        return data.file_lenghts_in_datasets
+        return data.get_file_lenghts_in_datasets()
 
     @staticmethod
     def __get_number_of_rows(data):
-        return data.number_of_rows_per_file
+        return data.get_number_of_rows_per_file()
 
     @staticmethod
     def __get_number_of_files_in_single_dataset(data):
-        return data.number_of_files_per_dataset
+        return data.get_number_of_files_per_dataset()
 
     @staticmethod
     def __get_data_shape(data):
