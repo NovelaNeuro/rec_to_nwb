@@ -43,9 +43,8 @@ class TimestampManagerInterface(abc.ABC):
     def _get_timestamps(self, dataset_num):
         pass
 
-    @staticmethod
-    def _get_number_of_datasets(directories):
-        return np.shape(directories)[0]
+    def _get_number_of_datasets(self):
+        pass
 
     def _get_data_shape(self, dataset_num):
         dim1 = np.shape(self.read_data(dataset_num))[0]

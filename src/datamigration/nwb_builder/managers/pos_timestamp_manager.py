@@ -1,6 +1,7 @@
 import logging.config
 import os
 
+import numpy as np
 import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
@@ -17,7 +18,7 @@ class PosTimestampManager(TimestampManagerInterface):
         self.directories = directories
         self.continuous_time_directories = continuous_time_directories
 
-        self.number_of_datasets = self._get_number_of_datasets(self.directories)
+        self.number_of_datasets = self._get_number_of_datasets()
         self.file_lenghts_in_datasets = self._get_file_lenghts_in_datasets()
 
     # override
@@ -36,6 +37,10 @@ class PosTimestampManager(TimestampManagerInterface):
     # override
     def _get_file_lenghts_in_datasets(self):
         return [self._get_data_shape(i) for i in range(self.number_of_datasets)]
+
+    # override
+    def _get_number_of_datasets(self):
+        return np.shape(self.directories)[0]
 
     # override
     def _get_timestamps(self, dataset_num):
