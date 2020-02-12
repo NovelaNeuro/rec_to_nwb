@@ -11,7 +11,7 @@ class DataIterator1D(AbstractDataChunkIterator):
 
         self.number_of_steps = self.__get_number_of_datasets(data)
         self.dataset_file_length = self.__get_dataset_file_length(data)
-        self.data_shape = self.__get_data_shape(data)
+        self.shape = self.__get_data_shape(data)
 
     @staticmethod
     def __get_number_of_datasets(data):
@@ -50,8 +50,8 @@ class DataIterator1D(AbstractDataChunkIterator):
         return self.data.read_data(self.current_dataset)
 
     def __get_selection(self):
-        return np.s_[sum(self.dataset_file_length[0:self.current_dataset]):
-                     sum(self.dataset_file_length[0:self.current_dataset + 1]), ]
+        return np.s_[sum(self.dataset_file_lenght[0:self.current_dataset]):
+                     sum(self.dataset_file_lenght[0:self.current_dataset + 1]), ]
 
     # Override
     def recommended_chunk_shape(self):
@@ -59,7 +59,7 @@ class DataIterator1D(AbstractDataChunkIterator):
 
     # Override
     def recommended_data_shape(self):
-        return self.data_shape
+        return self.shape
 
     # Override
     @property
@@ -69,4 +69,4 @@ class DataIterator1D(AbstractDataChunkIterator):
     # Override
     @property
     def maxshape(self):
-        return self.data_shape
+        return self.shape
