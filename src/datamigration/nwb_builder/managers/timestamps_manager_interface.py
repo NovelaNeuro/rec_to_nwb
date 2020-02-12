@@ -24,13 +24,13 @@ class TimestampManagerInterface(abc.ABC):
         self.file_lenghts_in_datasets = self._get_file_lenghts_in_datasets()
 
     @abc.abstractmethod
-    def _get_timestamps(self, dataset_num):
+    def _get_timestamps(self, dataset_id):
         pass
 
-    def read_data(self, dataset_num):
-        timestamps = self._get_timestamps(dataset_num)
+    def read_data(self, dataset_id):
+        timestamps = self._get_timestamps(dataset_id)
         continuous_time_dict = self.continuous_time_extractor.get_continuous_time_dict_file(
-            self.continuous_time_directories[dataset_num])
+            self.continuous_time_directories[dataset_id])
         return self.timestamp_converter.convert_timestamps(continuous_time_dict, timestamps)
 
     def get_final_data_shape(self):
