@@ -17,14 +17,15 @@ from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
 from src.datamigration.nwb_builder.builders.probes_dict_builder import ProbesDictBuilder
-from src.datamigration.nwb_components.task.task_builder import TaskBuilder
-from src.datamigration.nwb_builder.creators.header_device_creator import HeaderDeviceFactory
+from src.datamigration.nwb_builder.creators.device_factory import DeviceFactory
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb_builder.injectors.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
+from src.datamigration.nwb_components.apparatus.apparatus_builder import ApparatusBuilder
+from src.datamigration.nwb_components.task.task_builder import TaskBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -72,7 +73,7 @@ class NWBFileBuilder:
 
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
         self.probes_injector = ProbeInjector()
-        self.header_device_creator = HeaderDeviceFactory()
+        self.header_device_creator = DeviceFactory()
         self.header_device_injector = HeaderDeviceInjector()
 
         self.electrode_group_builder = ElectrodeGroupDictBuilder(self.metadata['electrode groups'])
@@ -145,7 +146,7 @@ class NWBFileBuilder:
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
     def __build_and_inject_header_device(self, nwb_content, header):
-        header_device = self.header_device_creator.create(
+        header_device = self.header_device_creator.create_header_device(
             global_configuration=header.configuration.global_configuration,
             name='header_device')
         self.header_device_injector.inject_header_device(nwb_content, header_device)
