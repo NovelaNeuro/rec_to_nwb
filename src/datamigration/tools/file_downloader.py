@@ -28,9 +28,6 @@ class FileDownloader(AbstractFileDownloader):
             :var url: url to file
     """
 
-    url = ""
-    path = ""
-
     def __init__(self,
                  url="https://www.dropbox.com/s/a7ddruxoffgbe7y/AC13_d27_WhereAreWeNow.rec?dl=1",
                  path="../data/file.rec"):
