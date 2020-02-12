@@ -28,3 +28,15 @@ class FakeDataManager:
 
     def get_final_data_shape(self):
         return 8, 11
+
+    def get_number_of_datasets(self):
+        return self.number_of_datasets
+
+    def get_file_lenghts_in_datasets(self):
+        return self.file_lenghts_in_datasets
+
+    def get_number_of_files_per_dataset(self):
+        return self.number_of_files_per_dataset
+
+    def get_number_of_rows_per_file(self):
+        return self.number_of_rows_per_file

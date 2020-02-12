@@ -25,3 +25,9 @@ class FakeTimestampDataManager:
 
     def get_final_data_shape(self):
         return 11,
+
+    def get_number_of_datasets(self):
+        return self.number_of_datasets
+
+    def get_file_lenghts_in_datasets(self):
+        return self.file_lenghts_in_datasets
