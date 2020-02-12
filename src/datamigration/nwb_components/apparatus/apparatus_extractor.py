@@ -3,8 +3,8 @@ from src.datamigration.extension.node import Node
 
 
 class ApparatusExtractor:
-    def __init__(self, apparatuus_metadata):
-        self.apparatus_metadata = apparatuus_metadata
+    def __init__(self, apparatus_metadata):
+        self.apparatus_metadata = apparatus_metadata
 
     def get_data(self):
         nodes = []
