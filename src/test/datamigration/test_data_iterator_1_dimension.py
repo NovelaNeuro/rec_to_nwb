@@ -9,14 +9,10 @@ class TestDataIterator(TestCase):
     def test_data_iterator(self):
         fake_data = FakeTimestampDataManager()
         iterated_data = DataIterator1D(fake_data)
-
-        aaaa = iterated_data
-        self.assertEqual(np.shape(aaaa)[0], 11)
-
+        self.assertEqual((11,), np.shape(iterated_data))
 
 class FakeTimestampDataManager:
     def __init__(self):
-        self.directories = 0
         self.number_of_datasets = 2
         self.file_lenghts_in_datasets = [5, 6]
         self.fake_timestamps = [np.ndarray(dtype="float64", shape=[5, ]), np.ndarray(dtype="float64", shape=[6, ])]

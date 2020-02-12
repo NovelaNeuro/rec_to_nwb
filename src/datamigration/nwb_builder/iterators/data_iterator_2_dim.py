@@ -11,16 +11,11 @@ class DataIterator2D(AbstractDataChunkIterator):
         self.current_file = 0
         self.current_dataset = 0
 
-        self.files = self.__get_files(data)
         self.number_of_steps = self.__get_all_files_from_all_datasets(data)
         self.dataset_file_length = self.__get_dataset_file_length(data)
         self.number_of_rows = self.__get_number_of_rows(data)
         self.number_of_files_in_single_dataset = self.__get_number_of_files_in_single_dataset(data)
-        self.data_shape = self.__get_data_shape(data)
-
-    @staticmethod
-    def __get_files(data):
-        return data.directories
+        self.shape = self.__get_data_shape(data)
 
     @staticmethod
     def __get_all_files_from_all_datasets(data):
@@ -82,7 +77,7 @@ class DataIterator2D(AbstractDataChunkIterator):
 
     # Override
     def recommended_data_shape(self):
-        return self.data_shape
+        return self.shape
 
     # Override
     @property
@@ -92,6 +87,4 @@ class DataIterator2D(AbstractDataChunkIterator):
     # Override
     @property
     def maxshape(self):
-        return self.data_shape
-
-
+        return self.shape
