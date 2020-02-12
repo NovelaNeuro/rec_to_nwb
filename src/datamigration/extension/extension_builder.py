@@ -22,11 +22,13 @@ class ExtensionsBuilder:
         self.edge = self.create_edge()
         self.node = self.create_node()
         self.apparatus = self.create_apparatus()
+        self.header_device = self.create_header_device()
 
         ns_builder.add_spec(self.ext_source, self.fl_electrode_group)
         ns_builder.add_spec(self.ext_source, self.probes)
         ns_builder.add_spec(self.ext_source, self.ntrode)
         ns_builder.add_spec(self.ext_source, self.apparatus)
+        ns_builder.add_spec(self.ext_source, self.header_device)
 
         ns_builder.include_type('ElectrodeGroup', namespace='core')
         ns_builder.include_type('Device', namespace='core')
@@ -164,7 +166,6 @@ class ExtensionsBuilder:
                     dtype='text',
                     value='Apparatus Edge')])
 
-
     def create_apparatus(self):
         """
             Apparatus
@@ -186,6 +187,117 @@ class ExtensionsBuilder:
                                  doc='help doc',
                                  dtype='text',
                                  value='Behavioral Apparatus')])
+
+    @staticmethod
+    def create_header_device():
+        return NWBGroupSpec(
+            doc='metadata from global configuration from header',
+            neurodata_type_def='HeaderDevice',
+            neurodata_type_inc='Device',
+            attributes=[
+                NWBAttributeSpec(
+                    name='headstage_serial',
+                    doc='headstage_serial from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='headstage_smart_ref_on',
+                    doc='headstage_smart_ref_on from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='realtime_mode',
+                    doc='realtime_mode from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='headstage_auto_settle_on',
+                    doc='headstage_auto_settle_on from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='timestamp_at_creation',
+                    doc='timestamp_at_creation from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='controller_firmware_version',
+                    doc='conntroller_firmware_version from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='controller_serial',
+                    doc='controller_serial from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='save_displayed_chan_only',
+                    doc='save_displayed_chan_only from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='headstage_firmware_version',
+                    doc='headstage_firmware_version from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='qt_version',
+                    doc='qt_version_version from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='compile_date',
+                    doc='compile_date_version from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='compile_time',
+                    doc='compile_time_version from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='file_prefixn',
+                    doc='file_prefix_version from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='headstage_gyro_sensor_on',
+                    doc='headstage_gyro_sensor_on_version from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='headstage_mag_sensor_on',
+                    doc='headstage_mag_sensor_on_version from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='trodes_version',
+                    doc='trodes_versionversion from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='headstage_accel_sensor_on',
+                    doc='headstage_accel_sensor_on from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='commit_head',
+                    doc='commit_head from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='system_time_at_creation',
+                    doc='system_time_at_creation from global configuration',
+                    dtype='text'
+                ),
+                NWBAttributeSpec(
+                    name='file_path',
+                    doc='file_path from global configuration',
+                    dtype='text'
+                ),
+            ]
+        )
+
 
 build_extensions = ExtensionsBuilder('NovelaNeurotechnologies.specs.yaml', 'NovelaNeurotechnologies.namespace.yaml')
 

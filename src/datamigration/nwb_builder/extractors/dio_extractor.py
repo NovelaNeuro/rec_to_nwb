@@ -27,7 +27,7 @@ class DioExtractor:
     def get_dio(self):
         for dataset in self.datasets:
             self.create_timeseries(dataset=dataset,
-                                   continuous_time_dict=self.continuous_time_extractor.get_continuous_time_dict(
+                                   continuous_time_dict=self.continuous_time_extractor.get_continuous_time_dict_dataset(
                                        dataset=dataset))
         return self.all_dio_timeseries
 

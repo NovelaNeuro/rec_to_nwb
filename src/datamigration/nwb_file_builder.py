@@ -1,5 +1,4 @@
 import datetime
-import logging
 import os
 import uuid
 
@@ -8,7 +7,7 @@ from pynwb.file import Subject
 
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
-from src.datamigration.nwb_builder.builders.apparatus_builder import ApparatusBuilder
+from src.datamigration.nwb_components.apparatus.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
 from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
@@ -17,18 +16,19 @@ from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
 from src.datamigration.nwb_builder.builders.probes_dict_builder import ProbesDictBuilder
-from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
+from src.datamigration.nwb_components.task.task_builder import TaskBuilder
+from src.datamigration.nwb_builder.creators.header_device_creator import HeaderDeviceFactory
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
+from src.datamigration.nwb_builder.injectors.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_logger import HeaderLogger
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
 
 
 class NWBFileBuilder:
@@ -62,7 +62,7 @@ class NWBFileBuilder:
                                                          + self.date))
 
         header_file = self.__headers_processing(rec_files_list)
-        header = Header(header_file)
+        self.header = Header(header_file)
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
@@ -74,19 +74,19 @@ class NWBFileBuilder:
 
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
         self.probes_injector = ProbeInjector()
+        self.header_device_creator = HeaderDeviceFactory()
+        self.header_device_injector = HeaderDeviceInjector()
 
         self.electrode_group_builder = ElectrodeGroupDictBuilder(self.metadata['electrode groups'])
         self.electrode_group_injector = ElectrodeGroupInjector()
 
         self.electrode_builder = ElectrodeBuilder(self.probes, self.metadata['electrode groups'])
 
-        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'], header)
+        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'], self.header)
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
         self.dio_builder = DioBuilder(self.datasets, self.metadata)
-        self.mda_builder = MdaBuilder(self.metadata, header, self.datasets)
-
-
+        self.mda_builder = MdaBuilder(self.metadata, self.header, self.datasets)
 
     def build(self):
         nwb_content = NWBFile(session_description=self.metadata['session description'],
@@ -110,6 +110,8 @@ class NWBFileBuilder:
         self.__build_and_inject_processing_module(nwb_content)
 
         probes_dict = self.__build_and_inject_probes(nwb_content)
+
+        self.__build_and_inject_header_device(nwb_content, self.header)
 
         electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
 
@@ -144,6 +146,12 @@ class NWBFileBuilder:
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
+    def __build_and_inject_header_device(self, nwb_content, header):
+        header_device = self.header_device_creator.create(
+            global_configuration=header.configuration.global_configuration,
+            name='header_device')
+        self.header_device_injector.inject_header_device(nwb_content, header_device)
+
     def __build_and_inject_probes(self, nwb_content):
         probes_dict = self.probes_dict_builder.build()
         self.probes_injector.inject_all_probes(nwb_content, probes_dict)
@@ -166,17 +174,13 @@ class NWBFileBuilder:
         )
 
     def __headers_processing(self, rec_files_list):
-
         headers_extractor = HeaderFilesExtractor()
         header_files = headers_extractor.extract_headers_from_rec_files(rec_files_list)
         header_comparator = HeaderComparator(header_files)
         headers_differences = header_comparator.compare()
 
-        if headers_differences != []:
-            message = 'Rec files: ' + str(rec_files_list) + ' contain incosistent xml headers!\n'
-            differences = [diff for diff in headers_differences
-                           if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
-                           not in str(diff)]
-            logger.warning('%s , %s', message, differences)
+        HeaderLogger.log_header_differences(headers_differences, rec_files_list)
 
         return header_files[0]
+
+
