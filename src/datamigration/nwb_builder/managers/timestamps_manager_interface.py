@@ -3,6 +3,7 @@ import logging.config
 import os
 
 import numpy as np
+from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -11,16 +12,29 @@ logger = logging.getLogger(__name__)
 
 
 class TimestampManagerInterface(abc.ABC):
-    @abc.abstractmethod
-    def read_data(self, dataset_num):
-        pass
+    def __init__(self, directories, continuous_time_directories):
+        self.directories = directories
+        self.continuous_time_directories = continuous_time_directories
 
-    @abc.abstractmethod
+        self.number_of_datasets = self._get_number_of_datasets()
+        self.file_lenghts_in_datasets = self._get_file_lenghts_in_datasets()
+
+    def read_data(self, dataset_num):
+        timestamps = self._get_timestamps(dataset_num)
+        continuous_time_dict = self._get_continuous_time_dict(dataset_num)
+        converted_timestamps = self._convert_timestamps(continuous_time_dict, timestamps)
+        return converted_timestamps
+
+    def _get_continuous_time_dict(self, dataset_num):
+        continuous_time = readTrodesExtractedDataFile(self.continuous_time_directories[dataset_num])
+        continuous_time_dict = {str(data[0]): float(data[1]) for data in continuous_time['data']}
+        return continuous_time_dict
+
     def get_final_data_shape(self):
-        pass
+        return sum(self.file_lenghts_in_datasets),
 
     def _get_file_lenghts_in_datasets(self):
-        pass
+        return [self._get_data_shape(i) for i in range(self.number_of_datasets)]
 
     @staticmethod
     def _convert_timestamps(continuous_time_dict, timestamps):
@@ -36,28 +50,23 @@ class TimestampManagerInterface(abc.ABC):
                 converted_timestamps[i] = float('nan')
         return converted_timestamps
 
-    def _get_continuous_time_dict(self, dataset_num):
-        pass
-
     @abc.abstractmethod
     def _get_timestamps(self, dataset_num):
         pass
 
     def _get_number_of_datasets(self):
-        pass
+        return np.shape(self.directories)[0]
 
     def _get_data_shape(self, dataset_num):
         dim1 = np.shape(self.read_data(dataset_num))[0]
         return dim1
 
-    @abc.abstractmethod
+    # override
     def get_directories(self):
-        pass
+        return self.directories
 
-    @abc.abstractmethod
     def get_number_of_datasets(self):
-        pass
+        return self.number_of_datasets
 
-    @abc.abstractmethod
     def get_file_lenghts_in_datasets(self):
-        pass
+        return self.file_lenghts_in_datasets
