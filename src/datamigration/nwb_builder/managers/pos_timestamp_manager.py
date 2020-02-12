@@ -20,5 +20,4 @@ class PosTimestampManager(TimestampManagerInterface):
     def _get_timestamps(self, dataset_num):
         pos_online = readTrodesExtractedDataFile(self.directories[dataset_num][0])
         position = pd.DataFrame(pos_online['data'])
-        timestamps = position.time.to_numpy(dtype='int64')
-        return timestamps
+        return position.time.to_numpy(dtype='int64')

@@ -31,8 +31,7 @@ class TimestampManagerInterface(abc.ABC):
         timestamps = self._get_timestamps(dataset_num)
         continuous_time_dict = self.continuous_time_extractor.get_continuous_time_dict_file(
             self.continuous_time_directories[dataset_num])
-        converted_timestamps = self.timestamp_converter.convert_timestamps(continuous_time_dict, timestamps)
-        return converted_timestamps
+        return self.timestamp_converter.convert_timestamps(continuous_time_dict, timestamps)
 
     def get_final_data_shape(self):
         return sum(self.file_lenghts_in_datasets),
@@ -53,5 +52,4 @@ class TimestampManagerInterface(abc.ABC):
         return np.shape(self.directories)[0]
 
     def _get_data_shape(self, dataset_num):
-        dim1 = np.shape(self.read_data(dataset_num))[0]
-        return dim1
+        return np.shape(self.read_data(dataset_num))[0]

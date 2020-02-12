@@ -26,12 +26,9 @@ class PositionExtractor:
 
     def get_position(self):
         pos_data = PosDataManager(directories=self.all_pos)
-        extracted_pos = DataIterator(pos_data)
-        return extracted_pos
+        return DataIterator(pos_data)
 
     def get_timestamps(self):
         pos_timestamps = PosTimestampManager(directories=self.all_pos,
                                              continuous_time_directories=self.continuous_time)
-        extracted_timestamps = DataIterator1D(pos_timestamps)
-
-        return extracted_timestamps
+        return DataIterator1D(pos_timestamps)
