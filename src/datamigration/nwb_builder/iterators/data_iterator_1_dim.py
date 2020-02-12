@@ -6,7 +6,6 @@ class DataIterator1D(AbstractDataChunkIterator):
 
     def __init__(self, data):
         self.data = data
-
         self.__current_index = 0
         self.current_dataset = 0
 
