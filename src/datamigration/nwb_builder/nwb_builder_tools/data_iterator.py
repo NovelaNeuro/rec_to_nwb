@@ -7,13 +7,13 @@ class DataIterator(AbstractDataChunkIterator):
     def __init__(self, data):
         self.data = data
         self.files = data.directories
-        self.num_steps = data.number_of_datasets * data.number_of_files_per_dataset
+        self.num_steps = data.get_number_of_datasets() * data.get_number_of_files_per_dataset()
         self.__curr_index = 0
         self.current_file = 0
         self.current_dataset = 0
-        self.dataset_file_lenght = data.file_lenghts_in_datasets
-        self.num_rows = data.number_of_rows_per_file
-        self.num_files_in_single_dataset = data.number_of_files_per_dataset
+        self.dataset_file_lenght = data.get_file_lenghts_in_datasets()
+        self.num_rows = data.get_number_of_rows_per_file()
+        self.num_files_in_single_dataset = data.get_number_of_files_per_dataset()
         self.shape = [data.get_final_data_shape()[1], data.get_final_data_shape()[0]]
 
     def __iter__(self):
@@ -61,11 +61,11 @@ class DataIterator1D(AbstractDataChunkIterator):
 
     def __init__(self, data):
         self.data = data
-        self.files = data.directories
-        self.num_steps = data.number_of_datasets
+        self.files = data.get_directories()
+        self.num_steps = data.get_number_of_datasets()
         self.__curr_index = 0
         self.current_dataset = 0
-        self.dataset_file_lenght = data.file_lenghts_in_datasets
+        self.dataset_file_lenght = data.get_file_lenghts_in_datasets()
         self.shape = data.get_final_data_shape()
 
     def __iter__(self):
