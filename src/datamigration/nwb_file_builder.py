@@ -1,5 +1,4 @@
 import datetime
-import logging
 import os
 import uuid
 
@@ -26,11 +25,10 @@ from src.datamigration.nwb_builder.injectors.header_device_injector import Heade
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_logger import HeaderLogger
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
 
 
 class NWBFileBuilder:
@@ -181,15 +179,8 @@ class NWBFileBuilder:
         header_comparator = HeaderComparator(header_files)
         headers_differences = header_comparator.compare()
 
-        self.__log_header_differences(headers_differences, rec_files_list)
+        HeaderLogger.log_header_differences(headers_differences, rec_files_list)
 
         return header_files[0]
 
-    @staticmethod
-    def __log_header_differences(headers_differences, rec_files_list):
-        if headers_differences:
-            message = 'Rec files: ' + str(rec_files_list) + ' contain inconsistent xml headers!\n'
-            differences = [diff for diff in headers_differences
-                           if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
-                           not in str(diff)]
-            logger.warning('%s , %s', message, differences)
+
