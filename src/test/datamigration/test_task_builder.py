@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from src.datamigration.nwb_builder.builders.task_builder import TaskBuilder
+from src.datamigration.nwb_components.task.task_builder import TaskBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
