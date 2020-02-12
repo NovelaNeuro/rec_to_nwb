@@ -7,6 +7,7 @@ from pynwb.file import Subject
 
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_processor import HeaderProcessor
 from src.datamigration.nwb_components.apparatus.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
 from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
@@ -23,9 +24,6 @@ from src.datamigration.nwb_builder.injectors.electrode_extension_injector import
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb_builder.injectors.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_logger import HeaderLogger
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -61,7 +59,7 @@ class NWBFileBuilder:
                                                          + '/raw/'
                                                          + self.date))
 
-        header_file = self.__headers_processing(rec_files_list)
+        header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
@@ -172,15 +170,4 @@ class NWBFileBuilder:
             electrodes_metadata_extension,
             electrodes_header_extension
         )
-
-    def __headers_processing(self, rec_files_list):
-        headers_extractor = HeaderFilesExtractor()
-        header_files = headers_extractor.extract_headers_from_rec_files(rec_files_list)
-        header_comparator = HeaderComparator(header_files)
-        headers_differences = header_comparator.compare()
-
-        HeaderLogger.log_header_differences(headers_differences, rec_files_list)
-
-        return header_files[0]
-
 

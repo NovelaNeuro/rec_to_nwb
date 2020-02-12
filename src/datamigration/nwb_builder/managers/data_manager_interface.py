@@ -13,7 +13,7 @@ class DataManagerInterface(abc.ABC):
         self.file_lenghts_in_datasets = self._get_file_length(self.number_of_datasets)
 
     @abc.abstractmethod
-    def read_data(self, dataset_num, file_num):
+    def read_data(self, dataset_id, file_id):
         pass
 
     def get_number_of_files_per_dataset(self):
