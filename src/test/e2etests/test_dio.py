@@ -8,7 +8,7 @@ from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 from src.datamigration.nwb_builder.creators.dio_creator import DioCreator
 from src.datamigration.nwb_builder.extractors.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.managers.dio_manager import DioManager
-from src.datamigration.nwb_builder.nwb_metadata import NWBMetadata
+from src.datamigration.nwb_builder.managers.metadata_manager import MetadataManager
 from src.datamigration.tools.file_scanner import Dataset
 
 path = Path(__file__).parent.parent
@@ -19,8 +19,8 @@ path.resolve()
 class TestDio(unittest.TestCase):
 
     def setUp(self):
-        nwbmetadata = NWBMetadata(str(path) + '/datamigration/res/metadata.yml',
-                                  [str(path) + '/datamigration/res/probe1.yml',
+        nwbmetadata = MetadataManager(str(path) + '/datamigration/res/metadata.yml',
+                                      [str(path) + '/datamigration/res/probe1.yml',
                                    str(path) + '/datamigration/res/probe2.yml',
                                    str(path) + '/datamigration/res/probe3.yml'
                                    ])
