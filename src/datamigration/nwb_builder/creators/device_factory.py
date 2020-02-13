@@ -6,14 +6,14 @@ from src.datamigration.extension.probe import Probe
 
 class DeviceFactory:
 
-    @staticmethod
-    def create_device(device_name):
+    @classmethod
+    def create_device(cls,device_name):
         return Device(
             name=str(device_name)
         )
 
-    @staticmethod
-    def create_probe(probe_metadata, probe_id):
+    @classmethod
+    def create_probe(cls,probe_metadata, probe_id):
         return Probe(
                 probe_type=probe_metadata['probe_type'],
                 contact_size=probe_metadata['contact_size'],
@@ -22,8 +22,8 @@ class DeviceFactory:
                 name=str(probe_id)
             )
 
-    @staticmethod
-    def create_header_device(global_configuration, name):
+    @classmethod
+    def create_header_device(cls,global_configuration, name):
         return HeaderDevice(
                             name=name,
                             headstage_serial=global_configuration.headstage_serial,

@@ -36,8 +36,8 @@ class ExtensionsBuilder:
 
         ns_builder.export(path=self.ns_path, outdir=path)
 
-    @staticmethod
-    def create_fl_electrode_group():
+    @classmethod
+    def create_fl_electrode_group(cls):
         return NWBGroupSpec(
             doc='A custom ElectrodesGroup interface',
             neurodata_type_def='FLElectrodeGroup',
@@ -51,8 +51,8 @@ class ExtensionsBuilder:
                         ],
         )
 
-    @staticmethod
-    def create_ntrode():
+    @classmethod
+    def create_ntrode(cls):
         return NWBGroupSpec(
             doc='A custom ntrode ElectrodesGroup interface',
             neurodata_type_def='NTrode',
@@ -79,8 +79,8 @@ class ExtensionsBuilder:
             ],
         )
 
-    @staticmethod
-    def create_probe():
+    @classmethod
+    def create_probe(cls):
         return NWBGroupSpec(
             doc='A custom Probes interface',
             neurodata_type_def='Probe',
@@ -109,8 +109,8 @@ class ExtensionsBuilder:
             ]
         )
 
-    @staticmethod
-    def create_node():
+    @classmethod
+    def create_node(cls):
         """
             Node
             -----
@@ -136,8 +136,8 @@ class ExtensionsBuilder:
                                          dtype='text',
                                          value='Apparatus Node')])
 
-    @staticmethod
-    def create_edge():
+    @classmethod
+    def create_edge(cls):
         """
             Edge
             -------
@@ -188,8 +188,8 @@ class ExtensionsBuilder:
                                  dtype='text',
                                  value='Behavioral Apparatus')])
 
-    @staticmethod
-    def create_header_device():
+    @classmethod
+    def create_header_device(cls):
         return NWBGroupSpec(
             doc='metadata from global configuration from header',
             neurodata_type_def='HeaderDevice',
