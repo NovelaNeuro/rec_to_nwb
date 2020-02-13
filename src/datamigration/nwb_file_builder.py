@@ -53,11 +53,12 @@ class NWBFileBuilder:
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
 
-        rec_finder = RecFileFinder()
-        rec_files_list = rec_finder.find_rec_files(path=(self.data_path
-                                                         + '/' + self.animal_name
-                                                         + '/raw/'
-                                                         + self.date))
+        rec_files_list = RecFileFinder().find_rec_files(
+
+            path=(self.data_path
+                  + '/' + self.animal_name
+                  + '/raw/'
+                  + self.date))
 
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
@@ -80,7 +81,8 @@ class NWBFileBuilder:
 
         self.electrode_builder = ElectrodeBuilder(self.probes, self.metadata['electrode groups'])
 
-        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'], self.header)
+        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'],
+                                                                     self.header)
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
         self.dio_builder = DioBuilder(self.datasets, self.metadata)
@@ -170,4 +172,3 @@ class NWBFileBuilder:
             electrodes_metadata_extension,
             electrodes_header_extension
         )
-
