@@ -24,15 +24,15 @@ class FileDownloader(AbstractFileDownloader):
             start_downloading()
 
         Variable:
-            :var path: path where file should be saved
+            :var download_path: path where file should be saved
             :var url: url to file
     """
 
     def __init__(self,
                  url="https://www.dropbox.com/s/a7ddruxoffgbe7y/AC13_d27_WhereAreWeNow.rec?dl=1",
-                 path="../data/file.rec"):
+                 download_path="../data/file.rec"):
         self.url = url
-        self.path = path
+        self.download_path = download_path
 
     def download_file(self, url=""):
         """ Check if User type custom url. If yes, start downloading,
@@ -45,7 +45,7 @@ class FileDownloader(AbstractFileDownloader):
         if url != '':
             self.start_downloading(url)
         else:
-            if not os.path.isfile(self.path):
+            if not os.path.isfile(self.download_path):
                 self.start_downloading(self.url)
 
     def start_downloading(self, url):
@@ -57,7 +57,7 @@ class FileDownloader(AbstractFileDownloader):
         logger.info('Downloading package from: %s', url)
         headers = {'user-agent': 'Wget/1.16 (linux-gnu)'}
         request = requests.get(url, stream=True, headers=headers)
-        with open(self.path, 'wb') as binary_file:
+        with open(self.download_path, 'wb') as binary_file:
             for chunk in request.iter_content(chunk_size=1024):
                 if chunk:
                     binary_file.write(chunk)

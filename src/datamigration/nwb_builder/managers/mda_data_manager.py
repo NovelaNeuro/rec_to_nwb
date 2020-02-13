@@ -8,6 +8,6 @@ class MdaDataManager(DataManagerInterface):
         DataManagerInterface.__init__(self, directories)
 
     # override
-    def read_data(self, dataset_num, file_num):
-        return readmda(self.directories[dataset_num][file_num])
+    def read_data(self, dataset_id, file_id):
+        return readmda(self.directories[dataset_id][file_id])
 

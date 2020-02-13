@@ -11,17 +11,19 @@ class DioManager:
         all_dio_timeseries = self.metadata['behavioral_events']
         return all_dio_timeseries
 
-    def get_dio_dict(self, directory):
+    @staticmethod
+    def get_dio_dict(directory):
         dio_dict = {}
         files = os.listdir(directory)
         files.sort()
         for file in files:
-            if (file.endswith('.dat')):
+            if file.endswith('.dat'):
                 split_filename = file.split('.')
                 dio_dict[split_filename[-2].split('_')[1]] = file
         return dio_dict
 
-    def get_single_extracted_dio(self, dataset, name):
+    @staticmethod
+    def get_single_extracted_dio(dataset, name):
         dio_set = dataset.get_all_data_from_dataset('DIO')
         dio_path = dataset.get_data_path_from_dataset('DIO')
         for dio_file in dio_set:
