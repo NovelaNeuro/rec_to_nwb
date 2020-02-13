@@ -56,14 +56,14 @@ class RawToNWBBuilder:
         self.__preprocess_data()
         for date in self.dates:
             nwb_builder = NWBFileBuilder(
-                                        data_path=self.data_path,
-                                        animal_name=self.animal_name,
-                                        date=date,
-                                        nwb_metadata=self.nwb_metadata,
-                                        output_file=self.output_path + self.animal_name + date + ".nwb",
-                                        process_mda=self.extract_mda,
-                                        process_dio=self.extract_dio
-                                        )
+                data_path=self.data_path,
+                animal_name=self.animal_name,
+                date=date,
+                nwb_metadata=self.nwb_metadata,
+                output_file=self.output_path + self.animal_name + date + ".nwb",
+                process_mda=self.extract_mda,
+                process_dio=self.extract_dio
+            )
             content = nwb_builder.build()
             nwb_builder.write(content)
         return content

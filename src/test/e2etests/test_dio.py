@@ -62,6 +62,7 @@ class TestDio(unittest.TestCase):
             for j in range(2):
                 self.assertEqual(dio_data["data"][i][j], dio_data_2[i][j])
 
+    @classmethod
     def create_test_dataset(self):
         dataset = Dataset('test_dataset')
         dataset.add_data_to_dataset(str(path) + '/datamigration/res/dio_test/', 'DIO')

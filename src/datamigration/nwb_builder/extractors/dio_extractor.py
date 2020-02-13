@@ -32,11 +32,13 @@ class DioExtractor:
                                        dataset=dataset))
         return self.all_dio_timeseries
 
-    def add_fields_to_dio(self, all_dio_timeseries):
+    @staticmethod
+    def add_fields_to_dio(all_dio_timeseries):
         for series in all_dio_timeseries:
             series["dio_timeseries"] = []
             series["dio_timestamps"] = []
 
+    # ToDo This should be in Creator!!!
     def create_timeseries(self, continuous_time_dict, dataset):
         dio_dict = self.dio_manager.get_dio_dict(dataset.get_data_path_from_dataset('DIO'))
         for dio_time_series in self.all_dio_timeseries:
@@ -45,13 +47,16 @@ class DioExtractor:
                                                        dio_dict[dio_time_series['name']])
             except KeyError:
                 message = "there is no " + str(dio_time_series['name']) + " file"
+                logger.exception(message)
             try:
                 for recorded_event in dio_data['data']:
                     self.create_timeseries_for_single_event(dio_time_series, recorded_event, continuous_time_dict)
             except TypeError:
                 message = 'there is no data for event ' + str(dio_time_series['name'])
+                logger.exception(message)
 
-    def create_timeseries_for_single_event(self, time_series, event, continuous_time_dict):
+    @staticmethod
+    def create_timeseries_for_single_event(time_series, event, continuous_time_dict):
         time_series["dio_timeseries"].append(event[1])
         key = str(event[0])
         value = continuous_time_dict.get([key], float('nan')) / 1E9

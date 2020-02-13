@@ -1,5 +1,5 @@
-from src.datamigration.nwb_components.apparatus.apparatus_creator import ApparatusCreator
-from src.datamigration.nwb_components.apparatus.apparatus_extractor import ApparatusExtractor
+from src.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
+from src.datamigration.nwb.components.apparatus.apparatus_extractor import ApparatusExtractor
 
 
 class ApparatusBuilder:

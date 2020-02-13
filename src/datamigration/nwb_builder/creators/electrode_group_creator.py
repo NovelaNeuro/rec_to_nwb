@@ -3,8 +3,8 @@ from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
 
 class ElectrodeGroupCreator:
 
-    @staticmethod
-    def create_electrode_group(metadata, device):
+    @classmethod
+    def create_electrode_group(cls,metadata, device):
         return FLElectrodeGroup(
             id=metadata['id'],
             device=device,

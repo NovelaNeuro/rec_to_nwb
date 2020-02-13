@@ -7,8 +7,7 @@ from pynwb.file import Subject
 
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_processor import HeaderProcessor
-from src.datamigration.nwb_components.apparatus.apparatus_builder import ApparatusBuilder
+from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
 from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
@@ -23,9 +22,9 @@ from src.datamigration.nwb_builder.injectors.electrode_extension_injector import
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb_builder.injectors.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
+from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_processor import HeaderProcessor
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
-from src.datamigration.nwb_components.apparatus.apparatus_builder import ApparatusBuilder
-from src.datamigration.nwb_components.task.task_builder import TaskBuilder
+from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -54,11 +53,12 @@ class NWBFileBuilder:
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
 
-        rec_finder = RecFileFinder()
-        rec_files_list = rec_finder.find_rec_files(path=(self.data_path
-                                                         + '/' + self.animal_name
-                                                         + '/raw/'
-                                                         + self.date))
+        rec_files_list = RecFileFinder().find_rec_files(
+
+            path=(self.data_path
+                  + '/' + self.animal_name
+                  + '/raw/'
+                  + self.date))
 
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
@@ -81,7 +81,8 @@ class NWBFileBuilder:
 
         self.electrode_builder = ElectrodeBuilder(self.probes, self.metadata['electrode groups'])
 
-        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'], self.header)
+        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'],
+                                                                     self.header)
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
         self.dio_builder = DioBuilder(self.datasets, self.metadata)
@@ -171,4 +172,3 @@ class NWBFileBuilder:
             electrodes_metadata_extension,
             electrodes_header_extension
         )
-
