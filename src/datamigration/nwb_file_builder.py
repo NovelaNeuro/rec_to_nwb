@@ -7,6 +7,7 @@ from pynwb.file import Subject
 
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
+from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
 from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
@@ -23,8 +24,7 @@ from src.datamigration.nwb_builder.injectors.header_device_injector import Heade
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_processor import HeaderProcessor
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
-from src.datamigration.nwb_components.apparatus.apparatus_builder import ApparatusBuilder
-from src.datamigration.nwb_components.task.task_builder import TaskBuilder
+from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
