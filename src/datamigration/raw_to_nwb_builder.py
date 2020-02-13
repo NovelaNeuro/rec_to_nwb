@@ -41,7 +41,7 @@ class RawToNWBBuilder:
         self.nwb_metadata = nwb_metadata
         self.parallel_instances = parallel_instances
 
-    def __preprocessed_data(self):
+    def __preprocess_data(self):
         extract_trodes_rec_file(self.data_path,
                                 self.animal_name,
                                 parallel_instances=self.parallel_instances,
@@ -53,7 +53,7 @@ class RawToNWBBuilder:
                                 extract_spikes=self.extract_spikes, )
 
     def build_nwb(self):
-        self.__preprocessed_data()
+        self.__preprocess_data()
         for date in self.dates:
             nwb_builder = NWBFileBuilder(
                 data_path=self.data_path,
