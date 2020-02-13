@@ -8,7 +8,7 @@ from pynwb.file import Subject
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
-from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
+from src.datamigration.nwb_builder.builders.dio_injector import DioInjector
 from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
@@ -85,7 +85,7 @@ class NWBFileBuilder:
                                                                      self.header)
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
-        self.dio_builder = DioBuilder(self.datasets, self.metadata)
+        self.dio_builder = DioInjector(self.datasets, self.metadata)
         self.mda_builder = MdaBuilder(self.metadata, self.header, self.datasets)
 
     def build(self):
