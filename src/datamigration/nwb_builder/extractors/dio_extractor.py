@@ -55,7 +55,6 @@ class DioExtractor:
                 message = 'there is no data for event ' + str(dio_time_series['name'])
                 logger.exception(message)
 
-    # ToDo this should be in Creator!!!
     @staticmethod
     def create_timeseries_for_single_event(time_series, event, continuous_time_dict):
         time_series["dio_timeseries"].append(event[1])

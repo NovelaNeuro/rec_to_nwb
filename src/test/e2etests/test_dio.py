@@ -26,7 +26,6 @@ class TestDio(unittest.TestCase):
                                    ])
         self.metadata = nwbmetadata.metadata
 
-    # ToDo AssertTrue??
     def test_dio_extractor(self):
         extractor = DioExtractor([self.create_test_dataset()], self.metadata)
         timeseries = extractor.get_dio()
@@ -63,8 +62,8 @@ class TestDio(unittest.TestCase):
             for j in range(2):
                 self.assertEqual(dio_data["data"][i][j], dio_data_2[i][j])
 
-    @staticmethod
-    def create_test_dataset():
+    @classmethod
+    def create_test_dataset(self):
         dataset = Dataset('test_dataset')
         dataset.add_data_to_dataset(str(path) + '/datamigration/res/dio_test/', 'DIO')
         dataset.add_data_to_dataset(str(path) + '/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/',
