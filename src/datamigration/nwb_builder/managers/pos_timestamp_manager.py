@@ -17,7 +17,7 @@ class PosTimestampManager(TimestampManagerInterface):
         TimestampManagerInterface.__init__(self, directories, continuous_time_directories)
 
     # override
-    def _get_timestamps(self, dataset_num):
-        pos_online = readTrodesExtractedDataFile(self.directories[dataset_num][0])
+    def _get_timestamps(self, dataset_id):
+        pos_online = readTrodesExtractedDataFile(self.directories[dataset_id][0])
         position = pd.DataFrame(pos_online['data'])
         return position.time.to_numpy(dtype='int64')

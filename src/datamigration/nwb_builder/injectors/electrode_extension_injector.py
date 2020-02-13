@@ -53,11 +53,10 @@ class ElectrodeExtensionInjector:
             logger.exception(message)
 
             return hw_chan
-        elif diff_in_length < 0:
+        else:
             message = 'Metadata and header are not compatible for electrodes! ' + str(
                 diff_in_length*(-1)) + ' elements in hw_chan_extension were cutted off '
             logger.exception(message)
 
             return hw_chan[:diff_in_length]
-        else:
-            return None
+
