@@ -1,5 +1,5 @@
 from src.datamigration.nwb_builder.extractors.metadata_extractor import MetadataExtractor
-from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
+from src.datamigration.nwb_components.device.probe_extractor import ProbesExtractor
 
 
 class MetadataManager:

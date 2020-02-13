@@ -1,5 +1,5 @@
-from src.datamigration.nwb_builder.creators.device_factory import DeviceFactory
-from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
+from src.datamigration.nwb_components.device.device_factory import DeviceFactory
+from src.datamigration.nwb_components.device.probe_extractor import ProbesExtractor
 from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 
 

@@ -2,7 +2,7 @@ import os
 from unittest import TestCase
 
 from src.datamigration.extension.probe import Probe
-from src.datamigration.nwb_builder.builders.probes_dict_builder import ProbesDictBuilder
+from src.datamigration.nwb_components.device.probes_dict_builder import ProbesDictBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
