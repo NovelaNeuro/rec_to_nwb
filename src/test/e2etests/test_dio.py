@@ -15,7 +15,7 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-@unittest.skip('DIO test requires real dio files')
+#@unittest.skip('DIO test requires real dio files')
 class TestDio(unittest.TestCase):
 
     def setUp(self):
