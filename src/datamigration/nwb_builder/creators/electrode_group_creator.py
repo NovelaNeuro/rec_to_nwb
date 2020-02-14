@@ -1,4 +1,4 @@
-from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
+from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
 
 
 class ElectrodeGroupCreator:
