@@ -24,4 +24,7 @@ class TestDioManager(unittest.TestCase):
         self.assertEqual(len(self.dio_manager.get_dio_files()[0]), len(self.dio_manager.dio_metadata))
 
     def test_merge_dio_data(self):
-        pass
+        test_list_to_merge = [[[1, 2, 3, 4], [3, 4, 5, 6]], [[5, 6, 6, 7], [5, 6, 6, 7]]]
+        merged_list = self.dio_manager.merge_dio_data(test_list_to_merge)
+        self.assertEqual([[1, 2, 3, 4, 5, 6, 6, 7], [3, 4, 5, 6, 5, 6, 6, 7]],
+                         merged_list)
