@@ -31,7 +31,6 @@ class TestDioExtractor(unittest.TestCase):
         dio_extractor = DioExtractor(self.filtered_dio_files, self.metadata, self.continuous_time_dict)
         dataset_dio_data = dio_extractor.get_dio()
         self.assertEqual(list, type(dataset_dio_data))
-        self.assertEqual(list, type(dataset_dio_data[0][0]))
         self.assertEqual(len(self.filtered_dio_files), len(dataset_dio_data))
 
     # def test_dio_creator(self):
