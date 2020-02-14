@@ -1,7 +1,7 @@
 from pynwb.behavior import BehavioralEvents
 
 from src.datamigration.nwb_builder.creators.dio_creator import DioCreator
-from src.datamigration.nwb_builder.extractors.dio_manager import DioManager
+from src.datamigration.nwb_builder.extractors.dio_extractor import DioManager
 
 
 class DioInjector:
