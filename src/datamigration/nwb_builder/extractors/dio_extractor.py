@@ -16,9 +16,10 @@ class DioExtractor:
     def __init__(self, filtered_dio_files, continuous_time_dicts):
         self.filtered_dio_files = filtered_dio_files
         self.continuous_time_dics = continuous_time_dicts
+        self.timestamp_converter = TimestampConverter()
 
     def get_dio(self):
-        return self.__extract_dio_for_single_dataset()
+        return self.__extract_dio()
 
     def __extract_dio(self):
         all_dio_data = []
@@ -29,6 +30,13 @@ class DioExtractor:
         for thread in threads:
             all_dio_data.extend(thread.result())
         return all_dio_data
+
+    def __get_dio_from_single_dataset(self, filtered_files, continuous_time_dict):
+        dio_data = self.__extract_dio_for_single_dataset(filtered_files)
+        for event in dio_data:
+            event[0] = self.timestamp_converter.convert_timestamps(continuous_time_dict=continuous_time_dict,
+                                                                   timestamps=event[0])
+        return dio_data
 
     def __extract_dio_for_single_dataset(self, filtered_files):
         all_dio_data = []
