@@ -16,7 +16,7 @@ class DioBuilder:
         self.dio_metadata = dio_metadata
 
     def build(self):
-        behavioral_events = self.__create_behaviorl_events()
+        behavioral_events = self.__create_behavioral_events()
         for dio_event in self.dio_metadata:
             behavioral_events.add_timeseries(
                 self.__build_timeseries(
@@ -26,7 +26,7 @@ class DioBuilder:
         return behavioral_events
 
     @classmethod
-    def __create_behaviorl_events(cls):
+    def __create_behavioral_events(cls):
         return BehavioralEvents(name="behavioral_events")
 
     def __build_timeseries(self, name, description, data):

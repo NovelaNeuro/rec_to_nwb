@@ -18,10 +18,8 @@ class DioExtractor:
         self.continuous_time_dicts = continuous_time_dicts
         self.timestamp_converter = TimestampConverter()
 
+    # move to MANAGER
     def get_dio(self):
-        return self.__extract_dio()
-
-    def __extract_dio(self):
         all_dio_data = []
         threads = []
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -32,12 +30,12 @@ class DioExtractor:
         return all_dio_data
 
     def __extract_dio_for_single_dataset(self, filtered_files):
-        all_dio_data = []
+        single_dataset_data = {}
         for dio_file in filtered_files:
             try:
                 dio_data = readTrodesExtractedDataFile(dio_file)
                 keys, values = self.__get_dio_time_series(dio_data)
-                all_dio_data.append([keys, values])
+                single_dataset_data[dio_file] = ([keys, values])
 
             except KeyError as error:
                 message = "there is no " + str(dio_file) + ", error: "
@@ -45,7 +43,7 @@ class DioExtractor:
             except TypeError as error:
                 message = "there is no data for event " + str(dio_file) + ", error: "
                 logger.exception(message + str(error))
-        return all_dio_data
+        return single_dataset_data
 
     def __get_dio_time_series(self, dio_data):
 

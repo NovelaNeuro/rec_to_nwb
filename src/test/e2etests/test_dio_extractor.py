@@ -28,7 +28,7 @@ class TestDioExtractor(unittest.TestCase):
         self.continuous_time_dict = ContinuousTimeExtractor.get_continuous_time_dict_file(continuous_time_path)
 
     def test_dio_extractor(self):
-        dio_extractor = DioExtractor(self.filtered_dio_files, self.metadata, self.continuous_time_dict)
+        dio_extractor = DioExtractor(self.filtered_dio_files, [self.continuous_time_dict])
         dataset_dio_data = dio_extractor.get_dio()
         self.assertEqual(list, type(dataset_dio_data))
         self.assertEqual(len(self.filtered_dio_files), len(dataset_dio_data))

@@ -7,6 +7,7 @@ class DioManager:
         self.datasets = datasets
         self.dio_metadata = dio_metadata
 
+    # move to dio files
     def get_dio_files(self):
         multiple_datasets_dio_files = [DioFiles.get_dio_dict(dataset) for dataset in self.datasets]
         filtered_datasets_dio_files = self.__filter_dio_files(multiple_datasets_dio_files)
