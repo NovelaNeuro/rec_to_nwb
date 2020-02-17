@@ -7,8 +7,8 @@ from src.datamigration.nwb_builder.iterators.data_iterator_2_dim import DataIter
 
 class TestDataIterator(TestCase):
     def test_data_iterator(self):
-        fake_data = FakeDataManager()
-        iterated_data = DataIterator2D(fake_data)
+        fake_data_manager = FakeDataManager()
+        iterated_data = DataIterator2D(fake_data_manager)
         self.assertEqual([11, 8], np.shape(iterated_data))
 
 class FakeDataManager:
