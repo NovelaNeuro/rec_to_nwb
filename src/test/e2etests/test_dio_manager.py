@@ -24,7 +24,9 @@ class TestDioManager(unittest.TestCase):
         self.assertEqual(len(self.dio_manager.get_dio_files()[0]), len(self.dio_manager.dio_metadata))
 
     def test_merge_dio_data(self):
-        test_list_to_merge = [[[1, 1, 1, 1], [2, 2, 2, 2]], [[3, 3, 3, 3], [4, 4, 4, 4]]]
-        merged_list = self.dio_manager.merge_dio_data(test_list_to_merge)
-        self.assertEqual([[1, 1, 1, 1, 3, 3, 3, 3], [2, 2, 2, 2, 4, 4, 4, 4]],
-                         merged_list)
+        test_list_to_merge = [{'Din1': [(1, 11), (1, 11)], 'Din2': [(2, 22), (2, 22), (2, 22)]},
+                              {'Din1': [(1, 11), (1, 11)], 'Din2': [(2, 22), (2, 22)]}]
+        merged_data = self.dio_manager.merge_dio_data(test_list_to_merge)
+        self.assertEqual({'Din1': [(1, 11), (1, 11), (1, 11), (1, 11)],
+                          'Din2': [(2, 22), (2, 22), (2, 22), (2, 22), (2, 22)]},
+                         merged_data)
