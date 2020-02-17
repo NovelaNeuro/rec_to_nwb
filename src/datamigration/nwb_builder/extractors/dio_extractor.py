@@ -57,6 +57,6 @@ class DioExtractor:
 
     def __dio_keys_conversion(self, dio_data, continuous_time_dict):
         keys = [recorded_event[0] for recorded_event in dio_data['data']]
-        convertedTimestamps = TimestampConverter.convert_timestamps(continuous_time_dict, keys)
-        keys = convertedTimestamps
+        converted_timestamps = TimestampConverter.convert_timestamps(continuous_time_dict, keys)
+        keys = converted_timestamps
         return keys
