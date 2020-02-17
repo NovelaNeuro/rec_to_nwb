@@ -13,11 +13,10 @@ class DioManager:
         return filtered_datasets_dio_files
 
     def __filter_dio_files(self, multiple_datasets_dio_files):
-        filtered__files = [
-            {dio_file: single_dataset[dio_file] for dio_file in single_dataset
-             if dio_file in [dio_event['name'] for dio_event in self.dio_metadata]}
-            for single_dataset in multiple_datasets_dio_files]
-        return filtered__files
+        return [{dio_file: single_dataset[dio_file] for dio_file in single_dataset if dio_file in [dio_event['name']
+                                                                                                   for dio_event in
+                                                                                                   self.dio_metadata]}
+                for single_dataset in multiple_datasets_dio_files]
 
     def merge_dio_data(self, dio_from_multiple_datasets):
         merged_dio_data = [[] for n in range(len(dio_from_multiple_datasets[0]))]
