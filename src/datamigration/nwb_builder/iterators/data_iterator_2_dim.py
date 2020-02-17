@@ -11,31 +11,11 @@ class DataIterator2D(AbstractDataChunkIterator):
         self.current_file = 0
         self.current_dataset = 0
 
-        self.number_of_steps = self.__get_all_files_from_all_datasets(data)
-        self.dataset_file_length = self.__get_dataset_file_length(data)
-        self.number_of_rows = self.__get_number_of_rows(data)
-        self.number_of_files_in_single_dataset = self.__get_number_of_files_in_single_dataset(data)
-        self.shape = self.__get_data_shape(data)
-
-    @staticmethod
-    def __get_all_files_from_all_datasets(data):
-        return data.get_number_of_datasets() * data.get_number_of_files_per_dataset()
-
-    @staticmethod
-    def __get_dataset_file_length(data):
-        return data.get_file_lenghts_in_datasets()
-
-    @staticmethod
-    def __get_number_of_rows(data):
-        return data.get_number_of_rows_per_file()
-
-    @staticmethod
-    def __get_number_of_files_in_single_dataset(data):
-        return data.get_number_of_files_per_dataset()
-
-    @staticmethod
-    def __get_data_shape(data):
-        return [data.get_final_data_shape()[1], data.get_final_data_shape()[0]]
+        self.number_of_steps = self.data.get_number_of_datasets() * self.data.get_number_of_files_per_dataset()
+        self.dataset_file_length = self.data.get_file_lenghts_in_datasets()
+        self.number_of_rows = self.data.get_number_of_rows_per_file()
+        self.number_of_files_in_single_dataset = self.data.get_number_of_files_per_dataset()
+        self.shape = [self.data.get_final_data_shape()[1], self.data.get_final_data_shape()[0]]
 
     # Override
     def __iter__(self):
