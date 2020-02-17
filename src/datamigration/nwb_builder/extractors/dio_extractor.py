@@ -2,7 +2,6 @@ import concurrent.futures
 import logging
 import os
 
-import numpy as np
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 from src.datamigration.nwb_builder.nwb_builder_tools.timestamp_converter import TimestampConverter
@@ -16,7 +15,7 @@ class DioExtractor:
 
     def __init__(self, filtered_dio_files, continuous_time_dicts):
         self.filtered_dio_files = filtered_dio_files
-        self.continuous_time_dics = continuous_time_dicts
+        self.continuous_time_dicts = continuous_time_dicts
         self.timestamp_converter = TimestampConverter()
 
     def get_dio(self):
@@ -26,20 +25,18 @@ class DioExtractor:
         all_dio_data = []
         threads = []
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            for i in range(np.shape(self.filtered_dio_files)[0]):
-                threads.append(executor.submit(self.__extract_dio_for_single_dataset,
-                                               self.filtered_dio_files[i],
-                                               self.continuous_time_dics[i]))
+            for single_dataset_dio_files in self.filtered_dio_files:
+                threads.append(executor.submit(self.__extract_dio_for_single_dataset, single_dataset_dio_files))
         for thread in threads:
             all_dio_data.extend(thread.result())
         return all_dio_data
 
-    def __extract_dio_for_single_dataset(self, filtered_files, continuous_time_dict):
+    def __extract_dio_for_single_dataset(self, filtered_files):
         all_dio_data = []
         for dio_file in filtered_files:
             try:
                 dio_data = readTrodesExtractedDataFile(dio_file)
-                keys, values = self.__build_dio_time_series(dio_data, continuous_time_dict)
+                keys, values = self.__get_dio_time_series(dio_data)
                 all_dio_data.append([keys, values])
 
             except KeyError as error:
@@ -50,13 +47,13 @@ class DioExtractor:
                 logger.exception(message + str(error))
         return all_dio_data
 
-    def __build_dio_time_series(self, dio_data, continuous_time_dict):
+    def __get_dio_time_series(self, dio_data):
+
         values = [recorded_event[1] for recorded_event in dio_data['data']]
-        keys = self.__dio_keys_conversion(dio_data, continuous_time_dict)
+        keys = [recorded_event[0] for recorded_event in dio_data['data']]
+        keys = self.__convert_keys(keys)
         return keys, values
 
-    def __dio_keys_conversion(self, dio_data, continuous_time_dict):
-        keys = [recorded_event[0] for recorded_event in dio_data['data']]
-        convertedTimestamps = TimestampConverter.convert_timestamps(continuous_time_dict, keys)
-        keys = convertedTimestamps
-        return keys
+    def __convert_keys(self, keys):
+        converted_timestamps = TimestampConverter.convert_timestamps(self.continuous_time_dict, keys)
+        return converted_timestamps
