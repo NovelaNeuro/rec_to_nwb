@@ -2,8 +2,8 @@ import os
 from unittest import TestCase
 from unittest.mock import Mock
 
-from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
-from src.datamigration.extension.probe import Probe
+from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
+from ndx_franklab_novela.probe import Probe
 from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
