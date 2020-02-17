@@ -25,7 +25,7 @@ class DioExtractor:
     def get_dio(self):
         return self.__extract_dio_for_single_dataset()
 
-    def _extract_dio(self):
+    def __extract_dio(self):
         all_dio_data = []
         threads = []
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -33,6 +33,7 @@ class DioExtractor:
                 threads.append(executor.submit(self.__extract_dio_for_single_dataset, self.filtered_dio_files[i]))
         for i in range(len(self.datasets)):
             all_dio_data.extend(threads[i].result())
+        return all_dio_data
 
     def __extract_dio_for_single_dataset(self, filtered_files):
         all_dio_data = []
