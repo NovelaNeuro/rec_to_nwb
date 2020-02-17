@@ -4,8 +4,6 @@ import os
 
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
-from src.datamigration.nwb_builder.managers.dio_manager import DioManager
 from src.datamigration.nwb_builder.nwb_builder_tools.timestamp_converter import TimestampConverter
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -15,12 +13,9 @@ logger = logging.getLogger(__name__)
 
 class DioExtractor:
 
-    def __init__(self, datasets, dio_metadata):
-        self.datasets = datasets
-        self.dio_manager = DioManager(datasets, dio_metadata)
-        self.filtered_dio_files = self.dio_manager.get_dio_files()
-        self.dio_metadata = dio_metadata
-        self.continuous_time_extractor = ContinuousTimeExtractor()
+    def __init__(self, filtered_dio_files, continuous_time_dicts):
+        self.filtered_dio_files = filtered_dio_files
+        self.continuous_time_dics = continuous_time_dicts
 
     def get_dio(self):
         return self.__extract_dio_for_single_dataset()
@@ -29,10 +24,10 @@ class DioExtractor:
         all_dio_data = []
         threads = []
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            for i in range(len(self.datasets)):
-                threads.append(executor.submit(self.__extract_dio_for_single_dataset, self.filtered_dio_files[i]))
-        for i in range(len(self.datasets)):
-            all_dio_data.extend(threads[i].result())
+            for single_dataset_dio_files in self.filtered_dio_files:
+                threads.append(executor.submit(self.__extract_dio_for_single_dataset, single_dataset_dio_files))
+        for thread in threads:
+            all_dio_data.extend(thread.result())
         return all_dio_data
 
     def __extract_dio_for_single_dataset(self, filtered_files):
