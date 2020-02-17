@@ -7,8 +7,8 @@ from src.datamigration.nwb_builder.iterators.data_iterator_1_dim import DataIter
 
 class TestDataIterator(TestCase):
     def test_data_iterator(self):
-        fake_data = FakeTimestampDataManager()
-        iterated_data = DataIterator1D(fake_data)
+        fake_data_manager = FakeTimestampDataManager()
+        iterated_data = DataIterator1D(fake_data_manager)
         self.assertEqual((11,), np.shape(iterated_data))
 
 class FakeTimestampDataManager:
