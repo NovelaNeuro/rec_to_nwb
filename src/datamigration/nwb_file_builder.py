@@ -81,8 +81,12 @@ class NWBFileBuilder:
 
         self.electrode_builder = ElectrodeBuilder(self.probes, self.metadata['electrode groups'])
 
-        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'],
-                                                                     self.header)
+        self.electrode_extension_builder = ElectrodeExtensionBuilder(
+            self.probes,
+            self.metadata['electrode groups'],
+            self.metadata['ntrode probe channel map'],
+            self.header
+        )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
         self.dio_builder = DioBuilder(self.datasets, self.metadata)
@@ -115,11 +119,12 @@ class NWBFileBuilder:
 
         electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
 
+        self.ntrodes_builder.build(nwb_content)
+
         self.__build_and_inject_electrodes(nwb_content, electrode_group_dict)
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
 
-        self.ntrodes_builder.build(nwb_content)
 
         if self.process_dio:
             self.dio_builder.build(nwb_content)
@@ -166,9 +171,11 @@ class NWBFileBuilder:
         self.electrode_builder.build(nwb_content, electrode_group_dict)
 
     def __build_and_inject_electrodes_extensions(self, nwb_content):
-        electrodes_metadata_extension, electrodes_header_extension = self.electrode_extension_builder.build()
+        electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrodes_extension = \
+            self.electrode_extension_builder.build()
         self.electrode_extension_injector.inject_extensions(
             nwb_content,
             electrodes_metadata_extension,
-            electrodes_header_extension
+            electrodes_header_extension,
+            electrodes_ntrodes_extension
         )
