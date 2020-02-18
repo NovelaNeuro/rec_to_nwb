@@ -59,7 +59,7 @@ class DioExtractor:
     def create_timeseries_for_single_event(time_series, event, continuous_time_dict):
         time_series["dio_timeseries"].append(event[1])
         key = str(event[0])
-        value = continuous_time_dict.get([key], float('nan')) / 1E9
+        value = continuous_time_dict.get(key, float('nan')) / 1E9
         if np.isnan(value):
             message = 'Following key: ' + str(key) + ' does not exist in continioustime dictionary!'
             logger.exception(message)
