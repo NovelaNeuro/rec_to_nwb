@@ -31,8 +31,7 @@ class DioBuilder:
 
     @classmethod
     def __build_timeseries(cls, name, description, data):
-        print(name)
         return TimeSeries(name=name,
                           description=description,
-                          data=[record for record in data[1]],
-                          timestamps=[record for record in data[0]])
+                          data=[record[1] for record in data],
+                          timestamps=[record[0] for record in data])
