@@ -1,7 +1,8 @@
 import os
 from unittest import TestCase
 
-from src.datamigration.extension.apparatus import Apparatus
+from ndx_franklab_novela.apparatus import Apparatus
+
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 

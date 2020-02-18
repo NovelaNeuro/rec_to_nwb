@@ -1,7 +1,7 @@
 from pynwb.device import Device
 
-from src.datamigration.extension.header_device import HeaderDevice
-from src.datamigration.extension.probe import Probe
+from ndx_franklab_novela.header_device import HeaderDevice
+from ndx_franklab_novela.probe import Probe
 
 
 class DeviceFactory:
