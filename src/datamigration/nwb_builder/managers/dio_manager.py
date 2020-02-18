@@ -22,7 +22,7 @@ class DioManager:
                                                self.filtered_dio_files[i],
                                                self.continuous_time_dicts[i]))
         for thread in threads:
-            all_dio_data.extend(thread.result())
+            all_dio_data.append(thread.result())
         return self.__merge_dio_data(all_dio_data)
 
     @classmethod
