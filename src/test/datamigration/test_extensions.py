@@ -4,10 +4,10 @@ from unittest import TestCase
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
-from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
-from src.datamigration.extension.header_device import HeaderDevice
-from src.datamigration.extension.ntrode import NTrode
-from src.datamigration.extension.probe import Probe
+from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
+from ndx_franklab_novela.header_device import HeaderDevice
+from ndx_franklab_novela.ntrode import NTrode
+from ndx_franklab_novela.probe import Probe
 
 
 class TestExtensions(TestCase):

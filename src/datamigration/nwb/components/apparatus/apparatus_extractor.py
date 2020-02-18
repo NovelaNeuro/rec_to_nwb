@@ -1,5 +1,4 @@
-from src.datamigration.extension.edge import Edge
-from src.datamigration.extension.node import Node
+from ndx_franklab_novela.apparatus import Edge, Node
 
 
 class ApparatusExtractor:

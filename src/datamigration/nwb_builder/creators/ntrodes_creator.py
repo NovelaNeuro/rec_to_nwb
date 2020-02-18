@@ -1,4 +1,4 @@
-from src.datamigration.extension.ntrode import NTrode
+from ndx_franklab_novela.ntrode import NTrode
 
 
 class NTrodesCreator:
