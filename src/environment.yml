@@ -48,5 +48,7 @@ dependencies:
   - pip:
       - xmldiff
       - rec-to-binaries==0.2.1.dev0
+      - ndx-franklab-novela
+
 
 
