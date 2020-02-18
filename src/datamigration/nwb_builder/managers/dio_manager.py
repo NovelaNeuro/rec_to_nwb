@@ -3,13 +3,13 @@ from src.datamigration.nwb_builder.managers.dio_files import DioFiles
 
 class DioManager:
 
-    def __init__(self, datasets, dio_metadata):
-        self.datasets = datasets
+    def __init__(self, directories, dio_metadata):
+        self.directories = directories
         self.dio_metadata = dio_metadata
 
     # move to dio files
     def get_dio_files(self):
-        multiple_datasets_dio_files = [DioFiles.get_dio_dict(dataset) for dataset in self.datasets]
+        multiple_datasets_dio_files = [DioFiles.get_dio_dict(dataset) for dataset in self.directories]
         filtered_datasets_dio_files = self.__filter_dio_files(multiple_datasets_dio_files)
         return filtered_datasets_dio_files
 
