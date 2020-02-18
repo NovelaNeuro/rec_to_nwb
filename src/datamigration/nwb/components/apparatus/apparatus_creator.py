@@ -1,4 +1,4 @@
-from src.datamigration.extension.apparatus import Apparatus
+from ndx_franklab_novela.apparatus import Apparatus
 
 
 class ApparatusCreator:

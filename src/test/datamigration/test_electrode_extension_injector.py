@@ -6,7 +6,7 @@ from dateutil.tz import tzlocal
 from hdmf.common import VectorData
 from pynwb import NWBFile
 
-from src.datamigration.extension.fl_electrode_group import FLElectrodeGroup
+from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
 from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb_builder.creators.electrode_metadata_extension_creator import \
     ElectrodesMetadataExtensionCreator
