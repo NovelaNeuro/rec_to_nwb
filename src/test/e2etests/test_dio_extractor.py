@@ -3,13 +3,14 @@ from pathlib import Path
 
 from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
 from src.datamigration.nwb_builder.extractors.dio_extractor import DioExtractor
+from src.datamigration.nwb_builder.managers.dio_manager import DioManager
 from src.datamigration.nwb_builder.managers.metadata_manager import MetadataManager
 
 path = Path(__file__).parent.parent
 path.resolve()
 
 
-# @unittest.skip('DIO test requires real dio files')
+@unittest.skip('DIO test requires real dio files')
 class TestDioExtractor(unittest.TestCase):
 
     def setUp(self):
@@ -20,18 +21,22 @@ class TestDioExtractor(unittest.TestCase):
                                        ])
         self.metadata = nwbmetadata.metadata
 
-        self.filtered_dio_files = [str(path) + '/datamigration/res/dio_test/20190718_beans_01_s1.dio_Din1.dat',
-                                   str(path) + '/datamigration/res/dio_test/20190718_beans_01_s1.dio_Din2.dat']
+        self.directories = [[(str(path) + '/datamigration/res/dio_test/20190718_beans_01_s1.dio_Din1.dat'),
+                             (str(path) + '/datamigration/res/dio_test/20190718_beans_01_s1.dio_Din2.dat')],
+                            [(str(path) + '/datamigration/res/dio_test/20190718_beans_01_s1.dio_Din1.dat'),
+                             (str(path) + '/datamigration/res/dio_test/20190718_beans_01_s1.dio_Din2.dat')]
+                            ]
 
         continuous_time_path = str(
             path) + '/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/20190718_beans_01_s1.continuoustime.dat'
         self.continuous_time_dict = ContinuousTimeExtractor.get_continuous_time_dict_file(continuous_time_path)
 
     def test_dio_extractor(self):
-        dio_extractor = DioExtractor(self.filtered_dio_files, [self.continuous_time_dict])
-        dataset_dio_data = dio_extractor.get_dio()
-        self.assertEqual(list, type(dataset_dio_data))
-        self.assertEqual(len(self.filtered_dio_files), len(dataset_dio_data))
+        dio_manager = DioManager(directories=self.directories, dio_metadata=self.metadata,
+                                 continuous_time_dicts=[self.continuous_time_dict])
+        datasets_dio_data = dio_manager.get_dio()
+        self.assertEqual(2, len(datasets_dio_data[0]))
+        self.assertEqual(len(self.directories), len(datasets_dio_data))
 
     # def test_dio_creator(self):
     #     creator = DioCreator()

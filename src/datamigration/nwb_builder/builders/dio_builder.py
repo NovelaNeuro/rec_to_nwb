@@ -4,9 +4,6 @@ import os
 from pynwb import TimeSeries
 from pynwb.behavior import BehavioralEvents
 
-from src.datamigration.nwb_builder.extractors.dio_extractor import DioExtractor
-from src.datamigration.nwb_builder.managers.dio_manager import DioManager
-
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
@@ -14,15 +11,9 @@ logger = logging.getLogger(__name__)
 
 class DioBuilder:
 
-    def __init__(self, directories, dio_metadata, continuous_time_dicts):
-        self.directories = directories
-        self.continuous_time_dicts = continuous_time_dicts
+    def __init__(self, data, dio_metadata):
         self.dio_metadata = dio_metadata
-        self.dio_manager = DioManager(directories=directories,
-                                      dio_metadata=dio_metadata)
-        self.dio_extractor = DioExtractor(filtered_dio_files=self.dio_manager.get_dio_files(),
-                                          continuous_time_dicts=continuous_time_dicts)
-        self.data = self.dio_extractor.get_dio()
+        self.data = data
 
     def build(self):
         behavioral_events = self.__create_behavioral_events()
@@ -38,7 +29,8 @@ class DioBuilder:
     def __create_behavioral_events(cls):
         return BehavioralEvents(name="behavioral_events")
 
-    def __build_timeseries(self, name, description, data):
+    @classmethod
+    def __build_timeseries(cls, name, description, data):
         return TimeSeries(name=name,
                           description=description,
                           data=[record[1] for record in data],

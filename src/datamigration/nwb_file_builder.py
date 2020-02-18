@@ -10,6 +10,7 @@ from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
+from src.datamigration.nwb_builder.builders.dio_injector import DioInjector
 from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
@@ -24,6 +25,7 @@ from src.datamigration.nwb_builder.injectors.electrode_extension_injector import
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb_builder.injectors.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
+from src.datamigration.nwb_builder.managers.dio_manager import DioManager
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_processor import HeaderProcessor
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
@@ -88,12 +90,8 @@ class NWBFileBuilder:
 
         # ToDo move lines below to another class
         continuous_time_files = [single_dataset.get_continuous_time() for single_dataset in self.datasets]
-        continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
-        dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
-
-        self.dio_builder = DioBuilder(directories=dio_directories,
-                                      dio_metadata=self.metadata,
-                                      continuous_time_dicts=continuous_time_dicts)
+        self.continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
+        self.dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
 
         self.mda_builder = MdaBuilder(self.metadata, self.header, self.datasets)
 
@@ -131,7 +129,7 @@ class NWBFileBuilder:
         self.ntrodes_builder.build(nwb_content)
 
         if self.process_dio:
-            self.dio_builder.build()
+            self.__build_and_inject_dio(nwb_content)
 
         if self.process_mda:
             self.mda_builder.build(nwb_content)
@@ -181,3 +179,12 @@ class NWBFileBuilder:
             electrodes_metadata_extension,
             electrodes_header_extension
         )
+
+    def __build_and_inject_dio(self, nwb_content):
+        dio_manager = DioManager(directories=self.dio_directories,
+                                 dio_metadata=self.metadata['behavioral_events'],
+                                 continuous_time_dicts=self.continuous_time_dicts)
+        dio_data = dio_manager.get_dio()
+        dio_builder = DioBuilder(dio_data, self.metadata['behavioral_events'])
+        dio_injector = DioInjector(nwb_content)
+        dio_injector.inject(dio_builder.build(), 'behavior')

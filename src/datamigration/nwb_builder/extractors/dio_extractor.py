@@ -18,23 +18,12 @@ class DioExtractor:
         self.continuous_time_dicts = continuous_time_dicts
         self.timestamp_converter = TimestampConverter()
 
-    # move to MANAGER
-    def get_dio(self):
-        all_dio_data = []
-        threads = []
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            for single_dataset_dio_files in self.filtered_dio_files:
-                threads.append(executor.submit(self.__extract_dio_for_single_dataset, single_dataset_dio_files))
-        for thread in threads:
-            all_dio_data.extend(thread.result())
-        return all_dio_data
-
-    def __extract_dio_for_single_dataset(self, filtered_files):
+    def extract_dio_for_single_dataset(self, filtered_files, continuoues_time_dict):
         single_dataset_data = {}
         for dio_file in filtered_files:
             try:
                 dio_data = readTrodesExtractedDataFile(dio_file)
-                keys, values = self.__get_dio_time_series(dio_data)
+                keys, values = self.__get_dio_time_series(dio_data, continuoues_time_dict)
                 single_dataset_data[dio_file] = ([keys, values])
 
             except KeyError as error:
@@ -45,13 +34,13 @@ class DioExtractor:
                 logger.exception(message + str(error))
         return single_dataset_data
 
-    def __get_dio_time_series(self, dio_data):
+    def __get_dio_time_series(self, dio_data, continuoues_time_dict):
 
         values = [recorded_event[1] for recorded_event in dio_data['data']]
         keys = [recorded_event[0] for recorded_event in dio_data['data']]
-        keys = self.__convert_keys(keys)
+        keys = self.__convert_keys(continuoues_time_dict, keys)
         return keys, values
 
-    def __convert_keys(self, keys):
-        converted_timestamps = TimestampConverter.convert_timestamps(self.continuous_time_dict, keys)
+    def __convert_keys(self, continuous_time_dict, keys):
+        converted_timestamps = TimestampConverter.convert_timestamps(continuous_time_dict, keys)
         return converted_timestamps
