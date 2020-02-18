@@ -22,7 +22,7 @@ class DioExtractor:
         single_dataset_data = {}
         for dio_file in filtered_files:
             try:
-                dio_data = readTrodesExtractedDataFile(dio_file)
+                dio_data = readTrodesExtractedDataFile(filtered_files[dio_file])
                 keys, values = self.__get_dio_time_series(dio_data, continuoues_time_dict)
                 single_dataset_data[dio_file] = ([keys, values])
 
