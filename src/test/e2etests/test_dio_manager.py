@@ -9,7 +9,7 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-@unittest.skip('unnecesary test now')
+@unittest.skip('heave continuous time extraction')
 class TestDioManager(unittest.TestCase):
 
     def setUp(self):
