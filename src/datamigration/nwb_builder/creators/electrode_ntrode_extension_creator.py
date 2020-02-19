@@ -3,6 +3,5 @@ class ElectrodesNtrodeExtensionCreator:
     def create_electrodes_ntrode_extension(cls, metadata):
         ntrodes_extension = []
         for ntrode in metadata:
-            for _ in ntrode['map']:
-                ntrodes_extension.append(ntrode['ntrode_id'])
+            ntrodes_extension.extend([ntrode['ntrode_id']] * len(ntrode['map']))
         return ntrodes_extension
