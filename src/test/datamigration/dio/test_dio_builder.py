@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.datamigration.nwb_builder.builders.dio_builder import DioBuilder
+from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 
 
 class TestDioBuilder(TestCase):

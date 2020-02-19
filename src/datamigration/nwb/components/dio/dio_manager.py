@@ -2,8 +2,8 @@ import concurrent.futures
 
 from pandas import np
 
-from src.datamigration.nwb_builder.extractors.dio_extractor import DioExtractor
-from src.datamigration.nwb_builder.managers.dio_files import DioFiles
+from src.datamigration.nwb.components.dio.dio_extractor import DioExtractor
+from src.datamigration.nwb.components.dio.dio_files import DioFiles
 
 
 class DioManager:

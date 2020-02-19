@@ -6,7 +6,7 @@ from dateutil.tz import tzlocal
 from pynwb import NWBFile, ProcessingModule
 from pynwb.behavior import BehavioralEvents
 
-from src.datamigration.nwb_builder.builders.dio_injector import DioInjector
+from src.datamigration.nwb.components.dio.dio_injector import DioInjector
 
 path = Path(__file__).parent.parent
 path.resolve()
