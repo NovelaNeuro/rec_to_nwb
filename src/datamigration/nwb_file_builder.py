@@ -8,6 +8,7 @@ from pynwb.file import Subject
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
+from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
@@ -181,7 +182,8 @@ class NWBFileBuilder:
         )
 
     def __build_and_inject_dio(self, nwb_content):
-        dio_manager = DioManager(directories=self.dio_directories,
+        dio_files = DioFiles(self.dio_directories, self.metadata['behavioral_events'])
+        dio_manager = DioManager(dio_files=dio_files.get_files(),
                                  dio_metadata=self.metadata['behavioral_events'],
                                  continuous_time_dicts=self.continuous_time_dicts)
         dio_data = dio_manager.get_dio()
