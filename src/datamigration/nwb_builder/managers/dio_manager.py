@@ -1,5 +1,7 @@
 import concurrent.futures
 
+from pandas import np
+
 from src.datamigration.nwb_builder.extractors.dio_extractor import DioExtractor
 from src.datamigration.nwb_builder.managers.dio_files import DioFiles
 
@@ -16,8 +18,9 @@ class DioManager:
     def get_dio(self):
         all_dio_data = []
         threads = []
+        number_of_datasets = len(self.filtered_dio_files)
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            for i in range(len(self.filtered_dio_files)):
+            for i in range(number_of_datasets):
                 threads.append(executor.submit(self.dio_extractor.extract_dio_for_single_dataset,
                                                self.filtered_dio_files[i],
                                                self.continuous_time_dicts[i]))
@@ -30,5 +33,7 @@ class DioManager:
         merged_data = data_from_multiple_datasets[0]
         for single_dataset_data in data_from_multiple_datasets[1:]:
             for event, timeseries in single_dataset_data.items():
-                merged_data[event].extend(timeseries)
+                merged_data[event][0] = np.hstack((merged_data[event][0], timeseries[0]))
+                merged_data[event][1].extend(timeseries[1])
+
         return merged_data
