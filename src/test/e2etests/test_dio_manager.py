@@ -6,7 +6,7 @@ from unittest import mock
 from unittest.mock import Mock
 
 import pytest
-from pandas import np
+from pandas import np, array
 
 from src.datamigration.nwb.components.dio.dio_extractor import DioExtractor
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
@@ -77,12 +77,54 @@ class TestDioManager(unittest.TestCase):
         self.assertIsInstance(self.dio['Din2'][1], list)
 
     def test_get_dio_returnCorrectValue_true(self):
-        # self.assertEqual(self.dio, dict)
-        self.assertEqual(self.dio['Din1'][0], np.array([1367266, 9599570, 9603169, 9610303, 9612481, 9619154, 9619802,
-                                                        9627552, 9641056, 9643239, 9644490, 9644629, 9645544, 9645721,
-                                                        9646074, 1367266, 9599570, 9603169, 9610303, 9612481, 9619154,
-                                                        9619802, 9627552, 9641056, 9643239, 9644490, 9644629, 9645544,
-                                                        9645721, 9646074]))
-        # self.assertEqual(self.dio['Din1'][1], list)
-        # self.assertEqual(self.dio['Din2'][0], np.ndarray)
-        # self.assertEqual(self.dio['Din2'][1], list)
+        self.assertEqual(
+            self.dio,
+            {
+                'Din1': [
+                    array([
+                        1367266, 9599570, 9603169, 9610303, 9612481, 9619154, 9619802,
+                        9627552, 9641056, 9643239, 9644490, 9644629, 9645544, 9645721,
+                        9646074, 1367266, 9599570, 9603169, 9610303, 9612481, 9619154,
+                        9619802, 9627552, 9641056, 9643239, 9644490, 9644629, 9645544,
+                        9645721, 9646074
+                    ]),
+                    [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]],
+                'Din2': [
+                    array([1367266, 1367266]),
+                    [0, 0]]}
+        )
+        self.assertEqual(
+            self.dio['Din1'][0],
+            array([
+                1367266, 9599570, 9603169, 9610303, 9612481, 9619154, 9619802,
+                9627552, 9641056, 9643239, 9644490, 9644629, 9645544, 9645721,
+                9646074, 1367266, 9599570, 9603169, 9610303, 9612481, 9619154,
+                9619802, 9627552, 9641056, 9643239, 9644490, 9644629, 9645544,
+                9645721, 9646074
+            ])
+        )
+        self.assertEqual(
+            self.dio['Din1'][1],
+            [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
+        )
+        self.assertEqual(
+            self.dio['Din2'][0],
+            array([1367266, 1367266])
+        )
+        self.assertEqual(
+            self.dio['Din2'][1],
+            [0, 0]
+        )
+
+    def test_get_dio_returnCorrectShape_true(self):
+        self.assertEqual(len(self.dio), 2)
+
+        self.assertEqual(len(self.dio['Din1']), 2)
+        self.assertEqual(self.dio['Din1'][0].shape, (30,))
+        self.assertEqual(len(self.dio['Din1'][1]), 30)
+
+        self.assertEqual(len(self.dio['Din2']), 2)
+        self.assertEqual(self.dio['Din2'][0].shape, (2,))
+        self.assertEqual(len(self.dio['Din2'][0]), 2)
+
+
