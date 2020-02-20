@@ -13,7 +13,7 @@ class DioManager:
         self.dio_files = DioFiles(directories, self.dio_metadata)
         self.filtered_dio_files = self.dio_files.get_dio_files()
         self.continuous_time_dicts = continuous_time_dicts
-        self.dio_extractor = DioExtractor(self.filtered_dio_files, continuous_time_dicts)
+        self.dio_extractor = DioExtractor()
 
     def get_dio(self):
         all_dio_data = []

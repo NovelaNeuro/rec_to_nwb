@@ -32,11 +32,8 @@ class TestDioExtractor(TestCase):
             },
         ]
 
-        cls.dio_extractor = DioExtractor(
-            filtered_dio_files=filtered_dio_files,
-            continuous_time_dicts=continuous_time_dicts,
-        )
-        # self.extract_dio_for_single_dataset = dio_extractorextract_dio_for_single_dataset
+        cls.dio_extractor = DioExtractor()
+        self.extract_dio_for_single_dataset = dio_extractorextract_dio_for_single_dataset
 
     def test_extract_dio_for_single_dataset(self):
         pass
