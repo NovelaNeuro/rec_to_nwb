@@ -36,12 +36,12 @@ class TestDioManager(unittest.TestCase):
             {'name': 'Din2', 'description': 'Poke2'}]
 
         dio_files = [{
-            'Din1': path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din1.dat',
-            'Din2': path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din2.dat',
+            'Din1': path + '/../../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din1.dat',
+            'Din2': path + '/../../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din2.dat',
         },
             {
-                'Din1': path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din1.dat',
-                'Din2': path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din2.dat',
+                'Din1': path + '/../../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din1.dat',
+                'Din2': path + '/../../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din2.dat',
             },
         ]
 
@@ -60,8 +60,7 @@ class TestDioManager(unittest.TestCase):
         cls.din_2_array = np.array(1367266)
         cls.din_2_list = [0]
 
-        cls.dio_manager.dio_extractor = Mock()
-        cls.dio_manager.dio_extractor.__class__ = DioExtractor
+        cls.dio_manager.dio_extractor = Mock(spec=DioExtractor)
         cls.dio_manager.dio_extractor.extract_dio_for_single_dataset.return_value = {
             'Din1': [cls.din_1_array, cls.din_1_list],
             'Din2': [cls.din_2_array, cls.din_2_list],
