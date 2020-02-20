@@ -7,37 +7,29 @@ from src.datamigration.nwb_builder.nwb_builder_tools.timestamp_converter import 
 
 path = os.path.dirname(os.path.abspath(__file__))
 
+
 class TestDioExtractor(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        continuous_time_dicts = [
-            {1367266: 19191919, 9599570: 74747474, 9603169: 89898989, 9610303: 54545454, 9619154: 32323232,
-             9612481: 67676767, 9619802: 50505050, 9627552: 41414141, 9643239: 23232323, 9644490: 21212121,
-             9645544: 40404040, 9645721: 66666666, 9646074: 48484848, 9644629: 31313131, 9641056: 55555555},
+        continuoues_time_dict = {
+            '1367266': 19191919, '9599570': 74747474, '9603169': 89898989, '9610303': 54545454, '9619154': 32323232,
+            '9612481': 67676767, '9619802': 50505050, '9627552': 41414141, '9643239': 23232323, '9644490': 21212121,
+            '9645544': 40404040, '9645721': 66666666, '9646074': 48484848, '9644629': 31313131, '9641056': 55555555
+        }
 
-            {1367266: 19191919, 9599570: 74747474, 9603169: 89898989, 9610303: 54545454, 9619154: 32323232,
-             9612481: 67676767, 9619802: 50505050, 9627552: 41414141, 9643239: 23232323, 9644490: 21212121,
-             9645544: 40404040, 9645721: 66666666, 9646074: 48484848, 9644629: 31313131, 9641056: 55555555}
-        ]
+        filtered_files = {
+            'Din1': path + '/../../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din1.dat',
+            'Din2': path + '/../../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din2.dat',
+        }
 
+        cls.single_dataset_data = DioExtractor.extract_dio_for_single_dataset(
+            filtered_files=filtered_files,
+            continuoues_time_dict=continuoues_time_dict
+        )
 
-        filtered_dio_files = [{
-            'Din1': path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din1.dat',
-            'Din2': path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din2.dat',
-        },
-            {
-                'Din1': path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din1.dat',
-                'Din2': path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din2.dat',
-            },
-        ]
-
-        cls.dio_extractor = DioExtractor()
-        self.extract_dio_for_single_dataset = dio_extractorextract_dio_for_single_dataset
-
-    def test_extract_dio_for_single_dataset(self):
-        pass
-
+    def test_extracted_dio_for_single_dataset_correctType_true(self):
+        print(self.single_dataset_data)
 
 # import contextlib
 # import os

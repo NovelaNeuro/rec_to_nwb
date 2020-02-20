@@ -13,7 +13,6 @@ class DioManager:
         self.dio_files = DioFiles(directories, self.dio_metadata)
         self.filtered_dio_files = self.dio_files.get_dio_files()
         self.continuous_time_dicts = continuous_time_dicts
-        self.dio_extractor = DioExtractor()
 
     def get_dio(self):
         all_dio_data = []
@@ -21,7 +20,7 @@ class DioManager:
         number_of_datasets = len(self.filtered_dio_files)
         with concurrent.futures.ThreadPoolExecutor() as executor:
             for i in range(number_of_datasets):
-                threads.append(executor.submit(self.dio_extractor.extract_dio_for_single_dataset,
+                threads.append(executor.submit(DioExtractor().extract_dio_for_single_dataset,
                                                self.filtered_dio_files[i],
                                                self.continuous_time_dicts[i]))
         for thread in threads:

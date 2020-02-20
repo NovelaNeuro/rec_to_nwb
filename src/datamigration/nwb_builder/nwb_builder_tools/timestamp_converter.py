@@ -13,7 +13,9 @@ class TimestampConverter:
 
     @staticmethod
     def convert_timestamps(continuous_time_dict, timestamps):
-        converted_timestamps = np.ndarray([np.shape(timestamps)[0], ], dtype="float64")
+        # ToDO shape = len(timestamp)
+        converted_timestamps = np.ndarray(shape=[np.shape(timestamps)[0], ], dtype="float64")
+        # ToDo for counter, timestamp in enumerate(timestamps):
         for i in range(np.shape(timestamps)[0]):
             key = str(timestamps[i])
             value = continuous_time_dict.get(key, float('nan')) / 1E9
