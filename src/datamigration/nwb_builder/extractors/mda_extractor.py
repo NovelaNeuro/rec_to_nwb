@@ -19,7 +19,7 @@ class MdaExtractor:
         self.__extract_data()
 
         mda_timestamp_data_manager = MdaTimestampDataManager(
-            directories=[self.timestamps],
+            directories=self.timestamps,
             continuous_time_directories=self.continuous_time
         )
         mda_data_manager = MdaDataManager(self.mda_data)
@@ -50,5 +50,5 @@ class MdaExtractor:
 
     def __add_data(self, data_from_current_dataset, dataset):
         self.mda_data.append(data_from_current_dataset)
-        self.timestamps.append(dataset.get_mda_timestamps())
+        self.timestamps.append([dataset.get_mda_timestamps()])
         self.continuous_time.append(dataset.get_continuous_time())

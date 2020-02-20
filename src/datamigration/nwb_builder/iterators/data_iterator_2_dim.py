@@ -6,11 +6,10 @@ from hdmf.data_utils import AbstractDataChunkIterator, DataChunk
 
 class DataIterator2D(AbstractDataChunkIterator):
 
-    def __init__(self, data, number_of_threads=4):
+    def __init__(self, data, number_of_threads=6):
         self.data = data
         self.number_of_threads = number_of_threads
 
-        self.current_number_of_threads = 0
         self.__current_index = 0
         self.current_file = 0
         self.current_dataset = 0
@@ -37,12 +36,10 @@ class DataIterator2D(AbstractDataChunkIterator):
                     threads[i] = executor.submit(DataIterator2D.get_data_from_file,
                                                  self.data,
                                                  self.current_dataset,
-                                                 self.current_file)
+                                                 self.current_file + i)
             data_from_multiple_files = ()
             for thread in threads:
-                print(thread.result(), )
                 data_from_multiple_files += (thread.result(),)
-                print(thread.result(), )
             stacked_data_from_multiple_files = np.hstack(data_from_multiple_files)
             selection = self.get_selection(number_of_threads=number_of_threads_in_current_step,
                                            current_dataset=self.current_dataset,
@@ -67,7 +64,6 @@ class DataIterator2D(AbstractDataChunkIterator):
 
     @staticmethod
     def get_data_from_file(data, current_dataset, current_file):
-        print("dzialam")
         return np.transpose(data.read_data(current_dataset, current_file))
 
     @staticmethod
