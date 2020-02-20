@@ -117,5 +117,6 @@ class TestDioManager(unittest.TestCase):
         self.assertEqual(len(self.dio['Din2']), 2)
         self.assertEqual(self.dio['Din2'][0].shape, (2,))
         self.assertEqual(len(self.dio['Din2'][0]), 2)
+        self.assertEqual(len(self.dio['Din2'][1]), 2)
 
 
