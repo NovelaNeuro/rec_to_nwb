@@ -16,5 +16,4 @@ class MdaTimestampDataManager(TimestampManagerInterface):
         TimestampManagerInterface.__init__(self, directories, continuous_time_directories)
 
     def _get_timestamps(self, dataset_id):
-        return readmda(self.directories[0][dataset_id])
-
+        return readmda(self.directories[dataset_id][0])
