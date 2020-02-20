@@ -9,7 +9,7 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-# @unittest.skip("NWB file creation")
+@unittest.skip("NWB file creation")
 class TestNwbFullGeneration(unittest.TestCase):
 
     @classmethod
@@ -32,8 +32,8 @@ class TestNwbFullGeneration(unittest.TestCase):
         self.nwb_builder.write(content)
         self.assertIsNotNone(self.nwb_builder)
 
-    # @classmethod
-    # def tearDownClass(cls):
-    #     del cls.nwb_builder
-    #     if os.path.isfile('output.nwb'):
-    #         os.remove('output.nwb')
+    @classmethod
+    def tearDownClass(cls):
+        del cls.nwb_builder
+        if os.path.isfile('output.nwb'):
+            os.remove('output.nwb')
