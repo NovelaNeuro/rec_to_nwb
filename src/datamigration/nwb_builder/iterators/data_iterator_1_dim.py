@@ -6,7 +6,7 @@ from hdmf.data_utils import AbstractDataChunkIterator, DataChunk
 
 class DataIterator1D(AbstractDataChunkIterator):
 
-    def __init__(self, data, number_of_threads=4):
+    def __init__(self, data, number_of_threads=6):
         self.data = data
         self.number_of_threads = number_of_threads
         self.__current_index = 0
@@ -32,7 +32,7 @@ class DataIterator1D(AbstractDataChunkIterator):
                 for i in range(number_of_threads_in_current_step):
                     threads[i] = executor.submit(DataIterator1D.get_data_from_file,
                                                  data=self.data,
-                                                 current_dataset=self.current_dataset)
+                                                 current_dataset=self.current_dataset + i)
             data_from_multiple_files = ()
             for thread in threads:
                 data_from_multiple_files += (thread.result(),)
@@ -40,8 +40,8 @@ class DataIterator1D(AbstractDataChunkIterator):
             selection = self.__get_selection(number_of_threads_in_current_step)
             data_chunk = DataChunk(data=stacked_data_from_multiple_files, selection=selection)
 
-            self.__current_index += 1
-            self.current_dataset += 1
+            self.__current_index += number_of_threads_in_current_step
+            self.current_dataset += number_of_threads_in_current_step
 
             del stacked_data_from_multiple_files
             return data_chunk

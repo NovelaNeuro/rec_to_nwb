@@ -8,15 +8,16 @@ from pynwb.file import Subject
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
-from src.datamigration.nwb.components.dio.dio_files import DioFiles
-from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
+from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
+from src.datamigration.nwb.components.dio.dio_manager import DioManager
+from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
+from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
-from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
 from src.datamigration.nwb_builder.builders.probes_dict_builder import ProbesDictBuilder
 from src.datamigration.nwb_builder.creators.device_factory import DeviceFactory
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
@@ -25,7 +26,6 @@ from src.datamigration.nwb_builder.injectors.electrode_extension_injector import
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb_builder.injectors.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
-from src.datamigration.nwb.components.dio.dio_manager import DioManager
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_processor import HeaderProcessor
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
@@ -66,10 +66,12 @@ class NWBFileBuilder:
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
 
+        self.continuous_time_dicts = self.__read_continuous_time_dicts()
+
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
         self.task_builder = TaskBuilder(self.metadata)
-        self.position_builder = PositionBuilder(self.datasets)
+        self.position_builder = PositionBuilder(self.datasets, self.continuous_time_dicts)
         self.apparatus_builder = ApparatusBuilder(self.metadata['apparatus']['data'])
 
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
@@ -90,9 +92,7 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
-        self.continuous_time_dicts = self.__read_continuous_time_dicts()
-
-        self.mda_builder = MdaBuilder(self.metadata, self.header, self.datasets)
+        self.mda_builder = MdaBuilder(self.metadata, self.header, self.datasets, self.continuous_time_dicts)
 
     def build(self):
         nwb_content = NWBFile(session_description=self.metadata['session description'],
