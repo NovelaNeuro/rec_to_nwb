@@ -8,6 +8,7 @@ from pynwb.file import Subject
 import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
+from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
@@ -91,11 +92,6 @@ class NWBFileBuilder:
         self.continuous_time_dicts = self.__read_continuous_time_dicts()
 
         self.mda_builder = MdaBuilder(self.metadata, self.header, self.datasets)
-
-    def __read_continuous_time_dicts(self):
-        continuous_time_files = [single_dataset.get_continuous_time() for single_dataset in self.datasets]
-        continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
-        return continuous_time_dicts
 
     def build(self):
         nwb_content = NWBFile(session_description=self.metadata['session description'],
@@ -182,9 +178,15 @@ class NWBFileBuilder:
             electrodes_header_extension
         )
 
+    def __read_continuous_time_dicts(self):
+        continuous_time_files = [single_dataset.get_continuous_time() for single_dataset in self.datasets]
+        continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
+        return continuous_time_dicts
+
     def __build_and_inject_dio(self, nwb_content):
         dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
-        dio_manager = DioManager(directories=dio_directories,
+        dio_files = DioFiles(dio_directories, self.metadata['behavioral_events'])
+        dio_manager = DioManager(dio_files=dio_files.get_files,
                                  dio_metadata=self.metadata['behavioral_events'],
                                  continuous_time_dicts=self.continuous_time_dicts)
         dio_data = dio_manager.get_dio()
