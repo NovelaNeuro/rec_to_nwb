@@ -15,7 +15,6 @@ class DioExtractor:
     def __init__(self, filtered_dio_files, continuous_time_dicts):
         self.filtered_dio_files = filtered_dio_files
         self.continuous_time_dicts = continuous_time_dicts
-        self.timestamp_converter = TimestampConverter()
 
     def extract_dio_for_single_dataset(self, filtered_files, continuoues_time_dict):
         single_dataset_data = {}
