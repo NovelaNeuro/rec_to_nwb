@@ -12,7 +12,7 @@ class DioManager:
         self.dio_metadata = dio_metadata
         self.continuous_time_dicts = continuous_time_dicts
 
-        self.dio_extractor = DioExtractor(self.dio_files, continuous_time_dicts)
+        self.dio_extractor = DioExtractor()
 
     def get_dio(self):
         all_dio_data = []
