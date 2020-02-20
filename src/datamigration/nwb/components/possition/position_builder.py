@@ -1,5 +1,5 @@
-from src.datamigration.nwb_builder.creators.position_creator import PositionCreator
-from src.datamigration.nwb_builder.extractors.position_extractor import PositionExtractor
+from src.datamigration.nwb.components.possition.position_creator import PositionCreator
+from src.datamigration.nwb.components.possition.position_extractor import PositionExtractor
 
 
 class PositionBuilder:
