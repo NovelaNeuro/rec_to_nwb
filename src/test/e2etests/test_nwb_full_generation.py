@@ -24,7 +24,7 @@ class TestNwbFullGeneration(unittest.TestCase):
             date='20190718',
             nwb_metadata=metadata,
             process_dio=True,
-            process_mda=True
+            process_mda=False
            )
 
     def test_generate_nwb(self):
