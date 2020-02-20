@@ -1,6 +1,8 @@
 import logging.config
 import os
 
+from src.datamigration.exceptions.not_compatible_metadata import NotCompatibleMetadata
+
 path = os.path.dirname(os.path.abspath(__file__))
 
 logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
@@ -10,19 +12,22 @@ logger = logging.getLogger(__name__)
 class ElectrodeExtensionInjector:
 
     def inject_extensions(self, nwb_content, metadata_extension, header_extension, ntrodes_extension):
-
-        header_extension = self.__adjust_extension_length(
+        self.__check_extension_length(
             metadata_extension.rel_x,
+            metadata_extension.rel_y,
+            metadata_extension.rel_z,
             header_extension,
-            'header_extension'
-        )
-        ntrodes_extension = self.__adjust_extension_length(
-            metadata_extension.rel_x,
-            ntrodes_extension,
-            'ntrodes_extension'
+            ntrodes_extension
         )
 
         self.__join_extensions_to_electrodes(metadata_extension, header_extension, ntrodes_extension, nwb_content)
+
+    @staticmethod
+    def __check_extension_length(*args):
+        if len(set(map(len, args))) != 1:
+            message = 'Electrodes metadata are not compatible!'
+            logger.error(message)
+            raise NotCompatibleMetadata(message)
 
     @staticmethod
     def __adjust_extension_length(rel_x, extension, msg):
