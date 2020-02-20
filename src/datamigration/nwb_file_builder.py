@@ -15,7 +15,6 @@ from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBu
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
-from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
 from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
 from src.datamigration.nwb_builder.builders.probes_dict_builder import ProbesDictBuilder
 from src.datamigration.nwb_builder.creators.device_factory import DeviceFactory
@@ -72,8 +71,6 @@ class NWBFileBuilder:
         self.position_builder = PositionBuilder(self.datasets)
         self.apparatus_builder = ApparatusBuilder(self.metadata['apparatus']['data'])
 
-        self.ntrodes_builder = NTrodesBuilder(self.metadata)
-
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
         self.probes_injector = ProbeInjector()
         self.header_device_creator = DeviceFactory()
@@ -126,12 +123,9 @@ class NWBFileBuilder:
 
         electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
 
-        self.ntrodes_builder.build(nwb_content)
-
         self.__build_and_inject_electrodes(nwb_content, electrode_group_dict)
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
-
 
         if self.process_dio:
             self.__build_and_inject_dio(nwb_content)

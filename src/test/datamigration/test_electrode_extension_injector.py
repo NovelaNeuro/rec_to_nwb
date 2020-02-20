@@ -14,6 +14,7 @@ from src.datamigration.nwb_builder.creators.electrode_metadata_extension_creator
     ElectrodesMetadataExtensionCreator
 from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
 
+
 class TestElectrodeExtensionInjector(unittest.TestCase):
 
     @classmethod
@@ -165,6 +166,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
                           header_extension,
                           ntrodes_extension
                           )
+
     def test_injectExtensions_raiseExceptionShorterNtrodesExt_true(self):
         header_extension = [0, 1, 2, 3]
         ntrodes_extension = [11, 11, 22]
