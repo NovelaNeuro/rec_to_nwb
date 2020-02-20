@@ -13,9 +13,9 @@ class TimestampConverter:
 
     @staticmethod
     def convert_timestamps(continuous_time_dict, timestamps):
-        converted_timestamps = np.ndarray([np.shape(timestamps)[0], ], dtype="float64")
-        for i in range(np.shape(timestamps)[0]):
-            key = str(timestamps[i])
+        converted_timestamps = np.ndarray(shape=[len(timestamps), ], dtype="float64")
+        for i, timestamp in enumerate(timestamps):
+            key = str(timestamp)
             value = continuous_time_dict.get(key, float('nan')) / 1E9
             if np.isnan(value):
                 message = 'Following key: ' + str(key) + ' does not exist in continioustime dictionary!'
