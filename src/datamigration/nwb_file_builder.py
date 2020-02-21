@@ -186,7 +186,7 @@ class NWBFileBuilder:
     def __build_and_inject_dio(self, nwb_content):
         dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
         dio_files = DioFiles(dio_directories, self.metadata['behavioral_events'])
-        dio_manager = DioManager(dio_files=dio_files.get_files,
+        dio_manager = DioManager(dio_files=dio_files.get_files(),
                                  dio_metadata=self.metadata['behavioral_events'],
                                  continuous_time_dicts=self.continuous_time_dicts)
         dio_data = dio_manager.get_dio()
