@@ -12,8 +12,8 @@ from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
-from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
-from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
+from src.datamigration.nwb.components.electrodes.electrode_builder import ElectrodeBuilder
+from src.datamigration.nwb.components.electrodes.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
@@ -21,7 +21,7 @@ from src.datamigration.nwb_builder.builders.probes_dict_builder import ProbesDic
 from src.datamigration.nwb_builder.creators.device_factory import DeviceFactory
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
-from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
+from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb_builder.injectors.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector

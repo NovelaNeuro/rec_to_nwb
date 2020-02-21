@@ -1,8 +1,9 @@
-from src.datamigration.nwb_builder.creators.electrode_creator import ElectrodesCreator
+from src.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
 from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 
 
 class ElectrodeBuilder:
+
     def __init__(self, probes_metadata, electrode_groups_metadata):
         self.probes_metadata = probes_metadata
         self.electrode_groups_metadata = electrode_groups_metadata
