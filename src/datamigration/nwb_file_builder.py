@@ -16,8 +16,7 @@ from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBu
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
-from src.datamigration.nwb_builder.builders.ntrodes_builder import NTrodesBuilder
-from src.datamigration.nwb_builder.builders.position_builder import PositionBuilder
+from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
 from src.datamigration.nwb_builder.builders.probes_dict_builder import ProbesDictBuilder
 from src.datamigration.nwb_builder.creators.device_factory import DeviceFactory
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
@@ -73,8 +72,6 @@ class NWBFileBuilder:
         self.position_builder = PositionBuilder(self.datasets)
         self.apparatus_builder = ApparatusBuilder(self.metadata['apparatus']['data'])
 
-        self.ntrodes_builder = NTrodesBuilder(self.metadata)
-
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
         self.probes_injector = ProbeInjector()
         self.header_device_creator = DeviceFactory()
@@ -85,8 +82,12 @@ class NWBFileBuilder:
 
         self.electrode_builder = ElectrodeBuilder(self.probes, self.metadata['electrode groups'])
 
-        self.electrode_extension_builder = ElectrodeExtensionBuilder(self.probes, self.metadata['electrode groups'],
-                                                                     self.header)
+        self.electrode_extension_builder = ElectrodeExtensionBuilder(
+            self.probes,
+            self.metadata['electrode groups'],
+            self.metadata['ntrode probe channel map'],
+            self.header
+        )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
         self.continuous_time_dicts = self.__read_continuous_time_dicts()
@@ -123,8 +124,6 @@ class NWBFileBuilder:
         self.__build_and_inject_electrodes(nwb_content, electrode_group_dict)
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
-
-        self.ntrodes_builder.build(nwb_content)
 
         if self.process_dio:
             self.__build_and_inject_dio(nwb_content)
@@ -171,11 +170,13 @@ class NWBFileBuilder:
         self.electrode_builder.build(nwb_content, electrode_group_dict)
 
     def __build_and_inject_electrodes_extensions(self, nwb_content):
-        electrodes_metadata_extension, electrodes_header_extension = self.electrode_extension_builder.build()
+        electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrodes_extension = \
+            self.electrode_extension_builder.build()
         self.electrode_extension_injector.inject_extensions(
             nwb_content,
             electrodes_metadata_extension,
-            electrodes_header_extension
+            electrodes_header_extension,
+            electrodes_ntrodes_extension
         )
 
     def __read_continuous_time_dicts(self):

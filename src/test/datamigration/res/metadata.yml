@@ -239,7 +239,7 @@ ntrode probe channel map:
       30: 126
       31: 127
   - ntrode_id: 5
-    probe_id: 0
+    probe_id: 1
     map:
       0: 0
       1: 1
@@ -274,7 +274,7 @@ ntrode probe channel map:
       30: 30
       31: 31
   - ntrode_id: 6
-    probe_id: 0
+    probe_id: 1
     map:
       0: 32
       1: 33
@@ -309,7 +309,7 @@ ntrode probe channel map:
       30: 62
       31: 63
   - ntrode_id: 7
-    probe_id: 0
+    probe_id: 1
     map:
       0: 64
       1: 65
@@ -344,7 +344,7 @@ ntrode probe channel map:
       30: 94
       31: 95
   - ntrode_id: 8
-    probe_id: 0
+    probe_id: 1
     map:
       0: 96
       1: 97
