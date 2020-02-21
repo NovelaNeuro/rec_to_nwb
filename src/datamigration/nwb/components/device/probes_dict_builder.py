@@ -1,9 +1,10 @@
-from src.datamigration.nwb_builder.creators.device_factory import DeviceFactory
-from src.datamigration.nwb_builder.extractors.probe_extractor import ProbesExtractor
+from src.datamigration.nwb.components.device.device_factory import DeviceFactory
+from src.datamigration.nwb.components.device.probe_extractor import ProbesExtractor
 from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 
 
 class ProbesDictBuilder:
+
     def __init__(self, probes_metadata, electrode_groups_metadata):
         self.probes_metadata = probes_metadata
         self.electrode_groups_metadata = electrode_groups_metadata
@@ -18,6 +19,8 @@ class ProbesDictBuilder:
         return probes
 
     def _build_single_probe(self, electrode_group_metadata, probe_counter):
-        probe_metadata = filter_probe_by_type(self.probes_metadata,
-                                              electrode_group_metadata['device_type'])
+        probe_metadata = filter_probe_by_type(
+            self.probes_metadata,
+            electrode_group_metadata['device_type']
+        )
         return self.device_factory.create_probe(probe_metadata, probe_counter)
