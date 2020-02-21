@@ -1,0 +1,2 @@
+class NotCompatibleMetadata(Exception):
+    pass

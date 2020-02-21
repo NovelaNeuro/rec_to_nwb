@@ -41,15 +41,24 @@ class TestElectrodeExtensionsBuilder(TestCase):
                            {'id': 97, 'rel_x': 40, 'rel_y': 900, 'rel_z': 0}]}]}
                   ]
 
+        ntrodes_metadata = [
+            {'ntrode_id': 1, 'probe_id': 0, 'map': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4}},
+            {'ntrode_id': 2, 'probe_id': 0, 'map': {0: 32, 1: 33, 2: 34, 3: 35, 4: 36}},
+            {'ntrode_id': 3, 'probe_id': 1, 'map': {0: 64, 1: 65, 2: 66, 3: 67, 4: 68}},
+            {'ntrode_id': 4, 'probe_id': 1, 'map': {0: 96, 1: 97, 2: 98, 3: 99, 4: 100}}
+        ]
+
         cls.header = Header(str(path) + '/res/nwb_elements_builder_test/header.xml')
 
         cls.electrode_extension_builder = ElectrodeExtensionBuilder(
             probes_metadata=probes,
             electrode_groups_metadata=metadata,
-            header=cls.header
+            header=cls.header,
+            ntrodes_metadata=ntrodes_metadata
         )
 
-        cls.electrodes_metadata_extension, cls.electrodes_header_extension = cls.electrode_extension_builder.build()
+        cls.electrodes_metadata_extension, cls.electrodes_header_extension, cls.electrodes_ntrodes_extension = \
+            cls.electrode_extension_builder.build()
 
     def test_build_successfulReturn_true(self):
         self.assertIsNotNone(self.electrodes_metadata_extension)
@@ -59,11 +68,17 @@ class TestElectrodeExtensionsBuilder(TestCase):
 
         self.assertIsNotNone(self.electrodes_header_extension)
 
+        self.assertIsNotNone(self.electrodes_ntrodes_extension)
+
     def test_build_returnCorrectValues_true(self):
         self.assertEqual(self.electrodes_metadata_extension.rel_x[0], 0)
         self.assertEqual(self.electrodes_metadata_extension.rel_y[0], 0)
         self.assertEqual(self.electrodes_metadata_extension.rel_z[0], 0)
+
         self.assertEqual(self.electrodes_header_extension[0], '81')
+
+        self.assertEqual(self.electrodes_ntrodes_extension[0], 1)
+        self.assertEqual(self.electrodes_ntrodes_extension[-1], 4)
 
     def test_build_returnCorrectObject_true(self):
         self.assertIsInstance(self.electrodes_metadata_extension, ElectrodesMetadataExtensionCreator)
@@ -71,10 +86,12 @@ class TestElectrodeExtensionsBuilder(TestCase):
         self.assertIsInstance(self.electrodes_metadata_extension.rel_x, list)
         self.assertIsInstance(self.electrodes_metadata_extension.rel_y, list)
         self.assertIsInstance(self.electrodes_metadata_extension.rel_z, list)
-
         self.assertIsInstance(self.electrodes_metadata_extension.rel_x[0], int)
         self.assertIsInstance(self.electrodes_metadata_extension.rel_y[0], int)
         self.assertIsInstance(self.electrodes_metadata_extension.rel_z[0], int)
 
         self.assertIsInstance(self.electrodes_header_extension, list)
         self.assertIsInstance(self.electrodes_header_extension[0], str)
+
+        self.assertIsInstance(self.electrodes_ntrodes_extension, list)
+        self.assertIsInstance(self.electrodes_ntrodes_extension[0], int)
