@@ -1,4 +1,3 @@
-import unittest
 from unittest import TestCase
 
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
@@ -8,8 +7,8 @@ class TestDioBuilder(TestCase):
 
     def setUp(self):
         self.data = {
-            'Din1': [(1, 11), (1, 11), (1, 11), (1, 11)],
-            'Din2': [(2, 22), (2, 22), (2, 22)]}
+            'Din1': [[1, 1, 1, 1], [11, 11, 11, 11]],
+            'Din2': [[2, 2, 2], [22, 22, 22]]}
         self.metadata = [
             {'name': 'Din1', 'description': 'poke1'},
             {'name': 'Din2', 'description': 'poke2'}]
