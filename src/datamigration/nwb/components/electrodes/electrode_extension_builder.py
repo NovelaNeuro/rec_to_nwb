@@ -21,10 +21,12 @@ class ElectrodeExtensionBuilder:
         self._create_extension_from_metadata(self.electrode_groups_metadata, self.probes_metadata)
 
         electrodes_header_extension = self.electrodes_header_extension_creator.create_electrodes_header_extension(
-            self.header.configuration.spike_configuration.spike_n_trodes)
+            self.header.configuration.spike_configuration.spike_n_trodes
+        )
         electrodes_metadata_extension = self.electrodes_metadata_extension_creator
         electrodes_ntrodes_extension = self.electrodes_ntrodes_extension_creator.create_electrodes_ntrode_extension(
-            self.ntrodes_metadata)
+            self.ntrodes_metadata
+        )
 
         return electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrodes_extension
 
