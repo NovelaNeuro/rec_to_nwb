@@ -1,6 +1,7 @@
 import datetime
 import os
 import uuid
+import logging.config
 
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
@@ -30,6 +31,8 @@ from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_proce
 from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 path = os.path.dirname(os.path.abspath(__file__))
+logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class NWBFileBuilder:
@@ -43,6 +46,8 @@ class NWBFileBuilder:
                  process_mda=True,
                  output_file='output.nwb'
                  ):
+
+        logger.info('NWBFileBuilder initialized')
 
         self.animal_name = animal_name
         self.date = date
@@ -95,23 +100,26 @@ class NWBFileBuilder:
         self.mda_builder = MdaBuilder(self.metadata, self.header, self.datasets)
 
     def build(self):
-        nwb_content = NWBFile(session_description=self.metadata['session description'],
-                              experimenter=self.metadata['experimenter name'],
-                              lab=self.metadata['lab'],
-                              institution=self.metadata['institution'],
-                              session_start_time=datetime.datetime.strptime(
-                                  self.metadata['session start time'], '%m/%d/%Y %H:%M:%S'),
-                              identifier=str(uuid.uuid1()),
-                              experiment_description=self.metadata['experiment description'],
-                              subject=Subject(
-                                  description=self.metadata['subject']['description'],
-                                  genotype=self.metadata['subject']['genotype'],
-                                  sex=self.metadata['subject']['sex'],
-                                  species=self.metadata['subject']['species'],
-                                  subject_id=self.metadata['subject']['subject id'],
-                                  weight=str(self.metadata['subject']['weight']),
-                              ),
-                              )
+        logger.info('Starting the NWB building')
+
+        nwb_content = NWBFile(
+            session_description=self.metadata['session description'],
+            experimenter=self.metadata['experimenter name'],
+            lab=self.metadata['lab'],
+            institution=self.metadata['institution'],
+            session_start_time=datetime.datetime.strptime(self.metadata['session start time'], '%m/%d/%Y %H:%M:%S'),
+            identifier=str(uuid.uuid1()),
+            experiment_description=self.metadata['experiment description'],
+            subject=Subject(
+                description=self.metadata['subject']['description'],
+                genotype=self.metadata['subject']['genotype'],
+                sex=self.metadata['subject']['sex'],
+                species=self.metadata['subject']['species'],
+                subject_id=self.metadata['subject']['subject id'],
+                weight=str(self.metadata['subject']['weight']
+                           ),
+            ),
+        )
 
         self.__build_and_inject_processing_module(nwb_content)
 
@@ -129,49 +137,75 @@ class NWBFileBuilder:
             self.__build_and_inject_dio(nwb_content)
 
         if self.process_mda:
-            self.mda_builder.build(nwb_content)
+            self.__build_and_inject_mda(nwb_content)
 
         return nwb_content
 
     def write(self, content):
+        logger.info('Writing NWB to ' + self.output_file)
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
             nwb_fileIO.write(content)
             nwb_fileIO.close()
+
+        logger.info('Writing completed')
         return self.output_file
 
     def __build_and_inject_processing_module(self, nwb_content):
+        logger.info('Task: Building')
         task = self.task_builder.build()
+
+        logger.info('Position: Building')
         position = self.position_builder.build()
+
+        logger.info('Apparatus: Building')
         apparatus = self.apparatus_builder.build()
 
+        logger.info('Task: Injecting inside ProcessingModule')
         self.pm_creator.insert(task)
+
+        logger.info('Position: Injecting inside ProcessingModule')
         self.pm_creator.insert(position)
+
+        logger.info('Apparatus: Injecting inside ProcessingModule')
         self.pm_creator.insert(apparatus)
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
     def __build_and_inject_header_device(self, nwb_content, header):
+        logger.info('HeaderDevice: Building')
         header_device = self.header_device_creator.create_header_device(
             global_configuration=header.configuration.global_configuration,
             name='header_device')
+
+        logger.info('HeaderDevice: Injecting inside NWB')
         self.header_device_injector.inject_header_device(nwb_content, header_device)
 
     def __build_and_inject_probes(self, nwb_content):
+        logger.info('Probes: Building')
         probes_dict = self.probes_dict_builder.build()
+
+        logger.info('Probes: Injecting inside NWB')
         self.probes_injector.inject_all_probes(nwb_content, probes_dict)
         return probes_dict
 
     def __build_and_inject_electrode_group(self, nwb_content, probes):
+        logger.info('ElectrodeGroups: Building')
         electrode_group_dict = self.electrode_group_builder.build(probes)
+
+        logger.info('ElectrodeGroups: Injecting inside NWB')
         self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_group_dict)
         return electrode_group_dict
 
     def __build_and_inject_electrodes(self, nwb_content, electrode_group_dict):
+        logger.info('Electrodes: Building&Injecting inside NWB')
         self.electrode_builder.build(nwb_content, electrode_group_dict)
 
     def __build_and_inject_electrodes_extensions(self, nwb_content):
+        logger.info('ElectrodesExtensions: Building')
         electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrodes_extension = \
             self.electrode_extension_builder.build()
+
+        logger.info('ElectrodesExtensions: Injecting inside NWB')
         self.electrode_extension_injector.inject_extensions(
             nwb_content,
             electrodes_metadata_extension,
@@ -180,17 +214,33 @@ class NWBFileBuilder:
         )
 
     def __read_continuous_time_dicts(self):
+        logger.info('ContinuousTime: Prepare files')
         continuous_time_files = [single_dataset.get_continuous_time() for single_dataset in self.datasets]
+
+        logger.info('ContinuousTime: Extract')
         continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
         return continuous_time_dicts
 
     def __build_and_inject_dio(self, nwb_content):
+        logger.info('DIO: Prepare directories')
         dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
+
+        logger.info('DIO: Prepare files')
         dio_files = DioFiles(dio_directories, self.metadata['behavioral_events'])
+
         dio_manager = DioManager(dio_files=dio_files.get_files(),
                                  dio_metadata=self.metadata['behavioral_events'],
                                  continuous_time_dicts=self.continuous_time_dicts)
+        logger.info('DIO: Get data')
         dio_data = dio_manager.get_dio()
+
         dio_builder = DioBuilder(dio_data, self.metadata['behavioral_events'])
         dio_injector = DioInjector(nwb_content)
+
+        logger.info('DIO: Building&Injecting inside NWB')
         dio_injector.inject(dio_builder.build(), 'behavior')
+
+    def __build_and_inject_mda(self, nwb_content):
+        logger.info('MDA: Building')
+
+        self.mda_builder.build(nwb_content)
