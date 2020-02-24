@@ -10,6 +10,7 @@ from src.datamigration.nwb.components.dio.dio_manager import DioManager
 path = os.path.dirname(os.path.abspath(__file__))
 
 
+@unittest.skip('Need preprocessed .dat files')
 class TestDioManager(unittest.TestCase):
 
     @classmethod

@@ -22,5 +22,6 @@ install:
 # command to run tests
 script:
   - bash pylint_run.sh
+  - python -m pytest src/test/datamigration
 notifications:
   slack: novelaneurote-ibx6025:3bhUUXZXz52ZXXTQCpiJyHkF
