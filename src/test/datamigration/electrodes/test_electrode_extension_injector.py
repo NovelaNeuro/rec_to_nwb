@@ -9,10 +9,10 @@ from pynwb import NWBFile
 from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
 
 from src.datamigration.exceptions.not_compatible_metadata import NotCompatibleMetadata
-from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
-from src.datamigration.nwb_builder.creators.electrode_metadata_extension_creator import \
+from src.datamigration.nwb.components.electrodes.electrode_builder import ElectrodeBuilder
+from src.datamigration.nwb.components.electrodes.electrode_metadata_extension_creator import \
     ElectrodesMetadataExtensionCreator
-from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
+from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
 
 
 class TestElectrodeExtensionInjector(unittest.TestCase):
