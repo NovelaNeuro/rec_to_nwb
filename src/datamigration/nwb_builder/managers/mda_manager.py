@@ -3,15 +3,15 @@ from src.datamigration.nwb_builder.extractors.mda_extractor import MdaExtractor
 
 
 class MdaManager:
-    def __init__(self, metadata, header, datasets):
+    def __init__(self, metadata, header, datasets, continuous_time_dicts):
         self.header = header
         self.table_region_builder = TableRegionBuilder(metadata)
-        self.mda_extractor = MdaExtractor(datasets)
+        self.mda_extractor = MdaExtractor(datasets, continuous_time_dicts)
 
     def get_sampling_rate(self):
         return self.header.configuration.hardware_configuration.sampling_rate
 
-    def get_electrode_table_region(self, nwb_content):
+    def get_electrode_table_region(self, nwb_content):#todo why we touch nwb_content in here?
         return self.table_region_builder.build(nwb_content)
 
     def get_extracted_mda_data(self):

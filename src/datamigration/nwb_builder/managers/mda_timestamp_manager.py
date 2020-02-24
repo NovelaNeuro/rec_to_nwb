@@ -12,8 +12,14 @@ logger = logging.getLogger(__name__)
 
 
 class MdaTimestampDataManager(TimestampManagerInterface):
-    def __init__(self, directories, continuous_time_directories):
+    def __init__(self, directories, continuous_time_directories, continuous_time_dicts):
+        self.continuous_time_dicts = continuous_time_dicts
         TimestampManagerInterface.__init__(self, directories, continuous_time_directories)
 
     def _get_timestamps(self, dataset_id):
-        return readmda(self.directories[dataset_id][0])
+        return readmda(self.directories[dataset_id])
+
+    def read_data(self, dataset_id):
+        timestamps = self._get_timestamps(dataset_id)
+        continuous_time_dict = self.continuous_time_dicts[dataset_id]
+        return self.timestamp_converter.convert_timestamps(continuous_time_dict, timestamps)

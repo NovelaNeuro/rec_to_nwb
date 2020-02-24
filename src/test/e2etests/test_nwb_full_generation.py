@@ -1,4 +1,3 @@
-import os
 import unittest
 from pathlib import Path
 
@@ -9,31 +8,32 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-@unittest.skip("NWB file creation")
+# @unittest.skip("NWB file creation")
 class TestNwbFullGeneration(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        metadata = MetadataManager(str(path) + '/datamigration/res/metadata.yml',
-                                   [str(path) + '/datamigration/res/probe1.yml',
-                                str(path) + '/datamigration/res/probe2.yml',
-                                str(path) + '/datamigration/res/probe3.yml'])
+        metadata = MetadataManager(
+            str(path) + '/datamigration/res/metadata.yml',
+            [str(path) + '/datamigration/res/probe1.yml',
+             str(path) + '/datamigration/res/probe2.yml',
+             str(path) + '/datamigration/res/probe3.yml'])
         cls.nwb_builder = NWBFileBuilder(
             data_path=str(path) + '/test_data/',
             animal_name='beans',
             date='20190718',
             nwb_metadata=metadata,
             process_dio=True,
-            process_mda=False
-           )
+            process_mda=True
+        )
 
     def test_generate_nwb(self):
         content = self.nwb_builder.build()
-        self.nwb_builder.write(content)
-        self.assertIsNotNone(self.nwb_builder)
+        output_file = self.nwb_builder.write(content)
+        self.assertIsNotNone(output_file)
 
-    @classmethod
-    def tearDownClass(cls):
-        del cls.nwb_builder
-        if os.path.isfile('output.nwb'):
-            os.remove('output.nwb')
+    # @classmethod
+    # def tearDownClass(cls):
+    #     del cls.nwb_builder
+    #     if os.path.isfile('output.nwb'):
+    #         os.remove('output.nwb')

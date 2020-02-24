@@ -5,8 +5,8 @@ from src.datamigration.nwb_builder.managers.mda_manager import MdaManager
 
 class MdaBuilder:
 
-    def __init__(self, metadata, header, datasets):
-        self.mda_manager = MdaManager(metadata, header, datasets)
+    def __init__(self, metadata, header, datasets, continuous_time_dicts):
+        self.mda_manager = MdaManager(metadata, header, datasets, continuous_time_dicts)
         self.mda_creator = MdaCreator()
         self.mda_injector = MdaInjector()
 
