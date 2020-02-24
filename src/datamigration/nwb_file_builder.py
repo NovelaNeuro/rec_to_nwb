@@ -217,7 +217,7 @@ class NWBFileBuilder:
         logger.info('ContinuousTime: Prepare files')
         continuous_time_files = [single_dataset.get_continuous_time() for single_dataset in self.datasets]
 
-        logger.info('ContinuousTime: Extract')
+        logger.info('ContinuousTime: Extracting')
         continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
         return continuous_time_dicts
 
