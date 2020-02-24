@@ -2,8 +2,8 @@ import os
 from unittest import TestCase
 
 from src.datamigration.header.module.header import Header
-from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
-from src.datamigration.nwb_builder.creators.electrode_metadata_extension_creator import \
+from src.datamigration.nwb.components.electrodes.electrode_extension_builder import ElectrodeExtensionBuilder
+from src.datamigration.nwb.components.electrodes.electrode_metadata_extension_creator import \
     ElectrodesMetadataExtensionCreator
 
 path = os.path.dirname(os.path.abspath(__file__))

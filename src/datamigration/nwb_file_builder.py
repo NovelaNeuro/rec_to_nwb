@@ -12,8 +12,8 @@ from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
-from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
-from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
+from src.datamigration.nwb.components.electrodes.electrode_builder import ElectrodeBuilder
+from src.datamigration.nwb.components.electrodes.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
@@ -21,7 +21,7 @@ from src.datamigration.nwb.components.device.probes_dict_builder import ProbesDi
 from src.datamigration.nwb.components.device.device_factory import DeviceFactory
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
-from src.datamigration.nwb_builder.injectors.electrode_extension_injector import ElectrodeExtensionInjector
+from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.device.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb.components.device.probe_injector import ProbeInjector
@@ -90,10 +90,7 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
-        # ToDo move lines below to another class
-        continuous_time_files = [single_dataset.get_continuous_time() for single_dataset in self.datasets]
-        self.continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
-        self.dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
+        self.continuous_time_dicts = self.__read_continuous_time_dicts()
 
         self.mda_builder = MdaBuilder(self.metadata, self.header, self.datasets)
 
@@ -182,8 +179,14 @@ class NWBFileBuilder:
             electrodes_ntrodes_extension
         )
 
+    def __read_continuous_time_dicts(self):
+        continuous_time_files = [single_dataset.get_continuous_time() for single_dataset in self.datasets]
+        continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
+        return continuous_time_dicts
+
     def __build_and_inject_dio(self, nwb_content):
-        dio_files = DioFiles(self.dio_directories, self.metadata['behavioral_events'])
+        dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
+        dio_files = DioFiles(dio_directories, self.metadata['behavioral_events'])
         dio_manager = DioManager(dio_files=dio_files.get_files(),
                                  dio_metadata=self.metadata['behavioral_events'],
                                  continuous_time_dicts=self.continuous_time_dicts)
