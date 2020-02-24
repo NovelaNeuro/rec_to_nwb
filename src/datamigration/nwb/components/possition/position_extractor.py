@@ -1,8 +1,8 @@
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
-from src.datamigration.nwb_builder.iterators.data_iterator_1_dim import DataIterator1D
-from src.datamigration.nwb_builder.iterators.data_iterator_2_dim import DataIterator2D
 from src.datamigration.nwb.components.possition.pos_data_manager import PosDataManager
 from src.datamigration.nwb.components.possition.pos_timestamp_manager import PosTimestampManager
+from src.datamigration.nwb_builder.iterators.data_iterator_1_dim import DataIterator1D
+from src.datamigration.nwb_builder.iterators.data_iterator_2_dim import DataIterator2D
 
 
 class PositionExtractor:
@@ -20,9 +20,9 @@ class PositionExtractor:
                 (pos_file.endswith('.pos_online.dat'))]
             if data_from_current_dataset is None or dataset.get_continuous_time() is None:
                 raise MissingDataException(
-                    "Incomplete data in dataset "
+                    'Incomplete data in dataset '
                     + str(dataset.name)
-                    + "missing continuous time file")
+                    + 'missing continuous time file')
             all_pos.append(data_from_current_dataset)
             continuous_time.append(dataset.get_continuous_time())
         return all_pos, continuous_time
