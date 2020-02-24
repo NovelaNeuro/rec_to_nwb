@@ -1,6 +1,6 @@
 from src.datamigration.nwb.components.device.device_factory import DeviceFactory
 from src.datamigration.nwb.components.device.probe_extractor import ProbesExtractor
-from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
+from src.datamigration.utils.filter_probe_by_type import filter_probe_by_type
 
 
 class ProbesDictBuilder:

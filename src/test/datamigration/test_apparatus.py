@@ -2,7 +2,7 @@ import os
 from unittest import TestCase
 
 from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
-from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
+from src.datamigration.nwb.components.processingmodule.processing_module_creator import ProcessingModuleCreator
 
 path = os.path.dirname(os.path.abspath(__file__))
 

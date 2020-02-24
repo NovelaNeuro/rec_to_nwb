@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from src.datamigration.header.module import header
+from src.datamigration.header import header
 
 path = os.path.dirname(os.path.abspath(__file__))
 

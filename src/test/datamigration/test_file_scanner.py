@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-import src.datamigration.tools.file_scanner as fs
+import src.datamigration.utils.file_scanner as fs
 
 path = os.path.dirname(os.path.abspath(__file__))
 

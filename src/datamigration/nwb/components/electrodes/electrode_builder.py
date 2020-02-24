@@ -1,5 +1,5 @@
 from src.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
+from src.datamigration.utils.filter_probe_by_type import filter_probe_by_type
 
 
 class ElectrodeBuilder:

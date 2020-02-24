@@ -3,7 +3,7 @@ import os
 
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from src.datamigration.nwb_builder.nwb_builder_tools.timestamp_converter import TimestampConverter
+from src.datamigration.nwb.components.continioustime.timestamp_converter import TimestampConverter
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../../../../logging.conf', disable_existing_loggers=False)

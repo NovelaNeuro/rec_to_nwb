@@ -1,4 +1,4 @@
-from src.datamigration.nwb_builder.extractors.xml_extractor import XMLExtractor
+from src.datamigration.binaries.rec.header.xml_extractor import XMLExtractor
 
 
 class HeaderFilesExtractor:

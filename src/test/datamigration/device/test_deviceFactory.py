@@ -5,7 +5,7 @@ from ndx_franklab_novela.header_device import HeaderDevice
 from ndx_franklab_novela.probe import Probe
 from pynwb.device import Device
 
-from src.datamigration.header.module.global_configuration import GlobalConfiguration
+from src.datamigration.header.global_configuration import GlobalConfiguration
 from src.datamigration.nwb.components.device.device_factory import DeviceFactory
 
 

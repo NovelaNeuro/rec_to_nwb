@@ -1,9 +1,9 @@
 from src.datamigration.nwb.components.electrodes.electrode_metadata_extension_creator import \
     ElectrodesMetadataExtensionCreator
-from src.datamigration.nwb_builder.creators.electrode_ntrode_extension_creator import ElectrodesNtrodeExtensionCreator
 from src.datamigration.nwb.components.electrodes.electrodes_header_extension_creator import \
     ElectrodesHeaderExtensionCreator
-from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
+from src.datamigration.nwb_builder.creators.electrode_ntrode_extension_creator import ElectrodesNtrodeExtensionCreator
+from src.datamigration.utils.filter_probe_by_type import filter_probe_by_type
 
 
 class ElectrodeExtensionBuilder:

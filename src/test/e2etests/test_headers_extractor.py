@@ -2,7 +2,7 @@ import os
 import unittest
 from pathlib import Path
 
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
+from src.datamigration.binaries.rec.header.header_extractor import HeaderFilesExtractor
 
 path = Path(__file__).parent.parent
 path.resolve()

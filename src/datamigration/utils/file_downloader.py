@@ -8,7 +8,7 @@ import os
 
 import requests
 
-from src.datamigration.tools.abstract_file_downloader import AbstractFileDownloader
+from src.datamigration.utils.abstract_file_downloader import AbstractFileDownloader
 
 path = os.path.dirname(os.path.abspath(__file__))
 
