@@ -6,6 +6,8 @@ from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
 import src.datamigration.tools.file_scanner as fs
+from src.datamigration.header.header_checker.header_processor import HeaderProcessor
+from src.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
@@ -26,8 +28,6 @@ from src.datamigration.nwb_builder.injectors.electrode_group_injector import Ele
 from src.datamigration.nwb_builder.injectors.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb_builder.injectors.probe_injector import ProbeInjector
 from src.datamigration.nwb.components.dio.dio_manager import DioManager
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_processor import HeaderProcessor
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
