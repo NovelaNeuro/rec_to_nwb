@@ -1,9 +1,9 @@
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
 from src.datamigration.nwb_builder.iterators.data_iterator_1_dim import DataIterator1D
 from src.datamigration.nwb_builder.iterators.data_iterator_2_dim import DataIterator2D
-from src.datamigration.nwb_builder.managers.mda_data_manager import MdaDataManager
-from src.datamigration.nwb_builder.managers.mda_timestamp_manager import MdaTimestampDataManager
-from src.datamigration.nwb_builder.others.mda_content import MdaContent
+from src.datamigration.nwb.components.mda.mda_data_manager import MdaDataManager
+from src.datamigration.nwb.components.mda.mda_timestamp_manager import MdaTimestampDataManager
+from src.datamigration.nwb.components.mda.mda_content import MdaContent
 
 
 class MdaExtractor:

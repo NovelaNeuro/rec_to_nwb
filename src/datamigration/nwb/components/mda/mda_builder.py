@@ -1,6 +1,6 @@
-from src.datamigration.nwb_builder.creators.mda_creator import MdaCreator
-from src.datamigration.nwb_builder.injectors.mda_injector import MdaInjector
-from src.datamigration.nwb_builder.managers.mda_manager import MdaManager
+from src.datamigration.nwb.components.mda.mda_creator import MdaCreator
+from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
+from src.datamigration.nwb.components.mda.mda_manager import MdaManager
 
 
 class MdaBuilder:
