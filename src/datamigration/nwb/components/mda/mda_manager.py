@@ -1,5 +1,5 @@
 from src.datamigration.nwb_builder.builders.table_region_builder import TableRegionBuilder
-from src.datamigration.nwb_builder.extractors.mda_extractor import MdaExtractor
+from src.datamigration.nwb.components.mda.mda_extractor import MdaExtractor
 
 
 class MdaManager:
