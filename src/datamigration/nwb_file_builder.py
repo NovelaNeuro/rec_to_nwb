@@ -7,6 +7,8 @@ from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
 import src.datamigration.tools.file_scanner as fs
+from src.datamigration.header.header_checker.header_processor import HeaderProcessor
+from src.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
 from src.datamigration.nwb.components.device.device_factory import DeviceFactory
@@ -27,8 +29,10 @@ from src.datamigration.nwb_builder.builders.mda_builder import MdaBuilder
 from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
 from src.datamigration.nwb_builder.injectors.electrode_group_injector import ElectrodeGroupInjector
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_processor import HeaderProcessor
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.rec_file_finder import RecFileFinder
+from src.datamigration.nwb.components.device.header_device_injector import HeaderDeviceInjector
+from src.datamigration.nwb.components.device.probe_injector import ProbeInjector
+from src.datamigration.nwb.components.dio.dio_manager import DioManager
+
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)

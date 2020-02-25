@@ -48,6 +48,7 @@ class TestElectrodeExtensionsBuilder(TestCase):
             {'ntrode_id': 4, 'probe_id': 1, 'map': {0: 96, 1: 97, 2: 98, 3: 99, 4: 100}}
         ]
 
+
         cls.header = Header(str(path) + '/../res/nwb_elements_builder_test/header.xml')
 
         cls.electrode_extension_builder = ElectrodeExtensionBuilder(

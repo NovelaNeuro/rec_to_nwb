@@ -1,6 +1,6 @@
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_extractor import HeaderFilesExtractor
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_logger import HeaderLogger
+from src.datamigration.header.header_checker.header_comparator import HeaderComparator
+from src.datamigration.header.header_checker.header_extractor import HeaderFilesExtractor
+from src.datamigration.header.header_checker.header_logger import HeaderLogger
 
 
 class HeaderProcessor:
