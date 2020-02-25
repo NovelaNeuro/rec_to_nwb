@@ -1,8 +1,8 @@
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
 from src.datamigration.nwb.components.possition.pos_data_manager import PosDataManager
 from src.datamigration.nwb.components.possition.pos_timestamp_manager import PosTimestampManager
-from src.datamigration.nwb_builder.iterators.data_iterator_1_dim import DataIterator1D
-from src.datamigration.nwb_builder.iterators.data_iterator_2_dim import DataIterator2D
+from src.datamigration.nwb_builder.iterators.data_iterator_1_dim_single_thread import DataIterator1DSingleThread
+from src.datamigration.nwb_builder.iterators.data_iterator_2_dim_single_thread import DataIterator2DSingleThread
 
 
 class PositionExtractor:
@@ -30,7 +30,7 @@ class PositionExtractor:
 
     def get_position(self):
         pos_data = PosDataManager(directories=self.all_pos)
-        return DataIterator2D(pos_data)
+        return DataIterator2DSingleThread(pos_data)
 
     def get_timestamps(self):
         # todo why you create manager and call it timestamps ? does not make sense. then in DataIterator1D it is called data?
@@ -38,4 +38,4 @@ class PositionExtractor:
             directories=self.all_pos,
             continuous_time_directories=self.continuous_time,
             continuous_time_dicts=self.continuous_time_dicts)
-        return DataIterator1D(pos_timestamps)
+        return DataIterator1DSingleThread(pos_timestamps)

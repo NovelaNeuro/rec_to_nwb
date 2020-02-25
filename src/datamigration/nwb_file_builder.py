@@ -12,6 +12,7 @@ from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
 from src.datamigration.nwb.components.dio.dio_manager import DioManager
+from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb_builder.builders.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb_builder.builders.electrode_extension_builder import ElectrodeExtensionBuilder
@@ -70,7 +71,7 @@ class NWBFileBuilder:
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
         self.task_builder = TaskBuilder(self.metadata)
-        # self.position_builder = PositionBuilder(self.datasets, self.continuous_time_dicts)
+        self.position_builder = PositionBuilder(self.datasets, self.continuous_time_dicts)
         self.apparatus_builder = ApparatusBuilder(self.metadata['apparatus']['data'])
 
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
@@ -140,11 +141,11 @@ class NWBFileBuilder:
 
     def __build_and_inject_processing_module(self, nwb_content):
         task = self.task_builder.build()
-        # position = self.position_builder.build()
+        position = self.position_builder.build()
         apparatus = self.apparatus_builder.build()
 
         self.pm_creator.insert(task)
-        # self.pm_creator.insert(position)
+        self.pm_creator.insert(position)
         self.pm_creator.insert(apparatus)
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
