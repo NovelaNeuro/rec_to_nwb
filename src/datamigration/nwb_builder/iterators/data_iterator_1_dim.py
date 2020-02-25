@@ -52,7 +52,7 @@ class DataIterator1D(AbstractDataChunkIterator):
 
     @staticmethod
     def get_data_from_file(data, current_dataset):
-        return data.read_data(current_dataset)
+        return data.read_and_convert_timestamps(current_dataset)
 
     def __get_selection(self, number_of_threads_in_current_step):
         return np.s_[sum(self.dataset_file_lenght[0:self.current_dataset]):

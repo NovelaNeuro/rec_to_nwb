@@ -19,5 +19,5 @@ class ContinuousTimeExtractor:
     def get_continuous_time_dict_file(file):
         logger.info("Reading timestamp dicts for file: " + str(file))
         continuous_time = readTrodesExtractedDataFile(file)
-        return {str(data[0]): float(data[1]) for data in continuous_time['data']}
-
+        print("odpalam")
+        return {int(data[0]): float(data[1]) for data in continuous_time['data']}

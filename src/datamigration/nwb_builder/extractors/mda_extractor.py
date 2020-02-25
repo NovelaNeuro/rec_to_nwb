@@ -8,22 +8,22 @@ from src.datamigration.nwb_builder.others.mda_content import MdaContent
 
 class MdaExtractor:
 
-    def __init__(self, datasets, continuous_time_dicts):
+    def __init__(self, datasets):
         self.datasets = datasets
 
         self.mda_data = []
         self.timestamps = []
         self.continuous_time = []
-        self.continuous_time_dicts = continuous_time_dicts
+        # self.continuous_time_dicts = continuous_time_dicts
 
     def get_mda_data(self):
         self.__extract_data()
 
         mda_timestamp_data_manager = MdaTimestampDataManager(
             directories=self.timestamps,
-            continuous_time_directories=self.continuous_time,
-            continuous_time_dicts=self.continuous_time_dicts
-        )
+            continuous_time_directories=self.continuous_time)
+        # continuous_time_dicts=self.continuous_time_dicts
+        # )
         mda_data_manager = MdaDataManager(self.mda_data)
         data_iterator = DataIterator2D(mda_data_manager)
         data_iterator_1d = DataIterator1D(mda_timestamp_data_manager)

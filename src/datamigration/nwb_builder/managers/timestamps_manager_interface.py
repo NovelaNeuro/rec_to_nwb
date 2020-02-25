@@ -27,9 +27,14 @@ class TimestampManagerInterface(abc.ABC):
     def _get_timestamps(self, dataset_id):
         pass
 
-    def read_data(self, dataset_id):
-        # todo why we read the dicts again? loosing time and memory.
-        pass
+    def read_and_convert_timestamps(self, dataset_id):
+        timestamps = self.read_timestamps(dataset_id)
+        continuous_time_dict = self.continuous_time_extractor.get_continuous_time_dict_file(
+            self.continuous_time_directories[dataset_id])
+        return self.timestamp_converter.convert_timestamps(continuous_time_dict, timestamps)
+
+    def read_timestamps(self, dataset_id):
+        return self._get_timestamps(dataset_id)
 
     def get_final_data_shape(self):
         return sum(self.file_lenghts_in_datasets),
@@ -50,5 +55,4 @@ class TimestampManagerInterface(abc.ABC):
         return np.shape(self.directories)[0]
 
     def _get_data_shape(self, dataset_num):
-        #todo why we need to read it from the file just ot return the shape? does not make sense.
-        return np.shape(self.read_data(dataset_num))[0]
+        return np.shape(self.read_timestamps(dataset_num))[0]

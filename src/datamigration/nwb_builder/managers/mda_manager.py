@@ -3,10 +3,10 @@ from src.datamigration.nwb_builder.extractors.mda_extractor import MdaExtractor
 
 
 class MdaManager:
-    def __init__(self, metadata, header, datasets, continuous_time_dicts):
+    def __init__(self, metadata, header, datasets):
         self.header = header
         self.table_region_builder = TableRegionBuilder(metadata)
-        self.mda_extractor = MdaExtractor(datasets, continuous_time_dicts)
+        self.mda_extractor = MdaExtractor(datasets)
 
     def get_sampling_rate(self):
         return self.header.configuration.hardware_configuration.sampling_rate
