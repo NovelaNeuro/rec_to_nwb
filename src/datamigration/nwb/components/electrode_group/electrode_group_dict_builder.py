@@ -1,11 +1,12 @@
-from src.datamigration.nwb_builder.creators.electrode_group_creator import ElectrodeGroupCreator
+from src.datamigration.nwb.components.electrode_group.electrode_group_creator import ElectrodeGroupCreator
 
 
 class ElectrodeGroupDictBuilder:
 
     def __init__(self, electrode_groups_metadata):
-        self.electrodes_group_creator = ElectrodeGroupCreator()
         self.electrode_groups_metadata = electrode_groups_metadata
+
+        self.electrodes_group_creator = ElectrodeGroupCreator()
 
     def build(self, probes):
         electrode_groups = {}
