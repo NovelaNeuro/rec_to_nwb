@@ -12,5 +12,4 @@ class NTrodesCreator:
             location='-',
             description='-',
             name='ntrode ' + str(lf_ntrodes.metadata['ntrode_id']),
-            map=lf_ntrodes.map_list
         )

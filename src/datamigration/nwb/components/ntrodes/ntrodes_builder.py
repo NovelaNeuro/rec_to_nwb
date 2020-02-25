@@ -1,4 +1,5 @@
 from src.datamigration.nwb.components.ntrodes.lf_ntrodes import LfNTrodes
+
 from src.datamigration.nwb.components.ntrodes.ntrodes_creator import NTrodesCreator
 from src.datamigration.nwb.components.ntrodes.ntrodes_extractor import NTrodesExtractor
 from src.datamigration.nwb.components.ntrodes.ntrodes_injector import NTrodesInjector
