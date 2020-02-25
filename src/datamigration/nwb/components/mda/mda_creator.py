@@ -4,13 +4,13 @@ from pynwb import ecephys
 class MdaCreator:
 
     @classmethod
-    def create_mda(cls,sampling_rate, electrode_table_region, extracted_mda_data):
+    def create_mda(cls, lf_mda):
         return ecephys.ElectricalSeries(
             name="e-series",
-            data=extracted_mda_data.mda_data,
-            electrodes=electrode_table_region,
-            timestamps=extracted_mda_data.mda_timestamps,
-            resolution=sampling_rate,
+            data=lf_mda.mda_data.mda_data,
+            electrodes=lf_mda.electrode_table_region,
+            timestamps=lf_mda.mda_data.mda_timestamps,
+            resolution=lf_mda.sampling_rate,
             comments="sample comment",
             description="Electrical series registered on electrode"
         )
