@@ -14,5 +14,5 @@ class MdaManager:
     def get_electrode_table_region(self, nwb_content):
         return self.table_region_builder.build(nwb_content)
 
-    def get_extracted_mda_data(self):
-        return self.mda_extractor.get_mda_data()
+    def get_data(self):
+        return self.mda_extractor.get_data()
