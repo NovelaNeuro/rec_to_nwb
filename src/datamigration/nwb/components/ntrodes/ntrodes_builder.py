@@ -1,11 +1,13 @@
-from src.datamigration.nwb_builder.creators.ntrodes_creator import NTrodesCreator
-from src.datamigration.nwb_builder.extractors.ntrodes_extractor import NTrodesExtractor
-from src.datamigration.nwb_builder.injectors.ntrodes_injector import NTrodesInjector
+from src.datamigration.nwb.components.ntrodes.ntrodes_creator import NTrodesCreator
+from src.datamigration.nwb.components.ntrodes.ntrodes_extractor import NTrodesExtractor
+from src.datamigration.nwb.components.ntrodes.ntrodes_injector import NTrodesInjector
 
 
 class NTrodesBuilder:
+
     def __init__(self, metadata):
         self.metadata = metadata
+
         self.ntrodes_extractor = NTrodesExtractor()
         self.ntrodes_creator = NTrodesCreator()
         self.ntrodes_injector = NTrodesInjector()
