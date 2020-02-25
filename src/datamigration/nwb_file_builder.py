@@ -10,7 +10,8 @@ import src.datamigration.tools.file_scanner as fs
 from src.datamigration.header.header_checker.header_processor import HeaderProcessor
 from src.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from src.datamigration.header.module.header import Header
-from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
+from src.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
+from src.datamigration.nwb.components.apparatus.apparatus_manager import ApparatusManager
 from src.datamigration.nwb.components.device.device_factory import DeviceFactory
 from src.datamigration.nwb.components.device.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb.components.device.probe_injector import ProbeInjector
@@ -75,7 +76,8 @@ class NWBFileBuilder:
 
         self.task_builder = TaskBuilder(self.metadata)
         self.position_builder = PositionBuilder(self.datasets)
-        self.apparatus_builder = ApparatusBuilder(self.metadata['apparatus']['data'])
+        self.apparatus_manager = ApparatusManager(self.metadata['apparatus']['data'])
+
 
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
         self.probes_injector = ProbeInjector()
@@ -151,23 +153,23 @@ class NWBFileBuilder:
         return self.output_file
 
     def __build_and_inject_processing_module(self, nwb_content):
-        logger.info('Task: Building')
-        task = self.task_builder.build()
-
-        logger.info('Position: Building')
-        position = self.position_builder.build()
 
         logger.info('Apparatus: Building')
-        apparatus = self.apparatus_builder.build()
+        lf_apparatus = self.apparatus_manager.get_lf_apparatus()
+        logger.info('Apparatus: Creating')
+        apparatus = ApparatusCreator.create_apparatus(lf_apparatus)
+        logger.info('Apparatus: Injecting into ProcessingModule')
+        self.pm_creator.insert(apparatus)
 
+        logger.info('Task: Building')
+        task = self.task_builder.build()
         logger.info('Task: Injecting into ProcessingModule')
         self.pm_creator.insert(task)
 
+        logger.info('Position: Building')
+        position = self.position_builder.build()
         logger.info('Position: Injecting into ProcessingModule')
         self.pm_creator.insert(position)
-
-        logger.info('Apparatus: Injecting into ProcessingModule')
-        self.pm_creator.insert(apparatus)
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 

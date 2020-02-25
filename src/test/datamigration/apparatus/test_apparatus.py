@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from src.datamigration.nwb.components.apparatus.apparatus_builder import ApparatusBuilder
+from src.datamigration.nwb.components.apparatus.apparatus_manager import ApparatusManager
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -18,7 +18,7 @@ class TestApparatus(TestCase):
                               [0, 1, 1, 0, 1]
                               ]
         pm_creator = ProcessingModuleCreator('apparatus', 'description')
-        apparatus = ApparatusBuilder(apparatus_metadata).build()
+        apparatus = ApparatusManager(apparatus_metadata).build()
 
         pm_creator.insert(apparatus)
 
