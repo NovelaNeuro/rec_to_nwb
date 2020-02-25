@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
 from ndx_franklab_novela.probe import Probe
-from src.datamigration.nwb_builder.builders.electrode_group_dict_builder import ElectrodeGroupDictBuilder
+from src.datamigration.nwb.components.electrode_group.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -17,15 +17,13 @@ class TestElectrodeGroupDictBuilder(TestCase):
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
             {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'}]
 
+        mock_probe_1 = Mock(spec=Probe)
+        mock_probe_2 = Mock(spec=Probe)
+        probes_object_dict = {0: mock_probe_1, 1: mock_probe_2}
+
         cls.electrode_group_builder = ElectrodeGroupDictBuilder(
             electrode_groups_metadata=metadata
         )
-
-        mock_1 = Mock()
-        mock_2 = Mock()
-        mock_1.__class__ = Probe
-        mock_2.__class__ = Probe
-        probes_object_dict = {0: mock_1, 1: mock_2}
 
         cls.electrode_group_dict = cls.electrode_group_builder.build(
             probes=probes_object_dict
