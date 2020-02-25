@@ -28,7 +28,7 @@ from src.datamigration.nwb.components.mda.mda_builder import MdaBuilder
 from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
-from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
+from src.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
