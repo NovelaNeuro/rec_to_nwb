@@ -51,7 +51,6 @@ class TestElectrodeExtensionsBuilder(TestCase):
 
         cls.header = Header(str(path) + '/../res/nwb_elements_builder_test/header.xml')
 
-
         cls.electrode_extension_builder = ElectrodeExtensionBuilder(
             probes_metadata=probes,
             electrode_groups_metadata=metadata,

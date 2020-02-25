@@ -1,4 +1,5 @@
 import os
+import unittest
 from unittest import TestCase
 
 from pandas import np, array
@@ -8,6 +9,7 @@ from src.datamigration.nwb.components.dio.dio_extractor import DioExtractor
 path = os.path.dirname(os.path.abspath(__file__))
 
 
+@unittest.skip('Need preprocessed .dat files')
 class TestDioExtractor(TestCase):
 
     @classmethod
