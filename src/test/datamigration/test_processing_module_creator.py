@@ -3,8 +3,8 @@ from unittest import TestCase
 
 from ndx_franklab_novela.apparatus import Apparatus
 
+from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
-from src.datamigration.nwb_builder.creators.processing_module_creator import ProcessingModuleCreator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
