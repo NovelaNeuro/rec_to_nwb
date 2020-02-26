@@ -4,7 +4,7 @@ import numpy as np
 from hdmf.data_utils import AbstractDataChunkIterator, DataChunk
 
 
-class DataIterator1D(AbstractDataChunkIterator):
+class MultiThreadTimestampIterator(AbstractDataChunkIterator):
 
     def __init__(self, data, number_of_threads=6):
         self.data = data
@@ -26,13 +26,12 @@ class DataIterator1D(AbstractDataChunkIterator):
         if self.__current_index < self.number_of_steps:
             number_of_threads_in_current_step = min(self.number_of_threads,
                                                     self.number_of_steps - self.__current_index)
-            threads = [None] * number_of_threads_in_current_step
 
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                for i in range(number_of_threads_in_current_step):
-                    threads[i] = executor.submit(DataIterator1D.get_data_from_file,
-                                                 data=self.data,
-                                                 current_dataset=self.current_dataset + i)
+                threads = [executor.submit(MultiThreadTimestampIterator.get_data_from_file,
+                                           data=self.data,
+                                           current_dataset=self.current_dataset + i)
+                           for i in range(number_of_threads_in_current_step)]
             data_from_multiple_files = ()
             for thread in threads:
                 data_from_multiple_files += (thread.result(),)
