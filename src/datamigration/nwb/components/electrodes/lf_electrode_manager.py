@@ -1,21 +1,26 @@
-from src.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
+from src.datamigration.nwb.components.electrodes.lf_electrode_builder import LfElectrodesBuilder
 from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 
 
-class ElectrodeBuilder:
+class LfElectrodeManager:
 
     def __init__(self, probes_metadata, electrode_groups_metadata):
         self.probes_metadata = probes_metadata
         self.electrode_groups_metadata = electrode_groups_metadata
 
-        self.electrodes_creator = ElectrodesCreator()
+        self.lf_electrodes_builder = LfElectrodesBuilder()
 
-    def build(self, nwb_content, electrode_group_dict,):
+    def get_lf_electrodes(self, electrode_groups):
+        lf_electrodes = []
+
         for counter, electrode_group_metadata in enumerate(self.electrode_groups_metadata):
             probe_metadata = filter_probe_by_type(self.probes_metadata, electrode_group_metadata['device_type'])
+
             for shank in probe_metadata['shanks']:
                 for _ in shank['electrodes']:
-                    self.electrodes_creator.create_electrode(nwb_content, electrode_group_dict[counter])
+                    lf_electrodes.append(self.lf_electrodes_builder.build(electrode_groups[counter]))
+
+        return lf_electrodes
 
 
 
