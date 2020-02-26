@@ -2,7 +2,7 @@ import os
 import unittest
 from pathlib import Path
 
-from src.datamigration.nwb_builder.managers.metadata_manager import MetadataManager
+from src.datamigration.metadata.metadata_manager import MetadataManager
 from src.datamigration.nwb_file_builder import NWBFileBuilder
 
 path = Path(__file__).parent.parent
