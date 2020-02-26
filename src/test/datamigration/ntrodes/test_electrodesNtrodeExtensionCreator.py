@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-from src.datamigration.nwb_builder.creators.electrode_ntrode_extension_creator import ElectrodesNtrodeExtensionCreator
+from src.datamigration.nwb.components.electrodes.electrode_ntrode_extension_creator import \
+    ElectrodesNtrodeExtensionCreator
 
 
 class TestElectrodesNtrodeExtensionCreator(TestCase):

@@ -11,5 +11,6 @@ class NTrodesCreator:
             device=lf_ntrodes.device,
             location='-',
             description='-',
+            map=lf_ntrodes.map_list,
             name='ntrode ' + str(lf_ntrodes.metadata['ntrode_id']),
         )
