@@ -2,7 +2,7 @@ import numpy as np
 from hdmf.data_utils import AbstractDataChunkIterator, DataChunk
 
 
-class SingleThreadTimestampIterator1D(AbstractDataChunkIterator):
+class SingleThreadTimestampIterator(AbstractDataChunkIterator):
 
     def __init__(self, data):
         self.data = data

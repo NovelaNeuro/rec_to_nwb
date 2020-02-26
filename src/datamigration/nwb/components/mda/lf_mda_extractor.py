@@ -1,6 +1,6 @@
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
-from src.datamigration.nwb.components.iterator.single_thread_data_iterator import SingleThreadDataIterator2D
-from src.datamigration.nwb.components.iterator.single_thread_timestamp_iterator import SingleThreadTimestampIterator1D
+from src.datamigration.nwb.components.iterator.multi_thread_data_iterator import MultiThreadDataIterator
+from src.datamigration.nwb.components.iterator.multi_thread_timestamp_iterator import MultiThreadTimestampIterator
 from src.datamigration.nwb.components.mda.mda_content import MdaContent
 from src.datamigration.nwb.components.mda.mda_data_manager import MdaDataManager
 from src.datamigration.nwb.components.mda.mda_timestamp_manager import MdaTimestampDataManager
@@ -18,10 +18,10 @@ class LfMdaExtractor:
             continuous_time_directories=continuous_time
         )
         mda_data_manager = MdaDataManager(mda_data)
-        data_iterator_2d = SingleThreadDataIterator2D(mda_data_manager)
-        data_iterator_1d = SingleThreadTimestampIterator1D(mda_timestamp_data_manager)
+        data_iterator = MultiThreadDataIterator(mda_data_manager)
+        timestamp_iterator = MultiThreadTimestampIterator(mda_timestamp_data_manager)
 
-        return MdaContent(data_iterator_2d, data_iterator_1d)
+        return MdaContent(data_iterator, timestamp_iterator)
 
     def __extract_data(self):
         mda_data = []

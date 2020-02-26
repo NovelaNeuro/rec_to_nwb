@@ -1,6 +1,6 @@
 import concurrent.futures
 
-from pandas import np
+import numpy as np
 
 from src.datamigration.nwb.components.dio.dio_extractor import DioExtractor
 
