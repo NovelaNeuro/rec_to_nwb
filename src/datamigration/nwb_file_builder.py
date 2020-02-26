@@ -249,4 +249,5 @@ class NWBFileBuilder:
             self.header.configuration.hardware_configuration.sampling_rate,
             self.datasets
         )
-        MdaInjector.inject_mda(nwb_content, ElectricalSeriesCreator.create_mda(mda_manager.get_data()))
+        MdaInjector.inject_mda(nwb_content=nwb_content,
+                               electrical_series=ElectricalSeriesCreator.create_mda(mda_manager.get_data()))
