@@ -16,8 +16,8 @@ class TestLfApparatusManager(TestCase):
         nodes = Mock(spec=list)
 
         cls.lf_apparatus_manager = LfApparatusManager(cls.apparatus_metadata)
-        cls.lf_apparatus_manager.apparatus_extractor = Mock(spec=LfApparatusExtractor)
-        cls.lf_apparatus_manager.apparatus_extractor.get_data.return_value = edges, nodes
+        cls.lf_apparatus_manager.lf_apparatus_extractor = Mock(spec=LfApparatusExtractor)
+        cls.lf_apparatus_manager.lf_apparatus_extractor.get_data.return_value = edges, nodes
 
         cls.predicted_result = LfApparatus(edges, nodes)
         cls.lf_apparatus = cls.lf_apparatus_manager.get_lf_apparatus()
