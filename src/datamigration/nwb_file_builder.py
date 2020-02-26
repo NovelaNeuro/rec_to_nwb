@@ -39,6 +39,7 @@ logger = logging.getLogger(__name__)
 
 
 class NWBFileBuilder:
+    """unpack data from processed dataset specified by arguments, and fuse those data into NWB file format"""
 
     def __init__(self,
                  data_path,
@@ -144,6 +145,8 @@ class NWBFileBuilder:
         return nwb_content
 
     def write(self, content):
+        """write nwb file handler with colected data into actual file"""
+
         logger.info('Writing down content to ' + self.output_file)
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
             nwb_fileIO.write(content)
@@ -153,7 +156,6 @@ class NWBFileBuilder:
         return self.output_file
 
     def __build_and_inject_processing_module(self, nwb_content):
-
         logger.info('Apparatus: Building')
         lf_apparatus = self.lf_apparatus_manager.get_lf_apparatus()
         logger.info('Apparatus: Creating')

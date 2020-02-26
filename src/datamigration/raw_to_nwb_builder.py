@@ -56,7 +56,7 @@ class RawToNWBBuilder:
 
     def build_nwb(self):
         """for each experiment date specified in __init__, colect data about experiment from file-system structure ,
-        and write it to NWB file format (read more in NWBFileBuilder class documentation)"""
+        and write it to NWB file format"""
         self.__preprocess_data()
         for date in self.dates:
             nwb_builder = NWBFileBuilder(
