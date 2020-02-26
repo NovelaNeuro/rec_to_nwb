@@ -1,4 +1,4 @@
-class NTrodesExtractor:
+class LfNTrodesExtractor:
 
     @staticmethod
     def extract_device(ntrode_metadata, nwb_content):
