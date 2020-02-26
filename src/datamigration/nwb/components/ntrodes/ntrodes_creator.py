@@ -4,13 +4,13 @@ from ndx_franklab_novela.ntrode import NTrode
 class NTrodesCreator:
 
     @staticmethod
-    def create_ntrode(metadata, device, map_list):
+    def create_ntrode(lf_ntrodes):
         return NTrode(
-            probe_id=metadata["probe_id"],
-            ntrode_id=metadata['ntrode_id'],
-            device=device,
+            probe_id=lf_ntrodes.metadata["probe_id"],
+            ntrode_id=lf_ntrodes.metadata['ntrode_id'],
+            device=lf_ntrodes.device,
             location='-',
             description='-',
-            name='ntrode ' + str(metadata['ntrode_id']),
-            map=map_list
+            map=lf_ntrodes.map_list,
+            name='ntrode ' + str(lf_ntrodes.metadata['ntrode_id']),
         )
