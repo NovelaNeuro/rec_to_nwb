@@ -243,11 +243,11 @@ class NWBFileBuilder:
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')
 
-        mda_manager = LfMdaManager(
+        lf_mda_manager = LfMdaManager(
             nwb_content,
             self.metadata,
             self.header.configuration.hardware_configuration.sampling_rate,
             self.datasets
         )
         MdaInjector.inject_mda(nwb_content=nwb_content,
-                               electrical_series=ElectricalSeriesCreator.create_mda(mda_manager.get_data()))
+                               electrical_series=ElectricalSeriesCreator.create_mda(lf_mda_manager.get_data()))

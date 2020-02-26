@@ -2,8 +2,8 @@
 class TableRegionBuilder:
 
     def __init__(self, nwb_content, metadata):
-        self.metadata = metadata
         self.nwb_content = nwb_content
+        self.metadata = metadata
 
     def build(self):
         return self.nwb_content.create_electrode_table_region(
