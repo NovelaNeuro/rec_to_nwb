@@ -29,10 +29,6 @@ from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
 from src.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
-from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
-from src.datamigration.nwb.components.device.device_factory import DeviceFactory
-from src.datamigration.nwb.components.dio.dio_manager import DioManager
-from src.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -101,7 +97,6 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
-        self.continuous_time_dicts = self.__read_continuous_time_dicts()
 
     def build(self):
         logger.info('Building components for NWB')
@@ -129,7 +124,7 @@ class NWBFileBuilder:
 
         probes_dict = self.__build_and_inject_probes(nwb_content)
 
-        self.__build_and_inject_header_device(nwb_content)
+        self.__build_and_inject_header_device(nwb_content, self.header)
 
         electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
 
@@ -218,14 +213,6 @@ class NWBFileBuilder:
             electrodes_ntrodes_extension
         )
 
-    def __read_continuous_time_dicts(self):
-        logger.info('ContinuousTime: Preparing list of files')
-        continuous_time_files = [single_dataset.get_continuous_time() for single_dataset in self.datasets]
-
-        logger.info('ContinuousTime: Extracting dictionaries')
-        continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
-        return continuous_time_dicts
-
     def __build_and_inject_dio(self, nwb_content):
         logger.info('DIO: Prepare directories')
         dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
@@ -235,7 +222,7 @@ class NWBFileBuilder:
 
         dio_manager = DioManager(dio_files=dio_files.get_files(),
                                  dio_metadata=self.metadata['behavioral_events'],
-                                 continuous_time_dicts=self.continuous_time_dicts)
+                                 continuous_time_files=self.get_continuous_time_files())
         logger.info('DIO: Retrieve data')
         dio_data = dio_manager.get_dio()
 

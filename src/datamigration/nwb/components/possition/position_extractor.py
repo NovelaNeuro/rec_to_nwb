@@ -32,7 +32,6 @@ class PositionExtractor:
         return SingleThreadDataIterator2D(pos_data)
 
     def get_timestamps(self):
-        # todo why you create manager and call it timestamps ? does not make sense. then in DataIterator1D it is called data?
         pos_timestamp_manager = PosTimestampManager(
             directories=self.all_pos,
             continuous_time_directories=self.continuous_time)
