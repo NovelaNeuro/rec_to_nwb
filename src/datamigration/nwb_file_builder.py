@@ -19,16 +19,22 @@ from src.datamigration.nwb.components.device.probes_dict_builder import ProbesDi
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
-from src.datamigration.nwb.components.dio.dio_manager import DioManager
 from src.datamigration.nwb.components.electrode_group.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.electrodes.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb.components.electrodes.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
-from src.datamigration.nwb.components.mda.mda_builder import MdaBuilder
-from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
+from src.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
+from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
+from src.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
+from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
+from src.datamigration.nwb.components.device.probes_dict_builder import ProbesDictBuilder
+from src.datamigration.nwb.components.device.device_factory import DeviceFactory
+from src.datamigration.nwb.components.device.header_device_injector import HeaderDeviceInjector
+from src.datamigration.nwb.components.device.probe_injector import ProbeInjector
+from src.datamigration.nwb.components.dio.dio_manager import DioManager
 from src.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -98,8 +104,6 @@ class NWBFileBuilder:
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
         self.continuous_time_dicts = self.__read_continuous_time_dicts()
-
-        self.mda_builder = MdaBuilder(self.metadata, self.header, self.datasets)
 
     def build(self):
         logger.info('Building components for NWB')
@@ -245,4 +249,11 @@ class NWBFileBuilder:
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')
 
-        self.mda_builder.build(nwb_content)
+        lf_mda_manager = LfMdaManager(
+            nwb_content,
+            self.metadata,
+            self.header.configuration.hardware_configuration.sampling_rate,
+            self.datasets
+        )
+        MdaInjector.inject_mda(nwb_content=nwb_content,
+                               electrical_series=ElectricalSeriesCreator.create_mda(lf_mda_manager.get_data()))

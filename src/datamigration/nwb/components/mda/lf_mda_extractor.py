@@ -6,7 +6,7 @@ from src.datamigration.nwb_builder.iterators.single_thread_data_iterator_2d impo
 from src.datamigration.nwb_builder.iterators.single_thread_timestamp_iterator_1d import SingleThreadTimestampIterator1D
 
 
-class MdaExtractor:
+class LfMdaExtractor:
 
     def __init__(self, datasets):
         self.datasets = datasets
