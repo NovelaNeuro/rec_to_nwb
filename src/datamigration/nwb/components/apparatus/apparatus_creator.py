@@ -4,9 +4,9 @@ from ndx_franklab_novela.apparatus import Apparatus
 class ApparatusCreator:
 
     @classmethod
-    def create_apparatus(cls,edges, nodes):
+    def create_apparatus(cls, lf_apparatus):
         return Apparatus(
             name='apparatus',
-            edges=edges,
-            nodes=nodes
+            edges=lf_apparatus.edges,
+            nodes=lf_apparatus.nodes
         )
