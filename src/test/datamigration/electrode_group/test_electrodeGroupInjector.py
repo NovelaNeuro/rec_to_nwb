@@ -27,7 +27,7 @@ class TestElectrodeGroupInjector(TestCase):
                                     '3': cls.mock_electrode_group_3}
 
         electrode_group = ElectrodeGroupInjector()
-        electrode_group.inject_all_electrode_groups(cls.nwb_file, cls.electrode_group_dict)
+        electrode_group.inject_all_electrode_groups(cls.nwb_file, [cls.mock_electrode_group_1, cls.mock_electrode_group_2, cls.mock_electrode_group_3])
 
     def test_injectAllElectrodeGroups_returnCorrectValues_true(self):
         self.assertEqual(self.nwb_file.electrode_groups, {

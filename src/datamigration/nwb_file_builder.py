@@ -19,7 +19,9 @@ from src.datamigration.nwb.components.device.probes_dict_builder import ProbesDi
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
-from src.datamigration.nwb.components.electrode_group.electrode_group_dict_builder import ElectrodeGroupDictBuilder
+from src.datamigration.nwb.components.dio.dio_manager import DioManager
+from src.datamigration.nwb.components.electrode_group.fl_electrode_group_creator import FlElectrodeGroupCreator
+from src.datamigration.nwb.components.electrode_group.lf_electrode_group_manager import FlElectrodeGroupManager
 from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.electrodes.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb.components.electrodes.electrode_extension_builder import ElectrodeExtensionBuilder
@@ -84,13 +86,13 @@ class NWBFileBuilder:
         self.position_builder = PositionBuilder(self.datasets)
         self.lf_apparatus_manager = LfApparatusManager(self.metadata['apparatus']['data'])
 
-
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
         self.probes_injector = ProbeInjector()
         self.header_device_creator = DeviceFactory()
         self.header_device_injector = HeaderDeviceInjector()
 
-        self.electrode_group_builder = ElectrodeGroupDictBuilder(self.metadata['electrode groups'])
+        self.lf_electrode_group_manager = FlElectrodeGroupManager(self.metadata['electrode groups'])
+        self.fl_electrode_group_creator = FlElectrodeGroupCreator()
         self.electrode_group_injector = ElectrodeGroupInjector()
 
         self.electrode_builder = ElectrodeBuilder(self.probes, self.metadata['electrode groups'])
@@ -129,13 +131,13 @@ class NWBFileBuilder:
 
         self.__build_and_inject_processing_module(nwb_content)
 
-        probes_dict = self.__build_and_inject_probes(nwb_content)
+        probes = self.__build_and_inject_probes(nwb_content)
 
         self.__build_and_inject_header_device(nwb_content, self.header)
 
-        electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
+        fl_electrode_groups = self.__build_and_inject_fl_electrode_group(nwb_content, probes)
 
-        self.__build_and_inject_electrodes(nwb_content, electrode_group_dict)
+        self.__build_and_inject_electrodes(nwb_content, fl_electrode_groups)
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
 
@@ -194,13 +196,15 @@ class NWBFileBuilder:
         self.probes_injector.inject_all_probes(nwb_content, probes_dict)
         return probes_dict
 
-    def __build_and_inject_electrode_group(self, nwb_content, probes):
+    def __build_and_inject_fl_electrode_group(self, nwb_content, probes):
         logger.info('ElectrodeGroups: Building')
-        electrode_group_dict = self.electrode_group_builder.build(probes)
-
+        lf_fl_electrode_groups = self.lf_electrode_group_manager.get_lf_fl_electrode_groups(probes)
+        logger.info('ElectrodeGroups: Creating')
+        fl_electrode_groups = [self.fl_electrode_group_creator.create(lf_electrode_group)
+                            for lf_electrode_group in lf_fl_electrode_groups]
         logger.info('ElectrodeGroups: Injecting into NWB')
-        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_group_dict)
-        return electrode_group_dict
+        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, fl_electrode_groups)
+        return fl_electrode_groups
 
     def __build_and_inject_electrodes(self, nwb_content, electrode_group_dict):
         logger.info('Electrodes: Building&Injecting into NWB')
