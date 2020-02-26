@@ -1,7 +1,7 @@
 from src.datamigration.nwb.components.apparatus.lf_apparatus import LfApparatus
 
 
-class ApparatusLfBuilder:
+class LfApparatusBuilder:
 
     @staticmethod
     def build(edges, nodes):
