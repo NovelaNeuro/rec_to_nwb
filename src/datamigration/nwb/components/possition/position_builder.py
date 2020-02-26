@@ -3,8 +3,8 @@ from src.datamigration.nwb.components.possition.position_extractor import Positi
 
 
 class PositionBuilder:
-    def __init__(self, datasets, continuous_time_dicts):
-        self.position_extractor = PositionExtractor(datasets, continuous_time_dicts)
+    def __init__(self, datasets):
+        self.position_extractor = PositionExtractor(datasets)
         self.position_creator = PositionCreator()
 
     def build(self):

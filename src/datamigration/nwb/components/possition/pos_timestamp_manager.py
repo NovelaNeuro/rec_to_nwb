@@ -13,8 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class PosTimestampManager(TimestampManagerInterface):
-    def __init__(self, directories, continuous_time_directories, continuous_time_dicts):
-        self.continuous_time_dicts = continuous_time_dicts
+    def __init__(self, directories, continuous_time_directories):
         TimestampManagerInterface.__init__(self, directories, continuous_time_directories)
 
     # override

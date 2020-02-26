@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from src.datamigration.nwb_builder.nwb_builder_tools.header_checker.header_comparator import HeaderComparator
+from src.datamigration.header.header_checker.header_comparator import HeaderComparator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -26,4 +26,3 @@ class TestHeaderComparator(unittest.TestCase):
         def test_comparing_headers(self):
             headers_difference = self.header_comparator.compare()
             self.assertNotEqual([], headers_difference)
-            #ToDo add some quality check for diference in those 3 xmls

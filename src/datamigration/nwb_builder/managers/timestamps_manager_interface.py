@@ -4,8 +4,8 @@ import os
 
 import numpy as np
 
-from src.datamigration.nwb_builder.extractors.continuous_time_extractor import ContinuousTimeExtractor
-from src.datamigration.nwb_builder.nwb_builder_tools.timestamp_converter import TimestampConverter
+from src.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
+from src.datamigration.processing.timestamp_converter import TimestampConverter
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -27,13 +27,13 @@ class TimestampManagerInterface(abc.ABC):
     def _get_timestamps(self, dataset_id):
         pass
 
-    def read_and_convert_timestamps(self, dataset_id):
-        timestamps = self.read_timestamps(dataset_id)
+    def retrieve_real_timestamps(self, dataset_id):
+        timestamps_ids = self.read_timestamps_ids(dataset_id)
         continuous_time_dict = self.continuous_time_extractor.get_continuous_time_dict_file(
             self.continuous_time_directories[dataset_id])
-        return self.timestamp_converter.convert_timestamps(continuous_time_dict, timestamps)
+        return self.timestamp_converter.convert_timestamps(continuous_time_dict, timestamps_ids)
 
-    def read_timestamps(self, dataset_id):
+    def read_timestamps_ids(self, dataset_id):
         return self._get_timestamps(dataset_id)
 
     def get_final_data_shape(self):
@@ -55,4 +55,4 @@ class TimestampManagerInterface(abc.ABC):
         return np.shape(self.directories)[0]
 
     def _get_data_shape(self, dataset_num):
-        return np.shape(self.read_timestamps(dataset_num))[0]
+        return np.shape(self.read_timestamps_ids(dataset_num))[0]

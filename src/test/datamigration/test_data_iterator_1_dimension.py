@@ -2,13 +2,13 @@ from unittest import TestCase
 
 import numpy as np
 
-from src.datamigration.nwb_builder.iterators.data_iterator_1_dim import DataIterator1D
+from src.datamigration.nwb_builder.iterators.single_thread_timestamp_iterator_1d import SingleThreadTimestampIterator1D
 
 
 class TestDataIterator(TestCase):
     def test_data_iterator(self):
         fake_data_manager = FakeTimestampDataManager()
-        iterated_data = DataIterator1D(fake_data_manager)
+        iterated_data = SingleThreadTimestampIterator1D(fake_data_manager)
         self.assertEqual((11,), np.shape(iterated_data))
 
 class FakeTimestampDataManager:
