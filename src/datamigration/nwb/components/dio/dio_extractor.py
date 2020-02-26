@@ -16,10 +16,10 @@ class DioExtractor:
     @staticmethod
     def extract_dio_for_single_dataset(filtered_files, continuous_time_file):
         single_dataset_data = {}
-        dio_data = readTrodesExtractedDataFile(filtered_files[dio_file])
         continuous_time_dict = ContinuousTimeExtractor.get_continuous_time_dict_file(continuous_time_file)
         for dio_file in filtered_files:
             try:
+                dio_data = readTrodesExtractedDataFile(filtered_files[dio_file])
                 keys, values = DioExtractor.__get_dio_time_series(dio_data, continuous_time_dict)
                 single_dataset_data[dio_file] = ([keys, values])
 
