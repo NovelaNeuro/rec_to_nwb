@@ -1,8 +1,8 @@
 from src.datamigration.exceptions.missing_data_exception import MissingDataException
+from src.datamigration.nwb.components.iterator.single_thread_data_iterator import SingleThreadDataIterator2D
+from src.datamigration.nwb.components.iterator.single_thread_timestamp_iterator import SingleThreadTimestampIterator1D
 from src.datamigration.nwb.components.possition.pos_data_manager import PosDataManager
 from src.datamigration.nwb.components.possition.pos_timestamp_manager import PosTimestampManager
-from src.datamigration.nwb_builder.iterators.single_thread_data_iterator import SingleThreadDataIterator2D
-from src.datamigration.nwb_builder.iterators.single_thread_timestamp_iterator import SingleThreadTimestampIterator1D
 
 
 class PositionExtractor:
