@@ -12,10 +12,6 @@ from src.datamigration.header.header_checker.rec_file_finder import RecFileFinde
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
 from src.datamigration.nwb.components.apparatus.lf_apparatus_manager import LfApparatusManager
-from src.datamigration.nwb.components.device.device_factory import DeviceFactory
-from src.datamigration.nwb.components.device.header_device_injector import HeaderDeviceInjector
-from src.datamigration.nwb.components.device.probe_injector import ProbeInjector
-from src.datamigration.nwb.components.device.probes_dict_builder import ProbesDictBuilder
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
