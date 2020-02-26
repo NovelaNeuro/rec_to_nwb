@@ -7,18 +7,28 @@ from pynwb.device import Device
 
 from src.datamigration.header.module.global_configuration import GlobalConfiguration
 from src.datamigration.nwb.components.device.device_factory import DeviceFactory
+from src.datamigration.nwb.components.device.lf_device import LfDevice
+from src.datamigration.nwb.components.device.lf_header_device import LfHeaderDevice
+from src.datamigration.nwb.components.device.lf_probe import LfProbe
 
 
 class TestDeviceFactory(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        probe_metadata = {
+
+        mock_lf_device = Mock(spec=LfDevice)
+        mock_lf_device.name = 'Device1'
+
+        mock_lf_probe = Mock(spec=LfProbe)
+        mock_lf_probe.metadata = {
             'probe_type': 'Type1',
             'contact_size': 20.0,
             'num_shanks': 2
         }
+        mock_lf_probe.probe_id = 1
 
+        mock_lf_header_device = Mock(spec=LfHeaderDevice)
         mock_global_configuration = Mock(spec=GlobalConfiguration)
         mock_global_configuration.headstage_serial = 'Sample headstage_serial'
         mock_global_configuration.headstage_smart_ref_on = 'Sample headstage_smart_ref_on'
@@ -40,19 +50,19 @@ class TestDeviceFactory(TestCase):
         mock_global_configuration.commit_head = 'Sample commit_head'
         mock_global_configuration.system_time_at_creation = 'Sample system_time_at_creation'
         mock_global_configuration.file_path = 'Sample file_path'
+        mock_lf_header_device.name ='HeaderDevice1'
+        mock_lf_header_device.global_configuration = mock_global_configuration
 
         cls.device = DeviceFactory.create_device(
-            device_name='Device1',
+            lf_device=mock_lf_device
         )
 
         cls.probe = DeviceFactory.create_probe(
-            probe_metadata=probe_metadata,
-            probe_id=1
+            lf_probe=mock_lf_probe
         )
 
         cls.header_device = DeviceFactory.create_header_device(
-            global_configuration=mock_global_configuration,
-            name='HeaderDevice1'
+            lf_header_device=mock_lf_header_device
         )
 
     def test_createDevice_successfulCreate_true(self):
