@@ -12,17 +12,22 @@ class TestApparatusManager(TestCase):
     def setUpClass(cls):
         cls.apparatus_metadata = Mock(spec=dict)
 
+        edges = Mock(spec=list)
+        nodes = Mock(spec=list)
+
         cls.apparatus_manager = ApparatusManager(cls.apparatus_metadata)
         cls.apparatus_manager.apparatus_extractor = Mock(spec=ApparatusExtractor)
-        cls.apparatus_manager.apparatus_extractor.get_data.return_value =
+        cls.apparatus_manager.apparatus_extractor.get_data.return_value = edges, nodes
 
+        cls.predicted_result = LfApparatus(edges, nodes)
         cls.lf_apparatus = cls.apparatus_manager.get_lf_apparatus()
 
     def test_getLfApparatus_successfulCreated_true(self):
         self.assertIsNotNone(self.lf_apparatus)
 
     def test_getLfApparatus_returnCorrectValues_true(self):
-        self.assertEqual(self.lf_apparatus)
+        self.assertEqual(self.lf_apparatus.edges, self.predicted_result.edges)
+        self.assertEqual(self.lf_apparatus.nodes, self.predicted_result.nodes)
 
     def test_getLfApparatus_returnCorrectTypes_true(self):
         self.assertIsInstance(self.lf_apparatus, LfApparatus)
