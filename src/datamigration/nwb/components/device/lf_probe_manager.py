@@ -14,10 +14,8 @@ class LfProbeManager:
         self.lf_probe_builder = LfProbeBuilder()
 
     def get_lf_probes_list(self):
-        probes = []
-        for probe_counter, electrode_group_metadata in enumerate(self.electrode_groups_metadata):
-            probes.append(self._build_single_probe(electrode_group_metadata, probe_counter))
-        return probes
+        return [self._build_single_probe(electrode_group_metadata, probe_counter)
+                for probe_counter, electrode_group_metadata in enumerate(self.electrode_groups_metadata)]
 
     def _build_single_probe(self, electrode_group_metadata, probe_counter):
         probe_metadata = filter_probe_by_type(

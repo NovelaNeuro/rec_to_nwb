@@ -30,10 +30,7 @@ from src.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
-from src.datamigration.nwb.components.device.probes_dict_builder import ProbesDictBuilder
 from src.datamigration.nwb.components.device.device_factory import DeviceFactory
-from src.datamigration.nwb.components.device.header_device_injector import HeaderDeviceInjector
-from src.datamigration.nwb.components.device.probe_injector import ProbeInjector
 from src.datamigration.nwb.components.dio.dio_manager import DioManager
 from src.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 
@@ -186,12 +183,10 @@ class NWBFileBuilder:
         self.device_injector.inject_device(nwb_content, header_device)
 
     def __build_and_inject_probes(self, nwb_content):
-        probes = []
         logger.info('Probes: Building')
         lf_probe_list = self.lf_probe_manager.get_lf_probes_list()
         logger.info('Probes: Creating probes')
-        for lf_probe in lf_probe_list:
-            probes.append(self.device_factory.create_probe(lf_probe))
+        probes = [self.device_factory.create_probe(lf_probe) for lf_probe in lf_probe_list]
         logger.info('Probes: Injecting probes into NWB')
         self.device_injector.inject_all_devices(nwb_content, probes)
         return probes
