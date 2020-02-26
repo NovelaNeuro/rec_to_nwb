@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import numpy as np
 
-from src.datamigration.nwb_builder.iterators.single_thread_timestamp_iterator_1d import SingleThreadTimestampIterator1D
+from src.datamigration.nwb_builder.iterators.single_thread_timestamp_iterator import SingleThreadTimestampIterator1D
 
 
 class TestDataIterator(TestCase):

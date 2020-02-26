@@ -2,8 +2,8 @@ from src.datamigration.exceptions.missing_data_exception import MissingDataExcep
 from src.datamigration.nwb.components.mda.mda_content import MdaContent
 from src.datamigration.nwb.components.mda.mda_data_manager import MdaDataManager
 from src.datamigration.nwb.components.mda.mda_timestamp_manager import MdaTimestampDataManager
-from src.datamigration.nwb_builder.iterators.single_thread_data_iterator_2d import SingleThreadDataIterator2D
-from src.datamigration.nwb_builder.iterators.single_thread_timestamp_iterator_1d import SingleThreadTimestampIterator1D
+from src.datamigration.nwb_builder.iterators.single_thread_data_iterator import SingleThreadDataIterator2D
+from src.datamigration.nwb_builder.iterators.single_thread_timestamp_iterator import SingleThreadTimestampIterator1D
 
 
 class LfMdaExtractor:
