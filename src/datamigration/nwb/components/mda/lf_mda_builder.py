@@ -1,7 +1,7 @@
 from src.datamigration.nwb.components.mda.lf_mda import LfMda
 
 
-class MdaBuilder:
+class LfMdaBuilder:
 
     def __init__(self, sampling_rate):
         self.sampling_rate = sampling_rate

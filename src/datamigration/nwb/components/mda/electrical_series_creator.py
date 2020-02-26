@@ -1,7 +1,7 @@
 from pynwb import ecephys
 
 
-class MdaCreator:
+class ElectricalSeriesCreator:
 
     @classmethod
     def create_mda(cls, lf_mda):
