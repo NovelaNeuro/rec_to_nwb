@@ -11,7 +11,7 @@ from src.datamigration.header.header_checker.header_processor import HeaderProce
 from src.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
-from src.datamigration.nwb.components.apparatus.apparatus_manager import ApparatusManager
+from src.datamigration.nwb.components.apparatus.lf_apparatus_manager import LfApparatusManager
 from src.datamigration.nwb.components.device.device_factory import DeviceFactory
 from src.datamigration.nwb.components.device.header_device_injector import HeaderDeviceInjector
 from src.datamigration.nwb.components.device.probe_injector import ProbeInjector
@@ -76,7 +76,7 @@ class NWBFileBuilder:
 
         self.task_builder = TaskBuilder(self.metadata)
         self.position_builder = PositionBuilder(self.datasets)
-        self.apparatus_manager = ApparatusManager(self.metadata['apparatus']['data'])
+        self.lf_apparatus_manager = LfApparatusManager(self.metadata['apparatus']['data'])
 
 
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
@@ -155,7 +155,7 @@ class NWBFileBuilder:
     def __build_and_inject_processing_module(self, nwb_content):
 
         logger.info('Apparatus: Building')
-        lf_apparatus = self.apparatus_manager.get_lf_apparatus()
+        lf_apparatus = self.lf_apparatus_manager.get_lf_apparatus()
         logger.info('Apparatus: Creating')
         apparatus = ApparatusCreator.create_apparatus(lf_apparatus)
         logger.info('Apparatus: Injecting into ProcessingModule')

@@ -2,7 +2,7 @@ from src.datamigration.nwb.components.apparatus.edge_creator import EdgeCreator
 from src.datamigration.nwb.components.apparatus.node_creator import NodeCreator
 
 
-class ApparatusExtractor:
+class LfApparatusExtractor:
     def __init__(self, apparatus_metadata):
         self.apparatus_metadata = apparatus_metadata
         self.node_creator = NodeCreator()

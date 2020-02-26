@@ -2,10 +2,10 @@ from unittest import TestCase
 
 from ndx_franklab_novela.apparatus import Node, Edge
 
-from src.datamigration.nwb.components.apparatus.apparatus_extractor import ApparatusExtractor
+from src.datamigration.nwb.components.apparatus.lf_apparatus_extractor import LfApparatusExtractor
 
 
-class TestApparatusExtractor(TestCase):
+class TestLfApparatusExtractor(TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -17,8 +17,8 @@ class TestApparatusExtractor(TestCase):
             [0, 1, 1, 0, 1]
         ]
 
-        cls.apparatus_extractor = ApparatusExtractor(cls.apparatus_metadata)
-        cls.edges, cls.nodes = cls.apparatus_extractor.get_data()
+        cls.lf_apparatus_extractor = LfApparatusExtractor(cls.apparatus_metadata)
+        cls.edges, cls.nodes = cls.lf_apparatus_extractor.get_data()
 
     def test_getData_successfulCreated_true(self):
         self.assertIsNotNone(self.edges)
