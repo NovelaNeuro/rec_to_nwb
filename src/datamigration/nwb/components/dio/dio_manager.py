@@ -7,24 +7,20 @@ from src.datamigration.nwb.components.dio.dio_extractor import DioExtractor
 
 class DioManager:
 
-    def __init__(self, dio_files, dio_metadata, continuous_time_dicts):
+    def __init__(self, dio_files, dio_metadata, continuous_time_files):
         self.dio_files = dio_files
         self.dio_metadata = dio_metadata
-        self.continuous_time_dicts = continuous_time_dicts
+        self.continuous_time_files = continuous_time_files
 
     def get_dio(self):
         """"extract data from DIO files and match them with metadata"""
 
         all_dio_data = []
-        threads = []
         number_of_datasets = len(self.dio_files)
         with concurrent.futures.ThreadPoolExecutor() as executor:
             for i in range(number_of_datasets):
-                threads.append(executor.submit(DioExtractor.extract_dio_for_single_dataset,
-                                               self.dio_files[i],
-                                               self.continuous_time_dicts[i]))
-        for thread in threads:
-            all_dio_data.append(thread.result())
+                all_dio_data.append(DioExtractor.extract_dio_for_single_dataset(self.dio_files[i],
+                                                                                self.continuous_time_files[i]))
         return self.__merge_dio_data(all_dio_data)
 
     @classmethod
