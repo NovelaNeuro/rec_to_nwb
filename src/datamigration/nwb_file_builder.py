@@ -81,7 +81,6 @@ class NWBFileBuilder:
         self.position_builder = PositionBuilder(self.datasets)
         self.lf_apparatus_manager = LfApparatusManager(self.metadata['apparatus']['data'])
 
-
         self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
         self.probes_injector = ProbeInjector()
         self.header_device_creator = DeviceFactory()
