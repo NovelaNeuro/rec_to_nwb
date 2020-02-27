@@ -129,7 +129,7 @@ class NWBFileBuilder:
 
         probes_dict = self.__build_and_inject_probes(nwb_content)
 
-        self.__build_and_inject_header_device(nwb_content, self.header)
+        self.__build_and_inject_header_device(nwb_content)
 
         electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
 
@@ -176,13 +176,13 @@ class NWBFileBuilder:
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
-    def __build_and_inject_header_device(self, nwb_content, header):
+    def __build_and_inject_header_device(self, nwb_content):
         logger.info('HeaderDevice: Building')
         lf_header_device = self.lf_device_header_manager.get_lf_header_device()
         logger.info('HeaderDevice: Creating')
         header_device = self.device_factory.create_header_device(lf_header_device)
         logger.info('HeaderDevice: Injecting into NWB')
-        self.device_injector.inject_device(nwb_content, header_device)
+        self.device_injector.inject_all_devices(nwb_content, [header_device])
 
     def __build_and_inject_probes(self, nwb_content):
         logger.info('Probes: Building')
