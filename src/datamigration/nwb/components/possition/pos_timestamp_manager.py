@@ -4,7 +4,7 @@ import os
 import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from src.datamigration.nwb_builder.managers.timestamps_manager_interface import TimestampManagerInterface
+from src.datamigration.nwb.common.timestamps_manager import TimestampManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -12,9 +12,9 @@ logging.config.fileConfig(fname=str(path) + '/../../../../logging.conf', disable
 logger = logging.getLogger(__name__)
 
 
-class PosTimestampManager(TimestampManagerInterface):
+class PosTimestampManager(TimestampManager):
     def __init__(self, directories, continuous_time_directories):
-        TimestampManagerInterface.__init__(self, directories, continuous_time_directories)
+        TimestampManager.__init__(self, directories, continuous_time_directories)
 
     # override
     def _get_timestamps(self, dataset_id):

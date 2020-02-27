@@ -8,5 +8,7 @@ class LfApparatusManager:
         self.lf_apparatus_extractor = LfApparatusExtractor(apparatus_metadata)
 
     def get_lf_apparatus(self):
+        """extract apparatus from metadata.yml file and build LfApparatus"""
+
         edges, nodes = self.lf_apparatus_extractor.get_data()
         return LfApparatusBuilder.build(edges, nodes)

@@ -3,6 +3,7 @@ import os
 
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
+from src.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 from src.datamigration.processing.timestamp_converter import TimestampConverter
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -13,12 +14,13 @@ logger = logging.getLogger(__name__)
 class DioExtractor:
 
     @staticmethod
-    def extract_dio_for_single_dataset(filtered_files, continuoues_time_dict):
+    def extract_dio_for_single_dataset(filtered_files, continuous_time_file):
         single_dataset_data = {}
+        continuous_time_dict = ContinuousTimeExtractor.get_continuous_time_dict_file(continuous_time_file)
         for dio_file in filtered_files:
             try:
                 dio_data = readTrodesExtractedDataFile(filtered_files[dio_file])
-                keys, values = DioExtractor.__get_dio_time_series(dio_data, continuoues_time_dict)
+                keys, values = DioExtractor.__get_dio_time_series(dio_data, continuous_time_dict)
                 single_dataset_data[dio_file] = ([keys, values])
 
             except KeyError as error:

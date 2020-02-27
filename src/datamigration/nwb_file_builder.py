@@ -19,7 +19,9 @@ from src.datamigration.nwb.components.device.lf_probe_manager import LfProbeMana
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
-from src.datamigration.nwb.components.electrode_group.electrode_group_dict_builder import ElectrodeGroupDictBuilder
+from src.datamigration.nwb.components.dio.dio_manager import DioManager
+from src.datamigration.nwb.components.electrode_group.fl_electrode_group_creator import FlElectrodeGroupCreator
+from src.datamigration.nwb.components.electrode_group.lf_electrode_group_manager import FlElectrodeGroupManager
 from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
 from src.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
@@ -28,12 +30,9 @@ from src.datamigration.nwb.components.electrodes.electrode_extension_injector im
 from src.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
 from src.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
+from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
-from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
-from src.datamigration.nwb.components.device.device_factory import DeviceFactory
-from src.datamigration.nwb.components.dio.dio_manager import DioManager
-from src.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -41,6 +40,7 @@ logger = logging.getLogger(__name__)
 
 
 class NWBFileBuilder:
+    """unpack data from preprocessing folder specified by arguments, and write those data into NWB file format"""
 
     def __init__(self,
                  data_path,
@@ -82,13 +82,17 @@ class NWBFileBuilder:
         self.position_builder = PositionBuilder(self.datasets)
         self.lf_apparatus_manager = LfApparatusManager(self.metadata['apparatus']['data'])
 
+
         self.lf_probe_manager = LfProbeManager(self.probes, self.metadata['electrode groups'])
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
-        self.lf_device_header_manager = LfDeviceHeaderManager('header_device', self.header.configuration.global_configuration)
+        self.lf_device_header_manager = LfDeviceHeaderManager('header_device',
+                                                              self.header.configuration.global_configuration)
 
-        self.electrode_group_builder = ElectrodeGroupDictBuilder(self.metadata['electrode groups'])
+
+        self.lf_electrode_group_manager = FlElectrodeGroupManager(self.metadata['electrode groups'])
+        self.fl_electrode_group_creator = FlElectrodeGroupCreator()
         self.electrode_group_injector = ElectrodeGroupInjector()
 
         self.lf_electrode_manager = LfElectrodeManager(self.probes, self.metadata['electrode groups'])
@@ -101,8 +105,6 @@ class NWBFileBuilder:
             self.header
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
-
-        self.continuous_time_dicts = self.__read_continuous_time_dicts()
 
     def build(self):
         logger.info('Building components for NWB')
@@ -128,13 +130,13 @@ class NWBFileBuilder:
 
         self.__build_and_inject_processing_module(nwb_content)
 
-        probes_dict = self.__build_and_inject_probes(nwb_content)
+        probes = self.__build_and_inject_probes(nwb_content)
 
-        self.__build_and_inject_header_device(nwb_content, self.header)
+        self.__build_and_inject_header_device(nwb_content)
 
-        electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
+        fl_electrode_groups = self.__build_and_inject_fl_electrode_group(nwb_content, probes)
 
-        self.__build_and_inject_electrodes(nwb_content, electrode_group_dict)
+        self.__build_and_inject_electrodes(nwb_content, fl_electrode_groups)
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
 
@@ -147,6 +149,8 @@ class NWBFileBuilder:
         return nwb_content
 
     def write(self, content):
+        """write nwb file handler with colected data into actual file"""
+
         logger.info('Writing down content to ' + self.output_file)
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
             nwb_fileIO.write(content)
@@ -156,7 +160,6 @@ class NWBFileBuilder:
         return self.output_file
 
     def __build_and_inject_processing_module(self, nwb_content):
-
         logger.info('Apparatus: Building')
         lf_apparatus = self.lf_apparatus_manager.get_lf_apparatus()
         logger.info('Apparatus: Creating')
@@ -176,13 +179,13 @@ class NWBFileBuilder:
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
-    def __build_and_inject_header_device(self, nwb_content, header):
+    def __build_and_inject_header_device(self, nwb_content):
         logger.info('HeaderDevice: Building')
         lf_header_device = self.lf_device_header_manager.get_lf_header_device()
         logger.info('HeaderDevice: Creating')
         header_device = self.device_factory.create_header_device(lf_header_device)
         logger.info('HeaderDevice: Injecting into NWB')
-        self.device_injector.inject_device(nwb_content, header_device)
+        self.device_injector.inject_all_devices(nwb_content, [header_device])
 
     def __build_and_inject_probes(self, nwb_content):
         logger.info('Probes: Building')
@@ -193,13 +196,15 @@ class NWBFileBuilder:
         self.device_injector.inject_all_devices(nwb_content, probes)
         return probes
 
-    def __build_and_inject_electrode_group(self, nwb_content, probes):
+    def __build_and_inject_fl_electrode_group(self, nwb_content, probes):
         logger.info('ElectrodeGroups: Building')
-        electrode_group_dict = self.electrode_group_builder.build(probes)
-
+        lf_fl_electrode_groups = self.lf_electrode_group_manager.get_lf_fl_electrode_groups(probes)
+        logger.info('ElectrodeGroups: Creating')
+        fl_electrode_groups = [self.fl_electrode_group_creator.create(lf_electrode_group)
+                            for lf_electrode_group in lf_fl_electrode_groups]
         logger.info('ElectrodeGroups: Injecting into NWB')
-        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_group_dict)
-        return electrode_group_dict
+        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, fl_electrode_groups)
+        return fl_electrode_groups
 
     def __build_and_inject_electrodes(self, nwb_content, electrode_groups):
         logger.info('Electrodes: Building')
@@ -220,14 +225,6 @@ class NWBFileBuilder:
             electrodes_ntrodes_extension
         )
 
-    def __read_continuous_time_dicts(self):
-        logger.info('ContinuousTime: Preparing list of files')
-        continuous_time_files = [single_dataset.get_continuous_time() for single_dataset in self.datasets]
-
-        logger.info('ContinuousTime: Extracting dictionaries')
-        continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
-        return continuous_time_dicts
-
     def __build_and_inject_dio(self, nwb_content):
         logger.info('DIO: Prepare directories')
         dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
@@ -237,7 +234,7 @@ class NWBFileBuilder:
 
         dio_manager = DioManager(dio_files=dio_files.get_files(),
                                  dio_metadata=self.metadata['behavioral_events'],
-                                 continuous_time_dicts=self.continuous_time_dicts)
+                                 continuous_time_files=self.__get_continuous_time_files())
         logger.info('DIO: Retrieve data')
         dio_data = dio_manager.get_dio()
 
@@ -246,6 +243,9 @@ class NWBFileBuilder:
 
         logger.info('DIO: Building&Injecting into NWB')
         dio_injector.inject(dio_builder.build(), 'behavior')
+
+    def __get_continuous_time_files(self):
+        return [single_dataset.get_continuous_time() for single_dataset in self.datasets]
 
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')
