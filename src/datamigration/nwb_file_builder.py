@@ -27,6 +27,7 @@ from src.datamigration.nwb.components.electrodes.electrode_extension_injector im
 from src.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
 from src.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
+from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 
@@ -82,7 +83,8 @@ class NWBFileBuilder:
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
-        self.lf_device_header_manager = LfDeviceHeaderManager('header_device', self.header.configuration.global_configuration)
+        self.lf_device_header_manager = LfDeviceHeaderManager('header_device',
+                                                              self.header.configuration.global_configuration)
 
         self.electrode_group_builder = ElectrodeGroupDictBuilder(self.metadata['electrode groups'])
         self.electrode_group_injector = ElectrodeGroupInjector()
@@ -96,7 +98,6 @@ class NWBFileBuilder:
             self.header
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
-
 
     def build(self):
         logger.info('Building components for NWB')
@@ -124,7 +125,7 @@ class NWBFileBuilder:
 
         probes_dict = self.__build_and_inject_probes(nwb_content)
 
-        self.__build_and_inject_header_device(nwb_content, self.header)
+        self.__build_and_inject_header_device(nwb_content)
 
         electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
 
