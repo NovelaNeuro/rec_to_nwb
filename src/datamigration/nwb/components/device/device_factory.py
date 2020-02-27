@@ -3,17 +3,23 @@ from pynwb.device import Device
 from ndx_franklab_novela.header_device import HeaderDevice
 from ndx_franklab_novela.probe import Probe
 
+from src.datamigration.tools.validate_input_parameters import validate_input_parameters
+
 
 class DeviceFactory:
 
     @classmethod
     def create_device(cls, lf_device):
+        validate_input_parameters(__name__, lf_device)
+        validate_input_parameters(__name__, lf_device.name)
         return Device(
             name=str(lf_device.name)
         )
 
     @classmethod
     def create_probe(cls, lf_probe):
+        validate_input_parameters(__name__, lf_probe)
+        validate_input_parameters(__name__, lf_probe.probe_id, lf_probe.metadata)
         return Probe(
             probe_type=lf_probe.metadata['probe_type'],
             contact_size=lf_probe.metadata['contact_size'],
@@ -24,6 +30,9 @@ class DeviceFactory:
 
     @classmethod
     def create_header_device(cls, lf_header_device):
+        validate_input_parameters(__name__, lf_header_device)
+        validate_input_parameters(__name__, lf_header_device.name, lf_header_device.global_configuration)
+
         return HeaderDevice(
             name=lf_header_device.name,
             headstage_serial=lf_header_device.global_configuration.headstage_serial,
