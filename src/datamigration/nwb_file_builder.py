@@ -12,6 +12,10 @@ from src.datamigration.header.header_checker.rec_file_finder import RecFileFinde
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
 from src.datamigration.nwb.components.apparatus.lf_apparatus_manager import LfApparatusManager
+from src.datamigration.nwb.components.device.device_factory import DeviceFactory
+from src.datamigration.nwb.components.device.device_injector import DeviceInjector
+from src.datamigration.nwb.components.device.lf_device_header_manager import LfDeviceHeaderManager
+from src.datamigration.nwb.components.device.lf_probe_manager import LfProbeManager
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
@@ -26,10 +30,7 @@ from src.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
-from src.datamigration.nwb.components.device.probes_dict_builder import ProbesDictBuilder
 from src.datamigration.nwb.components.device.device_factory import DeviceFactory
-from src.datamigration.nwb.components.device.header_device_injector import HeaderDeviceInjector
-from src.datamigration.nwb.components.device.probe_injector import ProbeInjector
 from src.datamigration.nwb.components.dio.dio_manager import DioManager
 from src.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 
@@ -81,10 +82,11 @@ class NWBFileBuilder:
         self.position_builder = PositionBuilder(self.datasets)
         self.lf_apparatus_manager = LfApparatusManager(self.metadata['apparatus']['data'])
 
-        self.probes_dict_builder = ProbesDictBuilder(self.probes, self.metadata['electrode groups'])
-        self.probes_injector = ProbeInjector()
-        self.header_device_creator = DeviceFactory()
-        self.header_device_injector = HeaderDeviceInjector()
+        self.lf_probe_manager = LfProbeManager(self.probes, self.metadata['electrode groups'])
+        self.device_injector = DeviceInjector()
+        self.device_factory = DeviceFactory()
+
+        self.lf_device_header_manager = LfDeviceHeaderManager('header_device', self.header.configuration.global_configuration)
 
         self.electrode_group_builder = ElectrodeGroupDictBuilder(self.metadata['electrode groups'])
         self.electrode_group_injector = ElectrodeGroupInjector()
@@ -176,20 +178,20 @@ class NWBFileBuilder:
 
     def __build_and_inject_header_device(self, nwb_content, header):
         logger.info('HeaderDevice: Building')
-        header_device = self.header_device_creator.create_header_device(
-            global_configuration=header.configuration.global_configuration,
-            name='header_device')
-
+        lf_header_device = self.lf_device_header_manager.get_lf_header_device()
+        logger.info('HeaderDevice: Creating')
+        header_device = self.device_factory.create_header_device(lf_header_device)
         logger.info('HeaderDevice: Injecting into NWB')
-        self.header_device_injector.inject_header_device(nwb_content, header_device)
+        self.device_injector.inject_device(nwb_content, header_device)
 
     def __build_and_inject_probes(self, nwb_content):
         logger.info('Probes: Building')
-        probes_dict = self.probes_dict_builder.build()
-
-        logger.info('Probes: Injecting into NWB')
-        self.probes_injector.inject_all_probes(nwb_content, probes_dict)
-        return probes_dict
+        lf_probe_list = self.lf_probe_manager.get_lf_probes_list()
+        logger.info('Probes: Creating probes')
+        probes = [self.device_factory.create_probe(lf_probe) for lf_probe in lf_probe_list]
+        logger.info('Probes: Injecting probes into NWB')
+        self.device_injector.inject_all_devices(nwb_content, probes)
+        return probes
 
     def __build_and_inject_electrode_group(self, nwb_content, probes):
         logger.info('ElectrodeGroups: Building')

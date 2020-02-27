@@ -1,0 +1,2 @@
+class NoneParamInInitException(Exception):
+    pass
