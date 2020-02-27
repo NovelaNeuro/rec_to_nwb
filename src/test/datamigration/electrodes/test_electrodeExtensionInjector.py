@@ -9,7 +9,8 @@ from pynwb import NWBFile
 from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
 
 from src.datamigration.exceptions.not_compatible_metadata import NotCompatibleMetadata
-from src.datamigration.nwb.components.electrodes.electrode_builder import ElectrodeBuilder
+from src.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
+from src.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
 from src.datamigration.nwb.components.electrodes.electrode_metadata_extension_creator import \
     ElectrodesMetadataExtensionCreator
 from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
@@ -41,11 +42,11 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         cls.mock_eg_2.__class__ = FLElectrodeGroup
         cls.mock_eg_1.name = 'FLElectrodeGroup1'
         cls.mock_eg_2.name = 'FLElectrodeGroup2'
-        cls.electrode_group_object_dict = {0: cls.mock_eg_1, 1: cls.mock_eg_2}
+        cls.electrode_groups = [cls.mock_eg_1, cls.mock_eg_2]
 
     def setUp(self):
         self.electrode_extension_injector = ElectrodeExtensionInjector()
-        self.electrodes_builder = ElectrodeBuilder(self.probes, self.metadata)
+        self.lf_electrodes_manager = LfElectrodeManager(self.probes, self.metadata)
 
         self.nwb_file = NWBFile(
             session_description='None',
@@ -54,10 +55,12 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
             file_create_date=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
         )
 
-        self.electrodes_builder.build(
-            nwb_content=self.nwb_file,
-            electrode_group_dict=self.electrode_group_object_dict,
+        lf_electrodes = self.lf_electrodes_manager.get_lf_electrodes(
+            electrode_groups=self.electrode_groups,
         )
+
+        self.electrode_creator = ElectrodesCreator()
+        [self.electrode_creator.create(self.nwb_file, lf_electrode) for lf_electrode in lf_electrodes]
 
     def test_injectExtensions_correctReturnType_true(self):
         header_extension = [0, 1, 2, 3]

@@ -23,7 +23,8 @@ from src.datamigration.nwb.components.dio.dio_manager import DioManager
 from src.datamigration.nwb.components.electrode_group.fl_electrode_group_creator import FlElectrodeGroupCreator
 from src.datamigration.nwb.components.electrode_group.lf_electrode_group_manager import FlElectrodeGroupManager
 from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
-from src.datamigration.nwb.components.electrodes.electrode_builder import ElectrodeBuilder
+from src.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
+from src.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
 from src.datamigration.nwb.components.electrodes.electrode_extension_builder import ElectrodeExtensionBuilder
 from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
 from src.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
@@ -94,7 +95,8 @@ class NWBFileBuilder:
         self.fl_electrode_group_creator = FlElectrodeGroupCreator()
         self.electrode_group_injector = ElectrodeGroupInjector()
 
-        self.electrode_builder = ElectrodeBuilder(self.probes, self.metadata['electrode groups'])
+        self.lf_electrode_manager = LfElectrodeManager(self.probes, self.metadata['electrode groups'])
+        self.electrode_creator = ElectrodesCreator()
 
         self.electrode_extension_builder = ElectrodeExtensionBuilder(
             self.probes,
@@ -204,9 +206,11 @@ class NWBFileBuilder:
         self.electrode_group_injector.inject_all_electrode_groups(nwb_content, fl_electrode_groups)
         return fl_electrode_groups
 
-    def __build_and_inject_electrodes(self, nwb_content, electrode_group_dict):
-        logger.info('Electrodes: Building&Injecting into NWB')
-        self.electrode_builder.build(nwb_content, electrode_group_dict)
+    def __build_and_inject_electrodes(self, nwb_content, electrode_groups):
+        logger.info('Electrodes: Building')
+        lf_electrodes = self.lf_electrode_manager.get_lf_electrodes(electrode_groups)
+        logger.info('Electrodes: Creating&Injecting into NWB')
+        [self.electrode_creator.create(nwb_content, lf_electrode) for lf_electrode in lf_electrodes]
 
     def __build_and_inject_electrodes_extensions(self, nwb_content):
         logger.info('ElectrodesExtensions: Building')
