@@ -25,7 +25,6 @@ from src.datamigration.nwb.components.electrode_group.lf_electrode_group_manager
 from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
 from src.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
-from src.datamigration.nwb.components.electrodes.electrode_builder import ElectrodeBuilder
 from src.datamigration.nwb.components.electrodes.electrode_extension_creator import ElectrodeExtensionCreator
 from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
 from src.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
