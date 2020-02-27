@@ -30,7 +30,7 @@ from src.datamigration.nwb.components.electrodes.electrode_extension_injector im
 from src.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
 from src.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
-from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
+from src.datamigration.nwb.components.position.position_builder import PositionBuilder
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 
