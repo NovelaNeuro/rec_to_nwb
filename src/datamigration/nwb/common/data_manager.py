@@ -3,7 +3,7 @@ import abc
 import numpy as np
 
 
-class DataManagerInterface(abc.ABC):
+class DataManager(abc.ABC):
     def __init__(self, directories):
         self.directories = directories
 

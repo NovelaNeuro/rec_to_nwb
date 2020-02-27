@@ -19,6 +19,7 @@ from src.datamigration.nwb.components.device.lf_probe_manager import LfProbeMana
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
+from src.datamigration.nwb.components.dio.dio_manager import DioManager
 from src.datamigration.nwb.components.electrode_group.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.electrodes.electrode_builder import ElectrodeBuilder
@@ -27,12 +28,9 @@ from src.datamigration.nwb.components.electrodes.electrode_extension_injector im
 from src.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
 from src.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
+from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
-from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
-from src.datamigration.nwb.components.device.device_factory import DeviceFactory
-from src.datamigration.nwb.components.dio.dio_manager import DioManager
-from src.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -86,7 +84,8 @@ class NWBFileBuilder:
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
-        self.lf_device_header_manager = LfDeviceHeaderManager('header_device', self.header.configuration.global_configuration)
+        self.lf_device_header_manager = LfDeviceHeaderManager('header_device',
+                                                              self.header.configuration.global_configuration)
 
         self.electrode_group_builder = ElectrodeGroupDictBuilder(self.metadata['electrode groups'])
         self.electrode_group_injector = ElectrodeGroupInjector()
@@ -100,8 +99,6 @@ class NWBFileBuilder:
             self.header
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
-
-        self.continuous_time_dicts = self.__read_continuous_time_dicts()
 
     def build(self):
         logger.info('Building components for NWB')
@@ -218,14 +215,6 @@ class NWBFileBuilder:
             electrodes_ntrodes_extension
         )
 
-    def __read_continuous_time_dicts(self):
-        logger.info('ContinuousTime: Preparing list of files')
-        continuous_time_files = [single_dataset.get_continuous_time() for single_dataset in self.datasets]
-
-        logger.info('ContinuousTime: Extracting dictionaries')
-        continuous_time_dicts = ContinuousTimeExtractor.get_continuous_time_dict(continuous_time_files)
-        return continuous_time_dicts
-
     def __build_and_inject_dio(self, nwb_content):
         logger.info('DIO: Prepare directories')
         dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
@@ -235,7 +224,7 @@ class NWBFileBuilder:
 
         dio_manager = DioManager(dio_files=dio_files.get_files(),
                                  dio_metadata=self.metadata['behavioral_events'],
-                                 continuous_time_dicts=self.continuous_time_dicts)
+                                 continuous_time_files=self.__get_continuous_time_files())
         logger.info('DIO: Retrieve data')
         dio_data = dio_manager.get_dio()
 
@@ -244,6 +233,9 @@ class NWBFileBuilder:
 
         logger.info('DIO: Building&Injecting into NWB')
         dio_injector.inject(dio_builder.build(), 'behavior')
+
+    def __get_continuous_time_files(self):
+        return [single_dataset.get_continuous_time() for single_dataset in self.datasets]
 
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')

@@ -1,12 +1,12 @@
 import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from src.datamigration.nwb_builder.managers.data_manager_interface import DataManagerInterface
+from src.datamigration.nwb.common.data_manager import DataManager
 
 
-class PosDataManager(DataManagerInterface):
+class PosDataManager(DataManager):
     def __init__(self, directories):
-        DataManagerInterface.__init__(self, directories)
+        DataManager.__init__(self, directories)
 
     # override
     def read_data(self, dataset_id, file_id):
