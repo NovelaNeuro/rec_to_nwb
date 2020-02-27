@@ -28,8 +28,9 @@ class TestElectrodeGroupInjector(TestCase):
         mock_electrode_group_1 = Mock(spec=ElectrodeGroup)
         mock_fl_electrode_group_2 = Mock(spec=FLElectrodeGroup)
         mock_electrode_group_3 = Mock(spec=ElectrodeGroup)
-        electrode_group_dict = {'1': mock_electrode_group_1, '2': mock_fl_electrode_group_2,
-                                '3': mock_electrode_group_3}
+        electrode_group_dict = {mock_electrode_group_1.name: mock_electrode_group_1,
+                                mock_fl_electrode_group_2.name: mock_fl_electrode_group_2,
+                                mock_electrode_group_3.name: mock_electrode_group_3}
 
         self.electrode_group.inject_all_electrode_groups(
             nwb_content=self.nwb_file,
