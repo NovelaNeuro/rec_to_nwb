@@ -40,6 +40,7 @@ logger = logging.getLogger(__name__)
 
 
 class NWBFileBuilder:
+    """unpack data from preprocessing folder specified by arguments, and write those data into NWB file format"""
 
     def __init__(self,
                  data_path,
@@ -128,7 +129,7 @@ class NWBFileBuilder:
 
         probes_dict = self.__build_and_inject_probes(nwb_content)
 
-        self.__build_and_inject_header_device(nwb_content, self.header)
+        self.__build_and_inject_header_device(nwb_content)
 
         electrode_group_dict = self.__build_and_inject_electrode_group(nwb_content, probes_dict)
 
@@ -145,6 +146,8 @@ class NWBFileBuilder:
         return nwb_content
 
     def write(self, content):
+        """write nwb file handler with colected data into actual file"""
+
         logger.info('Writing down content to ' + self.output_file)
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
             nwb_fileIO.write(content)
@@ -154,7 +157,6 @@ class NWBFileBuilder:
         return self.output_file
 
     def __build_and_inject_processing_module(self, nwb_content):
-
         logger.info('Apparatus: Building')
         lf_apparatus = self.lf_apparatus_manager.get_lf_apparatus()
         logger.info('Apparatus: Creating')
@@ -174,13 +176,13 @@ class NWBFileBuilder:
 
         nwb_content.add_processing_module(self.pm_creator.processing_module)
 
-    def __build_and_inject_header_device(self, nwb_content, header):
+    def __build_and_inject_header_device(self, nwb_content):
         logger.info('HeaderDevice: Building')
         lf_header_device = self.lf_device_header_manager.get_lf_header_device()
         logger.info('HeaderDevice: Creating')
         header_device = self.device_factory.create_header_device(lf_header_device)
         logger.info('HeaderDevice: Injecting into NWB')
-        self.device_injector.inject_device(nwb_content, header_device)
+        self.device_injector.inject_all_devices(nwb_content, [header_device])
 
     def __build_and_inject_probes(self, nwb_content):
         logger.info('Probes: Building')
