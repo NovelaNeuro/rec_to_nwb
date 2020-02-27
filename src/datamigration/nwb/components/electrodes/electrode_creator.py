@@ -1,9 +1,13 @@
+from src.datamigration.tools.validate_input_parameters import validate_input_parameters
+
+
 class ElectrodesCreator:
 
     def __init__(self):
         self.electrode_id = -1
 
-    def create_electrode(self, nwb_content, electrode_group):
+    def create(self, nwb_content, lf_electrode):
+        self.__validate_parameters(lf_electrode, nwb_content)
         self.electrode_id += 1
 
         nwb_content.add_electrode(
@@ -13,6 +17,11 @@ class ElectrodesCreator:
             imp=0.0,
             location='None',
             filtering='None',
-            group=electrode_group,
+            group=lf_electrode.electrode_group,
             id=self.electrode_id
         )
+
+    @staticmethod
+    def __validate_parameters(lf_electrode, nwb_content):
+        validate_input_parameters(__name__, nwb_content, lf_electrode)
+        validate_input_parameters(__name__, lf_electrode.electrode_group)
