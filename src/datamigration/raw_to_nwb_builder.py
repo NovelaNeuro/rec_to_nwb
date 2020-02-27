@@ -43,7 +43,7 @@ class RawToNWBBuilder:
         self.parallel_instances = parallel_instances
 
     def __preprocess_data(self):
-        """process data with rec_to_binaries component"""
+        """process data with rec_to_binaries library"""
         extract_trodes_rec_file(self.data_path,
                                 self.animal_name,
                                 parallel_instances=self.parallel_instances,
@@ -55,7 +55,8 @@ class RawToNWBBuilder:
                                 extract_spikes=self.extract_spikes, )
 
     def build_nwb(self):
-        """build NWB file containing data gathered from experiments specified by dates"""
+        """builds nwb file for experiments from given dates"""
+
         self.__preprocess_data()
         for date in self.dates:
             nwb_builder = NWBFileBuilder(
