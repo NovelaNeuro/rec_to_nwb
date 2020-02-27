@@ -11,7 +11,7 @@ from src.datamigration.tools.file_scanner import Dataset
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-# @unittest.skip("test requires continuoustime.dat file and can't be used on travis")
+@unittest.skip("test requires continuoustime.dat file and can't be used on travis")
 class TestPositionExtraction(unittest.TestCase):
 
     @staticmethod
