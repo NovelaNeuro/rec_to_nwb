@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 
 
 class NWBFileBuilder:
-    """unpack data from processed dataset specified by arguments, and fuse those data into NWB file format"""
+    """unpack data from preprocessing folder specified by arguments, and write those data into NWB file format"""
 
     def __init__(self,
                  data_path,
