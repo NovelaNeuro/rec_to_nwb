@@ -19,6 +19,7 @@ from src.datamigration.nwb.components.device.lf_probe_manager import LfProbeMana
 from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
+from src.datamigration.nwb.components.dio.dio_manager import DioManager
 from src.datamigration.nwb.components.electrode_group.electrode_group_dict_builder import ElectrodeGroupDictBuilder
 from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.electrodes.electrode_builder import ElectrodeBuilder
@@ -223,7 +224,7 @@ class NWBFileBuilder:
 
         dio_manager = DioManager(dio_files=dio_files.get_files(),
                                  dio_metadata=self.metadata['behavioral_events'],
-                                 continuous_time_files=self.get_continuous_time_files())
+                                 continuous_time_files=self.__get_continuous_time_files())
         logger.info('DIO: Retrieve data')
         dio_data = dio_manager.get_dio()
 
@@ -232,6 +233,9 @@ class NWBFileBuilder:
 
         logger.info('DIO: Building&Injecting into NWB')
         dio_injector.inject(dio_builder.build(), 'behavior')
+
+    def __get_continuous_time_files(self):
+        return [single_dataset.get_continuous_time() for single_dataset in self.datasets]
 
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')
