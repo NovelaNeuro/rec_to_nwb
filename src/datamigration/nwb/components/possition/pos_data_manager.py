@@ -10,7 +10,8 @@ class PosDataManager(DataManagerInterface):
 
     # override
     def read_data(self, dataset_id, file_id):
+        """extract data from POS files and build LfPos"""
+
         pos_online = readTrodesExtractedDataFile(self.directories[dataset_id][file_id])
         position = pd.DataFrame(pos_online['data'])
         return position.xloc, position.yloc, position.xloc2, position.yloc2
-
