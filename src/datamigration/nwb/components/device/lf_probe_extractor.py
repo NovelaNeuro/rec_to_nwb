@@ -1,7 +1,7 @@
 import yaml
 
 
-class ProbesExtractor:
+class LfProbesExtractor:
 
     @classmethod
     def extract_probes_metadata(cls, probes_paths):
