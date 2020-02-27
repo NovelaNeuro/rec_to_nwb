@@ -43,6 +43,8 @@ class RawToNWBBuilder:
         self.parallel_instances = parallel_instances
 
     def __preprocess_data(self):
+        """process data with rec_to_binaries library"""
+
         extract_trodes_rec_file(self.data_path,
                                 self.animal_name,
                                 parallel_instances=self.parallel_instances,
@@ -54,6 +56,8 @@ class RawToNWBBuilder:
                                 extract_spikes=self.extract_spikes, )
 
     def build_nwb(self):
+        """builds nwb file for experiments from given dates"""
+
         self.__preprocess_data()
         for date in self.dates:
             nwb_builder = NWBFileBuilder(
@@ -69,6 +73,8 @@ class RawToNWBBuilder:
             nwb_builder.write(content)
 
     def cleanup(self):
+        """remove all temporary files structure from preprocessing folder"""
+
         preprocessing = self.data_path + '/' + self.animal_name + '/preprocessing'
         if os.path.exists(preprocessing):
             shutil.rmtree(preprocessing)
