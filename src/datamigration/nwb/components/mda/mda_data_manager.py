@@ -1,11 +1,11 @@
 from mountainlab_pytools.mdaio import readmda
 
-from src.datamigration.nwb_builder.managers.data_manager_interface import DataManagerInterface
+from src.datamigration.nwb.common.data_manager import DataManager
 
 
-class MdaDataManager(DataManagerInterface):
+class MdaDataManager(DataManager):
     def __init__(self, directories):
-        DataManagerInterface.__init__(self, directories)
+        DataManager.__init__(self, directories)
 
     # override
     def read_data(self, dataset_id, file_id):
