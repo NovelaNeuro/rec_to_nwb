@@ -5,16 +5,16 @@ from unittest import TestCase, mock
 
 import yaml
 
-from src.datamigration.nwb.components.device.probe_extractor import ProbesExtractor
+from src.datamigration.nwb.components.device.lf_probe_extractor import LfProbesExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestProbeExtractor(TestCase):
+class TestLfProbeExtractor(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.probes_extractor = ProbesExtractor()
+        cls.lf_probes_extractor = LfProbesExtractor()
 
         cls.contents = {
             "foo": "bar",
@@ -35,7 +35,7 @@ class TestProbeExtractor(TestCase):
             with open(testfile, 'w') as outfile:
                 yaml.dump(cls.contents, outfile, default_flow_style=False)
 
-                cls.result = cls.probes_extractor.extract_probes_metadata([dirpath + '/file1.yml'])
+                cls.result = cls.lf_probes_extractor.extract_probes_metadata([dirpath + '/file1.yml'])
 
     def test_extractProbesMetadata_correctContent_true(self):
         self.assertEqual(self.contents, self.result[0])
