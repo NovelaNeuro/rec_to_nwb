@@ -14,6 +14,7 @@ class DioManager:
 
     def get_dio(self):
         """"extract data from DIO files and match them with metadata"""
+
         all_dio_data = []
         threads = []
         number_of_datasets = len(self.dio_files)

@@ -44,6 +44,7 @@ class RawToNWBBuilder:
 
     def __preprocess_data(self):
         """process data with rec_to_binaries library"""
+
         extract_trodes_rec_file(self.data_path,
                                 self.animal_name,
                                 parallel_instances=self.parallel_instances,
@@ -73,6 +74,7 @@ class RawToNWBBuilder:
 
     def cleanup(self):
         """remove all temporary files structure from preprocessing folder"""
+
         preprocessing = self.data_path + '/' + self.animal_name + '/preprocessing'
         if os.path.exists(preprocessing):
             shutil.rmtree(preprocessing)
