@@ -29,8 +29,7 @@ class MultiThreadTimestampIterator(AbstractDataChunkIterator):
 
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 threads = [executor.submit(MultiThreadTimestampIterator.get_data_from_file,
-                                           data=self.data,
-                                           current_dataset=self.current_dataset + i)
+                                           self.data, self.current_dataset + i)
                            for i in range(number_of_threads_in_current_step)]
             data_from_multiple_files = ()
             for thread in threads:
@@ -51,7 +50,7 @@ class MultiThreadTimestampIterator(AbstractDataChunkIterator):
 
     @staticmethod
     def get_data_from_file(data, current_dataset):
-        return data.read_and_convert_timestamps(current_dataset)
+        return data.retrieve_real_timestamps(current_dataset)
 
     def __get_selection(self, number_of_threads_in_current_step):
         return np.s_[sum(self.dataset_file_lenght[0:self.current_dataset]):

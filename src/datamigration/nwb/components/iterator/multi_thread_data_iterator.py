@@ -30,11 +30,9 @@ class MultiThreadDataIterator(AbstractDataChunkIterator):
             number_of_threads_in_current_step = min(self.number_of_threads,
                                                     self.number_of_files_in_single_dataset - self.current_file)
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                with concurrent.futures.ThreadPoolExecutor() as executor:
-                    threads = [executor.submit(MultiThreadDataIterator.get_data_from_file,
-                                               data=self.data,
-                                               current_dataset=self.current_dataset + i)
-                               for i in range(number_of_threads_in_current_step)]
+                threads = [executor.submit(MultiThreadDataIterator.get_data_from_file,
+                                           self.data, self.current_dataset, self.current_file + i)
+                           for i in range(number_of_threads_in_current_step)]
             data_from_multiple_files = ()
             for thread in threads:
                 data_from_multiple_files += (thread.result(),)
