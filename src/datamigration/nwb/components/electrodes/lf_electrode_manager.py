@@ -1,5 +1,6 @@
 from src.datamigration.nwb.components.electrodes.lf_electrode_builder import LfElectrodesBuilder
 from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
+from src.datamigration.tools.validate_input_parameters import validate_input_parameters
 
 
 class LfElectrodeManager:
@@ -11,6 +12,7 @@ class LfElectrodeManager:
         self.lf_electrodes_builder = LfElectrodesBuilder()
 
     def get_lf_electrodes(self, electrode_groups):
+        self.__validate_parameters(electrode_groups)
         lf_electrodes = []
 
         for counter, electrode_group_metadata in enumerate(self.electrode_groups_metadata):
@@ -21,6 +23,10 @@ class LfElectrodeManager:
                     lf_electrodes.append(self.lf_electrodes_builder.build(electrode_groups[counter]))
 
         return lf_electrodes
+
+    def __validate_parameters(self, electrode_groups):
+        validate_input_parameters(__name__, self.probes_metadata, self.electrode_groups_metadata, electrode_groups)
+        [validate_input_parameters(__name__, electrode_group.name) for electrode_group in electrode_groups]
 
 
 
