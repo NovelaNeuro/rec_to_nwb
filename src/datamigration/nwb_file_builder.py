@@ -20,16 +20,16 @@ from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
 from src.datamigration.nwb.components.dio.dio_manager import DioManager
+from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.electrode_group.fl_electrode_group_creator import FlElectrodeGroupCreator
 from src.datamigration.nwb.components.electrode_group.lf_electrode_group_manager import FlElectrodeGroupManager
-from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from src.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
-from src.datamigration.nwb.components.electrodes.electrode_extension_builder import ElectrodeExtensionBuilder
+from src.datamigration.nwb.components.electrodes.electrode_extension_creator import ElectrodeExtensionCreator
 from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
+from src.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
 from src.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
-from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
 from src.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
+from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
 from src.datamigration.nwb.components.position.lf_position_manager import LfPositionManager
 from src.datamigration.nwb.components.position.position_creator import PositionCreator
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
@@ -101,7 +101,7 @@ class NWBFileBuilder:
         self.lf_electrode_manager = LfElectrodeManager(self.probes, self.metadata['electrode groups'])
         self.electrode_creator = ElectrodesCreator()
 
-        self.electrode_extension_builder = ElectrodeExtensionBuilder(
+        self.electrode_extension_creator = ElectrodeExtensionCreator(
             self.probes,
             self.metadata['electrode groups'],
             self.metadata['ntrode probe channel map'],
@@ -220,7 +220,7 @@ class NWBFileBuilder:
     def __build_and_inject_electrodes_extensions(self, nwb_content):
         logger.info('ElectrodesExtensions: Building')
         electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrodes_extension = \
-            self.electrode_extension_builder.build()
+            self.electrode_extension_creator.create()
 
         logger.info('ElectrodesExtensions: Injecting into NWB')
         self.electrode_extension_injector.inject_extensions(
