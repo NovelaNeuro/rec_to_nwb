@@ -12,9 +12,8 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```bash
    export PATH="$HOME/SpikeGadgets/:$PATH"'
    ```
-3. If conda isn't installed, download miniconda from
-   https://docs.conda.io/en/latest/miniconda.html
-### Prerequisites
+3. If conda isn't installed, download miniconda from</br>
+   https://docs.conda.io/en/latest/miniconda.html</br>
 4. LFDataMigration Installation
    ```bash
    conda ....
@@ -79,8 +78,8 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```
    
    #todo  please add preprocessing folder structure and explain it.
-6. Run the code (depends of the size of experiment datasets it may take from a few minutes to even several hours)
-7. Transformation is completed, nwb file is has been created in a given directory.
+6. Run the code (depending of the size of experiment datasets it may take from a few minutes to even several hours)
+7. Transformation is completed, nwb file, has been created in a given directory.
    
    
    
