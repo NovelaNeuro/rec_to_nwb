@@ -1,28 +1,31 @@
-# LorenFranksDataMigration
-LorenFranksDataMigration is a python package that converts SpikeGadgets rec files to NWB files.
+# lfdatamigration
+lfdatamigration is a python package that converts SpikeGadgets rec files to NWB files.
 It converts data from `/raw` folder to `.nwb` file.
 It utilizes rec_to_binaries package.</br>
 https://github.com/LorenFrankLab/rec_to_binaries</br>
 
 ### Prerequisites
-1. Before using the package you have to install Spike Gadgets
+1. Install Spike Gadgets
    https://bitbucket.org/mkarlsso/trodes/downloads/
 2. Add SpikeGadgets to path.
    If Spike Gadgets is in default location: 
    ```bash
    export PATH="$HOME/SpikeGadgets/:$PATH"'
    ```
-3. If conda isn't installed, download miniconda from</br>
+3. Download miniconda from</br>
    https://docs.conda.io/en/latest/miniconda.html</br>
-4. LFDataMigration Installation
+4. lfdatamigration Installation
    ```bash
    conda ....
    ```
-5. Create conda environment. 
+5. lfdatamigration Installation
    ```bash
-   conda env create -f <path-to-environment.yml-file>
+   git clone https://github.com/NovelaNeuro/lfdatamigration.git
+   
+   cd lfdatamigration
    ```
-   if used from `/LorenFranksDataMigration`
+
+6. Create conda environment. 
    ```bash
    conda env create -f environment.yml
    ```
@@ -30,14 +33,18 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```bash
    pip install jupyter notebook
    ```
-
+7. Documentation can be view with pdoc server
+   ```bash
+   pdoc -b
+   ```
+   
 ### Usage
-1. In terminal navigate to `/LorenFranksDataMigration/src/notebooks`
-2. run jupyter notebook
+1. In terminal navigate to `lfdatamigration/src/notebooks`
+2. Run jupyter notebook
    ```bash
    jupyter notebook
    ```
-3. In jupyter notebook change following paths to your metadata and probe `.yml` file paths.
+3. Set up paths to metadata and probe `yaml` files, which corresponds to the experiment you are going to process.
    ```bash
    metadata = NWBMetadata('../test/datamigration/res/metadata.yml',
                          ['../test/datamigration/res/probe1.yml',
@@ -45,19 +52,18 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
                           '../test/datamigration/res/probe3.yml'
                          ])
    ```
-4. In
+4. RawToNWBBuilder requires `animal_name`, `data_path` and `dates` which exist in experiment folder.
    ```bash
    builder = RawToNWBBuilder(animal_name='beans',
                              data_path='../test/test_data/',
                              dates=['20190718'],
                              nwb_metadata=metadata,
+                             output_path='/out/nwb'
                              )
    ```
-   change `animal_name`, `data_path` and `dates` to correct ones
    
-   
-5. Make sure that the data structure in given directory (in this case `test_data`)
-   is similar to this one
+5. Make sure that the data structure in given directory (in that case `test_data`)
+   looks similar to following example:
    ```bash
     --test_data
       |
@@ -76,10 +82,221 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
           `-- README.md
 
    ```
-   
-   #todo  please add preprocessing folder structure and explain it.
-6. Run the code (depending of the size of experiment datasets it may take from a few minutes to even several hours)
-7. Transformation is completed, nwb file, has been created in a given directory.
+6. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
+
+7. Double check if there is enough disc space.
+
+8. Run processing (generation may take from mins to even hours and it depends on the size of experiment datasets).
+9. `lfdatamigration.log` constains useful information about processing phases as well as all of the exceptions and errors.
+10. Example structure of preprocessed experiment data
+   ```bash
+   |-- beans
+   |   |-- preprocessing
+   |   |   |
+   |   |   `-- 20190718
+   |   |       |-- 20190718_beans_01_s1.1.pos
+   |   |       |   |-- 20190718_beans_01_s1.1.pos_cameraHWFrameCount.dat
+   |   |       |   |-- 20190718_beans_01_s1.1.pos_online.dat
+   |   |       |   `-- 20190718_beans_01_s1.1.pos_timestamps.dat
+   |   |       |-- 20190718_beans_01_s1.analog
+   |   |       |   |-- 20190718_beans_01_s1.analog_AccelX.dat
+   |   |       |   |-- 20190718_beans_01_s1.analog_AccelY.dat
+   |   |       |   |-- 20190718_beans_01_s1.analog_AccelZ.dat
+   |   |       |   |-- 20190718_beans_01_s1.analog_GyroX.dat
+   |   |       |   |-- 20190718_beans_01_s1.analog_GyroY.dat
+   |   |       |   |-- 20190718_beans_01_s1.analog_GyroZ.dat
+   |   |       |   |-- 20190718_beans_01_s1.analog_MagX.dat
+   |   |       |   |-- 20190718_beans_01_s1.analog_MagY.dat
+   |   |       |   |-- 20190718_beans_01_s1.analog_MagZ.dat
+   |   |       |   |-- 20190718_beans_01_s1.exportanalog.log
+   |   |       |   `-- 20190718_beans_01_s1.timestamps.dat
+   |   |       |-- 20190718_beans_01_s1.DIO
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din10.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din11.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din12.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din13.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din14.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din15.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din16.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din17.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din18.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din19.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din1.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din20.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din21.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din22.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din23.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din24.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din25.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din26.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din27.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din28.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din29.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din2.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din30.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din31.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din32.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din3.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din4.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din5.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din6.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din7.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din8.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Din9.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout10.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout11.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout12.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout13.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout14.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout15.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout16.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout17.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout18.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout19.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout1.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout20.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout21.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout22.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout23.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout24.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout25.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout26.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout27.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout28.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout29.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout2.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout30.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout31.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout32.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout3.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout4.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout5.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout6.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout7.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout8.dat
+   |   |       |   |-- 20190718_beans_01_s1.dio_Dout9.dat
+   |   |       |   `-- 20190718_beans_01_s1.exportdio.log
+   |   |       |-- 20190718_beans_01_s1.LFP
+   |   |       |   |-- 20190718_beans_01_s1.exportLFP.log
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt10ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt11ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt12ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt13ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt14ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt15ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt16ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt17ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt18ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt19ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt1ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt20ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt21ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt22ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt23ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt24ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt25ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt26ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt27ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt28ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt29ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt2ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt30ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt31ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt32ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt3ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt4ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt5ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt6ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt7ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt8ch1.dat
+   |   |       |   |-- 20190718_beans_01_s1.LFP_nt9ch1.dat
+   |   |       |   `-- 20190718_beans_01_s1.timestamps.dat
+   |   |       |-- 20190718_beans_01_s1.mda
+   |   |       |   |-- 20190718_beans_01_s1.exportmda.log
+   |   |       |   |-- 20190718_beans_01_s1.nt10.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt11.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt12.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt13.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt14.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt15.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt16.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt17.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt18.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt19.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt1.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt20.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt21.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt22.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt23.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt24.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt25.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt26.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt27.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt28.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt29.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt2.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt30.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt31.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt32.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt3.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt4.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt5.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt6.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt7.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt8.mda
+   |   |       |   |-- 20190718_beans_01_s1.nt9.mda
+   |   |       |   `-- 20190718_beans_01_s1.timestamps.mda
+   |   |       |-- 20190718_beans_01_s1.mountain
+   |   |       |-- 20190718_beans_01_s1.spikes
+   |   |       |   |-- 20190718_beans_01_s1.exportspikes.log
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt10.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt11.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt12.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt13.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt14.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt15.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt16.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt17.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt18.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt19.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt1.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt20.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt21.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt22.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt23.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt24.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt25.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt26.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt27.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt28.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt29.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt2.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt30.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt31.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt32.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt3.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt4.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt5.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt6.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt7.dat
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt8.dat
+   |   |       |   `-- 20190718_beans_01_s1.spikes_nt9.dat
+   |   |       `-- 20190718_beans_01_s1.time
+   |   |           |-- 20190718_beans_01_s1.continuoustime.dat
+   |   |           |-- 20190718_beans_01_s1.exporttime.log
+   |   |           `-- 20190718_beans_01_s1.time.dat
+   |   `-- raw
+   |       `-- 20190718
+   |           |-- 20190718_beans_01_s1.1.h264
+   |           |-- 20190718_beans_01_s1.1.trackgeometry
+   |           |-- 20190718_beans_01_s1.1.videoPositionTracking
+   |           |-- 20190718_beans_01_s1.1.videoTimeStamps
+   |           |-- 20190718_beans_01_s1.1.videoTimeStamps.cameraHWSync
+   |           |-- 20190718_beans_01_s1.rec
+   |           `-- 20190718_beans_01_s1.stateScriptLog
+   `-- README.md
+   ```
+8. When processing completes, a nwb file is created in the output_path directory
    
    
    
