@@ -20,17 +20,18 @@ from src.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from src.datamigration.nwb.components.dio.dio_files import DioFiles
 from src.datamigration.nwb.components.dio.dio_injector import DioInjector
 from src.datamigration.nwb.components.dio.dio_manager import DioManager
+from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.electrode_group.fl_electrode_group_creator import FlElectrodeGroupCreator
 from src.datamigration.nwb.components.electrode_group.lf_electrode_group_manager import FlElectrodeGroupManager
-from src.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from src.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from src.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
 from src.datamigration.nwb.components.electrodes.electrode_extension_creator import ElectrodeExtensionCreator
 from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
+from src.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
 from src.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
-from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
 from src.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
-from src.datamigration.nwb.components.position.position_builder import PositionBuilder
+from src.datamigration.nwb.components.mda.mda_injector import MdaInjector
+from src.datamigration.nwb.components.position.lf_position_manager import LfPositionManager
+from src.datamigration.nwb.components.position.position_creator import PositionCreator
 from src.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from src.datamigration.nwb.components.task.task_builder import TaskBuilder
 
@@ -79,9 +80,11 @@ class NWBFileBuilder:
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
         self.task_builder = TaskBuilder(self.metadata)
-        self.position_builder = PositionBuilder(self.datasets)
-        self.lf_apparatus_manager = LfApparatusManager(self.metadata['apparatus']['data'])
 
+        self.lf_position_manager = LfPositionManager(self.datasets)
+        self.position_creator = PositionCreator()
+
+        self.lf_apparatus_manager = LfApparatusManager(self.metadata['apparatus']['data'])
 
         self.lf_probe_manager = LfProbeManager(self.probes, self.metadata['electrode groups'])
         self.device_injector = DeviceInjector()
@@ -173,7 +176,9 @@ class NWBFileBuilder:
         self.pm_creator.insert(task)
 
         logger.info('Position: Building')
-        position = self.position_builder.build()
+        lf_position = self.lf_position_manager.get_lf_position()
+        logger.info('Position: Creating')
+        position = self.position_creator.create(lf_position)
         logger.info('Position: Injecting into ProcessingModule')
         self.pm_creator.insert(position)
 

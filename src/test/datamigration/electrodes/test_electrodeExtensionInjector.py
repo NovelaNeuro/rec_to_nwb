@@ -4,18 +4,15 @@ from unittest.mock import Mock
 
 from dateutil.tz import tzlocal
 from hdmf.common import VectorData
+from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
 from pynwb import NWBFile
 
-from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
-from testfixtures import should_raise
-
-from src.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
 from src.datamigration.exceptions.not_compatible_metadata import NotCompatibleMetadata
 from src.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from src.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
+from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
 from src.datamigration.nwb.components.electrodes.electrode_metadata_extension_creator import \
     ElectrodesMetadataExtensionCreator
-from src.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
+from src.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
 
 
 class TestElectrodeExtensionInjector(unittest.TestCase):

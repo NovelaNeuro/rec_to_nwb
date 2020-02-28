@@ -6,8 +6,6 @@ from testfixtures import should_raise
 from src.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
 from src.datamigration.header.module.header import Header
 from src.datamigration.nwb.components.electrodes.electrode_extension_creator import ElectrodeExtensionCreator
-from src.datamigration.nwb.components.electrodes.electrode_metadata_extension_creator import \
-    ElectrodesMetadataExtensionCreator
 
 path = os.path.dirname(os.path.abspath(__file__))
 

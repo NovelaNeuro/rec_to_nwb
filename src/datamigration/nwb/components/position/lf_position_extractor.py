@@ -3,14 +3,17 @@ from src.datamigration.nwb.components.iterator.multi_thread_data_iterator import
 from src.datamigration.nwb.components.iterator.multi_thread_timestamp_iterator import MultiThreadTimestampIterator
 from src.datamigration.nwb.components.position.pos_data_manager import PosDataManager
 from src.datamigration.nwb.components.position.pos_timestamp_manager import PosTimestampManager
+from src.datamigration.tools.validate_input_parameters import validate_input_parameters
 
 
-class PositionExtractor:
+class LfPositionExtractor:
     def __init__(self, datasets):
         self.datasets = datasets
         self.all_pos, self.continuous_time = self.__extract_data()
 
     def __extract_data(self):
+        validate_input_parameters(__name__, self.datasets)
+
         all_pos = []
         continuous_time = []
         for dataset in self.datasets:
