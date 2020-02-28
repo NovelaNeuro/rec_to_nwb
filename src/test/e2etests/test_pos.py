@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from src.datamigration.nwb.components.possition.position_builder import PositionBuilder
+from src.datamigration.nwb.components.position.position_builder import PositionBuilder
 from src.datamigration.tools.file_scanner import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))
