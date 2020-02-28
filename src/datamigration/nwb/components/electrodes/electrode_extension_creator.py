@@ -1,12 +1,15 @@
 from src.datamigration.nwb.components.electrodes.electrode_metadata_extension_creator import \
     ElectrodesMetadataExtensionCreator
-from src.datamigration.nwb.components.electrodes.electrode_ntrode_extension_creator import ElectrodesNtrodeExtensionCreator
+from src.datamigration.nwb.components.electrodes.electrode_ntrode_extension_creator import \
+    ElectrodesNtrodeExtensionCreator
 from src.datamigration.nwb.components.electrodes.electrodes_header_extension_creator import \
     ElectrodesHeaderExtensionCreator
 from src.datamigration.tools.filter_probe_by_type import filter_probe_by_type
+from src.datamigration.tools.validate_input_parameters import validate_input_parameters
 
 
-class ElectrodeExtensionBuilder:
+class ElectrodeExtensionCreator:
+
     def __init__(self, probes_metadata, electrode_groups_metadata, ntrodes_metadata, header):
         self.probes_metadata = probes_metadata
         self.electrode_groups_metadata = electrode_groups_metadata
@@ -17,7 +20,10 @@ class ElectrodeExtensionBuilder:
         self.electrodes_header_extension_creator = ElectrodesHeaderExtensionCreator()
         self.electrodes_ntrodes_extension_creator = ElectrodesNtrodeExtensionCreator()
 
-    def build(self):
+    def create(self):
+        validate_input_parameters(__name__, self.probes_metadata, self.electrode_groups_metadata, self.ntrodes_metadata,
+                                  self.header)
+
         self._create_extension_from_metadata(self.electrode_groups_metadata, self.probes_metadata)
 
         electrodes_header_extension = self.electrodes_header_extension_creator.create_electrodes_header_extension(
