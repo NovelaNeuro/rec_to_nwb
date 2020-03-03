@@ -67,7 +67,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```bash
     --test_data
       |
-      `-- lotus
+      `-- beans
           |   |
           |   `-- raw
           |       |
@@ -87,7 +87,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
 7. Double check if there is enough disc space.
 
 8. Run processing (generation may take from mins to even hours and it depends on the size of experiment datasets).
-9. `lfdatamigration.log` constains useful information about processing phases as well as all of the exceptions and errors.
+9. `lfdatamigration.log` contains useful information about processing phases as well as all of the exceptions and errors.
 10. Example structure of preprocessed experiment data
    ```bash
    |-- beans
