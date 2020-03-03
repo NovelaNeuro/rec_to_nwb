@@ -18,6 +18,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```bash
    conda ....
    ```
+   
 5. lfdatamigration Installation
    ```bash
    git clone https://github.com/NovelaNeuro/lfdatamigration.git
@@ -61,6 +62,16 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
                              output_path='/out/nwb'
                              )
    ```
+   raw_to_nwb_builder arguments
+   
+      **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')</br>
+      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default False)</br>
+      **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)</br>
+      **extract_lfps** = `boolean` flag specifying if lfp data should be extracted from raw (default False)</br>
+      **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True)</br>
+      **extract_time** = `boolean` flag specifying if time data should be extracted from raw (default True)</br>
+      **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True)</br>
+      **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4)</br>
    
 5. Make sure that the data structure in given directory (in that case `test_data`)
    looks similar to following example:
