@@ -63,7 +63,11 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
                              )
    ```
    raw_to_nwb_builder arguments
-   
+
+      **data_path** = `string` path to the parent folder of animal_name
+      **animal_name** = `string` name of the folder that contain few dates-folders
+      **dates** = `list of strings` names of folders that contain experiment data
+      **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml
       **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')</br>
       **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default False)</br>
       **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)</br>
