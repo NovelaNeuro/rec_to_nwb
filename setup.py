@@ -6,6 +6,7 @@ setup(
     author='Novela Neurotech',
     url="https://github.com/NovelaNeuro/lfdatamigration",
     packages=find_packages(),
+    package_data={'': ['logging.conf']},
     author_email='mbukowski@novelaneuro.com,'
                  ' wmerynda@novelaneuro.com,'
                  ' acwikla@novelaneuro.com,'

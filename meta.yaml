@@ -3,7 +3,7 @@ package:
   version: "0.1.002"
 
 source:
-  path: ../lfdatamigration/src
+  path: ../lfdatamigration
 
 build:
   number: 0
