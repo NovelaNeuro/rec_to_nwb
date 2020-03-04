@@ -1,8 +1,7 @@
 import os
 import unittest
 from unittest.mock import Mock
-
-from pandas import np, array
+import pandas as pd
 
 from src.datamigration.nwb.components.dio.dio_extractor import DioExtractor
 from src.datamigration.nwb.components.dio.dio_manager import DioManager
@@ -44,14 +43,14 @@ class TestDioManager(unittest.TestCase):
             dio_metadata=dio_metadata,
             continuous_time_dicts=continuous_time_dicts)
 
-        cls.din_1_array = np.array(
+        cls.din_1_array = pd.array(
             [1367266, 9599570, 9603169, 9610303, 9612481,
              9619154, 9619802, 9627552, 9641056, 9643239,
              9644490, 9644629, 9645544, 9645721, 9646074]
         )
         cls.din_1_list = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
 
-        cls.din_2_array = np.array(1367266)
+        cls.din_2_array = pd.array(1367266)
         cls.din_2_list = [0]
 
         cls.dio_manager.dio_extractor = Mock(spec=DioExtractor)
@@ -63,9 +62,9 @@ class TestDioManager(unittest.TestCase):
 
     def test_get_dio_returnCorrectType_true(self):
         self.assertIsInstance(self.dio, dict)
-        self.assertIsInstance(self.dio['Din1'][0], np.ndarray)
+        self.assertIsInstance(self.dio['Din1'][0], pd.ndarray)
         self.assertIsInstance(self.dio['Din1'][1], list)
-        self.assertIsInstance(self.dio['Din2'][0], np.ndarray)
+        self.assertIsInstance(self.dio['Din2'][0], pd.ndarray)
         self.assertIsInstance(self.dio['Din2'][1], list)
 
     def test_get_dio_returnCorrectValue_true(self):

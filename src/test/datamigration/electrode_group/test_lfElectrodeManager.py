@@ -2,8 +2,8 @@ import os
 from unittest import TestCase
 from unittest.mock import Mock
 
-from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
-from ndx_franklab_novela.probe import Probe
+from ndx_lflab_novela.fl_electrode_group import FLElectrodeGroup
+from ndx_lflab_novela.probe import Probe
 from testfixtures import should_raise
 
 from src.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
