@@ -58,9 +58,9 @@ class NWBFileBuilder:
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
-        self.data_folder = fs.DataScanner(data_path)
-        self.dataset_names = self.data_folder.get_all_datasets(animal_name, date)
-        self.datasets = [self.data_folder.data[animal_name][date][dataset] for dataset in self.dataset_names]
+        self.data_scanner = fs.DataScanner(data_path, animal_name)
+        self.dataset_names = self.data_scanner.get_all_datasets(animal_name, date)
+        self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.output_file = output_file
