@@ -32,7 +32,8 @@ class Dataset:
 
 
 class DataScanner:
-    def __init__(self, path):
+    def __init__(self, animal_name, path):
+        self.anima_name = animal_name
         self.path = path
         self.data = self.get_data()
 
@@ -56,12 +57,7 @@ class DataScanner:
         return datasets
 
     def get_data(self):
-        animal_names = os.listdir(self.path)
-        animal_names.sort()
-        animals = dict([])
-        for animal_name in animal_names:
-            animals[animal_name] = self.get_experiments(animal_name)
-        return animals
+        return self.get_experiments(self.animal_name)
 
     def get_experiments(self, animal_name):
         path = self.path + animal_name + '/preprocessing'
