@@ -1,4 +1,4 @@
-name: LorenFranksDataMigration
+name: lfdatamigration
 channels:
   - conda-forge
   - defaults
@@ -48,8 +48,9 @@ dependencies:
   - testfixtures
   - pip:
       - xmldiff
-      - rec-to-binaries==0.2.1.dev0
-      - ndx-franklab-novela
+      - rec-to-binaries==0.3.0.dev0
+      - ndx-lflab-novela
+      - pdoc
 
 
 

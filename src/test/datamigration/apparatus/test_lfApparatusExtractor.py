@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from ndx_franklab_novela.apparatus import Node, Edge
+from ndx_lflab_novela.apparatus import Node, Edge
 
 from src.datamigration.nwb.components.apparatus.lf_apparatus_extractor import LfApparatusExtractor
 

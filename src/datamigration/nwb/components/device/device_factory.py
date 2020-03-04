@@ -1,7 +1,7 @@
 from pynwb.device import Device
 
-from ndx_franklab_novela.header_device import HeaderDevice
-from ndx_franklab_novela.probe import Probe
+from ndx_lflab_novela.header_device import HeaderDevice
+from ndx_lflab_novela.probe import Probe
 
 from src.datamigration.tools.validate_input_parameters import validate_input_parameters
 
@@ -24,6 +24,7 @@ class DeviceFactory:
             probe_type=lf_probe.metadata['probe_type'],
             contact_size=lf_probe.metadata['contact_size'],
             num_shanks=lf_probe.metadata['num_shanks'],
+            contact_side_numbering=lf_probe.metadata['contact_side_numbering'],
             id=lf_probe.probe_id,
             name=str(lf_probe.probe_id)
         )

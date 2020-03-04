@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from dateutil.tz import tzlocal
-from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
+from ndx_lflab_novela.fl_electrode_group import FLElectrodeGroup
 from pynwb import NWBFile
 from pynwb.ecephys import ElectrodeGroup
 from testfixtures import should_raise

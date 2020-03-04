@@ -1,4 +1,4 @@
-from ndx_franklab_novela.apparatus import Edge
+from ndx_lflab_novela.apparatus import Edge
 
 
 class EdgeCreator:
