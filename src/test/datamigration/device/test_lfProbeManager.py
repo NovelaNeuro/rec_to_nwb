@@ -45,7 +45,7 @@ class TestLfProbeManager(TestCase):
 
         lf_probes_list = lf_probe_manager.get_lf_probes_list()
 
-        self.assertEquals(2, len(lf_probes_list))
+        self.assertEqual(2, len(lf_probes_list))
 
         self.assertIsInstance(lf_probes_list[0], LfProbe)
         self.assertIsInstance(lf_probes_list[0].metadata, dict)
