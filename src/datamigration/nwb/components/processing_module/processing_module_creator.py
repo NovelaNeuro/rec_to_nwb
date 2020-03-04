@@ -16,7 +16,7 @@ class ProcessingModuleCreator:
 
     def insert(self, data):
         try:
-            self.processing_module.add_data_interface(data)
+            self.processing_module.add(data)
         except TypeError as err:
             # log error instead
             logger.error('Inserting data into processing module has failed: ' + str(err))
