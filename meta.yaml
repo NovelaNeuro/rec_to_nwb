@@ -1,6 +1,6 @@
 package:
   name: lfdatamigration
-  version: "0.1.002"
+  version: "0.1.003"
 
 source:
   path: ../lfdatamigration
