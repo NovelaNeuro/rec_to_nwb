@@ -1,0 +1,23 @@
+package:
+  name: lfdatamigration
+  version: "0.1.003"
+
+source:
+  path: ../lfdatamigration
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python=3.7.4
+    - pip
+    - setuptools
+
+  run:
+    - python=3.7.4
+
+about:
+  home: https://github.com/NovelaNeuro/lfdatamigration 
+  license: "Apache 2.0"
+  summary: "Tool used to transform data stored in SpikeGadgets raw files into nwb files"

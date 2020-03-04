@@ -14,14 +14,14 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
 
-  - conda env create -q -n test-environment -f src/environment.yml python=$TRAVIS_PYTHON_VERSION
+  - conda env create -q -n test-environment -f lf/environment.yml python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
-  - python src/setup.py install
+  - python setup.py install
   - pip install pylint
-  - chown -R $USER:$USER src/test/
+  - chown -R $USER:$USER lf/test/
 # command to run tests
 script:
   - bash pylint_run.sh
-  - python -m pytest src/test/datamigration
+  - python -m pytest lf/test/datamigration
 notifications:
   slack: novelaneurote-ibx6025:3bhUUXZXz52ZXXTQCpiJyHkF
