@@ -1,4 +1,4 @@
-from ndx_franklab_novela.apparatus import Node
+from ndx_lflab_novela.apparatus import Node
 
 
 class NodeCreator:
