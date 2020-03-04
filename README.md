@@ -1,11 +1,11 @@
 # lfdatamigration
-lfdatamigration is a python package that converts SpikeGadgets rec files to NWB files.
-It converts data from `/raw` folder to `.nwb` file.
-It utilizes rec_to_binaries package.</br>
+lfdatamigration is a python package for converting SpikeGadgets rec files to NWB files.
+It converts experiment data from `/raw` folder to `.nwb` file.
+It utilizes rec_to_binaries package for preprocessing phase.</br>
 https://github.com/LorenFrankLab/rec_to_binaries</br>
 
 ### Prerequisites
-# With conda
+### For users
 1. Install Spike Gadgets
    https://bitbucket.org/mkarlsso/trodes/downloads/
 2. Add SpikeGadgets to path.
@@ -15,17 +15,17 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```
 3. Download miniconda from</br>
    https://docs.conda.io/en/latest/miniconda.html</br>
-4. Download `lfdatamigration.yml` from 
-5. Lfdatamigration installation
+4. Download `lfdatamigration.yml` from https://anaconda.org/NovelaKRK/lfdatamigration/files
+5. Build lfdatamigration environment:
    ```bash
    conda env create -f lfdatamigration.yml
    ```
-6. Jupyter notebook installation
+6. Install Jupyter notebook
    ```bash
    pip install jupyter notebook
    ```
 
-# By cloning repository
+### For developers
 1. Install Spike Gadgets
    https://bitbucket.org/mkarlsso/trodes/downloads/
 2. Add SpikeGadgets to path.
@@ -54,24 +54,25 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    pdoc -b
    ```
    
-### Usage
+# How to use it
 1. Download example notebook file from
-   
-   or
-   In terminal navigate to `lfdatamigration/src/notebooks`
-2. Run jupyter notebook
+   https://anaconda.org/NovelaKRK/nwb_generation/notebook
+2. In terminal navigate to notebook file location
+3. Run jupyter notebook
    ```bash
    jupyter notebook
    ```
-3. Set up paths to metadata and probe `yaml` files, which corresponds to the experiment you are going to process.
+4. Set up paths to metadata and probe `yaml` files, which corresponds to the experiment you are going to process.
    ```bash
-   metadata = NWBMetadata('../test/datamigration/res/metadata.yml',
+   metadata = MetadataManager('../test/datamigration/res/metadata.yml',
                          ['../test/datamigration/res/probe1.yml',
                           '../test/datamigration/res/probe2.yml',
                           '../test/datamigration/res/probe3.yml'
                          ])
    ```
-4. RawToNWBBuilder requires `animal_name`, `data_path` and `dates` which exist in experiment folder.
+5. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
+
+6. Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder.
    ```bash
    builder = RawToNWBBuilder(animal_name='beans',
                              data_path='../test/test_data/',
@@ -83,19 +84,30 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    raw_to_nwb_builder arguments
 
       **data_path** = `string` path to the parent folder of animal_name
+      
       **animal_name** = `string` name of the folder that contain few dates-folders
+      
       **dates** = `list of strings` names of folders that contain experiment data
+      
       **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml
+      
       **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')</br>
+      
       **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default False)</br>
+      
       **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)</br>
+      
       **extract_lfps** = `boolean` flag specifying if lfp data should be extracted from raw (default False)</br>
+      
       **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True)</br>
+      
       **extract_time** = `boolean` flag specifying if time data should be extracted from raw (default True)</br>
+      
       **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True)</br>
+      
       **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4)</br>
    
-5. Make sure that the data structure in given directory (in that case `test_data`)
+7. Make sure that the data structure in given directory (in that case `test_data`)
    looks similar to following example:
    ```bash
     --test_data
@@ -115,13 +127,14 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
           `-- README.md
 
    ```
-6. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
 
-7. Double check if there is enough disc space.
+8. Double check if there is enough disc space on your Laptop/PC.
 
-8. Run processing (generation may take from mins to even hours and it depends on the size of experiment datasets).
-9. `lfdatamigration.log` contains useful information about processing phases as well as all of the exceptions and errors.
-10. Example structure of preprocessed experiment data
+9. Run processing (generation may take from mins to even hours and it depends on the size of experiment datasets).
+
+10. `lfdatamigration.log` contains useful information about processing phases as well as all of the exceptions and errors.
+
+11. Example structure of preprocessed experiment data
    ```bash
    |-- beans
    |   |-- preprocessing
@@ -329,7 +342,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    |           `-- 20190718_beans_01_s1.stateScriptLog
    `-- README.md
    ```
-8. When processing completes, a nwb file is created in the output_path directory
+When processing completes, a nwb file is created in the output_path directory
    
    
    
