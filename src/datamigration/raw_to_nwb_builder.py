@@ -9,6 +9,11 @@ from src.datamigration.nwb_file_builder import NWBFileBuilder
 path = Path(__file__).parent.parent
 path.resolve()
 
+_DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
+                            '-interp', '0', '-userefs', '0',
+                            '-outputrate', '1500')
+_DEFAULT_MDA_EXPORT_ARGS = ('-usespikefilters', '0',
+                            '-interp', '500', '-userefs', '1')
 
 class RawToNWBBuilder:
 
@@ -25,6 +30,8 @@ class RawToNWBBuilder:
             extract_dio=True,
             extract_time=True,
             extract_mda=True,
+            lfp_export_args=_DEFAULT_LFP_EXPORT_ARGS,
+            mda_export_args=_DEFAULT_MDA_EXPORT_ARGS,
             parallel_instances=4
     ):
         self.extract_analog = extract_analog
@@ -33,6 +40,8 @@ class RawToNWBBuilder:
         self.extract_lfps = extract_lfps
         self.extract_mda = extract_mda
         self.extract_time = extract_time
+        self.lfp_export_args = lfp_export_args
+        self.mda_export_args = mda_export_args
         self.animal_name = animal_name
         self.data_path = data_path
         self.dates = dates
@@ -53,7 +62,10 @@ class RawToNWBBuilder:
                                 extract_time=self.extract_time,
                                 extract_mda=self.extract_mda,
                                 extract_lfps=self.extract_lfps,
-                                extract_spikes=self.extract_spikes, )
+                                extract_spikes=self.extract_spikes,
+                                lfp_export_args=self.lfp_export_args,
+                                mda_export_args=self.mda_export_args
+                                )
 
     def build_nwb(self):
         """builds nwb file for experiments from given dates"""
