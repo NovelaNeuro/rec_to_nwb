@@ -1,4 +1,4 @@
-from ndx_franklab_novela.fl_electrode_group import FLElectrodeGroup
+from ndx_lflab_novela.fl_electrode_group import FLElectrodeGroup
 
 from src.datamigration.tools.validate_input_parameters import validate_input_parameters
 

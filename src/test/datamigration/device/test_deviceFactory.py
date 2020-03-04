@@ -1,8 +1,8 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from ndx_franklab_novela.header_device import HeaderDevice
-from ndx_franklab_novela.probe import Probe
+from ndx_lflab_novela.header_device import HeaderDevice
+from ndx_lflab_novela.probe import Probe
 from pynwb.device import Device
 from testfixtures import should_raise
 
@@ -50,7 +50,8 @@ class TestDeviceFactory(TestCase):
         mock_lf_probe.metadata = {
             'probe_type': 'Type1',
             'contact_size': 20.0,
-            'num_shanks': 2
+            'num_shanks': 2,
+            'contact_side_numbering': True
         }
         
         probe = DeviceFactory.create_probe(
@@ -64,6 +65,7 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(probe.num_shanks, 2)
         self.assertEqual(probe.contact_size, 20.0)
         self.assertEqual(probe.probe_type, 'Type1')
+        self.assertEqual(probe.contact_side_numbering, True)
 
     @should_raise(NoneParamInInitException)
     def test_factory_failed_creating_Probe_due_to_none_LfProbe(self):

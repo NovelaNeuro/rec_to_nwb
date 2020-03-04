@@ -1,8 +1,7 @@
 import os
 import unittest
 from unittest import TestCase
-
-from pandas import np, array
+import pandas as pd
 
 from src.datamigration.nwb.components.dio.dio_extractor import DioExtractor
 
@@ -33,11 +32,11 @@ class TestDioExtractor(TestCase):
     def test_extracted_dio_for_single_dataset_correctType_true(self):
         self.assertIsInstance(self.single_dataset_data, dict)
         self.assertIsInstance(self.single_dataset_data['Din1'], list)
-        self.assertIsInstance(self.single_dataset_data['Din1'][0], np.ndarray)
+        self.assertIsInstance(self.single_dataset_data['Din1'][0], pd.ndarray)
         self.assertIsInstance(self.single_dataset_data['Din1'][1], list)
 
         self.assertIsInstance(self.single_dataset_data['Din2'], list)
-        self.assertIsInstance(self.single_dataset_data['Din2'][0], np.ndarray)
+        self.assertIsInstance(self.single_dataset_data['Din2'][0], pd.ndarray)
         self.assertIsInstance(self.single_dataset_data['Din2'][1], list)
 
     def test_extracted_dio_for_single_dataset_correctValues_true(self):
