@@ -5,7 +5,7 @@ import os
 class Dataset:
     def __init__(self, name):
         self.name = name
-        self.data = dict([])
+        self.data = {}
 
     def add_data_to_dataset(self, folder_path, data_type):
         self.data[data_type] = folder_path
@@ -32,17 +32,24 @@ class Dataset:
 
 
 class DataScanner:
-    def __init__(self, animal_name, path):
-        self.anima_name = animal_name
-        self.path = path
-        self.data = self.get_data()
+    def __init__(self, data_path, animal_name):
+        self.data = self.__get_data(data_path, animal_name)
+
+    def __get_data(self, data_path, animal_name):
+        return {animal_name: self.__get_experiments(data_path, animal_name)}
+
+    def __get_experiments(self, data_path, animal_name):
+        preprocessing_path = data_path + animal_name + '/preprocessing'
+        dates = sorted(os.listdir(preprocessing_path))
+        return {date: self.__get_datasets(preprocessing_path + '/' + date) for date in dates}
 
     @staticmethod
-    def get_datasets(path):
+    def __get_datasets(date_path):
         existing_datasets = set()
-        datasets = dict([])
-        directories = os.listdir(path)
+        datasets = {}
+        directories = os.listdir(date_path)
         directories.sort()
+
         for directory in directories:
             dir_split = directory.split('_')
             if dir_split[0].isdigit():
@@ -53,19 +60,8 @@ class DataScanner:
                     existing_datasets.add(dataset_name)
                 for dataset in datasets.values():
                     if dataset_name == dataset.name:
-                        dataset.add_data_to_dataset(path + '/' + directory + '/', dir_last_part.pop())
+                        dataset.add_data_to_dataset(date_path + '/' + directory + '/', dir_last_part.pop())
         return datasets
-
-    def get_data(self):
-        return self.get_experiments(self.animal_name)
-
-    def get_experiments(self, animal_name):
-        path = self.path + animal_name + '/preprocessing'
-        dates = sorted(os.listdir(path))
-        experiment_dates = dict([])
-        for date in dates:
-            experiment_dates[date] = self.get_datasets(path + '/' + date)
-        return experiment_dates
 
     def get_all_animals(self):
         return list(self.data.keys())
@@ -84,7 +80,6 @@ class DataScanner:
             if file.endswith('timestamps.mda'):
                 return self.data[animal][date][dataset].get_data_path_from_dataset('mda') + file
         return None
-
 
     @staticmethod
     def get_probes_from_directory(path):
