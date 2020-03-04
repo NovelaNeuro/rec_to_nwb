@@ -5,6 +5,7 @@ It utilizes rec_to_binaries package.</br>
 https://github.com/LorenFrankLab/rec_to_binaries</br>
 
 ### Prerequisites
+# With conda
 1. Install Spike Gadgets
    https://bitbucket.org/mkarlsso/trodes/downloads/
 2. Add SpikeGadgets to path.
@@ -14,19 +15,33 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```
 3. Download miniconda from</br>
    https://docs.conda.io/en/latest/miniconda.html</br>
-4. lfdatamigration Installation
+4. Download `lfdatamigration.yml` from 
+5. Lfdatamigration installation
    ```bash
-   conda ....
+   conda env create -f lfdatamigration.yml
    ```
-   
-5. lfdatamigration Installation
+6. Jupyter notebook installation
+   ```bash
+   pip install jupyter notebook
+   ```
+
+# By cloning repository
+1. Install Spike Gadgets
+   https://bitbucket.org/mkarlsso/trodes/downloads/
+2. Add SpikeGadgets to path.
+   If Spike Gadgets is in default location: 
+   ```bash
+   export PATH="$HOME/SpikeGadgets/:$PATH"'
+   ```
+3. Download miniconda from</br>
+   https://docs.conda.io/en/latest/miniconda.html</br>
+4. clone repository
    ```bash
    git clone https://github.com/NovelaNeuro/lfdatamigration.git
    
-   cd lfdatamigration
+   cd lfdatamigration/lf
    ```
-
-6. Create conda environment. 
+5. Create conda environment. 
    ```bash
    conda env create -f environment.yml
    ```
@@ -40,7 +55,10 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```
    
 ### Usage
-1. In terminal navigate to `lfdatamigration/src/notebooks`
+1. Download example notebook file from
+   
+   or
+   In terminal navigate to `lfdatamigration/src/notebooks`
 2. Run jupyter notebook
    ```bash
    jupyter notebook
