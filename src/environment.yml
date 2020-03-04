@@ -48,7 +48,7 @@ dependencies:
   - testfixtures
   - pip:
       - xmldiff
-      - rec-to-binaries==0.2.1.dev0
+      - rec-to-binaries==0.3.0.dev0
       - ndx-lflab-novela
       - pdoc
 
