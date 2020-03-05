@@ -23,6 +23,7 @@ class RawToNWBBuilder:
             animal_name,
             dates,
             nwb_metadata,
+            rec_config,
             output_path='',
             extract_analog=False,
             extract_spikes=False,
@@ -34,6 +35,7 @@ class RawToNWBBuilder:
             mda_export_args=_DEFAULT_MDA_EXPORT_ARGS,
             parallel_instances=4
     ):
+        self.rec_config = rec_config
         self.extract_analog = extract_analog
         self.extract_spikes = extract_spikes
         self.extract_dio = extract_dio
@@ -64,7 +66,7 @@ class RawToNWBBuilder:
                                 extract_lfps=self.extract_lfps,
                                 extract_spikes=self.extract_spikes,
                                 lfp_export_args=self.lfp_export_args,
-                                mda_export_args=self.mda_export_args
+                                mda_export_args=self.mda_export_args,
                                 )
 
     def build_nwb(self):
@@ -79,7 +81,8 @@ class RawToNWBBuilder:
                 nwb_metadata=self.nwb_metadata,
                 output_file=self.output_path + self.animal_name + date + ".nwb",
                 process_mda=self.extract_mda,
-                process_dio=self.extract_dio
+                process_dio=self.extract_dio,
+                rec_config=self.rec_config
             )
             content = nwb_builder.build()
             nwb_builder.write(content)

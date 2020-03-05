@@ -48,6 +48,7 @@ class NWBFileBuilder:
                  animal_name,
                  date,
                  nwb_metadata,
+                 rec_config,
                  process_dio=True,
                  process_mda=True,
                  output_file='output.nwb'
@@ -73,8 +74,10 @@ class NWBFileBuilder:
                   + '/' + self.animal_name
                   + '/raw/'
                   + self.date))
-
-        header_file = HeaderProcessor.process_headers(rec_files_list)
+        if rec_config is not None:
+            header_file = rec_config
+        else:
+            header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
