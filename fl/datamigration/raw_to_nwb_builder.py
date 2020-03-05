@@ -67,7 +67,6 @@ class RawToNWBBuilder:
                                 extract_spikes=self.extract_spikes,
                                 lfp_export_args=self.lfp_export_args,
                                 mda_export_args=self.mda_export_args,
-                                external_header=self.external_header
                                 )
 
     def build_nwb(self):
@@ -82,7 +81,8 @@ class RawToNWBBuilder:
                 nwb_metadata=self.nwb_metadata,
                 output_file=self.output_path + self.animal_name + date + ".nwb",
                 process_mda=self.extract_mda,
-                process_dio=self.extract_dio
+                process_dio=self.extract_dio,
+                external_header=self.external_header
             )
             content = nwb_builder.build()
             nwb_builder.write(content)
