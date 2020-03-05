@@ -50,7 +50,8 @@ class NWBFileBuilder:
                  nwb_metadata,
                  process_dio=True,
                  process_mda=True,
-                 output_file='output.nwb'
+                 output_file='output.nwb',
+                 external_header=None
                  ):
 
         logger.info('NWBFileBuilder initialization')
@@ -74,7 +75,10 @@ class NWBFileBuilder:
                   + '/raw/'
                   + self.date))
 
-        header_file = HeaderProcessor.process_headers(rec_files_list)
+        if external_header is not None:
+            header_file = external_header
+        else:
+            header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
