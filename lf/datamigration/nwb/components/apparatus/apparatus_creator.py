@@ -1,4 +1,4 @@
-from ndx_lflab_novela.apparatus import Apparatus
+from ndx_fllab_novela.apparatus import Apparatus
 
 
 class ApparatusCreator:

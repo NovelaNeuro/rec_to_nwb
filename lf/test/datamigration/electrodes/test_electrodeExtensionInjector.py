@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 from dateutil.tz import tzlocal
 from hdmf.common import VectorData
-from ndx_lflab_novela.fl_electrode_group import FLElectrodeGroup
+from ndx_fllab_novela.fl_electrode_group import FLElectrodeGroup
 from pynwb import NWBFile
 
 from lf.datamigration.exceptions.not_compatible_metadata import NotCompatibleMetadata
