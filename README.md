@@ -16,7 +16,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
 3. Download miniconda from</br>
    https://docs.conda.io/en/latest/miniconda.html</br>
 4. Download `fldatamigration.yml` from https://anaconda.org/NovelaKRK/fldatamigration/files
-5. Build lfdatamigration environment:
+5. Build fldatamigration environment:
    ```bash
    conda env create -f fldatamigration.yml
    ```
