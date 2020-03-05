@@ -33,6 +33,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
             extract_lfps=False,
             extract_analog=False,
             extract_dio=True,
+            rec_config=None
         )
 
     def test_from_raw_to_nwb_generation(self):
