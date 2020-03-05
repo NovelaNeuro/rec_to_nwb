@@ -20,6 +20,7 @@ dependencies:
   - libcblas=3.8.0=14_mkl
   - liblapack=3.8.0=14_mkl
   - mkl=2019.4=245
+  - mkl-service=2.3.0=py37hfa6e2cd_0
   - mountainlab_pytools=0.7.5=py37_2
   - numpy=1.18.1=py37hc71023c_0
   - openssl=1.1.1d=he774522_4
@@ -29,9 +30,11 @@ dependencies:
   - pynwb=1.1.2=py_1
   - pyopenssl=19.1.0=py_1
   - pysocks=1.7.1=py37_0
+  - pytest=5.3.5=py37_1
   - python=3.7.4=h5263a28_0
   - python-dateutil=2.8.0=py_0
   - pytz=2019.3=py_0
+  - pyyaml=5.3=py37hfa6e2cd_0
   - requests=2.23.0=py37_0
   - scipy=1.3.1=py37h29ff71c_0
   - setuptools=45.2.0=py37_0
@@ -39,9 +42,9 @@ dependencies:
   - sqlite=3.30.1=hfa6e2cd_0
   - testfixtures=6.14.0=py_0
   - urllib3=1.25.7=py37_0
+  - wheel=0.34.2=py_1
   - vdom=0.6=py_0
   - xmlschema=1.1.1=py_0
-  - yaml=0.2.2=hfa6e2cd_1
   - zlib=1.2.11=h2fa13f4_1006
   - pip:
     - ndx-lflab-novela==0.0.1
