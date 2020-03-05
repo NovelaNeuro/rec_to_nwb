@@ -1,5 +1,5 @@
-# lfdatamigration
-lfdatamigration is a python package for converting SpikeGadgets rec files to NWB files.
+# fldatamigration
+fldatamigration is a python package for converting SpikeGadgets rec files to NWB files.
 It converts experiment data from `/raw` folder to `.nwb` file.
 It utilizes rec_to_binaries package for preprocessing phase.</br>
 https://github.com/LorenFrankLab/rec_to_binaries</br>
@@ -15,10 +15,10 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```
 3. Download miniconda from</br>
    https://docs.conda.io/en/latest/miniconda.html</br>
-4. Download `lfdatamigration.yml` from https://anaconda.org/NovelaKRK/lfdatamigration/files
+4. Download `fldatamigration.yml` from https://anaconda.org/NovelaKRK/fldatamigration/files
 5. Build lfdatamigration environment:
    ```bash
-   conda env create -f lfdatamigration.yml
+   conda env create -f fldatamigration.yml
    ```
 6. Install Jupyter notebook
    ```bash
@@ -37,9 +37,9 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    https://docs.conda.io/en/latest/miniconda.html</br>
 4. clone repository
    ```bash
-   git clone https://github.com/NovelaNeuro/lfdatamigration.git
+   git clone https://github.com/NovelaNeuro/fldatamigration.git
 
-   cd lfdatamigration/lf
+   cd fldatamigration/fl
    ```
 5. Create conda environment.
    ```bash
@@ -132,7 +132,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
 
 9. Run processing (generation may take from mins to even hours and it depends on the size of experiment datasets).
 
-10. `lfdatamigration.log` contains useful information about processing phases as well as all of the exceptions and errors.
+10. `fldatamigration.log` contains useful information about processing phases as well as all of the exceptions and errors.
 
 11. Example structure of preprocessed experiment data
    ```bash
