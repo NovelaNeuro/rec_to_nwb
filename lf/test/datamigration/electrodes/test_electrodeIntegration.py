@@ -7,7 +7,7 @@ from dateutil.tz import tzlocal
 from hdmf.common import DynamicTable, VectorData, ElementIdentifiers
 from pynwb import NWBFile
 
-from ndx_lflab_novela.fl_electrode_group import FLElectrodeGroup
+from ndx_fllab_novela.fl_electrode_group import FLElectrodeGroup
 from testfixtures import should_raise
 
 from lf.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException

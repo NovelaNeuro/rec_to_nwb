@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from ndx_lflab_novela.ntrode import NTrode
+from ndx_fllab_novela.ntrode import NTrode
 from pynwb.device import Device
 
 from lf.datamigration.nwb.components.ntrodes.lf_ntrodes import LfNTrodes
