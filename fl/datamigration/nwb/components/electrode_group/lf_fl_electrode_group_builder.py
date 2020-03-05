@@ -1,4 +1,4 @@
-from fl.datamigration.nwb.components.electrode_group.lf_fl_electrode_group import LfFLElectrodeGroup
+from fl.datamigration.nwb.components.electrode_group.fl_fl_electrode_group import LfFLElectrodeGroup
 
 
 class LfFlElectrodeGroupBuilder:

@@ -1,4 +1,4 @@
-from fl.datamigration.nwb.components.mda.lf_mda import LfMda
+from fl.datamigration.nwb.components.mda.fl_mda import LfMda
 
 
 class LfMdaBuilder:

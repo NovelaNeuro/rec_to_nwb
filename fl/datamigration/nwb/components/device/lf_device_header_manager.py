@@ -1,4 +1,4 @@
-from fl.datamigration.nwb.components.device.lf_header_device_builder import LfHeaderDeviceBuilder
+from fl.datamigration.nwb.components.device.fl_header_device_builder import LfHeaderDeviceBuilder
 
 
 class LfDeviceHeaderManager:
@@ -7,5 +7,5 @@ class LfDeviceHeaderManager:
         self.name = name
         self.global_configuration = global_configuration
 
-    def get_lf_header_device(self):
+    def get_fl_header_device(self):
         return LfHeaderDeviceBuilder.build(self.name, self.global_configuration)

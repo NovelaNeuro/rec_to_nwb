@@ -1,5 +1,5 @@
 from fl.datamigration.metadata.metadata_extractor import MetadataExtractor
-from fl.datamigration.nwb.components.device.lf_probe_extractor import LfProbesExtractor
+from fl.datamigration.nwb.components.device.fl_probe_extractor import LfProbesExtractor
 
 
 class MetadataManager:
@@ -7,7 +7,7 @@ class MetadataManager:
     def __init__(self, metadata_path, probes_paths):
         self.probes_paths = probes_paths
 
-        self.lf_probes_extractor = LfProbesExtractor()
+        self.fl_probes_extractor = LfProbesExtractor()
         self.metadata_extractor = MetadataExtractor()
 
         self.metadata = self.__get_metadata(metadata_path)
@@ -17,7 +17,7 @@ class MetadataManager:
         return self.metadata_extractor.extract_metadata(metadata_path)
 
     def __get_probes(self, probes_paths):
-        return self.lf_probes_extractor.extract_probes_metadata(probes_paths)
+        return self.fl_probes_extractor.extract_probes_metadata(probes_paths)
 
     def __str__(self):
         metadata_info = 'Experimenter: ' + self.metadata['experimenter name'] + \

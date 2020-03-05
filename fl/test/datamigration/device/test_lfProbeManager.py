@@ -3,8 +3,8 @@ from unittest import TestCase
 from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
-from fl.datamigration.nwb.components.device.lf_probe import LfProbe
-from fl.datamigration.nwb.components.device.lf_probe_manager import LfProbeManager
+from fl.datamigration.nwb.components.device.fl_probe import LfProbe
+from fl.datamigration.nwb.components.device.fl_probe_manager import LfProbeManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -38,41 +38,41 @@ class TestLfProbeManager(TestCase):
         self.probes_metadata = [self.probes_metadata_1, self.probes_metadata_2]
 
     def test_manager_builds_LfProbes_successfully(self):
-        lf_probe_manager = LfProbeManager(
+        fl_probe_manager = LfProbeManager(
             probes_metadata=self.probes_metadata,
             electrode_groups_metadata=self.electrode_groups_metadata
         )
 
-        lf_probes_list = lf_probe_manager.get_lf_probes_list()
+        fl_probes_list = fl_probe_manager.get_fl_probes_list()
 
-        self.assertEqual(2, len(lf_probes_list))
+        self.assertEqual(2, len(fl_probes_list))
 
-        self.assertIsInstance(lf_probes_list[0], LfProbe)
-        self.assertIsInstance(lf_probes_list[0].metadata, dict)
-        self.assertIsInstance(lf_probes_list[0].probe_id, int)
-        self.assertEqual(lf_probes_list[0].metadata, self.probes_metadata_1)
-        self.assertEqual(lf_probes_list[0].probe_id, 0)
+        self.assertIsInstance(fl_probes_list[0], LfProbe)
+        self.assertIsInstance(fl_probes_list[0].metadata, dict)
+        self.assertIsInstance(fl_probes_list[0].probe_id, int)
+        self.assertEqual(fl_probes_list[0].metadata, self.probes_metadata_1)
+        self.assertEqual(fl_probes_list[0].probe_id, 0)
 
-        self.assertIsInstance(lf_probes_list[1], LfProbe)
-        self.assertIsInstance(lf_probes_list[1].metadata, dict)
-        self.assertIsInstance(lf_probes_list[1].probe_id, int)
-        self.assertEqual(lf_probes_list[1].metadata, self.probes_metadata_2)
-        self.assertEqual(lf_probes_list[1].probe_id, 1)
+        self.assertIsInstance(fl_probes_list[1], LfProbe)
+        self.assertIsInstance(fl_probes_list[1].metadata, dict)
+        self.assertIsInstance(fl_probes_list[1].probe_id, int)
+        self.assertEqual(fl_probes_list[1].metadata, self.probes_metadata_2)
+        self.assertEqual(fl_probes_list[1].probe_id, 1)
 
     @should_raise(NoneParamInInitException)
     def test_manager_fails_creating_LfProbes_due_to_None_probe_metadata(self):
-        lf_probe_manager = LfProbeManager(
+        fl_probe_manager = LfProbeManager(
             probes_metadata=None,
             electrode_groups_metadata=self.electrode_groups_metadata
         )
 
-        lf_probe_manager.get_lf_probes_list()
+        fl_probe_manager.get_fl_probes_list()
 
     @should_raise(NoneParamInInitException)
     def test_manager_fails_creating_LfProbes_due_to_None_electrode_group_metadata(self):
-        lf_probe_manager = LfProbeManager(
+        fl_probe_manager = LfProbeManager(
             probes_metadata=self.probes_metadata,
             electrode_groups_metadata=None
         )
 
-        lf_probe_manager.get_lf_probes_list()
+        fl_probe_manager.get_fl_probes_list()

@@ -7,8 +7,8 @@ from ndx_fllab_novela.probe import Probe
 from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
-from fl.datamigration.nwb.components.electrode_group.lf_electrode_group_manager import FlElectrodeGroupManager
-from fl.datamigration.nwb.components.electrode_group.lf_fl_electrode_group import LfFLElectrodeGroup
+from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_manager import FlElectrodeGroupManager
+from fl.datamigration.nwb.components.electrode_group.fl_fl_electrode_group import LfFLElectrodeGroup
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,19 +30,19 @@ class TestFlElectrodeGroupManager(TestCase):
             electrode_groups_metadata=electrode_groups_metadata
         )
 
-        lf_fl_electrode_groups = fl_electrode_group_manager.get_lf_fl_electrode_groups(
+        fl_fl_electrode_groups = fl_electrode_group_manager.get_fl_fl_electrode_groups(
             probes=probes
         )
-        self.assertEqual(2, len(lf_fl_electrode_groups))
-        self.assertIsInstance(lf_fl_electrode_groups, list)
+        self.assertEqual(2, len(fl_fl_electrode_groups))
+        self.assertIsInstance(fl_fl_electrode_groups, list)
 
-        self.assertIsInstance(lf_fl_electrode_groups[0], LfFLElectrodeGroup)
-        self.assertEqual(lf_fl_electrode_groups[0].metadata, electrode_groups_metadata_1)
-        self.assertEqual(lf_fl_electrode_groups[0].device, mock_probe_1)
+        self.assertIsInstance(fl_fl_electrode_groups[0], LfFLElectrodeGroup)
+        self.assertEqual(fl_fl_electrode_groups[0].metadata, electrode_groups_metadata_1)
+        self.assertEqual(fl_fl_electrode_groups[0].device, mock_probe_1)
 
-        self.assertIsInstance(lf_fl_electrode_groups[1], LfFLElectrodeGroup)
-        self.assertEqual(lf_fl_electrode_groups[1].metadata, electrode_groups_metadata_2)
-        self.assertEqual(lf_fl_electrode_groups[1].device, mock_probe_2)
+        self.assertIsInstance(fl_fl_electrode_groups[1], LfFLElectrodeGroup)
+        self.assertEqual(fl_fl_electrode_groups[1].metadata, electrode_groups_metadata_2)
+        self.assertEqual(fl_fl_electrode_groups[1].device, mock_probe_2)
 
     @should_raise(NoneParamInInitException)
     def test_manager_failed_builds_LfFLElectrodeGroups_due_to_None_metadata(self):
@@ -53,7 +53,7 @@ class TestFlElectrodeGroupManager(TestCase):
         fl_electrode_group_manager = FlElectrodeGroupManager(
             electrode_groups_metadata=None
         )
-        fl_electrode_group_manager.get_lf_fl_electrode_groups(
+        fl_electrode_group_manager.get_fl_fl_electrode_groups(
             probes=probes
         )
 
@@ -68,6 +68,6 @@ class TestFlElectrodeGroupManager(TestCase):
         fl_electrode_group_manager = FlElectrodeGroupManager(
             electrode_groups_metadata=electrode_groups_metadata
         )
-        fl_electrode_group_manager.get_lf_fl_electrode_groups(
+        fl_electrode_group_manager.get_fl_fl_electrode_groups(
             probes=None
         )

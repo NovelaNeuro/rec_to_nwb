@@ -6,15 +6,15 @@ from fl.datamigration.tools.validate_input_parameters import validate_input_para
 class PositionCreator:
 
     @staticmethod
-    def create(lf_position):
-        validate_input_parameters(__name__, lf_position)
-        validate_input_parameters(__name__, lf_position.position_data, lf_position.timestamps)
+    def create(fl_position):
+        validate_input_parameters(__name__, fl_position)
+        validate_input_parameters(__name__, fl_position.position_data, fl_position.timestamps)
 
         position = Position()
         position.create_spatial_series(
             name='series',
-            data=lf_position.position_data,
+            data=fl_position.position_data,
             reference_frame='Description defining what the zero-position is',
-            timestamps=lf_position.timestamps
+            timestamps=fl_position.timestamps
         )
         return position

@@ -11,26 +11,26 @@ from fl.datamigration.header.header_checker.header_processor import HeaderProces
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
 from fl.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
-from fl.datamigration.nwb.components.apparatus.lf_apparatus_manager import LfApparatusManager
+from fl.datamigration.nwb.components.apparatus.fl_apparatus_manager import LfApparatusManager
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
 from fl.datamigration.nwb.components.device.device_injector import DeviceInjector
-from fl.datamigration.nwb.components.device.lf_device_header_manager import LfDeviceHeaderManager
-from fl.datamigration.nwb.components.device.lf_probe_manager import LfProbeManager
+from fl.datamigration.nwb.components.device.fl_device_header_manager import LfDeviceHeaderManager
+from fl.datamigration.nwb.components.device.fl_probe_manager import LfProbeManager
 from fl.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from fl.datamigration.nwb.components.dio.dio_files import DioFiles
 from fl.datamigration.nwb.components.dio.dio_injector import DioInjector
 from fl.datamigration.nwb.components.dio.dio_manager import DioManager
 from fl.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_creator import FlElectrodeGroupCreator
-from fl.datamigration.nwb.components.electrode_group.lf_electrode_group_manager import FlElectrodeGroupManager
+from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_manager import FlElectrodeGroupManager
 from fl.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
 from fl.datamigration.nwb.components.electrodes.electrode_extension_creator import ElectrodeExtensionCreator
 from fl.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
-from fl.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
+from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import LfElectrodeManager
 from fl.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
-from fl.datamigration.nwb.components.mda.lf_mda_manager import LfMdaManager
+from fl.datamigration.nwb.components.mda.fl_mda_manager import LfMdaManager
 from fl.datamigration.nwb.components.mda.mda_injector import MdaInjector
-from fl.datamigration.nwb.components.position.lf_position_manager import LfPositionManager
+from fl.datamigration.nwb.components.position.fl_position_manager import LfPositionManager
 from fl.datamigration.nwb.components.position.position_creator import PositionCreator
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
@@ -81,24 +81,24 @@ class NWBFileBuilder:
 
         self.task_builder = TaskBuilder(self.metadata)
 
-        self.lf_position_manager = LfPositionManager(self.datasets)
+        self.fl_position_manager = LfPositionManager(self.datasets)
         self.position_creator = PositionCreator()
 
-        self.lf_apparatus_manager = LfApparatusManager(self.metadata['apparatus']['data'])
+        self.fl_apparatus_manager = LfApparatusManager(self.metadata['apparatus']['data'])
 
-        self.lf_probe_manager = LfProbeManager(self.probes, self.metadata['electrode groups'])
+        self.fl_probe_manager = LfProbeManager(self.probes, self.metadata['electrode groups'])
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
-        self.lf_device_header_manager = LfDeviceHeaderManager('header_device',
+        self.fl_device_header_manager = LfDeviceHeaderManager('header_device',
                                                               self.header.configuration.global_configuration)
 
 
-        self.lf_electrode_group_manager = FlElectrodeGroupManager(self.metadata['electrode groups'])
+        self.fl_electrode_group_manager = FlElectrodeGroupManager(self.metadata['electrode groups'])
         self.fl_electrode_group_creator = FlElectrodeGroupCreator()
         self.electrode_group_injector = ElectrodeGroupInjector()
 
-        self.lf_electrode_manager = LfElectrodeManager(self.probes, self.metadata['electrode groups'])
+        self.fl_electrode_manager = LfElectrodeManager(self.probes, self.metadata['electrode groups'])
         self.electrode_creator = ElectrodesCreator()
 
         self.electrode_extension_creator = ElectrodeExtensionCreator(
@@ -164,9 +164,9 @@ class NWBFileBuilder:
 
     def __build_and_inject_processing_module(self, nwb_content):
         logger.info('Apparatus: Building')
-        lf_apparatus = self.lf_apparatus_manager.get_lf_apparatus()
+        fl_apparatus = self.fl_apparatus_manager.get_fl_apparatus()
         logger.info('Apparatus: Creating')
-        apparatus = ApparatusCreator.create_apparatus(lf_apparatus)
+        apparatus = ApparatusCreator.create_apparatus(fl_apparatus)
         logger.info('Apparatus: Injecting into ProcessingModule')
         self.pm_creator.insert(apparatus)
 
@@ -176,9 +176,9 @@ class NWBFileBuilder:
         self.pm_creator.insert(task)
 
         logger.info('Position: Building')
-        lf_position = self.lf_position_manager.get_lf_position()
+        fl_position = self.fl_position_manager.get_fl_position()
         logger.info('Position: Creating')
-        position = self.position_creator.create(lf_position)
+        position = self.position_creator.create(fl_position)
         logger.info('Position: Injecting into ProcessingModule')
         self.pm_creator.insert(position)
 
@@ -186,36 +186,36 @@ class NWBFileBuilder:
 
     def __build_and_inject_header_device(self, nwb_content):
         logger.info('HeaderDevice: Building')
-        lf_header_device = self.lf_device_header_manager.get_lf_header_device()
+        fl_header_device = self.fl_device_header_manager.get_fl_header_device()
         logger.info('HeaderDevice: Creating')
-        header_device = self.device_factory.create_header_device(lf_header_device)
+        header_device = self.device_factory.create_header_device(fl_header_device)
         logger.info('HeaderDevice: Injecting into NWB')
         self.device_injector.inject_all_devices(nwb_content, [header_device])
 
     def __build_and_inject_probes(self, nwb_content):
         logger.info('Probes: Building')
-        lf_probe_list = self.lf_probe_manager.get_lf_probes_list()
+        fl_probe_list = self.fl_probe_manager.get_fl_probes_list()
         logger.info('Probes: Creating probes')
-        probes = [self.device_factory.create_probe(lf_probe) for lf_probe in lf_probe_list]
+        probes = [self.device_factory.create_probe(fl_probe) for fl_probe in fl_probe_list]
         logger.info('Probes: Injecting probes into NWB')
         self.device_injector.inject_all_devices(nwb_content, probes)
         return probes
 
     def __build_and_inject_fl_electrode_group(self, nwb_content, probes):
         logger.info('ElectrodeGroups: Building')
-        lf_fl_electrode_groups = self.lf_electrode_group_manager.get_lf_fl_electrode_groups(probes)
+        fl_fl_electrode_groups = self.fl_electrode_group_manager.get_fl_fl_electrode_groups(probes)
         logger.info('ElectrodeGroups: Creating')
-        fl_electrode_groups = [self.fl_electrode_group_creator.create(lf_electrode_group)
-                            for lf_electrode_group in lf_fl_electrode_groups]
+        fl_electrode_groups = [self.fl_electrode_group_creator.create(fl_electrode_group)
+                            for fl_electrode_group in fl_fl_electrode_groups]
         logger.info('ElectrodeGroups: Injecting into NWB')
         self.electrode_group_injector.inject_all_electrode_groups(nwb_content, fl_electrode_groups)
         return fl_electrode_groups
 
     def __build_and_inject_electrodes(self, nwb_content, electrode_groups):
         logger.info('Electrodes: Building')
-        lf_electrodes = self.lf_electrode_manager.get_lf_electrodes(electrode_groups)
+        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(electrode_groups)
         logger.info('Electrodes: Creating&Injecting into NWB')
-        [self.electrode_creator.create(nwb_content, lf_electrode) for lf_electrode in lf_electrodes]
+        [self.electrode_creator.create(nwb_content, fl_electrode) for fl_electrode in fl_electrodes]
 
     def __build_and_inject_electrodes_extensions(self, nwb_content):
         logger.info('ElectrodesExtensions: Building')
@@ -255,11 +255,11 @@ class NWBFileBuilder:
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')
 
-        lf_mda_manager = LfMdaManager(
+        fl_mda_manager = LfMdaManager(
             nwb_content,
             self.metadata,
             self.header.configuration.hardware_configuration.sampling_rate,
             self.datasets
         )
         MdaInjector.inject_mda(nwb_content=nwb_content,
-                               electrical_series=ElectricalSeriesCreator.create_mda(lf_mda_manager.get_data()))
+                               electrical_series=ElectricalSeriesCreator.create_mda(fl_mda_manager.get_data()))

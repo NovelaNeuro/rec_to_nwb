@@ -1,9 +1,9 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from fl.datamigration.nwb.components.apparatus.lf_apparatus_extractor import LfApparatusExtractor
-from fl.datamigration.nwb.components.apparatus.lf_apparatus_manager import LfApparatusManager
-from fl.datamigration.nwb.components.apparatus.lf_apparatus import LfApparatus
+from fl.datamigration.nwb.components.apparatus.fl_apparatus_extractor import LfApparatusExtractor
+from fl.datamigration.nwb.components.apparatus.fl_apparatus_manager import LfApparatusManager
+from fl.datamigration.nwb.components.apparatus.fl_apparatus import LfApparatus
 
 
 class TestLfApparatusManager(TestCase):
@@ -15,19 +15,19 @@ class TestLfApparatusManager(TestCase):
         edges = Mock(spec=list)
         nodes = Mock(spec=list)
 
-        cls.lf_apparatus_manager = LfApparatusManager(cls.apparatus_metadata)
-        cls.lf_apparatus_manager.lf_apparatus_extractor = Mock(spec=LfApparatusExtractor)
-        cls.lf_apparatus_manager.lf_apparatus_extractor.get_data.return_value = edges, nodes
+        cls.fl_apparatus_manager = LfApparatusManager(cls.apparatus_metadata)
+        cls.fl_apparatus_manager.fl_apparatus_extractor = Mock(spec=LfApparatusExtractor)
+        cls.fl_apparatus_manager.fl_apparatus_extractor.get_data.return_value = edges, nodes
 
         cls.predicted_result = LfApparatus(edges, nodes)
-        cls.lf_apparatus = cls.lf_apparatus_manager.get_lf_apparatus()
+        cls.fl_apparatus = cls.fl_apparatus_manager.get_fl_apparatus()
 
     def test_getLfApparatus_successfulCreated_true(self):
-        self.assertIsNotNone(self.lf_apparatus)
+        self.assertIsNotNone(self.fl_apparatus)
 
     def test_getLfApparatus_returnCorrectValues_true(self):
-        self.assertEqual(self.lf_apparatus.edges, self.predicted_result.edges)
-        self.assertEqual(self.lf_apparatus.nodes, self.predicted_result.nodes)
+        self.assertEqual(self.fl_apparatus.edges, self.predicted_result.edges)
+        self.assertEqual(self.fl_apparatus.nodes, self.predicted_result.nodes)
 
     def test_getLfApparatus_returnCorrectTypes_true(self):
-        self.assertIsInstance(self.lf_apparatus, LfApparatus)
+        self.assertIsInstance(self.fl_apparatus, LfApparatus)

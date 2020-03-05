@@ -6,8 +6,8 @@ class ElectrodesCreator:
     def __init__(self):
         self.electrode_id = -1
 
-    def create(self, nwb_content, lf_electrode):
-        self.__validate_parameters(lf_electrode, nwb_content)
+    def create(self, nwb_content, fl_electrode):
+        self.__validate_parameters(fl_electrode, nwb_content)
         self.electrode_id += 1
 
         nwb_content.add_electrode(
@@ -17,11 +17,11 @@ class ElectrodesCreator:
             imp=0.0,
             location='None',
             filtering='None',
-            group=lf_electrode.electrode_group,
+            group=fl_electrode.electrode_group,
             id=self.electrode_id
         )
 
     @staticmethod
-    def __validate_parameters(lf_electrode, nwb_content):
-        validate_input_parameters(__name__, nwb_content, lf_electrode)
-        validate_input_parameters(__name__, lf_electrode.electrode_group)
+    def __validate_parameters(fl_electrode, nwb_content):
+        validate_input_parameters(__name__, nwb_content, fl_electrode)
+        validate_input_parameters(__name__, fl_electrode.electrode_group)

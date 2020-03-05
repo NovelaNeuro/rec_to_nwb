@@ -1,4 +1,4 @@
-from fl.datamigration.nwb.components.position.lf_position import LfPosition
+from fl.datamigration.nwb.components.position.fl_position import LfPosition
 
 
 class LfPositionBuilder:

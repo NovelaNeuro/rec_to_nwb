@@ -1,4 +1,4 @@
-from fl.datamigration.nwb.components.device.lf_header_device import LfHeaderDevice
+from fl.datamigration.nwb.components.device.fl_header_device import LfHeaderDevice
 
 
 class LfHeaderDeviceBuilder:

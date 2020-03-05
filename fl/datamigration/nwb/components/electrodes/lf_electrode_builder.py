@@ -1,4 +1,4 @@
-from fl.datamigration.nwb.components.electrodes.lf_electrodes import LfElectrode
+from fl.datamigration.nwb.components.electrodes.fl_electrodes import LfElectrode
 
 
 class LfElectrodesBuilder:

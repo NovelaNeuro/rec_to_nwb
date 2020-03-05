@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from fl.datamigration.nwb.components.mda.lf_mda_extractor import LfMdaExtractor
+from fl.datamigration.nwb.components.mda.fl_mda_extractor import LfMdaExtractor
 from fl.datamigration.tools.file_scanner import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -18,8 +18,8 @@ class TestMDAExtraction(unittest.TestCase):
 
     def test_reading_mda(self):
         self.dataset = self.create_test_dataset()
-        lf_mda_extractor = LfMdaExtractor([self.dataset])
-        series = lf_mda_extractor.get_data()
+        fl_mda_extractor = LfMdaExtractor([self.dataset])
+        series = fl_mda_extractor.get_data()
         self.assertEqual(100, np.size(series.mda_timestamps, 0))
         self.assertEqual(12, np.size(series.mda_data, 1))
         self.assertEqual(5, np.size(series.mda_data, 0))

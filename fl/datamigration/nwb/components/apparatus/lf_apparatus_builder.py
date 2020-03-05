@@ -1,4 +1,4 @@
-from fl.datamigration.nwb.components.apparatus.lf_apparatus import LfApparatus
+from fl.datamigration.nwb.components.apparatus.fl_apparatus import LfApparatus
 
 
 class LfApparatusBuilder:

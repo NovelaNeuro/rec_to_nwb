@@ -1,4 +1,4 @@
-from fl.datamigration.nwb.components.device.lf_probe import LfProbe
+from fl.datamigration.nwb.components.device.fl_probe import LfProbe
 
 
 class LfProbeBuilder:

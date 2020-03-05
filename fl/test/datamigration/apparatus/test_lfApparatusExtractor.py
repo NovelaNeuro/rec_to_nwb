@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from ndx_fllab_novela.apparatus import Node, Edge
 
-from fl.datamigration.nwb.components.apparatus.lf_apparatus_extractor import LfApparatusExtractor
+from fl.datamigration.nwb.components.apparatus.fl_apparatus_extractor import LfApparatusExtractor
 
 
 class TestLfApparatusExtractor(TestCase):
@@ -17,8 +17,8 @@ class TestLfApparatusExtractor(TestCase):
             [0, 1, 1, 0, 1]
         ]
 
-        cls.lf_apparatus_extractor = LfApparatusExtractor(cls.apparatus_metadata)
-        cls.edges, cls.nodes = cls.lf_apparatus_extractor.get_data()
+        cls.fl_apparatus_extractor = LfApparatusExtractor(cls.apparatus_metadata)
+        cls.edges, cls.nodes = cls.fl_apparatus_extractor.get_data()
 
     def test_getData_successfulCreated_true(self):
         self.assertIsNotNone(self.edges)

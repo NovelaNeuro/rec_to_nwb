@@ -4,7 +4,7 @@ import unittest
 from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
-from fl.datamigration.nwb.components.position.lf_position_manager import LfPositionManager
+from fl.datamigration.nwb.components.position.fl_position_manager import LfPositionManager
 from fl.datamigration.nwb.components.position.position_creator import PositionCreator
 from fl.datamigration.tools.file_scanner import Dataset
 
@@ -25,11 +25,11 @@ class TestPositionExtraction(unittest.TestCase):
     def test_position_extractor_reading_data_successfully(self):
         dataset = self.create_test_dataset()
 
-        lf_position_manager = LfPositionManager(datasets=[dataset, ])
+        fl_position_manager = LfPositionManager(datasets=[dataset, ])
         position_creator = PositionCreator()
 
-        lf_position = lf_position_manager.get_lf_position()
-        position = position_creator.create(lf_position)
+        fl_position = fl_position_manager.get_fl_position()
+        position = position_creator.create(fl_position)
 
         self.assertIsNotNone(position)
         self.assertEqual([32658, 4], position['Fields'].data.shape,
@@ -39,8 +39,8 @@ class TestPositionExtraction(unittest.TestCase):
 
     @should_raise(NoneParamInInitException)
     def test_position_extractor_fails_reading_data_due_to_None_datasets(self):
-        lf_position_manager = LfPositionManager(datasets=None)
+        fl_position_manager = LfPositionManager(datasets=None)
         position_creator = PositionCreator()
 
-        lf_position = lf_position_manager.get_lf_position()
-        position_creator.create(lf_position)
+        fl_position = fl_position_manager.get_fl_position()
+        position_creator.create(fl_position)

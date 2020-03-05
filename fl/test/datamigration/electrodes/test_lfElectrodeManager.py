@@ -11,7 +11,7 @@ from ndx_fllab_novela.fl_electrode_group import FLElectrodeGroup
 from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
-from fl.datamigration.nwb.components.electrodes.lf_electrode_manager import LfElectrodeManager
+from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import LfElectrodeManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -54,25 +54,25 @@ class TestLfElectrodeManager(TestCase):
         mock_eg_1.name = 'FLElectrodeGroup1'
         mock_eg_2.name = 'FLElectrodeGroup2'
 
-        lf_electrodes_manager = LfElectrodeManager(probes_metadata, electrode_groups_metadata)
+        fl_electrodes_manager = LfElectrodeManager(probes_metadata, electrode_groups_metadata)
 
-        lf_electrodes = lf_electrodes_manager.get_lf_electrodes(
+        fl_electrodes = fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=[mock_eg_1, mock_eg_2],
         )
 
-        self.assertEqual(12, len(lf_electrodes))
+        self.assertEqual(12, len(fl_electrodes))
 
-        self.assertIsInstance(lf_electrodes, list)
-        self.assertIsInstance(lf_electrodes[0].electrode_group, FLElectrodeGroup)
+        self.assertIsInstance(fl_electrodes, list)
+        self.assertIsInstance(fl_electrodes[0].electrode_group, FLElectrodeGroup)
 
-        self.assertEqual(lf_electrodes[0].electrode_group, mock_eg_1)
-        self.assertEqual(lf_electrodes[1].electrode_group, mock_eg_1)
-        self.assertEqual(lf_electrodes[2].electrode_group, mock_eg_1)
-        self.assertEqual(lf_electrodes[3].electrode_group, mock_eg_1)
+        self.assertEqual(fl_electrodes[0].electrode_group, mock_eg_1)
+        self.assertEqual(fl_electrodes[1].electrode_group, mock_eg_1)
+        self.assertEqual(fl_electrodes[2].electrode_group, mock_eg_1)
+        self.assertEqual(fl_electrodes[3].electrode_group, mock_eg_1)
 
-        self.assertEqual(lf_electrodes[4].electrode_group, mock_eg_2)
-        self.assertEqual(lf_electrodes[5].electrode_group, mock_eg_2)
-        self.assertEqual(lf_electrodes[6].electrode_group, mock_eg_2)
+        self.assertEqual(fl_electrodes[4].electrode_group, mock_eg_2)
+        self.assertEqual(fl_electrodes[5].electrode_group, mock_eg_2)
+        self.assertEqual(fl_electrodes[6].electrode_group, mock_eg_2)
 
     @should_raise(NoneParamInInitException)
     def test_manager_fails_creating_LfElectrodes_due_to_None_param(self):
@@ -107,9 +107,9 @@ class TestLfElectrodeManager(TestCase):
         mock_eg_1.name = 'FLElectrodeGroup1'
         mock_eg_2.name = 'FLElectrodeGroup2'
 
-        lf_electrodes_manager = LfElectrodeManager(probes_metadata, None)
+        fl_electrodes_manager = LfElectrodeManager(probes_metadata, None)
 
-        lf_electrodes_manager.get_lf_electrodes(
+        fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=[mock_eg_1, mock_eg_2],
         )
 
@@ -143,9 +143,9 @@ class TestLfElectrodeManager(TestCase):
                                     {'id': 97, 'rel_x': 40, 'rel_y': 900, 'rel_z': 0}]}]}
                            ]
 
-        lf_electrodes_manager = LfElectrodeManager(probes_metadata, electrode_groups_metadata)
+        fl_electrodes_manager = LfElectrodeManager(probes_metadata, electrode_groups_metadata)
 
-        lf_electrodes_manager.get_lf_electrodes(
+        fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=None
         )
 
@@ -186,8 +186,8 @@ class TestLfElectrodeManager(TestCase):
         mock_eg_1.name = None
         mock_eg_2.name = 'FLElectrodeGroup2'
 
-        lf_electrodes_manager = LfElectrodeManager(probes_metadata, electrode_groups_metadata)
+        fl_electrodes_manager = LfElectrodeManager(probes_metadata, electrode_groups_metadata)
 
-        lf_electrodes_manager.get_lf_electrodes(
+        fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=[mock_eg_1, mock_eg_2]
         )

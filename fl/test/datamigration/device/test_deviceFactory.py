@@ -9,19 +9,19 @@ from testfixtures import should_raise
 from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
 from fl.datamigration.header.module.global_configuration import GlobalConfiguration
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
-from fl.datamigration.nwb.components.device.lf_device import LfDevice
-from fl.datamigration.nwb.components.device.lf_header_device import LfHeaderDevice
-from fl.datamigration.nwb.components.device.lf_probe import LfProbe
+from fl.datamigration.nwb.components.device.fl_device import LfDevice
+from fl.datamigration.nwb.components.device.fl_header_device import LfHeaderDevice
+from fl.datamigration.nwb.components.device.fl_probe import LfProbe
 
 
 class TestDeviceFactory(TestCase):
 
     def test_factory_create_Device_successfully(self):
-        mock_lf_device = Mock(spec=LfDevice)
-        mock_lf_device.name = 'Device1'
+        mock_fl_device = Mock(spec=LfDevice)
+        mock_fl_device.name = 'Device1'
         
         device = DeviceFactory.create_device(
-            lf_device=mock_lf_device
+            fl_device=mock_fl_device
         )
         
         self.assertIsNotNone(device)
@@ -32,22 +32,22 @@ class TestDeviceFactory(TestCase):
     @should_raise(NoneParamInInitException)
     def test_factory_failed_creating_Device_due_to_none_LfDevice(self):
         DeviceFactory.create_device(
-            lf_device=None
+            fl_device=None
         )
 
     @should_raise(NoneParamInInitException)
     def test_factory_failed_creating_Device_due_to_none_name_in_LfDevice(self):
-        mock_lf_device = Mock(spec=LfDevice)
-        mock_lf_device.name = None
+        mock_fl_device = Mock(spec=LfDevice)
+        mock_fl_device.name = None
 
         DeviceFactory.create_device(
-            lf_device=mock_lf_device
+            fl_device=mock_fl_device
         )
 
     def test_factory_create_Probe_successfully(self):
-        mock_lf_probe = Mock(spec=LfProbe)
-        mock_lf_probe.probe_id = 1
-        mock_lf_probe.metadata = {
+        mock_fl_probe = Mock(spec=LfProbe)
+        mock_fl_probe.probe_id = 1
+        mock_fl_probe.metadata = {
             'probe_type': 'Type1',
             'contact_size': 20.0,
             'num_shanks': 2,
@@ -55,7 +55,7 @@ class TestDeviceFactory(TestCase):
         }
         
         probe = DeviceFactory.create_probe(
-            lf_probe=mock_lf_probe
+            fl_probe=mock_fl_probe
         )
         
         self.assertIsNotNone(probe)
@@ -70,21 +70,21 @@ class TestDeviceFactory(TestCase):
     @should_raise(NoneParamInInitException)
     def test_factory_failed_creating_Probe_due_to_none_LfProbe(self):
         DeviceFactory.create_probe(
-            lf_probe=None
+            fl_probe=None
         )
 
     @should_raise(NoneParamInInitException)
     def test_factory_failed_creating_Probe_due_to_none_param_in_LfProbe(self):
-        mock_lf_probe = Mock(spec=LfProbe)
-        mock_lf_probe.probe_id = 1
-        mock_lf_probe.metadata = None
+        mock_fl_probe = Mock(spec=LfProbe)
+        mock_fl_probe.probe_id = 1
+        mock_fl_probe.metadata = None
 
         DeviceFactory.create_probe(
-            lf_probe=mock_lf_probe
+            fl_probe=mock_fl_probe
         )
 
     def test_factory_create_HeaderDevice_successfully(self):
-        mock_lf_header_device = Mock(spec=LfHeaderDevice)
+        mock_fl_header_device = Mock(spec=LfHeaderDevice)
         mock_global_configuration = Mock(spec=GlobalConfiguration)
         mock_global_configuration.headstage_serial = 'Sample headstage_serial'
         mock_global_configuration.headstage_smart_ref_on = 'Sample headstage_smart_ref_on'
@@ -106,11 +106,11 @@ class TestDeviceFactory(TestCase):
         mock_global_configuration.commit_head = 'Sample commit_head'
         mock_global_configuration.system_time_at_creation = 'Sample system_time_at_creation'
         mock_global_configuration.file_path = 'Sample file_path'
-        mock_lf_header_device.name = 'HeaderDevice_1'
-        mock_lf_header_device.global_configuration = mock_global_configuration
+        mock_fl_header_device.name = 'HeaderDevice_1'
+        mock_fl_header_device.global_configuration = mock_global_configuration
 
         header_device = DeviceFactory.create_header_device(
-            lf_header_device=mock_lf_header_device
+            fl_header_device=mock_fl_header_device
         )
         
         self.assertIsNotNone(header_device)
@@ -140,15 +140,15 @@ class TestDeviceFactory(TestCase):
     @should_raise(NoneParamInInitException)
     def test_factory_failed_creating_HeaderDevice_due_to_none_LfHeaderDevice(self):
         DeviceFactory.create_header_device(
-            lf_header_device=None
+            fl_header_device=None
         )
 
     @should_raise(NoneParamInInitException)
     def test_factory_failed_creating_Probe_due_to_none_param_in_LfProbe(self):
-        mock_lf_header_device = Mock(spec=LfHeaderDevice)
-        mock_lf_header_device.name = 'HeaderDevice_1'
-        mock_lf_header_device.global_configuration = None
+        mock_fl_header_device = Mock(spec=LfHeaderDevice)
+        mock_fl_header_device.name = 'HeaderDevice_1'
+        mock_fl_header_device.global_configuration = None
 
         DeviceFactory.create_header_device(
-            lf_header_device=mock_lf_header_device
+            fl_header_device=mock_fl_header_device
         )
