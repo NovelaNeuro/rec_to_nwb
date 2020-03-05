@@ -1,2 +1,2 @@
-pylint --rcfile pylintrc lf --exit-zero
+pylint --rcfile pylintrc fl --exit-zero
 #find . -iname "*.py" | xargs pylint
