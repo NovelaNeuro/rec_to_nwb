@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from ndx_lflab_novela.apparatus import Apparatus
+from ndx_fllab_novela.apparatus import Apparatus
 
 from lf.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from lf.datamigration.nwb.components.task.task_builder import TaskBuilder

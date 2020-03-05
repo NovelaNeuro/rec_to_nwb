@@ -1,7 +1,7 @@
 from pynwb.device import Device
 
-from ndx_lflab_novela.header_device import HeaderDevice
-from ndx_lflab_novela.probe import Probe
+from ndx_fllab_novela.header_device import HeaderDevice
+from ndx_fllab_novela.probe import Probe
 
 from lf.datamigration.tools.validate_input_parameters import validate_input_parameters
 
