@@ -48,7 +48,7 @@ class NWBFileBuilder:
                  animal_name,
                  date,
                  nwb_metadata,
-                 rec_config,
+                 rec_config=None,
                  process_dio=True,
                  process_mda=True,
                  output_file='output.nwb'
