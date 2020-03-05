@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='LorenFranksDataMigration',
+    name='fldatamigration',
     version='0.1.003',
     author='Novela Neurotech',
     url="https://github.com/NovelaNeuro/fldatamigration",
