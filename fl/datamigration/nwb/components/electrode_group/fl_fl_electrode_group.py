@@ -1,4 +1,4 @@
-class LfFLElectrodeGroup:
+class FlFLElectrodeGroup:
 
     def __init__(self, metadata, device):
         self.metadata = metadata

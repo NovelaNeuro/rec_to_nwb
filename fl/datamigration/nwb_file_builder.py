@@ -11,11 +11,11 @@ from fl.datamigration.header.header_checker.header_processor import HeaderProces
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
 from fl.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
-from fl.datamigration.nwb.components.apparatus.fl_apparatus_manager import LfApparatusManager
+from fl.datamigration.nwb.components.apparatus.fl_apparatus_manager import FlApparatusManager
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
 from fl.datamigration.nwb.components.device.device_injector import DeviceInjector
-from fl.datamigration.nwb.components.device.fl_device_header_manager import LfDeviceHeaderManager
-from fl.datamigration.nwb.components.device.fl_probe_manager import LfProbeManager
+from fl.datamigration.nwb.components.device.fl_device_header_manager import FlDeviceHeaderManager
+from fl.datamigration.nwb.components.device.fl_probe_manager import FlProbeManager
 from fl.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from fl.datamigration.nwb.components.dio.dio_files import DioFiles
 from fl.datamigration.nwb.components.dio.dio_injector import DioInjector
@@ -26,11 +26,11 @@ from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_manager 
 from fl.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
 from fl.datamigration.nwb.components.electrodes.electrode_extension_creator import ElectrodeExtensionCreator
 from fl.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
-from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import LfElectrodeManager
+from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 from fl.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
-from fl.datamigration.nwb.components.mda.fl_mda_manager import LfMdaManager
+from fl.datamigration.nwb.components.mda.fl_mda_manager import FlMdaManager
 from fl.datamigration.nwb.components.mda.mda_injector import MdaInjector
-from fl.datamigration.nwb.components.position.fl_position_manager import LfPositionManager
+from fl.datamigration.nwb.components.position.fl_position_manager import FlPositionManager
 from fl.datamigration.nwb.components.position.position_creator import PositionCreator
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
@@ -81,16 +81,16 @@ class NWBFileBuilder:
 
         self.task_builder = TaskBuilder(self.metadata)
 
-        self.fl_position_manager = LfPositionManager(self.datasets)
+        self.fl_position_manager = FlPositionManager(self.datasets)
         self.position_creator = PositionCreator()
 
-        self.fl_apparatus_manager = LfApparatusManager(self.metadata['apparatus']['data'])
+        self.fl_apparatus_manager = FlApparatusManager(self.metadata['apparatus']['data'])
 
-        self.fl_probe_manager = LfProbeManager(self.probes, self.metadata['electrode groups'])
+        self.fl_probe_manager = FlProbeManager(self.probes, self.metadata['electrode groups'])
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
-        self.fl_device_header_manager = LfDeviceHeaderManager('header_device',
+        self.fl_device_header_manager = FlDeviceHeaderManager('header_device',
                                                               self.header.configuration.global_configuration)
 
 
@@ -98,7 +98,7 @@ class NWBFileBuilder:
         self.fl_electrode_group_creator = FlElectrodeGroupCreator()
         self.electrode_group_injector = ElectrodeGroupInjector()
 
-        self.fl_electrode_manager = LfElectrodeManager(self.probes, self.metadata['electrode groups'])
+        self.fl_electrode_manager = FlElectrodeManager(self.probes, self.metadata['electrode groups'])
         self.electrode_creator = ElectrodesCreator()
 
         self.electrode_extension_creator = ElectrodeExtensionCreator(
@@ -255,7 +255,7 @@ class NWBFileBuilder:
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')
 
-        fl_mda_manager = LfMdaManager(
+        fl_mda_manager = FlMdaManager(
             nwb_content,
             self.metadata,
             self.header.configuration.hardware_configuration.sampling_rate,

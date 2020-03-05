@@ -1,17 +1,17 @@
-from fl.datamigration.nwb.components.ntrodes.fl_ntrodes import LfNTrodes
+from fl.datamigration.nwb.components.ntrodes.fl_ntrodes import FlNTrodes
 
-from fl.datamigration.nwb.components.ntrodes.fl_ntrodes_extractor import LfNTrodesExtractor
+from fl.datamigration.nwb.components.ntrodes.fl_ntrodes_extractor import FlNTrodesExtractor
 
 
-class LfNTrodesBuilder:
+class FlNTrodesBuilder:
 
     def __init__(self, metadata):
         self.metadata = metadata
 
-        self.fl_ntrodes_extractor = LfNTrodesExtractor()
+        self.fl_ntrodes_extractor = FlNTrodesExtractor()
 
     def build(self, nwb_content):
-        return [LfNTrodes(
+        return [FlNTrodes(
             metadata=ntrode_metadata,
             device=self.fl_ntrodes_extractor.extract_device(ntrode_metadata, nwb_content),
             map_list=self.fl_ntrodes_extractor.extract_map(ntrode_metadata)

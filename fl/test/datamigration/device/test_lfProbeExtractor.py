@@ -5,16 +5,16 @@ from unittest import TestCase, mock
 
 import yaml
 
-from fl.datamigration.nwb.components.device.fl_probe_extractor import LfProbesExtractor
+from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestLfProbeExtractor(TestCase):
+class TestFlProbeExtractor(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.fl_probes_extractor = LfProbesExtractor()
+        cls.fl_probes_extractor = FlProbesExtractor()
 
         cls.contents = {
             "foo": "bar",

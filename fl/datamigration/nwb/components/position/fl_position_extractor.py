@@ -6,7 +6,7 @@ from fl.datamigration.nwb.components.position.pos_timestamp_manager import PosTi
 from fl.datamigration.tools.validate_input_parameters import validate_input_parameters
 
 
-class LfPositionExtractor:
+class FlPositionExtractor:
     def __init__(self, datasets):
         self.datasets = datasets
         self.all_pos, self.continuous_time = self.__extract_data()

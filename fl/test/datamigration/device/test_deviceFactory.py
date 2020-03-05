@@ -9,15 +9,15 @@ from testfixtures import should_raise
 from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
 from fl.datamigration.header.module.global_configuration import GlobalConfiguration
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
-from fl.datamigration.nwb.components.device.fl_device import LfDevice
-from fl.datamigration.nwb.components.device.fl_header_device import LfHeaderDevice
-from fl.datamigration.nwb.components.device.fl_probe import LfProbe
+from fl.datamigration.nwb.components.device.fl_device import FlDevice
+from fl.datamigration.nwb.components.device.fl_header_device import FlHeaderDevice
+from fl.datamigration.nwb.components.device.fl_probe import FlProbe
 
 
 class TestDeviceFactory(TestCase):
 
     def test_factory_create_Device_successfully(self):
-        mock_fl_device = Mock(spec=LfDevice)
+        mock_fl_device = Mock(spec=FlDevice)
         mock_fl_device.name = 'Device1'
         
         device = DeviceFactory.create_device(
@@ -30,14 +30,14 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(device.name, 'Device1')
 
     @should_raise(NoneParamInInitException)
-    def test_factory_failed_creating_Device_due_to_none_LfDevice(self):
+    def test_factory_failed_creating_Device_due_to_none_FlDevice(self):
         DeviceFactory.create_device(
             fl_device=None
         )
 
     @should_raise(NoneParamInInitException)
-    def test_factory_failed_creating_Device_due_to_none_name_in_LfDevice(self):
-        mock_fl_device = Mock(spec=LfDevice)
+    def test_factory_failed_creating_Device_due_to_none_name_in_FlDevice(self):
+        mock_fl_device = Mock(spec=FlDevice)
         mock_fl_device.name = None
 
         DeviceFactory.create_device(
@@ -45,7 +45,7 @@ class TestDeviceFactory(TestCase):
         )
 
     def test_factory_create_Probe_successfully(self):
-        mock_fl_probe = Mock(spec=LfProbe)
+        mock_fl_probe = Mock(spec=FlProbe)
         mock_fl_probe.probe_id = 1
         mock_fl_probe.metadata = {
             'probe_type': 'Type1',
@@ -68,14 +68,14 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(probe.contact_side_numbering, True)
 
     @should_raise(NoneParamInInitException)
-    def test_factory_failed_creating_Probe_due_to_none_LfProbe(self):
+    def test_factory_failed_creating_Probe_due_to_none_FlProbe(self):
         DeviceFactory.create_probe(
             fl_probe=None
         )
 
     @should_raise(NoneParamInInitException)
-    def test_factory_failed_creating_Probe_due_to_none_param_in_LfProbe(self):
-        mock_fl_probe = Mock(spec=LfProbe)
+    def test_factory_failed_creating_Probe_due_to_none_param_in_FlProbe(self):
+        mock_fl_probe = Mock(spec=FlProbe)
         mock_fl_probe.probe_id = 1
         mock_fl_probe.metadata = None
 
@@ -84,7 +84,7 @@ class TestDeviceFactory(TestCase):
         )
 
     def test_factory_create_HeaderDevice_successfully(self):
-        mock_fl_header_device = Mock(spec=LfHeaderDevice)
+        mock_fl_header_device = Mock(spec=FlHeaderDevice)
         mock_global_configuration = Mock(spec=GlobalConfiguration)
         mock_global_configuration.headstage_serial = 'Sample headstage_serial'
         mock_global_configuration.headstage_smart_ref_on = 'Sample headstage_smart_ref_on'
@@ -138,14 +138,14 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(header_device.file_path, 'Sample file_path')
 
     @should_raise(NoneParamInInitException)
-    def test_factory_failed_creating_HeaderDevice_due_to_none_LfHeaderDevice(self):
+    def test_factory_failed_creating_HeaderDevice_due_to_none_FlHeaderDevice(self):
         DeviceFactory.create_header_device(
             fl_header_device=None
         )
 
     @should_raise(NoneParamInInitException)
-    def test_factory_failed_creating_Probe_due_to_none_param_in_LfProbe(self):
-        mock_fl_header_device = Mock(spec=LfHeaderDevice)
+    def test_factory_failed_creating_Probe_due_to_none_param_in_FlProbe(self):
+        mock_fl_header_device = Mock(spec=FlHeaderDevice)
         mock_fl_header_device.name = 'HeaderDevice_1'
         mock_fl_header_device.global_configuration = None
 

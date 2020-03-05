@@ -1,12 +1,12 @@
-from fl.datamigration.nwb.components.position.fl_position_builder import LfPositionBuilder
+from fl.datamigration.nwb.components.position.fl_position_builder import FlPositionBuilder
 from fl.datamigration.nwb.components.position.position_creator import PositionCreator
-from fl.datamigration.nwb.components.position.fl_position_extractor import LfPositionExtractor
+from fl.datamigration.nwb.components.position.fl_position_extractor import FlPositionExtractor
 
 
-class LfPositionManager:
+class FlPositionManager:
     def __init__(self, datasets):
-        self.fl_position_extractor = LfPositionExtractor(datasets)
-        self.fl_position_builder = LfPositionBuilder()
+        self.fl_position_extractor = FlPositionExtractor(datasets)
+        self.fl_position_builder = FlPositionBuilder()
 
     def get_fl_position(self):
         position_data = self.fl_position_extractor.get_position()

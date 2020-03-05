@@ -4,7 +4,7 @@ from unittest.mock import Mock
 from ndx_fllab_novela.ntrode import NTrode
 from pynwb.device import Device
 
-from fl.datamigration.nwb.components.ntrodes.fl_ntrodes import LfNTrodes
+from fl.datamigration.nwb.components.ntrodes.fl_ntrodes import FlNTrodes
 from fl.datamigration.nwb.components.ntrodes.ntrodes_creator import NTrodesCreator
 
 
@@ -14,7 +14,7 @@ class TestNTrodesCreator(TestCase):
     def setUpClass(cls):
         ntrode_creator = NTrodesCreator()
 
-        cls.fl_ntrodes = Mock(spec=LfNTrodes)
+        cls.fl_ntrodes = Mock(spec=FlNTrodes)
         cls.fl_ntrodes.metadata = {'ntrode_id': 1, 'probe_id': 2}
         cls.fl_ntrodes.map_list = [[1, 2], [3, 4], [5, 6]]
         cls.fl_ntrodes.device = Mock(spec=Device)

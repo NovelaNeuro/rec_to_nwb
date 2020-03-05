@@ -1,4 +1,4 @@
-class LfApparatus:
+class FlApparatus:
 
     def __init__(self, edges, nodes):
         """internal representation of apparatus data"""

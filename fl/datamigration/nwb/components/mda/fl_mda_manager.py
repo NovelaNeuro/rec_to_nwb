@@ -1,13 +1,13 @@
-from fl.datamigration.nwb.components.mda.fl_mda_builder import LfMdaBuilder
+from fl.datamigration.nwb.components.mda.fl_mda_builder import FlMdaBuilder
 from fl.datamigration.nwb.components.mda.table_region_builder import TableRegionBuilder
-from fl.datamigration.nwb.components.mda.fl_mda_extractor import LfMdaExtractor
+from fl.datamigration.nwb.components.mda.fl_mda_extractor import FlMdaExtractor
 
 
-class LfMdaManager:
+class FlMdaManager:
     def __init__(self, nwb_content, metadata, sampling_rate, datasets):
         self.__table_region_builder = TableRegionBuilder(nwb_content, metadata)
-        self.__fl_mda_extractor = LfMdaExtractor(datasets)
-        self.__fl_mda_builder = LfMdaBuilder(sampling_rate)
+        self.__fl_mda_extractor = FlMdaExtractor(datasets)
+        self.__fl_mda_builder = FlMdaBuilder(sampling_rate)
 
     def get_data(self):
         electrode_table_region = self.__table_region_builder.build()

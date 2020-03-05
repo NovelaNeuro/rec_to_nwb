@@ -1,4 +1,4 @@
-class LfMda:
+class FlMda:
 
     def __init__(self, sampling_rate, electrode_table_region, mda_data):
         """internal representation of mda data"""

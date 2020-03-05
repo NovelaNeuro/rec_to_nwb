@@ -1,15 +1,15 @@
-from fl.datamigration.nwb.components.electrodes.fl_electrode_builder import LfElectrodesBuilder
+from fl.datamigration.nwb.components.electrodes.fl_electrode_builder import FlElectrodesBuilder
 from fl.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 from fl.datamigration.tools.validate_input_parameters import validate_input_parameters
 
 
-class LfElectrodeManager:
+class FlElectrodeManager:
 
     def __init__(self, probes_metadata, electrode_groups_metadata):
         self.probes_metadata = probes_metadata
         self.electrode_groups_metadata = electrode_groups_metadata
 
-        self.fl_electrodes_builder = LfElectrodesBuilder()
+        self.fl_electrodes_builder = FlElectrodesBuilder()
 
     def get_fl_electrodes(self, electrode_groups):
         self.__validate_parameters(electrode_groups)

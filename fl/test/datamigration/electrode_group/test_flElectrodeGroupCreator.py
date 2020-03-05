@@ -7,7 +7,7 @@ from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
 from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_creator import FlElectrodeGroupCreator
-from fl.datamigration.nwb.components.electrode_group.fl_fl_electrode_group import LfFLElectrodeGroup
+from fl.datamigration.nwb.components.electrode_group.fl_fl_electrode_group import FlFLElectrodeGroup
 
 
 class TestFlElectrodeGroupCreator(TestCase):
@@ -16,12 +16,12 @@ class TestFlElectrodeGroupCreator(TestCase):
         mock_probe = Mock(spec=Probe)
         mock_device = Mock(spec=Device)
 
-        mock_fl_fl_electrode_group_1 = Mock(spec=LfFLElectrodeGroup)
+        mock_fl_fl_electrode_group_1 = Mock(spec=FlFLElectrodeGroup)
         mock_fl_fl_electrode_group_1.device = mock_probe
         mock_fl_fl_electrode_group_1.metadata = {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5',
                                                      'description': 'ElectrodeGroup 1'}
 
-        mock_fl_fl_electrode_group_2 = Mock(spec=LfFLElectrodeGroup)
+        mock_fl_fl_electrode_group_2 = Mock(spec=FlFLElectrodeGroup)
         mock_fl_fl_electrode_group_2.device = mock_device
         mock_fl_fl_electrode_group_2.metadata = {'id': 1, 'location': 'mPFC',
                                                      'device_type': '128c-4s8mm6cm-20um-40um-sl',
@@ -51,7 +51,7 @@ class TestFlElectrodeGroupCreator(TestCase):
 
     @should_raise(NoneParamInInitException)
     def test_creator_failed_creating_ElectrodeGroup_due_to_lack_of_FLElectrodeGroup_attr(self):
-        mock_fl_fl_electrode_group_1 = Mock(spec=LfFLElectrodeGroup)
+        mock_fl_fl_electrode_group_1 = Mock(spec=FlFLElectrodeGroup)
         mock_fl_fl_electrode_group_1.device = None
         mock_fl_fl_electrode_group_1.metadata = {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5',
                                                  'description': 'ElectrodeGroup 1'}

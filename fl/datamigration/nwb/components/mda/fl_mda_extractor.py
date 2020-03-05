@@ -6,7 +6,7 @@ from fl.datamigration.nwb.components.mda.mda_data_manager import MdaDataManager
 from fl.datamigration.nwb.components.mda.mda_timestamp_manager import MdaTimestampDataManager
 
 
-class LfMdaExtractor:
+class FlMdaExtractor:
 
     def __init__(self, datasets):
         self.datasets = datasets

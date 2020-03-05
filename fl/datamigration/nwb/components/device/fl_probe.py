@@ -1,4 +1,4 @@
-class LfProbe:
+class FlProbe:
 
     def __init__(self, metadata, probe_id):
         self.metadata = metadata

@@ -12,7 +12,7 @@ from fl.datamigration.nwb.components.electrodes.electrode_creator import Electro
 from fl.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
 from fl.datamigration.nwb.components.electrodes.electrode_metadata_extension_creator import \
     ElectrodesMetadataExtensionCreator
-from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import LfElectrodeManager
+from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 
 
 class TestElectrodeExtensionInjector(unittest.TestCase):
@@ -45,7 +45,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
 
     def setUp(self):
         self.electrode_extension_injector = ElectrodeExtensionInjector()
-        self.fl_electrodes_manager = LfElectrodeManager(self.probes, self.metadata)
+        self.fl_electrodes_manager = FlElectrodeManager(self.probes, self.metadata)
 
         self.nwb_file = NWBFile(
             session_description='None',

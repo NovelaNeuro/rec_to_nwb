@@ -10,7 +10,7 @@ class PosDataManager(DataManager):
 
     # override
     def read_data(self, dataset_id, file_id):
-        """extract data from POS files and build LfPos"""
+        """extract data from POS files and build FlPos"""
 
         pos_online = readTrodesExtractedDataFile(self.directories[dataset_id][file_id])
         position = pd.DataFrame(pos_online['data'])

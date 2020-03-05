@@ -12,7 +12,7 @@ from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
 from fl.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import LfElectrodeManager
+from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -66,7 +66,7 @@ class TestElectrodeIntegration(TestCase):
         
         electrode_creator = ElectrodesCreator()
 
-        fl_electrodes_manager = LfElectrodeManager(probes_metadata, electrode_groups_metadata)
+        fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
 
         fl_electrodes = fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=[mock_eg_1, mock_eg_2],
@@ -147,7 +147,7 @@ class TestElectrodeIntegration(TestCase):
 
         electrode_creator = ElectrodesCreator()
 
-        fl_electrodes_manager = LfElectrodeManager(probes_metadata, None)
+        fl_electrodes_manager = FlElectrodeManager(probes_metadata, None)
 
         fl_electrodes = fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=[mock_eg_1, mock_eg_2],
@@ -196,7 +196,7 @@ class TestElectrodeIntegration(TestCase):
 
         electrode_creator = ElectrodesCreator()
 
-        fl_electrodes_manager = LfElectrodeManager(probes_metadata, electrode_groups_metadata)
+        fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
 
         fl_electrodes = fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=None
@@ -252,7 +252,7 @@ class TestElectrodeIntegration(TestCase):
 
         electrode_creator = ElectrodesCreator()
 
-        fl_electrodes_manager = LfElectrodeManager(probes_metadata, electrode_groups_metadata)
+        fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
 
         fl_electrodes = fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=[mock_eg_1, mock_eg_2]
@@ -301,7 +301,7 @@ class TestElectrodeIntegration(TestCase):
 
         electrode_creator = ElectrodesCreator()
 
-        fl_electrodes_manager = LfElectrodeManager(probes_metadata, electrode_groups_metadata)
+        fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
 
         fl_electrodes = fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=[mock_eg_1, mock_eg_2],

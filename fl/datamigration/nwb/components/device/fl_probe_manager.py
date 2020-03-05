@@ -1,17 +1,17 @@
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
-from fl.datamigration.nwb.components.device.fl_probe_builder import LfProbeBuilder
-from fl.datamigration.nwb.components.device.fl_probe_extractor import LfProbesExtractor
+from fl.datamigration.nwb.components.device.fl_probe_builder import FlProbeBuilder
+from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
 from fl.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 from fl.datamigration.tools.validate_input_parameters import validate_input_parameters
 
 
-class LfProbeManager:
+class FlProbeManager:
 
     def __init__(self, probes_metadata, electrode_groups_metadata):
         self.probes_metadata = probes_metadata
         self.electrode_groups_metadata = electrode_groups_metadata
 
-        self.fl_probe_builder = LfProbeBuilder()
+        self.fl_probe_builder = FlProbeBuilder()
 
     def get_fl_probes_list(self):
         validate_input_parameters(__name__, self.probes_metadata, self.electrode_groups_metadata)

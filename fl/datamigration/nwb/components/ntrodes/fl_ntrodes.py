@@ -1,4 +1,4 @@
-class LfNTrodes:
+class FlNTrodes:
 
     def __init__(self, metadata, device, map_list):
         """internal representation of ntrodes data"""
