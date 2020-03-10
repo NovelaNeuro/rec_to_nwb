@@ -15,7 +15,7 @@ _DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
 _DEFAULT_MDA_EXPORT_ARGS = ('-usespikefilters', '0',
                             '-interp', '500', '-userefs', '1')
 
-_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')
+_DEFAULT_ANALOG_EXPORT_ARGS = ()
 
 
 class RawToNWBBuilder:

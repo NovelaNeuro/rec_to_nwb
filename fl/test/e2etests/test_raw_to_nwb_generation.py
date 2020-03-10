@@ -8,6 +8,8 @@ from fl.datamigration.raw_to_nwb_builder import RawToNWBBuilder
 path = Path(__file__).parent.parent
 path.resolve()
 
+_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')
+
 
 @unittest.skip("Super heavy RAW to NWB Generation")
 class TestRawToNWBGeneration(unittest.TestCase):
@@ -28,11 +30,12 @@ class TestRawToNWBGeneration(unittest.TestCase):
             nwb_metadata=metadata,
             output_path='',
             extract_spikes=False,
-            extract_mda=False,
+            extract_mda=True,
             extract_time=True,
             extract_lfps=False,
             extract_analog=True,
-            extract_dio=False
+            extract_dio=True,
+            analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
         )
 
     def test_from_raw_to_nwb_generation(self):
