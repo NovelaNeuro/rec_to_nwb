@@ -6,14 +6,19 @@ from pynwb.behavior import BehavioralEvents
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-class DioBuilder:
+class AnalogBuilder:
 
-    def __init__(self, analog_data):
-
-
+    def __init__(self, analog_data, timestamps):
+        self.analog_data = analog_data
+        self.timestamps = timestamps
 
     def build(self):
         behavioral_events = self.__create_behavioral_events()
+        behavioral_events.add_timeseries(
+            self.__build_timeseries(
+                name='Analog',
+                values=self.analog_data,
+                timestamps=self.timestamps))
 
         return behavioral_events
 
@@ -21,8 +26,8 @@ class DioBuilder:
     def __create_behavioral_events(cls):
         return BehavioralEvents(name="analog")
 
-    def __build_timeseries(self):
+    def __build_timeseries(self, name, values, timestamps):
         return TimeSeries(name=name,
-                          description=description,
-                          data=self.values,
-                          timestamps=self.timestamps)
+                          description='-',
+                          data=values,
+                          timestamps=timestamps)

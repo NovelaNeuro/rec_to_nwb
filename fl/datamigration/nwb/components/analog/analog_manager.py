@@ -12,22 +12,28 @@ class AnalogManager:
         self.continuous_time_files = continuous_time_files
 
     def get_analog(self):
-        """"extract data from DIO files and match them with metadata"""
+        """"extract data from analog files"""
 
         all_analog_data = []
         number_of_datasets = len(self.analog_files)
         with concurrent.futures.ThreadPoolExecutor() as executor:
             for i in range(number_of_datasets):
-                all_analog_data.append(AnalogExtractor.extract_analog_for_single_dataset(self.analog_files[i],
-                                                                                self.continuous_time_files[i]))
-        return self.__merge_analog_data(all_analog_data)
+                all_analog_data.append(AnalogExtractor.extract_analog_for_single_dataset(
+                    self.analog_files[i],
+                    self.continuous_time_files[i]))
+        return self.__stack_analog_data(self.__merge_analog_data(all_analog_data)),
 
     @classmethod
     def __merge_analog_data(cls, data_from_multiple_datasets):
         merged_data = data_from_multiple_datasets[0]
         for single_dataset_data in data_from_multiple_datasets[1:]:
-            for event, timeseries in single_dataset_data.items():
-                merged_data[event][0] = np.hstack((merged_data[event][0], timeseries[0]))
-                merged_data[event][1].extend(timeseries[1])
-
+            for analog_file in single_dataset_data.keys():
+                merged_data[analog_file] = np.hstack((merged_data[analog_file], single_dataset_data[analog_file]))
         return merged_data
+
+    @classmethod
+    def __stack_analog_data(cls, merged_data):
+        analog_sensors = [merged_data[analog_sensor] for analog_sensor in merged_data.keys() if 'timestamp' not in analog_sensor]
+        stacked_analog_sensors = np.vstack(analog_sensors)
+        return stacked_analog_sensors
+

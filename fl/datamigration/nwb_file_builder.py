@@ -152,7 +152,7 @@ class NWBFileBuilder:
             self.__build_and_inject_mda(nwb_content)
 
         if self.process_analog:
-            self.__buildandinject_analog(nwb_content)
+            self.__build_and_inject_analog(nwb_content)
 
         return nwb_content
 
@@ -167,7 +167,7 @@ class NWBFileBuilder:
         logger.info(self.output_file + ' file has been created.')
         return self.output_file
 
-    def __buildandinject_analog(self, nwb_content):
+    def __build_and_inject_analog(self, nwb_content):
         analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
         analog_files = AnalogFiles(analog_directories)
         analog_manager = AnalogManager(

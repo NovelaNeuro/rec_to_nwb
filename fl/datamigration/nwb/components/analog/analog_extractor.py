@@ -24,22 +24,26 @@ class AnalogExtractor:
                     values = analog_data['data']
                     single_dataset_data[analog_file] = values
                 except KeyError as error:
-                    message = "there is no " + str(analog_file) + ", error: "
-                    logger.exception(message + str(error))
+                    pass
+                    # message = "there is no " + str(analog_file) + ", error: "
+                    # logger.exception(message + str(error))
                 except TypeError as error:
-                    message = "there is no data for event " + str(analog_file) + ", error: "
-                    logger.exception(message + str(error))
+                    pass
+                    # message = "there is no data for event " + str(analog_file) + ", error: "
+                    # logger.exception(message + str(error))
             elif 'timestamp' in analog_file:
                 try:
                     timestamp = readTrodesExtractedDataFile(analog_files[analog_file])
                     keys = AnalogExtractor.__convert_keys(continuous_time_dict, timestamp['data'])
                     single_dataset_data[analog_file] = keys
                 except KeyError as error:
-                    message = "there is no " + str(analog_file) + ", error: "
-                    logger.exception(message + str(error))
+                    pass
+                    # message = "there is no " + str(analog_file) + ", error: "
+                    # logger.exception(message + str(error))
                 except TypeError as error:
-                    message = "there is no data for event " + str(analog_file) + ", error: "
-                    logger.exception(message + str(error))
+                    pass
+                    # message = "there is no data for event " + str(analog_file) + ", error: "
+                    # logger.exception(message + str(error))
 
         return single_dataset_data
 
