@@ -15,6 +15,9 @@ _DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
 _DEFAULT_MDA_EXPORT_ARGS = ('-usespikefilters', '0',
                             '-interp', '500', '-userefs', '1')
 
+_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')
+
+
 class RawToNWBBuilder:
 
     def __init__(
@@ -23,7 +26,6 @@ class RawToNWBBuilder:
             animal_name,
             dates,
             nwb_metadata,
-            rec_config=None,
             output_path='',
             extract_analog=False,
             extract_spikes=False,
@@ -33,9 +35,9 @@ class RawToNWBBuilder:
             extract_mda=True,
             lfp_export_args=_DEFAULT_LFP_EXPORT_ARGS,
             mda_export_args=_DEFAULT_MDA_EXPORT_ARGS,
-            parallel_instances=4
+            parallel_instances=4,
+            analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
     ):
-        self.rec_config = rec_config
         self.extract_analog = extract_analog
         self.extract_spikes = extract_spikes
         self.extract_dio = extract_dio
@@ -52,6 +54,7 @@ class RawToNWBBuilder:
         self.probes = nwb_metadata.probes
         self.nwb_metadata = nwb_metadata
         self.parallel_instances = parallel_instances
+        self.analog_export_args = analog_export_args
 
     def __preprocess_data(self):
         """process data with rec_to_binaries library"""
@@ -67,6 +70,7 @@ class RawToNWBBuilder:
                                 extract_spikes=self.extract_spikes,
                                 lfp_export_args=self.lfp_export_args,
                                 mda_export_args=self.mda_export_args,
+                                analog_export_args=self.analog_export_args
                                 )
 
     def build_nwb(self):
@@ -82,7 +86,6 @@ class RawToNWBBuilder:
                 output_file=self.output_path + self.animal_name + date + ".nwb",
                 process_mda=self.extract_mda,
                 process_dio=self.extract_dio,
-                rec_config=self.rec_config
             )
             content = nwb_builder.build()
             nwb_builder.write(content)
