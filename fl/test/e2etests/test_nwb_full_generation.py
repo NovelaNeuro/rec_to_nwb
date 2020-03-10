@@ -9,7 +9,7 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-@unittest.skip("NWB file creation")
+#@unittest.skip("NWB file creation")
 class TestNwbFullGeneration(unittest.TestCase):
 
     @classmethod
@@ -24,9 +24,9 @@ class TestNwbFullGeneration(unittest.TestCase):
             animal_name='beans',
             date='20190718',
             nwb_metadata=metadata,
-            process_dio=True,
-            process_mda=True,
-            rec_config=None
+            process_dio=False,
+            process_mda=False,
+            process_analog=True
         )
 
     def test_generate_nwb(self):
