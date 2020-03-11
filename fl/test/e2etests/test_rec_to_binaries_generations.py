@@ -11,14 +11,15 @@ _DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '../datamigration/res/re
 
 class TestRecToBinGeneration(unittest.TestCase):
 
-    # @unittest.skip("Super heavy REC to Preprocessing Generation")
+    @unittest.skip("Super heavy REC to Preprocessing Generation")
     def test_generation_preprocessing(self):
         extract_trodes_rec_file(
-            '../test_data/',
-            'beans',
-            parallel_instances=4,
-            analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS,
-            overwrite=True,
+                data_dir='../test_data/',
+                animal='beans',
+                parallel_instances=4,
+                analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS,
+                overwrite=True,
         )
-        self.assertTrue(os.path.isdir('../test_data/beans/preprocessing'))
-        self.assertTrue(os.path.isdir('../test_data/beans/preprocessing/' + "20190718"))
+
+        self.assertTrue(os.path.isdir('/../test_data/beans/preprocessing'))
+        self.assertTrue(os.path.isdir('/../test_data/beans/preprocessing/' + "20190718"))
