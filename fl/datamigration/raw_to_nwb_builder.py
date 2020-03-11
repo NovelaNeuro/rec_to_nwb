@@ -33,6 +33,7 @@ class RawToNWBBuilder:
             extract_dio=True,
             extract_time=True,
             extract_mda=True,
+            overwrite=True,
             lfp_export_args=_DEFAULT_LFP_EXPORT_ARGS,
             mda_export_args=_DEFAULT_MDA_EXPORT_ARGS,
             parallel_instances=4,
@@ -46,6 +47,7 @@ class RawToNWBBuilder:
         self.extract_time = extract_time
         self.lfp_export_args = lfp_export_args
         self.mda_export_args = mda_export_args
+        self.overwrite = overwrite
         self.animal_name = animal_name
         self.data_path = data_path
         self.dates = dates
@@ -68,6 +70,7 @@ class RawToNWBBuilder:
                                 extract_mda=self.extract_mda,
                                 extract_lfps=self.extract_lfps,
                                 extract_spikes=self.extract_spikes,
+                                overwrite=self.overwrite,
                                 lfp_export_args=self.lfp_export_args,
                                 mda_export_args=self.mda_export_args,
                                 analog_export_args=self.analog_export_args
