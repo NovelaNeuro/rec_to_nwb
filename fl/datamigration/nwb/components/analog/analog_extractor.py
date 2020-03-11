@@ -14,11 +14,10 @@ logger = logging.getLogger(__name__)
 class AnalogExtractor:
 
     @staticmethod
-    def extract_analog_for_single_dataset(analog_files, continuous_time_file):
+    def extract_analog_for_single_dataset(analog_files):
         single_dataset_data = {}
-        continuous_time_dict = ContinuousTimeExtractor.get_continuous_time_dict_file(continuous_time_file)
         for analog_file in analog_files:
-            if 'analog' in analog_file:
+            if not 'timestamps' in analog_file:
                 try:
                     analog_data = readTrodesExtractedDataFile(analog_files[analog_file])
                     values = analog_data['data']
@@ -34,7 +33,7 @@ class AnalogExtractor:
             elif 'timestamp' in analog_file:
                 try:
                     timestamp = readTrodesExtractedDataFile(analog_files[analog_file])
-                    keys = AnalogExtractor.__convert_keys(continuous_time_dict, timestamp['data'])
+                    keys = timestamp['data']
                     single_dataset_data[analog_file] = keys
                 except KeyError as error:
                     pass
@@ -46,8 +45,3 @@ class AnalogExtractor:
                     # logger.exception(message + str(error))
 
         return single_dataset_data
-
-    @staticmethod
-    def __convert_keys(continuous_time_dict, keys):
-        converted_timestamps = TimestampConverter.convert_timestamps(continuous_time_dict, keys)
-        return converted_timestamps

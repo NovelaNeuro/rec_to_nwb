@@ -7,9 +7,8 @@ from fl.datamigration.nwb.components.analog.analog_extractor import AnalogExtrac
 
 class AnalogManager:
 
-    def __init__(self, analog_files, continuous_time_files):
+    def __init__(self, analog_files):
         self.analog_files = analog_files
-        self.continuous_time_files = continuous_time_files
 
     def get_analog(self):
         """"extract data from analog files"""
@@ -18,10 +17,9 @@ class AnalogManager:
         number_of_datasets = len(self.analog_files)
         with concurrent.futures.ThreadPoolExecutor() as executor:
             for i in range(number_of_datasets):
-                all_analog_data.append(AnalogExtractor.extract_analog_for_single_dataset(
-                    self.analog_files[i],
-                    self.continuous_time_files[i]))
-        return self.__stack_analog_data(self.__merge_analog_data(all_analog_data)),
+                all_analog_data.append(AnalogExtractor.extract_analog_for_single_dataset(self.analog_files[i]))
+        merged_data = self.__merge_analog_data(all_analog_data)
+        return self.__stack_analog_data(merged_data), self.__get_timestamps(merged_data)
 
     @classmethod
     def __merge_analog_data(cls, data_from_multiple_datasets):
@@ -36,4 +34,12 @@ class AnalogManager:
         analog_sensors = [merged_data[analog_sensor] for analog_sensor in merged_data.keys() if 'timestamp' not in analog_sensor]
         stacked_analog_sensors = np.vstack(analog_sensors)
         return stacked_analog_sensors
+
+    @classmethod
+    def __get_timestamps(cls, merged_data):
+        for analog_sensor in merged_data.keys():
+            if 'timestamps' in analog_sensor:
+                return merged_data[analog_sensor]
+
+
 
