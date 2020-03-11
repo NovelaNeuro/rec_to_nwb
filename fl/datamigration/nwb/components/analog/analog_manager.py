@@ -33,7 +33,8 @@ class AnalogManager:
     def __stack_analog_data(cls, merged_data):
         analog_sensors = [merged_data[analog_sensor] for analog_sensor in merged_data.keys() if 'timestamp' not in analog_sensor]
         stacked_analog_sensors = np.array(analog_sensors, np.int32)
-        return stacked_analog_sensors
+        transposed_analog_data = np.ndarray.transpose(stacked_analog_sensors)
+        return transposed_analog_data
 
     @classmethod
     def __get_timestamps(cls, merged_data):
