@@ -5,13 +5,12 @@ from pathlib import Path
 from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.raw_to_nwb_builder import RawToNWBBuilder
 
-path = Path(__file__).parent.parent
-path.resolve()
+path = os.path.dirname(os.path.abspath(__file__))
 
-_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')
+_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/../datamigration/res/reconfig_header.xml')
 
 
-@unittest.skip("Super heavy RAW to NWB Generation")
+# @unittest.skip("Super heavy RAW to NWB Generation")
 class TestRawToNWBGeneration(unittest.TestCase):
 
     def setUp(self):
@@ -30,11 +29,12 @@ class TestRawToNWBGeneration(unittest.TestCase):
             nwb_metadata=metadata,
             output_path='',
             extract_spikes=False,
-            extract_mda=True,
+            extract_mda=False,
             extract_time=True,
             extract_lfps=False,
             extract_analog=True,
-            extract_dio=True,
+            extract_dio=False,
+            overwrite=True,
             analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
         )
 
@@ -42,5 +42,5 @@ class TestRawToNWBGeneration(unittest.TestCase):
         self.builder.build_nwb()
         self.assertTrue(os.path.exists('beans20190718.nwb'), 'NWBFile did not build')
 
-    def tearDown(self):
-        self.builder.cleanup()
+    # def tearDown(self):
+    #     self.builder.cleanup()
