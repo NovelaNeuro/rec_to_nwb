@@ -1,4 +1,4 @@
-import logging
+import logging.config
 import os
 
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile

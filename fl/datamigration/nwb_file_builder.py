@@ -173,7 +173,8 @@ class NWBFileBuilder:
         analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
         analog_files = AnalogFiles(analog_directories)
         analog_manager = AnalogManager(
-            analog_files=analog_files.get_files())
+            analog_files=analog_files.get_files(),
+            continuous_time_files=self.__get_continuous_time_files())
         analog_data, analog_timestamps = analog_manager.get_analog()
         analog_builder = AnalogBuilder(analog_data, analog_timestamps)
         analog_injector = AnalogInjector(nwb_content)

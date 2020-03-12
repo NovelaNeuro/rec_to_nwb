@@ -1,5 +1,3 @@
-import concurrent.futures
-
 import numpy as np
 
 from fl.datamigration.nwb.components.analog.analog_extractor import AnalogExtractor
@@ -7,17 +5,19 @@ from fl.datamigration.nwb.components.analog.analog_extractor import AnalogExtrac
 
 class AnalogManager:
 
-    def __init__(self, analog_files):
+    def __init__(self, analog_files, continuous_time_files):
         self.analog_files = analog_files
+        self.continuous_time_files = continuous_time_files
 
     def get_analog(self):
         """"extract data from analog files"""
 
         all_analog_data = []
         number_of_datasets = len(self.analog_files)
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            for i in range(number_of_datasets):
-                all_analog_data.append(AnalogExtractor.extract_analog_for_single_dataset(self.analog_files[i]))
+        for i in range(number_of_datasets):
+            all_analog_data.append(AnalogExtractor.extract_analog_for_single_dataset(
+                self.analog_files[i],
+                self.continuous_time_files[i]))
         merged_data = self.__merge_analog_data(all_analog_data)
         return self.__stack_analog_data(merged_data), self.__get_timestamps(merged_data)
 
