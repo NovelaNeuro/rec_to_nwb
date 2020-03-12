@@ -28,11 +28,11 @@ class TestRawToNWBGeneration(unittest.TestCase):
             nwb_metadata=metadata,
             output_path='',
             extract_spikes=False,
-            extract_mda=False,
+            extract_mda=True,
             extract_time=True,
             extract_lfps=False,
             extract_analog=True,
-            extract_dio=False,
+            extract_dio=True,
             overwrite=True,
             analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
         )
