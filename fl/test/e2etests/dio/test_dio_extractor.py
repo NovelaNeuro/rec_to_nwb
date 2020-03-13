@@ -1,9 +1,14 @@
 import os
 import unittest
 from unittest import TestCase
+from unittest.mock import Mock, patch
+
 import pandas as pd
+import numpy as np
+from pandas import array
 
 from fl.datamigration.nwb.components.dio.dio_extractor import DioExtractor
+from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -11,32 +16,36 @@ path = os.path.dirname(os.path.abspath(__file__))
 @unittest.skip('Need preprocessed .dat files')
 class TestDioExtractor(TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        continuoues_time_dict = {
+    @staticmethod
+    def fake_get_continuous_time_dict_file(*args, **kwargs):
+        return {
             '1367266': 19191919, '9599570': 74747474, '9603169': 89898989, '9610303': 54545454, '9619154': 32323232,
             '9612481': 67676767, '9619802': 50505050, '9627552': 41414141, '9643239': 23232323, '9644490': 21212121,
             '9645544': 40404040, '9645721': 66666666, '9646074': 48484848, '9644629': 31313131, '9641056': 55555555
         }
 
+    @classmethod
+    @patch.object(ContinuousTimeExtractor, 'get_continuous_time_dict_file', new=fake_get_continuous_time_dict_file)
+    def setUpClass(cls):
         filtered_files = {
-            'Din1': path + '/../../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din1.dat',
-            'Din2': path + '/../../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.DIO//20190718_beans_01_s1.dio_Din2.dat',
+            'Din1': path + '/../../datamigration/res/dio_test/20190718_beans_01_s1.dio_Din1.dat',
+            'Din2': path + '/../../datamigration/res/dio_test/20190718_beans_01_s1.dio_Din2.dat',
         }
 
         cls.single_dataset_data = DioExtractor.extract_dio_for_single_dataset(
             filtered_files=filtered_files,
-            continuoues_time_dict=continuoues_time_dict
+            continuous_time_file='mocked'
         )
 
     def test_extracted_dio_for_single_dataset_correctType_true(self):
+        print(self.single_dataset_data)
         self.assertIsInstance(self.single_dataset_data, dict)
         self.assertIsInstance(self.single_dataset_data['Din1'], list)
-        self.assertIsInstance(self.single_dataset_data['Din1'][0], pd.ndarray)
+        self.assertIsInstance(self.single_dataset_data['Din1'][0], np.ndarray)
         self.assertIsInstance(self.single_dataset_data['Din1'][1], list)
 
         self.assertIsInstance(self.single_dataset_data['Din2'], list)
-        self.assertIsInstance(self.single_dataset_data['Din2'][0], pd.ndarray)
+        self.assertIsInstance(self.single_dataset_data['Din2'][0], np.ndarray)
         self.assertIsInstance(self.single_dataset_data['Din2'][1], list)
 
     def test_extracted_dio_for_single_dataset_correctValues_true(self):

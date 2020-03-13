@@ -19,8 +19,12 @@ class DioManager:
         number_of_datasets = len(self.dio_files)
         with concurrent.futures.ThreadPoolExecutor() as executor:
             for i in range(number_of_datasets):
-                all_dio_data.append(DioExtractor.extract_dio_for_single_dataset(self.dio_files[i],
-                                                                                self.continuous_time_files[i]))
+                all_dio_data.append(
+                    DioExtractor.extract_dio_for_single_dataset(
+                        filtered_files=self.dio_files[i],
+                        continuous_time_file=self.continuous_time_files[i]
+                    )
+                )
         return self.__merge_dio_data(all_dio_data)
 
     @classmethod
