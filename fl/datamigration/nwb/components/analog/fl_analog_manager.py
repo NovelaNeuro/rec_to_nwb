@@ -1,6 +1,7 @@
 import numpy as np
 
-from fl.datamigration.nwb.components.analog.analog_extractor import AnalogExtractor
+from fl.datamigration.nwb.components.analog.fl_analog import FlAnalog
+from fl.datamigration.nwb.components.analog.fl_analog_extractor import AnalogExtractor
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none, \
     validate_parameters_equal_length
 
@@ -28,7 +29,7 @@ class AnalogManager:
                 )
             )
         merged_data = self.__merge_analog_data(all_analog_data)
-        return self.__stack_analog_data(merged_data), self.__get_timestamps(merged_data)
+        return FlAnalog(self.__stack_analog_data(merged_data), self.__get_timestamps(merged_data))
 
     @staticmethod
     def __merge_analog_data(data_from_multiple_datasets):

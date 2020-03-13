@@ -7,8 +7,8 @@ from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
-from fl.datamigration.nwb.components.analog.analog_extractor import AnalogExtractor
-from fl.datamigration.nwb.components.analog.analog_manager import AnalogManager
+from fl.datamigration.nwb.components.analog.fl_analog_extractor import AnalogExtractor
+from fl.datamigration.nwb.components.analog.fl_analog_manager import AnalogManager
 
 
 class TestAnalogManager(TestCase):
@@ -37,8 +37,8 @@ class TestAnalogManager(TestCase):
             analog_files=mock_analog_files,
             continuous_time_files=mock_continuous_time_files
         )
-
-        transposed_analog_data, timestamps = analog_manager.get_analog()
+        fl_analog = analog_manager.get_analog()
+        transposed_analog_data, timestamps =  fl_analog.data, fl_analog.timestamps
 
         assert_array_equal(
             transposed_analog_data,

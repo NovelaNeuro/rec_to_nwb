@@ -8,9 +8,9 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class AnalogBuilder:
 
-    def __init__(self, analog_data, timestamps):
-        self.analog_data = analog_data
-        self.timestamps = timestamps
+    def __init__(self, fl_analog):
+        self.analog_data = fl_analog.data
+        self.timestamps = fl_analog.timestamps
 
     def build(self):
         behavioral_events = self.__create_behavioral_events()

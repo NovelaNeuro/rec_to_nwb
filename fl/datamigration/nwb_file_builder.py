@@ -10,10 +10,10 @@ import fl.datamigration.tools.file_scanner as fs
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
-from fl.datamigration.nwb.components.analog.analog_builder import AnalogBuilder
+from fl.datamigration.nwb.components.analog.fl_analog_builder import AnalogBuilder
 from fl.datamigration.nwb.components.analog.analog_files import AnalogFiles
 from fl.datamigration.nwb.components.analog.analog_injector import AnalogInjector
-from fl.datamigration.nwb.components.analog.analog_manager import AnalogManager
+from fl.datamigration.nwb.components.analog.fl_analog_manager import AnalogManager
 from fl.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
 from fl.datamigration.nwb.components.apparatus.fl_apparatus_manager import FlApparatusManager
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
@@ -175,8 +175,8 @@ class NWBFileBuilder:
         analog_manager = AnalogManager(
             analog_files=analog_files.get_files(),
             continuous_time_files=self.__get_continuous_time_files())
-        analog_data, analog_timestamps = analog_manager.get_analog()
-        analog_builder = AnalogBuilder(analog_data, analog_timestamps)
+        fl_analog = analog_manager.get_analog()
+        analog_builder = AnalogBuilder(fl_analog)
         analog_injector = AnalogInjector(nwb_content)
         analog_injector.inject(analog_builder.build(), 'behavior')
 
