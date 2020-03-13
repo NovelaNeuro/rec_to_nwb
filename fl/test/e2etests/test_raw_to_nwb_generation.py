@@ -9,7 +9,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 _DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/../datamigration/res/reconfig_header.xml')
 
 
-# @unittest.skip("Super heavy RAW to NWB Generation")
+@unittest.skip("Super heavy RAW to NWB Generation")
 class TestRawToNWBGeneration(unittest.TestCase):
 
     def setUp(self):
@@ -41,5 +41,5 @@ class TestRawToNWBGeneration(unittest.TestCase):
         self.builder.build_nwb()
         self.assertTrue(os.path.exists('beans20190718.nwb'), 'NWBFile did not build')
 
-    # def tearDown(self):
-    #     self.builder.cleanup()
+    def tearDown(self):
+        self.builder.cleanup()

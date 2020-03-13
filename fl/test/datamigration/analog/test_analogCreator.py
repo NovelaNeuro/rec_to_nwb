@@ -23,12 +23,11 @@ class TestAnalogCreator(TestCase):
         )
 
         self.timestamp = numpy.array([1, 2, 3, 4])
-        fl_analog = FlAnalog(self.data, self.timestamp)
+        self.fl_analog = FlAnalog(self.data, self.timestamp)
 
-        self.analog_creator = AnalogCreator(fl_analog)
 
     def test_building(self):
-        analog = self.analog_creator.create()
+        analog = AnalogCreator.create(self.fl_analog)
         self.assertIsNotNone(analog)
         self.assertEqual((9, 4), analog.fields['time_series']['Analog'].data.shape)
         self.assertEqual(4, analog.fields['time_series']['Analog'].timestamps.size)
