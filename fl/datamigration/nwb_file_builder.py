@@ -13,7 +13,7 @@ from fl.datamigration.header.module.header import Header
 from fl.datamigration.nwb.components.analog.fl_analog_builder import AnalogBuilder
 from fl.datamigration.nwb.components.analog.analog_files import AnalogFiles
 from fl.datamigration.nwb.components.analog.analog_injector import AnalogInjector
-from fl.datamigration.nwb.components.analog.fl_analog_manager import AnalogManager
+from fl.datamigration.nwb.components.analog.fl_analog_manager import FlAnalogManager
 from fl.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
 from fl.datamigration.nwb.components.apparatus.fl_apparatus_manager import FlApparatusManager
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
@@ -172,7 +172,7 @@ class NWBFileBuilder:
     def __build_and_inject_analog(self, nwb_content):
         analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
         analog_files = AnalogFiles(analog_directories)
-        analog_manager = AnalogManager(
+        analog_manager = FlAnalogManager(
             analog_files=analog_files.get_files(),
             continuous_time_files=self.__get_continuous_time_files())
         fl_analog = analog_manager.get_analog()

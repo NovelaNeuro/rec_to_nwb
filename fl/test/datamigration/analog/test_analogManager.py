@@ -8,7 +8,7 @@ from testfixtures import should_raise
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
 from fl.datamigration.nwb.components.analog.fl_analog_extractor import AnalogExtractor
-from fl.datamigration.nwb.components.analog.fl_analog_manager import AnalogManager
+from fl.datamigration.nwb.components.analog.fl_analog_manager import FlAnalogManager
 
 
 class TestAnalogManager(TestCase):
@@ -33,7 +33,7 @@ class TestAnalogManager(TestCase):
         mock_analog_files = [{1: 'mocked'}, {2: 'mocked'}]
         mock_continuous_time_files = ['Mock1', 'Mock2']
 
-        analog_manager = AnalogManager(
+        analog_manager = FlAnalogManager(
             analog_files=mock_analog_files,
             continuous_time_files=mock_continuous_time_files
         )
@@ -62,7 +62,7 @@ class TestAnalogManager(TestCase):
     @should_raise(NoneParamException)
     def test_get_analog_fails_due_to_None_param(self):
         mock_continuous_time_files = ['Mock1', 'Mock2']
-        AnalogManager(
+        FlAnalogManager(
             analog_files=None,
             continuous_time_files=mock_continuous_time_files
         )
@@ -72,7 +72,7 @@ class TestAnalogManager(TestCase):
         mock_analog_files = [{1: 'mocked'}]
         mock_continuous_time_files = ['Mock1', 'Mock2']
 
-        AnalogManager(
+        FlAnalogManager(
             analog_files=mock_analog_files,
             continuous_time_files=mock_continuous_time_files
         )
