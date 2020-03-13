@@ -176,9 +176,8 @@ class NWBFileBuilder:
             analog_files=analog_files.get_files(),
             continuous_time_files=self.__get_continuous_time_files())
         fl_analog = analog_manager.get_analog()
-        analog_creator = AnalogCreator(fl_analog)
         analog_injector = AnalogInjector(nwb_content)
-        analog_injector.inject(analog_creator.create(), 'behavior')
+        analog_injector.inject(AnalogCreator.create(fl_analog), 'behavior')
 
     def __build_and_inject_processing_module(self, nwb_content):
         logger.info('Apparatus: Building')

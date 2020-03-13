@@ -8,17 +8,14 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class AnalogCreator:
 
-    def __init__(self, fl_analog):
-        self.analog_data = fl_analog.data
-        self.timestamps = fl_analog.timestamps
-
-    def create(self):
+    @classmethod
+    def create(cls, lf_analog):
         behavioral_events = AnalogCreator.__create_behavioral_events()
         behavioral_events.add_timeseries(
             AnalogCreator.__build_timeseries(
                 name='Analog',
-                data=self.analog_data,
-                timestamps=self.timestamps))
+                data=lf_analog.data,
+                timestamps=lf_analog.timestamps))
 
         return behavioral_events
 
