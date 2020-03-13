@@ -28,7 +28,8 @@ class FlAnalogManager:
                 )
             )
         merged_epochs = self.__merge_epochs(all_analog_data)
-        return FlAnalogBuilder.build(self.__merge_analog_sensors(merged_epochs), self.__get_timestamps(merged_epochs))
+        analog_data = self.__merge_analog_sensors(merged_epochs)
+        return FlAnalogBuilder.build(analog_data, self.__get_timestamps(merged_epochs))
 
     @staticmethod
     def __merge_epochs(data_from_multiple_datasets):
