@@ -3,23 +3,23 @@ from pynwb.device import Device
 from ndx_fllab_novela.header_device import HeaderDevice
 from ndx_fllab_novela.probe import Probe
 
-from fl.datamigration.tools.validate_input_parameters import validate_input_parameters
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
 class DeviceFactory:
 
     @classmethod
     def create_device(cls, fl_device):
-        validate_input_parameters(__name__, fl_device)
-        validate_input_parameters(__name__, fl_device.name)
+        validate_parameters_not_none(__name__, fl_device)
+        validate_parameters_not_none(__name__, fl_device.name)
         return Device(
             name=str(fl_device.name)
         )
 
     @classmethod
     def create_probe(cls, fl_probe):
-        validate_input_parameters(__name__, fl_probe)
-        validate_input_parameters(__name__, fl_probe.probe_id, fl_probe.metadata)
+        validate_parameters_not_none(__name__, fl_probe)
+        validate_parameters_not_none(__name__, fl_probe.probe_id, fl_probe.metadata)
         return Probe(
             probe_type=fl_probe.metadata['probe_type'],
             contact_size=fl_probe.metadata['contact_size'],
@@ -31,8 +31,8 @@ class DeviceFactory:
 
     @classmethod
     def create_header_device(cls, fl_header_device):
-        validate_input_parameters(__name__, fl_header_device)
-        validate_input_parameters(__name__, fl_header_device.name, fl_header_device.global_configuration)
+        validate_parameters_not_none(__name__, fl_header_device)
+        validate_parameters_not_none(__name__, fl_header_device.name, fl_header_device.global_configuration)
 
         return HeaderDevice(
             name=fl_header_device.name,

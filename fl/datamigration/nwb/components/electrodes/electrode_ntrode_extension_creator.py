@@ -1,10 +1,10 @@
-from fl.datamigration.tools.validate_input_parameters import validate_input_parameters
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
 class ElectrodesNtrodeExtensionCreator:
     @classmethod
     def create_electrodes_ntrode_extension(cls, metadata):
-        validate_input_parameters(__name__, metadata)
+        validate_parameters_not_none(__name__, metadata)
 
         ntrodes_extension = []
         for ntrode in metadata:

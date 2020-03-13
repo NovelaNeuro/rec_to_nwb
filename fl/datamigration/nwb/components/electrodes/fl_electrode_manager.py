@@ -1,6 +1,6 @@
 from fl.datamigration.nwb.components.electrodes.fl_electrode_builder import FlElectrodesBuilder
 from fl.datamigration.tools.filter_probe_by_type import filter_probe_by_type
-from fl.datamigration.tools.validate_input_parameters import validate_input_parameters
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlElectrodeManager:
@@ -25,8 +25,8 @@ class FlElectrodeManager:
         return fl_electrodes
 
     def __validate_parameters(self, electrode_groups):
-        validate_input_parameters(__name__, self.probes_metadata, self.electrode_groups_metadata, electrode_groups)
-        [validate_input_parameters(__name__, electrode_group.name) for electrode_group in electrode_groups]
+        validate_parameters_not_none(__name__, self.probes_metadata, self.electrode_groups_metadata, electrode_groups)
+        [validate_parameters_not_none(__name__, electrode_group.name) for electrode_group in electrode_groups]
 
 
 

@@ -1,4 +1,4 @@
-from fl.datamigration.tools.validate_input_parameters import validate_input_parameters
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
 class ElectrodeGroupInjector:
@@ -6,7 +6,7 @@ class ElectrodeGroupInjector:
     def inject_all_electrode_groups(self, nwb_content, electrode_groups):
         """insert electrode groups to nwb file"""
 
-        validate_input_parameters(__name__, nwb_content, electrode_groups)
+        validate_parameters_not_none(__name__, nwb_content, electrode_groups)
         for electrode_group in electrode_groups:
             self.__inject_electrode_group(nwb_content, electrode_group)
 

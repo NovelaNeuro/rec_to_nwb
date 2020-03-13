@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.header.module.header import Header
 from fl.datamigration.nwb.components.electrodes.electrode_extension_creator import ElectrodeExtensionCreator
 
@@ -77,7 +77,7 @@ class TestElectrodeExtensionsCreator(TestCase):
         self.assertEqual(electrodes_ntrodes_extension[0], 1)
         self.assertEqual(electrodes_ntrodes_extension[-1], 4)
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_electrode_extension_creator_failed_build_extensions_due_to_None_param(self):
         probes = [{'probe_type': 'tetrode_12.5', 'contact_size': 20.0, 'num_shanks': 1,
                    'shanks': [

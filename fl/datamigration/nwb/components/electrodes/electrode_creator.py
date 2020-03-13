@@ -1,4 +1,4 @@
-from fl.datamigration.tools.validate_input_parameters import validate_input_parameters
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
 class ElectrodesCreator:
@@ -23,5 +23,5 @@ class ElectrodesCreator:
 
     @staticmethod
     def __validate_parameters(fl_electrode, nwb_content):
-        validate_input_parameters(__name__, nwb_content, fl_electrode)
-        validate_input_parameters(__name__, fl_electrode.electrode_group)
+        validate_parameters_not_none(__name__, nwb_content, fl_electrode)
+        validate_parameters_not_none(__name__, fl_electrode.electrode_group)

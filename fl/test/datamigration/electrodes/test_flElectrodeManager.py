@@ -10,7 +10,7 @@ from pynwb import NWBFile
 from ndx_fllab_novela.fl_electrode_group import FLElectrodeGroup
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -74,7 +74,7 @@ class TestFlElectrodeManager(TestCase):
         self.assertEqual(fl_electrodes[5].electrode_group, mock_eg_2)
         self.assertEqual(fl_electrodes[6].electrode_group, mock_eg_2)
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_manager_fails_creating_FlElectrodes_due_to_None_param(self):
         probes_metadata = [{'probe_type': 'tetrode_12.5', 'contact_size': 20.0, 'num_shanks': 1,
                             'shanks': [
@@ -113,7 +113,7 @@ class TestFlElectrodeManager(TestCase):
             electrode_groups=[mock_eg_1, mock_eg_2],
         )
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_manager_fails_creating_FlElectrodes_due_to_None_ElectrodeGroup(self):
         electrode_groups_metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
@@ -149,7 +149,7 @@ class TestFlElectrodeManager(TestCase):
             electrode_groups=None
         )
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_manager_fails_creating_FlElectrodes_due_to_None_FlElectrodeGroup_attr(self):
         electrode_groups_metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},

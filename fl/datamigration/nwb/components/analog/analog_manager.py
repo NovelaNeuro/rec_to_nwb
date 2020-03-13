@@ -1,13 +1,19 @@
 import numpy as np
 
 from fl.datamigration.nwb.components.analog.analog_extractor import AnalogExtractor
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none, \
+    validate_parameters_equal_length
 
 
 class AnalogManager:
 
     def __init__(self, analog_files, continuous_time_files):
+        validate_parameters_not_none(__name__, analog_files, continuous_time_files)
+        validate_parameters_equal_length(__name__, analog_files, continuous_time_files)
+
         self.analog_files = analog_files
         self.continuous_time_files = continuous_time_files
+
 
     def get_analog(self):
         """"extract data from analog files"""

@@ -5,7 +5,7 @@ from ndx_fllab_novela.probe import Probe
 from pynwb.device import Device
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_creator import FlElectrodeGroupCreator
 from fl.datamigration.nwb.components.electrode_group.fl_fl_electrode_group import FlFLElectrodeGroup
 
@@ -45,11 +45,11 @@ class TestFlElectrodeGroupCreator(TestCase):
         self.assertEqual(fl_electrode_group_2.id, 1)
         self.assertEqual(fl_electrode_group_2.device, mock_device)
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_creator_failed_creating_ElectrodeGroup_due_to_lack_of_FLElectrodeGroup(self):
         FlElectrodeGroupCreator.create(None)
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_creator_failed_creating_ElectrodeGroup_due_to_lack_of_FLElectrodeGroup_attr(self):
         mock_fl_fl_electrode_group_1 = Mock(spec=FlFLElectrodeGroup)
         mock_fl_fl_electrode_group_1.device = None

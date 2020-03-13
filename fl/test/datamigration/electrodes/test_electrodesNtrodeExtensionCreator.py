@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.electrodes.electrode_ntrode_extension_creator import \
     ElectrodesNtrodeExtensionCreator
 
@@ -27,7 +27,7 @@ class TestElectrodesNtrodeExtensionCreator(TestCase):
         self.assertEqual(ntrode_extension[0], 1)
         self.assertEqual(ntrode_extension[-1], 4)
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_electrodes_ntrode_extension_creator_failed_create_ntrode_extension_due_to_None_param(self):
         electrodes_ntrode_extension_creator = ElectrodesNtrodeExtensionCreator()
         electrodes_ntrode_extension_creator.create_electrodes_ntrode_extension(None)

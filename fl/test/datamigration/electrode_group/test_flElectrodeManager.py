@@ -6,7 +6,7 @@ from ndx_fllab_novela.fl_electrode_group import FLElectrodeGroup
 from ndx_fllab_novela.probe import Probe
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_manager import FlElectrodeGroupManager
 from fl.datamigration.nwb.components.electrode_group.fl_fl_electrode_group import FlFLElectrodeGroup
 
@@ -44,7 +44,7 @@ class TestFlElectrodeGroupManager(TestCase):
         self.assertEqual(fl_fl_electrode_groups[1].metadata, electrode_groups_metadata_2)
         self.assertEqual(fl_fl_electrode_groups[1].device, mock_probe_2)
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_manager_failed_builds_FlFLElectrodeGroups_due_to_None_metadata(self):
         mock_probe_1 = Mock(spec=Probe)
         mock_probe_2 = Mock(spec=Probe)
@@ -57,7 +57,7 @@ class TestFlElectrodeGroupManager(TestCase):
             probes=probes
         )
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_manager_failed_builds_FlFLElectrodeGroups_due_to_None_probes(self):
         electrode_groups_metadata_1 = {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5',
                                        'description': 'Probe 1'}

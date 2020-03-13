@@ -9,7 +9,7 @@ from pynwb import NWBFile
 from pynwb.device import Device
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.device.device_injector import DeviceInjector
 
 
@@ -152,14 +152,14 @@ class TestDeviceInjector(TestCase):
                          'Sample system_time_at_creation')
         self.assertEqual(self.nwb_content.devices['HeaderDevice_1'].file_path, 'Sample file_path')
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_injector_failed_injecting_devices_to_nwb_due_to_None_devices(self):
         self.device_injector.inject_all_devices(
             nwb_content=self.nwb_content,
             devices=None
         )
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_injector_failed_injecting_devices_to_nwb_due_to_None_nwb(self):
         self.device_injector.inject_all_devices(
             nwb_content=None,
