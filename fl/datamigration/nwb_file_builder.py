@@ -10,7 +10,7 @@ import fl.datamigration.tools.file_scanner as fs
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
-from fl.datamigration.nwb.components.analog.fl_analog_builder import AnalogBuilder
+from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
 from fl.datamigration.nwb.components.analog.analog_files import AnalogFiles
 from fl.datamigration.nwb.components.analog.analog_injector import AnalogInjector
 from fl.datamigration.nwb.components.analog.fl_analog_manager import FlAnalogManager
@@ -176,9 +176,9 @@ class NWBFileBuilder:
             analog_files=analog_files.get_files(),
             continuous_time_files=self.__get_continuous_time_files())
         fl_analog = analog_manager.get_analog()
-        analog_builder = AnalogBuilder(fl_analog)
+        analog_creator = AnalogCreator(fl_analog)
         analog_injector = AnalogInjector(nwb_content)
-        analog_injector.inject(analog_builder.build(), 'behavior')
+        analog_injector.inject(analog_creator.create(), 'behavior')
 
     def __build_and_inject_processing_module(self, nwb_content):
         logger.info('Apparatus: Building')

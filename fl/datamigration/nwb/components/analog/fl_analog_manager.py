@@ -1,6 +1,6 @@
 import numpy as np
 
-from fl.datamigration.nwb.components.analog.fl_analog import FlAnalog
+from fl.datamigration.nwb.components.analog.fl_analog_builder import FlAnalogBuilder
 from fl.datamigration.nwb.components.analog.fl_analog_extractor import AnalogExtractor
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none, \
     validate_parameters_equal_length
@@ -15,7 +15,6 @@ class FlAnalogManager:
         self.analog_files = analog_files
         self.continuous_time_files = continuous_time_files
 
-
     def get_analog(self):
         """"extract data from analog files"""
 
@@ -29,7 +28,7 @@ class FlAnalogManager:
                 )
             )
         merged_epochs = self.__merge_epochs(all_analog_data)
-        return FlAnalog(self.__merge_analog_sensors(merged_epochs), self.__get_timestamps(merged_epochs))
+        return FlAnalogBuilder.build(self.__merge_analog_sensors(merged_epochs), self.__get_timestamps(merged_epochs))
 
     @staticmethod
     def __merge_epochs(data_from_multiple_datasets):

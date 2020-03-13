@@ -2,10 +2,10 @@ from unittest import TestCase
 import numpy
 
 from fl.datamigration.nwb.components.analog.fl_analog import FlAnalog
-from fl.datamigration.nwb.components.analog.fl_analog_builder import AnalogBuilder
+from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
 
 
-class TestAnalogBuilder(TestCase):
+class TestAnalogCreator(TestCase):
 
     def setUp(self):
         self.data = numpy.array(
@@ -25,10 +25,10 @@ class TestAnalogBuilder(TestCase):
         self.timestamp = numpy.array([1, 2, 3, 4])
         fl_analog = FlAnalog(self.data, self.timestamp)
 
-        self.analog_builder = AnalogBuilder(fl_analog)
+        self.analog_creator = AnalogCreator(fl_analog)
 
     def test_building(self):
-        analog = self.analog_builder.build()
+        analog = self.analog_creator.create()
         self.assertIsNotNone(analog)
         self.assertEqual((9, 4), analog.fields['time_series']['Analog'].data.shape)
         self.assertEqual(4, analog.fields['time_series']['Analog'].timestamps.size)
