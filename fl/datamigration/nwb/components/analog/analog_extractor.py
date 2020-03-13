@@ -21,7 +21,7 @@ class AnalogExtractor:
                 analog_data = readTrodesExtractedDataFile(analog_files[analog_file])
                 values = analog_data['data']
                 single_dataset_data[analog_file] = values
-            elif 'timestamp' in analog_file:
+            else:
                 continuous_time_dict = ContinuousTimeExtractor.get_continuous_time_dict_file(continuous_time_file)
                 timestamp = readTrodesExtractedDataFile(analog_files[analog_file])
                 keys = [key[0] for key in timestamp['data']]
