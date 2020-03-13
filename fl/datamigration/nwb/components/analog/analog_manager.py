@@ -15,14 +15,17 @@ class AnalogManager:
         all_analog_data = []
         number_of_datasets = len(self.analog_files)
         for i in range(number_of_datasets):
-            all_analog_data.append(AnalogExtractor.extract_analog_for_single_dataset(
-                self.analog_files[i],
-                self.continuous_time_files[i]))
+            all_analog_data.append(
+                AnalogExtractor.extract_analog_for_single_dataset(
+                    self.analog_files[i],
+                    self.continuous_time_files[i]
+                )
+            )
         merged_data = self.__merge_analog_data(all_analog_data)
         return self.__stack_analog_data(merged_data), self.__get_timestamps(merged_data)
 
-    @classmethod
-    def __merge_analog_data(cls, data_from_multiple_datasets):
+    @staticmethod
+    def __merge_analog_data(data_from_multiple_datasets):
         merged_data = data_from_multiple_datasets[0]
         for single_dataset_data in data_from_multiple_datasets[1:]:
             for analog_file in single_dataset_data.keys():

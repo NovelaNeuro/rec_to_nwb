@@ -4,7 +4,7 @@ import numpy
 from fl.datamigration.nwb.components.analog.analog_builder import AnalogBuilder
 
 
-class TestFlApparatusExtractor(TestCase):
+class TestAnalogBuilder(TestCase):
 
     def setUp(self):
         self.data = numpy.array(
