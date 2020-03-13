@@ -11,7 +11,7 @@ logging.config.fileConfig(fname=str(path) + '/../../../../logging.conf', disable
 logger = logging.getLogger(__name__)
 
 
-class AnalogExtractor:
+class FlAnalogExtractor:
 
     @staticmethod
     def extract_analog_for_single_dataset(analog_files, continuous_time_file):

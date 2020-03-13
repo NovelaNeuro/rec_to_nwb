@@ -7,11 +7,11 @@ from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
-from fl.datamigration.nwb.components.analog.fl_analog_extractor import AnalogExtractor
+from fl.datamigration.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
 from fl.datamigration.nwb.components.analog.fl_analog_manager import FlAnalogManager
 
 
-class TestAnalogManager(TestCase):
+class TestFlAnalogManager(TestCase):
 
     @staticmethod
     def fake_extract_analog_for_single_dataset(*args, **kwargs):
@@ -28,7 +28,7 @@ class TestAnalogManager(TestCase):
             'timestamps': [123, 234, 456]
         }
 
-    @patch.object(AnalogExtractor, 'extract_analog_for_single_dataset', new=fake_extract_analog_for_single_dataset)
+    @patch.object(FlAnalogExtractor, 'extract_analog_for_single_dataset', new=fake_extract_analog_for_single_dataset)
     def test_get_analog_returnCorrectData_successfully(self):
         mock_analog_files = [{1: 'mocked'}, {2: 'mocked'}]
         mock_continuous_time_files = ['Mock1', 'Mock2']

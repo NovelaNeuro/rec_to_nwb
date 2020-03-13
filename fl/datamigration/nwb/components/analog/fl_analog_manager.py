@@ -1,7 +1,7 @@
 import numpy as np
 
 from fl.datamigration.nwb.components.analog.fl_analog_builder import FlAnalogBuilder
-from fl.datamigration.nwb.components.analog.fl_analog_extractor import AnalogExtractor
+from fl.datamigration.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none, \
     validate_parameters_equal_length
 
@@ -22,7 +22,7 @@ class FlAnalogManager:
         number_of_datasets = len(self.analog_files)
         for i in range(number_of_datasets):
             all_analog_data.append(
-                AnalogExtractor.extract_analog_for_single_dataset(
+                FlAnalogExtractor.extract_analog_for_single_dataset(
                     self.analog_files[i],
                     self.continuous_time_files[i]
                 )
