@@ -10,7 +10,7 @@ from pynwb import NWBFile
 from ndx_fllab_novela.fl_electrode_group import FLElectrodeGroup
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
 from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 
@@ -104,7 +104,7 @@ class TestElectrodeIntegration(TestCase):
         self.assertEqual(nwb_file.electrodes[0][8], 'FLElectrodeGroup1')
         self.assertEqual(nwb_file.electrodes[1][8], 'FLElectrodeGroup1')
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_electrode_failed_creating_and_injecting_inside_nwb_due_to_None_param(self):
         probes_metadata = [
             {'probe_type': 'tetrode_12.5', 'contact_size': 20.0, 'num_shanks': 1,
@@ -155,7 +155,7 @@ class TestElectrodeIntegration(TestCase):
 
         [electrode_creator.create(nwb_file, fl_electrode) for fl_electrode in fl_electrodes]
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_electrode_failed_creating_and_injecting_inside_nwb_due_to_None_ElectrodeGroup(self):
         electrode_groups_metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
@@ -204,7 +204,7 @@ class TestElectrodeIntegration(TestCase):
 
         [electrode_creator.create(nwb_file, fl_electrode) for fl_electrode in fl_electrodes]
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_electrode_failed_creating_and_injecting_inside_nwb_due_to_None_ElectrodeGroup_attr(self):
         electrode_groups_metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
@@ -260,7 +260,7 @@ class TestElectrodeIntegration(TestCase):
 
         [electrode_creator.create(nwb_file, fl_electrode) for fl_electrode in fl_electrodes]
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_electrode_failed_creating_and_injecting_inside_nwb_due_to_None_NWB(self):
         electrode_groups_metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},

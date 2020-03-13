@@ -2,7 +2,7 @@ import os
 from unittest import TestCase
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.device.fl_probe import FlProbe
 from fl.datamigration.nwb.components.device.fl_probe_manager import FlProbeManager
 
@@ -59,7 +59,7 @@ class TestFlProbeManager(TestCase):
         self.assertEqual(fl_probes_list[1].metadata, self.probes_metadata_2)
         self.assertEqual(fl_probes_list[1].probe_id, 1)
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_manager_fails_creating_FlProbes_due_to_None_probe_metadata(self):
         fl_probe_manager = FlProbeManager(
             probes_metadata=None,
@@ -68,7 +68,7 @@ class TestFlProbeManager(TestCase):
 
         fl_probe_manager.get_fl_probes_list()
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_manager_fails_creating_FlProbes_due_to_None_electrode_group_metadata(self):
         fl_probe_manager = FlProbeManager(
             probes_metadata=self.probes_metadata,

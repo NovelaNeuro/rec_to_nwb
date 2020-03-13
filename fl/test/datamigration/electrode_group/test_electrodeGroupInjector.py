@@ -8,7 +8,7 @@ from pynwb import NWBFile
 from pynwb.ecephys import ElectrodeGroup
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 
 
@@ -44,7 +44,7 @@ class TestElectrodeGroupInjector(TestCase):
         self.assertIsInstance(self.nwb_file.electrode_groups, dict)
         self.assertEqual(self.nwb_file.electrode_groups, electrode_group_dict)
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_injector_failed_inject_ElectrodeGroups_to_nwb_due_to_None_ElectrodeGroups(self):
         self.electrode_group.inject_all_electrode_groups(
             nwb_content=self.nwb_file,

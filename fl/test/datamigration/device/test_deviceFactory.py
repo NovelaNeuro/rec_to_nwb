@@ -6,7 +6,7 @@ from ndx_fllab_novela.probe import Probe
 from pynwb.device import Device
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.header.module.global_configuration import GlobalConfiguration
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
 from fl.datamigration.nwb.components.device.fl_device import FlDevice
@@ -29,13 +29,13 @@ class TestDeviceFactory(TestCase):
         self.assertIsInstance(device, Device)
         self.assertEqual(device.name, 'Device1')
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_factory_failed_creating_Device_due_to_none_FlDevice(self):
         DeviceFactory.create_device(
             fl_device=None
         )
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_factory_failed_creating_Device_due_to_none_name_in_FlDevice(self):
         mock_fl_device = Mock(spec=FlDevice)
         mock_fl_device.name = None
@@ -67,13 +67,13 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(probe.probe_type, 'Type1')
         self.assertEqual(probe.contact_side_numbering, True)
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_factory_failed_creating_Probe_due_to_none_FlProbe(self):
         DeviceFactory.create_probe(
             fl_probe=None
         )
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_factory_failed_creating_Probe_due_to_none_param_in_FlProbe(self):
         mock_fl_probe = Mock(spec=FlProbe)
         mock_fl_probe.probe_id = 1
@@ -137,13 +137,13 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(header_device.system_time_at_creation, 'Sample system_time_at_creation')
         self.assertEqual(header_device.file_path, 'Sample file_path')
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_factory_failed_creating_HeaderDevice_due_to_none_FlHeaderDevice(self):
         DeviceFactory.create_header_device(
             fl_header_device=None
         )
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_factory_failed_creating_Probe_due_to_none_param_in_FlProbe(self):
         mock_fl_header_device = Mock(spec=FlHeaderDevice)
         mock_fl_header_device.name = 'HeaderDevice_1'

@@ -3,7 +3,7 @@ import unittest
 
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_in_init_exception import NoneParamInInitException
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.position.fl_position_manager import FlPositionManager
 from fl.datamigration.nwb.components.position.position_creator import PositionCreator
 from fl.datamigration.tools.file_scanner import Dataset
@@ -37,7 +37,7 @@ class TestPositionExtraction(unittest.TestCase):
         self.assertEqual((32658,), position['Fields'].timestamps.shape,
                          'Shape should be (32658,)')
 
-    @should_raise(NoneParamInInitException)
+    @should_raise(NoneParamException)
     def test_position_extractor_fails_reading_data_due_to_None_datasets(self):
         fl_position_manager = FlPositionManager(datasets=None)
         position_creator = PositionCreator()

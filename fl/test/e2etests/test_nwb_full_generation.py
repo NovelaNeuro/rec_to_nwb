@@ -26,7 +26,7 @@ class TestNwbFullGeneration(unittest.TestCase):
             nwb_metadata=metadata,
             process_dio=True,
             process_mda=True,
-            rec_config=None
+            process_analog=True
         )
 
     def test_generate_nwb(self):

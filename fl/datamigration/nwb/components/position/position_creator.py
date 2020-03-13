@@ -1,14 +1,14 @@
 from pynwb.behavior import Position
 
-from fl.datamigration.tools.validate_input_parameters import validate_input_parameters
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
 class PositionCreator:
 
     @staticmethod
     def create(fl_position):
-        validate_input_parameters(__name__, fl_position)
-        validate_input_parameters(__name__, fl_position.position_data, fl_position.timestamps)
+        validate_parameters_not_none(__name__, fl_position)
+        validate_parameters_not_none(__name__, fl_position.position_data, fl_position.timestamps)
 
         position = Position()
         position.create_spatial_series(

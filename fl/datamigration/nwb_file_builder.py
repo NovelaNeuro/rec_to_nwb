@@ -10,6 +10,10 @@ import fl.datamigration.tools.file_scanner as fs
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
+from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
+from fl.datamigration.nwb.components.analog.analog_files import AnalogFiles
+from fl.datamigration.nwb.components.analog.analog_injector import AnalogInjector
+from fl.datamigration.nwb.components.analog.fl_analog_manager import FlAnalogManager
 from fl.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
 from fl.datamigration.nwb.components.apparatus.fl_apparatus_manager import FlApparatusManager
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
@@ -48,9 +52,9 @@ class NWBFileBuilder:
                  animal_name,
                  date,
                  nwb_metadata,
-                 rec_config=None,
                  process_dio=True,
                  process_mda=True,
+                 process_analog=True,
                  output_file='output.nwb'
                  ):
 
@@ -64,6 +68,7 @@ class NWBFileBuilder:
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
         self.process_dio = process_dio
         self.process_mda = process_mda
+        self.process_analog=process_analog
         self.output_file = output_file
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
@@ -74,10 +79,7 @@ class NWBFileBuilder:
                   + '/' + self.animal_name
                   + '/raw/'
                   + self.date))
-        if rec_config is not None:
-            header_file = rec_config
-        else:
-            header_file = HeaderProcessor.process_headers(rec_files_list)
+        header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
@@ -95,7 +97,6 @@ class NWBFileBuilder:
 
         self.fl_device_header_manager = FlDeviceHeaderManager('header_device',
                                                               self.header.configuration.global_configuration)
-
 
         self.fl_electrode_group_manager = FlElectrodeGroupManager(self.metadata['electrode groups'])
         self.fl_electrode_group_creator = FlElectrodeGroupCreator()
@@ -152,6 +153,9 @@ class NWBFileBuilder:
         if self.process_mda:
             self.__build_and_inject_mda(nwb_content)
 
+        if self.process_analog:
+            self.__build_and_inject_analog(nwb_content)
+
         return nwb_content
 
     def write(self, content):
@@ -164,6 +168,16 @@ class NWBFileBuilder:
 
         logger.info(self.output_file + ' file has been created.')
         return self.output_file
+
+    def __build_and_inject_analog(self, nwb_content):
+        analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
+        analog_files = AnalogFiles(analog_directories)
+        analog_manager = FlAnalogManager(
+            analog_files=analog_files.get_files(),
+            continuous_time_files=self.__get_continuous_time_files())
+        fl_analog = analog_manager.get_analog()
+        analog_injector = AnalogInjector(nwb_content)
+        analog_injector.inject(AnalogCreator.create(fl_analog), 'behavior')
 
     def __build_and_inject_processing_module(self, nwb_content):
         logger.info('Apparatus: Building')

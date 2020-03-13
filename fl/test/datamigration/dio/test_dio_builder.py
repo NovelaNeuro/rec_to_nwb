@@ -1,4 +1,3 @@
-import unittest
 from unittest import TestCase
 
 from fl.datamigration.nwb.components.dio.dio_builder import DioBuilder
