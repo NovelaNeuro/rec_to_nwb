@@ -13,7 +13,6 @@ dependencies:
   - chardet
   - cryptography
   - elementpath
-  - fldatamigration
   - h5py
   - hdf5
   - hdmf=1.3.3

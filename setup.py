@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fldatamigration',
-    version='0.1.003',
+    version='0.1.004',
     author='Novela Neurotech',
     url="https://github.com/NovelaNeuro/fldatamigration",
     packages=find_packages(),
