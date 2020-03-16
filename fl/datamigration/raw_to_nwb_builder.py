@@ -1,13 +1,16 @@
+import logging
 import os
 import shutil
-from pathlib import Path
 
 from rec_to_binaries import extract_trodes_rec_file
+import xmlschema
 
 from fl.datamigration.nwb_file_builder import NWBFileBuilder
 
-path = Path(__file__).parent.parent
-path.resolve()
+path = os.path.dirname(os.path.abspath(__file__))
+
+logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 _DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
                             '-interp', '0', '-userefs', '0',
@@ -56,6 +59,10 @@ class RawToNWBBuilder:
         self.parallel_instances = parallel_instances
         self.analog_export_args = analog_export_args
 
+        if self.analog_export_args != ():
+            if not self.__is_rec_config_valid():
+                raise Exception('reconfig xml does not match expected xsd')
+
     def __preprocess_data(self):
         """process data with rec_to_binaries library"""
 
@@ -97,3 +104,15 @@ class RawToNWBBuilder:
         preprocessing = self.data_path + '/' + self.animal_name + '/preprocessing'
         if os.path.exists(preprocessing):
             shutil.rmtree(preprocessing)
+
+    def __is_rec_config_valid(self):
+        """ Check if XML is valid with XSD file """
+
+        xml_file_path = ''
+        for i in range(len(self.analog_export_args)):
+            if self.analog_export_args[i] == '-reconfig':
+                xml_file_path = self.analog_export_args[i+1]
+        xsd_file_path = str(path) + '/../../fl/data/reconfig_header.xsd'
+        xsd_schema = xmlschema.XMLSchema(xsd_file_path)
+        return xsd_schema.is_valid(xml_file_path)
+
