@@ -29,8 +29,7 @@ class DataScanner:
         preprocessing_path = data_path + animal_name + '/preprocessing'
         if not date:
             dates = sorted(os.listdir(preprocessing_path))
-            return {date: self.__extract_datasets(preprocessing_path + '/' + date) for date in dates}
-        return {date: self.__extract_datasets(preprocessing_path + '/' + date)}
+        return {date: self.__extract_datasets(preprocessing_path + '/' + date) for date in dates}
 
     @staticmethod
     def __extract_datasets(date_path):
