@@ -25,12 +25,12 @@ class DataScanner:
     def extract_data_from_all_dates_folders(self):
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, None)}
 
-    def __extract_experiments(self, data_path, animal_name, date):
+    def __extract_experiments(self, data_path, animal_name, dates):
         preprocessing_path = data_path + animal_name + '/preprocessing'
-        if not date:
+        if not dates:
             dates = sorted(os.listdir(preprocessing_path))
             return {date: self.__extract_datasets(preprocessing_path + '/' + date) for date in dates}
-        return {date: self.__extract_datasets(preprocessing_path + '/' + date)}
+        return {dates[0]: self.__extract_datasets(preprocessing_path + '/' + dates[0])}
 
     @staticmethod
     def __extract_datasets(date_path):
