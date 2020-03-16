@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 from dateutil.tz import tzlocal
 from hdmf.common import VectorData
-from ndx_fllab_novela.fl_electrode_group import FLElectrodeGroup
+from ndx_fllab_novela.nwb_electrode_group import NwbElectrodeGroup
 from pynwb import NWBFile
 
 from fl.datamigration.exceptions.not_compatible_metadata import NotCompatibleMetadata
@@ -37,10 +37,10 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
 
         cls.mock_eg_1 = Mock()
         cls.mock_eg_2 = Mock()
-        cls.mock_eg_1.__class__ = FLElectrodeGroup
-        cls.mock_eg_2.__class__ = FLElectrodeGroup
-        cls.mock_eg_1.name = 'FLElectrodeGroup1'
-        cls.mock_eg_2.name = 'FLElectrodeGroup2'
+        cls.mock_eg_1.__class__ = NwbElectrodeGroup
+        cls.mock_eg_2.__class__ = NwbElectrodeGroup
+        cls.mock_eg_1.name = 'NwbElectrodeGroup1'
+        cls.mock_eg_2.name = 'NwbElectrodeGroup2'
         cls.electrode_groups = [cls.mock_eg_1, cls.mock_eg_2]
 
     def setUp(self):
