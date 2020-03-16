@@ -29,7 +29,6 @@ class TestRawToNWBGeneration(unittest.TestCase):
             output_path='',
             extract_spikes=False,
             extract_mda=True,
-            extract_time=True,
             extract_lfps=False,
             extract_analog=True,
             extract_dio=True,

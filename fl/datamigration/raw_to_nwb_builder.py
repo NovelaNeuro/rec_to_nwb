@@ -31,7 +31,6 @@ class RawToNWBBuilder:
             extract_spikes=False,
             extract_lfps=False,
             extract_dio=True,
-            extract_time=True,
             extract_mda=True,
             overwrite=True,
             lfp_export_args=_DEFAULT_LFP_EXPORT_ARGS,
@@ -44,7 +43,6 @@ class RawToNWBBuilder:
         self.extract_dio = extract_dio
         self.extract_lfps = extract_lfps
         self.extract_mda = extract_mda
-        self.extract_time = extract_time
         self.lfp_export_args = lfp_export_args
         self.mda_export_args = mda_export_args
         self.overwrite = overwrite
@@ -66,7 +64,7 @@ class RawToNWBBuilder:
                                 parallel_instances=self.parallel_instances,
                                 extract_analog=self.extract_analog,
                                 extract_dio=self.extract_dio,
-                                extract_time=self.extract_time,
+                                extract_time=True,
                                 extract_mda=self.extract_mda,
                                 extract_lfps=self.extract_lfps,
                                 extract_spikes=self.extract_spikes,
