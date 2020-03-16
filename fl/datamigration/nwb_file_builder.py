@@ -6,7 +6,6 @@ import uuid
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
-import fl.datamigration.tools.data_scanner as fs
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
@@ -38,6 +37,7 @@ from fl.datamigration.nwb.components.position.fl_position_manager import FlPosit
 from fl.datamigration.nwb.components.position.position_creator import PositionCreator
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
+from fl.datamigration.tools.data_scanner import DataScanner
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -63,7 +63,8 @@ class NWBFileBuilder:
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
-        self.data_scanner = fs.DataScanner(data_path, animal_name, date)
+        self.data_scanner = DataScanner(data_path, animal_name)
+        self.data_scanner.extract_data_from_date_folder(date)
         self.dataset_names = self.data_scanner.get_all_datasets(animal_name, date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
         self.process_dio = process_dio

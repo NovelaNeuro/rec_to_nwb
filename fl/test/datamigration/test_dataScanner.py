@@ -15,8 +15,8 @@ class TestDataScanner(TestCase):
         data_scanner = DataScanner(
             data_path=path + '/res/scanner_test/',
             animal_name='alien',
-            date=None
         )
+        data_scanner.extract_data_from_all_dates_folders()
 
         self.assertEqual(len(data_scanner.data.values()), 1)
         self.assertEqual(len(data_scanner.data['alien'].values()), 1)
@@ -26,8 +26,8 @@ class TestDataScanner(TestCase):
         data_scanner = DataScanner(
             data_path=path + '/res/scanner_test/',
             animal_name='alien',
-            date=None
         )
+        data_scanner.extract_data_from_all_dates_folders()
 
         self.assertEqual((path + '/res/scanner_test/alien/preprocessing/21251015/21251015_alien_01_s1.1.pos/'),
                          data_scanner.data['alien']['21251015']['01_s1'].get_data_path_from_dataset('pos'))
@@ -48,8 +48,8 @@ class TestDataScanner(TestCase):
         data_scanner = DataScanner(
             data_path=path + '/res/scanner_test/',
             animal_name='alien',
-            date=None
         )
+        data_scanner.extract_data_from_all_dates_folders()
 
         self.assertEqual(len(data_scanner.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('pos')), 3)
         self.assertEqual(len(data_scanner.data['alien']['21251015']['01_s1'].get_all_data_from_dataset('DIO')), 7)
@@ -67,7 +67,6 @@ class TestDataScanner(TestCase):
         data_scanner = DataScanner(
             data_path=path + '/res/scanner_test/',
             animal_name='alien',
-            date=None
         )
         probe_path = path + '/res/probe_test'
 
@@ -82,5 +81,4 @@ class TestDataScanner(TestCase):
         DataScanner(
             data_path=None,
             animal_name='alien',
-            date=None
         )
