@@ -4,7 +4,7 @@ import unittest
 import numpy as np
 
 from fl.datamigration.nwb.components.mda.fl_mda_extractor import FlMdaExtractor
-from fl.datamigration.tools.file_scanner import Dataset
+from fl.datamigration.tools.dataset import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))
 
