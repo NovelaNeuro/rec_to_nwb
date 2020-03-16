@@ -1,6 +1,6 @@
 package:
   name: fldatamigration
-  version: "0.1.003"
+  version: "0.1.004"
 
 source:
   path: ../fldatamigration
