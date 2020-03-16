@@ -7,7 +7,7 @@ from dateutil.tz import tzlocal
 from hdmf.common import DynamicTable, VectorData, ElementIdentifiers
 from pynwb import NWBFile
 
-from ndx_fllab_novela.fl_electrode_group import FLElectrodeGroup
+from ndx_fllab_novela.nwb_electrode_group import NwbElectrodeGroup
 from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
@@ -52,10 +52,10 @@ class TestElectrodeIntegration(TestCase):
         
         mock_eg_1 = Mock()
         mock_eg_2 = Mock()
-        mock_eg_1.__class__ = FLElectrodeGroup
-        mock_eg_2.__class__ = FLElectrodeGroup
-        mock_eg_1.name = 'FLElectrodeGroup1'
-        mock_eg_2.name = 'FLElectrodeGroup2'
+        mock_eg_1.__class__ = NwbElectrodeGroup
+        mock_eg_2.__class__ = NwbElectrodeGroup
+        mock_eg_1.name = 'NwbElectrodeGroup1'
+        mock_eg_2.name = 'NwbElectrodeGroup2'
 
         nwb_file = NWBFile(
             session_description='demonstrate external files',
@@ -101,8 +101,8 @@ class TestElectrodeIntegration(TestCase):
         self.assertEqual(nwb_file.electrodes[0][7], mock_eg_1)
         self.assertEqual(nwb_file.electrodes[1][7], mock_eg_1)
 
-        self.assertEqual(nwb_file.electrodes[0][8], 'FLElectrodeGroup1')
-        self.assertEqual(nwb_file.electrodes[1][8], 'FLElectrodeGroup1')
+        self.assertEqual(nwb_file.electrodes[0][8], 'NwbElectrodeGroup1')
+        self.assertEqual(nwb_file.electrodes[1][8], 'NwbElectrodeGroup1')
 
     @should_raise(NoneParamException)
     def test_electrode_failed_creating_and_injecting_inside_nwb_due_to_None_param(self):
@@ -133,10 +133,10 @@ class TestElectrodeIntegration(TestCase):
 
         mock_eg_1 = Mock()
         mock_eg_2 = Mock()
-        mock_eg_1.__class__ = FLElectrodeGroup
-        mock_eg_2.__class__ = FLElectrodeGroup
-        mock_eg_1.name = 'FLElectrodeGroup1'
-        mock_eg_2.name = 'FLElectrodeGroup2'
+        mock_eg_1.__class__ = NwbElectrodeGroup
+        mock_eg_2.__class__ = NwbElectrodeGroup
+        mock_eg_1.name = 'NwbElectrodeGroup1'
+        mock_eg_2.name = 'NwbElectrodeGroup2'
 
         nwb_file = NWBFile(
             session_description='demonstrate external files',
@@ -238,8 +238,8 @@ class TestElectrodeIntegration(TestCase):
 
         mock_eg_1 = Mock()
         mock_eg_2 = Mock()
-        mock_eg_1.__class__ = FLElectrodeGroup
-        mock_eg_2.__class__ = FLElectrodeGroup
+        mock_eg_1.__class__ = NwbElectrodeGroup
+        mock_eg_2.__class__ = NwbElectrodeGroup
         mock_eg_1.name = None
         mock_eg_2.name = None
 
@@ -294,10 +294,10 @@ class TestElectrodeIntegration(TestCase):
 
         mock_eg_1 = Mock()
         mock_eg_2 = Mock()
-        mock_eg_1.__class__ = FLElectrodeGroup
-        mock_eg_2.__class__ = FLElectrodeGroup
-        mock_eg_1.name = 'FLElectrodeGroup1'
-        mock_eg_2.name = 'FLElectrodeGroup2'
+        mock_eg_1.__class__ = NwbElectrodeGroup
+        mock_eg_2.__class__ = NwbElectrodeGroup
+        mock_eg_1.name = 'NwbElectrodeGroup1'
+        mock_eg_2.name = 'NwbElectrodeGroup2'
 
         electrode_creator = ElectrodesCreator()
 
