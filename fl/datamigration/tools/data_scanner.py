@@ -61,9 +61,6 @@ class DataScanner:
     def get_all_datasets(self, animal, date):
         return list(self.data[animal][date].keys())
 
-    def get_metadata(self, animal, date):
-        return self.get_experiments(animal)[date]
-
     def get_mda_timestamps(self, animal, date, dataset):
         for file in self.data[animal][date][dataset].get_all_data_from_dataset('mda'):
             if file.endswith('timestamps.mda'):
