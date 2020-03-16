@@ -1,4 +1,4 @@
-class FlFLElectrodeGroup:
+class FlNwbElectrodeGroup:
 
     def __init__(self, metadata, device):
         self.metadata = metadata
