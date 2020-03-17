@@ -101,11 +101,11 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
 
       **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True)</br>
 
-      **extract_time** = `boolean` flag specifying if time data should be extracted from raw (default True)</br>
-
       **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True)</br>
 
       **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4)</br>
+      
+      **overwrite** = `boolean`  If true, will overwrite existing files. (default True)</br>
       
       **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')`</br>
 
