@@ -31,7 +31,6 @@ class TestMetadataManager(TestCase):
         self.assertIn('session start time', metadata_fields)
         self.assertIn('subject', metadata_fields)
         self.assertIn('electrode region', metadata_fields)
-        self.assertIn('apparatus', metadata_fields)
         self.assertIn('tasks', metadata_fields)
         self.assertIn('behavioral_events', metadata_fields)
         self.assertIn('electrode groups', metadata_fields)
