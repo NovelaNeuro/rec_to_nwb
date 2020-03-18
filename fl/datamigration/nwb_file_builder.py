@@ -2,7 +2,6 @@ import datetime
 import logging.config
 import os
 import uuid
-
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
@@ -13,8 +12,6 @@ from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
 from fl.datamigration.nwb.components.analog.analog_files import AnalogFiles
 from fl.datamigration.nwb.components.analog.analog_injector import AnalogInjector
 from fl.datamigration.nwb.components.analog.fl_analog_manager import FlAnalogManager
-from fl.datamigration.nwb.components.apparatus.apparatus_creator import ApparatusCreator
-from fl.datamigration.nwb.components.apparatus.fl_apparatus_manager import FlApparatusManager
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
 from fl.datamigration.nwb.components.device.device_injector import DeviceInjector
 from fl.datamigration.nwb.components.device.fl_device_header_manager import FlDeviceHeaderManager
@@ -23,8 +20,8 @@ from fl.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from fl.datamigration.nwb.components.dio.dio_files import DioFiles
 from fl.datamigration.nwb.components.dio.dio_injector import DioInjector
 from fl.datamigration.nwb.components.dio.dio_manager import DioManager
-from fl.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from fl.datamigration.nwb.components.electrode_group.electrode_group_factory import ElectrodeGroupFactory
+from fl.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_manager import FlElectrodeGroupManager
 from fl.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
 from fl.datamigration.nwb.components.electrodes.electrode_extension_creator import ElectrodeExtensionCreator
@@ -89,8 +86,6 @@ class NWBFileBuilder:
 
         self.fl_position_manager = FlPositionManager(self.datasets)
         self.position_creator = PositionCreator()
-
-        self.fl_apparatus_manager = FlApparatusManager(self.metadata['apparatus']['data'])
 
         self.fl_probe_manager = FlProbeManager(self.probes, self.metadata['electrode groups'])
         self.device_injector = DeviceInjector()
@@ -181,13 +176,6 @@ class NWBFileBuilder:
         analog_injector.inject(AnalogCreator.create(fl_analog), 'behavior')
 
     def __build_and_inject_processing_module(self, nwb_content):
-        logger.info('Apparatus: Building')
-        fl_apparatus = self.fl_apparatus_manager.get_fl_apparatus()
-        logger.info('Apparatus: Creating')
-        apparatus = ApparatusCreator.create_apparatus(fl_apparatus)
-        logger.info('Apparatus: Injecting into ProcessingModule')
-        self.pm_creator.insert(apparatus)
-
         logger.info('Task: Building')
         task = self.task_builder.build()
         logger.info('Task: Injecting into ProcessingModule')
