@@ -1,9 +1,11 @@
-import datetime
 import logging.config
 import os
 import uuid
+from datetime import datetime
+
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
+from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
@@ -66,7 +68,7 @@ class NWBFileBuilder:
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
         self.process_dio = process_dio
         self.process_mda = process_mda
-        self.process_analog=process_analog
+        self.process_analog = process_analog
         self.output_file = output_file
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
@@ -117,7 +119,7 @@ class NWBFileBuilder:
             experimenter=self.metadata['experimenter name'],
             lab=self.metadata['lab'],
             institution=self.metadata['institution'],
-            session_start_time=datetime.datetime.strptime(self.metadata['session start time'], '%m/%d/%Y %H:%M:%S'),
+            session_start_time=self.__get_session_start_time(),
             identifier=str(uuid.uuid1()),
             experiment_description=self.metadata['experiment description'],
             subject=Subject(
@@ -164,6 +166,15 @@ class NWBFileBuilder:
 
         logger.info(self.output_file + ' file has been created.')
         return self.output_file
+
+    def __get_session_start_time(self):
+        continuous_time_file = \
+            self.datasets[0].data['time'] + '/' + self.date + '_' + self.animal_name + '_' \
+            + self.dataset_names[0] + '.continuoustime.dat'
+        continuous_time = readTrodesExtractedDataFile(continuous_time_file)
+        session_start_timestamp = continuous_time['data'][0][1]
+        session_start_datetime = datetime.fromtimestamp(session_start_timestamp/1E9)
+        return session_start_datetime
 
     def __build_and_inject_analog(self, nwb_content):
         analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
