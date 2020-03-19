@@ -10,6 +10,7 @@ from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
+from fl.datamigration.nwb.common.session_time_extractor import SessionTimeExtractor
 from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
 from fl.datamigration.nwb.components.analog.analog_files import AnalogFiles
 from fl.datamigration.nwb.components.analog.analog_injector import AnalogInjector
@@ -111,6 +112,13 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
+        self.session_time_extractor = SessionTimeExtractor(
+            self.datasets,
+            self.animal_name,
+            self.date,
+            self.dataset_names
+        )
+
     def build(self):
         logger.info('Building components for NWB')
 
@@ -119,7 +127,7 @@ class NWBFileBuilder:
             experimenter=self.metadata['experimenter name'],
             lab=self.metadata['lab'],
             institution=self.metadata['institution'],
-            session_start_time=self.__get_session_start_time(),
+            session_start_time=self.session_time_extractor.get_session_start_time(),
             identifier=str(uuid.uuid1()),
             experiment_description=self.metadata['experiment description'],
             subject=Subject(
@@ -166,15 +174,6 @@ class NWBFileBuilder:
 
         logger.info(self.output_file + ' file has been created.')
         return self.output_file
-
-    def __get_session_start_time(self):
-        continuous_time_file = \
-            self.datasets[0].data['time'] + '/' + self.date + '_' + self.animal_name + '_' \
-            + self.dataset_names[0] + '.continuoustime.dat'
-        continuous_time = readTrodesExtractedDataFile(continuous_time_file)
-        session_start_timestamp = continuous_time['data'][0][1]
-        session_start_datetime = datetime.fromtimestamp(session_start_timestamp/1E9)
-        return session_start_datetime
 
     def __build_and_inject_analog(self, nwb_content):
         analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
