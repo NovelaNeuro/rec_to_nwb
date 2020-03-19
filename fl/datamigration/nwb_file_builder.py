@@ -263,7 +263,6 @@ class NWBFileBuilder:
 
         fl_mda_manager = FlMdaManager(
             nwb_content,
-            self.metadata,
             self.header.configuration.hardware_configuration.sampling_rate,
             self.datasets
         )

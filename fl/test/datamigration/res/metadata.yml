@@ -13,12 +13,6 @@ subject:
   subject id:      Beans
   weight:          Unknown
 
-electrode region:
-  name: region 1,
-  description: description 1,
-  region: [0, 1]
-
-
 tasks:
   [
   {
