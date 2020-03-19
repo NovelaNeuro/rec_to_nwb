@@ -1,3 +1,4 @@
+import os
 import unittest
 from pathlib import Path
 
@@ -23,9 +24,9 @@ class TestNwbFullGeneration(unittest.TestCase):
             animal_name='beans',
             date='20190718',
             nwb_metadata=metadata,
-            process_dio=True,
+            process_dio=False,
             process_mda=True,
-            process_analog=True
+            process_analog=False
         )
 
     def test_generate_nwb(self):

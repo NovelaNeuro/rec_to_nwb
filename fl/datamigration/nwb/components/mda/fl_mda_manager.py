@@ -4,8 +4,8 @@ from fl.datamigration.nwb.components.mda.fl_mda_extractor import FlMdaExtractor
 
 
 class FlMdaManager:
-    def __init__(self, nwb_content, metadata, sampling_rate, datasets):
-        self.__table_region_builder = TableRegionBuilder(nwb_content, metadata)
+    def __init__(self, nwb_content, sampling_rate, datasets):
+        self.__table_region_builder = TableRegionBuilder(nwb_content)
         self.__fl_mda_extractor = FlMdaExtractor(datasets)
         self.__fl_mda_builder = FlMdaBuilder(sampling_rate)
 
