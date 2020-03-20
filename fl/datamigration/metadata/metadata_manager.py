@@ -26,7 +26,6 @@ class MetadataManager:
         metadata_info = 'Experimenter: ' + self.metadata['experimenter name'] + \
                         '\nDescription: ' + self.metadata['experiment description'] + \
                         '\nSession Id: ' + self.metadata['session_id'] + \
-                        '\nStart Time: ' + self.metadata['session start time'] + \
                         '\nSubject: ' + self.metadata['subject']['description']
 
         probe_types = list(map(lambda probe: probe['probe_type'], self.probes))

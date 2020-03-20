@@ -28,7 +28,6 @@ class TestMetadataManager(TestCase):
         self.assertIn('experiment description', metadata_fields)
         self.assertIn('session description', metadata_fields)
         self.assertIn('session_id', metadata_fields)
-        self.assertIn('session start time', metadata_fields)
         self.assertIn('subject', metadata_fields)
         self.assertIn('tasks', metadata_fields)
         self.assertIn('behavioral_events', metadata_fields)

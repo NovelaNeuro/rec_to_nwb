@@ -1,0 +1,30 @@
+<Start settings>
+Description: Continuous time periods (start and end times)
+Byte_order: little endian
+Original_file: 20190718_beans_01_s1.rec
+Clockrate: 20000
+System_time_at_creation: 1563488986885
+Timestamp_at_creation: 1327428
+Byte_order: little endian
+Original_file: 20190718_beans_01_s1.rec
+Clockrate: 20000
+Trodes_version: 1.8.2
+Compile_date: May 16 2019
+Compile_time: 10:32:19
+QT_version: 5.9.8
+Commit_tag: heads/Release_1.8.2-0-g9a3e37c
+Controller_firmware: 3.3
+Headstage_firmware: 3.9
+Controller_serialnum: 65535 65535
+Headstage_serialnum: 00603 00104
+AutoSettle: 0
+SmartRef: 0
+Gyro: 1
+Accelerometer: 1
+Magnetometer: 1
+Time_offset: 0
+System_time_at_creation: 1563488986885
+Timestamp_at_creation: 1327428
+Fields: <trodestime uint32><systime int64>
+<End settings>
+[(1563488986885, 1563488986886)]
