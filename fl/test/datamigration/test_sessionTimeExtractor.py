@@ -9,7 +9,7 @@ class TestSessionTimeExtractor(unittest.TestCase):
     def fake_read_continuous_time(*args, **kwargs):
         return {'data': [(1234, 1582199576000), (545353, 1582099345600)]}
 
-    @patch.object(SessionTimeExtractor, '__read_continuous_time', new=fake_read_continuous_time)
+    @patch('rec_to_binaries.read_binaries.readTrodesExtractedDataFile', new=fake_read_continuous_time)
     def test_get_session_start_time_result(self):
         session_time_extractor = SessionTimeExtractor(
             datasets='datasets',
