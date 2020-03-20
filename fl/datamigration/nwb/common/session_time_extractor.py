@@ -15,7 +15,11 @@ class SessionTimeExtractor:
         continuous_time_file = \
             self.datasets[0].data['time'] + '/' + self.date + '_' + self.animal_name + '_' \
             + self.dataset_names[0] + '.continuoustime.dat'
-        continuous_time = readTrodesExtractedDataFile(continuous_time_file)
+        continuous_time = SessionTimeExtractor.__read_continuous_time(continuous_time_file)
         session_start_timestamp = continuous_time['data'][0][1]
         session_start_datetime = datetime.fromtimestamp(session_start_timestamp / 1E9)
         return session_start_datetime
+
+    @staticmethod
+    def __read_continuous_time(continuous_time_file):
+        return readTrodesExtractedDataFile(continuous_time_file)
