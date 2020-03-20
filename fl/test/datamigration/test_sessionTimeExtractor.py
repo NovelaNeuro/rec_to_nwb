@@ -1,22 +1,26 @@
+import os
 import unittest
-from unittest.mock import patch
+from datetime import datetime
+
 from fl.datamigration.nwb.common.session_time_extractor import SessionTimeExtractor
+from fl.datamigration.tools.dataset import Dataset
+
+path = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestSessionTimeExtractor(unittest.TestCase):
 
-    @staticmethod
-    def fake_read_continuous_time(*args, **kwargs):
-        return {'data': [(1234, 1582199576000), (545353, 1582099345600)]}
-
-    @patch('rec_to_binaries.read_binaries.readTrodesExtractedDataFile', new=fake_read_continuous_time)
     def test_get_session_start_time_result(self):
+        dataset1 = Dataset(1)
+        dataset1.data = {'time': str(path) + '/res/continuoustime_sample'}
         session_time_extractor = SessionTimeExtractor(
-            datasets='datasets',
-            animal_name='dwarf',
-            date='begin',
-            dataset_names='420'
+            datasets=[dataset1],
+            animal_name='beans',
+            date='20200616',
+            dataset_names=['06_w1']
         )
         session_start_time = session_time_extractor.get_session_start_time()
         print(session_start_time)
-        self.assertTrue(1)
+        self.assertIsNotNone(session_start_time)
+        self.assertIsInstance(session_start_time, datetime)
+
