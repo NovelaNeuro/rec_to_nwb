@@ -22,4 +22,5 @@ class TestSessionTimeExtractor(unittest.TestCase):
         session_start_time = session_time_extractor.get_session_start_time()
         self.assertIsNotNone(session_start_time)
         self.assertIsInstance(session_start_time, datetime)
+        self.assertEqual(datetime.timestamp(session_start_time), 1563488986885/1E3)
 
