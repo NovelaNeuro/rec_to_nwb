@@ -20,7 +20,6 @@ class TestSessionTimeExtractor(unittest.TestCase):
             dataset_names=['06_w1']
         )
         session_start_time = session_time_extractor.get_session_start_time()
-        print(session_start_time)
         self.assertIsNotNone(session_start_time)
         self.assertIsInstance(session_start_time, datetime)
 
