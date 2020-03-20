@@ -56,6 +56,17 @@ class NWBFileBuilder:
                  ):
 
         logger.info('NWBFileBuilder initialization')
+        logger.info(
+            'NWB builder initialization parameters: \n'
+            + 'data_path = ' + str(data_path) + '\n'
+            + 'animal_name = ' + str(animal_name)  + '\n'
+            + 'date = ' + str(date) + '\n'
+            + 'nwb_metadata = ' + str(nwb_metadata) + '\n'
+            + 'process_dio = ' + str(process_dio) + '\n'
+            + 'process_mda = ' + str(process_mda) + '\n'
+            + 'process_analog = ' + str(process_analog) + '\n'
+            + 'output_file = ' + str(output_file) + '\n'
+        )
 
         self.animal_name = animal_name
         self.date = date
@@ -66,7 +77,7 @@ class NWBFileBuilder:
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
         self.process_dio = process_dio
         self.process_mda = process_mda
-        self.process_analog=process_analog
+        self.process_analog = process_analog
         self.output_file = output_file
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
