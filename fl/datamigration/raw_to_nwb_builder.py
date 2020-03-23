@@ -41,6 +41,25 @@ class RawToNWBBuilder:
             parallel_instances=4,
             analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
     ):
+        """
+        Parameters:
+        data_path = path to directory containing all experiments data
+        animal_name = string with animal subject of the experiment
+        dates = list of strings with dates of experiments on above animal
+        nwb_metadata = MetadataManager object containig metadata about experiment
+        output_path = path and name specifying where .nwb file gonna be written
+        extract_analog = boolean if analog data should be extracted and processed from raw data
+        extract_spikes = boolean if spikes data should be extracted and processed from raw data
+        extract_lfps = boolean if lfps data should be extracted and processed from raw data
+        extract_dio = boolean if dio data should be extracted and processed from raw data
+        extract_mda = boolean if mda data should be extracted and processed from raw data
+        overwrite = boolean if current extracted data in preprocessed folder should be overwritten and extracted again
+        lfp_export_args = tuple of strings with flags used to launch lfp extraction from spikegadgets
+        mda_export_args = tuple of strings with flags used to launch mda extraction from spikegadgets
+        analog_export_args = tuple of strings with flags used to launch analog extraction from spikegadgets
+        parallel_instances = int specifying number of parallel processes used during processing data
+        """
+
         self.extract_analog = extract_analog
         self.extract_spikes = extract_spikes
         self.extract_dio = extract_dio
