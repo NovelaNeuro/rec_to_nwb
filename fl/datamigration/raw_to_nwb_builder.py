@@ -16,7 +16,7 @@ _DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
                             '-interp', '0', '-userefs', '0',
                             '-outputrate', '1500')
 _DEFAULT_MDA_EXPORT_ARGS = ('-usespikefilters', '0',
-                            '-interp', '500', '-userefs', '1')
+                            '-interp', '0', '-userefs', '0')
 
 _DEFAULT_ANALOG_EXPORT_ARGS = ()
 
@@ -30,7 +30,7 @@ class RawToNWBBuilder:
             dates,
             nwb_metadata,
             output_path='',
-            extract_analog=False,
+            extract_analog=True,
             extract_spikes=False,
             extract_lfps=False,
             extract_dio=True,
@@ -65,6 +65,23 @@ class RawToNWBBuilder:
 
     def __preprocess_data(self):
         """process data with rec_to_binaries library"""
+
+        logger.info(
+            'Extraction parameters :' + '\n'
+            + 'data_path = ' + self.data_path + '\n'
+            + 'animal_name = ' + self.animal_name + '\n'
+            + 'parallel_instances = ' + str(self.parallel_instances) + '\n'
+            + 'extract_analog = ' + str(self.extract_analog) + '\n'
+            + 'extract_dio = ' + str(self.extract_dio) + '\n'
+            + 'extract_time = ' + str(True) + '\n'
+            + 'extract_mda = ' + str(self.extract_mda) + '\n'
+            + 'extract_lfps = ' + str(self.extract_lfps) + '\n'
+            + 'extract_spikes = ' + str(self.extract_spikes) + '\n'
+            + 'overwrite = ' + str(self.overwrite) + '\n'
+            + 'lfp_export_args = ' + str(self.lfp_export_args) + '\n'
+            + 'mda_export_args = ' + str(self.mda_export_args) + '\n'
+            + 'analog_export_args = ' + str(self.analog_export_args) + '\n'
+        )
 
         extract_trodes_rec_file(self.data_path,
                                 self.animal_name,
