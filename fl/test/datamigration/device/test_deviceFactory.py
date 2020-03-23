@@ -49,6 +49,7 @@ class TestDeviceFactory(TestCase):
         mock_fl_probe.probe_id = 1
         mock_fl_probe.metadata = {
             'probe_type': 'Type1',
+            'units': 'um',
             'contact_size': 20.0,
             'num_shanks': 2,
             'contact_side_numbering': True
