@@ -16,7 +16,7 @@ _DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
                             '-interp', '0', '-userefs', '0',
                             '-outputrate', '1500')
 _DEFAULT_MDA_EXPORT_ARGS = ('-usespikefilters', '0',
-                            '-interp', '500', '-userefs', '1')
+                            '-interp', '0', '-userefs', '0')
 
 _DEFAULT_ANALOG_EXPORT_ARGS = ()
 
@@ -30,7 +30,7 @@ class RawToNWBBuilder:
             dates,
             nwb_metadata,
             output_path='',
-            extract_analog=False,
+            extract_analog=True,
             extract_spikes=False,
             extract_lfps=False,
             extract_dio=True,
