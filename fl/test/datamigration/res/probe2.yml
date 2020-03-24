@@ -1,5 +1,5 @@
 probe_type: 32c-2s8mm6cm-20um-40um-dl
-units: 'um' #um/mm
+units: 'um'
 probe_description: 32 channel polyimide probe
 num_shanks: 2
 contact_side_numbering: true

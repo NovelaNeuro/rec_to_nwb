@@ -1,5 +1,5 @@
 probe_type: 128c-4s8mm6cm-20um-40um-sl
-units: 'um' #um/mm
+units: 'um'
 probe_description: '128 channel polyimide probe'
 num_shanks: 4
 contact_side_numbering: true
