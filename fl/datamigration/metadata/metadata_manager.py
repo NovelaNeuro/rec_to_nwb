@@ -8,9 +8,9 @@ class MetadataManager:
     def __init__(self, metadata_path, probes_paths):
 
         """
-        Parameters:
-        metadata_path = path to file .yml with metadata describing experiment
-        probes_paths = list of paths to .yml files with data describing different types of probes used in experiment
+        Args:
+        metadata_path (string): path to file .yml with metadata describing experiment
+        probes_paths (list of strings): list of paths to .yml files with data describing probes used in experiment
         """
 
         validate_parameters_not_none(__name__, metadata_path, probes_paths)

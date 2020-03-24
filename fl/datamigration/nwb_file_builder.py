@@ -59,15 +59,15 @@ class NWBFileBuilder:
                  ):
 
         """
-        Parameters:
-        data_path = path to directory containing all experiments data
-        animal_name = string with animal subject of the experiment
-        date = string with date of experiment
-        nwb_metadata = MetadataManager object containig metadata about experiment
-        process_dio = boolean if dio data should be processed
-        process_mda = boolean if mda data should be processed
-        process_analog = boolean if analog data should be processed
-        output_file = path and name specifying where .nwb file gonna be written
+        Args:
+        data_path (string): path to directory containing all experiments data
+        animal_name (string): name of animal subject of the experiment
+        date (string): date of experiment
+        nwb_metadata (MetadataManager): object containig metadata about experiment
+        process_dio (boolean): flag if dio data should be processed
+        process_mda (boolean): flag if mda data should be processed
+        process_analog (boolean): flag if analog data should be processed
+        output_file (string): path and name specifying where .nwb file gonna be written
         """
 
         logger.info('NWBFileBuilder initialization')
