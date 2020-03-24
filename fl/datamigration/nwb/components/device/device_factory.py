@@ -22,6 +22,7 @@ class DeviceFactory:
         validate_parameters_not_none(__name__, fl_probe.probe_id, fl_probe.metadata)
         return Probe(
             probe_type=fl_probe.metadata['probe_type'],
+            units=fl_probe.metadata['units'],
             contact_size=fl_probe.metadata['contact_size'],
             num_shanks=fl_probe.metadata['num_shanks'],
             contact_side_numbering=fl_probe.metadata['contact_side_numbering'],
