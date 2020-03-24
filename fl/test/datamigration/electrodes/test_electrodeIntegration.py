@@ -4,7 +4,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from dateutil.tz import tzlocal
-from hdmf.common import DynamicTable, VectorData, ElementIdentifiers
+from hdmf.common import DynamicTable
 from pynwb import NWBFile
 
 from ndx_fllab_novela.nwb_electrode_group import NwbElectrodeGroup
@@ -77,32 +77,32 @@ class TestElectrodeIntegration(TestCase):
         self.assertEqual(12, len(fl_electrodes))
         self.assertIsInstance(nwb_file.electrodes, DynamicTable)
 
-        self.assertEqual(nwb_file.electrodes[0][0], 0)
-        self.assertEqual(nwb_file.electrodes[1][0], 1)
+        self.assertEqual(nwb_file.electrodes[0, 0], 0)
+        self.assertEqual(nwb_file.electrodes[1, 0], 1)
 
-        self.assertEqual(nwb_file.electrodes[0][1], 0.0)
-        self.assertEqual(nwb_file.electrodes[1][1], 0.0)
+        self.assertEqual(nwb_file.electrodes[0, 1], 0.0)
+        self.assertEqual(nwb_file.electrodes[1, 1], 0.0)
 
-        self.assertEqual(nwb_file.electrodes[0][2], 0.0)
-        self.assertEqual(nwb_file.electrodes[1][2], 0.0)
+        self.assertEqual(nwb_file.electrodes[0, 2], 0.0)
+        self.assertEqual(nwb_file.electrodes[1, 2], 0.0)
 
-        self.assertEqual(nwb_file.electrodes[0][3], 0.0)
-        self.assertEqual(nwb_file.electrodes[1][3], 0.0)
+        self.assertEqual(nwb_file.electrodes[0, 3], 0.0)
+        self.assertEqual(nwb_file.electrodes[1, 3], 0.0)
 
-        self.assertEqual(nwb_file.electrodes[0][4], 0.0)
-        self.assertEqual(nwb_file.electrodes[1][4], 0.0)
+        self.assertEqual(nwb_file.electrodes[0, 4], 0.0)
+        self.assertEqual(nwb_file.electrodes[1, 4], 0.0)
 
-        self.assertEqual(nwb_file.electrodes[0][5], 'None')
-        self.assertEqual(nwb_file.electrodes[1][5], 'None')
+        self.assertEqual(nwb_file.electrodes[0, 5], 'None')
+        self.assertEqual(nwb_file.electrodes[1, 5], 'None')
 
-        self.assertEqual(nwb_file.electrodes[0][6], 'None')
-        self.assertEqual(nwb_file.electrodes[1][6], 'None')
+        self.assertEqual(nwb_file.electrodes[0, 6], 'None')
+        self.assertEqual(nwb_file.electrodes[1, 6], 'None')
 
-        self.assertEqual(nwb_file.electrodes[0][7], mock_eg_1)
-        self.assertEqual(nwb_file.electrodes[1][7], mock_eg_1)
+        self.assertEqual(nwb_file.electrodes[0, 7], mock_eg_1)
+        self.assertEqual(nwb_file.electrodes[1, 7], mock_eg_1)
 
-        self.assertEqual(nwb_file.electrodes[0][8], 'NwbElectrodeGroup1')
-        self.assertEqual(nwb_file.electrodes[1][8], 'NwbElectrodeGroup1')
+        self.assertEqual(nwb_file.electrodes[0, 8], 'NwbElectrodeGroup1')
+        self.assertEqual(nwb_file.electrodes[1, 8], 'NwbElectrodeGroup1')
 
     @should_raise(NoneParamException)
     def test_electrode_failed_creating_and_injecting_inside_nwb_due_to_None_param(self):

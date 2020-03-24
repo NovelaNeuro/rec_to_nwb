@@ -79,39 +79,39 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         self.assertIsInstance(self.nwb_file.electrodes['hwChan'], VectorData)
 
         # header_extension - hw_chan
-        self.assertIsInstance(self.nwb_file.electrodes[0][9], int)
-        self.assertEqual(self.nwb_file.electrodes[0][9], 0)
-        self.assertEqual(self.nwb_file.electrodes[1][9], 1)
-        self.assertEqual(self.nwb_file.electrodes[2][9], 2)
-        self.assertEqual(self.nwb_file.electrodes[3][9], 3)
+        self.assertIsInstance(self.nwb_file.electrodes[0, 9], int)
+        self.assertEqual(self.nwb_file.electrodes[0, 9], 0)
+        self.assertEqual(self.nwb_file.electrodes[1, 9], 1)
+        self.assertEqual(self.nwb_file.electrodes[2, 9], 2)
+        self.assertEqual(self.nwb_file.electrodes[3, 9], 3)
 
         # ntrodes_extension - ntrode_id
-        self.assertIsInstance(self.nwb_file.electrodes[0][10], int)
-        self.assertEqual(self.nwb_file.electrodes[0][10], 11)
-        self.assertEqual(self.nwb_file.electrodes[1][10], 11)
-        self.assertEqual(self.nwb_file.electrodes[2][10], 22)
-        self.assertEqual(self.nwb_file.electrodes[3][10], 22)
+        self.assertIsInstance(self.nwb_file.electrodes[0, 10], int)
+        self.assertEqual(self.nwb_file.electrodes[0, 10], 11)
+        self.assertEqual(self.nwb_file.electrodes[1, 10], 11)
+        self.assertEqual(self.nwb_file.electrodes[2, 10], 22)
+        self.assertEqual(self.nwb_file.electrodes[3, 10], 22)
 
         # metadata_extension - rel_x
-        self.assertIsInstance(self.nwb_file.electrodes[0][11], int)
-        self.assertEqual(self.nwb_file.electrodes[0][11], 0)
-        self.assertEqual(self.nwb_file.electrodes[1][11], 0)
-        self.assertEqual(self.nwb_file.electrodes[2][11], 0)
-        self.assertEqual(self.nwb_file.electrodes[3][11], 0)
+        self.assertIsInstance(self.nwb_file.electrodes[0, 11], int)
+        self.assertEqual(self.nwb_file.electrodes[0, 11], 0)
+        self.assertEqual(self.nwb_file.electrodes[1, 11], 0)
+        self.assertEqual(self.nwb_file.electrodes[2, 11], 0)
+        self.assertEqual(self.nwb_file.electrodes[3, 11], 0)
 
         # metadata_extension - rel_y
-        self.assertIsInstance(self.nwb_file.electrodes[0][12], int)
-        self.assertEqual(self.nwb_file.electrodes[0][12], 1)
-        self.assertEqual(self.nwb_file.electrodes[1][12], 1)
-        self.assertEqual(self.nwb_file.electrodes[2][12], 1)
-        self.assertEqual(self.nwb_file.electrodes[3][12], 1)
+        self.assertIsInstance(self.nwb_file.electrodes[0, 12], int)
+        self.assertEqual(self.nwb_file.electrodes[0, 12], 1)
+        self.assertEqual(self.nwb_file.electrodes[1, 12], 1)
+        self.assertEqual(self.nwb_file.electrodes[2, 12], 1)
+        self.assertEqual(self.nwb_file.electrodes[3, 12], 1)
 
         # metadata_extension - rel_z
-        self.assertIsInstance(self.nwb_file.electrodes[0][13], int)
-        self.assertEqual(self.nwb_file.electrodes[0][13], 2)
-        self.assertEqual(self.nwb_file.electrodes[1][13], 2)
-        self.assertEqual(self.nwb_file.electrodes[2][13], 2)
-        self.assertEqual(self.nwb_file.electrodes[3][13], 2)
+        self.assertIsInstance(self.nwb_file.electrodes[0, 13], int)
+        self.assertEqual(self.nwb_file.electrodes[0, 13], 2)
+        self.assertEqual(self.nwb_file.electrodes[1, 13], 2)
+        self.assertEqual(self.nwb_file.electrodes[2, 13], 2)
+        self.assertEqual(self.nwb_file.electrodes[3, 13], 2)
 
     def test_injectExtensions_raiseExceptionLongerHeaderExt_true(self):
         header_extension = [0, 1, 2, 3, 4, 5]
