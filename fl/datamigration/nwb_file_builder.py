@@ -61,7 +61,7 @@ class NWBFileBuilder:
         """
         Args:
         data_path (string): path to directory containing all experiments data
-        animal_name (string): name of animal subject of the experiment
+        animal_name (string): directory name which represents animal subject of experiment
         date (string): date of experiment
         nwb_metadata (MetadataManager): object containig metadata about experiment
         process_dio (boolean): flag if dio data should be processed

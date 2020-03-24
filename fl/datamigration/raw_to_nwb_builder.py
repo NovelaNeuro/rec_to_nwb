@@ -44,7 +44,7 @@ class RawToNWBBuilder:
         """
         Args:
         data_path  (string): path to directory containing all experiments data
-        animal_name (string): name of animal subject of the experiment
+        animal_name (string): directory name which represents animal subject of experiment
         dates (list of strings): dates of experiments on above animal
         nwb_metadata (MetadataManager): object containig metadata about experiment
         output_path (string): path and name specifying where .nwb file gonna be written
