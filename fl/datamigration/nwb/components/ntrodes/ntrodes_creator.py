@@ -14,5 +14,4 @@ class NTrodesCreator:
             description='-',
             map=fl_ntrodes.map_list,
             name='ntrode ' + str(fl_ntrodes.metadata['ntrode_id']),
-            bad_channels=[1,1]
         )
