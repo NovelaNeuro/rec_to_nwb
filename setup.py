@@ -1,11 +1,12 @@
-
+version = '0.1.004'
+print(version)
 from setuptools import setup, find_packages
 
 
 
 setup(
     name='fldatamigration',
-    version='0.1.004',
+    version=version,
     author='Novela Neurotech',
     url="https://github.com/NovelaNeuro/fldatamigration",
     packages=find_packages(),
