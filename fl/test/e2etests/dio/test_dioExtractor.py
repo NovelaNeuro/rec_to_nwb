@@ -38,7 +38,6 @@ class TestDioExtractor(TestCase):
         )
 
     def test_extracted_dio_for_single_dataset_correctType_true(self):
-        print(self.single_dataset_data)
         self.assertIsInstance(self.single_dataset_data, dict)
         self.assertIsInstance(self.single_dataset_data['Din1'], list)
         self.assertIsInstance(self.single_dataset_data['Din1'][0], np.ndarray)
