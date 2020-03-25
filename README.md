@@ -129,7 +129,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
           2: 6
           3: 7
     ```
-   ######probe.yml:
+   ######probe.yml: 
    ```
     probe_type: tetrode_12.5 # Type of the probe that refereds to device_type in electrode_group in metadata.yml
     units: 'um'
