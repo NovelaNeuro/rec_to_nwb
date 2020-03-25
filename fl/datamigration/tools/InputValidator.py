@@ -30,7 +30,7 @@ class InputValidator:
                     missing_data_types += data_type + " "
         print(missing_data_types)
         if missing_data_types != '':
-            raise MissingDataException(missing_data_types + " are missing from epoch " + epoch)
+            raise MissingDataException(missing_data_types + "are missing from epoch " + epoch)
 
     @staticmethod
     def __check_single_epoch(all_data_dirs, dicts, epoch):
@@ -42,7 +42,7 @@ class InputValidator:
     @staticmethod
     def __get_all_data_directories(data_path, animal, date):
         if not(os.path.exists(data_path + '/' + animal + '/preprocessing/' + date)):
-            raise MissingDataException()
+            raise MissingDataException('missing ' + data_path + ' directory')
         return os.listdir(data_path + '/' + animal + '/preprocessing/' + date)
 
     @staticmethod
