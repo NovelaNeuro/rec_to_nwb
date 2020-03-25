@@ -62,8 +62,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```bash
    jupyter notebook
    ```
-4. Prepare metadata.yml file
-   ######metadata.yml file description:
+4. Metadata.yml description:
    ```
     # general information about the experiment 
     experimenter name: Alison Comrie
@@ -129,8 +128,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
           2: 6
           3: 7
     ```
-5. Prepare probe.yml files
-   ######probe.yml file description: 
+5. Probe.yml description:
    ```
     probe_type: tetrode_12.5 # Type of the probe that refers to device_type in electrode_group in metadata.yml
     units: 'um' # possible value for unit is um or mm
