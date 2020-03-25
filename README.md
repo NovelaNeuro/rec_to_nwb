@@ -62,7 +62,102 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```bash
    jupyter notebook
    ```
-4. Set up paths to metadata and probe `yaml` files, which corresponds to the experiment you are going to process.
+4. Prepare metadata.yml file and probe.yml files
+   ######metadata.yml:
+   ```
+    # general information about the experiment 
+    experimenter name: Alison Comrie
+    lab: Loren Frank
+    institution: University of California, San Francisco
+    experiment description: Reinforcement learning
+    session description: Reinforcement leaarning
+    session_id: beans_01
+    subject:
+      description: Long Evans Rat
+      genotype: Wild Type
+      sex: Male
+      species: Rat
+      subject id: Beans
+      weight: Unknown
+    #Tasks represent epochs in experiment. Contain task_name and task_description in the list. Stored in behavioral section in output nwb file.
+    tasks:   [
+      {
+        task_name: Sleep,
+        task_description: The animal sleeps in a small empty box.
+      },
+      {
+        task_name: Stem+Leaf,
+        task_description: Spatial Bandit,
+      }
+      ]
+    # Din/Dout events which filter out files from DIO data in data directory. Each name has to be unique. Stored in behavioral_events section in output nwb file.
+    behavioral_events: 
+      - name: Din1
+      - name: Din2
+        description: Poke2
+    # Device name. Stored in output nwb file.
+    device: 
+      name:
+        - Trodes
+    # Probes/Electrode Groups list used in experiment. Each Id has to be unique, device_type has to refer to existing device_type in probe.yml
+    electrode groups:
+      - id: 0
+        location: mPFC
+        device_type: 128c-4s8mm6cm-20um-40um-sl 
+        description: 'Probe 1'
+      - id: 1
+        location: mPFC
+        device_type: 128c-4s8mm6cm-20um-40um-sl
+        description: 'Probe 2'
+    # Ntrodes list which refer 1:1 to <SpikeNTrode> elements from xml header existing in rec binary file.
+    # ntrode_id has to match to SpikeNTrode id, probe_id refers to electrode group,
+    # bad_channels is a list of broken channels in the map, where map corresponds to the electrode channels
+      - ntrode_id: 1 
+        probe_id: 0 
+        bad_channels: [0,2]
+        map:  
+          0: 0
+          1: 1
+          2: 2
+          3: 3
+      - ntrode_id: 2
+        probe_id: 0
+        bad_channels: [0,2]
+        map:
+          0: 4
+          1: 5
+          2: 6
+          3: 7
+    ```
+   ######probe.yml:
+   ```
+    probe_type: tetrode_12.5 # Type of the probe that refereds to device_type in electrode_group in metadata.yml
+    units: 'um'
+    probe_description: 'four wire electrode'
+    num_shanks: 1 # Number of shanks (sets of electrodes) in this probe type
+    contact_side_numbering: true
+    contact_size: 12.5
+    shanks:
+      - shank_id: 0 # Each shank id has to be unique
+        electrodes: # List of electrodes that is used to initialize the electrode_table in output nwb file
+          - id: 0 # Id of each electrode inside probe has to be unique
+            rel_x: 0
+            rel_y: 0
+            rel_z: 0
+          - id: 1
+            rel_x: 0
+            rel_y: 0
+            rel_z: 0
+          - id: 2
+            rel_x: 0
+            rel_y: 0
+            rel_z: 0
+          - id: 3
+            rel_x: 0
+            rel_y: 0
+            rel_z: 0
+   ```
+5. Set up paths to metadata and probe `yaml` files, which corresponds to the experiment you are going to process.
    ```bash
    metadata = MetadataManager('../test/datamigration/res/metadata.yml',
                          ['../test/datamigration/res/probe1.yml',
@@ -70,9 +165,9 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
                           '../test/datamigration/res/probe3.yml'
                          ])
    ```
-5. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
+6. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
 
-6. Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder.
+7. Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder.
    ```bash
    builder = RawToNWBBuilder(animal_name='beans',
                              data_path='../test/test_data/',
@@ -109,7 +204,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
       
       **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')`</br>
 
-7. Make sure that the data structure in given directory (in that case `test_data`)
+8. Make sure that the data structure in given directory (in that case `test_data`)
    looks similar to following example:
    ```bash
     --test_data
@@ -130,13 +225,13 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
 
    ```
 
-8. Double check if there is enough disc space on your Laptop/PC.
+9. Double check if there is enough disc space on your Laptop/PC.
 
-9. Run processing (generation may take from mins to even hours and it depends on the size of experiment datasets).
+10. Run processing (generation may take from mins to even hours and it depends on the size of experiment datasets).
 
-10. `fldatamigration.log` contains useful information about processing phases as well as all of the exceptions and errors.
+11. `fldatamigration.log` contains useful information about processing phases as well as all of the exceptions and errors.
 
-11. Example structure of preprocessed experiment data
+12. Example structure of preprocessed experiment data
    ```bash
    |-- beans
    |   |-- preprocessing
