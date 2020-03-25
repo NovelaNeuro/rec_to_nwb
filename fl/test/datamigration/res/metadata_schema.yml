@@ -1,0 +1,71 @@
+experimenter name: Alison Comrie
+lab:               Loren Frank
+institution:       University of California, San Francisco
+experiment description: Reinforcement learning
+session description: Reinforcement leaarning
+session_id:        beans_01
+subject:
+  description:     Long Evans Rat
+  genotype:        Wild Type
+  sex:             Male
+  species:         Rat
+  subject id:      Beans
+  weight:          Unknown
+
+# all above is just simply metadata stored in dict structure with strings as keys and strings as values
+
+tasks: # list of subject activities that going to be stored in behavioral section in nwb.
+       # each list element is a dict with task_name and task_description fields
+  [
+  {
+    task_name:          Sleep,
+    task_description:   The animal sleeps in a small empty box.
+  },
+  {
+    task_name:            Stem+Leaf,
+    task_description:     Spatial Bandit,
+  }
+  ]
+
+behavioral_events: # list of events that is going to be storede in behavioral_events section in nwb.
+  - name: Din1 # each element is a dict with unique name of event that filters which files from DIO data in data directory should be processed
+    description: Poke1 # and with description of this event
+  - name: Din2
+    description: Poke2
+
+
+device: # name for main Device
+  name:
+    - Trodes
+
+electrode groups:
+  - id: 0 # unique id of electrod group that will be referd by electrodes
+    location: mPFC
+    device_type: 128c-4s8mm6cm-20um-40um-sl # information about type of probe that must be valid with probe spec defined in probe.yml file
+    description: 'Probe 1'
+  - id: 1
+    location: mPFC
+    device_type: 128c-4s8mm6cm-20um-40um-sl
+    description: 'Probe 2'
+
+
+ntrode probe channel map: #list of electrodes descriptions necessary for creating proper electrode strcuture in nwb
+  - ntrode_id: 1 # unique id of electrode
+    probe_id: 0 # id of probe that electrode belong to
+    bad_channels: [0,2]
+    map:  # map of the electrode channels
+      0: 0
+      1: 1
+      2: 2
+      3: 3
+
+  - ntrode_id: 2
+    probe_id: 0
+    bad_channels: [0,2]
+    map:
+      0: 4
+      1: 5
+      2: 6
+      3: 7
+
+
