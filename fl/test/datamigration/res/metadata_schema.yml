@@ -34,7 +34,7 @@ behavioral_events: # list of events that is going to be storede in behavioral_ev
     description: Poke2
 
 
-device: # name for main Device
+device: # name for main Device that will be refered by components of nwb
   name:
     - Trodes
 
