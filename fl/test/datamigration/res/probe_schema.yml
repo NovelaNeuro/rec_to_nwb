@@ -1,13 +1,13 @@
-probe_type: tetrode_12.5 # name of the probe thats refered by metadata.yml
+probe_type: tetrode_12.5 # Type of the probe that refereds to device_type in electrode_group in metadata.yml
 units: 'um'
 probe_description: 'four wire electrode'
-num_shanks: 1 # number of shanks in this probe type
+num_shanks: 1 # Number of shanks (sets of electrodes) in this probe type
 contact_side_numbering: true
 contact_size: 12.5
-shanks: # each shanks is set of electrodes with unique id
-  - shank_id: 0
-    electrodes: #list of electrodes that is used to initialize the electrode_table in nwb
-      - id: 0 # unique id of electrode inside the shank
+shanks:
+  - shank_id: 0 # Each shank id has to be unique
+    electrodes: # List of electrodes that is used to initialize the electrode_table in output nwb file
+      - id: 0 # Id of each electrode inside probe has to be unique
         rel_x: 0
         rel_y: 0
         rel_z: 0

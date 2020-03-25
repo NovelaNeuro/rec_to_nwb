@@ -1,3 +1,4 @@
+# general information about the experiment 
 experimenter name: Alison Comrie
 lab:               Loren Frank
 institution:       University of California, San Francisco
@@ -11,12 +12,8 @@ subject:
   species:         Rat
   subject id:      Beans
   weight:          Unknown
-
-# all above is just simply metadata stored in dict structure with strings as keys and strings as values
-
-tasks: # list of subject activities that going to be stored in behavioral section in nwb.
-       # each list element is a dict with task_name and task_description fields
-  [
+#Tasks represent epochs in experiment. Contain task_name and task_description in the list. Stored in behavioral section in output nwb file.
+tasks:   [
   {
     task_name:          Sleep,
     task_description:   The animal sleeps in a small empty box.
@@ -26,39 +23,36 @@ tasks: # list of subject activities that going to be stored in behavioral sectio
     task_description:     Spatial Bandit,
   }
   ]
-
-behavioral_events: # list of events that is going to be storede in behavioral_events section in nwb.
-  - name: Din1 # each element is a dict with unique name of event that filters which files from DIO data in data directory should be processed
-    description: Poke1 # and with description of this event
+# Din/Dout events which filter out files from DIO data in data directory. Each name has to be unique. Stored in behavioral_events section in output nwb file.
+behavioral_events: 
+  - name: Din1
   - name: Din2
     description: Poke2
-
-
-device: # name for main Device that will be refered by components of nwb
+# Device name. Stored in output nwb file.
+device: 
   name:
     - Trodes
-
+# Probes/Electrode Groups list used in experiment. Each Id has to be unique, device_type has to refer to existing device_type in probe.yml
 electrode groups:
-  - id: 0 # unique id of electrod group that will be referd by electrodes
+  - id: 0
     location: mPFC
-    device_type: 128c-4s8mm6cm-20um-40um-sl # information about type of probe that must be valid with probe spec defined in probe.yml file
+    device_type: 128c-4s8mm6cm-20um-40um-sl 
     description: 'Probe 1'
   - id: 1
     location: mPFC
     device_type: 128c-4s8mm6cm-20um-40um-sl
     description: 'Probe 2'
-
-
-ntrode probe channel map: #list of electrodes descriptions necessary for creating proper electrode strcuture in nwb
-  - ntrode_id: 1 # unique id of electrode
-    probe_id: 0 # id of probe that electrode belong to
+# Ntrodes list which refer 1:1 to <SpikeNTrode> elements from xml header existing in rec binary file.
+# ntrode_id has to match to SpikeNTrode id, probe_id refers to electrode group,
+# bad_channels is a list of broken channels in the map, where map corresponds to the electrode channels
+  - ntrode_id: 1 
+    probe_id: 0 
     bad_channels: [0,2]
-    map:  # map of the electrode channels
+    map:  
       0: 0
       1: 1
       2: 2
       3: 3
-
   - ntrode_id: 2
     probe_id: 0
     bad_channels: [0,2]
@@ -67,5 +61,3 @@ ntrode probe channel map: #list of electrodes descriptions necessary for creatin
       1: 5
       2: 6
       3: 7
-
-
