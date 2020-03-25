@@ -1,6 +1,9 @@
+{% set data = load_setup_py_data() %}
+
+
 package:
   name: fldatamigration
-  version: "0.1.004"
+  version: {{ data.get('version') }}
 
 source:
   path: ../fldatamigration
