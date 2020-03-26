@@ -14,7 +14,6 @@ Table of Contents
    :maxdepth: 2
 
    README.md
-   installation
    api/modules
    license
    help

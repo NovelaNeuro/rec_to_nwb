@@ -1,10 +1,11 @@
-### About
+# fldatamigration
+# About
 fldatamigration is a python package for converting SpikeGadgets rec files to NWB files.<br>
 It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_to_binaries package for preprocessing phase.<br>
 https://github.com/LorenFrankLab/rec_to_binaries<br>
 
-### Prerequisites
-# For users
+# Prerequisites
+## For users
 1. Install Spike Gadgets <br>
    https://bitbucket.org/mkarlsso/trodes/downloads/
 2. Add SpikeGadgets to path. <br>
@@ -25,7 +26,7 @@ https://github.com/LorenFrankLab/rec_to_binaries<br>
    pip install jupyter notebook
    ```
 
-# For developers
+## For developers
 1. Install Spike Gadgets <br>
    https://bitbucket.org/mkarlsso/trodes/downloads/
 2. Add SpikeGadgets to path. <br>
@@ -54,7 +55,7 @@ https://github.com/LorenFrankLab/rec_to_binaries<br>
    pdoc -b
    ```
 
-### How to use it
+# How to use it
 1. Download example notebook file from
    https://anaconda.org/NovelaKRK/nwb_generation/notebook
 2. In terminal navigate to notebook file location
