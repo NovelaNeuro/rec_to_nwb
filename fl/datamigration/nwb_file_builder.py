@@ -77,11 +77,19 @@ class NWBFileBuilder:
             data_types_to_check.append('DIO')
         if process_analog:
             data_types_to_check.append('analog')
-        validator = InputValidator(data_types_to_check)
+
         self.data_scanner = DataScanner(data_path, animal_name)
         self.dataset_names = self.data_scanner.get_all_epochs(date)
-        validator.validate_datasets_exist(data_path, animal_name, date, self.dataset_names)
 
+        validator = InputValidator()
+        validator.validate_input_data(nwb_metadata.metadata_path,
+                                            nwb_metadata.probes_paths,
+                                            data_path,
+                                            animal_name,
+                                            date,
+                                            self.dataset_names,
+                                            data_types_to_check
+              )
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
