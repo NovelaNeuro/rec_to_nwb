@@ -130,6 +130,7 @@ class RawToNWBBuilder:
                 output_file=self.output_path + self.animal_name + date + ".nwb",
                 process_mda=self.extract_mda,
                 process_dio=self.extract_dio,
+                process_analog=self.extract_analog
             )
             content = nwb_builder.build()
             nwb_builder.write(content)
