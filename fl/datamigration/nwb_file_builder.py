@@ -176,6 +176,8 @@ class NWBFileBuilder:
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
 
+        self.__build_and_inject_epochs(nwb_content)
+
         if self.process_dio:
             self.__build_and_inject_dio(nwb_content)
 
