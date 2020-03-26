@@ -1,20 +1,21 @@
 .. fldatamigration documentation master file, created by
-   sphinx-quickstart on Thu Mar 26 13:31:24 2020.
+   sphinx-quickstart on Tue Mar 24 13:12:34 2020.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+===========================================
 Welcome to fldatamigration's documentation!
 ===========================================
 
+Table of Contents
+===================
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   about
+   README.md
+   installation
+   api/modules
+   license
+   help

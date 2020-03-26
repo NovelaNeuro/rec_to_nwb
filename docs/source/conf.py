@@ -10,19 +10,29 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+# sys.path.insert(0, os.path.abspath('../../.'))
+# sys.path.insert(0, os.path.abspath('../../fl'))
+# sys.path.insert(0, os.path.abspath('../../fl/datamigration'))
+# sys.path.insert(0, os.path.abspath('../../fl/datamigration/exceptions'))
+# sys.path.insert(0, os.path.abspath('../../fl/datamigration/header'))
+# sys.path.insert(0, os.path.abspath('../../fl/datamigration/metadata'))
+# sys.path.insert(0, os.path.abspath('../../fl/datamigration/nwb'))
+# sys.path.insert(0, os.path.abspath('../../fl/datamigration/processing'))
+# sys.path.insert(0, os.path.abspath('../../fl/datamigration/tools'))
+sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
+# from setup import version
 
 project = 'fldatamigration'
-copyright = '2020, NovelaNeuro'
-author = 'NovelaNeuro'
+copyright = '2020, Novela'
+author = 'Novela'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.004'
+release = "0.1.004"
 
 
 # -- General configuration ---------------------------------------------------
@@ -31,6 +41,8 @@ release = '0.1.004'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.autodoc',
+    'recommonmark'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -47,7 +59,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
