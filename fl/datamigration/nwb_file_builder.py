@@ -305,10 +305,8 @@ class NWBFileBuilder:
                                electrical_series=ElectricalSeriesCreator.create_mda(fl_mda_manager.get_data()))
 
     def __build_and_inject_epochs(self, nwb_content):
-        logger.info('Epochs: Adding epochs info')
-        epochs_tags = [dataset.name for dataset in self.datasets]
+        logger.info('Epochs: Building')
         continuous_time_files = [dataset.get_continuous_time() for dataset in self.datasets]
-        fl_epochs_manager = FlEpochsManager(continuous_time_files, epochs_tags, self.metadata)
+        fl_epochs_manager = FlEpochsManager(continuous_time_files, self.datasets, self.metadata)
         epochs = fl_epochs_manager.get_epochs()
-        fl_epochs_injector = EpochsInjector(epochs, nwb_content)
-        fl_epochs_injector.inject()
+        EpochsInjector.inject(epochs, nwb_content)

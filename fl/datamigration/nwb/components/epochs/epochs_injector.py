@@ -1,20 +1,20 @@
 class EpochsInjector:
 
-    def __init__(self, fl_epochs, nwb_content):
-        self.fl_epochs = fl_epochs
-        self.nwb_content = nwb_content
 
-    def inject(self):
-        for i in range(len(self.fl_epochs.tags)):
-            self.nwb_content.add_epoch(
-                self.fl_epochs.session_start_times[i],
-                self.fl_epochs.session_end_times[i],
-                self.fl_epochs.tags[i],
+    @staticmethod
+    def inject(fl_epochs, nwb_content):
+        for i, tag in enumerate(fl_epochs.tags):
+            nwb_content.add_epoch(
+                fl_epochs.session_start_times[i],
+                fl_epochs.session_end_times[i],
+                fl_epochs.tags[i],
             )
-        self.__extend_epochs()
+        EpochsInjector.__extend_epochs(fl_epochs, nwb_content)
 
-    def __extend_epochs(self):
-        tasks = self.fl_epochs.tasks
-        if len(self.nwb_content.epochs) < len(self.fl_epochs.tasks):
-            tasks = self.fl_epochs.tasks[0:len(self.nwb_content.epochs)]
-        self.nwb_content.add_epoch_column('tasks', '-', data=tasks)
+    @staticmethod
+    def __extend_epochs(fl_epochs, nwb_content):
+        if len(nwb_content.epochs) < len(fl_epochs.tasks):
+            tasks = fl_epochs.tasks[0:len(nwb_content.epochs)]
+        else:
+            tasks = fl_epochs.tasks
+        nwb_content.add_epoch_column('tasks', '-', data=tasks)
