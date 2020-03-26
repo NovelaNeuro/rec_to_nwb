@@ -21,6 +21,14 @@ tasks:
   {
     task_name:            Stem+Leaf,
     task_description:     Spatial Bandit,
+  },
+  {
+    task_name:          Sleep2,
+    task_description:   The animal sleeps in a small empty box.
+  },
+  {
+    task_name:            Stem+Leaf2,
+    task_description:     Spatial Bandit,
   }
   ]
 

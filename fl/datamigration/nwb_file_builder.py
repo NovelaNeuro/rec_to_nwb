@@ -1,11 +1,9 @@
 import logging.config
 import os
 import uuid
-from datetime import datetime
 
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
-from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
@@ -38,6 +36,8 @@ from fl.datamigration.nwb.components.position.position_creator import PositionCr
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
+from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
+from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -301,3 +301,12 @@ class NWBFileBuilder:
         )
         MdaInjector.inject_mda(nwb_content=nwb_content,
                                electrical_series=ElectricalSeriesCreator.create_mda(fl_mda_manager.get_data()))
+
+    def __build_and_inject_epochs(self, nwb_content):
+        logger.info('Epochs: Adding epochs info')
+        epochs_tags = [dataset.name for dataset in self.datasets]
+        continuous_time_files = [dataset.get_continuous_time() for dataset in self.datasets]
+        fl_epochs_manager = FlEpochsManager(continuous_time_files, epochs_tags, self.metadata)
+        epochs = fl_epochs_manager.get_epochs()
+        fl_epochs_injector = EpochsInjector(epochs, nwb_content)
+        fl_epochs_injector.inject()
