@@ -14,6 +14,15 @@ class DataScanner:
 
         self.data = None
 
+    def get_all_epochs(self, date):
+        all_datasets = []
+        directories = os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
+        for directory in directories:
+            dataset_name = (directory.split('_')[2] + '_' + directory.split('_')[3]).split('.')[0]
+            if not dataset_name in all_datasets:
+                all_datasets.append(dataset_name)
+        return all_datasets
+
     def extract_data_from_date_folder(self, date):
         validate_parameters_not_none(__name__, date)
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, [date])}

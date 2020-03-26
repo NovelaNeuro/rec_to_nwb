@@ -1,11 +1,9 @@
 import logging.config
 import os
 import uuid
-from datetime import datetime
 
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
-from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
@@ -38,6 +36,7 @@ from fl.datamigration.nwb.components.position.position_creator import PositionCr
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
+from fl.datamigration.tools.InputValidator import InputValidator
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -71,12 +70,22 @@ class NWBFileBuilder:
             + 'output_file = ' + str(output_file) + '\n'
         )
 
+        data_types_to_check = ['pos', 'time']
+        if process_mda:
+            data_types_to_check.append('mda')
+        if process_dio:
+            data_types_to_check.append('DIO')
+        if process_analog:
+            data_types_to_check.append('analog')
+        validator = InputValidator(data_types_to_check)
+        self.data_scanner = DataScanner(data_path, animal_name)
+        self.dataset_names = self.data_scanner.get_all_epochs(date)
+        validator.validate_datasets_exist(data_path, animal_name, date, self.dataset_names)
+
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
-        self.data_scanner = DataScanner(data_path, animal_name)
         self.data_scanner.extract_data_from_date_folder(date)
-        self.dataset_names = self.data_scanner.get_all_datasets(animal_name, date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
         self.process_dio = process_dio
         self.process_mda = process_mda
