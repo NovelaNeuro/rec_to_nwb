@@ -13,9 +13,9 @@ class FlEpochsManager:
         return FlEpochsCreator.create(
             self.fl_epochs_extractor.extract_epochs(),
             self.epoch_tags,
-            self.__get_tasks_from_metadata
+            self.__get_tasks_from_metadata()
         )
 
     def __get_tasks_from_metadata(self):
-        return [task_dict['task_name'] for task_dict in self.metadata.tasks]
+        return [task_dict['task_name'] for task_dict in self.metadata['tasks']]
 
