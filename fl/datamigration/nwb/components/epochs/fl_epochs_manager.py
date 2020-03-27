@@ -7,11 +7,11 @@ from fl.datamigration.tools.validate_parameters import validate_parameters_not_n
 
 class FlEpochsManager:
 
-    def __init__(self, datasets, metadata):
-        validate_parameters_not_none(__name__, datasets, metadata)
+    def __init__(self, datasets, tasks):
+        validate_parameters_not_none(__name__, datasets, tasks)
 
         self.continuous_time_files = [dataset.get_continuous_time() for dataset in datasets]
-        self.task_names_extractor = TaskNamesExtractor(metadata)
+        self.task_names_extractor = TaskNamesExtractor(tasks)
         epochs_tag_extractor = EpochsTagExtractor(datasets)
         self.epochs_tags = epochs_tag_extractor.get_tags()
 

@@ -18,7 +18,7 @@ class TestFlElEpochsManager(TestCase):
         dataset_2_mock = Mock(spec=Dataset)
         dataset_2_mock.name = 'mock2'
         self.datasets = [dataset_1_mock, dataset_2_mock]
-        self.metadata = {'tasks': [{'task_name': 'task1'}, {'task_name': 'task2'}]}
+        self.tasks = [{'task_name': 'task1'}, {'task_name': 'task2'}]
 
 
     @staticmethod
@@ -34,7 +34,7 @@ class TestFlElEpochsManager(TestCase):
     def test_get_epochs_returnCorrectData_successfully(self):
         fl_epochs_manager = FlEpochsManager(
             self.datasets,
-            self.metadata
+            self.tasks
         )
         fl_epochs = fl_epochs_manager.get_epochs()
 
@@ -51,17 +51,17 @@ class TestFlElEpochsManager(TestCase):
     def test_get_epochs_fails_due_to_None_param(self):
         FlEpochsManager(
             None,
-            self.metadata
+            self.tasks
         )
 
     @patch.object(Dataset, 'get_continuous_time', new=fake_get_continuous_time)
     @patch.object(FlEpochsExtractor, 'extract_epochs', new=fake_extract_epochs)
     @should_raise(NotEqualParamLengthException)
     def test_get_epochs_fails_duo_to_different_parameters_length(self):
-        wrong_metadata = {'tasks': [{'task_name': 'task1'}]}
+        wrong_tasks = [{'task_name': 'task1'}]
         fl_epoch_manager = FlEpochsManager(
             self.datasets,
-            wrong_metadata
+            wrong_tasks
         )
         fl_epoch = fl_epoch_manager.get_epochs()
 
