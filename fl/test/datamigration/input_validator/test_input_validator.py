@@ -14,34 +14,86 @@ class TestInputValidator(TestCase):
         self.date = '21251015'
 
 
-    def test_validate_dataset(self):
+    def test_validate_input_data(self):
         data_path = str(path) + '/res/scanner_test/'
         wrong_data_types_to_check = ['pos', 'non_existing']
         data_types_to_check = ['pos', 'mda']
-        validator = InputValidator(data_types_to_check=data_types_to_check)
-        wrong_data_validator = InputValidator(data_types_to_check=wrong_data_types_to_check)
-        with self.assertRaises(MissingDataException):
-            validator.validate_datasets_exist(data_path + 'non_existing_directory/',
-                                              self.animal, self.date, self.epochs)
-            wrong_data_validator.validate_datasets_exist(data_path, self.animal, self.date, self.epochs)
-        pass
-        self.assertEqual(validator.validate_datasets_exist(data_path, self.animal, self.date, self.epochs),
-                         {'01_s1': {'pos': True, 'mda': True}, '02_s1': {'pos': True, 'mda': True}})
-
-    def test_validate_metadata(self):
-        validator = InputValidator(data_types_to_check=[])
         metadata_path = str(path) + '/res/metadata.yml'
         wrong_metadata_path = str(path) + '/res/metadataa.yml'
         probes_paths = [str(path) + '/res/probe1.yml',
                         str(path) + '/res/probe2.yml',
                         str(path) + '/res/probe3.yml']
-        wrong_probes_paths = [str(path) + '/res/probe1.yml',
-                              str(path) + '/res/probe2.yml',
-                              str(path) + '/res/probe3.yml']
+        wrong_probes_paths = [str(path) + '/res/probe11.yml',
+                              str(path) + '/res/probe22.yml',
+                              str(path) + '/res/probe33.yml']
+        validator = InputValidator()
         with self.assertRaises(MissingDataException):
-            validator.validate_metadata_exists(wrong_metadata_path, probes_paths)
-            validator.validate_metadata_exists(metadata_path, wrong_probes_paths)
-        pass
-        self.assertIsNone(validator.validate_metadata_exists(metadata_path, probes_paths))
+            validator.validate_input_data(metadata_path,
+                                          probes_paths,
+                                          data_path + 'non_existing_directory/',
+                                          self.animal,
+                                          self.date,
+                                          self.epochs,
+                                          data_types_to_check)
+        with self.assertRaises(MissingDataException):
+            validator.validate_input_data(metadata_path,
+                                          probes_paths,
+                                          data_path,
+                                          self.animal,
+                                          self.date,
+                                          self.epochs,
+                                          wrong_data_types_to_check)
+        with self.assertRaises(MissingDataException):
+            validator.validate_input_data(metadata_path,
+                                          wrong_probes_paths,
+                                          data_path,
+                                          self.animal,
+                                          self.date,
+                                          self.epochs,
+                                          data_types_to_check)
+        with self.assertRaises(MissingDataException):
+            validator.validate_input_data(wrong_metadata_path,
+                                          probes_paths,
+                                          data_path,
+                                          self.animal,
+                                          self.date,
+                                          self.epochs,
+                                          data_types_to_check)
+
+
+    def test_validate_dataset(self):
+        data_path = str(path) + '/res/scanner_test/'
+        wrong_data_types_to_check = ['pos', 'non_existing']
+        data_types_to_check = ['pos', 'mda']
+        validator = InputValidator()
+        self.assertEqual(validator.validate_datasets_exist(data_path,
+                                                           self.animal,
+                                                           self.date,
+                                                           self.epochs,
+                                                           data_types_to_check),'')
+        self.assertEqual(validator.validate_datasets_exist(data_path,
+                                                           self.animal,
+                                                           self.date,
+                                                           self.epochs,
+                                                           wrong_data_types_to_check),
+                         'non_existing files in epoch 01_s1\nnon_existing files in epoch 02_s1\n')
+
+    def test_validate_metadata(self):
+        validator = InputValidator()
+        metadata_path = str(path) + '/res/metadata.yml'
+        wrong_metadata_path = str(path) + '/res/metadataa.yml'
+        probes_paths = [str(path) + '/res/probe1.yml',
+                        str(path) + '/res/probe2.yml',
+                        str(path) + '/res/probe3.yml']
+        wrong_probes_paths = [str(path) + '/res/probe11.yml',
+                              str(path) + '/res/probe22.yml',
+                              str(path) + '/res/probe33.yml']
+        self.assertEqual(validator.validate_metadata_exists(metadata_path, probes_paths),'')
+        self.assertEqual(validator.validate_metadata_exists(wrong_metadata_path, probes_paths),
+                         str(path) + '/res/metadataa.yml\n')
+        self.assertEqual(validator.validate_metadata_exists(metadata_path, wrong_probes_paths),
+                         str(path) + '/res/probe11.yml\n' +
+                         str(path) + '/res/probe22.yml\n' +
+                         str(path) + '/res/probe33.yml\n')
 
 
