@@ -13,8 +13,6 @@
 import os
 import sys
 
-from sphinx.ext.autodoc import mock
-
 sys.path.insert(0, os.path.abspath('../../.'))
 sys.path.insert(0, os.path.abspath('../../fl'))
 sys.path.insert(0, os.path.abspath('../../fl/datamigration'))
@@ -25,7 +23,6 @@ sys.path.insert(0, os.path.abspath('../../fl/datamigration/nwb'))
 sys.path.insert(0, os.path.abspath('../../fl/datamigration/processing'))
 sys.path.insert(0, os.path.abspath('../../fl/datamigration/tools'))
 
-
 # -- Project information -----------------------------------------------------
 # from setup import version
 
@@ -35,7 +32,6 @@ author = 'Novela'
 
 # The full version, including alpha/beta/rc tags
 release = "0.1.004"
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -51,6 +47,7 @@ extensions = [
 autoapi_type = 'python'
 autoapi_dirs = ['../../fl/datamigration']
 add_module_names = False
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
