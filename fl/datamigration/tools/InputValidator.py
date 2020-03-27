@@ -21,7 +21,7 @@ class InputValidator:
         return missing_data
 
     def return_missing_data(self, all_data_dirs, epochs, data_types_to_check):
-        dicts = self.__create_dicts(epochs, data_types_to_check)
+        dicts = self.__create_existing_data_dictionary(epochs, data_types_to_check)
         for epoch in epochs:
             self.__check_single_epoch(all_data_dirs, dicts, epoch)
         return self.__log_missing_files(epochs, dicts)
@@ -42,10 +42,10 @@ class InputValidator:
                     dicts[epoch][data_type] = True
 
     @staticmethod
-    def __create_dicts(epochs, data_types_to_check):
-        new_dict = {}
+    def __create_existing_data_dictionary(epochs, data_types_to_check):
+        data_dictionary = {}
         for epoch in epochs:
-            new_dict[epoch] = {}
+            data_dictionary[epoch] = {}
             for data_type in data_types_to_check:
-                new_dict[epoch][data_type] = False
-        return new_dict
+                data_dictionary[epoch][data_type] = False
+        return data_dictionary
