@@ -66,16 +66,16 @@ class TestInputValidator(TestCase):
         wrong_data_types_to_check = ['pos', 'non_existing']
         data_types_to_check = ['pos', 'mda']
         validator = InputValidator()
-        self.assertEqual(validator.validate_datasets_exist(data_path,
-                                                           self.animal,
-                                                           self.date,
-                                                           self.epochs,
-                                                           data_types_to_check),'')
-        self.assertEqual(validator.validate_datasets_exist(data_path,
-                                                           self.animal,
-                                                           self.date,
-                                                           self.epochs,
-                                                           wrong_data_types_to_check),
+        self.assertEqual(validator.return_missing_data(data_path,
+                                                       self.animal,
+                                                       self.date,
+                                                       self.epochs,
+                                                       data_types_to_check),'')
+        self.assertEqual(validator.return_missing_data(data_path,
+                                                       self.animal,
+                                                       self.date,
+                                                       self.epochs,
+                                                       wrong_data_types_to_check),
                          'non_existing files in epoch 01_s1\nnon_existing files in epoch 02_s1\n')
 
     def test_validate_metadata(self):
@@ -88,10 +88,10 @@ class TestInputValidator(TestCase):
         wrong_probes_paths = [str(path) + '/res/probe11.yml',
                               str(path) + '/res/probe22.yml',
                               str(path) + '/res/probe33.yml']
-        self.assertEqual(validator.validate_metadata_exists(metadata_path, probes_paths),'')
-        self.assertEqual(validator.validate_metadata_exists(wrong_metadata_path, probes_paths),
+        self.assertEqual(validator.return_missing_metadata(metadata_path, probes_paths), '')
+        self.assertEqual(validator.return_missing_metadata(wrong_metadata_path, probes_paths),
                          str(path) + '/res/metadataa.yml\n')
-        self.assertEqual(validator.validate_metadata_exists(metadata_path, wrong_probes_paths),
+        self.assertEqual(validator.return_missing_metadata(metadata_path, wrong_probes_paths),
                          str(path) + '/res/probe11.yml\n' +
                          str(path) + '/res/probe22.yml\n' +
                          str(path) + '/res/probe33.yml\n')

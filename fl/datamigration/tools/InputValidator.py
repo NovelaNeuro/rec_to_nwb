@@ -5,13 +5,13 @@ from fl.datamigration.exceptions.missing_data_exception import MissingDataExcept
 
 class InputValidator:
     def validate_input_data(self, metadata_path, probes_paths, data_path, animal, date, epochs, data_types_to_check):
-        missing_data = self.validate_metadata_exists(metadata_path, probes_paths)
-        missing_data += self.validate_datasets_exist(data_path, animal, date, epochs, data_types_to_check)
+        missing_data = self.return_missing_metadata(metadata_path, probes_paths)
+        missing_data += self.return_missing_data(data_path, animal, date, epochs, data_types_to_check)
         if not missing_data == '':
             raise MissingDataException(missing_data + "are missing")
         return missing_data
 
-    def validate_metadata_exists(self, metadata_path, probes_paths):
+    def return_missing_metadata(self, metadata_path, probes_paths):
         missing_data = ''
         if not(os.path.exists(metadata_path)):
             missing_data += metadata_path + '\n'
@@ -20,7 +20,7 @@ class InputValidator:
                 missing_data += probe_path + '\n'
         return missing_data
 
-    def validate_datasets_exist(self, data_path, animal, date, epochs, data_types_to_check):
+    def return_missing_data(self, data_path, animal, date, epochs, data_types_to_check):
         all_data_dirs = self.__get_all_data_directories(data_path, animal, date)
         dicts = self.__create_dicts(epochs, data_types_to_check)
         for epoch in epochs:
