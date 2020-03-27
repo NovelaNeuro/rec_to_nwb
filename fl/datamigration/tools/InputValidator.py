@@ -4,9 +4,9 @@ from fl.datamigration.exceptions.missing_data_exception import MissingDataExcept
 
 
 class InputValidator:
-    def validate_input_data(self, metadata_path, probes_paths, data_path, animal, date, epochs, data_types_to_check):
+    def validate_input_data(self, metadata_path, probes_paths, all_data_dirs, epochs, data_types_to_check):
         missing_data = self.return_missing_metadata(metadata_path, probes_paths)
-        missing_data += self.return_missing_data(data_path, animal, date, epochs, data_types_to_check)
+        missing_data += self.return_missing_data(all_data_dirs, epochs, data_types_to_check)
         if not missing_data == '':
             raise MissingDataException(missing_data + "are missing")
         return missing_data
@@ -20,8 +20,7 @@ class InputValidator:
                 missing_data += probe_path + '\n'
         return missing_data
 
-    def return_missing_data(self, data_path, animal, date, epochs, data_types_to_check):
-        all_data_dirs = self.__get_all_data_directories(data_path, animal, date)
+    def return_missing_data(self, all_data_dirs, epochs, data_types_to_check):
         dicts = self.__create_dicts(epochs, data_types_to_check)
         for epoch in epochs:
             self.__check_single_epoch(all_data_dirs, dicts, epoch)
@@ -41,12 +40,6 @@ class InputValidator:
             for data_dirs in all_data_dirs:
                 if data_dirs.endswith(data_type) and epoch in data_dirs:
                     dicts[epoch][data_type] = True
-
-    @staticmethod
-    def __get_all_data_directories(data_path, animal, date):
-        if not(os.path.exists(data_path + '/' + animal + '/preprocessing/' + date)):
-            raise MissingDataException('missing ' + data_path + ' directory')
-        return os.listdir(data_path + '/' + animal + '/preprocessing/' + date)
 
     @staticmethod
     def __create_dicts(epochs, data_types_to_check):

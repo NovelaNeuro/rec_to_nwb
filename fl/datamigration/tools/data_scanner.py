@@ -1,6 +1,7 @@
 import fnmatch
 import os
 
+from fl.datamigration.exceptions.missing_data_exception import MissingDataException
 from fl.datamigration.tools.dataset import Dataset
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
@@ -22,6 +23,11 @@ class DataScanner:
             if not dataset_name in all_datasets:
                 all_datasets.append(dataset_name)
         return all_datasets
+
+    def get_all_data_from_dataset(self, date):
+        if not(os.path.exists(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)):
+            raise MissingDataException('missing ' + self.data_path + ' directory')
+        return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
     def extract_data_from_date_folder(self, date):
         validate_parameters_not_none(__name__, date)

@@ -80,13 +80,12 @@ class NWBFileBuilder:
 
         self.data_scanner = DataScanner(data_path, animal_name)
         self.dataset_names = self.data_scanner.get_all_epochs(date)
+        self.all_data_dirs = self.data_scanner.get_all_data_from_dataset(date)
 
         validator = InputValidator()
         validator.validate_input_data(nwb_metadata.metadata_path,
                                             nwb_metadata.probes_paths,
-                                            data_path,
-                                            animal_name,
-                                            date,
+                                            self.all_data_dirs,
                                             self.dataset_names,
                                             data_types_to_check
               )
