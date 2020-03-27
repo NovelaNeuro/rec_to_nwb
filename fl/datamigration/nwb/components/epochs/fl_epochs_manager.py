@@ -11,14 +11,11 @@ class FlEpochsManager:
         validate_parameters_not_none(__name__, datasets, tasks)
 
         self.continuous_time_files = [dataset.get_continuous_time() for dataset in datasets]
-        self.task_names_extractor = TaskNamesExtractor(tasks)
+        task_names_extractor = TaskNamesExtractor(tasks)
         epochs_tag_extractor = EpochsTagExtractor(datasets)
-        self.epochs_tags = epochs_tag_extractor.get_tags()
+        epochs_tags = epochs_tag_extractor.get_tags()
+        self.fl_epochs_builder = FlEpochsBuilder(epochs_tags, task_names_extractor.get_task_names())
 
     def get_epochs(self):
         fl_epochs_extractor = FlEpochsExtractor(self.continuous_time_files)
-        return FlEpochsBuilder.build(
-            fl_epochs_extractor.extract_epochs(),
-            self.epochs_tags,
-            self.task_names_extractor.get_task_names()
-        )
+        return self.fl_epochs_builder.build(fl_epochs_extractor.extract_epochs())

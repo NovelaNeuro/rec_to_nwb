@@ -3,11 +3,14 @@ from fl.datamigration.nwb.components.epochs.fl_epochs import FlEpochs
 
 class FlEpochsBuilder:
 
-    @staticmethod
-    def build(epochs_extracted_session_times, tags, tasks):
+    def __init__(self, tags, tasks):
+        self.tags = tags
+        self.tasks = tasks
+
+    def build(self, epochs_extracted_session_times):
         return FlEpochs(
             epochs_extracted_session_times[0],
             epochs_extracted_session_times[1],
-            tags,
-            tasks
+            self.tags,
+            self.tasks
         )
