@@ -306,7 +306,6 @@ class NWBFileBuilder:
 
     def __build_and_inject_epochs(self, nwb_content):
         logger.info('Epochs: Building')
-        continuous_time_files = [dataset.get_continuous_time() for dataset in self.datasets]
-        fl_epochs_manager = FlEpochsManager(continuous_time_files, self.datasets, self.metadata)
+        fl_epochs_manager = FlEpochsManager(self.datasets, self.metadata)
         epochs = fl_epochs_manager.get_epochs()
         EpochsInjector.inject(epochs, nwb_content)

@@ -1,6 +1,5 @@
 class EpochsInjector:
 
-
     @staticmethod
     def inject(fl_epochs, nwb_content):
         for i, tag in enumerate(fl_epochs.tags):

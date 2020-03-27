@@ -4,8 +4,8 @@ from fl.datamigration.nwb.components.epochs.fl_epochs_extractor import FlEpochsE
 
 class FlEpochsManager:
 
-    def __init__(self, continuous_time_files, datasets, metadata):
-        self.continuous_time_files = continuous_time_files
+    def __init__(self, datasets, metadata):
+        self.continuous_time_files = [dataset.get_continuous_time() for dataset in datasets]
         self.epoch_tags = [dataset.name for dataset in datasets]
         self.metadata = metadata
 
