@@ -6,12 +6,13 @@ Table of Contents
 ===================
 
 .. toctree::
-   :maxdepth: 8
+   :maxdepth: 15
    :caption: Contents:
 
 
    README.md
-   license
+   LICENSE.md
    help
+   autoapi/modules
 
 
