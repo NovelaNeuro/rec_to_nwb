@@ -16,8 +16,9 @@ class FlEpochsManager:
         self.epochs_tags = epochs_tag_extractor.get_tags()
 
     def get_epochs(self):
+        fl_epochs_extractor = FlEpochsExtractor(self.continuous_time_files)
         return FlEpochsBuilder.build(
-            FlEpochsExtractor.extract_epochs(self.continuous_time_files),
+            fl_epochs_extractor.extract_epochs(),
             self.epochs_tags,
             self.task_names_extractor.get_task_names()
         )
