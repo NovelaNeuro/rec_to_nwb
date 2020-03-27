@@ -2,6 +2,15 @@ import os
 
 
 class MetadataValidator:
+    """ Class to validate if metadata is complete
+        Args:
+            metadata_path - path to metadata.yml file
+            probes_paths - list paths to yml files containing informations about probe types
+
+        Methods:
+            get_missing_metadata()
+        """
+
     def __init__(self, metadata_path, probes_paths):
         self.metadata_path = metadata_path
         self.probes_paths = probes_paths
