@@ -1,21 +1,21 @@
 from fl.datamigration.nwb.components.epochs.fl_epochs_builder import FlEpochsBuilder
 from fl.datamigration.nwb.components.epochs.fl_epochs_extractor import FlEpochsExtractor
+from fl.datamigration.nwb.components.epochs.task_names_extractor import TaskNamesExtractor
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none, validate_parameters_equal_length
 
 
 class FlEpochsManager:
 
     def __init__(self, datasets, metadata):
+        validate_parameters_not_none(__name__, datasets, metadata)
+
         self.continuous_time_files = [dataset.get_continuous_time() for dataset in datasets]
         self.epoch_tags = [dataset.name for dataset in datasets]
-        self.metadata = metadata
+        self.task_names_extractor = TaskNamesExtractor(metadata)
 
     def get_epochs(self):
         return FlEpochsBuilder.build(
             FlEpochsExtractor.extract_epochs(self.continuous_time_files),
             self.epoch_tags,
-            self.__get_tasks_from_metadata()
+            self.task_names_extractor.get_task_names()
         )
-
-    def __get_tasks_from_metadata(self):
-        return [task_dict['task_name'] for task_dict in self.metadata['tasks']]
-

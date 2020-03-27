@@ -3,7 +3,6 @@ from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 class FlEpochsExtractor:
 
-
     @staticmethod
     def extract_epochs(continuous_time_files):
         session_start_times = []
