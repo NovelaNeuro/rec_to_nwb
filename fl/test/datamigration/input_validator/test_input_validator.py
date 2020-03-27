@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from fl.datamigration.exceptions.missing_data_exception import MissingDataException
-from fl.datamigration.tools.input_validator import InputValidator
+from fl.datamigration.input_validator import InputValidator
 from pathlib import Path
 
 from fl.datamigration.tools.data_scanner import DataScanner
@@ -59,7 +59,7 @@ class TestInputValidator(TestCase):
         validator = InputValidator()
         self.assertEqual(validator.return_missing_preprocessing_data(self.all_data,
                                                                      self.epochs,
-                                                                     data_types_to_check),'')
+                                                                     data_types_to_check), '')
         self.assertEqual(validator.return_missing_preprocessing_data(self.all_data,
                                                                      self.epochs,
                                                                      wrong_data_types_to_check),
