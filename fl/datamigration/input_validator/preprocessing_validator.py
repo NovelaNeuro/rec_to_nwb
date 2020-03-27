@@ -15,7 +15,10 @@ class PreprocessingValidator:
         """finds missing data in single epoch"""
         missing_data = []
         for data_type in self.data_types_to_check:
+            is_data_present = False
             for data_dirs in self.all_data_dirs:
                 if data_dirs.endswith(data_type) and epoch in data_dirs:
-                    missing_data.append((data_type, epoch))
+                    is_data_present = True
+            if not is_data_present:
+                missing_data.append((data_type, epoch))
         return missing_data

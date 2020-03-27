@@ -36,7 +36,7 @@ from fl.datamigration.nwb.components.position.position_creator import PositionCr
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
-from fl.datamigration.tools.input_validator import InputValidator
+from fl.datamigration.input_validator.input_validator import InputValidator
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -94,13 +94,13 @@ class NWBFileBuilder:
         self.dataset_names = self.data_scanner.get_all_epochs(date)
         self.all_data_dirs = self.data_scanner.get_all_data_from_dataset(date)
 
-        validator = InputValidator()
-        validator.validate_input_data(nwb_metadata.metadata_path,
-                                            nwb_metadata.probes_paths,
-                                            self.all_data_dirs,
-                                            self.dataset_names,
-                                            data_types_to_check
-              )
+        validator = InputValidator(nwb_metadata.metadata_path,
+                                   nwb_metadata.probes_paths,
+                                   self.all_data_dirs,
+                                   self.dataset_names,
+                                   data_types_to_check)
+        validator.validate_input_data()
+
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
