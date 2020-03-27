@@ -14,7 +14,7 @@ class TestInputValidator(TestCase):
         self.date = '21251015'
 
 
-    def test_validate_input_data(self):
+    def test_input_validator_validate_input_data_successfully(self):
         data_path = str(path) + '/res/scanner_test/'
         wrong_data_types_to_check = ['pos', 'non_existing']
         data_types_to_check = ['pos', 'mda']
@@ -61,7 +61,7 @@ class TestInputValidator(TestCase):
                                           data_types_to_check)
 
 
-    def test_validate_dataset(self):
+    def test_input_validator_validate_dataset_successfully(self):
         data_path = str(path) + '/res/scanner_test/'
         wrong_data_types_to_check = ['pos', 'non_existing']
         data_types_to_check = ['pos', 'mda']
@@ -78,7 +78,7 @@ class TestInputValidator(TestCase):
                                                        wrong_data_types_to_check),
                          'non_existing files in epoch 01_s1\nnon_existing files in epoch 02_s1\n')
 
-    def test_validate_metadata(self):
+    def test_input_validator_validate_metadata_successfully(self):
         validator = InputValidator()
         metadata_path = str(path) + '/res/metadata.yml'
         wrong_metadata_path = str(path) + '/res/metadataa.yml'
