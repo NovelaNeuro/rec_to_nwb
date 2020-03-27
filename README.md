@@ -7,7 +7,7 @@ https://github.com/LorenFrankLab/rec_to_binaries<br>
 # Prerequisites
 ## For users
 1. Install Spike Gadgets <br>
-   https://bitbucket.org/mkarlsso/trodes/downloads/
+   <https://bitbucket.org/mkarlsso/trodes/downloads/>
 2. Add SpikeGadgets to path. <br>
    If Spike Gadgets is in default location: <br>
    ```bash
