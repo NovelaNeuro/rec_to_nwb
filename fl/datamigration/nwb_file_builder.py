@@ -97,7 +97,7 @@ class NWBFileBuilder:
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
 
-        task_validator = TaskValidator(self.datasets, self.metadata)
+        task_validator = TaskValidator(self.datasets, self.metadata['tasks'])
         if not task_validator.is_number_of_tasks_valid():
             raise DifferentNumberOfTasksAndEpochs
 
