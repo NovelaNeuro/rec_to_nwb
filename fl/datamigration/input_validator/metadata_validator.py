@@ -6,7 +6,7 @@ class MetadataValidator:
         self.metadata_path = metadata_path
         self.probes_paths = probes_paths
 
-    def return_missing_metadata(self):
+    def get_missing_metadata(self):
         """returns string with all missing yml files"""
         missing_data = []
         if not (os.path.exists(self.metadata_path)):
