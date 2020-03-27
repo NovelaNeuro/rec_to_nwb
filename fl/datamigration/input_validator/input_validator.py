@@ -17,14 +17,18 @@ class InputValidator:
             __create_existing_data_dictionary()
         """
     def __init__(self, metadata_path, probes_paths, all_data_dirs, epochs, data_types_to_check):
+        self.epochs = epochs
         self.metadata_validator = MetadataValidator(metadata_path, probes_paths)
         self.preprocessing_validator = PreprocessingValidator(all_data_dirs, epochs, data_types_to_check)
 
-    def validate_input_data(self, metadata_path, probes_paths, all_data_dirs, epochs, data_types_to_check):
+    def validate_input_data(self):
         """Raises exception if data is incomplete"""
         missing_metadata = self.metadata_validator.get_missing_metadata()
         missing_preprocessing_data = self.preprocessing_validator.get_missing_preprocessing_data()
-
-        if not missing_data == '':
-            raise MissingDataException(missing_data + "are missing")
-        return missing_data
+        if not (missing_metadata == []) or not(missing_preprocessing_data == []):
+            message = ''
+            for missing_metadata_file in missing_metadata:
+                message += missing_metadata_file + '\n'
+            for missing_preprocessing_file in missing_preprocessing_data:
+                message += missing_preprocessing_file[0] + ' from epoch ' + missing_preprocessing_file[1] + '\n'
+            raise MissingDataException(message + "are missing")

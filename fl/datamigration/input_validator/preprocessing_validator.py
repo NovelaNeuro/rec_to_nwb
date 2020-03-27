@@ -6,9 +6,9 @@ class PreprocessingValidator:
 
     def get_missing_preprocessing_data(self):
         """returns string with missing preprocessing files"""
-        missing_data = {}
+        missing_data = []
         for epoch in self.epochs:
-            missing_data[epoch] = self.__check_single_epoch(epoch)
+            missing_data.extend(self.__check_single_epoch(epoch))
         return missing_data
 
     def __check_single_epoch(self, epoch):
@@ -17,5 +17,5 @@ class PreprocessingValidator:
         for data_type in self.data_types_to_check:
             for data_dirs in self.all_data_dirs:
                 if data_dirs.endswith(data_type) and epoch in data_dirs:
-                    self.missing_data.append(data_type)
+                    missing_data.append((data_type, epoch))
         return missing_data
