@@ -1,22 +1,21 @@
-# fldatamigration
 # About
 fldatamigration is a python package for converting SpikeGadgets rec files to NWB files.<br>
 It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_to_binaries package for preprocessing phase.<br>
-https://github.com/LorenFrankLab/rec_to_binaries<br>
+<https://github.com/LorenFrankLab/rec_to_binaries><br>
 
 # Prerequisites
 ## For users
 1. Install Spike Gadgets <br>
-   https://bitbucket.org/mkarlsso/trodes/downloads/
+   <https://bitbucket.org/mkarlsso/trodes/downloads/>
 2. Add SpikeGadgets to path. <br>
    If Spike Gadgets is in default location: <br>
    ```bash
    export PATH="$HOME/SpikeGadgets/:$PATH"
    ```
 3. Download miniconda from <br>
-   https://docs.conda.io/en/latest/miniconda.html <br>
+   <https://docs.conda.io/en/latest/miniconda.html> <br>
 4. Download `fldatamigration.yml` from <br>
-   https://anaconda.org/NovelaKRK/fldatamigration/files
+   <https://anaconda.org/NovelaKRK/fldatamigration/files>
 5. Build fldatamigration environment:
    ```bash
    conda env create -f fldatamigration.yml
@@ -28,14 +27,14 @@ https://github.com/LorenFrankLab/rec_to_binaries<br>
 
 ## For developers
 1. Install Spike Gadgets <br>
-   https://bitbucket.org/mkarlsso/trodes/downloads/
+   <https://bitbucket.org/mkarlsso/trodes/downloads/>
 2. Add SpikeGadgets to path. <br>
    If Spike Gadgets is in default location:
    ```bash
    export PATH="$HOME/SpikeGadgets/:$PATH"
    ```
 3. Download miniconda from<br>
-   https://docs.conda.io/en/latest/miniconda.html<br>
+   <https://docs.conda.io/en/latest/miniconda.html><br>
 4. clone repository
    ```bash
    git clone https://github.com/NovelaNeuro/fldatamigration.git
@@ -57,7 +56,7 @@ https://github.com/LorenFrankLab/rec_to_binaries<br>
 
 # How to use it
 1. Download example notebook file from
-   https://anaconda.org/NovelaKRK/nwb_generation/notebook
+   <https://anaconda.org/NovelaKRK/nwb_generation/notebook>
 2. In terminal navigate to notebook file location
 3. Run jupyter notebook
    ```bash

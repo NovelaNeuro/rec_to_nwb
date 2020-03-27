@@ -12,16 +12,15 @@
 #
 import os
 import sys
-# sys.path.insert(0, os.path.abspath('../../.'))
-# sys.path.insert(0, os.path.abspath('../../fl'))
-# sys.path.insert(0, os.path.abspath('../../fl/datamigration'))
-# sys.path.insert(0, os.path.abspath('../../fl/datamigration/exceptions'))
-# sys.path.insert(0, os.path.abspath('../../fl/datamigration/header'))
-# sys.path.insert(0, os.path.abspath('../../fl/datamigration/metadata'))
-# sys.path.insert(0, os.path.abspath('../../fl/datamigration/nwb'))
-# sys.path.insert(0, os.path.abspath('../../fl/datamigration/processing'))
-# sys.path.insert(0, os.path.abspath('../../fl/datamigration/tools'))
-sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../../.'))
+sys.path.insert(0, os.path.abspath('../../fl'))
+sys.path.insert(0, os.path.abspath('../../fl/datamigration'))
+sys.path.insert(0, os.path.abspath('../../fl/datamigration/exceptions'))
+sys.path.insert(0, os.path.abspath('../../fl/datamigration/header'))
+sys.path.insert(0, os.path.abspath('../../fl/datamigration/metadata'))
+sys.path.insert(0, os.path.abspath('../../fl/datamigration/nwb'))
+sys.path.insert(0, os.path.abspath('../../fl/datamigration/processing'))
+sys.path.insert(0, os.path.abspath('../../fl/datamigration/tools'))
 
 
 # -- Project information -----------------------------------------------------
@@ -42,8 +41,12 @@ release = "0.1.004"
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'recommonmark'
+    'recommonmark',
+    'autoapi.extension'
 ]
+
+autoapi_type = 'python'
+autoapi_dirs = '../../fl/datamigration'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
