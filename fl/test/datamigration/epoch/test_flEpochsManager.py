@@ -4,6 +4,7 @@ from unittest.mock import patch, Mock
 from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
+from fl.datamigration.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
 from fl.datamigration.nwb.components.epochs.fl_epochs_extractor import FlEpochsExtractor
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from fl.datamigration.tools.dataset import Dataset
@@ -52,5 +53,20 @@ class TestFlElEpochsManager(TestCase):
             metadata
         )
 
+    @patch.object(Dataset, 'get_continuous_time', new=fake_get_continuous_time)
+    @patch.object(FlEpochsExtractor, 'extract_epochs', new=fake_extract_epochs)
+    @should_raise(NotEqualParamLengthException)
+    def test_get_epochs_fails_duo_to_different_parameters_length(self):
+        dataset_1_mock = Mock(spec=Dataset)
+        dataset_1_mock.name = 'mock1'
+        dataset_2_mock = Mock(spec=Dataset)
+        dataset_2_mock.name = 'mock2'
+        datasets = [dataset_1_mock, dataset_2_mock]
+        metadata = {'tasks': [{'task_name': 'task1'}]}
+        fl_epoch_manager = FlEpochsManager(
+            datasets,
+            metadata
+        )
+        fl_epoch = fl_epoch_manager.get_epochs()
 
 
