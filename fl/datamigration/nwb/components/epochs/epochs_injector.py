@@ -12,8 +12,5 @@ class EpochsInjector:
 
     @staticmethod
     def __extend_epochs(fl_epochs, nwb_content):
-        if len(nwb_content.epochs) < len(fl_epochs.tasks):
-            tasks = fl_epochs.tasks[0:len(nwb_content.epochs)]
-        else:
-            tasks = fl_epochs.tasks
-        nwb_content.add_epoch_column('tasks', '-', data=tasks)
+        tasks = fl_epochs.tasks
+        nwb_content.add_epoch_column('tasks', 'None', data=tasks)
