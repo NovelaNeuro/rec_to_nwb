@@ -8,8 +8,7 @@ cp LICENSE.md ./docs/source/
 sed -i '1i License' ./docs/source/LICENSE.md && sed -i '2i ===================' ./docs/source/LICENSE.md
 
 echo 'Creating API Documentation'
-sphinx-apidoc -fMeET ./fl/datamigration -o ./docs/source/autoapi
-
+sphinx-apidoc -fMET ./fl/datamigration -o ./docs/source/autoapi
 
 echo 'Create HTML Documentation'
 make html -C ./docs
