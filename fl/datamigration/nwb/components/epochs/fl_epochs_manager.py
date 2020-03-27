@@ -1,7 +1,7 @@
 from fl.datamigration.nwb.components.epochs.fl_epochs_builder import FlEpochsBuilder
 from fl.datamigration.nwb.components.epochs.fl_epochs_extractor import FlEpochsExtractor
-from fl.datamigration.nwb.components.epochs.task_names_extractor import TaskNamesExtractor
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none, validate_parameters_equal_length
+from fl.datamigration.tools.task_names_extractor import TaskNamesExtractor
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlEpochsManager:
