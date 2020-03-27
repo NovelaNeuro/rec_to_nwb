@@ -1,12 +1,11 @@
 import logging.config
 import os
 import uuid
-from datetime import datetime
 
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
-from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
+from fl.datamigration.exceptions.different_number_of_tasks_and_epochs import DifferentNumberOfTasksAndEpochs
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
@@ -38,6 +37,7 @@ from fl.datamigration.nwb.components.position.position_creator import PositionCr
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
+from fl.datamigration.tools.task_validator import TaskValidator
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -96,6 +96,10 @@ class NWBFileBuilder:
         self.output_file = output_file
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
+
+        task_validator = TaskValidator(self.datasets, self.metadata)
+        if not task_validator.is_number_of_tasks_valid():
+            raise DifferentNumberOfTasksAndEpochs
 
         rec_files_list = RecFileFinder().find_rec_files(
 
