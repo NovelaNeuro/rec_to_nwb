@@ -6,6 +6,13 @@ from fl.datamigration.tools.validate_parameters import validate_parameters_not_n
 class MetadataManager:
 
     def __init__(self, metadata_path, probes_paths):
+
+        """
+        Args:
+        metadata_path (string): path to file .yml with metadata describing experiment
+        probes_paths (list of strings): list of paths to .yml files with data describing probes used in experiment
+        """
+
         validate_parameters_not_none(__name__, metadata_path, probes_paths)
 
         self.probes_paths = probes_paths
