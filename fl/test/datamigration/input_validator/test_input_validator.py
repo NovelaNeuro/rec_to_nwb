@@ -4,18 +4,23 @@ from fl.datamigration.exceptions.missing_data_exception import MissingDataExcept
 from fl.datamigration.tools.InputValidator import InputValidator
 from pathlib import Path
 
+from fl.datamigration.tools.data_scanner import DataScanner
+
 path = Path(__file__).parent.parent
 path.resolve()
 
 class TestInputValidator(TestCase):
     def setUp(self):
+        data_path = str(path) + '/res/scanner_test/'
         self.epochs = ['01_s1', '02_s1']
-        self.animal = 'alien'
-        self.date = '21251015'
+        animal = 'alien'
+        date = '21251015'
+        data_scanner = DataScanner(data_path, animal)
+        self.all_data = data_scanner.get_all_data_from_dataset(date)
+
 
 
     def test_input_validator_validate_input_data_successfully(self):
-        data_path = str(path) + '/res/scanner_test/'
         wrong_data_types_to_check = ['pos', 'non_existing']
         data_types_to_check = ['pos', 'mda']
         metadata_path = str(path) + '/res/metadata.yml'
@@ -30,33 +35,19 @@ class TestInputValidator(TestCase):
         with self.assertRaises(MissingDataException):
             validator.validate_input_data(metadata_path,
                                           probes_paths,
-                                          data_path + 'non_existing_directory/',
-                                          self.animal,
-                                          self.date,
-                                          self.epochs,
-                                          data_types_to_check)
-        with self.assertRaises(MissingDataException):
-            validator.validate_input_data(metadata_path,
-                                          probes_paths,
-                                          data_path,
-                                          self.animal,
-                                          self.date,
+                                          self.all_data,
                                           self.epochs,
                                           wrong_data_types_to_check)
         with self.assertRaises(MissingDataException):
             validator.validate_input_data(metadata_path,
                                           wrong_probes_paths,
-                                          data_path,
-                                          self.animal,
-                                          self.date,
+                                          self.all_data,
                                           self.epochs,
                                           data_types_to_check)
         with self.assertRaises(MissingDataException):
             validator.validate_input_data(wrong_metadata_path,
                                           probes_paths,
-                                          data_path,
-                                          self.animal,
-                                          self.date,
+                                          self.all_data,
                                           self.epochs,
                                           data_types_to_check)
 
@@ -66,14 +57,10 @@ class TestInputValidator(TestCase):
         wrong_data_types_to_check = ['pos', 'non_existing']
         data_types_to_check = ['pos', 'mda']
         validator = InputValidator()
-        self.assertEqual(validator.return_missing_data(data_path,
-                                                       self.animal,
-                                                       self.date,
+        self.assertEqual(validator.return_missing_data(self.all_data,
                                                        self.epochs,
                                                        data_types_to_check),'')
-        self.assertEqual(validator.return_missing_data(data_path,
-                                                       self.animal,
-                                                       self.date,
+        self.assertEqual(validator.return_missing_data(self.all_data,
                                                        self.epochs,
                                                        wrong_data_types_to_check),
                          'non_existing files in epoch 01_s1\nnon_existing files in epoch 02_s1\n')
