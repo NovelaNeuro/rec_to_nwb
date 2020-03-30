@@ -21,7 +21,7 @@ cd fldatamigration-docs
 ls ../
 git remote rm origin
 git remote add origin https://${USERNAME}:${GH_DOCS_TOKEN}@github.com/NovelaNeuro/fldatamigration-docs.git
-cp ../docs/build/html .
+cp -r ../docs/build/html .
 git add -f .
 git commit -m "Documentation v$TRAVIS_BUILD_NUMBER"
 git push -f origin master
