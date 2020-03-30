@@ -42,6 +42,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'recommonmark',
     'autoapi.extension',
+    'sphinx.ext.napoleon'
 ]
 
 autoapi_type = 'python'

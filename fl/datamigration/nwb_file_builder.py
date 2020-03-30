@@ -45,8 +45,18 @@ logger = logging.getLogger(__name__)
 
 
 class NWBFileBuilder:
-    """unpack data from preprocessing folder specified by arguments, and write those data into NWB file format"""
+    """unpack data from preprocessing folder specified by arguments, and write those data into NWB file format
 
+    Args:
+        data_path (string): path to directory containing all experiments data
+        animal_name (string): directory name which represents animal subject of experiment
+        date (string): date of experiment
+        nwb_metadata (MetadataManager): object containig metadata about experiment
+        process_dio (boolean): flag if dio data should be processed
+        process_mda (boolean): flag if mda data should be processed
+        process_analog (boolean): flag if analog data should be processed
+        output_file (string): path and name specifying where .nwb file gonna be written
+    """
     def __init__(self,
                  data_path,
                  animal_name,
@@ -58,17 +68,7 @@ class NWBFileBuilder:
                  output_file='output.nwb'
                  ):
 
-        """
-        Args:
-        data_path (string): path to directory containing all experiments data
-        animal_name (string): directory name which represents animal subject of experiment
-        date (string): date of experiment
-        nwb_metadata (MetadataManager): object containig metadata about experiment
-        process_dio (boolean): flag if dio data should be processed
-        process_mda (boolean): flag if mda data should be processed
-        process_analog (boolean): flag if analog data should be processed
-        output_file (string): path and name specifying where .nwb file gonna be written
-        """
+
 
         logger.info('NWBFileBuilder initialization')
         logger.info(
