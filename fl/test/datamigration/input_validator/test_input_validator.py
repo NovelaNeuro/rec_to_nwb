@@ -12,10 +12,7 @@ path.resolve()
 
 class TestInputValidator(TestCase):
     def setUp(self):
-        data_path = str(path) + '/res/scanner_test/'
         self.epochs = ['01_s1', '02_s1']
-        animal = 'alien'
-        date = '21251015'
         self.all_data = os.listdir(str(path) + '/res/scanner_test/alien/preprocessing/21251015')
 
     def test_input_validator_validate_input_data_successfully(self):
@@ -29,6 +26,7 @@ class TestInputValidator(TestCase):
         wrong_probes_paths = [str(path) + '/res/probe11.yml',
                               str(path) + '/res/probe22.yml',
                               str(path) + '/res/probe33.yml']
+
         validator_missing_type = InputValidator(metadata_path,
                                                 probes_paths,
                                                 self.all_data,
@@ -44,6 +42,7 @@ class TestInputValidator(TestCase):
                                                   self.all_data,
                                                   self.epochs,
                                                   data_types_to_check)
+
         with self.assertRaises(MissingDataException):
             validator_missing_type.validate_input_data()
         with self.assertRaises(MissingDataException):

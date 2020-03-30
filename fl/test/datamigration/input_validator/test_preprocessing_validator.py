@@ -21,12 +21,14 @@ class TestInputValidator(TestCase):
     def test_input_validator_validate_dataset_successfully(self):
         wrong_data_types_to_check = ['pos', 'mda', 'non_existing']
         data_types_to_check = ['pos', 'mda']
+
         validator = PreprocessingValidator(self.all_data,
                                            self.epochs,
                                            data_types_to_check)
         validator_missing_type = PreprocessingValidator(self.all_data,
                                                         self.epochs,
                                                         wrong_data_types_to_check)
+
         self.assertEqual(validator.get_missing_preprocessing_data(), [])
         self.assertEqual(validator_missing_type.get_missing_preprocessing_data(),
                          [('non_existing', '01_s1'), ('non_existing', '02_s1')])

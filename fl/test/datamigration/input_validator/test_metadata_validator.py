@@ -23,6 +23,7 @@ class TestInputValidator(TestCase):
         validator = MetadataValidator(self.metadata_path, self.probes_paths)
         validator_wrong_metadata = MetadataValidator(self.wrong_metadata_path, self.probes_paths)
         validator_wrong_probes = MetadataValidator(self.metadata_path, self.wrong_probes_paths)
+
         self.assertEqual(validator.get_missing_metadata(), [])
         self.assertEqual(validator_wrong_metadata.get_missing_metadata(),[str(path) + '/res/metadataa.yml'])
         self.assertEqual(validator_wrong_probes.get_missing_metadata(),
