@@ -45,6 +45,7 @@ extensions = [
     'sphinx.ext.napoleon'
 ]
 
+autoapi_add_toctree_entry = False
 autoapi_type = 'python'
 autoapi_dirs = ['../../fl/datamigration']
 add_module_names = False
