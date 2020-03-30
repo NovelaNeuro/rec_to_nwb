@@ -27,9 +27,7 @@ class DataScanner:
         return all_datasets
 
     def get_all_data_from_dataset(self, date):
-        if not(os.path.exists(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)):
-            raise MissingDataException('missing ' + self.data_path + ' directory')
-        print(os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date))
+        self.__check_if_path_exists(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
         return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
     def extract_data_from_date_folder(self, date, required_data_types=[]):
@@ -99,3 +97,7 @@ class DataScanner:
             if fnmatch.fnmatch(probe_file, "probe*.yml"):
                 probes.append(path + '/' + probe_file)
         return probes
+
+    def __check_if_path_exists(self, path):
+        if not (os.path.exists(path)):
+            raise MissingDataException('missing ' + self.data_path + ' directory')
