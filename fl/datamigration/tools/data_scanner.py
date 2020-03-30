@@ -2,16 +2,18 @@ import fnmatch
 import os
 
 from fl.datamigration.exceptions.missing_data_exception import MissingDataException
+from fl.datamigration.input_validator.input_validator import InputValidator
 from fl.datamigration.tools.dataset import Dataset
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
 class DataScanner:
-    def __init__(self, data_path, animal_name):
+    def __init__(self, data_path, animal_name, nwb_metadata):
         validate_parameters_not_none(__name__, data_path, animal_name)
 
         self.data_path = data_path
         self.animal_name = animal_name
+        self.nwb_metadata = nwb_metadata
 
         self.data = None
 
@@ -27,10 +29,17 @@ class DataScanner:
     def get_all_data_from_dataset(self, date):
         if not(os.path.exists(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)):
             raise MissingDataException('missing ' + self.data_path + ' directory')
+        print(os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date))
         return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
-    def extract_data_from_date_folder(self, date):
+    def extract_data_from_date_folder(self, date, required_data_types):
         validate_parameters_not_none(__name__, date)
+        validator = InputValidator(self.nwb_metadata.metadata_path,
+                                   self.nwb_metadata.probes_paths,
+                                   self.get_all_data_from_dataset(date),
+                                   self.get_all_epochs(date),
+                                   required_data_types)
+        validator.validate_input_data()
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, [date])}
 
     def extract_data_from_dates_folders(self, dates):

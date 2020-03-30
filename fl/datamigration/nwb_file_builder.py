@@ -82,29 +82,20 @@ class NWBFileBuilder:
             + 'output_file = ' + str(output_file) + '\n'
         )
 
-        data_types_to_check = ['pos', 'time']
+        required_data_types = ['pos', 'time']
         if process_mda:
-            data_types_to_check.append('mda')
+            required_data_types.append('mda')
         if process_dio:
-            data_types_to_check.append('DIO')
+            required_data_types.append('DIO')
         if process_analog:
-            data_types_to_check.append('analog')
+            required_data_types.append('analog')
 
-        self.data_scanner = DataScanner(data_path, animal_name)
+        self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
         self.dataset_names = self.data_scanner.get_all_epochs(date)
-        self.all_data_dirs = self.data_scanner.get_all_data_from_dataset(date)
-
-        validator = InputValidator(nwb_metadata.metadata_path,
-                                   nwb_metadata.probes_paths,
-                                   self.all_data_dirs,
-                                   self.dataset_names,
-                                   data_types_to_check)
-        validator.validate_input_data()
-
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
-        self.data_scanner.extract_data_from_date_folder(date)
+        self.data_scanner.extract_data_from_date_folder(date, required_data_types)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
         self.process_dio = process_dio
         self.process_mda = process_mda
