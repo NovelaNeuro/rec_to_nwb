@@ -33,17 +33,21 @@
         <DispChannel analyze="1" maxDisp="2" color="#aaaaaa" id="Din2" device="ECU"/>
     </AuxDisplayConfiguration>
     <SpikeConfiguration categories="">
-        <SpikeNTrode lowFilter="600" LFPChan="1" lfpFilterOn="1" refGroup="0" groupRefOn="0" LFPHighFilter="400"
-                     highFilter="6000" color="#fa0087" refChan="1" id="1" lfpRefOn="0" filterOn="1" refOn="0"
-                     moduleDataOn="1" refNTrodeID="10">
-            <SpikeChannel hwChan="57" maxDisp="250" thresh="60" triggerOn="1"/>
-            <SpikeChannel hwChan="59" maxDisp="250" thresh="60" triggerOn="1"/>
+        <SpikeNTrode filterOn="1" lowFilter="300" lfpRefOn="0" color="#ffffff" highFilter="6000" lfpFilterOn="1"
+                     moduleDataOn="0" LFPHighFilter="400" refGroup="0" LFPChan="1" refNTrodeID="1" refChan="1"
+                     groupRefOn="0" refOn="0" id="1">
+            <SpikeChannel maxDisp="225" triggerOn="1" hwChan="128" thresh="10"/>
+            <SpikeChannel maxDisp="225" triggerOn="1" hwChan="132" thresh="10"/>
+            <SpikeChannel maxDisp="225" triggerOn="1" hwChan="133" thresh="10"/>
+            <SpikeChannel maxDisp="225" triggerOn="1" hwChan="160" thresh="10"/>
         </SpikeNTrode>
-        <SpikeNTrode lowFilter="600" LFPChan="1" lfpFilterOn="1" refGroup="0" groupRefOn="0" LFPHighFilter="400"
-                     highFilter="6000" color="#fce94f" refChan="1" id="2" lfpRefOn="0" filterOn="1" refOn="0"
-                     moduleDataOn="1" refNTrodeID="10">
-            <SpikeChannel hwChan="56" maxDisp="225" thresh="60" triggerOn="1"/>
-            <SpikeChannel hwChan="58" maxDisp="225" thresh="60" triggerOn="1"/>
+        <SpikeNTrode filterOn="1" lowFilter="300" lfpRefOn="0" color="#24c600" highFilter="6000" lfpFilterOn="1"
+                     moduleDataOn="0" LFPHighFilter="400" refGroup="0" LFPChan="1" refNTrodeID="1" refChan="1"
+                     groupRefOn="0" refOn="0" id="2">
+            <SpikeChannel maxDisp="225" triggerOn="1" hwChan="178" thresh="10"/>
+            <SpikeChannel maxDisp="225" triggerOn="1" hwChan="182" thresh="10"/>
+            <SpikeChannel maxDisp="225" triggerOn="1" hwChan="186" thresh="10"/>
+            <SpikeChannel maxDisp="225" triggerOn="1" hwChan="190" thresh="10"/>
         </SpikeNTrode>
     </SpikeConfiguration>
 </Configuration>
