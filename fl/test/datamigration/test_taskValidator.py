@@ -14,12 +14,12 @@ class TestTaskValidator(TestCase):
         dataset_2_mock.name = 'mock2'
         self.datasets = [dataset_1_mock, dataset_2_mock]
 
-    def test_same_number_of_tasks_and_epochs(self):
+    def test_task_validator_equal_number_of_task_and_epochs_valid(self):
         tasks = [{'task_name': 'task1'}, {'task_name': 'task2'}]
         task_validator = TaskValidator(self.datasets, tasks)
         self.assertTrue(task_validator.is_number_of_tasks_valid())
 
-    def test_different_number_of_tasks_and_epochs(self):
+    def test_task_validator_different_number_of_tasks_and_epochs_failed(self):
         tasks = [{'task_name': 'task1'}, {'task_name': 'task2'}, {'task_name': 'task3'}]
         task_validator = TaskValidator(self.datasets, tasks)
         self.assertFalse(task_validator.is_number_of_tasks_valid())

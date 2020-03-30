@@ -101,7 +101,7 @@ class NWBFileBuilder:
 
         task_validator = TaskValidator(self.datasets, self.metadata['tasks'])
         if not task_validator.is_number_of_tasks_valid():
-            logger.info('number of tasks in metadata.yml is not equal to number of epochs in preprocessing directory')
+            logger.warning('number of tasks in metadata.yml is not equal to number of epochs in preprocessing directory')
             raise DifferentNumberOfTasksAndEpochs
 
         rec_files_list = RecFileFinder().find_rec_files(
