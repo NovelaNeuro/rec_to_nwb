@@ -32,7 +32,7 @@ class DataScanner:
         print(os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date))
         return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
-    def extract_data_from_date_folder(self, date, required_data_types):
+    def extract_data_from_date_folder(self, date, required_data_types=[]):
         validate_parameters_not_none(__name__, date)
         validator = InputValidator(self.nwb_metadata.metadata_path,
                                    self.nwb_metadata.probes_paths,
