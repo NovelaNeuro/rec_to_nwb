@@ -17,12 +17,11 @@ make html -C ./docs || exit 1
 
 echo 'Deploy documentation to' $DOC_REPO
 git clone ${DOC_REPO}
-ls
 cd fldatamigration-docs
-ls
+ls ../
 git remote rm origin
 git remote add origin https://${USERNAME}:${GH_DOCS_TOKEN}@github.com/NovelaNeuro/fldatamigration-docs.git
-git add -f ../docs/html
+git add -f ../docs/build/html
 git commit -m "Documentation v$TRAVIS_BUILD_NUMBER"
 git push -f origin master
 
