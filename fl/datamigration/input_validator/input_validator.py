@@ -8,11 +8,11 @@ from fl.datamigration.input_validator.preprocessing_validator import Preprocessi
 class InputValidator:
     """ Class to validate if input data is complete
         Args:
-            metadata_path - path to metadata.yml file
-            probes_paths - list paths to yml files containing informations about probe types
-            all_data_dirs - all directories contained in directory <animal name>/<preprocessing>/<date>
-            epochs - list of all epochs
-            data_types_to_check - types of data required
+            metadata_path (string): path to metadata.yml file
+            probes_paths (list of strings): list paths to yml files containing informations about probe types
+            all_data_dirs (list of strings): all directories contained in directory <animal name>/<preprocessing>/<date>
+            epochs (list of strings) list of all epochs
+            data_types_to_check (list of strings): types of data required
 
         Methods:
             validate_input_data()

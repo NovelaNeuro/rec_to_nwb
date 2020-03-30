@@ -1,9 +1,9 @@
 class PreprocessingValidator:
     """ Class to validate if preprocessing data is complete
         Args:
-            all_data_dirs - all directories contained in directory <animal name>/<preprocessing>/<date>
-            epochs - list of all epochs
-            data_types_to_check - types of data required
+            all_data_dirs (list of strings): all directories contained in directory <animal name>/<preprocessing>/<date>
+            epochs (list of strings): list of all epochs
+            data_types_to_check (list of strings): types of data required
 
         Methods:
             get_missing_preprocessing_data()
@@ -16,14 +16,25 @@ class PreprocessingValidator:
         self.data_types_to_check = data_types_to_check
 
     def get_missing_preprocessing_data(self):
-        """returns list of missing preprocessing files"""
+        """Get list of missing preprocessing files
+
+            Returns:
+                List of strings: missing preprocessing files
+        """
         missing_data = []
         for epoch in self.epochs:
             missing_data.extend(self.__check_single_epoch(epoch))
         return missing_data
 
     def __check_single_epoch(self, epoch):
-        """finds missing data in single epoch"""
+        """finds missing data in single epoch
+
+            Args:
+                epoch (string): name of epoch to check
+
+            Returns:
+                List of strings: missing preprocessing files from checked epoch
+        """
         missing_data = []
         for data_type in self.data_types_to_check:
             is_data_present = False
