@@ -29,8 +29,9 @@ script:
   - python -m pytest fl/test/datamigration
 
 after_success:
-  - test $TRAVIS_BRANCH = "master_release" && conda install conda-build && conda install anaconda-client && conda install conda-verify && bash conda_upload.sh
-  # Add to after_success or deploy: bash docs.upload.sh
+  - test $TRAVIS_BRANCH = "master_release" && conda install conda-build && conda install anaconda-client && conda install conda-verify && bash conda_upload.sh && bash docs.upload.sh
+  # ToDo delete in PR
+  - bash docs_upload.sh
 
 notifications:
   slack: novelaneurote-ibx6025:3bhUUXZXz52ZXXTQCpiJyHkF
