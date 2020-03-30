@@ -21,7 +21,7 @@ tasks:
   {
     task_name:            Stem+Leaf,
     task_description:     Spatial Bandit,
-  }
+  },
   ]
 
 behavioral_events:

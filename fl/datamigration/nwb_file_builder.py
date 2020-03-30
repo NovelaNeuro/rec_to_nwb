@@ -5,6 +5,7 @@ import uuid
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
+from fl.datamigration.exceptions.different_number_of_tasks_and_epochs import DifferentNumberOfTasksAndEpochs
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
@@ -36,6 +37,7 @@ from fl.datamigration.nwb.components.position.position_creator import PositionCr
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
+from fl.datamigration.tools.task_validator import TaskValidator
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
 
@@ -96,6 +98,11 @@ class NWBFileBuilder:
         self.output_file = output_file
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
+
+        task_validator = TaskValidator(self.datasets, self.metadata['tasks'])
+        if not task_validator.is_number_of_tasks_valid():
+            logger.warning('number of tasks in metadata.yml is not equal to number of epochs in preprocessing directory')
+            raise DifferentNumberOfTasksAndEpochs
 
         rec_files_list = RecFileFinder().find_rec_files(
 
