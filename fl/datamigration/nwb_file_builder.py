@@ -38,6 +38,8 @@ from fl.datamigration.nwb.components.processing_module.processing_module_creator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
 from fl.datamigration.tools.task_validator import TaskValidator
+from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
+from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -181,6 +183,8 @@ class NWBFileBuilder:
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
 
+        self.__build_and_inject_epochs(nwb_content)
+
         if self.process_dio:
             self.__build_and_inject_dio(nwb_content)
 
@@ -306,3 +310,9 @@ class NWBFileBuilder:
         )
         MdaInjector.inject_mda(nwb_content=nwb_content,
                                electrical_series=ElectricalSeriesCreator.create_mda(fl_mda_manager.get_data()))
+
+    def __build_and_inject_epochs(self, nwb_content):
+        logger.info('Epochs: Building')
+        fl_epochs_manager = FlEpochsManager(self.datasets, self.metadata['tasks'])
+        epochs = fl_epochs_manager.get_epochs()
+        EpochsInjector.inject(epochs, nwb_content)
