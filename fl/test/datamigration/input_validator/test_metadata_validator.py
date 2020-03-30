@@ -7,6 +7,7 @@ from fl.datamigration.input_validator.metadata_validator import MetadataValidato
 path = Path(__file__).parent.parent
 path.resolve()
 
+
 class TestInputValidator(TestCase):
     def setUp(self):
         self.metadata_path = str(path) + '/res/metadata.yml'

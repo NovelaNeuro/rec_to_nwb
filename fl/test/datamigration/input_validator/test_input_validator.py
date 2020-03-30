@@ -1,13 +1,14 @@
+import os
 from unittest import TestCase
 
 from fl.datamigration.exceptions.missing_data_exception import MissingDataException
 from fl.datamigration.input_validator.input_validator import InputValidator
 from pathlib import Path
 
-from fl.datamigration.tools.data_scanner import DataScanner
 
 path = Path(__file__).parent.parent
 path.resolve()
+
 
 class TestInputValidator(TestCase):
     def setUp(self):
@@ -15,8 +16,7 @@ class TestInputValidator(TestCase):
         self.epochs = ['01_s1', '02_s1']
         animal = 'alien'
         date = '21251015'
-        data_scanner = DataScanner(data_path, animal)
-        self.all_data = data_scanner.get_all_data_from_dataset(date)
+        self.all_data = os.listdir(str(path) + '/res/scanner_test/alien/preprocessing/21251015')
 
     def test_input_validator_validate_input_data_successfully(self):
         wrong_data_types_to_check = ['pos', 'mda', 'non_existing']
