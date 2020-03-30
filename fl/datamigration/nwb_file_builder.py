@@ -306,6 +306,6 @@ class NWBFileBuilder:
 
     def __build_and_inject_epochs(self, nwb_content):
         logger.info('Epochs: Building')
-        fl_epochs_manager = FlEpochsManager(self.datasets, self.metadata)
+        fl_epochs_manager = FlEpochsManager(self.datasets, self.metadata['tasks'])
         epochs = fl_epochs_manager.get_epochs()
         EpochsInjector.inject(epochs, nwb_content)
