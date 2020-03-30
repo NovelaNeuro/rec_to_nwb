@@ -5,6 +5,7 @@ import uuid
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
+from fl.datamigration.exceptions.different_number_of_tasks_and_epochs import DifferentNumberOfTasksAndEpochs
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
@@ -36,7 +37,10 @@ from fl.datamigration.nwb.components.position.position_creator import PositionCr
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
-from fl.datamigration.input_validator.input_validator import InputValidator
+from fl.datamigration.tools.task_validator import TaskValidator
+from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
+from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
+from fl.datamigration.input_validator.input_validator
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -103,6 +107,11 @@ class NWBFileBuilder:
         self.output_file = output_file
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
+
+        task_validator = TaskValidator(self.datasets, self.metadata['tasks'])
+        if not task_validator.is_number_of_tasks_valid():
+            logger.warning('number of tasks in metadata.yml is not equal to number of epochs in preprocessing directory')
+            raise DifferentNumberOfTasksAndEpochs
 
         rec_files_list = RecFileFinder().find_rec_files(
 
@@ -182,6 +191,8 @@ class NWBFileBuilder:
         self.__build_and_inject_electrodes(nwb_content, nwb_electrode_groups)
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
+
+        self.__build_and_inject_epochs(nwb_content)
 
         if self.process_dio:
             self.__build_and_inject_dio(nwb_content)
@@ -308,3 +319,9 @@ class NWBFileBuilder:
         )
         MdaInjector.inject_mda(nwb_content=nwb_content,
                                electrical_series=ElectricalSeriesCreator.create_mda(fl_mda_manager.get_data()))
+
+    def __build_and_inject_epochs(self, nwb_content):
+        logger.info('Epochs: Building')
+        fl_epochs_manager = FlEpochsManager(self.datasets, self.metadata['tasks'])
+        epochs = fl_epochs_manager.get_epochs()
+        EpochsInjector.inject(epochs, nwb_content)
