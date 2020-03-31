@@ -17,8 +17,8 @@ class TestInputValidator(TestCase):
         self.date = '21251015'
 
     def test_input_validator_validate_dataset_successfully(self):
-        wrong_data_types_to_check = ['pos', 'mda', 'non_existing']
-        data_types_to_check = ['pos', 'mda']
+        wrong_data_types_to_check = {'pos': True, 'mda': True, 'non_existing': True}
+        data_types_to_check = {'pos': True, 'mda': True, 'non_existing': False}
 
         validator = PreprocessingValidator(str(path) + '/res/scanner_test/alien/preprocessing/21251015',
                                            self.epochs,

@@ -30,7 +30,7 @@ class DataScanner:
         self.__check_if_path_exists(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
         return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
-    def extract_data_from_date_folder(self, date, required_data_types=[]):
+    def extract_data_from_date_folder(self, date):
         validate_parameters_not_none(__name__, date)
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, [date])}
 
