@@ -5,7 +5,8 @@ import uuid
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
-from fl.datamigration.exceptions.different_number_of_tasks_and_epochs import DifferentNumberOfTasksAndEpochs
+from fl.datamigration.exceptions.different_number_of_tasks_and_epochs_exception import \
+    DifferentNumberOfTasksAndEpochsException
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
@@ -123,14 +124,13 @@ class NWBFileBuilder:
                                                               self.dataset_names,
                                                               data_types_for_scanning))
         validationRegistrator.validate()
-        self.data_scanner.extract_data_from_date_folder(date)
-        self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
 
+        self.extract_datasets(animal_name, date)
 
         task_validator = TaskValidator(self.datasets, self.metadata['tasks'])
         if not task_validator.is_number_of_tasks_valid():
             logger.warning('number of tasks in metadata.yml is not equal to number of epochs in preprocessing directory')
-            raise DifferentNumberOfTasksAndEpochs
+            raise DifferentNumberOfTasksAndEpochsException
 
 
 
@@ -169,6 +169,10 @@ class NWBFileBuilder:
             self.date,
             self.dataset_names
         )
+
+    def extract_datasets(self, animal_name, date):
+        self.data_scanner.extract_data_from_date_folder(date)
+        self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
 
     def build(self):
         logger.info('Building components for NWB')
