@@ -38,9 +38,11 @@ from fl.datamigration.nwb.components.processing_module.processing_module_creator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
 from fl.datamigration.tools.task_validator import TaskValidator
+from fl.datamigration.validation.ntrode_validator import NTrodeValidator
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
-from fl.datamigration.input_validator.input_validator
+from fl.datamigration.input_validator.input_validator import InputValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -66,7 +68,7 @@ class NWBFileBuilder:
         data_path (string): path to directory containing all experiments data
         animal_name (string): directory name which represents animal subject of experiment
         date (string): date of experiment
-        nwb_metadata (MetadataManager): object containig metadata about experiment
+        nwb_metadata (MetadataManager): object contains metadata about experiment
         process_dio (boolean): flag if dio data should be processed
         process_mda (boolean): flag if mda data should be processed
         process_analog (boolean): flag if analog data should be processed
@@ -121,6 +123,10 @@ class NWBFileBuilder:
                   + self.date))
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
+
+        validationRegistrator = ValidationRegistrator()
+        validationRegistrator.register(NTrodeValidator(self.metadata, self.header))
+        validationRegistrator.validate()
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
