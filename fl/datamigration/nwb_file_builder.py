@@ -5,7 +5,8 @@ import uuid
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
-from fl.datamigration.exceptions.different_number_of_tasks_and_epochs import DifferentNumberOfTasksAndEpochs
+from fl.datamigration.exceptions.different_number_of_tasks_and_epochs_exception import \
+    DifferentNumberOfTasksAndEpochsException
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
@@ -38,9 +39,11 @@ from fl.datamigration.nwb.components.processing_module.processing_module_creator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
 from fl.datamigration.validation.task_validator import TaskValidator
+from fl.datamigration.validation.metadata_validator import MetadataValidator
 from fl.datamigration.validation.ntrode_validator import NTrodeValidator
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
+from fl.datamigration.validation.preprocessing_validator import PreprocessingValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -90,16 +93,18 @@ class NWBFileBuilder:
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
-        self.data_scanner = DataScanner(data_path, animal_name)
-        self.data_scanner.extract_data_from_date_folder(date)
-        self.dataset_names = self.data_scanner.get_all_datasets(animal_name, date)
-        self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
+        self.metadata = nwb_metadata.metadata
+        self.probes = nwb_metadata.probes
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.process_analog = process_analog
         self.output_file = output_file
-        self.metadata = nwb_metadata.metadata
-        self.probes = nwb_metadata.probes
+
+        data_types_for_scanning = {'pos': True,
+                                   'time': True,
+                                   'mda': process_mda,
+                                   'DIO': process_dio,
+                                   'analog': process_dio}
 
         rec_files_list = RecFileFinder().find_rec_files(
 
@@ -109,11 +114,20 @@ class NWBFileBuilder:
                   + self.date))
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
+        self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
+        self.dataset_names = self.data_scanner.get_all_epochs(date)
+        full_data_path = data_path + '/' + animal_name + '/preprocessing/' + date
 
         validationRegistrator = ValidationRegistrator()
+        validationRegistrator.register(MetadataValidator(nwb_metadata.metadata_path, nwb_metadata.probes_paths))
         validationRegistrator.register(NTrodeValidator(self.metadata, self.header))
-        validationRegistrator.register(TaskValidator(self.datasets, self.metadata['tasks']))
+        validationRegistrator.register(PreprocessingValidator(full_data_path,
+                                                              self.dataset_names,
+                                                              data_types_for_scanning))
+        validationRegistrator.register(TaskValidator(len(self.dataset_names), self.metadata['tasks']))
         validationRegistrator.validate()
+
+        self.extract_datasets(animal_name, date)
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
@@ -150,6 +164,10 @@ class NWBFileBuilder:
             self.date,
             self.dataset_names
         )
+
+    def extract_datasets(self, animal_name, date):
+        self.data_scanner.extract_data_from_date_folder(date)
+        self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
 
     def build(self):
         logger.info('Building components for NWB')

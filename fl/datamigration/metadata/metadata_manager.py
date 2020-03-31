@@ -16,6 +16,7 @@ class MetadataManager:
         validate_parameters_not_none(__name__, metadata_path, probes_paths)
 
         self.probes_paths = probes_paths
+        self.metadata_path = metadata_path
 
         self.fl_probes_extractor = FlProbesExtractor()
         self.metadata_extractor = MetadataExtractor()

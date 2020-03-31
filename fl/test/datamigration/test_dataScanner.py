@@ -4,6 +4,7 @@ from unittest import TestCase
 from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
+from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.tools.data_scanner import DataScanner
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -11,10 +12,18 @@ path = os.path.dirname(os.path.abspath(__file__))
 
 class TestDataScanner(TestCase):
 
-    def test_data_scanner_find_all_datasets_with_None_date_param_successfully(self):     
+    def test_data_scanner_find_all_datasets_with_None_date_param_successfully(self):
         data_scanner = DataScanner(
             data_path=path + '/res/scanner_test/',
             animal_name='alien',
+            nwb_metadata = MetadataManager(
+                metadata_path=str(path) + '/res/metadata.yml',
+                probes_paths=[
+                    str(path) + '/res/probe1.yml',
+                    str(path) + '/res/probe2.yml',
+                    str(path) + '/res/probe3.yml'
+                ]
+            )
         )
         data_scanner.extract_data_from_all_dates_folders()
 
@@ -26,6 +35,14 @@ class TestDataScanner(TestCase):
         data_scanner = DataScanner(
             data_path=path + '/res/scanner_test/',
             animal_name='alien',
+            nwb_metadata=MetadataManager(
+                metadata_path=str(path) + '/res/metadata.yml',
+                probes_paths=[
+                    str(path) + '/res/probe1.yml',
+                    str(path) + '/res/probe2.yml',
+                    str(path) + '/res/probe3.yml'
+                ]
+            )
         )
         data_scanner.extract_data_from_all_dates_folders()
 
@@ -48,6 +65,14 @@ class TestDataScanner(TestCase):
         data_scanner = DataScanner(
             data_path=path + '/res/scanner_test/',
             animal_name='alien',
+            nwb_metadata=MetadataManager(
+                metadata_path=str(path) + '/res/metadata.yml',
+                probes_paths=[
+                    str(path) + '/res/probe1.yml',
+                    str(path) + '/res/probe2.yml',
+                    str(path) + '/res/probe3.yml'
+                ]
+            )
         )
         data_scanner.extract_data_from_all_dates_folders()
 
@@ -67,6 +92,14 @@ class TestDataScanner(TestCase):
         data_scanner = DataScanner(
             data_path=path + '/res/scanner_test/',
             animal_name='alien',
+            nwb_metadata=MetadataManager(
+                metadata_path=str(path) + '/res/metadata.yml',
+                probes_paths=[
+                    str(path) + '/res/probe1.yml',
+                    str(path) + '/res/probe2.yml',
+                    str(path) + '/res/probe3.yml'
+                ]
+            )
         )
         probe_path = path + '/res/probe_test'
 
@@ -81,4 +114,12 @@ class TestDataScanner(TestCase):
         DataScanner(
             data_path=None,
             animal_name='alien',
+            nwb_metadata=MetadataManager(
+                metadata_path=str(path) + '/res/metadata.yml',
+                probes_paths=[
+                    str(path) + '/res/probe1.yml',
+                    str(path) + '/res/probe2.yml',
+                    str(path) + '/res/probe3.yml'
+                ]
+            )
         )

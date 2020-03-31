@@ -1,7 +1,6 @@
 import logging.config
 import os
 
-import numpy as np
 from fl.datamigration.validation.ntrode_validation_summary import NTrodeValidationSummary
 from fl.datamigration.exceptions.invalid_header_exception import InvalidHeaderException
 from fl.datamigration.exceptions.invalid_metadata_exception import InvalidMetadataException

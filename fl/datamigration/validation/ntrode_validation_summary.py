@@ -10,5 +10,5 @@ class NTrodeValidationSummary(ValidationSummary):
     def isValid(self):
         if (self.ntrodes_num > 0 and self.spike_ntrodes_num > 0 and self.ntrodes_num == self.spike_ntrodes_num):
             return True
-
-        return False
+        else:
+            return False
