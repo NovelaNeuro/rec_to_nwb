@@ -1,12 +1,8 @@
 from unittest import TestCase
-from unittest.mock import Mock
 
 from fl.datamigration.tools.dataset import Dataset
-from fl.datamigration.tools.task_validator import TaskValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 from fl.datamigration.validation.ntrode_validator import NTrodeValidator
-from fl.datamigration.validation.ntrode_validation_summary import NTrodeValidationSummary
-from fl.datamigration.validation.validator import Validator
 
 
 class TestValidationRegistrator(TestCase):
