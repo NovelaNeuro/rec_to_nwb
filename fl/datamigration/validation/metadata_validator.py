@@ -1,7 +1,10 @@
 import os
 
+from fl.datamigration.validation.metadata_validation_summary import MetadataValidationSummary
+from fl.datamigration.validation.validator import Validator
 
-class MetadataValidator:
+
+class MetadataValidator(Validator):
     """ Class to validate if metadata is complete
         Args:
             metadata_path (string): path to metadata.yml file
@@ -11,11 +14,19 @@ class MetadataValidator:
             get_missing_metadata()
         """
 
-    def __init__(self, metadata_path, probes_paths):
-        self.metadata_path = metadata_path
-        self.probes_paths = probes_paths
+    def __init__(self, nwb_metadata):
+        self.probes_paths = nwb_metadata.probes_paths
+        self.metadata_path = nwb_metadata.metadata_path
 
-    def get_missing_metadata(self):
+    def createSummary(self):
+        missing_metadata = self.__get_missing_metadata()
+        if not (missing_metadata == []):
+            message = ''
+            for missing_metadata_file in missing_metadata:
+                message += missing_metadata_file + '\n'
+        return MetadataValidationSummary(missing_metadata)
+
+    def __get_missing_metadata(self):
         """Gets all missing yml files
 
         Returns:

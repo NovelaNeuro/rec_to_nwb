@@ -38,10 +38,11 @@ from fl.datamigration.nwb.components.processing_module.processing_module_creator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
 from fl.datamigration.tools.task_validator import TaskValidator
+from fl.datamigration.validation.metadata_validator import MetadataValidator
 from fl.datamigration.validation.ntrode_validator import NTrodeValidator
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
-from fl.datamigration.input_validator.input_validator import InputValidator
+from fl.datamigration.validation.preprocessing_validator import PreprocessingValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -87,34 +88,19 @@ class NWBFileBuilder:
             + 'process_analog = ' + str(process_analog) + '\n'
             + 'output_file = ' + str(output_file) + '\n'
         )
+        self.animal_name = animal_name
+        self.date = date
+        self.data_path = data_path
+        self.metadata = nwb_metadata.metadata
+        self.probes = nwb_metadata.probes
 
-        required_data_types = ['pos', 'time']
+        required_data_types = ['pos', 'timye']
         if process_mda:
             required_data_types.append('mda')
         if process_dio:
             required_data_types.append('DIO')
         if process_analog:
             required_data_types.append('analog')
-
-        self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
-        self.dataset_names = self.data_scanner.get_all_epochs(date)
-        self.animal_name = animal_name
-        self.date = date
-        self.data_path = data_path
-        self.data_scanner.extract_data_from_date_folder(date, required_data_types)
-        self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
-        self.process_dio = process_dio
-        self.process_mda = process_mda
-        self.process_analog = process_analog
-        self.output_file = output_file
-        self.metadata = nwb_metadata.metadata
-        self.probes = nwb_metadata.probes
-
-        task_validator = TaskValidator(self.datasets, self.metadata['tasks'])
-        if not task_validator.is_number_of_tasks_valid():
-            logger.warning('number of tasks in metadata.yml is not equal to number of epochs in preprocessing directory')
-            raise DifferentNumberOfTasksAndEpochs
-
         rec_files_list = RecFileFinder().find_rec_files(
 
             path=(self.data_path
@@ -123,10 +109,29 @@ class NWBFileBuilder:
                   + self.date))
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
+        self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
+        self.dataset_names = self.data_scanner.get_all_epochs(date)
+        full_data_path = data_path + '/' + animal_name + '/preprocessing/' + date
 
         validationRegistrator = ValidationRegistrator()
+        validationRegistrator.register(MetadataValidator(nwb_metadata))
         validationRegistrator.register(NTrodeValidator(self.metadata, self.header))
+        validationRegistrator.register(PreprocessingValidator(full_data_path, self.dataset_names, required_data_types))
         validationRegistrator.validate()
+
+        self.data_scanner.extract_data_from_date_folder(date, required_data_types)
+        self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
+        self.process_dio = process_dio
+        self.process_mda = process_mda
+        self.process_analog = process_analog
+        self.output_file = output_file
+
+        task_validator = TaskValidator(self.datasets, self.metadata['tasks'])
+        if not task_validator.is_number_of_tasks_valid():
+            logger.warning('number of tasks in metadata.yml is not equal to number of epochs in preprocessing directory')
+            raise DifferentNumberOfTasksAndEpochs
+
+
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 

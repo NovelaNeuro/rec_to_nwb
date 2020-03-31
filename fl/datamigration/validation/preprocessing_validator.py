@@ -1,4 +1,10 @@
-class PreprocessingValidator:
+import os
+
+from fl.datamigration.exceptions.missing_data_exception import MissingDataException
+from fl.datamigration.validation.validator import Validator
+
+
+class PreprocessingValidator(Validator):
     """ Class to validate if preprocessing data is complete
         Args:
             all_data_dirs (list of strings): all directories contained in directory <animal name>/<preprocessing>/<date>
@@ -10,12 +16,26 @@ class PreprocessingValidator:
             __check_single_epoch()
         """
 
-    def __init__(self, all_data_dirs, epochs, data_types_to_check):
-        self.all_data_dirs = all_data_dirs
+    def __init__(self, data_path, epochs, data_types_to_check):
+        self.all_data_dirs = os.listdir(data_path)
         self.epochs = epochs
         self.data_types_to_check = data_types_to_check
 
-    def get_missing_preprocessing_data(self):
+    def createSummary(self):
+        """Creates ValidationSummary object with the results of validation
+
+            Returns:
+                PreprocessingValidationSummary: missing preprocessing files
+        """
+        missing_preprocessing_data = self.__get_missing_preprocessing_data()
+        message = ''
+        if not missing_preprocessing_data == []:
+            for missing_preprocessing_file in missing_preprocessing_data:
+                message += missing_preprocessing_file[0] + ' from epoch ' + missing_preprocessing_file[1] + '\n'
+            raise MissingDataException(message + "are missing")
+        return PreprocessingValidator(missing_preprocessing_data)
+
+    def __get_missing_preprocessing_data(self):
         """Get list of missing preprocessing files
 
             Returns:
