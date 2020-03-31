@@ -14,5 +14,5 @@ class TaskValidator(Validator):
         if len(self.tasks) == 0:
             raise InvalidMetadataException("There are no tasks defined in metadata.yml file.")
         if not self.datasets:
-            raise MissingDataException("there are no datasets")
+            raise MissingDataException("There are no datasets")
         return TaskValidationSummary(self.datasets, self.tasks)
