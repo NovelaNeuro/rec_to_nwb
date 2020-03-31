@@ -8,7 +8,8 @@ class ValidationRegistrator(Validator):
         self.validators = []
 
     def register(self, validator):
-        self.validators.append(validator)
+        if isinstance(validator, Validator):
+            self.validators.append(validator)
 
     def validate(self):
         for validator in self.validators:
