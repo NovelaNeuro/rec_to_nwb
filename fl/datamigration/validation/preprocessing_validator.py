@@ -1,8 +1,8 @@
 import os
 
 from fl.datamigration.exceptions.missing_data_exception import MissingDataException
+from fl.datamigration.validation.preprocessing_validation_summary import PreprocessingValidationSummary
 from fl.datamigration.validation.validator import Validator
-
 
 class PreprocessingValidator(Validator):
     """ Class to validate if preprocessing data is complete
@@ -33,7 +33,7 @@ class PreprocessingValidator(Validator):
             for missing_preprocessing_file in missing_preprocessing_data:
                 message += missing_preprocessing_file[0] + ' from epoch ' + missing_preprocessing_file[1] + '\n'
             raise MissingDataException(message + "are missing")
-        return PreprocessingValidator(missing_preprocessing_data)
+        return PreprocessingValidationSummary(missing_preprocessing_data)
 
     def __get_missing_preprocessing_data(self):
         """Get list of missing preprocessing files

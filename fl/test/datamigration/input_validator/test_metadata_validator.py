@@ -2,7 +2,8 @@ from unittest import TestCase
 
 from pathlib import Path
 
-from fl.datamigration.input_validator.metadata_validator import MetadataValidator
+from fl.datamigration.exceptions.missing_data_exception import MissingDataException
+from fl.datamigration.validation.metadata_validator import MetadataValidator
 
 path = Path(__file__).parent.parent
 path.resolve()
@@ -24,9 +25,8 @@ class TestInputValidator(TestCase):
         validator_wrong_metadata = MetadataValidator(self.wrong_metadata_path, self.probes_paths)
         validator_wrong_probes = MetadataValidator(self.metadata_path, self.wrong_probes_paths)
 
-        self.assertEqual(validator.get_missing_metadata(), [])
-        self.assertEqual(validator_wrong_metadata.get_missing_metadata(),[str(path) + '/res/metadataa.yml'])
-        self.assertEqual(validator_wrong_probes.get_missing_metadata(),
-                         [str(path) + '/res/probe11.yml',
-                          str(path) + '/res/probe22.yml',
-                          str(path) + '/res/probe33.yml'])
+        self.assertEqual(validator.createSummary().isValid(), True)
+        with self.assertRaises(MissingDataException):
+            validator_wrong_metadata.createSummary()
+        with self.assertRaises(MissingDataException):
+            validator_wrong_probes.createSummary()

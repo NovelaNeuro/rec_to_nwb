@@ -1,5 +1,6 @@
 import os
 
+from fl.datamigration.exceptions.missing_data_exception import MissingDataException
 from fl.datamigration.validation.metadata_validation_summary import MetadataValidationSummary
 from fl.datamigration.validation.validator import Validator
 
@@ -14,9 +15,9 @@ class MetadataValidator(Validator):
             get_missing_metadata()
         """
 
-    def __init__(self, nwb_metadata):
-        self.probes_paths = nwb_metadata.probes_paths
-        self.metadata_path = nwb_metadata.metadata_path
+    def __init__(self, metadata_path, probes_paths):
+        self.probes_paths = probes_paths
+        self.metadata_path = metadata_path
 
     def createSummary(self):
         missing_metadata = self.__get_missing_metadata()
@@ -24,6 +25,7 @@ class MetadataValidator(Validator):
             message = ''
             for missing_metadata_file in missing_metadata:
                 message += missing_metadata_file + '\n'
+            raise(MissingDataException(message))
         return MetadataValidationSummary(missing_metadata)
 
     def __get_missing_metadata(self):
