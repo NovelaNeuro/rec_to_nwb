@@ -269,7 +269,7 @@ class NWBFileBuilder:
 
     def __build_and_inject_electrodes_extensions(self, nwb_content):
         logger.info('ElectrodesExtensions: Building')
-        electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrodes_extension = \
+        electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrode_extension_ntrode_id, electrodes_ntrode_extension_bad_channels = \
             self.electrode_extension_creator.create()
 
         logger.info('ElectrodesExtensions: Injecting into NWB')
@@ -277,7 +277,8 @@ class NWBFileBuilder:
             nwb_content,
             electrodes_metadata_extension,
             electrodes_header_extension,
-            electrodes_ntrodes_extension
+            electrodes_ntrode_extension_ntrode_id,
+            electrodes_ntrode_extension_bad_channels
         )
 
     def __build_and_inject_dio(self, nwb_content):
