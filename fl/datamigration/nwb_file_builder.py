@@ -37,7 +37,7 @@ from fl.datamigration.nwb.components.position.position_creator import PositionCr
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
-from fl.datamigration.tools.task_validator import TaskValidator
+from fl.datamigration.validation.task_validator import TaskValidator
 from fl.datamigration.validation.ntrode_validator import NTrodeValidator
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
@@ -101,11 +101,6 @@ class NWBFileBuilder:
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
 
-        task_validator = TaskValidator(self.datasets, self.metadata['tasks'])
-        if not task_validator.is_number_of_tasks_valid():
-            logger.warning('number of tasks in metadata.yml is not equal to number of epochs in preprocessing directory')
-            raise DifferentNumberOfTasksAndEpochs
-
         rec_files_list = RecFileFinder().find_rec_files(
 
             path=(self.data_path
@@ -117,6 +112,7 @@ class NWBFileBuilder:
 
         validationRegistrator = ValidationRegistrator()
         validationRegistrator.register(NTrodeValidator(self.metadata, self.header))
+        validationRegistrator.register(TaskValidator(self.datasets, self.metadata['tasks']))
         validationRegistrator.validate()
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')

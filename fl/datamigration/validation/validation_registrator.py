@@ -1,6 +1,7 @@
 from fl.datamigration.validation.validator import Validator
 from fl.datamigration.exceptions.invalid_input_exception import InvalidInputException
 
+
 class ValidationRegistrator(Validator):
 
     def __init__(self):

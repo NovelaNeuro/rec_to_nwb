@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from fl.datamigration.tools.dataset import Dataset
-from fl.datamigration.tools.task_validator import TaskValidator
+from fl.datamigration.validation.task_validator import TaskValidator
 
 
 class TestTaskValidator(TestCase):
