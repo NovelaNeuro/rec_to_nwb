@@ -1,5 +1,6 @@
 from fl.datamigration.exceptions.invalid_metadata_exception import InvalidMetadataException
 from fl.datamigration.exceptions.missing_data_exception import MissingDataException
+from fl.datamigration.validation.task_validation_summary import TaskValidationSummary
 from fl.datamigration.validation.validator import Validator
 
 
@@ -14,3 +15,4 @@ class TaskValidator(Validator):
             raise InvalidMetadataException("There are no tasks defined in metadata.yml file.")
         if not self.datasets:
             raise MissingDataException("there is no data in datasets")
+        return TaskValidationSummary(self.datasets, self.tasks)
