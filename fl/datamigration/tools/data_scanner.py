@@ -2,7 +2,6 @@ import fnmatch
 import os
 
 from fl.datamigration.exceptions.missing_data_exception import MissingDataException
-# from fl.datamigration.input_validator.input_validator import InputValidator
 from fl.datamigration.tools.dataset import Dataset
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 

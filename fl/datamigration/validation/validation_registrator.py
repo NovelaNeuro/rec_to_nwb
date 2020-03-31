@@ -10,7 +10,6 @@ class ValidationRegistrator(Validator):
         self.validators.append(validator)
 
     def validate(self):
-        print(len(self.validators))
         for validator in self.validators:
             result = validator.createSummary()
             if not result.isValid():
