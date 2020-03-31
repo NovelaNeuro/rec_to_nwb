@@ -129,13 +129,6 @@ class NWBFileBuilder:
 
         self.extract_datasets(animal_name, date)
 
-        task_validator = TaskValidator(self.datasets, self.metadata['tasks'])
-        if not task_validator.is_number_of_tasks_valid():
-            logger.warning('number of tasks in metadata.yml is not equal to number of epochs in preprocessing directory')
-            raise DifferentNumberOfTasksAndEpochsException
-
-
-
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
         self.task_builder = TaskBuilder(self.metadata)
