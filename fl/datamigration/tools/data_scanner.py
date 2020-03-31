@@ -32,12 +32,6 @@ class DataScanner:
 
     def extract_data_from_date_folder(self, date, required_data_types=[]):
         validate_parameters_not_none(__name__, date)
-        # validator = InputValidator(self.nwb_metadata.metadata_path,
-        #                            self.nwb_metadata.probes_paths,
-        #                            self.get_all_data_from_dataset(date),
-        #                            self.get_all_epochs(date),
-        #                            required_data_types)
-        # validator.validate_input_data()
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, [date])}
 
     def extract_data_from_dates_folders(self, dates):
