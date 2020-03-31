@@ -38,7 +38,7 @@ from fl.datamigration.nwb.components.position.position_creator import PositionCr
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
-from fl.datamigration.tools.task_validator import TaskValidator
+from fl.datamigration.validation.task_validator import TaskValidator
 from fl.datamigration.validation.metadata_validator import MetadataValidator
 from fl.datamigration.validation.ntrode_validator import NTrodeValidator
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
@@ -124,7 +124,7 @@ class NWBFileBuilder:
         validationRegistrator.register(PreprocessingValidator(full_data_path,
                                                               self.dataset_names,
                                                               data_types_for_scanning))
-        validationRegistrator.register(TaskValidator(self.datasets, self.metadata['tasks']))
+        validationRegistrator.register(TaskValidator(len(self.dataset_names), self.metadata['tasks']))
         validationRegistrator.validate()
 
         self.extract_datasets(animal_name, date)

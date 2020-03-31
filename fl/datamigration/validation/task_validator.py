@@ -6,13 +6,13 @@ from fl.datamigration.validation.validator import Validator
 
 class TaskValidator(Validator):
 
-    def __init__(self, datasets, tasks):
-        self.datasets = datasets
+    def __init__(self, number_of_datasets, tasks):
+        self.number_of_datasets = number_of_datasets
         self.tasks = tasks
 
     def createSummary(self):
         if len(self.tasks) == 0:
             raise InvalidMetadataException("There are no tasks defined in metadata.yml file.")
-        if not self.datasets:
+        if self.number_of_datasets == 0:
             raise MissingDataException("There are no datasets")
-        return TaskValidationSummary(self.datasets, self.tasks)
+        return TaskValidationSummary(self.number_of_datasets, self.tasks)
