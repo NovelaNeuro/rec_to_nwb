@@ -93,14 +93,17 @@ class NWBFileBuilder:
         self.data_path = data_path
         self.metadata = nwb_metadata.metadata
         self.probes = nwb_metadata.probes
+        self.process_dio = process_dio
+        self.process_mda = process_mda
+        self.process_analog = process_analog
+        self.output_file = output_file
 
-        required_data_types = ['pos', 'time']
-        if process_mda:
-            required_data_types.append('mda')
-        if process_dio:
-            required_data_types.append('DIO')
-        if process_analog:
-            required_data_types.append('analog')
+        data_types_for_scanning = {'pos': True,
+                                   'time': True,
+                                   'mda': process_mda,
+                                   'DIO': process_dio,
+                                   'analog': process_dio}
+
         rec_files_list = RecFileFinder().find_rec_files(
 
             path=(self.data_path
@@ -116,15 +119,13 @@ class NWBFileBuilder:
         validationRegistrator = ValidationRegistrator()
         validationRegistrator.register(MetadataValidator(nwb_metadata.metadata_path, nwb_metadata.probes_paths))
         validationRegistrator.register(NTrodeValidator(self.metadata, self.header))
-        validationRegistrator.register(PreprocessingValidator(full_data_path, self.dataset_names, required_data_types))
+        validationRegistrator.register(PreprocessingValidator(full_data_path,
+                                                              self.dataset_names,
+                                                              data_types_for_scanning))
         validationRegistrator.validate()
-
-        self.data_scanner.extract_data_from_date_folder(date, required_data_types)
+        self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
-        self.process_dio = process_dio
-        self.process_mda = process_mda
-        self.process_analog = process_analog
-        self.output_file = output_file
+
 
         task_validator = TaskValidator(self.datasets, self.metadata['tasks'])
         if not task_validator.is_number_of_tasks_valid():
