@@ -89,6 +89,7 @@ class NWBFileBuilder:
             + 'process_analog = ' + str(process_analog) + '\n'
             + 'output_file = ' + str(output_file) + '\n'
         )
+
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
@@ -123,6 +124,7 @@ class NWBFileBuilder:
         validationRegistrator.register(PreprocessingValidator(full_data_path,
                                                               self.dataset_names,
                                                               data_types_for_scanning))
+        validationRegistrator.register(TaskValidator(self.datasets, self.metadata['tasks']))
         validationRegistrator.validate()
 
         self.extract_datasets(animal_name, date)
