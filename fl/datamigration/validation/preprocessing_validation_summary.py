@@ -6,7 +6,7 @@ class PreprocessingValidationSummary(ValidationSummary):
         self.missing_preprocessing_data = missing_preprocessing_data
 
     def isValid(self):
-        if self.missing_preprocessing_data == []:
+        if not self.missing_preprocessing_data:
             return True
         else:
             return False

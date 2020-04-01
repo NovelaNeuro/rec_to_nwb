@@ -6,7 +6,7 @@ class MetadataValidationSummary(ValidationSummary):
         self.missing_metadata = missing_metadata
 
     def isValid(self):
-        if self.missing_metadata == []:
+        if not self.missing_metadata:
             return True
         else:
             return False
