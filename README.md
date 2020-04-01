@@ -50,13 +50,11 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
    ```bash
    pip install jupyter notebook
    ```
-7. Documentation can be view with pdoc server
-   ```bash
-   pdoc -b
-   ```
+7. Documentation can be viewed at <br>
+    <https://novelaneuro.github.io/fldatamigration-docs/>
 
 # How to use it
-1. Download example notebook file from
+1. Download example notebook file from <br>
    <https://anaconda.org/NovelaKRK/nwb_generation/notebook>
 2. In terminal navigate to notebook file location
 3. Run jupyter notebook
