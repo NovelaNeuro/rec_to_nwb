@@ -1,21 +1,22 @@
 # fldatamigration
-fldatamigration is a python package for converting SpikeGadgets rec files to NWB files.
-It converts experiment data from `/raw` folder to `.nwb` file.
-It utilizes rec_to_binaries package for preprocessing phase.</br>
-https://github.com/LorenFrankLab/rec_to_binaries</br>
+# About
+fldatamigration is a python package for converting SpikeGadgets rec files to NWB files.<br>
+It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_to_binaries package for preprocessing phase.<br>
+<https://github.com/LorenFrankLab/rec_to_binaries><br>
 
-### Prerequisites
-### For users
-1. Install Spike Gadgets
-   https://bitbucket.org/mkarlsso/trodes/downloads/
-2. Add SpikeGadgets to path.
-   If Spike Gadgets is in default location:
+# Prerequisites
+## For users
+1. Install Spike Gadgets <br>
+   <https://bitbucket.org/mkarlsso/trodes/downloads/>
+2. Add SpikeGadgets to path. <br>
+   If Spike Gadgets is in default location: <br>
    ```bash
-   export PATH="$HOME/SpikeGadgets/:$PATH"'
+   export PATH="$HOME/SpikeGadgets/:$PATH"
    ```
-3. Download miniconda from</br>
-   https://docs.conda.io/en/latest/miniconda.html</br>
-4. Download `fldatamigration.yml` from https://anaconda.org/NovelaKRK/fldatamigration/files
+3. Download miniconda from <br>
+   <https://docs.conda.io/en/latest/miniconda.html> <br>
+4. Download `fldatamigration.yml` from <br>
+   <https://anaconda.org/NovelaKRK/fldatamigration/files>
 5. Build fldatamigration environment:
    ```bash
    conda env create -f fldatamigration.yml
@@ -25,16 +26,16 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    pip install jupyter notebook
    ```
 
-### For developers
-1. Install Spike Gadgets
-   https://bitbucket.org/mkarlsso/trodes/downloads/
-2. Add SpikeGadgets to path.
+## For developers
+1. Install Spike Gadgets <br>
+   <https://bitbucket.org/mkarlsso/trodes/downloads/>
+2. Add SpikeGadgets to path. <br>
    If Spike Gadgets is in default location:
    ```bash
-   export PATH="$HOME/SpikeGadgets/:$PATH"'
+   export PATH="$HOME/SpikeGadgets/:$PATH"
    ```
-3. Download miniconda from</br>
-   https://docs.conda.io/en/latest/miniconda.html</br>
+3. Download miniconda from<br>
+   <https://docs.conda.io/en/latest/miniconda.html><br>
 4. clone repository
    ```bash
    git clone https://github.com/NovelaNeuro/fldatamigration.git
@@ -49,14 +50,12 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    ```bash
    pip install jupyter notebook
    ```
-7. Documentation can be view with pdoc server
-   ```bash
-   pdoc -b
-   ```
+7. Documentation can be viewed at <br>
+    <https://novelaneuro.github.io/fldatamigration-docs/>
 
 # How to use it
-1. Download example notebook file from
-   https://anaconda.org/NovelaKRK/nwb_generation/notebook
+1. Download example notebook file from <br>
+   <https://anaconda.org/NovelaKRK/nwb_generation/notebook>
 2. In terminal navigate to notebook file location
 3. Run jupyter notebook
    ```bash
@@ -195,8 +194,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
       
       **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')`</br>
 
-9. Make sure that the data structure in given directory (in that case `test_data`)
-   looks similar to following example:
+9. Make sure that the data structure in given directory (in that case `test_data`) looks similar to following example:
    ```bash
     --test_data
       |
@@ -227,11 +225,11 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    |-- beans
    |   |-- preprocessing
    |   |   |
-   |   |   `-- 20190718
+   |   |   |-- 20190718
    |   |       |-- 20190718_beans_01_s1.1.pos
    |   |       |   |-- 20190718_beans_01_s1.1.pos_cameraHWFrameCount.dat
    |   |       |   |-- 20190718_beans_01_s1.1.pos_online.dat
-   |   |       |   `-- 20190718_beans_01_s1.1.pos_timestamps.dat
+   |   |       |   |-- 20190718_beans_01_s1.1.pos_timestamps.dat
    |   |       |-- 20190718_beans_01_s1.analog
    |   |       |   |-- 20190718_beans_01_s1.analog_AccelX.dat
    |   |       |   |-- 20190718_beans_01_s1.analog_AccelY.dat
@@ -243,7 +241,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    |   |       |   |-- 20190718_beans_01_s1.analog_MagY.dat
    |   |       |   |-- 20190718_beans_01_s1.analog_MagZ.dat
    |   |       |   |-- 20190718_beans_01_s1.exportanalog.log
-   |   |       |   `-- 20190718_beans_01_s1.timestamps.dat
+   |   |       |   |-- 20190718_beans_01_s1.timestamps.dat
    |   |       |-- 20190718_beans_01_s1.DIO
    |   |       |   |-- 20190718_beans_01_s1.dio_Din10.dat
    |   |       |   |-- 20190718_beans_01_s1.dio_Din11.dat
@@ -309,7 +307,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    |   |       |   |-- 20190718_beans_01_s1.dio_Dout7.dat
    |   |       |   |-- 20190718_beans_01_s1.dio_Dout8.dat
    |   |       |   |-- 20190718_beans_01_s1.dio_Dout9.dat
-   |   |       |   `-- 20190718_beans_01_s1.exportdio.log
+   |   |       |   |-- 20190718_beans_01_s1.exportdio.log
    |   |       |-- 20190718_beans_01_s1.LFP
    |   |       |   |-- 20190718_beans_01_s1.exportLFP.log
    |   |       |   |-- 20190718_beans_01_s1.LFP_nt10ch1.dat
@@ -344,7 +342,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    |   |       |   |-- 20190718_beans_01_s1.LFP_nt7ch1.dat
    |   |       |   |-- 20190718_beans_01_s1.LFP_nt8ch1.dat
    |   |       |   |-- 20190718_beans_01_s1.LFP_nt9ch1.dat
-   |   |       |   `-- 20190718_beans_01_s1.timestamps.dat
+   |   |       |   |-- 20190718_beans_01_s1.timestamps.dat
    |   |       |-- 20190718_beans_01_s1.mda
    |   |       |   |-- 20190718_beans_01_s1.exportmda.log
    |   |       |   |-- 20190718_beans_01_s1.nt10.mda
@@ -379,7 +377,7 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    |   |       |   |-- 20190718_beans_01_s1.nt7.mda
    |   |       |   |-- 20190718_beans_01_s1.nt8.mda
    |   |       |   |-- 20190718_beans_01_s1.nt9.mda
-   |   |       |   `-- 20190718_beans_01_s1.timestamps.mda
+   |   |       |   |-- 20190718_beans_01_s1.timestamps.mda
    |   |       |-- 20190718_beans_01_s1.mountain
    |   |       |-- 20190718_beans_01_s1.spikes
    |   |       |   |-- 20190718_beans_01_s1.exportspikes.log
@@ -414,21 +412,21 @@ https://github.com/LorenFrankLab/rec_to_binaries</br>
    |   |       |   |-- 20190718_beans_01_s1.spikes_nt6.dat
    |   |       |   |-- 20190718_beans_01_s1.spikes_nt7.dat
    |   |       |   |-- 20190718_beans_01_s1.spikes_nt8.dat
-   |   |       |   `-- 20190718_beans_01_s1.spikes_nt9.dat
-   |   |       `-- 20190718_beans_01_s1.time
+   |   |       |   |-- 20190718_beans_01_s1.spikes_nt9.dat
+   |   |       |-- 20190718_beans_01_s1.time
    |   |           |-- 20190718_beans_01_s1.continuoustime.dat
    |   |           |-- 20190718_beans_01_s1.exporttime.log
-   |   |           `-- 20190718_beans_01_s1.time.dat
-   |   `-- raw
-   |       `-- 20190718
+   |   |           |-- 20190718_beans_01_s1.time.dat
+   |   |-- raw
+   |       |-- 20190718
    |           |-- 20190718_beans_01_s1.1.h264
    |           |-- 20190718_beans_01_s1.1.trackgeometry
    |           |-- 20190718_beans_01_s1.1.videoPositionTracking
    |           |-- 20190718_beans_01_s1.1.videoTimeStamps
    |           |-- 20190718_beans_01_s1.1.videoTimeStamps.cameraHWSync
    |           |-- 20190718_beans_01_s1.rec
-   |           `-- 20190718_beans_01_s1.stateScriptLog
-   `-- README.md
+   |           |-- 20190718_beans_01_s1.stateScriptLog
+   |-- README.md
    ```
 When processing completes, a nwb file is created in the output_path directory
 
