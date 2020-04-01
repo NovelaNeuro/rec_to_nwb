@@ -144,13 +144,3 @@ class TestDeviceFactory(TestCase):
         DeviceFactory.create_header_device(
             fl_header_device=None
         )
-
-    @should_raise(NoneParamException)
-    def test_factory_failed_creating_Probe_due_to_none_param_in_FlProbe(self):
-        mock_fl_header_device = Mock(spec=FlHeaderDevice)
-        mock_fl_header_device.name = 'HeaderDevice_1'
-        mock_fl_header_device.global_configuration = None
-
-        DeviceFactory.create_header_device(
-            fl_header_device=mock_fl_header_device
-        )
