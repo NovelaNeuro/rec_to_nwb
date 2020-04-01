@@ -16,7 +16,8 @@ class ElectrodeGroupFactory:
         validate_parameters_not_none(
             class_name=__name__,
             args=[fl_nwb_electrode_group.metadata, fl_nwb_electrode_group.device],
-            args_name=[NameExtractor.extract_name(fl_nwb_electrode_group.__init__)[1]]
+            args_name=[NameExtractor.extract_name(fl_nwb_electrode_group.__init__)[1],
+                       NameExtractor.extract_name(fl_nwb_electrode_group.__init__)[2]]
         )
 
 

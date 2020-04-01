@@ -18,7 +18,7 @@ class DeviceFactory:
         validate_parameters_not_none(
             class_name=__name__,
             args=[fl_device.name],
-            args_name=[NameExtractor.extract_name(fl_device.__init__[1])[1]]
+            args_name=[NameExtractor.extract_name(fl_device.__init__)[1]]
         )
 
         return Device(
