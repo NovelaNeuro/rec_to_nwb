@@ -15,14 +15,14 @@ class MetadataManager:
 
         validate_parameters_not_none(__name__, metadata_path, probes_paths)
 
-        self.probes_paths = probes_paths
         self.metadata_path = metadata_path
+        self.probes_paths = probes_paths
 
         self.fl_probes_extractor = FlProbesExtractor()
         self.metadata_extractor = MetadataExtractor()
 
-        self.metadata = self.__get_metadata(metadata_path)
-        self.probes = self.__get_probes(probes_paths)
+        self.metadata = self.__get_metadata(self.metadata_path)
+        self.probes = self.__get_probes(self.probes_paths)
 
     def __get_metadata(self, metadata_path):
         return self.metadata_extractor.extract_metadata(metadata_path)

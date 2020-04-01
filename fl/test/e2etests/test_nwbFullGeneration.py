@@ -2,7 +2,6 @@ import os
 import unittest
 from pathlib import Path
 
-from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb_file_builder import NWBFileBuilder
 
 path = Path(__file__).parent.parent
@@ -14,19 +13,18 @@ class TestNwbFullGeneration(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        metadata = MetadataManager(
-            str(path) + '/datamigration/res/metadata.yml',
-            [str(path) + '/datamigration/res/probe1.yml',
-             str(path) + '/datamigration/res/probe2.yml',
-             str(path) + '/datamigration/res/probe3.yml'])
+        metadata = {'metadata': str(path) + '/datamigration/res/metadata.yml',
+                    'probes': [str(path) + '/datamigration/res/probe1.yml',
+                               str(path) + '/datamigration/res/probe2.yml',
+                               str(path) + '/datamigration/res/probe3.yml']}
         cls.nwb_builder = NWBFileBuilder(
             data_path=str(path) + '/test_data/',
             animal_name='beans',
             date='20190718',
-            nwb_metadata=metadata,
-            process_dio=True,
-            process_mda=True,
-            process_analog=True
+            nwb_metadata_paths=metadata,
+            process_dio=False,
+            process_mda=False,
+            process_analog=False
         )
 
     def test_generate_nwb(self):

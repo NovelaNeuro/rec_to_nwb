@@ -1,7 +1,6 @@
 import os
 import unittest
 
-from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.raw_to_nwb_builder import RawToNWBBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -13,14 +12,10 @@ _DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/../datamigration/res/r
 class TestRawToNWBGeneration(unittest.TestCase):
 
     def setUp(self):
-        metadata = MetadataManager(
-            str(path) + '/../datamigration/res/metadata.yml',
-            [
-                str(path) + '/../datamigration/res/probe1.yml',
-                str(path) + '/../datamigration/res/probe2.yml',
-                str(path) + '/../datamigration/res/probe3.yml'
-            ]
-        )
+        metadata = {'metadata': str(path) + '/datamigration/res/metadata.yml',
+                    'probes': [str(path) + '/datamigration/res/probe1.yml',
+                               str(path) + '/datamigration/res/probe2.yml',
+                               str(path) + '/datamigration/res/probe3.yml']}
         self.builder = RawToNWBBuilder(
             animal_name='beans',
             data_path=str(path) + '/../test_data/',

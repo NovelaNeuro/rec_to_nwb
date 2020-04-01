@@ -10,6 +10,7 @@ from fl.datamigration.exceptions.different_number_of_tasks_and_epochs_exception 
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
+from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb.common.session_time_extractor import SessionTimeExtractor
 from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
 from fl.datamigration.nwb.components.analog.analog_files import AnalogFiles
@@ -58,7 +59,7 @@ class NWBFileBuilder:
                  data_path,
                  animal_name,
                  date,
-                 nwb_metadata,
+                 nwb_metadata_paths,
                  process_dio=True,
                  process_mda=True,
                  process_analog=True,
@@ -81,9 +82,9 @@ class NWBFileBuilder:
         logger.info(
             'NWB builder initialization parameters: \n'
             + 'data_path = ' + str(data_path) + '\n'
-            + 'animal_name = ' + str(animal_name)  + '\n'
+            + 'animal_name = ' + str(animal_name) + '\n'
             + 'date = ' + str(date) + '\n'
-            + 'nwb_metadata = ' + str(nwb_metadata) + '\n'
+            + 'nwb_metadata = ' + str(nwb_metadata_paths) + '\n'
             + 'process_dio = ' + str(process_dio) + '\n'
             + 'process_mda = ' + str(process_mda) + '\n'
             + 'process_analog = ' + str(process_analog) + '\n'
@@ -93,8 +94,6 @@ class NWBFileBuilder:
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
-        self.metadata = nwb_metadata.metadata
-        self.probes = nwb_metadata.probes
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.process_analog = process_analog
@@ -105,6 +104,20 @@ class NWBFileBuilder:
                                    'mda': process_mda,
                                    'DIO': process_dio,
                                    'analog': process_dio}
+        self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata_paths)
+        self.dataset_names = self.data_scanner.get_all_epochs(date)
+        full_data_path = data_path + '/' + animal_name + '/preprocessing/' + date
+
+        inputValidationRegistrator = ValidationRegistrator()
+        inputValidationRegistrator.register(MetadataValidator(nwb_metadata_paths['metadata'], nwb_metadata_paths['probes']))
+        inputValidationRegistrator.register(PreprocessingValidator(full_data_path,
+                                                                   self.dataset_names,
+                                                                   data_types_for_scanning))
+        inputValidationRegistrator.validate()
+
+        nwb_metadata = MetadataManager(nwb_metadata_paths['metadata'], nwb_metadata_paths['probes'])
+        self.metadata = nwb_metadata.metadata
+        self.probes = nwb_metadata.probes
 
         rec_files_list = RecFileFinder().find_rec_files(
 
@@ -114,16 +127,9 @@ class NWBFileBuilder:
                   + self.date))
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
-        self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
-        self.dataset_names = self.data_scanner.get_all_epochs(date)
-        full_data_path = data_path + '/' + animal_name + '/preprocessing/' + date
 
         validationRegistrator = ValidationRegistrator()
-        validationRegistrator.register(MetadataValidator(nwb_metadata.metadata_path, nwb_metadata.probes_paths))
         validationRegistrator.register(NTrodeValidator(self.metadata, self.header))
-        validationRegistrator.register(PreprocessingValidator(full_data_path,
-                                                              self.dataset_names,
-                                                              data_types_for_scanning))
         validationRegistrator.register(TaskValidator(len(self.dataset_names), self.metadata['tasks']))
         validationRegistrator.validate()
 
