@@ -2,6 +2,7 @@ from ndx_fllab_novela.header_device import HeaderDevice
 from ndx_fllab_novela.probe import Probe
 from pynwb.device import Device
 
+from fl.datamigration.tools.name_extractor import NameExtractor
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
@@ -9,16 +10,33 @@ class DeviceFactory:
 
     @classmethod
     def create_device(cls, fl_device):
-        validate_parameters_not_none(__name__, fl_device)
-        validate_parameters_not_none(__name__, fl_device.name)
+        validate_parameters_not_none(
+            class_name=__name__,
+            args=[fl_device],
+            args_name=[NameExtractor.extract_name(cls.create_device)[1]]
+        )
+        validate_parameters_not_none(
+            class_name=__name__,
+            args=[fl_device.name],
+            args_name=[NameExtractor.extract_name(fl_device.__init__[1])[1]]
+        )
+
         return Device(
             name=str(fl_device.name)
         )
 
     @classmethod
     def create_probe(cls, fl_probe):
-        validate_parameters_not_none(__name__, fl_probe)
-        validate_parameters_not_none(__name__, fl_probe.probe_id, fl_probe.metadata)
+        validate_parameters_not_none(
+            class_name=__name__,
+            args=[fl_probe],
+            args_name=[NameExtractor.extract_name(cls.create_probe)[1]]
+        )
+        validate_parameters_not_none(
+            class_name=__name__,
+            args=[fl_probe.name],
+            args_name=[NameExtractor.extract_name(fl_probe.__init__[1])[1]]
+        )
         return Probe(
             probe_type=fl_probe.metadata['probe_type'],
             units=fl_probe.metadata['units'],
@@ -31,9 +49,16 @@ class DeviceFactory:
 
     @classmethod
     def create_header_device(cls, fl_header_device):
-        validate_parameters_not_none(__name__, fl_header_device)
-        validate_parameters_not_none(__name__, fl_header_device.name, fl_header_device.global_configuration)
-
+        validate_parameters_not_none(
+            class_name=__name__,
+            args=[fl_header_device],
+            args_name=[NameExtractor.extract_name(cls.create_create_header_devicedevice)[1]]
+        )
+        validate_parameters_not_none(
+            class_name=__name__,
+            args=[fl_header_device.name],
+            args_name=[NameExtractor.extract_name(fl_header_device.__init__[1])[1]]
+        )
         return HeaderDevice(
             name=fl_header_device.name,
             headstage_serial=fl_header_device.global_configuration.headstage_serial,

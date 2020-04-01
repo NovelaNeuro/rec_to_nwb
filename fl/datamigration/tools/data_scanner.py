@@ -3,13 +3,17 @@ import os
 
 from fl.datamigration.exceptions.missing_data_exception import MissingDataException
 from fl.datamigration.tools.dataset import Dataset
+from fl.datamigration.tools.name_extractor import NameExtractor
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
 class DataScanner:
     def __init__(self, data_path, animal_name, nwb_metadata):
-        validate_parameters_not_none(__name__, data_path, animal_name)
-
+        validate_parameters_not_none(
+            class_name=__name__,
+            args=[data_path, animal_name],
+            args_name=[NameExtractor.extract_name(self.__init__)[1], NameExtractor.extract_name(self.__init__)[2]]
+        )
         self.data_path = data_path
         self.animal_name = animal_name
         self.nwb_metadata = nwb_metadata
@@ -30,11 +34,19 @@ class DataScanner:
         return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
     def extract_data_from_date_folder(self, date):
-        validate_parameters_not_none(__name__, date)
+        validate_parameters_not_none(
+            class_name=__name__,
+            args=[date],
+            args_name=[NameExtractor.extract_name(self.extract_data_from_date_folder)[1]]
+        )
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, [date])}
 
     def extract_data_from_dates_folders(self, dates):
-        validate_parameters_not_none(__name__, dates)
+        validate_parameters_not_none(
+            class_name=__name__,
+            args=[dates],
+            args_name=[NameExtractor.extract_name(self.extract_data_from_dates_folders)[1]]
+        )
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, dates)}
 
     def extract_data_from_all_dates_folders(self):
