@@ -5,7 +5,7 @@ from fl.datamigration.exceptions.none_param_exception import NoneParamException
 def validate_parameters_not_none(class_name, *args):
     for arg in args:
         if arg is None:
-            raise NoneParamException('None parameter passed to ' + class_name)
+            raise NoneParamException(class_name, arg)
 
 
 def validate_parameters_equal_length(class_name, *args):
