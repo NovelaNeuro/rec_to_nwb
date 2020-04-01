@@ -15,4 +15,4 @@ class ValidationRegistrator(Validator):
         for validator in self.validators:
             result = validator.createSummary()
             if not result.isValid():
-                raise InvalidInputException("Validation: " + str(type(validator) + "has failed!"))
+                raise InvalidInputException("Validation: " + str(type(validator)) + "has failed!")

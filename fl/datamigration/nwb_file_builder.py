@@ -119,7 +119,6 @@ class NWBFileBuilder:
         full_data_path = data_path + '/' + animal_name + '/preprocessing/' + date
 
         validationRegistrator = ValidationRegistrator()
-        validationRegistrator.register(MetadataValidator(nwb_metadata.metadata_path, nwb_metadata.probes_paths))
         validationRegistrator.register(NTrodeValidator(self.metadata, self.header))
         validationRegistrator.register(PreprocessingValidator(full_data_path,
                                                               self.dataset_names,
