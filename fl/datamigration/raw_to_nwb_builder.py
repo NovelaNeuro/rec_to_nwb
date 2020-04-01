@@ -7,7 +7,9 @@ import xmlschema
 
 from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb_file_builder import NWBFileBuilder
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
+from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
+from fl.datamigration.validation.type_validator import TypeValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -48,7 +50,7 @@ class RawToNWBBuilder:
             animal_name,
             dates,
             nwb_metadata,
-            output_path='',
+            output_path='output',
             extract_analog=True,
             extract_spikes=False,
             extract_lfps=False,
@@ -60,6 +62,27 @@ class RawToNWBBuilder:
             parallel_instances=4,
             analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
     ):
+
+        validationRegistrator = ValidationRegistrator()
+        validationRegistrator.register(TypeValidator(self.__class__, data_path, 'data_path', str))
+        validationRegistrator.register(NotEmptyValidator(self.__class__, data_path, 'data_path'))
+        validationRegistrator.register(TypeValidator(self.__class__, animal_name, 'animal_name', str))
+        validationRegistrator.register(NotEmptyValidator(self.__class__, animal_name, 'animal_name'))
+        validationRegistrator.register(TypeValidator(self.__class__, dates, 'dates', list))
+        validationRegistrator.register(NotEmptyValidator(self.__class__, dates, 'dates'))
+        validationRegistrator.register(TypeValidator(self.__class__, nwb_metadata, 'nwb_metadata', MetadataManager))
+        validationRegistrator.register(TypeValidator(self.__class__, output_path, 'output_path', str))
+        validationRegistrator.register(TypeValidator(self.__class__, extract_analog, 'extract_analog', bool))
+        validationRegistrator.register(TypeValidator(self.__class__, extract_spikes, 'extract_spikes', bool))
+        validationRegistrator.register(TypeValidator(self.__class__, extract_lfps, 'extract_lfps', bool))
+        validationRegistrator.register(TypeValidator(self.__class__, extract_dio, 'extract_dio', bool))
+        validationRegistrator.register(TypeValidator(self.__class__, extract_mda, 'extract_mda', bool))
+        validationRegistrator.register(TypeValidator(self.__class__, overwrite, 'overwrite', bool))
+        validationRegistrator.register(TypeValidator(self.__class__, lfp_export_args, 'lfp_export_args', tuple))
+        validationRegistrator.register(TypeValidator(self.__class__, mda_export_args, 'mda_export_args', tuple))
+        validationRegistrator.register(TypeValidator(self.__class__, parallel_instances, 'parallel_instances', int))
+        validationRegistrator.register(TypeValidator(self.__class__, analog_export_args, 'analog_export_args', tuple))
+        validationRegistrator.validate()
 
         self.animal_name = animal_name
         self.data_path = data_path

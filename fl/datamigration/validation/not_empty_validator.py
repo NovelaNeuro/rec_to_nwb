@@ -5,8 +5,11 @@ from fl.datamigration.validation.validator import Validator
 
 class NotEmptyValidator(Validator):
 
-    def __init__(self, parameter):
+    def __init__(self, class_name, parameter, parameter_name):
+        super().__init__()
+        self.class_name = class_name
         self.parameter = parameter
+        self.parameter_name = parameter_name
 
     def createSummary(self):
         if self.parameter is None:
