@@ -1,7 +1,7 @@
 from fl.datamigration.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
 
-
+# ToDo This will crash due to lack of parameter_name
 def validate_parameters_not_none(class_name, *args):
     for arg in args:
         if arg is None:
