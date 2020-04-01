@@ -27,8 +27,6 @@ class DeviceFactory:
 
     @classmethod
     def create_probe(cls, fl_probe):
-        validate_parameters_not_none(__name__, fl_probe)
-        validate_parameters_not_none(__name__, fl_probe.probe_id, fl_probe.metadata)
         validate_parameters_not_none(
             class_name=__name__,
             args=[fl_probe],
@@ -52,8 +50,6 @@ class DeviceFactory:
 
     @classmethod
     def create_header_device(cls, fl_header_device):
-        validate_parameters_not_none(__name__, fl_header_device)
-        validate_parameters_not_none(__name__, fl_header_device.name, fl_header_device.global_configuration)
         validate_parameters_not_none(
             class_name=__name__,
             args=[fl_header_device],
