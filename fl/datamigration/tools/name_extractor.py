@@ -1,5 +1,6 @@
 import inspect
 
+
 class NameExtractor:
 
     @staticmethod

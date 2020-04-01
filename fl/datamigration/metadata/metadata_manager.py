@@ -1,5 +1,6 @@
 from fl.datamigration.metadata.metadata_extractor import MetadataExtractor
 from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
+from fl.datamigration.tools.name_extractor import NameExtractor
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 from fl.datamigration.validation.metadata_validator import MetadataValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
@@ -15,7 +16,11 @@ class MetadataManager:
         probes_paths (list of strings): list of paths to .yml files with data describing probes used in experiment
         """
 
-        validate_parameters_not_none(__name__, metadata_path, probes_paths)
+        validate_parameters_not_none(
+            class_name=__name__,
+            args=[metadata_path, probes_paths],
+            args_name=[NameExtractor.extract_name(self.__init__)[1], NameExtractor.extract_name(self.__init__)[2]]
+        )
 
         validationRegistrator = ValidationRegistrator()
         validationRegistrator.register(MetadataValidator(metadata_path, probes_paths))
