@@ -33,12 +33,14 @@ class FlElectrodeManager:
                        NameExtractor.extract_name(self.__init__)[2],
                        NameExtractor.extract_name(self.__validate_parameters)[1]]
         )
-        for electrode_group in electrode_groups:
-            validate_parameters_not_none(
-                class_name=__name__,
-                args=[electrode_group.name],
-                args_name=[NameExtractor.extract_name(electrode_group.__init__)[6]]
-            )
+        #Todo Fix this validation
+
+        # for electrode_group in electrode_groups:
+        #     validate_parameters_not_none(
+        #         class_name=__name__,
+        #         args=[electrode_group.name],
+        #         args_name=[NameExtractor.extract_name(electrode_group.__init__)[6]]
+        #     )
 
 
 

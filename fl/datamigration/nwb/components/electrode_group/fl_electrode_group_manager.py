@@ -13,8 +13,8 @@ class FlElectrodeGroupManager:
         validate_parameters_not_none(
             class_name=__name__,
             args=[self.electrode_groups_metadata, probes],
-            args_name=[NameExtractor.extract_name(self.get_fl_nwb_electrode_groups)[1],
-                       NameExtractor.extract_name(self.get_fl_nwb_electrode_groups)[2]]
+            args_name=[NameExtractor.extract_name(self.__init__)[1],
+                       NameExtractor.extract_name(self.get_fl_nwb_electrode_groups)[1]]
         )
 
         return [FlNwbElectrodeGroup(

@@ -18,7 +18,7 @@ class DeviceFactory:
         validate_parameters_not_none(
             class_name=__name__,
             args=[fl_device.name],
-            args_name=[NameExtractor.extract_name(fl_device.__init__[1])[1]]
+            args_name=[NameExtractor.extract_name(fl_device.__init__)[1]]
         )
 
         return Device(
@@ -53,12 +53,12 @@ class DeviceFactory:
         validate_parameters_not_none(
             class_name=__name__,
             args=[fl_header_device],
-            args_name=[NameExtractor.extract_name(cls.create_create_header_devicedevice)[1]]
+            args_name=[NameExtractor.extract_name(cls.create_header_device)[1]]
         )
         validate_parameters_not_none(
             class_name=__name__,
             args=[fl_header_device.name],
-            args_name=[NameExtractor.extract_name(fl_header_device.__init__[1])[1]]
+            args_name=[NameExtractor.extract_name(fl_header_device.__init__)[1]]
         )
         return HeaderDevice(
             name=fl_header_device.name,
