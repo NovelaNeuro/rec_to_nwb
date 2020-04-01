@@ -5,7 +5,9 @@ import shutil
 from rec_to_binaries import extract_trodes_rec_file
 import xmlschema
 
+from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb_file_builder import NWBFileBuilder
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -22,7 +24,24 @@ _DEFAULT_ANALOG_EXPORT_ARGS = ()
 
 
 class RawToNWBBuilder:
-
+    """
+        Args:
+            animal_name (string): directory name which represents animal subject of experiment
+            data_path  (string): path to directory containing all experiments data
+            dates (list of strings): dates of experiments on above animal
+            nwb_metadata (MetadataManager): object containig metadata about experiment
+            output_path (string): path and name specifying where .nwb file gonna be written
+            extract_analog (boolean): flag if analog data should be extracted and processed from raw data
+            extract_spikes (boolean): flag if spikes data should be extracted and processed from raw data
+            extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
+            extract_dio (boolean): flag if dio data should be extracted and processed from raw data
+            extract_mda (boolean): flag if mda data should be extracted and processed from raw data
+            overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
+            lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
+            mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
+            analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
+            parallel_instances (int): number of parallel processes used during processing data
+    """
     def __init__(
             self,
             data_path,
@@ -41,42 +60,25 @@ class RawToNWBBuilder:
             parallel_instances=4,
             analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
     ):
-        """
-        Args:
-        data_path  (string): path to directory containing all experiments data
-        animal_name (string): directory name which represents animal subject of experiment
-        dates (list of strings): dates of experiments on above animal
-        nwb_metadata (MetadataManager): object containig metadata about experiment
-        output_path (string): path and name specifying where .nwb file gonna be written
-        extract_analog (boolean): flag if analog data should be extracted and processed from raw data
-        extract_spikes (boolean): flag if spikes data should be extracted and processed from raw data
-        extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
-        extract_dio (boolean): flag if dio data should be extracted and processed from raw data
-        extract_mda (boolean): flag if mda data should be extracted and processed from raw data
-        overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
-        lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
-        mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
-        analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
-        parallel_instances (int): number of parallel processes used during processing data
-        """
 
-        self.extract_analog = extract_analog
-        self.extract_spikes = extract_spikes
-        self.extract_dio = extract_dio
-        self.extract_lfps = extract_lfps
-        self.extract_mda = extract_mda
-        self.lfp_export_args = lfp_export_args
-        self.mda_export_args = mda_export_args
-        self.overwrite = overwrite
         self.animal_name = animal_name
         self.data_path = data_path
         self.dates = dates
-        self.metadata = nwb_metadata.metadata
-        self.output_path = output_path
-        self.probes = nwb_metadata.probes
         self.nwb_metadata = nwb_metadata
-        self.parallel_instances = parallel_instances
+        self.output_path = output_path
+        self.overwrite = overwrite
+        self.extract_analog = extract_analog
+        self.extract_spikes = extract_spikes
+        self.extract_lfps = extract_lfps
+        self.extract_dio = extract_dio
+        self.extract_mda = extract_mda
+        self.lfp_export_args = lfp_export_args
+        self.mda_export_args = mda_export_args
         self.analog_export_args = analog_export_args
+        self.parallel_instances = parallel_instances
+
+        self.metadata = nwb_metadata.metadata
+        self.probes = nwb_metadata.probes
 
         if self.analog_export_args != ():
             if not self.__is_rec_config_valid():
