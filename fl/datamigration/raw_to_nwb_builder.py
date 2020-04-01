@@ -6,6 +6,8 @@ from rec_to_binaries import extract_trodes_rec_file
 import xmlschema
 
 from fl.datamigration.nwb_file_builder import NWBFileBuilder
+from fl.datamigration.validation.export_args_validator import ExportArgsValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -59,6 +61,12 @@ class RawToNWBBuilder:
         analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
         parallel_instances (int): number of parallel processes used during processing data
         """
+
+        validator_registrator = ValidationRegistrator()
+        validator_registrator.register(ExportArgsValidator(lfp_export_args))
+        validator_registrator.register(ExportArgsValidator(mda_export_args))
+        validator_registrator.register(ExportArgsValidator(analog_export_args))
+        validator_registrator.validate()
 
         self.extract_analog = extract_analog
         self.extract_spikes = extract_spikes
