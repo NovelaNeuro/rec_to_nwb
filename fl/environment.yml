@@ -50,7 +50,6 @@ dependencies:
       - xmldiff
       - rec-to-binaries==0.3.0.dev0
       - ndx-fllab-novela
-      - pdoc
 
 
 
