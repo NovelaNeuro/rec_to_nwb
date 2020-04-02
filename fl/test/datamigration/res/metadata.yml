@@ -18,6 +18,10 @@ tasks:
     task_name:          Sleep,
     task_description:   The animal sleeps in a small empty box.
   },
+  {
+    task_name:            Stem+Leaf,
+    task_description:     Spatial Bandit,
+  },
   ]
 
 behavioral_events:
