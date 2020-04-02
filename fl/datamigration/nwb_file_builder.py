@@ -10,6 +10,7 @@ from fl.datamigration.exceptions.different_number_of_tasks_and_epochs_exception 
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
+from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb.common.session_time_extractor import SessionTimeExtractor
 from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
 from fl.datamigration.nwb.components.analog.analog_files import AnalogFiles
@@ -38,12 +39,14 @@ from fl.datamigration.nwb.components.position.position_creator import PositionCr
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
+from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.task_validator import TaskValidator
 from fl.datamigration.validation.metadata_validator import MetadataValidator
 from fl.datamigration.validation.ntrode_validator import NTrodeValidator
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
 from fl.datamigration.validation.preprocessing_validator import PreprocessingValidator
+from fl.datamigration.validation.type_validator import TypeValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -76,6 +79,20 @@ class NWBFileBuilder:
         process_analog (boolean): flag if analog data should be processed
         output_file (string): path and name specifying where .nwb file gonna be written
         """
+
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(TypeValidator(data_path, str))
+        validation_registrator.register(NotEmptyValidator(data_path))
+        validation_registrator.register(TypeValidator(animal_name, str))
+        validation_registrator.register(NotEmptyValidator(animal_name))
+        validation_registrator.register(TypeValidator(date, str))
+        validation_registrator.register(NotEmptyValidator(date))
+        validation_registrator.register(TypeValidator(nwb_metadata, MetadataManager))
+        validation_registrator.register(TypeValidator(output_file, str))
+        validation_registrator.register(TypeValidator(process_analog, bool))
+        validation_registrator.register(TypeValidator(process_dio, bool))
+        validation_registrator.register(TypeValidator(process_mda, bool))
+        validation_registrator.validate()
 
         logger.info('NWBFileBuilder initialization')
         logger.info(

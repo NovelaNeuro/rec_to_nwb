@@ -5,7 +5,10 @@ import shutil
 from rec_to_binaries import extract_trodes_rec_file
 import xmlschema
 
+from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb_file_builder import NWBFileBuilder
+from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
+from fl.datamigration.validation.type_validator import TypeValidator
 from fl.datamigration.validation.export_args_validator import ExportArgsValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
@@ -62,11 +65,26 @@ class RawToNWBBuilder:
         parallel_instances (int): number of parallel processes used during processing data
         """
 
-        validator_registrator = ValidationRegistrator()
-        validator_registrator.register(ExportArgsValidator(lfp_export_args))
-        validator_registrator.register(ExportArgsValidator(mda_export_args))
-        validator_registrator.register(ExportArgsValidator(analog_export_args))
-        validator_registrator.validate()
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(TypeValidator(data_path, str))
+        validation_registrator.register(NotEmptyValidator(data_path))
+        validation_registrator.register(TypeValidator(animal_name, str))
+        validation_registrator.register(NotEmptyValidator(animal_name))
+        validation_registrator.register(TypeValidator(dates, list))
+        validation_registrator.register(NotEmptyValidator(dates))
+        validation_registrator.register(TypeValidator(nwb_metadata, MetadataManager))
+        validation_registrator.register(TypeValidator(output_path, str))
+        validation_registrator.register(TypeValidator(extract_analog, bool))
+        validation_registrator.register(TypeValidator(extract_spikes, bool))
+        validation_registrator.register(TypeValidator(extract_lfps, bool))
+        validation_registrator.register(TypeValidator(extract_dio, bool))
+        validation_registrator.register(TypeValidator(extract_mda, bool))
+        validation_registrator.register(TypeValidator(overwrite, bool))
+        validation_registrator.register(TypeValidator(parallel_instances, int))
+        validation_registrator.register(ExportArgsValidator(lfp_export_args))
+        validation_registrator.register(ExportArgsValidator(mda_export_args))
+        validation_registrator.register(ExportArgsValidator(analog_export_args))
+        validation_registrator.validate()
 
         self.extract_analog = extract_analog
         self.extract_spikes = extract_spikes
