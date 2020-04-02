@@ -10,9 +10,23 @@ source:
 
 build:
   number: 0
-  ignore_prefix_files:
-    - miniconda
-    - fl/test
+
+outputs:
+    files:
+      - meta.yaml
+      - pylintrc
+      - README.md
+      - setup.py
+      - pylint-run.sh
+      - bld.bat
+      - build.sh
+      - sonar-project.properties
+      - fl/data
+      - fl/datamigration
+      - fl/notebooks
+      - fl/scripts
+      - fl/logging.conf
+      - fl/environment.yml
 
 requirements:
   build:
