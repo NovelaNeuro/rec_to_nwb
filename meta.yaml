@@ -12,21 +12,21 @@ build:
   number: 0
 
 outputs:
+  - name: fldatamigration
     files:
-      - meta.yaml
+      - meta
       - pylintrc
-      - README.md
-      - setup.py
-      - pylint-run.sh
-      - bld.bat
-      - build.sh
-      - sonar-project.properties
+      - README
+      - setup
+      - pylint_run
+      - bld
+      - build
       - fl/data
       - fl/datamigration
       - fl/notebooks
       - fl/scripts
-      - fl/logging.conf
-      - fl/environment.yml
+      - fl/logging
+      - fl/environment
 
 requirements:
   build:
