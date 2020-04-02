@@ -9,6 +9,7 @@ from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb_file_builder import NWBFileBuilder
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.type_validator import TypeValidator
+from fl.datamigration.validation.export_args_validator import ExportArgsValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -80,7 +81,10 @@ class RawToNWBBuilder:
         validationRegistrator.register(TypeValidator(extract_mda, bool))
         validationRegistrator.register(TypeValidator(overwrite, bool))
         validationRegistrator.register(TypeValidator(parallel_instances, int))
-        validationRegistrator.validate()
+        validator_registrator.register(ExportArgsValidator(lfp_export_args))
+        validator_registrator.register(ExportArgsValidator(mda_export_args))
+        validator_registrator.register(ExportArgsValidator(analog_export_args))
+        validator_registrator.validate()
 
         self.extract_analog = extract_analog
         self.extract_spikes = extract_spikes
