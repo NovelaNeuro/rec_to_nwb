@@ -1,3 +1,4 @@
+from fl.datamigration.exceptions.incorrect_type_exception import IncorrectTypeException
 from fl.datamigration.validation.validation_summary import ValidationSummary
 
 
@@ -8,5 +9,7 @@ class TypeValidationSummary(ValidationSummary):
         self.expected_type = expected_type
 
     def isValid(self):
-        return type(self.parameter) == self.expected_type
+        if not isinstance(self.parameter, self.expected_type):
+            raise IncorrectTypeException(self.parameter, self.expected_type)
+        return isinstance(self.parameter, self.expected_type)
 
