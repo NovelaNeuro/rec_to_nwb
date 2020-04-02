@@ -5,7 +5,11 @@ import shutil
 from rec_to_binaries import extract_trodes_rec_file
 import xmlschema
 
+from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb_file_builder import NWBFileBuilder
+from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
+from fl.datamigration.validation.type_validator import TypeValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -59,6 +63,24 @@ class RawToNWBBuilder:
         analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
         parallel_instances (int): number of parallel processes used during processing data
         """
+
+        validationRegistrator = ValidationRegistrator()
+        validationRegistrator.register(TypeValidator(data_path, str))
+        validationRegistrator.register(NotEmptyValidator(data_path))
+        validationRegistrator.register(TypeValidator(animal_name, str))
+        validationRegistrator.register(NotEmptyValidator(animal_name))
+        validationRegistrator.register(TypeValidator(dates, list))
+        validationRegistrator.register(NotEmptyValidator(dates))
+        validationRegistrator.register(TypeValidator(nwb_metadata, MetadataManager))
+        validationRegistrator.register(TypeValidator(output_path, str))
+        validationRegistrator.register(TypeValidator(extract_analog, bool))
+        validationRegistrator.register(TypeValidator(extract_spikes, bool))
+        validationRegistrator.register(TypeValidator(extract_lfps, bool))
+        validationRegistrator.register(TypeValidator(extract_dio, bool))
+        validationRegistrator.register(TypeValidator(extract_mda, bool))
+        validationRegistrator.register(TypeValidator(overwrite, bool))
+        validationRegistrator.register(TypeValidator(parallel_instances, int))
+        validationRegistrator.validate()
 
         self.extract_analog = extract_analog
         self.extract_spikes = extract_spikes
