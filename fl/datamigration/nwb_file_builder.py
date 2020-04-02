@@ -86,6 +86,7 @@ class NWBFileBuilder:
         validationRegistrator.register(TypeValidator(animal_name, str))
         validationRegistrator.register(NotEmptyValidator(animal_name))
         validationRegistrator.register(TypeValidator(date, str))
+        validationRegistrator.register(NotEmptyValidator(date))
         validationRegistrator.register(TypeValidator(nwb_metadata, MetadataManager))
         validationRegistrator.register(TypeValidator(output_file, str))
         validationRegistrator.register(TypeValidator(process_analog, bool))
