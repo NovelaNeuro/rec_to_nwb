@@ -11,7 +11,7 @@ source:
 build:
   number: 0
   ignore_prefix_files:
-    - miniconda.sh
+    - miniconda
     - fl/test
 
 requirements:
