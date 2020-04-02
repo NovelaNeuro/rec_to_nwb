@@ -6,27 +6,10 @@ package:
   version: {{ data.get('version') }}
 
 source:
-  path: ../fldatamigration
+  git_url: https://github.com/NovelaNeuro/fldatamigration
 
 build:
   number: 0
-
-outputs:
-  - name: fldatamigration
-    files:
-      - meta
-      - pylintrc
-      - README
-      - setup
-      - pylint_run
-      - bld
-      - build
-      - fl/data
-      - fl/datamigration
-      - fl/notebooks
-      - fl/scripts
-      - fl/logging
-      - fl/environment
 
 requirements:
   build:
