@@ -80,19 +80,19 @@ class NWBFileBuilder:
         output_file (string): path and name specifying where .nwb file gonna be written
         """
 
-        validationRegistrator = ValidationRegistrator()
-        validationRegistrator.register(TypeValidator(data_path, str))
-        validationRegistrator.register(NotEmptyValidator(data_path))
-        validationRegistrator.register(TypeValidator(animal_name, str))
-        validationRegistrator.register(NotEmptyValidator(animal_name))
-        validationRegistrator.register(TypeValidator(date, str))
-        validationRegistrator.register(NotEmptyValidator(date))
-        validationRegistrator.register(TypeValidator(nwb_metadata, MetadataManager))
-        validationRegistrator.register(TypeValidator(output_file, str))
-        validationRegistrator.register(TypeValidator(process_analog, bool))
-        validationRegistrator.register(TypeValidator(process_dio, bool))
-        validationRegistrator.register(TypeValidator(process_mda, bool))
-        validationRegistrator.validate()
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(TypeValidator(data_path, str))
+        validation_registrator.register(NotEmptyValidator(data_path))
+        validation_registrator.register(TypeValidator(animal_name, str))
+        validation_registrator.register(NotEmptyValidator(animal_name))
+        validation_registrator.register(TypeValidator(date, str))
+        validation_registrator.register(NotEmptyValidator(date))
+        validation_registrator.register(TypeValidator(nwb_metadata, MetadataManager))
+        validation_registrator.register(TypeValidator(output_file, str))
+        validation_registrator.register(TypeValidator(process_analog, bool))
+        validation_registrator.register(TypeValidator(process_dio, bool))
+        validation_registrator.register(TypeValidator(process_mda, bool))
+        validation_registrator.validate()
 
         logger.info('NWBFileBuilder initialization')
         logger.info(
