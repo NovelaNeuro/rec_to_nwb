@@ -1,6 +1,8 @@
 from fl.datamigration.metadata.metadata_extractor import MetadataExtractor
 from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
+from fl.datamigration.validation.metadata_validator import MetadataValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class MetadataManager:
@@ -15,7 +17,12 @@ class MetadataManager:
 
         validate_parameters_not_none(__name__, metadata_path, probes_paths)
 
+        validationRegistrator = ValidationRegistrator()
+        validationRegistrator.register(MetadataValidator(metadata_path, probes_paths))
+        validationRegistrator.validate()
+
         self.probes_paths = probes_paths
+        self.metadata_path = metadata_path
 
         self.fl_probes_extractor = FlProbesExtractor()
         self.metadata_extractor = MetadataExtractor()

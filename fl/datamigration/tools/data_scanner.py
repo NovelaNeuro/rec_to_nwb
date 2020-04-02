@@ -1,18 +1,33 @@
 import fnmatch
 import os
 
+from fl.datamigration.exceptions.missing_data_exception import MissingDataException
 from fl.datamigration.tools.dataset import Dataset
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
 
 class DataScanner:
-    def __init__(self, data_path, animal_name):
+    def __init__(self, data_path, animal_name, nwb_metadata):
         validate_parameters_not_none(__name__, data_path, animal_name)
 
         self.data_path = data_path
         self.animal_name = animal_name
+        self.nwb_metadata = nwb_metadata
 
         self.data = None
+
+    def get_all_epochs(self, date):
+        all_datasets = []
+        directories = os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
+        for directory in directories:
+            dataset_name = (directory.split('_')[2] + '_' + directory.split('_')[3]).split('.')[0]
+            if not dataset_name in all_datasets:
+                all_datasets.append(dataset_name)
+        return all_datasets
+
+    def get_all_data_from_dataset(self, date):
+        self.__check_if_path_exists(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
+        return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
     def extract_data_from_date_folder(self, date):
         validate_parameters_not_none(__name__, date)
@@ -75,3 +90,7 @@ class DataScanner:
             if fnmatch.fnmatch(probe_file, "probe*.yml"):
                 probes.append(path + '/' + probe_file)
         return probes
+
+    def __check_if_path_exists(self, path):
+        if not (os.path.exists(path)):
+            raise MissingDataException('missing ' + self.data_path + ' directory')

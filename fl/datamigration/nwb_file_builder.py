@@ -1,15 +1,16 @@
 import logging.config
 import os
 import uuid
-from datetime import datetime
 
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
-from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
+from fl.datamigration.exceptions.different_number_of_tasks_and_epochs_exception import \
+    DifferentNumberOfTasksAndEpochsException
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
+from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb.common.session_time_extractor import SessionTimeExtractor
 from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
 from fl.datamigration.nwb.components.analog.analog_files import AnalogFiles
@@ -38,6 +39,15 @@ from fl.datamigration.nwb.components.position.position_creator import PositionCr
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
+from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
+from fl.datamigration.validation.task_validator import TaskValidator
+from fl.datamigration.validation.metadata_validator import MetadataValidator
+from fl.datamigration.validation.ntrode_validator import NTrodeValidator
+from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
+from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
+from fl.datamigration.validation.preprocessing_validator import PreprocessingValidator
+from fl.datamigration.validation.type_validator import TypeValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -51,7 +61,7 @@ class NWBFileBuilder:
         data_path (string): path to directory containing all experiments data
         animal_name (string): directory name which represents animal subject of experiment
         date (string): date of experiment
-        nwb_metadata (MetadataManager): object containig metadata about experiment
+        nwb_metadata (MetadataManager): object contains metadata about experiment
         process_dio (boolean): flag if dio data should be processed
         process_mda (boolean): flag if mda data should be processed
         process_analog (boolean): flag if analog data should be processed
@@ -70,6 +80,20 @@ class NWBFileBuilder:
 
 
 
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(TypeValidator(data_path, str))
+        validation_registrator.register(NotEmptyValidator(data_path))
+        validation_registrator.register(TypeValidator(animal_name, str))
+        validation_registrator.register(NotEmptyValidator(animal_name))
+        validation_registrator.register(TypeValidator(date, str))
+        validation_registrator.register(NotEmptyValidator(date))
+        validation_registrator.register(TypeValidator(nwb_metadata, MetadataManager))
+        validation_registrator.register(TypeValidator(output_file, str))
+        validation_registrator.register(TypeValidator(process_analog, bool))
+        validation_registrator.register(TypeValidator(process_dio, bool))
+        validation_registrator.register(TypeValidator(process_mda, bool))
+        validation_registrator.validate()
+
         logger.info('NWBFileBuilder initialization')
         logger.info(
             'NWB builder initialization parameters: \n'
@@ -86,16 +110,18 @@ class NWBFileBuilder:
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
-        self.data_scanner = DataScanner(data_path, animal_name)
-        self.data_scanner.extract_data_from_date_folder(date)
-        self.dataset_names = self.data_scanner.get_all_datasets(animal_name, date)
-        self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
+        self.metadata = nwb_metadata.metadata
+        self.probes = nwb_metadata.probes
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.process_analog = process_analog
         self.output_file = output_file
-        self.metadata = nwb_metadata.metadata
-        self.probes = nwb_metadata.probes
+
+        data_types_for_scanning = {'pos': True,
+                                   'time': True,
+                                   'mda': process_mda,
+                                   'DIO': process_dio,
+                                   'analog': process_dio}
 
         rec_files_list = RecFileFinder().find_rec_files(
 
@@ -105,6 +131,19 @@ class NWBFileBuilder:
                   + self.date))
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
+        self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
+        self.dataset_names = self.data_scanner.get_all_epochs(date)
+        full_data_path = data_path + '/' + animal_name + '/preprocessing/' + date
+
+        validationRegistrator = ValidationRegistrator()
+        validationRegistrator.register(NTrodeValidator(self.metadata, self.header))
+        validationRegistrator.register(PreprocessingValidator(full_data_path,
+                                                              self.dataset_names,
+                                                              data_types_for_scanning))
+        validationRegistrator.register(TaskValidator(len(self.dataset_names), self.metadata['tasks']))
+        validationRegistrator.validate()
+
+        self.extract_datasets(animal_name, date)
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
@@ -142,6 +181,10 @@ class NWBFileBuilder:
             self.dataset_names
         )
 
+    def extract_datasets(self, animal_name, date):
+        self.data_scanner.extract_data_from_date_folder(date)
+        self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
+
     def build(self):
         logger.info('Building components for NWB')
 
@@ -175,6 +218,8 @@ class NWBFileBuilder:
         self.__build_and_inject_electrodes(nwb_content, nwb_electrode_groups)
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
+
+        self.__build_and_inject_epochs(nwb_content)
 
         if self.process_dio:
             self.__build_and_inject_dio(nwb_content)
@@ -258,7 +303,7 @@ class NWBFileBuilder:
 
     def __build_and_inject_electrodes_extensions(self, nwb_content):
         logger.info('ElectrodesExtensions: Building')
-        electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrodes_extension = \
+        electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrode_extension_ntrode_id, electrodes_ntrode_extension_bad_channels = \
             self.electrode_extension_creator.create()
 
         logger.info('ElectrodesExtensions: Injecting into NWB')
@@ -266,7 +311,8 @@ class NWBFileBuilder:
             nwb_content,
             electrodes_metadata_extension,
             electrodes_header_extension,
-            electrodes_ntrodes_extension
+            electrodes_ntrode_extension_ntrode_id,
+            electrodes_ntrode_extension_bad_channels
         )
 
     def __build_and_inject_dio(self, nwb_content):
@@ -301,3 +347,9 @@ class NWBFileBuilder:
         )
         MdaInjector.inject_mda(nwb_content=nwb_content,
                                electrical_series=ElectricalSeriesCreator.create_mda(fl_mda_manager.get_data()))
+
+    def __build_and_inject_epochs(self, nwb_content):
+        logger.info('Epochs: Building')
+        fl_epochs_manager = FlEpochsManager(self.datasets, self.metadata['tasks'])
+        epochs = fl_epochs_manager.get_epochs()
+        EpochsInjector.inject(epochs, nwb_content)
