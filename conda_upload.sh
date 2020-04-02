@@ -6,7 +6,7 @@ conda config --set anaconda_upload no
 export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TOKEN
 
 echo "Building conda package..."
-conda build . || exit 1
+conda build . --no-include-recipe || exit 1
 export CONDA_BUILD_PATH=/home/travis/miniconda/envs/test-environment/conda-bld
 
 echo "Converting conda package..."
