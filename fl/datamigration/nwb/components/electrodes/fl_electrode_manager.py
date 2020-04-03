@@ -27,18 +27,18 @@ class FlElectrodeManager:
         return fl_electrodes
 
     def __validate_parameters(self, electrode_groups):
-        validator_registrator = ValidationRegistrator()
-        validator_registrator.register(NotNoneValidator(self.probes_metadata))
-        validator_registrator.register(NotNoneValidator(self.electrode_groups_metadata))
-        validator_registrator.register(NotNoneValidator(electrode_groups))
-        validator_registrator.validate()
-
+        self.__validate(self.probes_metadata)
+        self.__validate(self.electrode_groups_metadata)
+        self.__validate(electrode_groups)
         electrode_group_validator_registrator = ValidationRegistrator()
         for electrode_group in electrode_groups:
             electrode_group_validator_registrator.register(NotNoneValidator(electrode_group.name))
         electrode_group_validator_registrator.validate()
 
-
-
+    def __validate(self, parameters):
+        validator_registrator = ValidationRegistrator()
+        for parameter in parameters:
+            validator_registrator.register(NotNoneValidator(parameter))
+        validator_registrator.validate()
 
 
