@@ -8,11 +8,8 @@ class PositionCreator:
 
     @staticmethod
     def create(fl_position):
-        validator_registrator = ValidationRegistrator()
-        validator_registrator.register(NotNoneValidator(fl_position))
-        validator_registrator.register(NotNoneValidator(fl_position.position_data))
-        validator_registrator.register(NotNoneValidator(fl_position.timestamps))
-        validator_registrator.validate()
+        PositionCreator.__validate([fl_position])
+        PositionCreator.__validate([fl_position.position_data, fl_position.timestamps])
         position = Position()
         position.create_spatial_series(
             name='series',
@@ -21,3 +18,10 @@ class PositionCreator:
             timestamps=fl_position.timestamps
         )
         return position
+
+    @staticmethod
+    def __validate(parameters):
+        validator_registrator = ValidationRegistrator()
+        for parameter in parameters:
+            validator_registrator.register(NotNoneValidator(parameter))
+        validator_registrator.validate()

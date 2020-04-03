@@ -2,7 +2,6 @@ from ndx_fllab_novela.header_device import HeaderDevice
 from ndx_fllab_novela.probe import Probe
 from pynwb.device import Device
 
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
@@ -11,21 +10,16 @@ class DeviceFactory:
 
     @classmethod
     def create_device(cls, fl_device):
-        validator_registrator = ValidationRegistrator()
-        validator_registrator.register(NotNoneValidator(fl_device))
-        validator_registrator.register(NotNoneValidator(fl_device.name))
-        validator_registrator.validate()
+        cls.__validate([fl_device])
+        cls.__validate([fl_device.name])
         return Device(
             name=str(fl_device.name)
         )
 
     @classmethod
     def create_probe(cls, fl_probe):
-        validator_registrator = ValidationRegistrator()
-        validator_registrator.register(NotNoneValidator(fl_probe))
-        validator_registrator.register(NotNoneValidator(fl_probe.probe_id))
-        validator_registrator.register(NotNoneValidator(fl_probe.metadata))
-        validator_registrator.validate()
+        cls.__validate([fl_probe])
+        cls.__validate([fl_probe.probe_id, fl_probe.metadata])
         return Probe(
             probe_type=fl_probe.metadata['probe_type'],
             units=fl_probe.metadata['units'],
@@ -38,11 +32,8 @@ class DeviceFactory:
 
     @classmethod
     def create_header_device(cls, fl_header_device):
-        validator_registrator = ValidationRegistrator()
-        validator_registrator.register(NotNoneValidator(fl_header_device))
-        validator_registrator.register(NotNoneValidator(fl_header_device.name))
-        validator_registrator.register(NotNoneValidator(fl_header_device.global_configuration))
-        validator_registrator.validate()
+        cls.__validate([fl_header_device])
+        cls.__validate([fl_header_device.name, fl_header_device.global_configuration])
         return HeaderDevice(
             name=fl_header_device.name,
             headstage_serial=fl_header_device.global_configuration.headstage_serial,
@@ -66,3 +57,10 @@ class DeviceFactory:
             system_time_at_creation=fl_header_device.global_configuration.system_time_at_creation,
             file_path=fl_header_device.global_configuration.file_path
         )
+
+    @classmethod
+    def __validate(cls, parameters):
+        validator_registrator = ValidationRegistrator()
+        for parameter in parameters:
+            validator_registrator.register(NotNoneValidator(parameter))
+        validator_registrator.validate()

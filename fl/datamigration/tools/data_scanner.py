@@ -3,7 +3,6 @@ import os
 
 from fl.datamigration.exceptions.missing_data_exception import MissingDataException
 from fl.datamigration.tools.dataset import Dataset
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
@@ -11,10 +10,8 @@ from fl.datamigration.validation.validation_registrator import ValidationRegistr
 
 class DataScanner:
     def __init__(self, data_path, animal_name, nwb_metadata):
-        validator_registrator = ValidationRegistrator()
-        validator_registrator.register(NotNoneValidator(data_path))
-        validator_registrator.register(NotNoneValidator(animal_name))
-        validator_registrator.validate()
+        self.__validate([data_path])
+        self.__validate([animal_name])
 
         self.data_path = data_path
         self.animal_name = animal_name
@@ -36,15 +33,11 @@ class DataScanner:
         return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
     def extract_data_from_date_folder(self, date):
-        validator_registrator = ValidationRegistrator()
-        validator_registrator.register(NotEmptyValidator(date))
-        validator_registrator.validate()
+        self.__validate([date])
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, [date])}
 
     def extract_data_from_dates_folders(self, dates):
-        validator_registrator = ValidationRegistrator()
-        validator_registrator.register(NotEmptyValidator(dates))
-        validator_registrator.validate()
+        self.__validate([dates])
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, dates)}
 
     def extract_data_from_all_dates_folders(self):
@@ -104,3 +97,9 @@ class DataScanner:
     def __check_if_path_exists(self, path):
         if not (os.path.exists(path)):
             raise MissingDataException('missing ' + self.data_path + ' directory')
+
+    def __validate(self, parameters):
+        validator_registrator = ValidationRegistrator()
+        for parameter in parameters:
+            validator_registrator.register(NotNoneValidator(parameter))
+        validator_registrator.validate()
