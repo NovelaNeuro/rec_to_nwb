@@ -1,6 +1,5 @@
 from pynwb.behavior import Position
 
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
@@ -9,8 +8,6 @@ class PositionCreator:
 
     @staticmethod
     def create(fl_position):
-        validate_parameters_not_none(__name__, fl_position)
-        validate_parameters_not_none(__name__, fl_position.position_data, fl_position.timestamps)
         validator_registrator = ValidationRegistrator()
         validator_registrator.register(NotNoneValidator(fl_position))
         validator_registrator.register(NotNoneValidator(fl_position.position_data))
