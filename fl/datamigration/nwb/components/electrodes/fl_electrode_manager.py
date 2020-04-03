@@ -1,6 +1,6 @@
 from fl.datamigration.nwb.components.electrodes.fl_electrode_builder import FlElectrodesBuilder
 from fl.datamigration.tools.filter_probe_by_type import filter_probe_by_type
-
+from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
@@ -27,15 +27,14 @@ class FlElectrodeManager:
         return fl_electrodes
 
     def __validate_parameters(self, electrode_groups):
-        self.__validate([self.probes_metadata])
-        self.__validate([self.electrode_groups_metadata])
-        self.__validate([electrode_groups])
-        self.__validate(electrode_groups)
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotNoneValidator(self.probes_metadata))
+        validation_registrator.register(NotNoneValidator(self.electrode_groups_metadata))
+        validation_registrator.register(NotNoneValidator(electrode_groups))
+        validation_registrator.validate()
 
-    def __validate(self, parameters):
-        validator_registrator = ValidationRegistrator()
-        for parameter in parameters:
-            validator_registrator.register(NotNoneValidator(parameter))
-        validator_registrator.validate()
-
+        table_validation_registrator = ValidationRegistrator()
+        for electrode_group in electrode_groups:
+            table_validation_registrator.register(NotNoneValidator(electrode_group.name))
+        table_validation_registrator.validate()
 
