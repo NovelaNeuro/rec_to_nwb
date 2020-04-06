@@ -11,7 +11,7 @@ from fl.datamigration.nwb.components.epochs.fl_epochs import FlEpochs
 class TestEpochInjector(TestCase):
 
     def setUp(self):
-        self.fl_epochs = FlEpochs([1234567.0, 435634.0], [345453.0, 213465.0], ['1', '2'], ['task1', 'task2'])
+        self.fl_epochs = FlEpochs([1234567.0, 435634.0], [345453.0, 213465.0], ['01_s1', '02_r2'])
         self.nwb_content = NWBFile(
             session_description='None',
             identifier='NWB1',
