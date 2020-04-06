@@ -140,7 +140,7 @@ class NWBFileBuilder:
         validationRegistrator.register(PreprocessingValidator(full_data_path,
                                                               self.dataset_names,
                                                               data_types_for_scanning))
-        validationRegistrator.register(TaskValidator(len(self.dataset_names), self.metadata['tasks']))
+        validationRegistrator.register(TaskValidator(self.metadata['tasks']))
         validationRegistrator.validate()
 
         self.extract_datasets(animal_name, date)
