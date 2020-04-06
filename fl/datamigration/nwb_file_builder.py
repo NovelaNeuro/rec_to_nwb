@@ -121,7 +121,7 @@ class NWBFileBuilder:
                                    'time': True,
                                    'mda': process_mda,
                                    'DIO': process_dio,
-                                   'analog': process_dio}
+                                   'analog': process_analog}
 
         rec_files_list = RecFileFinder().find_rec_files(
 
