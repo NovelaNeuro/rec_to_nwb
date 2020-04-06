@@ -6,4 +6,5 @@ class EpochsInjector:
             nwb_content.add_epoch(
                 fl_epochs.session_start_times[i],
                 fl_epochs.session_end_times[i],
+                fl_epochs.tags[i],
             )
