@@ -9,11 +9,10 @@ class ExportArgsValidator(Validator):
         self.export_args = export_args
 
     def createSummary(self):
-        if not self.export_args:
-            raise NoneParamException()
         if not type(self.export_args) == tuple:
             raise InvalidInputException("Export args are not tuple")
-        for single_value in self.export_args:
-            if not type(single_value) == str:
-                raise InvalidInputException("One or more values in export args are not strings")
+        if not self.export_args:
+            for single_value in self.export_args:
+                if not type(single_value) == str:
+                    raise InvalidInputException("One or more values in export args are not strings")
         return ExportArgsValidationSummary()
