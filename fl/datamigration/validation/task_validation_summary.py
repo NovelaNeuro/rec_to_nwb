@@ -7,5 +7,5 @@ class TaskValidationSummary(ValidationSummary):
         self.tasks = tasks
 
     def isValid(self):
-        return type(self.tasks) == list
+        return isinstance((self.tasks), list)
 
