@@ -178,7 +178,7 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
 
       **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')</br>
 
-      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default False)</br>
+      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True)</br>
 
       **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)</br>
 
