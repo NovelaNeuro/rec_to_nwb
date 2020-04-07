@@ -17,6 +17,7 @@ class FlProbeManager:
         validation_registrator.register(NotNoneValidator(self.probes_metadata))
         validation_registrator.register(NotNoneValidator(self.electrode_groups_metadata))
         validation_registrator.validate()
+
         return [self._build_single_probe(electrode_group_metadata, probe_counter)
                 for probe_counter, electrode_group_metadata in enumerate(self.electrode_groups_metadata)]
 

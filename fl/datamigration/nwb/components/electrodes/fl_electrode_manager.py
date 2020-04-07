@@ -32,13 +32,8 @@ class FlElectrodeManager:
         validation_registrator.register(NotNoneValidator(electrode_groups))
         validation_registrator.validate()
 
-        electrode_group_name_validation_registrator = ValidationRegistrator()
+        table_validation_registrator = ValidationRegistrator()
         for electrode_group in electrode_groups:
-            electrode_group_name_validation_registrator.register(NotNoneValidator(electrode_group.name))
-        electrode_group_name_validation_registrator.validate()
-
-
-
-
-
+            table_validation_registrator.register(NotNoneValidator(electrode_group.name))
+        table_validation_registrator.validate()
 

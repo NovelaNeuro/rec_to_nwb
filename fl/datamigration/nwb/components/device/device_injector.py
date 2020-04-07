@@ -9,6 +9,7 @@ class DeviceInjector:
         validation_registrator.register(NotNoneValidator(nwb_content))
         validation_registrator.register(NotNoneValidator(devices))
         validation_registrator.validate()
+
         for device in devices:
             self.__inject_device(nwb_content, device)
 

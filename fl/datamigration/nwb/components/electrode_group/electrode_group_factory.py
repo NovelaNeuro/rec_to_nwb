@@ -8,9 +8,7 @@ class ElectrodeGroupFactory:
 
     @classmethod
     def create_nwb_electrode_group(cls, fl_nwb_electrode_group):
-
-        cls.__validate([fl_nwb_electrode_group])
-        cls.__validate([fl_nwb_electrode_group.metadata, fl_nwb_electrode_group.device])
+        cls.__validate_fl_nwb_electrode_group(fl_nwb_electrode_group)
 
         return NwbElectrodeGroup(
             id=fl_nwb_electrode_group.metadata['id'],
@@ -21,8 +19,12 @@ class ElectrodeGroupFactory:
         )
 
     @staticmethod
-    def __validate(parameters):
+    def __validate_fl_nwb_electrode_group(fl_nwb_electrode_group):
         validation_registrator = ValidationRegistrator()
-        for parameter in parameters:
-            validation_registrator.register(NotNoneValidator(parameter))
+        validation_registrator.register(NotNoneValidator(fl_nwb_electrode_group))
         validation_registrator.validate()
+
+        electrode_group_fields_validation_registrator = ValidationRegistrator()
+        electrode_group_fields_validation_registrator.register(NotNoneValidator(fl_nwb_electrode_group.metadata))
+        electrode_group_fields_validation_registrator.register(NotNoneValidator(fl_nwb_electrode_group.device))
+        electrode_group_fields_validation_registrator.validate()

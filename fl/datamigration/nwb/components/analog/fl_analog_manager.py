@@ -1,10 +1,9 @@
 from fl.datamigration.nwb.components.analog.fl_analog_builder import FlAnalogBuilder
 from fl.datamigration.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
+
 from fl.datamigration.validation.equal_length_validator import EqualLengthValidator
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
-
-import numpy as np
 
 
 class FlAnalogManager:
