@@ -2,6 +2,7 @@ from fl.datamigration.metadata.metadata_extractor import MetadataExtractor
 from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
 from fl.datamigration.validation.metadata_validator import MetadataValidator
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
+from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.type_validator import TypeValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
@@ -17,9 +18,10 @@ class MetadataManager:
         """
 
         validation_registrator = ValidationRegistrator()
-        validation_registrator.register(TypeValidator(metadata_path, str))
         validation_registrator.register(NotNoneValidator(metadata_path))
+        validation_registrator.register(TypeValidator(metadata_path, str))
         validation_registrator.register(NotEmptyValidator(metadata_path))
+        validation_registrator.register(NotNoneValidator(probes_paths))
         validation_registrator.register(TypeValidator(probes_paths, list))
         validation_registrator.register(NotEmptyValidator(probes_paths))
         validation_registrator.register(MetadataValidator(metadata_path, probes_paths))
