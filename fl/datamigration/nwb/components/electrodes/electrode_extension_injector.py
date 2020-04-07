@@ -46,12 +46,13 @@ class ElectrodeExtensionInjector:
 
             return extension
 
-        else:
+        if diff_in_length < 0:
             message = 'Metadata are not compatible for electrodes! ' + str(
                 diff_in_length * (-1)) + ' elements in ' + msg + ' were cutted off '
             logger.exception(message)
-
             return extension[:diff_in_length]
+
+        return None
 
     @staticmethod
     def __join_extensions_to_electrodes(metadata_extension, header_extension, ntrodes_extension_ntrode_id, ntrodes_extension_bad_channels, nwb_content):

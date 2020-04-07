@@ -75,15 +75,6 @@ class TestDeviceFactory(TestCase):
             fl_probe=None
         )
 
-    @should_raise(NoneParamException)
-    def test_factory_failed_creating_Probe_due_to_none_param_in_FlProbe(self):
-        mock_fl_probe = Mock(spec=FlProbe)
-        mock_fl_probe.probe_id = 1
-        mock_fl_probe.metadata = None
-
-        DeviceFactory.create_probe(
-            fl_probe=mock_fl_probe
-        )
 
     def test_factory_create_HeaderDevice_successfully(self):
         mock_fl_header_device = Mock(spec=FlHeaderDevice)

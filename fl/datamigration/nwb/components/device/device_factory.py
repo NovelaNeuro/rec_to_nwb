@@ -1,9 +1,9 @@
+from fl.datamigration.validation.not_none_validator import NotNoneValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 from ndx_fllab_novela.header_device import HeaderDevice
 from ndx_fllab_novela.probe import Probe
 from pynwb.device import Device
 
-from fl.datamigration.validation.not_none_validator import NotNoneValidator
-from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class DeviceFactory:
