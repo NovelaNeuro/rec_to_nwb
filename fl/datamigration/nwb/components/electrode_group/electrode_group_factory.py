@@ -1,7 +1,7 @@
-from ndx_fllab_novela.nwb_electrode_group import NwbElectrodeGroup
-
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
+
+from ndx_fllab_novela.nwb_electrode_group import NwbElectrodeGroup
 
 
 class ElectrodeGroupFactory:

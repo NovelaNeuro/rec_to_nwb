@@ -1,9 +1,3 @@
-import logging.config
-import os
-import uuid
-
-from pynwb import NWBHDF5IO, NWBFile
-from pynwb.file import Subject
 
 from fl.datamigration.exceptions.different_number_of_tasks_and_epochs_exception import \
     DifferentNumberOfTasksAndEpochsException
@@ -48,6 +42,13 @@ from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjecto
 from fl.datamigration.validation.preprocessing_validator import PreprocessingValidator
 from fl.datamigration.validation.type_validator import TypeValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
+
+import logging.config
+import os
+import uuid
+
+from pynwb import NWBHDF5IO, NWBFile
+from pynwb.file import Subject
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -290,7 +291,7 @@ class NWBFileBuilder:
         fl_nwb_electrode_groups = self.fl_electrode_group_manager.get_fl_nwb_electrode_groups(probes)
         logger.info('ElectrodeGroups: Creating')
         nwb_electrode_groups = [self.nwb_electrode_group_creator.create_nwb_electrode_group(nwb_electrode_group)
-                            for nwb_electrode_group in fl_nwb_electrode_groups]
+                                for nwb_electrode_group in fl_nwb_electrode_groups]
         logger.info('ElectrodeGroups: Injecting into NWB')
         self.electrode_group_injector.inject_all_electrode_groups(nwb_content, nwb_electrode_groups)
         return nwb_electrode_groups

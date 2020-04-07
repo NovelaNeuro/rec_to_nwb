@@ -1,9 +1,10 @@
+from fl.datamigration.nwb.common.timestamps_manager import TimestampManager
+
 import logging.config
 import os
 
 from mountainlab_pytools.mdaio import readmda
 
-from fl.datamigration.nwb.common.timestamps_manager import TimestampManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 

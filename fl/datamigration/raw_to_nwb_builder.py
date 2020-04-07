@@ -1,3 +1,10 @@
+from fl.datamigration.metadata.metadata_manager import MetadataManager
+from fl.datamigration.nwb_file_builder import NWBFileBuilder
+from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
+from fl.datamigration.validation.type_validator import TypeValidator
+from fl.datamigration.validation.export_args_validator import ExportArgsValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
+
 import logging
 import os
 import shutil
@@ -5,12 +12,6 @@ import shutil
 from rec_to_binaries import extract_trodes_rec_file
 import xmlschema
 
-from fl.datamigration.metadata.metadata_manager import MetadataManager
-from fl.datamigration.nwb_file_builder import NWBFileBuilder
-from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
-from fl.datamigration.validation.type_validator import TypeValidator
-from fl.datamigration.validation.export_args_validator import ExportArgsValidator
-from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
 

@@ -1,20 +1,21 @@
-""" Module to download a file from url
+from fl.datamigration.tools.abstract_file_downloader import AbstractFileDownloader
 
-Class:
-    FileDownloader()
-"""
 import logging.config
 import os
 
 import requests
 
-from fl.datamigration.tools.abstract_file_downloader import AbstractFileDownloader
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
+""" Module to download a file from url
+
+Class:
+    FileDownloader()
+"""
 
 class FileDownloader(AbstractFileDownloader):
     """ Class to download a file

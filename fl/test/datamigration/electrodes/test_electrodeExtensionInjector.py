@@ -1,3 +1,10 @@
+from fl.datamigration.exceptions.not_compatible_metadata import NotCompatibleMetadata
+from fl.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
+from fl.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
+from fl.datamigration.nwb.components.electrodes.electrode_metadata_extension_creator import \
+    ElectrodesMetadataExtensionCreator
+from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
+
 import unittest
 from datetime import datetime
 from unittest.mock import Mock
@@ -7,12 +14,6 @@ from hdmf.common import VectorData
 from ndx_fllab_novela.nwb_electrode_group import NwbElectrodeGroup
 from pynwb import NWBFile
 
-from fl.datamigration.exceptions.not_compatible_metadata import NotCompatibleMetadata
-from fl.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from fl.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
-from fl.datamigration.nwb.components.electrodes.electrode_metadata_extension_creator import \
-    ElectrodesMetadataExtensionCreator
-from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 
 
 class TestElectrodeExtensionInjector(unittest.TestCase):

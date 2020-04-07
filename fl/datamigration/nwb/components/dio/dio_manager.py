@@ -1,8 +1,9 @@
+from fl.datamigration.nwb.components.dio.dio_extractor import DioExtractor
+
 import concurrent.futures
 
 import numpy as np
 
-from fl.datamigration.nwb.components.dio.dio_extractor import DioExtractor
 
 
 class DioManager:

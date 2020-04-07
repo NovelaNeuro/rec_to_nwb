@@ -1,10 +1,4 @@
 from unittest import TestCase
-from unittest.mock import Mock
-
-from ndx_fllab_novela.header_device import HeaderDevice
-from ndx_fllab_novela.probe import Probe
-from pynwb.device import Device
-from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.header.module.global_configuration import GlobalConfiguration
@@ -13,17 +7,23 @@ from fl.datamigration.nwb.components.device.fl_device import FlDevice
 from fl.datamigration.nwb.components.device.fl_header_device import FlHeaderDevice
 from fl.datamigration.nwb.components.device.fl_probe import FlProbe
 
+from unittest.mock import Mock
+
+from ndx_fllab_novela.header_device import HeaderDevice
+from ndx_fllab_novela.probe import Probe
+from pynwb.device import Device
+from testfixtures import should_raise
 
 class TestDeviceFactory(TestCase):
 
     def test_factory_create_Device_successfully(self):
         mock_fl_device = Mock(spec=FlDevice)
         mock_fl_device.name = 'Device1'
-        
+
         device = DeviceFactory.create_device(
             fl_device=mock_fl_device
         )
-        
+
         self.assertIsNotNone(device)
 
         self.assertIsInstance(device, Device)
@@ -54,11 +54,11 @@ class TestDeviceFactory(TestCase):
             'num_shanks': 2,
             'contact_side_numbering': True
         }
-        
+
         probe = DeviceFactory.create_probe(
             fl_probe=mock_fl_probe
         )
-        
+
         self.assertIsNotNone(probe)
         self.assertIsInstance(probe, Probe)
         self.assertEqual(probe.name, '1')
@@ -114,7 +114,7 @@ class TestDeviceFactory(TestCase):
         header_device = DeviceFactory.create_header_device(
             fl_header_device=mock_fl_header_device
         )
-        
+
         self.assertIsNotNone(header_device)
         self.assertIsInstance(header_device, HeaderDevice)
         self.assertEqual(header_device.name, 'HeaderDevice_1')
