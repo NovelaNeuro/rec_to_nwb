@@ -1,4 +1,5 @@
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
+from fl.datamigration.validation.not_none_validator import NotNoneValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class ElectrodesCreator:
@@ -23,6 +24,12 @@ class ElectrodesCreator:
 
     @staticmethod
     def __validate_parameters(fl_electrode, nwb_content, electrode_id):
-        validate_parameters_not_none(__name__, nwb_content, fl_electrode)
-        validate_parameters_not_none(__name__, fl_electrode.electrode_group)
-        validate_parameters_not_none(__name__, electrode_id)
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotNoneValidator(nwb_content))
+        validation_registrator.register(NotNoneValidator(electrode_id))
+        validation_registrator.register(NotNoneValidator(fl_electrode))
+        validation_registrator.validate()
+
+        electrode_group_validation_registrator = ValidationRegistrator()
+        electrode_group_validation_registrator.register(NotNoneValidator(fl_electrode.electrode_group))
+        electrode_group_validation_registrator.validate()

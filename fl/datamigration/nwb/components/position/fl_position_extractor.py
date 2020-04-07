@@ -3,7 +3,8 @@ from fl.datamigration.nwb.components.iterator.multi_thread_data_iterator import 
 from fl.datamigration.nwb.components.iterator.multi_thread_timestamp_iterator import MultiThreadTimestampIterator
 from fl.datamigration.nwb.components.position.pos_data_manager import PosDataManager
 from fl.datamigration.nwb.components.position.pos_timestamp_manager import PosTimestampManager
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
+from fl.datamigration.validation.not_none_validator import NotNoneValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class FlPositionExtractor:
@@ -12,7 +13,9 @@ class FlPositionExtractor:
         self.all_pos, self.continuous_time = self.__extract_data()
 
     def __extract_data(self):
-        validate_parameters_not_none(__name__, self.datasets)
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotNoneValidator(self.datasets))
+        validation_registrator.validate()
 
         all_pos = []
         continuous_time = []
