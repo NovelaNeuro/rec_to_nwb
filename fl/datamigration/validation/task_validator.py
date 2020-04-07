@@ -1,5 +1,4 @@
 from fl.datamigration.exceptions.invalid_metadata_exception import InvalidMetadataException
-from fl.datamigration.exceptions.missing_data_exception import MissingDataException
 from fl.datamigration.validation.task_validation_summary import TaskValidationSummary
 from fl.datamigration.validation.validator import Validator
 
