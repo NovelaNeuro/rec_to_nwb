@@ -1,4 +1,3 @@
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 

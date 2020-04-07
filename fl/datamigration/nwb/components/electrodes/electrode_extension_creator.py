@@ -6,6 +6,8 @@ from fl.datamigration.nwb.components.electrodes.electrodes_header_extension_crea
     ElectrodesHeaderExtensionCreator
 from fl.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
+from fl.datamigration.validation.not_none_validator import NotNoneValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class ElectrodeExtensionCreator:
@@ -21,8 +23,12 @@ class ElectrodeExtensionCreator:
         self.electrodes_ntrodes_extension_creator = ElectrodesNtrodeExtensionCreator()
 
     def create(self):
-        validate_parameters_not_none(__name__, self.probes_metadata, self.electrode_groups_metadata, self.ntrodes_metadata,
-                                  self.header)
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotNoneValidator(self.probes_metadata))
+        validation_registrator.register(NotNoneValidator(self.electrode_groups_metadata))
+        validation_registrator.register(NotNoneValidator(self.ntrodes_metadata))
+        validation_registrator.register(NotNoneValidator(self.header))
+        validation_registrator.validate()
 
         self._create_extension_from_metadata(self.electrode_groups_metadata, self.probes_metadata)
 
