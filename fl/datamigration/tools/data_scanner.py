@@ -3,12 +3,16 @@ import os
 
 from fl.datamigration.exceptions.missing_data_exception import MissingDataException
 from fl.datamigration.tools.dataset import Dataset
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
+from fl.datamigration.validation.not_none_validator import NotNoneValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class DataScanner:
     def __init__(self, data_path, animal_name, nwb_metadata):
-        validate_parameters_not_none(__name__, data_path, animal_name)
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotNoneValidator(data_path))
+        validation_registrator.register(NotNoneValidator(animal_name))
+        validation_registrator.validate()
 
         self.data_path = data_path
         self.animal_name = animal_name
@@ -30,11 +34,15 @@ class DataScanner:
         return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
     def extract_data_from_date_folder(self, date):
-        validate_parameters_not_none(__name__, date)
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotNoneValidator(date))
+        validation_registrator.validate()
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, [date])}
 
     def extract_data_from_dates_folders(self, dates):
-        validate_parameters_not_none(__name__, dates)
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotNoneValidator(dates))
+        validation_registrator.validate()
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, dates)}
 
     def extract_data_from_all_dates_folders(self):

@@ -5,7 +5,6 @@ from fl.datamigration.nwb.components.electrodes.electrode_ntrode_extension_creat
 from fl.datamigration.nwb.components.electrodes.electrodes_header_extension_creator import \
     ElectrodesHeaderExtensionCreator
 from fl.datamigration.tools.filter_probe_by_type import filter_probe_by_type
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
