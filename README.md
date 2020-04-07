@@ -15,11 +15,11 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
    ```
 3. Download miniconda from <br>
    <https://docs.conda.io/en/latest/miniconda.html> <br>
-4. Download `fldatamigration.yml` from <br>
+4. Download `flenvironment.yml` from <br>
    <https://anaconda.org/NovelaKRK/fldatamigration/files>
 5. Build fldatamigration environment:
    ```bash
-   conda env create -f fldatamigration.yml
+   conda env create -f flenvironment.yml
    ```
 6. Install Jupyter notebook
    ```bash
@@ -44,7 +44,7 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
    ```
 5. Create conda environment.
    ```bash
-   conda env create -f environment.yml
+   conda env create -f flenvironment.yml
    ```
 6. jupyter notebook installation
    ```bash
