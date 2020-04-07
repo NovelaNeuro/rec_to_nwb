@@ -121,7 +121,7 @@ class NWBFileBuilder:
                                    'time': True,
                                    'mda': process_mda,
                                    'DIO': process_dio,
-                                   'analog': process_dio}
+                                   'analog': process_analog}
 
         rec_files_list = RecFileFinder().find_rec_files(
 
@@ -140,7 +140,7 @@ class NWBFileBuilder:
         validationRegistrator.register(PreprocessingValidator(full_data_path,
                                                               self.dataset_names,
                                                               data_types_for_scanning))
-        validationRegistrator.register(TaskValidator(len(self.dataset_names), self.metadata['tasks']))
+        validationRegistrator.register(TaskValidator(self.metadata['tasks']))
         validationRegistrator.validate()
 
         self.extract_datasets(animal_name, date)
@@ -350,6 +350,6 @@ class NWBFileBuilder:
 
     def __build_and_inject_epochs(self, nwb_content):
         logger.info('Epochs: Building')
-        fl_epochs_manager = FlEpochsManager(self.datasets, self.metadata['tasks'])
+        fl_epochs_manager = FlEpochsManager(self.datasets)
         epochs = fl_epochs_manager.get_epochs()
         EpochsInjector.inject(epochs, nwb_content)
