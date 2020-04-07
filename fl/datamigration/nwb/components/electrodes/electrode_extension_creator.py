@@ -34,11 +34,11 @@ class ElectrodeExtensionCreator:
 
         electrodes_ntrode_extension_ntrode_id = self.electrodes_ntrodes_extension_creator.\
             create_electrodes_ntrode_extension_ntrode_id(self.ntrodes_metadata)
-        electrodes_ntrode_extension_bad_channels = self.electrodes_ntrodes_extension_creator.\
-            create_electrodes_ntrode_extension_bad_channels(self.ntrodes_metadata)
+        electrodes_ntrode_extension_bad_channel = self.electrodes_ntrodes_extension_creator.\
+            create_electrodes_ntrode_extension_bad_channel(self.ntrodes_metadata)
 
         return electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrode_extension_ntrode_id, \
-               electrodes_ntrode_extension_bad_channels
+               electrodes_ntrode_extension_bad_channel
 
     def _create_extension_from_metadata(self, electrode_groups_metadata, probes_metadata):
         for electrode_group_metadata in electrode_groups_metadata:

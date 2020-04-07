@@ -15,9 +15,9 @@ class TestNTrodesCreator(TestCase):
         ntrode_creator = NTrodesCreator()
 
         cls.fl_ntrodes = Mock(spec=FlNTrodes)
-        cls.fl_ntrodes.metadata = {'ntrode_id': 1, 'probe_id': 2, 'bad_channels':[2,3] }
+        cls.fl_ntrodes.metadata = {'ntrode_id': 1, 'probe_id': 2, 'bad_channel':[2,3] }
         cls.fl_ntrodes.map_list = [[1, 2], [3, 4], [5, 6]]
-        cls.fl_ntrodes.bad_channels = [2, 3]
+        cls.fl_ntrodes.bad_channel = [2, 3]
         cls.fl_ntrodes.device = Mock(spec=Device)
 
         cls.ntrode = ntrode_creator.create_ntrode(cls.fl_ntrodes)

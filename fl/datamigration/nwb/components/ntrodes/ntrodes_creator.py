@@ -8,7 +8,7 @@ class NTrodesCreator:
         return NTrode(
             probe_id=fl_ntrodes.metadata["probe_id"],
             ntrode_id=fl_ntrodes.metadata['ntrode_id'],
-            bad_channels=fl_ntrodes.metadata['bad_channels'],
+            bad_channel=fl_ntrodes.metadata['bad_channel'],
             device=fl_ntrodes.device,
             location='-',
             description='-',

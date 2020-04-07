@@ -13,11 +13,11 @@ class ElectrodesNtrodeExtensionCreator:
         return electrodes_ntrode_extension_ntrode_id
 
     @classmethod
-    def create_electrodes_ntrode_extension_bad_channels(cls, metadata):
+    def create_electrodes_ntrode_extension_bad_channel(cls, metadata):
         validate_parameters_not_none(__name__, metadata)
 
-        electrodes_ntrode_extension_bad_channels = []
+        electrodes_ntrode_extension_bad_channel = []
         for ntrode in metadata:
-            electrodes_ntrode_extension_bad_channels.extend([True if counter in ntrode['bad_channels'] else False
+            electrodes_ntrode_extension_bad_channel.extend([True if counter in ntrode['bad_channel'] else False
                                                              for counter, _ in enumerate(ntrode['map'])])
-        return electrodes_ntrode_extension_bad_channels
+        return electrodes_ntrode_extension_bad_channel

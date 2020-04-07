@@ -11,17 +11,17 @@ logger = logging.getLogger(__name__)
 
 class ElectrodeExtensionInjector:
 
-    def inject_extensions(self, nwb_content, metadata_extension, header_extension, ntrodes_extension_ntrode_id, ntrodes_extension_bad_channels):
+    def inject_extensions(self, nwb_content, metadata_extension, header_extension, ntrodes_extension_ntrode_id, ntrodes_extension_bad_channel):
         self.__check_extension_length(
             metadata_extension.rel_x,
             metadata_extension.rel_y,
             metadata_extension.rel_z,
             header_extension,
             ntrodes_extension_ntrode_id,
-            ntrodes_extension_bad_channels
+            ntrodes_extension_bad_channel
         )
 
-        self.__join_extensions_to_electrodes(metadata_extension, header_extension, ntrodes_extension_ntrode_id, ntrodes_extension_bad_channels, nwb_content)
+        self.__join_extensions_to_electrodes(metadata_extension, header_extension, ntrodes_extension_ntrode_id, ntrodes_extension_bad_channel, nwb_content)
 
     @staticmethod
     def __check_extension_length(*args):
@@ -54,7 +54,7 @@ class ElectrodeExtensionInjector:
             return extension[:diff_in_length]
 
     @staticmethod
-    def __join_extensions_to_electrodes(metadata_extension, header_extension, ntrodes_extension_ntrode_id, ntrodes_extension_bad_channels, nwb_content):
+    def __join_extensions_to_electrodes(metadata_extension, header_extension, ntrodes_extension_ntrode_id, ntrodes_extension_bad_channel, nwb_content):
         nwb_content.electrodes.add_column(
             name='hwChan',
             description='None',
@@ -66,9 +66,9 @@ class ElectrodeExtensionInjector:
             data=ntrodes_extension_ntrode_id
         )
         nwb_content.electrodes.add_column(
-            name='bad_channels',
+            name='bad_channel',
             description='None',
-            data=ntrodes_extension_bad_channels
+            data=ntrodes_extension_bad_channel
         )
         nwb_content.electrodes.add_column(
             name='rel_x',

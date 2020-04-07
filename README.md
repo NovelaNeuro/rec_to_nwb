@@ -109,10 +109,10 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
         description: 'Probe 2'
     # Ntrodes list which refer 1:1 to <SpikeNTrode> elements from xml header existing in rec binary file.
     # ntrode_id has to match to SpikeNTrode id, probe_id refers to electrode group,
-    # bad_channels is a list of broken channels in the map, where map corresponds to the electrode channels
+    # bad_channel is a list of broken channels in the map, where map corresponds to the electrode channels
       - ntrode_id: 1 
         probe_id: 0 
-        bad_channels: [0,2]
+        bad_channel: [0,2]
         map:  
           0: 0
           1: 1
@@ -120,7 +120,7 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
           3: 3
       - ntrode_id: 2
         probe_id: 0
-        bad_channels: [0,2]
+        bad_channel: [0,2]
         map:
           0: 4
           1: 5

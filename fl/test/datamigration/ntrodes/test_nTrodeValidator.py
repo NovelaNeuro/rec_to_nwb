@@ -25,8 +25,8 @@ class TestNTrodeValidator(TestCase):
     def test_should_validate_ndtrodes_num_correct(self):
 
         metadata = {"ntrode probe channel map": [
-            {"ntrode_id": 1, "probe_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
-            {"ntrode_id": 2, "probe_id": 0, "bad_channels": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
+            {"ntrode_id": 1, "probe_id": 0, "bad_channel": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
+            {"ntrode_id": 2, "probe_id": 0, "bad_channel": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
         ]}
 
         validator = NTrodeValidator(metadata, self.header)
@@ -37,7 +37,7 @@ class TestNTrodeValidator(TestCase):
 
     def test_should_validate_ndtrodes_num_incorrect_less_than_spikes(self):
         metadata = {"ntrode probe channel map": [
-            {"ntrode_id": 1, "probe_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}}]}
+            {"ntrode_id": 1, "probe_id": 0, "bad_channel": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}}]}
 
         validator = NTrodeValidator(metadata, self.header)
         result = validator.createSummary()
@@ -48,9 +48,9 @@ class TestNTrodeValidator(TestCase):
     def test_should_validate_ndtrodes_num_incorrect_greater_than_spikes(self):
 
         metadata = {"ntrode probe channel map": [
-            {"ntrode_id": 1, "probe_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
-            {"ntrode_id": 2, "probe_id": 0, "bad_channels": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
-            {"ntrode_id": 3, "probe_id": 0, "bad_channels": [0, 2], "map": {0: 8, 1: 9, 2: 10, 3: 11}},
+            {"ntrode_id": 1, "probe_id": 0, "bad_channel": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
+            {"ntrode_id": 2, "probe_id": 0, "bad_channel": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
+            {"ntrode_id": 3, "probe_id": 0, "bad_channel": [0, 2], "map": {0: 8, 1: 9, 2: 10, 3: 11}},
         ]}
 
         validator = NTrodeValidator(metadata, self.header)
@@ -63,9 +63,9 @@ class TestNTrodeValidator(TestCase):
     def test_should_fail_due_to_empty_header(self):
 
         metadata = {"ntrode probe channel map": [
-            {"ntrode_id": 1, "probe_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
-            {"ntrode_id": 2, "probe_id": 0, "bad_channels": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
-            {"ntrode_id": 3, "probe_id": 0, "bad_channels": [0, 2], "map": {0: 8, 1: 9, 2: 10, 3: 11}},
+            {"ntrode_id": 1, "probe_id": 0, "bad_channel": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
+            {"ntrode_id": 2, "probe_id": 0, "bad_channel": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
+            {"ntrode_id": 3, "probe_id": 0, "bad_channel": [0, 2], "map": {0: 8, 1: 9, 2: 10, 3: 11}},
         ]}
 
         validator = NTrodeValidator(metadata, None)
@@ -75,9 +75,9 @@ class TestNTrodeValidator(TestCase):
     @should_raise(InvalidHeaderException)
     def test_should_fail_due_to_header_without_spike_ntrodes(self):
         metadata = {"ntrode probe channel map": [
-            {"ntrode_id": 1, "probe_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
-            {"ntrode_id": 2, "probe_id": 0, "bad_channels": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
-            {"ntrode_id": 3, "probe_id": 0, "bad_channels": [0, 2], "map": {0: 8, 1: 9, 2: 10, 3: 11}},
+            {"ntrode_id": 1, "probe_id": 0, "bad_channel": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
+            {"ntrode_id": 2, "probe_id": 0, "bad_channel": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
+            {"ntrode_id": 3, "probe_id": 0, "bad_channel": [0, 2], "map": {0: 8, 1: 9, 2: 10, 3: 11}},
         ]}
 
         validator = NTrodeValidator(metadata, self.header)
@@ -86,7 +86,7 @@ class TestNTrodeValidator(TestCase):
 
     def test_should_not_validate_as_there_are_no_ntrodes(self):
         metadata = {"ntrode probe channel map": [
-            {"ntrode_id": 1, "probe_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}}
+            {"ntrode_id": 1, "probe_id": 0, "bad_channel": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}}
         ]}
 
         validator = NTrodeValidator(metadata, self.header)
