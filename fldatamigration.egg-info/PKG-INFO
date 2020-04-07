@@ -1,0 +1,10 @@
+Metadata-Version: 1.2
+Name: fldatamigration
+Version: 0.1.3
+Summary: Data transformation from rec binary files into NWB 2.0 format
+Home-page: https://github.com/NovelaNeuro/fldatamigration
+Author: Novela Neurotech
+License: UNKNOWN
+Description: UNKNOWN
+Platform: Posix; MacOS X; Windows
+Requires-Python: ==3.7.4
