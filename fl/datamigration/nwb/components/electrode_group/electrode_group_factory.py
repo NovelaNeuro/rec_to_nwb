@@ -1,14 +1,14 @@
 from ndx_fllab_novela.nwb_electrode_group import NwbElectrodeGroup
 
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
+from fl.datamigration.validation.not_none_validator import NotNoneValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class ElectrodeGroupFactory:
 
     @classmethod
     def create_nwb_electrode_group(cls, fl_nwb_electrode_group):
-        validate_parameters_not_none(__name__, fl_nwb_electrode_group)
-        validate_parameters_not_none(__name__, fl_nwb_electrode_group.metadata, fl_nwb_electrode_group.device)
+        cls.__validate_fl_nwb_electrode_group(fl_nwb_electrode_group)
 
         return NwbElectrodeGroup(
             id=fl_nwb_electrode_group.metadata['id'],
@@ -17,3 +17,14 @@ class ElectrodeGroupFactory:
             description=str(fl_nwb_electrode_group.metadata['description']),
             name='electrode group ' + str(fl_nwb_electrode_group.metadata["id"])
         )
+
+    @staticmethod
+    def __validate_fl_nwb_electrode_group(fl_nwb_electrode_group):
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotNoneValidator(fl_nwb_electrode_group))
+        validation_registrator.validate()
+
+        electrode_group_fields_validation_registrator = ValidationRegistrator()
+        electrode_group_fields_validation_registrator.register(NotNoneValidator(fl_nwb_electrode_group.metadata))
+        electrode_group_fields_validation_registrator.register(NotNoneValidator(fl_nwb_electrode_group.device))
+        electrode_group_fields_validation_registrator.validate()

@@ -2,13 +2,17 @@ from fl.datamigration.nwb.components.epochs.epochs_tag_extractor import EpochsTa
 from fl.datamigration.nwb.components.epochs.fl_epochs_builder import FlEpochsBuilder
 from fl.datamigration.nwb.components.epochs.fl_epochs_extractor import FlEpochsExtractor
 from fl.datamigration.tools.task_names_extractor import TaskNamesExtractor
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
+from fl.datamigration.validation.not_none_validator import NotNoneValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class FlEpochsManager:
 
     def __init__(self, datasets, tasks):
-        validate_parameters_not_none(__name__, datasets, tasks)
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotNoneValidator(datasets))
+        validation_registrator.register(NotNoneValidator(tasks))
+        validation_registrator.validate()
 
         self.continuous_time_files = [dataset.get_continuous_time() for dataset in datasets]
         task_names_extractor = TaskNamesExtractor(tasks)

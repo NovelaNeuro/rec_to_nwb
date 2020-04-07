@@ -2,15 +2,20 @@ import numpy as np
 
 from fl.datamigration.nwb.components.analog.fl_analog_builder import FlAnalogBuilder
 from fl.datamigration.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none, \
-    validate_parameters_equal_length
+
+from fl.datamigration.validation.equal_length_validator import EqualLengthValidator
+from fl.datamigration.validation.not_none_validator import NotNoneValidator
+from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class FlAnalogManager:
 
     def __init__(self, analog_files, continuous_time_files):
-        validate_parameters_not_none(__name__, analog_files, continuous_time_files)
-        validate_parameters_equal_length(__name__, analog_files, continuous_time_files)
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotNoneValidator(analog_files))
+        validation_registrator.register(NotNoneValidator(continuous_time_files))
+        validation_registrator.register(EqualLengthValidator([analog_files, continuous_time_files]))
+        validation_registrator.validate()
 
         self.analog_files = analog_files
         self.continuous_time_files = continuous_time_files
