@@ -1,3 +1,5 @@
+import numpy as np
+
 from fl.datamigration.nwb.components.analog.fl_analog_builder import FlAnalogBuilder
 from fl.datamigration.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
 
