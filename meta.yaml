@@ -24,10 +24,6 @@ test:
   commands:
     - test -f $PREFIX/lib/libboost_log$SHLIB_EXT
     - if not exist %LIBRARY_LIB%\\boost_log-vc140-mt.lib exit 1
-  imports:
-    - fl
-  requires:
-    - pytest
 
 about:
   home: https://github.com/NovelaNeuro/fldatamigration
