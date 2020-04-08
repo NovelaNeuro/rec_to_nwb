@@ -3,7 +3,7 @@
 export PKG_NAME=fldatamigration
 
 conda config --set anaconda_upload no
-export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TOKEN
+export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TEST_TOKEN
 export VERSION=$(python setup.py)
 
 echo "Building conda package..."
