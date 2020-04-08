@@ -21,6 +21,9 @@ requirements:
     - python=3.7.4
 
 test:
+  - commands:
+    - test -f $PREFIX/lib/libboost_log$SHLIB_EXT
+    - if not exist %LIBRARY_LIB%\\boost_log-vc140-mt.lib exit 1
   imports:
     - fldatamigration
   requires:
