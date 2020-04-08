@@ -18,7 +18,7 @@ class NTrodeValidator(Validator):
         self.metadata = metadata
         self.header = header
 
-    def createSummary(self):
+    def create_summary(self):
         ntrodes = self.metadata['ntrode probe channel map']
         if (len(ntrodes) == 0):
             raise InvalidMetadataException("There are no ntrodes defined in metadata.yml file.")

@@ -3,5 +3,5 @@ from fl.datamigration.validation.validation_summary import ValidationSummary
 
 class ExportArgsValidationSummary(ValidationSummary):
 
-    def isValid(self):
+    def is_valid(self):
         return True

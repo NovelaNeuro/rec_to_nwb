@@ -6,6 +6,6 @@ class TaskValidationSummary(ValidationSummary):
     def __init__(self, tasks):
         self.tasks = tasks
 
-    def isValid(self):
-        return isinstance((self.tasks), list)
+    def is_valid(self):
+        return isinstance(self.tasks, list)
 

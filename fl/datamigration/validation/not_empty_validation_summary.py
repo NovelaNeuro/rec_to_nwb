@@ -6,7 +6,7 @@ class NotEmptyValidationSummary(ValidationSummary):
     def __init__(self, parameter):
         self.parameter = parameter
 
-    def isValid(self):
+    def is_valid(self):
         if self.parameter:
             return True
         else:
