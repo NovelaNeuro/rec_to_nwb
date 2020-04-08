@@ -11,14 +11,14 @@ class TestTaskValidator(TestCase):
     def test_task_validator_existing_tasks_valid(self):
         tasks = [{'task_name': 'task1'}, {'task_name': 'task2'}]
         task_validator = TaskValidator(tasks)
-        result = task_validator.createSummary()
-        self.assertTrue(result.isValid())
+        result = task_validator.create_summary()
+        self.assertTrue(result.is_valid())
 
     @should_raise(InvalidMetadataException)
     def test_task_validator_empty_tasks_failed(self):
         tasks = []
         task_validator = TaskValidator(tasks)
-        result = task_validator.createSummary()
-        self.assertFalse(result.isValid())
+        result = task_validator.create_summary()
+        self.assertFalse(result.is_valid())
 
 
