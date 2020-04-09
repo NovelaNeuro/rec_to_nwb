@@ -5,23 +5,23 @@ from fl.datamigration.exceptions.not_compatible_metadata import NotCompatibleMet
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-logging.config.fileConfig(fname=str(path) + '/../../../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(fname=str(path) + '/../../../../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 
 class ElectrodeExtensionInjector:
 
-    def inject_extensions(self, nwb_content, metadata_extension, header_extension, ntrodes_extension_ntrode_id, ntrodes_extension_bad_channels):
+    def inject_extensions(self, nwb_content, fl_electrode_extension):
         self.__check_extension_length(
-            metadata_extension.rel_x,
-            metadata_extension.rel_y,
-            metadata_extension.rel_z,
-            header_extension,
-            ntrodes_extension_ntrode_id,
-            ntrodes_extension_bad_channels
+            fl_electrode_extension.rel_x,
+            fl_electrode_extension.rel_y,
+            fl_electrode_extension.rel_z,
+            fl_electrode_extension.hw_chan,
+            fl_electrode_extension.ntrode_id,
+            fl_electrode_extension.bad_channels
         )
 
-        self.__join_extensions_to_electrodes(metadata_extension, header_extension, ntrodes_extension_ntrode_id, ntrodes_extension_bad_channels, nwb_content)
+        self.__join_extensions_to_electrodes(nwb_content, fl_electrode_extension )
 
     @staticmethod
     def __check_extension_length(*args):
@@ -46,42 +46,41 @@ class ElectrodeExtensionInjector:
 
             return extension
 
-        else:
-            message = 'Metadata are not compatible for electrodes! ' + str(
-                diff_in_length * (-1)) + ' elements in ' + msg + ' were cutted off '
-            logger.exception(message)
+        message = 'Metadata are not compatible for electrodes! ' + str(
+            diff_in_length * (-1)) + ' elements in ' + msg + ' were cutted off '
+        logger.exception(message)
 
-            return extension[:diff_in_length]
+        return extension[:diff_in_length]
 
     @staticmethod
-    def __join_extensions_to_electrodes(metadata_extension, header_extension, ntrodes_extension_ntrode_id, ntrodes_extension_bad_channels, nwb_content):
+    def __join_extensions_to_electrodes(nwb_content, fl_electrode_extension):
         nwb_content.electrodes.add_column(
             name='hwChan',
             description='None',
-            data=header_extension
+            data=fl_electrode_extension.hw_chan
         )
         nwb_content.electrodes.add_column(
             name='ntrode_id',
             description='None',
-            data=ntrodes_extension_ntrode_id
+            data=fl_electrode_extension.ntrode_id
         )
         nwb_content.electrodes.add_column(
             name='bad_channels',
             description='None',
-            data=ntrodes_extension_bad_channels
+            data=fl_electrode_extension.bad_channels
         )
         nwb_content.electrodes.add_column(
             name='rel_x',
             description='None',
-            data=metadata_extension.rel_x
+            data=fl_electrode_extension.rel_x
         )
         nwb_content.electrodes.add_column(
             name='rel_y',
             description='None',
-            data=metadata_extension.rel_y
+            data=fl_electrode_extension.rel_y
         )
         nwb_content.electrodes.add_column(
             name='rel_z',
             description='None',
-            data=metadata_extension.rel_z
+            data=fl_electrode_extension.rel_z
         )
