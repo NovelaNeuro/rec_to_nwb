@@ -2,11 +2,6 @@ import logging.config
 import os
 import uuid
 
-from pynwb import NWBHDF5IO, NWBFile
-from pynwb.file import Subject
-
-from fl.datamigration.exceptions.different_number_of_tasks_and_epochs_exception import \
-    DifferentNumberOfTasksAndEpochsException
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
@@ -28,8 +23,9 @@ from fl.datamigration.nwb.components.electrode_group.electrode_group_factory imp
 from fl.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_manager import FlElectrodeGroupManager
 from fl.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from fl.datamigration.nwb.components.electrodes.electrode_extension_creator import ElectrodeExtensionCreator
-from fl.datamigration.nwb.components.electrodes.electrode_extension_injector import ElectrodeExtensionInjector
+from fl.datamigration.nwb.components.electrodes.extension.electrode_extension_injector import ElectrodeExtensionInjector
+from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
+    FlElectrodeExtensionManager
 from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 from fl.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from fl.datamigration.nwb.components.mda.fl_mda_manager import FlMdaManager
@@ -41,13 +37,15 @@ from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.tools.data_scanner import DataScanner
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.task_validator import TaskValidator
-from fl.datamigration.validation.metadata_validator import MetadataValidator
 from fl.datamigration.validation.ntrode_validator import NTrodeValidator
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
 from fl.datamigration.validation.preprocessing_validator import PreprocessingValidator
 from fl.datamigration.validation.type_validator import TypeValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
+
+from pynwb import NWBHDF5IO, NWBFile
+from pynwb.file import Subject
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -166,10 +164,9 @@ class NWBFileBuilder:
         self.fl_electrode_manager = FlElectrodeManager(self.probes, self.metadata['electrode groups'])
         self.electrode_creator = ElectrodesCreator()
 
-        self.electrode_extension_creator = ElectrodeExtensionCreator(
+        self.fl_electrode_extension_manager = FlElectrodeExtensionManager(
             self.probes,
-            self.metadata['electrode groups'],
-            self.metadata['ntrode probe channel map'],
+            self.metadata,
             self.header
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
@@ -302,17 +299,13 @@ class NWBFileBuilder:
         [self.electrode_creator.create(nwb_content, fl_electrode) for fl_electrode in fl_electrodes]
 
     def __build_and_inject_electrodes_extensions(self, nwb_content):
-        logger.info('ElectrodesExtensions: Building')
-        electrodes_metadata_extension, electrodes_header_extension, electrodes_ntrode_extension_ntrode_id, electrodes_ntrode_extension_bad_channels = \
-            self.electrode_extension_creator.create()
+        logger.info('FlElectrodesExtensions: Building')
+        fl_electrode_extension = self.fl_electrode_extension_manager.get_fl_electrodes_extension()
 
-        logger.info('ElectrodesExtensions: Injecting into NWB')
+        logger.info('FlElectrodesExtensions: Injecting into NWB')
         self.electrode_extension_injector.inject_extensions(
             nwb_content,
-            electrodes_metadata_extension,
-            electrodes_header_extension,
-            electrodes_ntrode_extension_ntrode_id,
-            electrodes_ntrode_extension_bad_channels
+            fl_electrode_extension
         )
 
     def __build_and_inject_dio(self, nwb_content):
