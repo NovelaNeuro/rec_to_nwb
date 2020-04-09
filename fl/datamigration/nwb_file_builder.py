@@ -302,7 +302,7 @@ class NWBFileBuilder:
         logger.info('FlElectrodesExtensions: Building')
         fl_electrode_extension = self.fl_electrode_extension_manager.get_fl_electrodes_extension()
 
-        logger.info('FlElectrodesExtensions: Injecting into Electrodes in NWB')
+        logger.info('FlElectrodesExtensions: Injecting into NWB')
         self.electrode_extension_injector.inject_extensions(
             nwb_content,
             fl_electrode_extension
