@@ -3,6 +3,7 @@ from unittest import TestCase
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.header.module.header import Header
+from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
 from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension_builder import \
     FlElectrodeExtensionBuilder
 
@@ -63,6 +64,7 @@ class TestFlElectrodeExtensionBuilder(TestCase):
         )
         fl_electrode_extension = fl_electrode_extension_builder.build()
 
+        self.assertIsInstance(fl_electrode_extension, FlElectrodeExtension)
         self.assertEqual(fl_electrode_extension.rel_x, [0, 0, 0, 0, 0, 40, 0, 40, 0, 40, 0, 40])
         self.assertEqual(fl_electrode_extension.rel_y, [0, 0, 0, 0, 0, 0, 300, 300, 600, 600, 900, 900])
         self.assertEqual(fl_electrode_extension.rel_z, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
