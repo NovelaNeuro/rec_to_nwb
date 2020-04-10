@@ -1,4 +1,4 @@
-class MdaValidTimeInjector:
+class ValidTimeInjector:
 
     @staticmethod
     def inject_mda_valid_times(gaps, nwb_content):

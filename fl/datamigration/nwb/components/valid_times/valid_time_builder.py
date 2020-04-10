@@ -1,6 +1,6 @@
 
 
-class MdaValidTimeBuilder:
+class ValidTimeBuilder:
     def __init__(self, sampling_rate):
         self.period = 1 / sampling_rate
 
