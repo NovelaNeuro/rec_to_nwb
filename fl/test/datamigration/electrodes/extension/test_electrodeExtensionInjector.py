@@ -73,7 +73,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         self.assertIsInstance(self.nwb_file.electrodes['rel_y'], VectorData)
         self.assertIsInstance(self.nwb_file.electrodes['rel_z'], VectorData)
         self.assertIsInstance(self.nwb_file.electrodes['ntrode_id'], VectorData)
-        self.assertIsInstance(self.nwb_file.electrodes['bad_channels'], VectorData)
+        self.assertIsInstance(self.nwb_file.electrodes['bad_channel'], VectorData)
         self.assertIsInstance(self.nwb_file.electrodes['hwChan'], VectorData)
 
         # header_extension - hw_chan
