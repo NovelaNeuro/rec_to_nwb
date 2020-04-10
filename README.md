@@ -157,7 +157,13 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
    ```
 7. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
 
-8. Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder. Next build the NWB using `build_nwb()`.
+8. We provide two class to generate the NWB file. <br>
+To generate NWB file from raw data use `RawToNWBBuilder`.
+If you want to use already preprocessed data, use `NWBFileBuilder` instead.
+
+##### Raw data
+Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder. Next build the NWB using `build_nwb()`.
+
    ```bash
    builder = RawToNWBBuilder(
              animal_name='beans',
