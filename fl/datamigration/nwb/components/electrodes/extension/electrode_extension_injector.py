@@ -84,7 +84,7 @@ class ElectrodeExtensionInjector:
             data=fl_electrode_extension.ntrode_id
         )
         nwb_content.electrodes.add_column(
-            name='bad_channels',
+            name='bad_channel',
             description='None',
             data=fl_electrode_extension.bad_channels
         )
