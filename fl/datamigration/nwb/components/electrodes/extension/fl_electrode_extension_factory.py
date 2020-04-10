@@ -56,5 +56,5 @@ class FlElectrodeExtensionFactory:
         probe_shank = []
         for electrode_group_metadata in electrode_groups_metadata:
             probe_metadata = filter_probe_by_type(probes_metadata, electrode_group_metadata['device_type'])
-            [probe_shank.append(shank['shank_id']) for shank in probe_metadata['shanks']]
+            [probe_shank.extend([shank['shank_id']] * len(shank['electrodes'])) for shank in probe_metadata['shanks']]
         return probe_shank
