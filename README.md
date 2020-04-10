@@ -157,7 +157,7 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
    ```
 7. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
 
-8. Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder.
+8. Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder. Next build the NWB using `build_nwb()`.
    ```bash
    builder = RawToNWBBuilder(
              animal_name='beans',
@@ -197,7 +197,7 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
       **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')`<br>
 
 ##### Preprocessed data
-Initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build your NWB and write it to file.
+Initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
 
    ```bash
    builder = NWBFileBuilder(
