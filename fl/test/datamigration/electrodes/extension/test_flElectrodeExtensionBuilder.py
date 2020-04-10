@@ -71,6 +71,7 @@ class TestFlElectrodeExtensionBuilder(TestCase):
         self.assertEqual(fl_electrode_extension.hw_chan[0], 81)
         self.assertEqual(fl_electrode_extension.hw_chan[-1], 175)
         self.assertEqual(fl_electrode_extension.ntrode_id, [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4])
+        self.assertEqual(fl_electrode_extension.probe_shank, [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3])
         self.assertEqual(
             fl_electrode_extension.bad_channels,
             [
