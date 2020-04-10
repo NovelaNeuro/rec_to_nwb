@@ -23,6 +23,7 @@ class FlElectrodeExtensionFactory:
     @classmethod
     def create_ntrode_id(cls, ntrode_metadata):
         validate_parameters_not_none(__name__, ntrode_metadata)
+
         ntrode_id = []
         [ntrode_id.extend([ntrode['ntrode_id']] * len(ntrode['map'])) for ntrode in ntrode_metadata]
         return ntrode_id
@@ -41,8 +42,19 @@ class FlElectrodeExtensionFactory:
 
     @classmethod
     def create_hw_chan(cls, spike_n_trodes):
+        validate_parameters_not_none(__name__, spike_n_trodes)
+
         hw_chan = []
         for spike_n_trode in spike_n_trodes:
             [hw_chan.append(int(spike_channel.hw_chan)) for spike_channel in spike_n_trode.spike_channels]
         return hw_chan
 
+    @classmethod
+    def create_probe_shank(cls, probes_metadata, electrode_groups_metadata):
+        validate_parameters_not_none(__name__, probes_metadata, electrode_groups_metadata)
+
+        probe_shank = []
+        for electrode_group_metadata in electrode_groups_metadata:
+            probe_metadata = filter_probe_by_type(probes_metadata, electrode_group_metadata['device_type'])
+            [probe_shank.append(shank['shank_id']) for shank in probe_metadata['shanks']]
+        return probe_shank
