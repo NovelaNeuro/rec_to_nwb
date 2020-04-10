@@ -61,7 +61,7 @@ class TestDeviceFactory(TestCase):
         
         self.assertIsNotNone(probe)
         self.assertIsInstance(probe, Probe)
-        self.assertEqual(probe.name, '1')
+        self.assertEqual(probe.name, 'probe 1')
         self.assertEqual(probe.id, 1)
         self.assertEqual(probe.num_shanks, 2)
         self.assertEqual(probe.contact_size, 20.0)
