@@ -58,7 +58,7 @@ class TestMetadataManager(TestCase):
 
         ntrode_probe_channel_map_fields = nwb_metadata.metadata['ntrode probe channel map'][0].keys()
         self.assertIn('map', ntrode_probe_channel_map_fields)
-        self.assertIn('probe_id', ntrode_probe_channel_map_fields)
+        self.assertIn('electrode_group_id', ntrode_probe_channel_map_fields)
         self.assertIn('ntrode_id', ntrode_probe_channel_map_fields)
 
     def test_metadata_manager_reading_probes_successfully(self):

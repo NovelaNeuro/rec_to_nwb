@@ -46,7 +46,7 @@ class TestDeviceFactory(TestCase):
 
     def test_factory_create_Probe_successfully(self):
         mock_fl_probe = Mock(spec=FlProbe)
-        mock_fl_probe.probe_id = 1
+        mock_fl_probe.electrode_group_id = 1
         mock_fl_probe.metadata = {
             'probe_type': 'Type1',
             'units': 'um',
@@ -78,7 +78,7 @@ class TestDeviceFactory(TestCase):
     @should_raise(NoneParamException)
     def test_factory_failed_creating_Probe_due_to_none_param_in_FlProbe(self):
         mock_fl_probe = Mock(spec=FlProbe)
-        mock_fl_probe.probe_id = 1
+        mock_fl_probe.electrode_group_id = 1
         mock_fl_probe.metadata = None
 
         DeviceFactory.create_probe(

@@ -15,7 +15,7 @@ class TestNTrodesCreator(TestCase):
         ntrode_creator = NTrodesCreator()
 
         cls.fl_ntrodes = Mock(spec=FlNTrodes)
-        cls.fl_ntrodes.metadata = {'ntrode_id': 1, 'probe_id': 2, 'bad_channels':[2,3] }
+        cls.fl_ntrodes.metadata = {'ntrode_id': 1, 'electrode_group_id': 2, 'bad_channels':[2,3] }
         cls.fl_ntrodes.map_list = [[1, 2], [3, 4], [5, 6]]
         cls.fl_ntrodes.bad_channels = [2, 3]
         cls.fl_ntrodes.device = Mock(spec=Device)
@@ -31,7 +31,7 @@ class TestNTrodesCreator(TestCase):
         self.assertEqual(self.ntrode.location, '-')
         self.assertEqual(self.ntrode.device,  self.fl_ntrodes.device)
         self.assertEqual(self.ntrode.ntrode_id, 1)
-        self.assertEqual(self.ntrode.probe_id, 2)
+        self.assertEqual(self.ntrode.electrode_group_id, 2)
         self.assertEqual(self.ntrode.map, [[1, 2], [3, 4], [5, 6]])
 
     def test_createNTrode_checkNodeCorrectType_true(self):
@@ -40,5 +40,5 @@ class TestNTrodesCreator(TestCase):
         self.assertIsInstance(self.ntrode.location, str)
         self.assertIsInstance(self.ntrode.device, Device)
         self.assertIsInstance(self.ntrode.ntrode_id, int)
-        self.assertIsInstance(self.ntrode.probe_id, int)
+        self.assertIsInstance(self.ntrode.electrode_group_id, int)
         self.assertIsInstance(self.ntrode.map, list)

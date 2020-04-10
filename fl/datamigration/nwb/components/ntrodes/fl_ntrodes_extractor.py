@@ -2,8 +2,8 @@ class FlNTrodesExtractor:
 
     @staticmethod
     def extract_device(ntrode_metadata, nwb_content):
-        probe_id = str(ntrode_metadata["probe_id"])
-        return nwb_content.devices[probe_id]
+        electrode_group_id = str(ntrode_metadata["electrode_group_id"])
+        return nwb_content.devices[electrode_group_id]
 
     @staticmethod
     def extract_map(ntrode_metadata):
