@@ -1,6 +1,4 @@
-from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
 from fl.datamigration.nwb.components.device.fl_probe_builder import FlProbeBuilder
-from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
 from fl.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 
