@@ -29,7 +29,8 @@ class ElectrodeExtensionInjector:
             fl_electrode_extension.hw_chan,
             fl_electrode_extension.ntrode_id,
             fl_electrode_extension.bad_channels,
-            fl_electrode_extension.probe_shank
+            fl_electrode_extension.probe_shank,
+            fl_electrode_extension.probe_channel
         )
 
         self.__validate_extension_length(
@@ -39,7 +40,8 @@ class ElectrodeExtensionInjector:
             fl_electrode_extension.hw_chan,
             fl_electrode_extension.ntrode_id,
             fl_electrode_extension.bad_channels,
-            fl_electrode_extension.probe_shank
+            fl_electrode_extension.probe_shank,
+            fl_electrode_extension.probe_channel
         )
 
     @staticmethod
@@ -107,4 +109,9 @@ class ElectrodeExtensionInjector:
             name='probe_shank',
             description='None',
             data=fl_electrode_extension.probe_shank
+        )
+        nwb_content.electrodes.add_column(
+            name='probe_channel',
+            description='None',
+            data=fl_electrode_extension.probe_channel
         )

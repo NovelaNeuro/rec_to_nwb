@@ -35,13 +35,17 @@ class FlElectrodeExtensionBuilder:
             probes_metadata=self.probes_metadata,
             electrode_groups_metadata=self.electrode_groups_metadata
         )
+        probe_channel = FlElectrodeExtensionFactory.create_probe_channel(
+            ntrode_metadata=self.ntrode_metadata
+        )
 
         return FlElectrodeExtension(
             rel=rel,
             hw_chan=hw_chan,
             ntrode_id=ntrode_id,
             bad_channels=bad_channels,
-            probe_shank=probe_shank
+            probe_shank=probe_shank,
+            probe_channel=probe_channel
         )
 
     @staticmethod

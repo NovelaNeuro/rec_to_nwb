@@ -58,3 +58,13 @@ class FlElectrodeExtensionFactory:
             probe_metadata = filter_probe_by_type(probes_metadata, electrode_group_metadata['device_type'])
             [probe_shank.extend([shank['shank_id']] * len(shank['electrodes'])) for shank in probe_metadata['shanks']]
         return probe_shank
+
+    @classmethod
+    def create_probe_channel(cls, ntrode_metadata):
+        validate_parameters_not_none(__name__, ntrode_metadata)
+
+        probe_channel = []
+        for ntrode in ntrode_metadata:
+            [probe_channel.append(ntrode['map'][map]) for map in ntrode['map']]
+        return probe_channel
+
