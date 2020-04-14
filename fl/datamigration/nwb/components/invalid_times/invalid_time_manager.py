@@ -16,7 +16,7 @@ class InvalidTimeManager:
     def build(self, timestamps):
         return self.valid_time_builder.build(timestamps[0]) #naprawic
 
-    def build_mda_valid_times(self):
+    def build_mda_invalid_times(self):
         continuous_time_dicts = self.__get_continuous_time_dicts()
         mda_timestamps = self.__read_mda_timestamps(self.__get_mda_timestamp_files())
         return self.build(self.__convert_timestamps(mda_timestamps, continuous_time_dicts))
