@@ -20,5 +20,8 @@ class InvalidTimeBuilder:
                     gap_stop_time = last_timestamp
                     was_last_timestamp_part_of_a_gap = False
                     gaps.append(FlGap(gap_start_time, gap_stop_time))
+                elif timestamp == timestamps[-1]:
+                    gap_stop_time = timestamp
+                    gaps.append(FlGap(gap_start_time, gap_stop_time))
             last_timestamp = timestamp
         return gaps
