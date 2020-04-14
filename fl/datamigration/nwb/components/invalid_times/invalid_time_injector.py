@@ -9,5 +9,5 @@ class InvalidTimeInjector:
             description='Some Description',
         )
         for gap in gaps:
-            nwb_content.add_invalid_time_interval(start_time=gap[0], stop_time=gap[1])
+            nwb_content.add_invalid_time_interval(start_time=gap.start_time, stop_time=gap.stop_time)
 

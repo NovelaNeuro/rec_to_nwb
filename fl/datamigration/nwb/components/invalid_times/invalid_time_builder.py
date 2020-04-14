@@ -1,3 +1,4 @@
+from fl.datamigration.nwb.components.invalid_times.fl_gap import FlGap
 
 
 class InvalidTimeBuilder:
@@ -18,6 +19,6 @@ class InvalidTimeBuilder:
                 if last_timestamp + self.period > timestamp:
                     gap_stop_time = last_timestamp
                     was_last_timestamp_part_of_a_gap = False
-                    gaps.append((gap_start_time, gap_stop_time))
+                    gaps.append(FlGap(gap_start_time, gap_stop_time))
             last_timestamp = timestamp
         return gaps
