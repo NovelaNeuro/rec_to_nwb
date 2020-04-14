@@ -79,6 +79,7 @@ class TestFlElectrodeExtensionBuilder(TestCase):
                 False, True, True, False
             ]
         )
+        self.assertEqual(fl_electrode_extension.probe_channel, [0, 1, 2, 3, 4, 32, 33, 34, 35, 36, 64, 65, 66, 67, 68, 96, 97, 98, 99, 100])
 
     @should_raise(NoneParamException)
     def test_electrode_extension_builder_failed_build_fl_electrode_extension_due_to_None_param(self):
