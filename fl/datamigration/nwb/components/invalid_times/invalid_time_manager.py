@@ -8,8 +8,9 @@ from fl.datamigration.processing.timestamp_converter import TimestampConverter
 class InvalidTimeManager:
     def __init__(self, sampling_rate, datasets):
         self.sampling_rate = sampling_rate
-        self.valid_time_builder = InvalidTimeBuilder(sampling_rate)
         self.datasets = datasets
+
+        self.valid_time_builder = InvalidTimeBuilder(sampling_rate)
         self.mda_timestamp_files = self.__get_mda_timestamp_files()
         self.mda_timestamps = self.__get_pos_timestamps()
 
