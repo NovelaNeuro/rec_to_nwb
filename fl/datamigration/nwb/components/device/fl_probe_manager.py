@@ -10,15 +10,22 @@ class FlProbeManager:
         self.electrode_groups_metadata = electrode_groups_metadata
 
         self.fl_probe_builder = FlProbeBuilder()
+        self.probe_id = -1
 
     def get_fl_probes_list(self):
         validate_parameters_not_none(__name__, self.probes_metadata, self.electrode_groups_metadata)
-        return [self._build_single_probe(electrode_group_metadata, probe_counter)
-                for probe_counter, electrode_group_metadata in enumerate(self.electrode_groups_metadata)]
+        fl_probes = []
+        probes_types = []
+        for electrode_group_metadata in self.electrode_groups_metadata:
+            if electrode_group_metadata['device_type'] not in probes_types:
+                probes_types.append(electrode_group_metadata['device_type'])
+                fl_probes.append(self._build_single_probe(electrode_group_metadata))
+        return fl_probes
 
-    def _build_single_probe(self, electrode_group_metadata, probe_counter):
+    def _build_single_probe(self, electrode_group_metadata):
         probe_metadata = filter_probe_by_type(
             self.probes_metadata,
             electrode_group_metadata['device_type']
         )
-        return self.fl_probe_builder.build(probe_metadata, probe_counter)
+        self.probe_id += 1
+        return self.fl_probe_builder.build(probe_metadata, self.probe_id)
