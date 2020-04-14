@@ -66,6 +66,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         mock_fl_electrode_extension.ntrode_id = [11, 11, 22, 22]
         mock_fl_electrode_extension.bad_channels = [True, False, False, True]
         mock_fl_electrode_extension.probe_shank = [0, 0, 1, 2]
+        mock_fl_electrode_extension.probe_channel = [0, 1, 2, 3]
 
         self.electrode_extension_injector.inject_extensions(
             nwb_content=self.nwb_file,
@@ -79,6 +80,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         self.assertIsInstance(self.nwb_file.electrodes['bad_channel'], VectorData)
         self.assertIsInstance(self.nwb_file.electrodes['hwChan'], VectorData)
         self.assertIsInstance(self.nwb_file.electrodes['probe_shank'], VectorData)
+        self.assertIsInstance(self.nwb_file.electrodes['probe_channel'], VectorData)
 
         # header_extension - hw_chan
         self.assertIsInstance(self.nwb_file.electrodes[0, 9], int)
@@ -129,6 +131,13 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         self.assertEqual(self.nwb_file.electrodes[2, 15], 1)
         self.assertEqual(self.nwb_file.electrodes[3, 15], 2)
 
+        # metadata_extension - probe_channel
+        self.assertIsInstance(self.nwb_file.electrodes[0, 16], int)
+        self.assertEqual(self.nwb_file.electrodes[0, 16], 0)
+        self.assertEqual(self.nwb_file.electrodes[1, 16], 1)
+        self.assertEqual(self.nwb_file.electrodes[2, 16], 2)
+        self.assertEqual(self.nwb_file.electrodes[3, 16], 3)
+
     @should_raise(NotCompatibleMetadata)
     def test_electrodes_extension_injector_failed_injecting_due_to_longer_param(self):
 
@@ -140,6 +149,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         mock_fl_electrode_extension.ntrode_id = [11, 11, 22, 22]
         mock_fl_electrode_extension.bad_channels = [True, False, False, True]
         mock_fl_electrode_extension.probe_shank = [0, 0, 1, 2]
+        mock_fl_electrode_extension.probe_channel = [0, 1, 2, 3]
 
         self.electrode_extension_injector.inject_extensions(self.nwb_file, mock_fl_electrode_extension)
 
@@ -153,6 +163,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         mock_fl_electrode_extension.ntrode_id = [11, 11, 22, 22]
         mock_fl_electrode_extension.bad_channels = [True, False, False, True]
         mock_fl_electrode_extension.probe_shank = [0, 0, 1, 2]
+        mock_fl_electrode_extension.probe_channel = [0, 1, 2, 3]
 
         self.electrode_extension_injector.inject_extensions(self.nwb_file, mock_fl_electrode_extension)
 
@@ -166,6 +177,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         mock_fl_electrode_extension.ntrode_id = [11, 11, 22, 22]
         mock_fl_electrode_extension.bad_channels = [True, False, False, True]
         mock_fl_electrode_extension.probe_shank = None
+        mock_fl_electrode_extension.probe_channel = [0, 1, 2, 3]
 
         self.electrode_extension_injector.inject_extensions(self.nwb_file, mock_fl_electrode_extension)
 
