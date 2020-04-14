@@ -158,7 +158,7 @@ class NWBFileBuilder:
                                                               self.header.configuration.global_configuration)
 
         self.fl_electrode_group_manager = FlElectrodeGroupManager(self.metadata['electrode groups'])
-        self.nwb_electrode_group_creator = ElectrodeGroupFactory()
+        self.electrode_group_creator = ElectrodeGroupFactory()
         self.electrode_group_injector = ElectrodeGroupInjector()
 
         self.fl_electrode_manager = FlElectrodeManager(self.probes, self.metadata['electrode groups'])
@@ -210,9 +210,9 @@ class NWBFileBuilder:
 
         self.__build_and_inject_header_device(nwb_content)
 
-        nwb_electrode_groups = self.__build_and_inject_nwb_electrode_group(nwb_content, probes)
+        electrode_groups = self.__build_and_inject_electrode_group(nwb_content, probes)
 
-        self.__build_and_inject_electrodes(nwb_content, nwb_electrode_groups)
+        self.__build_and_inject_electrodes(nwb_content, electrode_groups)
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
 
@@ -282,15 +282,15 @@ class NWBFileBuilder:
         self.device_injector.inject_all_devices(nwb_content, probes)
         return probes
 
-    def __build_and_inject_nwb_electrode_group(self, nwb_content, probes):
+    def __build_and_inject_electrode_group(self, nwb_content, probes):
         logger.info('ElectrodeGroups: Building')
-        fl_nwb_electrode_groups = self.fl_electrode_group_manager.get_fl_nwb_electrode_groups(probes)
+        fl_electrode_groups = self.fl_electrode_group_manager.get_fl_electrode_groups(probes)
         logger.info('ElectrodeGroups: Creating')
-        nwb_electrode_groups = [self.nwb_electrode_group_creator.create_nwb_electrode_group(nwb_electrode_group)
-                            for nwb_electrode_group in fl_nwb_electrode_groups]
+        electrode_groups = [self.electrode_group_creator.create_electrode_group(electrode_group)
+                            for electrode_group in fl_electrode_groups]
         logger.info('ElectrodeGroups: Injecting into NWB')
-        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, nwb_electrode_groups)
-        return nwb_electrode_groups
+        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_groups)
+        return electrode_groups
 
     def __build_and_inject_electrodes(self, nwb_content, electrode_groups):
         logger.info('Electrodes: Building')
