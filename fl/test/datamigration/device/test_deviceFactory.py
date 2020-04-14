@@ -50,9 +50,19 @@ class TestDeviceFactory(TestCase):
         mock_fl_probe.metadata = {
             'probe_type': 'Type1',
             'units': 'um',
-            'contact_size': 20.0,
+            'probe_description': 'sample description',
             'num_shanks': 2,
-            'contact_side_numbering': True
+            'contact_side_numbering': True,
+            'contact_size': 20.0,
+            'shanks': [
+                {'shank_id': 0, 'electrodes': [
+                    {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
+                    {'id': 1, 'rel_x': 40, 'rel_y': 0, 'rel_z': 0}]},
+                {'shank_id': 1, 'electrodes': [
+                    {'id': 32, 'rel_x': 0, 'rel_y': 300, 'rel_z': 0},
+                    {'id': 33, 'rel_x': 40, 'rel_y': 300, 'rel_z': 0}]},
+            ]
+
         }
         
         probe = DeviceFactory.create_probe(
@@ -61,13 +71,22 @@ class TestDeviceFactory(TestCase):
         
         self.assertIsNotNone(probe)
         self.assertIsInstance(probe, Probe)
-        self.assertEqual(probe.name, 'probe 1')
         self.assertEqual(probe.id, 1)
-        self.assertEqual(probe.num_shanks, 2)
-        self.assertEqual(probe.contact_size, 20.0)
+        self.assertEqual(probe.name, 'probe 1')
         self.assertEqual(probe.probe_type, 'Type1')
         self.assertEqual(probe.units, 'um')
+        self.assertEqual(probe.probe_description, 'sample description')
+        self.assertEqual(probe.num_shanks, 2)
         self.assertEqual(probe.contact_side_numbering, True)
+        self.assertEqual(probe.contact_size, 20.0)
+        self.assertEqual(probe.shanks, [
+                {'shank_id': 0, 'electrodes': [
+                    {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
+                    {'id': 1, 'rel_x': 40, 'rel_y': 0, 'rel_z': 0}]},
+                {'shank_id': 1, 'electrodes': [
+                    {'id': 32, 'rel_x': 0, 'rel_y': 300, 'rel_z': 0},
+                    {'id': 33, 'rel_x': 40, 'rel_y': 300, 'rel_z': 0}]},
+            ])
 
     @should_raise(NoneParamException)
     def test_factory_failed_creating_Probe_due_to_none_FlProbe(self):
