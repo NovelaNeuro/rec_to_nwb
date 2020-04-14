@@ -1,14 +1,14 @@
 from mountainlab_pytools.mdaio import readmda
 
-from fl.datamigration.nwb.components.valid_times.valid_time_builder import ValidTimeBuilder
+from fl.datamigration.nwb.components.invalid_times.invalid_time_builder import InvalidTimeBuilder
 from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 from fl.datamigration.processing.timestamp_converter import TimestampConverter
 
 
-class ValidTimeManager:
+class InvalidTimeManager:
     def __init__(self, sampling_rate, datasets):
         self.sampling_rate = sampling_rate
-        self.valid_time_builder = ValidTimeBuilder(sampling_rate)
+        self.valid_time_builder = InvalidTimeBuilder(sampling_rate)
         self.datasets = datasets
         self.mda_timestamp_files = self.__get_mda_timestamp_files()
         self.mda_timestamps = self.__get_pos_timestamps()

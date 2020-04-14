@@ -38,8 +38,8 @@ from fl.datamigration.nwb.components.position.fl_position_manager import FlPosit
 from fl.datamigration.nwb.components.position.position_creator import PositionCreator
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
-from fl.datamigration.nwb.components.valid_times.valid_time_injector import ValidTimeInjector
-from fl.datamigration.nwb.components.valid_times.valid_time_manager import ValidTimeManager
+from fl.datamigration.nwb.components.invalid_times.invalid_time_injector import InvalidTimeInjector
+from fl.datamigration.nwb.components.invalid_times.invalid_time_manager import InvalidTimeManager
 from fl.datamigration.tools.data_scanner import DataScanner
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.task_validator import TaskValidator
@@ -360,6 +360,6 @@ class NWBFileBuilder:
 
     def build_and_inject_mda_valid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
-        mda_valid_time_manager = ValidTimeManager(20000, self.datasets)
+        mda_valid_time_manager = InvalidTimeManager(20000, self.datasets)
         valid_times = mda_valid_time_manager.build_mda_valid_times()
-        ValidTimeInjector.inject_mda_valid_times(valid_times, nwb_content)
+        InvalidTimeInjector.inject_mda_valid_times(valid_times, nwb_content)
