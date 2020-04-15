@@ -2,7 +2,7 @@
 class InvalidTimeInjector:
 
     @staticmethod
-    def inject_mda_invalid_times(gaps, nwb_content):
+    def inject(gaps, nwb_content):
         """insert invalid times to nwb file"""
         nwb_content.create_time_intervals(
             name='Valid Times',

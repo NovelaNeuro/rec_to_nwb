@@ -15,7 +15,14 @@ class InvalidTimeManager:
         self.mda_timestamps = self.__get_pos_timestamps()
 
     def build(self, timestamps):
-        return self.valid_time_builder.build(timestamps[0]) #naprawic
+        gaps = []
+        unfinished_gap = None
+        for single_epoch_timestamps in timestamps:
+            gaps.extend(self.valid_time_builder.build(single_epoch_timestamps, unfinished_gap))
+            if gaps != []:
+                if gaps[-1].stop_time == single_epoch_timestamps[-1]:
+                    unfinished_gap = gaps.pop()
+        return gaps
 
     def build_mda_invalid_times(self):
         continuous_time_dicts = self.__get_continuous_time_dicts()
