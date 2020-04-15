@@ -2,6 +2,8 @@ import unittest
 from datetime import datetime
 from unittest.mock import Mock
 
+from pynwb.ecephys import ElectrodeGroup
+
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
 
 from fl.datamigration.exceptions.not_compatible_metadata import NotCompatibleMetadata
@@ -12,7 +14,6 @@ from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlEl
 
 from dateutil.tz import tzlocal
 from hdmf.common import VectorData
-from ndx_fllab_novela.nwb_electrode_group import NwbElectrodeGroup
 from pynwb import NWBFile
 from testfixtures import should_raise
 
@@ -33,10 +34,10 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
                  {'id': 3, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0}]}]}]
 
 
-        cls.mock_eg_1 = Mock(spec=NwbElectrodeGroup)
-        cls.mock_eg_2 = Mock(spec=NwbElectrodeGroup)
-        cls.mock_eg_1.name = 'NwbElectrodeGroup1'
-        cls.mock_eg_2.name = 'NwbElectrodeGroup2'
+        cls.mock_eg_1 = Mock(spec=ElectrodeGroup)
+        cls.mock_eg_2 = Mock(spec=ElectrodeGroup)
+        cls.mock_eg_1.name = 'ElectrodeGroup1'
+        cls.mock_eg_2.name = 'ElectrodeGroup2'
         cls.electrode_groups = [cls.mock_eg_1, cls.mock_eg_2]
 
     def setUp(self):
