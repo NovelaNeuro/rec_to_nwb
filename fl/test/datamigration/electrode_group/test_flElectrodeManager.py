@@ -32,19 +32,19 @@ class TestFlElectrodeGroupManager(TestCase):
             electrode_groups_metadata=electrode_groups_metadata
         )
 
-        fl_nwb_electrode_groups = fl_electrode_group_manager.get_fl_electrode_groups(
+        fl_electrode_groups = fl_electrode_group_manager.get_fl_electrode_groups(
             probes=probes
         )
-        self.assertEqual(2, len(fl_nwb_electrode_groups))
-        self.assertIsInstance(fl_nwb_electrode_groups, list)
+        self.assertEqual(2, len(fl_electrode_groups))
+        self.assertIsInstance(fl_electrode_groups, list)
 
-        self.assertIsInstance(fl_nwb_electrode_groups[0], FlElectrodeGroup)
-        self.assertEqual(fl_nwb_electrode_groups[0].metadata, electrode_groups_metadata_1)
-        self.assertEqual(fl_nwb_electrode_groups[0].device, mock_probe_1)
+        self.assertIsInstance(fl_electrode_groups[0], FlElectrodeGroup)
+        self.assertEqual(fl_electrode_groups[0].metadata, electrode_groups_metadata_1)
+        self.assertEqual(fl_electrode_groups[0].device, mock_probe_1)
 
-        self.assertIsInstance(fl_nwb_electrode_groups[1], FlElectrodeGroup)
-        self.assertEqual(fl_nwb_electrode_groups[1].metadata, electrode_groups_metadata_2)
-        self.assertEqual(fl_nwb_electrode_groups[1].device, mock_probe_2)
+        self.assertIsInstance(fl_electrode_groups[1], FlElectrodeGroup)
+        self.assertEqual(fl_electrode_groups[1].metadata, electrode_groups_metadata_2)
+        self.assertEqual(fl_electrode_groups[1].device, mock_probe_2)
 
     @should_raise(NoneParamException)
     def test_manager_failed_builds_FlElectrodeGroups_due_to_None_metadata(self):

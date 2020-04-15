@@ -35,13 +35,11 @@ class TestElectrodeGroupFactory(TestCase):
         self.assertEqual(electrode_group_1.name, 'electrode group 0')
         self.assertEqual(electrode_group_1.location, 'mPFC')
         self.assertEqual(electrode_group_1.description, 'ElectrodeGroup 1')
-        self.assertEqual(electrode_group_1.id, 0)
         self.assertEqual(electrode_group_1.device, mock_probe)
 
         self.assertEqual(electrode_group_2.name, 'electrode group 1')
         self.assertEqual(electrode_group_2.location, 'mPFC')
         self.assertEqual(electrode_group_2.description, 'ElectrodeGroup 2')
-        self.assertEqual(electrode_group_2.id, 1)
         self.assertEqual(electrode_group_2.device, mock_device)
 
     @should_raise(NoneParamException)
