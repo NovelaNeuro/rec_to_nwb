@@ -228,11 +228,10 @@ class NWBFileBuilder:
 
         if self.process_mda:
             self.__build_and_inject_mda(nwb_content)
+            self.build_and_inject_mda_invalid_times(nwb_content)
 
         if self.process_analog:
             self.__build_and_inject_analog(nwb_content)
-
-        self.build_and_inject_mda_invalid_times(nwb_content)
 
         return nwb_content
 
