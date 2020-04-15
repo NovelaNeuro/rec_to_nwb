@@ -359,6 +359,6 @@ class NWBFileBuilder:
 
     def build_and_inject_mda_invalid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
-        mda_invalid_time_manager = InvalidTimeManager(20000, self.datasets)
+        mda_invalid_time_manager = InvalidTimeManager(self.header.configuration.hardware_configuration.sampling_rate, self.datasets)
         invalid_times = mda_invalid_time_manager.build_mda_invalid_times()
         InvalidTimeInjector.inject(invalid_times, nwb_content)
