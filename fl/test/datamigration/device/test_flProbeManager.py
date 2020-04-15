@@ -1,10 +1,11 @@
 import os
-from unittest import TestCase
-from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.device.fl_probe import FlProbe
 from fl.datamigration.nwb.components.device.fl_probe_manager import FlProbeManager
+
+from unittest import TestCase
+from testfixtures import should_raise
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -14,27 +15,30 @@ class TestFlProbeManager(TestCase):
     def setUp(self):
         self.electrode_groups_metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
-            {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'}]
+            {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'},
+            {'id': 3, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 3'}
+        ]
 
         self.probes_metadata_1 = {'probe_type': 'tetrode_12.5', 'contact_size': 20.0, 'num_shanks': 1, 'shanks': [
-                {'shank_id': 0, 'electrodes': [
-                    {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                    {'id': 1, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                    {'id': 2, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                    {'id': 3, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0}]}]}
-        self.probes_metadata_2 = {'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'num_shanks': 4, 'shanks': [
-                {'shank_id': 0, 'electrodes': [
-                    {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                    {'id': 1, 'rel_x': 40, 'rel_y': 0, 'rel_z': 0}]},
-                {'shank_id': 1, 'electrodes': [
-                    {'id': 32, 'rel_x': 0, 'rel_y': 300, 'rel_z': 0},
-                    {'id': 33, 'rel_x': 40, 'rel_y': 300, 'rel_z': 0}]},
-                {'shank_id': 2, 'electrodes': [
-                    {'id': 64, 'rel_x': 0, 'rel_y': 600, 'rel_z': 0},
-                    {'id': 65, 'rel_x': 40, 'rel_y': 600, 'rel_z': 0}, ]},
-                {'shank_id': 3, 'electrodes': [
-                    {'id': 96, 'rel_x': 0, 'rel_y': 900, 'rel_z': 0},
-                    {'id': 97, 'rel_x': 40, 'rel_y': 900, 'rel_z': 0}]}]}
+            {'shank_id': 0, 'electrodes': [
+                {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
+                {'id': 1, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
+                {'id': 2, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
+                {'id': 3, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0}]}]}
+        self.probes_metadata_2 = {'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'num_shanks': 4,
+                                  'shanks': [
+                                      {'shank_id': 0, 'electrodes': [
+                                          {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
+                                          {'id': 1, 'rel_x': 40, 'rel_y': 0, 'rel_z': 0}]},
+                                      {'shank_id': 1, 'electrodes': [
+                                          {'id': 32, 'rel_x': 0, 'rel_y': 300, 'rel_z': 0},
+                                          {'id': 33, 'rel_x': 40, 'rel_y': 300, 'rel_z': 0}]},
+                                      {'shank_id': 2, 'electrodes': [
+                                          {'id': 64, 'rel_x': 0, 'rel_y': 600, 'rel_z': 0},
+                                          {'id': 65, 'rel_x': 40, 'rel_y': 600, 'rel_z': 0}, ]},
+                                      {'shank_id': 3, 'electrodes': [
+                                          {'id': 96, 'rel_x': 0, 'rel_y': 900, 'rel_z': 0},
+                                          {'id': 97, 'rel_x': 40, 'rel_y': 900, 'rel_z': 0}]}]}
         self.probes_metadata = [self.probes_metadata_1, self.probes_metadata_2]
 
     def test_manager_builds_FlProbes_successfully(self):
