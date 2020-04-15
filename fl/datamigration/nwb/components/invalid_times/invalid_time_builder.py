@@ -3,7 +3,7 @@ from fl.datamigration.nwb.components.invalid_times.fl_gap import FlGap
 
 class InvalidTimeBuilder:
     def __init__(self, sampling_rate):
-        self.period = 1 / sampling_rate
+        self.period = 1 / float(sampling_rate)
 
     def build(self, timestamps, unfinished_gap=None, last_timestamp=None):
         gap_start_time, gap_stop_time = timestamps[0], timestamps[0]
