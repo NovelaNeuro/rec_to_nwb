@@ -1,6 +1,5 @@
 from mountainlab_pytools.mdaio import readmda
 
-from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.invalid_times.invalid_time_builder import InvalidTimeBuilder
 from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 from fl.datamigration.processing.timestamp_converter import TimestampConverter
@@ -24,7 +23,7 @@ class InvalidTimeManager:
         unfinished_gap = None
         for single_epoch_timestamps in timestamps:
             gaps.extend(self.valid_time_builder.build(single_epoch_timestamps, unfinished_gap))
-            if gaps != []:
+            if not gaps:
                 if gaps[-1].stop_time == single_epoch_timestamps[-1]:
                     unfinished_gap = gaps.pop()
         return gaps
@@ -35,10 +34,8 @@ class InvalidTimeManager:
         return self.build(self.__convert_timestamps(mda_timestamps, continuous_time_dicts))
 
     def __convert_timestamps(self, timestamps, continuous_time_dicts):
-        all_timestamps = []
-        for i, timestamp in enumerate(timestamps):
-            all_timestamps.append(TimestampConverter.convert_timestamps(continuous_time_dicts[i], timestamp))
-        return all_timestamps
+        return [TimestampConverter.convert_timestamps(continuous_time_dicts[i], timestamp)
+                for i, timestamp in enumerate(timestamps)]
 
     def __get_continuous_time_dicts(self):
         continuous_time_extractor = ContinuousTimeExtractor()
@@ -56,8 +53,6 @@ class InvalidTimeManager:
 
     def __validate_parameters(self):
         validation_registrator = ValidationRegistrator()
-        print(type(self.sampling_rate))
-        print(type(self.datasets))
         validation_registrator.register(NotNoneValidator(self.sampling_rate))
         validation_registrator.register(NotNoneValidator(self.datasets))
         validation_registrator.validate()
