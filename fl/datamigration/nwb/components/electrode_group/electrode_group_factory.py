@@ -14,5 +14,5 @@ class ElectrodeGroupFactory:
             device=fl_electrode_group.device,
             location=str(fl_electrode_group.metadata['location']),
             description=str(fl_electrode_group.metadata['description']),
-            name='electrode group ' + str(fl_electrode_group.metadata["name"])
+            name='electrode group ' + str(fl_electrode_group.metadata["id"])
         )
