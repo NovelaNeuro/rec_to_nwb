@@ -53,15 +53,15 @@ class TestFlProbeManager(TestCase):
 
         self.assertIsInstance(fl_probes_list[0], FlProbe)
         self.assertIsInstance(fl_probes_list[0].metadata, dict)
-        self.assertIsInstance(fl_probes_list[0].electrode_group_id, int)
+        self.assertIsInstance(fl_probes_list[0].probe_id, int)
         self.assertEqual(fl_probes_list[0].metadata, self.probes_metadata_1)
-        self.assertEqual(fl_probes_list[0].electrode_group_id, 0)
+        self.assertEqual(fl_probes_list[0].probe_id, 0)
 
         self.assertIsInstance(fl_probes_list[1], FlProbe)
         self.assertIsInstance(fl_probes_list[1].metadata, dict)
-        self.assertIsInstance(fl_probes_list[1].electrode_group_id, int)
+        self.assertIsInstance(fl_probes_list[1].probe_id, int)
         self.assertEqual(fl_probes_list[1].metadata, self.probes_metadata_2)
-        self.assertEqual(fl_probes_list[1].electrode_group_id, 1)
+        self.assertEqual(fl_probes_list[1].probe_id, 1)
 
     @should_raise(NoneParamException)
     def test_manager_fails_creating_FlProbes_due_to_None_probe_metadata(self):
