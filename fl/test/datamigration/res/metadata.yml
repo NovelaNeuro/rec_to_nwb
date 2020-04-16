@@ -79,7 +79,7 @@ electrode groups:
     description: 'Probe 2'
 
 
-ntrode-electrode group channel map:
+ntrode electrode group channel map:
   - ntrode_id: 1
     electrode_group_id: 0 #Changed to 0 - now it corresponding to information above in electrode_group. Id is no longer hardcoded.
     bad_channels: [0,2]

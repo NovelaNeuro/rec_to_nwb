@@ -11,9 +11,8 @@ class ElectrodeGroupFactory:
         validate_parameters_not_none(__name__, fl_electrode_group.metadata, fl_electrode_group.device)
 
         return ElectrodeGroup(
-            id=fl_electrode_group.metadata['id'],
             device=fl_electrode_group.device,
             location=str(fl_electrode_group.metadata['location']),
             description=str(fl_electrode_group.metadata['description']),
-            name='electrode group ' + str(fl_electrode_group.metadata["id"])
+            name='electrode group ' + str(fl_electrode_group.metadata["name"])
         )
