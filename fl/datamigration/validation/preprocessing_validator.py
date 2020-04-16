@@ -4,6 +4,7 @@ from fl.datamigration.exceptions.missing_data_exception import MissingDataExcept
 from fl.datamigration.validation.preprocessing_validation_summary import PreprocessingValidationSummary
 from fl.datamigration.validation.validator import Validator
 
+
 class PreprocessingValidator(Validator):
     """ Class to validate if preprocessing data is complete
         Args:
@@ -21,7 +22,7 @@ class PreprocessingValidator(Validator):
         self.epochs = epochs
         self.data_types_for_scanning = data_types_for_scanning
 
-    def createSummary(self):
+    def create_summary(self):
         """Creates ValidationSummary object with the results of validation
 
             Returns:

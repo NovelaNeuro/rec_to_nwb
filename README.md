@@ -157,42 +157,83 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
    ```
 7. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
 
-8. Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder.
+8. We provide two class to generate the NWB file. <br>
+To generate NWB file from raw data use `RawToNWBBuilder`. If you want to use already preprocessed data, use `NWBFileBuilder` instead.
+
+##### Raw data
+Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder. Next build the NWB using `build_nwb()`.
+
    ```bash
-   builder = RawToNWBBuilder(animal_name='beans',
-                             data_path='../test/test_data/',
-                             dates=['20190718'],
-                             nwb_metadata=metadata,
-                             output_path='/out/nwb'
-                             )
+   builder = RawToNWBBuilder(
+             animal_name='beans',
+             data_path='../test/test_data/',
+             dates=['20190718'],
+             nwb_metadata=metadata,
+             output_path='/out/nwb'
+              )
+   builder.build_nwb()
    ```
    raw_to_nwb_builder arguments
 
-      **data_path** = `string` path to the parent folder of animal_name
+      **data_path** = `string` path to the parent folder of animal_name<br>
 
-      **animal_name** = `string` name of the folder that contain few dates-folders
+      **animal_name** = `string` name of the folder that contain few dates-folders<br>
 
-      **dates** = `list of strings` names of folders that contain experiment data
+      **dates** = `list of strings` names of folders that contain experiment data<br>
 
-      **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml
+      **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml<br>
 
-      **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')</br>
+      **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')<br>
 
-      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True)</br>
+      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True)<br>
 
-      **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)</br>
+      **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)<br>
 
-      **extract_lfps** = `boolean` flag specifying if lfp data should be extracted from raw (default False)</br>
+      **extract_lfps** = `boolean` flag specifying if lfp data should be extracted from raw (default False)<br>
 
-      **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True)</br>
+      **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True)<br>
 
-      **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True)</br>
+      **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True)<br>
 
-      **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4)</br>
+      **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4)<br>
       
-      **overwrite** = `boolean`  If true, will overwrite existing files. (default True)</br>
+      **overwrite** = `boolean`  If true, will overwrite existing files. (default True)<br>
       
-      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')`</br>
+      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')`<br>
+
+##### Preprocessed data
+Initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
+
+   ```bash
+   builder = NWBFileBuilder(
+            data_path='../data/',
+            animal_name='beans',
+            date='20190718',
+            nwb_metadata=metadata,
+            process_dio=True,
+            process_mda=True,
+            process_analog=True
+        )
+   content = builder.build()
+   builder.write(content)
+   ```
+   NWBFileBuilder arguments
+
+     **data_path** = `string` path to directory containing all experiments data<br>
+     
+     **animal_name** = `string` directory name which represents animal subject of experiment<br>
+     
+     **date** = `string` date of experiment<br>
+     
+     **nwb_metadata** = `MetadataManager` object contains metadata about experiment<br>
+     
+     **process_dio** = `boolean` flag if dio data should be processed<br>
+     
+     **process_mda** = `boolean` flag if mda data should be processed<br>
+     
+     **process_analog** = `boolean` flag if analog data should be processed<br>
+     
+     **output_file** = `string` path and name specifying where .nwb file gonna be written<br>
 
 9. Make sure that the data structure in given directory (in that case `test_data`) looks similar to following example:
    ```bash

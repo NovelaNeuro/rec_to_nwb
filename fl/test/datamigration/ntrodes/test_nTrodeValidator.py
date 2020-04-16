@@ -31,18 +31,18 @@ class TestNTrodeValidator(TestCase):
 
         validator = NTrodeValidator(metadata, self.header)
 
-        result = validator.createSummary()
+        result = validator.create_summary()
 
-        self.assertTrue(result.isValid())
+        self.assertTrue(result.is_valid())
 
     def test_should_validate_ndtrodes_num_incorrect_less_than_spikes(self):
         metadata = {"ntrode probe channel map": [
             {"ntrode_id": 1, "probe_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}}]}
 
         validator = NTrodeValidator(metadata, self.header)
-        result = validator.createSummary()
+        result = validator.create_summary()
 
-        self.assertFalse(result.isValid())
+        self.assertFalse(result.is_valid())
         self.assertEqual(result.ntrodes_num, 1)
 
     def test_should_validate_ndtrodes_num_incorrect_greater_than_spikes(self):
@@ -54,9 +54,9 @@ class TestNTrodeValidator(TestCase):
         ]}
 
         validator = NTrodeValidator(metadata, self.header)
-        result = validator.createSummary()
+        result = validator.create_summary()
 
-        self.assertFalse(result.isValid())
+        self.assertFalse(result.is_valid())
         self.assertEqual(result.ntrodes_num, 3)
 
     @should_raise(InvalidHeaderException)
@@ -70,7 +70,7 @@ class TestNTrodeValidator(TestCase):
 
         validator = NTrodeValidator(metadata, None)
 
-        result = validator.createSummary()
+        result = validator.create_summary()
 
     @should_raise(InvalidHeaderException)
     def test_should_fail_due_to_header_without_spike_ntrodes(self):
@@ -82,7 +82,7 @@ class TestNTrodeValidator(TestCase):
 
         validator = NTrodeValidator(metadata, self.header)
         self.header.configuration.spike_configuration.spike_n_trodes = None
-        result = validator.createSummary()
+        result = validator.create_summary()
 
     def test_should_not_validate_as_there_are_no_ntrodes(self):
         metadata = {"ntrode probe channel map": [
@@ -90,9 +90,9 @@ class TestNTrodeValidator(TestCase):
         ]}
 
         validator = NTrodeValidator(metadata, self.header)
-        result = validator.createSummary()
+        result = validator.create_summary()
 
-        self.assertFalse(result.isValid())
+        self.assertFalse(result.is_valid())
 
     @should_raise(InvalidMetadataException)
     def test_should_fail_due_to_metadata_without_ntrodes(self):
@@ -101,4 +101,4 @@ class TestNTrodeValidator(TestCase):
 
         validator = NTrodeValidator(metadata, self.header)
         self.header.configuration.spike_configuration.spike_n_trodes = None
-        result = validator.createSummary()
+        result = validator.create_summary()
