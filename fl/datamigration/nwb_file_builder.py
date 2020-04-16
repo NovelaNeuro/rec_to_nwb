@@ -34,6 +34,8 @@ from fl.datamigration.nwb.components.position.fl_position_manager import FlPosit
 from fl.datamigration.nwb.components.position.position_creator import PositionCreator
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
+from fl.datamigration.nwb.components.invalid_times.invalid_time_injector import InvalidTimeInjector
+from fl.datamigration.nwb.components.invalid_times.invalid_time_manager import InvalidTimeManager
 from fl.datamigration.tools.data_scanner import DataScanner
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.task_validator import TaskValidator
@@ -223,6 +225,7 @@ class NWBFileBuilder:
 
         if self.process_mda:
             self.__build_and_inject_mda(nwb_content)
+            self.build_and_inject_mda_invalid_times(nwb_content)
 
         if self.process_analog:
             self.__build_and_inject_analog(nwb_content)
@@ -346,3 +349,9 @@ class NWBFileBuilder:
         fl_epochs_manager = FlEpochsManager(self.datasets)
         epochs = fl_epochs_manager.get_epochs()
         EpochsInjector.inject(epochs, nwb_content)
+
+    def build_and_inject_mda_invalid_times(self, nwb_content):
+        logger.info('MDA valid times: Building')
+        mda_invalid_time_manager = InvalidTimeManager(self.header.configuration.hardware_configuration.sampling_rate, self.datasets)
+        invalid_times = mda_invalid_time_manager.build_mda_invalid_times()
+        InvalidTimeInjector.inject(invalid_times, nwb_content)
