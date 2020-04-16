@@ -10,6 +10,7 @@ class FlProbeManager:
         self.electrode_groups_metadata = electrode_groups_metadata
 
         self.fl_probe_builder = FlProbeBuilder()
+        self.shank_manager = ShankManager()
         self.probe_id = -1
 
     def get_fl_probes_list(self):
@@ -19,11 +20,17 @@ class FlProbeManager:
         for electrode_group_metadata in self.electrode_groups_metadata:
             if electrode_group_metadata['device_type'] not in probes_types:
                 probes_types.append(electrode_group_metadata['device_type'])
-                fl_probes.append(self._build_single_probe(electrode_group_metadata))
+                probe_metadata = filter_probe_by_type(self.probes_metadata, electrode_group_metadata['device_type'])
+
+                shanks or fl_shanks = self.shank_manager.get_shanks(probe_metadata['shanks'])
+
+
+                fl_probes.append(self._build_single_probe(probe_metadata, shanks))
         return fl_probes
 
-    def _build_single_probe(self, electrode_group_metadata):
-        probe_metadata = filter_probe_by_type(self.probes_metadata, electrode_group_metadata['device_type'])
+
+
+    def _build_single_probe(self, electrode_group_metadata, shanks):
         self.probe_id += 1
-        shanks = __get_shanks()
         return self.fl_probe_builder.build(probe_metadata, self.probe_id, shanks)
+
