@@ -8,7 +8,7 @@ class NotNoneValidator(Validator):
     def __init__(self, parameter):
         self.parameter = parameter
 
-    def createSummary(self):
+    def create_summary(self):
         if self.parameter is None:
             raise NoneParamException("Parameter is None type")
         return NotNoneValidationSummary()

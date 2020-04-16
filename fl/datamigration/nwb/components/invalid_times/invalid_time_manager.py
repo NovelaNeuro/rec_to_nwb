@@ -1,5 +1,6 @@
 from mountainlab_pytools.mdaio import readmda
 
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.invalid_times.invalid_time_builder import InvalidTimeBuilder
 from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 from fl.datamigration.processing.timestamp_converter import TimestampConverter
@@ -54,6 +55,7 @@ class InvalidTimeManager:
         return []
 
     def __validate_parameters(self):
+        raise NoneParamException()
         validation_registrator = ValidationRegistrator()
         validation_registrator.register(NotNoneValidator(self.sampling_rate))
         validation_registrator.register(NotNoneValidator(self.datasets))
