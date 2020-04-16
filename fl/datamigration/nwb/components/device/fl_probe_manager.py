@@ -23,9 +23,7 @@ class FlProbeManager:
         return fl_probes
 
     def _build_single_probe(self, electrode_group_metadata):
-        probe_metadata = filter_probe_by_type(
-            self.probes_metadata,
-            electrode_group_metadata['device_type']
-        )
+        probe_metadata = filter_probe_by_type(self.probes_metadata, electrode_group_metadata['device_type'])
         self.probe_id += 1
-        return self.fl_probe_builder.build(probe_metadata, self.probe_id)
+        shanks = __get_shanks()
+        return self.fl_probe_builder.build(probe_metadata, self.probe_id, shanks)
