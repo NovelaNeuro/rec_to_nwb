@@ -32,7 +32,7 @@ class TestMetadataManager(TestCase):
         self.assertIn('tasks', metadata_fields)
         self.assertIn('behavioral_events', metadata_fields)
         self.assertIn('electrode groups', metadata_fields)
-        self.assertIn('ntrode probe channel map', metadata_fields)
+        self.assertIn('ntrode electrode group channel map', metadata_fields)
 
         subject_fields = nwb_metadata.metadata['subject'].keys()
         self.assertIn('description', subject_fields)
@@ -56,9 +56,9 @@ class TestMetadataManager(TestCase):
         self.assertIn('device_type', electrode_groups_fields)
         self.assertIn('description', electrode_groups_fields)
 
-        ntrode_probe_channel_map_fields = nwb_metadata.metadata['ntrode probe channel map'][0].keys()
+        ntrode_probe_channel_map_fields = nwb_metadata.metadata['ntrode electrode group channel map'][0].keys()
         self.assertIn('map', ntrode_probe_channel_map_fields)
-        self.assertIn('probe_id', ntrode_probe_channel_map_fields)
+        self.assertIn('electrode_group_id', ntrode_probe_channel_map_fields)
         self.assertIn('ntrode_id', ntrode_probe_channel_map_fields)
 
     def test_metadata_manager_reading_probes_successfully(self):

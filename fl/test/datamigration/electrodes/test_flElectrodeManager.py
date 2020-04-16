@@ -6,8 +6,8 @@ from unittest.mock import Mock
 from dateutil.tz import tzlocal
 from hdmf.common import DynamicTable, VectorData, ElementIdentifiers
 from pynwb import NWBFile
+from pynwb.ecephys import ElectrodeGroup
 
-from ndx_fllab_novela.nwb_electrode_group import NwbElectrodeGroup
 from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
@@ -49,10 +49,10 @@ class TestFlElectrodeManager(TestCase):
 
         mock_eg_1 = Mock()
         mock_eg_2 = Mock()
-        mock_eg_1.__class__ = NwbElectrodeGroup
-        mock_eg_2.__class__ = NwbElectrodeGroup
-        mock_eg_1.name = 'NwbElectrodeGroup1'
-        mock_eg_2.name = 'NwbElectrodeGroup2'
+        mock_eg_1.__class__ = ElectrodeGroup
+        mock_eg_2.__class__ = ElectrodeGroup
+        mock_eg_1.name = 'ElectrodeGroup1'
+        mock_eg_2.name = 'ElectrodeGroup2'
 
         fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
 
@@ -63,7 +63,7 @@ class TestFlElectrodeManager(TestCase):
         self.assertEqual(12, len(fl_electrodes))
 
         self.assertIsInstance(fl_electrodes, list)
-        self.assertIsInstance(fl_electrodes[0].electrode_group, NwbElectrodeGroup)
+        self.assertIsInstance(fl_electrodes[0].electrode_group, ElectrodeGroup)
 
         self.assertEqual(fl_electrodes[0].electrode_group, mock_eg_1)
         self.assertEqual(fl_electrodes[1].electrode_group, mock_eg_1)
@@ -102,10 +102,10 @@ class TestFlElectrodeManager(TestCase):
 
         mock_eg_1 = Mock()
         mock_eg_2 = Mock()
-        mock_eg_1.__class__ = NwbElectrodeGroup
-        mock_eg_2.__class__ = NwbElectrodeGroup
-        mock_eg_1.name = 'NwbElectrodeGroup1'
-        mock_eg_2.name = 'NwbElectrodeGroup2'
+        mock_eg_1.__class__ = ElectrodeGroup
+        mock_eg_2.__class__ = ElectrodeGroup
+        mock_eg_1.name = 'ElectrodeGroup1'
+        mock_eg_2.name = 'ElectrodeGroup2'
 
         fl_electrodes_manager = FlElectrodeManager(probes_metadata, None)
 
@@ -181,10 +181,10 @@ class TestFlElectrodeManager(TestCase):
 
         mock_eg_1 = Mock()
         mock_eg_2 = Mock()
-        mock_eg_1.__class__ = NwbElectrodeGroup
-        mock_eg_2.__class__ = NwbElectrodeGroup
+        mock_eg_1.__class__ = ElectrodeGroup
+        mock_eg_2.__class__ = ElectrodeGroup
         mock_eg_1.name = None
-        mock_eg_2.name = 'NwbElectrodeGroup2'
+        mock_eg_2.name = 'ElectrodeGroup2'
 
         fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
 

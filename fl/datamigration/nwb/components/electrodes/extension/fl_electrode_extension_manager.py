@@ -13,7 +13,7 @@ class FlElectrodeExtensionManager:
         fl_electrode_extension_builder = FlElectrodeExtensionBuilder(
             probes_metadata=self.probes_metadata,
             electrode_groups_metadata=self.metadata['electrode groups'],
-            ntrode_metadata=self.metadata['ntrode probe channel map'],
+            ntrode_metadata=self.metadata['ntrode electrode group channel map'],
             header=self.header
         )
         return fl_electrode_extension_builder.build()

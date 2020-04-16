@@ -6,7 +6,7 @@ class NTrodesCreator:
     @staticmethod
     def create_ntrode(fl_ntrodes):
         return NTrode(
-            probe_id=fl_ntrodes.metadata["probe_id"],
+            electrode_group_id=fl_ntrodes.metadata["electrode_group_id"],
             ntrode_id=fl_ntrodes.metadata['ntrode_id'],
             bad_channels=fl_ntrodes.metadata['bad_channels'],
             device=fl_ntrodes.device,
