@@ -1,7 +1,4 @@
 class Validator:
 
-    def __init__(self):
-        pass
-
-    def createSummary(self):
+    def create_summary(self):
         pass

@@ -27,9 +27,9 @@ class TestInputValidator(TestCase):
                                                         self.epochs,
                                                         wrong_data_types_to_check)
 
-        self.assertEqual(validator.createSummary().isValid(), True)
+        self.assertEqual(validator.create_summary().is_valid(), True)
         with self.assertRaises(MissingDataException):
-            validator_missing_type.createSummary()
+            validator_missing_type.create_summary()
 
 
 

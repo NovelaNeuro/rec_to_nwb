@@ -19,7 +19,7 @@ class MetadataValidator(Validator):
         self.probes_paths = probes_paths
         self.metadata_path = metadata_path
 
-    def createSummary(self):
+    def create_summary(self):
         missing_metadata = self.__get_missing_metadata()
         if not (missing_metadata == []):
             message = ''

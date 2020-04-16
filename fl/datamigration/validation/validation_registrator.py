@@ -13,6 +13,6 @@ class ValidationRegistrator(Validator):
 
     def validate(self):
         for validator in self.validators:
-            result = validator.createSummary()
-            if not result.isValid():
+            result = validator.create_summary()
+            if not result.is_valid():
                 raise InvalidInputException("Validation: " + str(type(validator)) + "has failed!")

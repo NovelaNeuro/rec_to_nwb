@@ -8,7 +8,7 @@ class TaskValidator(Validator):
     def __init__(self, tasks):
         self.tasks = tasks
 
-    def createSummary(self):
+    def create_summary(self):
         if len(self.tasks) == 0:
             raise InvalidMetadataException("There are no tasks defined in metadata.yml file.")
         return TaskValidationSummary(self.tasks)

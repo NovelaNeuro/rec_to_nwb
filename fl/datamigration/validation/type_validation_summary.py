@@ -8,7 +8,7 @@ class TypeValidationSummary(ValidationSummary):
         self.parameter = parameter
         self.expected_type = expected_type
 
-    def isValid(self):
+    def is_valid(self):
         if not isinstance(self.parameter, self.expected_type):
             raise IncorrectTypeException(self.parameter, self.expected_type)
         return isinstance(self.parameter, self.expected_type)

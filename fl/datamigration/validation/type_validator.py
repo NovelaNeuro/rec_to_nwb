@@ -9,7 +9,7 @@ class TypeValidator(Validator):
         self.parameter = parameter
         self.expected_type = expected_type
 
-    def createSummary(self):
+    def create_summary(self):
         if type(self.parameter) is None:
             raise NoneParamException("Parameter is None type")
         return TypeValidationSummary(self.parameter, self.expected_type)
