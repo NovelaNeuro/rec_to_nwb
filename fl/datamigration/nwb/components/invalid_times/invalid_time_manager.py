@@ -55,8 +55,9 @@ class InvalidTimeManager:
         return []
 
     def __validate_parameters(self):
-        raise NoneParamException()
         validation_registrator = ValidationRegistrator()
+        print(type(self.sampling_rate))
+        print(type(self.datasets))
         validation_registrator.register(NotNoneValidator(self.sampling_rate))
         validation_registrator.register(NotNoneValidator(self.datasets))
         validation_registrator.validate()
