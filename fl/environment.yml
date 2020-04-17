@@ -50,6 +50,7 @@ dependencies:
       - xmldiff
       - rec-to-binaries==0.3.0.dev0
       - ndx-fllab-novela==0.0.6
+      - pyvalid==0.9.2
 
 
 
