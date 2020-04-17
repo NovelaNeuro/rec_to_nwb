@@ -15,7 +15,7 @@ class FlShanksElectrodeManager:
 
         self.fl_shanks_electrodes_builder = FlShanksElectrodeBuilder()
 
-    def get_fl_shanks_electrodes(self):
+    def get_fl_shanks_electrodes_dict(self):
 
         # ToDo boilerplate code (shanks, probe). Create additional function
         fl_shanks_electrodes_dict = {}

@@ -155,7 +155,7 @@ class NWBFileBuilder:
         self.fl_position_manager = FlPositionManager(self.datasets)
         self.position_creator = PositionCreator()
 
-        self.fl_shanks_electrodes_manager = FlShanksElectrodeManager(self.probes, self.metadata['electrode groups'])
+        self.fl_shanks_electrode_manager = FlShanksElectrodeManager(self.probes, self.metadata['electrode groups'])
         self.shanks_electrodes_creator = ShanksElectrodeCreator()
 
         self.fl_probe_manager = FlProbeManager(self.probes, self.metadata['electrode groups'])
@@ -296,7 +296,19 @@ class NWBFileBuilder:
             ]
         return shanks_electrodes_dict
 
-    def __build_and_inject_probes(self, nwb_content, shanks_electrode_dict):
+    def __build_shanks_electrodes(self):
+        logger.info('Probes-ShanksElectrode: Building')
+        fl_shanks_electrodes_dict = self.fl_shanks_electrode_manager.get_fl_shanks_electrodes_dict()
+        logger.info('Probes-ShanksElectrode: Creating')
+        shanks_electrodes_dict = {}
+        for probe_type, fl_shanks_electrodes in fl_shanks_electrodes_dict:
+            shanks_electrodes_dict[probe_type] = [
+                self.shanks_electrodes_creator.create(fl_shanks_electrode)
+                for fl_shanks_electrode in fl_shanks_electrodes
+            ]
+        return shanks_electrodes_dict
+
+    def __build_and_inject_probes(self, nwb_content, shanks_dict):
         logger.info('Probes: Building')
         fl_probe_list = self.fl_probe_manager.get_fl_probes_list()
         logger.info('Probes: Creating probes')
