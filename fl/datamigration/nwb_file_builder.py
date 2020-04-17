@@ -326,9 +326,9 @@ class NWBFileBuilder:
 
     def __build_and_inject_probes(self, nwb_content, shanks_dict):
         logger.info('Probes: Building')
-        fl_probe_list = self.fl_probe_manager.get_fl_probes_list()
+        fl_probes = self.fl_probe_manager.get_fl_probes(shanks_dict)
         logger.info('Probes: Creating probes')
-        probes = [self.device_factory.create_probe(fl_probe) for fl_probe in fl_probe_list]
+        probes = [self.device_factory.create_probe(fl_probe) for fl_probe in fl_probes]
         logger.info('Probes: Injecting probes into NWB')
         self.device_injector.inject_all_devices(nwb_content, probes)
         return probes
