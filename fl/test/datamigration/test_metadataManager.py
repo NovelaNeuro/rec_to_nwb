@@ -1,6 +1,7 @@
 import os
 from unittest import TestCase
 
+from pyvalid import ArgumentValidationError
 from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
@@ -81,7 +82,7 @@ class TestMetadataManager(TestCase):
         self.assertEqual(nwb_metadata.probes[0]['contact_side_numbering'], True)
         self.assertEqual(nwb_metadata.probes[0]['contact_size'], 12.5)
 
-    @should_raise(NoneParamException)
+    @should_raise(ArgumentValidationError)
     def test_metadata_manager_failed_reading_metadata_due_to_lack_of_param(self):
         MetadataManager(
             metadata_path=None,

@@ -2,6 +2,8 @@ import logging.config
 import os
 import uuid
 
+from pyvalid import accepts
+
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
@@ -43,7 +45,6 @@ from fl.datamigration.validation.ntrode_validator import NTrodeValidator
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from fl.datamigration.nwb.components.epochs.epochs_injector import EpochsInjector
 from fl.datamigration.validation.preprocessing_validator import PreprocessingValidator
-from fl.datamigration.validation.type_validator import TypeValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 from pynwb import NWBHDF5IO, NWBFile
@@ -57,6 +58,10 @@ logger = logging.getLogger(__name__)
 class NWBFileBuilder:
     """unpack data from preprocessing folder specified by arguments, and write those data into NWB file format"""
 
+    @accepts(
+        object, data_path=str, animal_name=str, date=str, nwb_metadata=MetadataManager,
+        process_dio=bool, process_mda=bool, process_analog=bool, output_file=str
+    )
     def __init__(self,
                  data_path,
                  animal_name,
@@ -81,17 +86,9 @@ class NWBFileBuilder:
         """
 
         validation_registrator = ValidationRegistrator()
-        validation_registrator.register(TypeValidator(data_path, str))
         validation_registrator.register(NotEmptyValidator(data_path))
-        validation_registrator.register(TypeValidator(animal_name, str))
         validation_registrator.register(NotEmptyValidator(animal_name))
-        validation_registrator.register(TypeValidator(date, str))
         validation_registrator.register(NotEmptyValidator(date))
-        validation_registrator.register(TypeValidator(nwb_metadata, MetadataManager))
-        validation_registrator.register(TypeValidator(output_file, str))
-        validation_registrator.register(TypeValidator(process_analog, bool))
-        validation_registrator.register(TypeValidator(process_dio, bool))
-        validation_registrator.register(TypeValidator(process_mda, bool))
         validation_registrator.validate()
 
         logger.info('NWBFileBuilder initialization')

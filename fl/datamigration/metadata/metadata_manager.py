@@ -1,14 +1,16 @@
+from pyvalid import accepts
+
 from fl.datamigration.metadata.metadata_extractor import MetadataExtractor
 from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 from fl.datamigration.validation.metadata_validator import MetadataValidator
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
-from fl.datamigration.validation.type_validator import TypeValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class MetadataManager:
 
+    @accepts(object, metadata_path=str, probes_paths=list)
     def __init__(self, metadata_path, probes_paths):
 
         """
@@ -17,12 +19,8 @@ class MetadataManager:
         probes_paths (list of strings): list of paths to .yml files with data describing probes used in experiment
         """
 
-        validate_parameters_not_none(__name__, metadata_path, probes_paths)
-
         validation_registrator = ValidationRegistrator()
-        validation_registrator.register(TypeValidator(metadata_path, str))
         validation_registrator.register(NotEmptyValidator(metadata_path))
-        validation_registrator.register(TypeValidator(probes_paths, list))
         validation_registrator.register(NotEmptyValidator(probes_paths))
         validation_registrator.register(MetadataValidator(metadata_path, probes_paths))
         validation_registrator.validate()
