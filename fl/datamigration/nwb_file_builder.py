@@ -308,7 +308,7 @@ class NWBFileBuilder:
         fl_shanks_electrodes_dict = self.fl_shanks_electrode_manager.get_fl_shanks_electrodes_dict()
         logger.info('Probes-ShanksElectrode: Creating')
         shanks_electrodes_dict = {}
-        for probe_type, fl_shanks_electrodes in fl_shanks_electrodes_dict:
+        for probe_type, fl_shanks_electrodes in fl_shanks_electrodes_dict.items():
             shanks_electrodes_dict[probe_type] = [
                 self.shanks_electrodes_creator.create(fl_shanks_electrode)
                 for fl_shanks_electrode in fl_shanks_electrodes
@@ -320,7 +320,7 @@ class NWBFileBuilder:
         fl_shanks_dict = self.fl_shank_manager.get_fl_shanks_dict(shanks_electrodes_dict)
         logger.info('Probes-Shanks: Creating')
         shanks_dict = {}
-        for probe_type, fl_shanks in fl_shanks_dict:
+        for probe_type, fl_shanks in fl_shanks_dict.items():
             shanks_dict[probe_type] = [self.shank_creator.create(fl_shank) for fl_shank in fl_shanks]
         return shanks_dict
 

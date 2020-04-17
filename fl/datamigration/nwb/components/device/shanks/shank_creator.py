@@ -11,7 +11,7 @@ class ShankCreator:
         validate_parameters_not_none(__name__, fl_shank.shank_id, fl_shank.shanks_electrodes)
 
         shank = Shank(
-            name=fl_shank.shank_id
+            name=str(fl_shank.shank_id)
         )
         for shanks_electrode in fl_shank.shanks_electrodes:
             shank.add_shanks_electrode(shanks_electrode)
