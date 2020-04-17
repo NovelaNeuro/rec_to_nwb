@@ -63,26 +63,26 @@ class TestFlShankManager(TestCase):
         self.assertIsInstance(fl_shanks_dict[probes_metadata_1['probe_type']], list)
         self.assertIsInstance(fl_shanks_dict[probes_metadata_1['probe_type']][0], FlShank)
         self.assertIsInstance(fl_shanks_dict[probes_metadata_1['probe_type']][0].shanks_electrodes, list)
-        self.assertIsInstance(fl_shanks_dict[probes_metadata_1['probe_type']][0].shanks_electrodes[0], FlShanksElectrode)
+        self.assertIsInstance(fl_shanks_dict[probes_metadata_1['probe_type']][0].shanks_electrodes[0], ShanksElectrode)
 
         self.assertEqual(len(fl_shanks_dict), 2)
         self.assertEqual(len(fl_shanks_dict[probes_metadata_1['probe_type']]), 1)
-        self.assertEqual(len(fl_shanks_dict[probes_metadata_2['probe_type']]), 4)
+        self.assertEqual(len(fl_shanks_dict[probes_metadata_2['probe_type']]), 3)
     
         self.assertEqual(fl_shanks_dict[probes_metadata_1['probe_type']][0].shank_id, 0)
-        self.assertEqual(fl_shanks_dict[probes_metadata_1['probe_type']][0].shanks_electrode,[
+        self.assertEqual(fl_shanks_dict[probes_metadata_1['probe_type']][0].shanks_electrodes,[
             mock_shanks_electrode_1, mock_shanks_electrode_2
         ])
 
         self.assertEqual(fl_shanks_dict[probes_metadata_2['probe_type']][0].shank_id, 0)
         self.assertEqual(fl_shanks_dict[probes_metadata_2['probe_type']][1].shank_id, 1)
-        self.assertEqual(fl_shanks_dict[probes_metadata_2['probe_type']][0].shanks_electrode, [
+        self.assertEqual(fl_shanks_dict[probes_metadata_2['probe_type']][0].shanks_electrodes, [
             mock_shanks_electrode_1, mock_shanks_electrode_2
         ])
-        self.assertEqual(fl_shanks_dict[probes_metadata_2['probe_type']][1].shanks_electrode, [
+        self.assertEqual(fl_shanks_dict[probes_metadata_2['probe_type']][1].shanks_electrodes, [
             mock_shanks_electrode_3, mock_shanks_electrode_4
         ])
-        self.assertEqual(fl_shanks_dict[probes_metadata_2['probe_type']][2].shanks_electrode, [
+        self.assertEqual(fl_shanks_dict[probes_metadata_2['probe_type']][2].shanks_electrodes, [
             mock_shanks_electrode_5, mock_shanks_electrode_6
         ])
 

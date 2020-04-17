@@ -8,7 +8,6 @@ class FlShanksElectrodeManager:
 
     def __init__(self, probes_metadata, electrode_groups_metadata):
         validate_parameters_not_none(__name__, probes_metadata, electrode_groups_metadata)
-        #     ToDo for item in probes_metadata not none
 
         self.probes_metadata = probes_metadata
         self.electrode_groups_metadata = electrode_groups_metadata
@@ -31,6 +30,8 @@ class FlShanksElectrodeManager:
         return fl_shanks_electrodes_dict
 
     def __build_fl_shanks_electrodes(self, probe_metadata):
+        # ToDo Delete shanks_id
+
         for shank in probe_metadata['shanks']:
             for electrode in shank['electrodes']:
                 yield self.__build_single_fl_shanks_electrodes(shank['shank_id'], electrode)
