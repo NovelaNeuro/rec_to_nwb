@@ -46,6 +46,7 @@ class TestFlShankManager(TestCase):
         mock_shanks_electrode_4 = Mock(spec=ShanksElectrode)
         mock_shanks_electrode_5 = Mock(spec=ShanksElectrode)
         mock_shanks_electrode_6 = Mock(spec=ShanksElectrode)
+
         mock_shanks_electrodes_dict = {
             'tetrode_12.5': [mock_shanks_electrode_1, mock_shanks_electrode_2],
             '128c-4s8mm6cm-20um-40um-sl': [mock_shanks_electrode_1, mock_shanks_electrode_2,
