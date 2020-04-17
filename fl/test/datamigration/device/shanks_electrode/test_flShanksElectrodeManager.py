@@ -56,7 +56,6 @@ class TestFlShanksElectrodeManager(TestCase):
         self.assertEqual(len(fl_shanks_elecrodes_dict[probes_metadata_1['probe_type']]), 4)
         self.assertEqual(len(fl_shanks_elecrodes_dict[probes_metadata_2['probe_type']]), 8)
 
-        self.assertEqual(fl_shanks_elecrodes_dict[probes_metadata_1['probe_type']][0].shank_id, 0)
         self.assertEqual(fl_shanks_elecrodes_dict[probes_metadata_1['probe_type']][0].shanks_electrode_id, 0)
         self.assertEqual(fl_shanks_elecrodes_dict[probes_metadata_1['probe_type']][0].rel_x, 11)
         self.assertEqual(fl_shanks_elecrodes_dict[probes_metadata_1['probe_type']][0].rel_y, 22)

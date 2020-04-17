@@ -16,7 +16,6 @@ class FlShanksElectrodeManager:
 
     def get_fl_shanks_electrodes_dict(self):
 
-        # ToDo boilerplate code (shanks, probe). Create additional function
         fl_shanks_electrodes_dict = {}
         probes_types = []
         for electrode_group_metadata in self.electrode_groups_metadata:
@@ -30,11 +29,10 @@ class FlShanksElectrodeManager:
         return fl_shanks_electrodes_dict
 
     def __build_fl_shanks_electrodes(self, probe_metadata):
-        # ToDo Delete shanks_id
 
         for shank in probe_metadata['shanks']:
             for electrode in shank['electrodes']:
-                yield self.__build_single_fl_shanks_electrodes(shank['shank_id'], electrode)
+                yield self.__build_single_fl_shanks_electrodes(electrode)
 
-    def __build_single_fl_shanks_electrodes(self, shank_id, electrode):
-        return self.fl_shanks_electrodes_builder.build(shank_id, electrode)
+    def __build_single_fl_shanks_electrodes(self, electrode):
+        return self.fl_shanks_electrodes_builder.build(electrode)

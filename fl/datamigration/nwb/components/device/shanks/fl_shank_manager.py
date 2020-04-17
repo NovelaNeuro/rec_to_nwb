@@ -32,7 +32,6 @@ class FlShankManager:
         return fl_shanks_dict
 
     def __build_fl_shanks(self, probe_metadata, shanks_electrodes):
-        # ToDo if too short add exception
 
         for shank in probe_metadata['shanks']:
             shanks_electrodes_in_shank = []
