@@ -15,6 +15,11 @@ from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
 from fl.datamigration.nwb.components.device.device_injector import DeviceInjector
 from fl.datamigration.nwb.components.device.fl_device_header_manager import FlDeviceHeaderManager
 from fl.datamigration.nwb.components.device.fl_probe_manager import FlProbeManager
+from fl.datamigration.nwb.components.device.shanks.fl_shank_manager import FlShankManager
+from fl.datamigration.nwb.components.device.shanks.shank_creator import ShankCreator
+from fl.datamigration.nwb.components.device.shanks_electrodes.fl_shanks_electrode_manager import \
+    FlShanksElectrodeManager
+from fl.datamigration.nwb.components.device.shanks_electrodes.shanks_electrode_creator import ShanksElectrodeCreator
 from fl.datamigration.nwb.components.dio.dio_builder import DioBuilder
 from fl.datamigration.nwb.components.dio.dio_files import DioFiles
 from fl.datamigration.nwb.components.dio.dio_injector import DioInjector
@@ -152,6 +157,12 @@ class NWBFileBuilder:
         self.fl_position_manager = FlPositionManager(self.datasets)
         self.position_creator = PositionCreator()
 
+        self.fl_shanks_electrode_manager = FlShanksElectrodeManager(self.probes, self.metadata['electrode groups'])
+        self.shanks_electrodes_creator = ShanksElectrodeCreator()
+
+        self.fl_shank_manager = FlShankManager(self.probes, self.metadata['electrode groups'])
+        self.shank_creator = ShankCreator()
+
         self.fl_probe_manager = FlProbeManager(self.probes, self.metadata['electrode groups'])
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
@@ -208,7 +219,11 @@ class NWBFileBuilder:
 
         self.__build_and_inject_processing_module(nwb_content)
 
-        probes = self.__build_and_inject_probes(nwb_content)
+        shanks_electrodes_dict = self.__build_shanks_electrodes()
+
+        shanks_dict = self.__build_shanks(shanks_electrodes_dict)
+
+        probes = self.__build_and_inject_probes(nwb_content, shanks_dict)
 
         self.__build_and_inject_header_device(nwb_content)
 
@@ -276,11 +291,44 @@ class NWBFileBuilder:
         logger.info('HeaderDevice: Injecting into NWB')
         self.device_injector.inject_all_devices(nwb_content, [header_device])
 
-    def __build_and_inject_probes(self, nwb_content):
+    def __build_shanks_electrodes(self):
+        logger.info('Probes-ShanksElectrode: Building')
+        fl_shanks_electrodes_dict = self.fl_shanks_electrode_manager.get_fl_shanks_electrodes()
+        logger.info('Probes-ShanksElectrode: Creating')
+        shanks_electrodes_dict = {}
+        for probe_type, fl_shanks_electrodes in fl_shanks_electrodes_dict:
+            shanks_electrodes_dict[probe_type] = [
+                self.shanks_electrodes_creator.create(fl_shanks_electrode)
+                for fl_shanks_electrode in fl_shanks_electrodes
+            ]
+        return shanks_electrodes_dict
+
+    def __build_shanks_electrodes(self):
+        logger.info('Probes-ShanksElectrode: Building')
+        fl_shanks_electrodes_dict = self.fl_shanks_electrode_manager.get_fl_shanks_electrodes_dict()
+        logger.info('Probes-ShanksElectrode: Creating')
+        shanks_electrodes_dict = {}
+        for probe_type, fl_shanks_electrodes in fl_shanks_electrodes_dict.items():
+            shanks_electrodes_dict[probe_type] = [
+                self.shanks_electrodes_creator.create(fl_shanks_electrode)
+                for fl_shanks_electrode in fl_shanks_electrodes
+            ]
+        return shanks_electrodes_dict
+
+    def __build_shanks(self, shanks_electrodes_dict):
+        logger.info('Probes-Shanks: Building')
+        fl_shanks_dict = self.fl_shank_manager.get_fl_shanks_dict(shanks_electrodes_dict)
+        logger.info('Probes-Shanks: Creating')
+        shanks_dict = {}
+        for probe_type, fl_shanks in fl_shanks_dict.items():
+            shanks_dict[probe_type] = [self.shank_creator.create(fl_shank) for fl_shank in fl_shanks]
+        return shanks_dict
+
+    def __build_and_inject_probes(self, nwb_content, shanks_dict):
         logger.info('Probes: Building')
-        fl_probe_list = self.fl_probe_manager.get_fl_probes_list()
+        fl_probes = self.fl_probe_manager.get_fl_probes(shanks_dict)
         logger.info('Probes: Creating probes')
-        probes = [self.device_factory.create_probe(fl_probe) for fl_probe in fl_probe_list]
+        probes = [self.device_factory.create_probe(fl_probe) for fl_probe in fl_probes]
         logger.info('Probes: Injecting probes into NWB')
         self.device_injector.inject_all_devices(nwb_content, probes)
         return probes

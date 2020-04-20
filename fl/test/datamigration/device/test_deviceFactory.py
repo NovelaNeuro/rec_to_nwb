@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from ndx_fllab_novela.header_device import HeaderDevice
-from ndx_fllab_novela.probe import Probe
+from ndx_fllab_novela.probe import Probe, Shank
 from pynwb.device import Device
 from testfixtures import should_raise
 
@@ -45,15 +45,20 @@ class TestDeviceFactory(TestCase):
         )
 
     def test_factory_create_Probe_successfully(self):
+        mock_shank_1 = Mock(spec=Shank)
+        mock_shank_2 = Mock(spec=Shank)
+
         mock_fl_probe = Mock(spec=FlProbe)
         mock_fl_probe.probe_id = 1
         mock_fl_probe.metadata = {
             'probe_type': 'Type1',
             'units': 'um',
+            'probe_description': 'sample description',
             'contact_size': 20.0,
             'num_shanks': 2,
             'contact_side_numbering': True
         }
+        mock_fl_probe.shanks = [mock_shank_1, mock_shank_2]
         
         probe = DeviceFactory.create_probe(
             fl_probe=mock_fl_probe
@@ -67,7 +72,9 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(probe.contact_size, 20.0)
         self.assertEqual(probe.probe_type, 'Type1')
         self.assertEqual(probe.units, 'um')
+        self.assertEqual(probe.probe_description, 'sample description')
         self.assertEqual(probe.contact_side_numbering, True)
+        self.assertEqual(probe.shanks, [mock_shank_1, mock_shank_2])
 
     @should_raise(NoneParamException)
     def test_factory_failed_creating_Probe_due_to_none_FlProbe(self):
