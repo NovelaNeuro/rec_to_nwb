@@ -5,7 +5,7 @@ from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.electrode_group.electrode_group_factory import ElectrodeGroupFactory
 from fl.datamigration.nwb.components.electrode_group.fl_electrode_group import FlElectrodeGroup
 
-from ndx_fllab_novela.probe import Probe
+from ndx_fl_novela.probe import Probe
 from pynwb.device import Device
 from testfixtures import should_raise
 

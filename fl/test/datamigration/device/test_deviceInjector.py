@@ -3,8 +3,8 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from dateutil.tz import tzlocal
-from ndx_fllab_novela.header_device import HeaderDevice
-from ndx_fllab_novela.probe import Probe
+from ndx_fl_novela.header_device import HeaderDevice
+from ndx_fl_novela.probe import Probe
 from pynwb import NWBFile
 from pynwb.device import Device
 from testfixtures import should_raise
