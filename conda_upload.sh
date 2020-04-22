@@ -28,7 +28,7 @@ anaconda upload $CONDA_BUILD_PATH/**/rec_to_binaries-*.tar.bz2 --force
 anaconda upload $CONDA_BUILD_PATH/**/xmldiff-*.tar.bz2 --force
 
 echo "Building conda package..."
-conda build . -c novelakrk -c conda-forge || exit 1
+conda build . -c acwikla-novelakrk -c conda-forge || exit 1
 
 echo "Move conda package..."
 mv ${CONDA_BUILD_PATH}/linux-64/${PKG_NAME}-${VERSION}-py37_0.tar.bz2  ${CONDA_BUILD_PATH} || exit 1
