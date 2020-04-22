@@ -50,7 +50,6 @@ dependencies:
   - pip:
       - xmldiff
       - rec-to-binaries==0.3.0.dev0
-      - pyvalid==0.9.2
 
 
 
