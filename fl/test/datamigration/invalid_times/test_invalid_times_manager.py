@@ -4,7 +4,7 @@ from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.invalid_times.invalid_time_manager import InvalidTimeManager
 
 class TestInvalidTimesManager(TestCase):
-    def test_imput_validation(self):
+    def test_input_validation(self):
         with self.assertRaises(NoneParamException):
             InvalidTimeManager(None, [])
         with self.assertRaises(NoneParamException):

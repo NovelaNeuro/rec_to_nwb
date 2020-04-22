@@ -237,10 +237,11 @@ class NWBFileBuilder:
 
         if self.process_mda:
             self.__build_and_inject_mda(nwb_content)
-            self.build_and_inject_mda_invalid_times(nwb_content)
 
         if self.process_analog:
             self.__build_and_inject_analog(nwb_content)
+
+        self.build_and_inject_invalid_times(nwb_content)
 
         return nwb_content
 
@@ -395,8 +396,14 @@ class NWBFileBuilder:
         epochs = fl_epochs_manager.get_epochs()
         EpochsInjector.inject(epochs, nwb_content)
 
-    def build_and_inject_mda_invalid_times(self, nwb_content):
+    def build_and_inject_invalid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
-        mda_invalid_time_manager = InvalidTimeManager(self.header.configuration.hardware_configuration.sampling_rate, self.datasets)
-        invalid_times = mda_invalid_time_manager.build_mda_invalid_times()
-        InvalidTimeInjector.inject(invalid_times, nwb_content)
+        mda_invalid_time_manager = InvalidTimeManager(self.header.configuration.hardware_configuration.sampling_rate,
+                                                      self.datasets)
+        if self.process_mda:
+            mda_invalid_times = mda_invalid_time_manager.build_mda_invalid_times()
+            InvalidTimeInjector.inject(mda_invalid_times, nwb_content)
+
+        pos_invalid_times = mda_invalid_time_manager.build_pos_invalid_times()
+        InvalidTimeInjector.inject(pos_invalid_times, nwb_content)
+
