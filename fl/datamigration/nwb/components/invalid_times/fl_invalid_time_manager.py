@@ -18,7 +18,7 @@ class FlInvalidTimeManager:
         gaps = []
         unfinished_gap = None
         for single_epoch_timestamps in timestamps:
-            gaps.extend(self.invalid_time_builder.build(single_epoch_timestamps,
+            gaps.extend(self.fl_invalid_time_builder.build(single_epoch_timestamps,
                                                         data_type,
                                                         period,
                                                         unfinished_gap
