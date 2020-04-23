@@ -17,7 +17,7 @@ class InvalidTimeManager:
 
         self.__validate_parameters()
 
-        self.invalid_time_builder = InvalidTimeBuilder(sampling_rate)
+        self.invalid_time_builder = InvalidTimeBuilder()
         self.mda_timestamp_files = self.__get_mda_timestamp_files()
         self.pos_timestamp_files = self.__get_pos_files()
 
@@ -25,7 +25,11 @@ class InvalidTimeManager:
         gaps = []
         unfinished_gap = None
         for single_epoch_timestamps in timestamps:
-            gaps.extend(self.invalid_time_builder.build(single_epoch_timestamps, data_type, unfinished_gap))
+            gaps.extend(self.invalid_time_builder.build(single_epoch_timestamps,
+                                                        data_type,
+                                                        self.sampling_rate,
+                                                        unfinished_gap
+                                                        ))
             if gaps:
                 if gaps[-1].stop_time == single_epoch_timestamps[-1]:
                     unfinished_gap = gaps.pop()
@@ -78,3 +82,6 @@ class InvalidTimeManager:
         validation_registrator.register(NotNoneValidator(self.sampling_rate))
         validation_registrator.register(NotNoneValidator(self.datasets))
         validation_registrator.validate()
+
+    def __calculate_pos_campling_rate(self):
+        self.pos
