@@ -1,5 +1,6 @@
 from fl.datamigration.nwb.components.invalid_times.fl_gap import FlGap
 
+from matplotlib import pyplot
 
 class InvalidTimeBuilder:
     def build(self, timestamps, data_type, period=None, unfinished_gap=None, last_timestamp=None):
@@ -14,7 +15,13 @@ class InvalidTimeBuilder:
             if not last_timestamp:
                 last_timestamp = timestamps[0]
 
+        dist_tab = []
+
         for timestamp in timestamps:
+
+            dist_tab.append(timestamp - last_timestamp)
+
+
             if not was_last_timestamp_part_of_a_gap:
                 if last_timestamp + period < timestamp:
                     gap_start_time = last_timestamp
@@ -28,6 +35,9 @@ class InvalidTimeBuilder:
                     gap_stop_time = timestamp
                     gaps.append(FlGap(gap_start_time, gap_stop_time, data_type))
             last_timestamp = timestamp
+        pyplot.hist(dist_tab, label=data_type, bins=100)
+        print(set(dist_tab))
+        pyplot.show()
         return gaps
 
 
