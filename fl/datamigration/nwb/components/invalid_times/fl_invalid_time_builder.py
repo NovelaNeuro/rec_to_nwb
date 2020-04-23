@@ -21,6 +21,7 @@ class FlInvalidTimeBuilder:
 
             dist_tab.append(timestamp - last_timestamp)
 
+            counter = 0
 
             if not was_last_timestamp_part_of_a_gap:
                 if last_timestamp + period < timestamp:
@@ -30,18 +31,17 @@ class FlInvalidTimeBuilder:
                 if last_timestamp + period > timestamp:
                     gap_stop_time = last_timestamp
                     was_last_timestamp_part_of_a_gap = False
+                    counter += 1
                     gaps.append(FlGap(gap_start_time, gap_stop_time, data_type))
                 elif timestamp == timestamps[-1]:
                     gap_stop_time = timestamp
+                    counter += 1
+
                     gaps.append(FlGap(gap_start_time, gap_stop_time, data_type))
             last_timestamp = timestamp
 
-        pyplot.hist(dist_tab, label=data_type, bins=1000)
+        pyplot.hist(dist_tab, label=data_type, bins=100)
         print(data_type)
-        counter = 0
-        for dist in dist_tab:
-            if dist > period:
-                counter += 1
         print('counter ' + str(counter))
         set_dist = set(dist_tab)
         print(len(set_dist))
