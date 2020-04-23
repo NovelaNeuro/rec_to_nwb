@@ -34,6 +34,8 @@ from fl.datamigration.nwb.components.electrodes.extension.electrode_extension_in
 from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
     FlElectrodeExtensionManager
 from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
+from fl.datamigration.nwb.components.invalid_times.mda_invalid_time_manager import MdaInvalidTimeManager
+from fl.datamigration.nwb.components.invalid_times.pos_invalid_time_manager import PosInvalidTimeManager
 from fl.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from fl.datamigration.nwb.components.mda.fl_mda_manager import FlMdaManager
 from fl.datamigration.nwb.components.mda.mda_injector import MdaInjector
@@ -398,12 +400,14 @@ class NWBFileBuilder:
 
     def build_and_inject_invalid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
-        mda_invalid_time_manager = InvalidTimeManager(self.header.configuration.hardware_configuration.sampling_rate,
+        mda_invalid_time_manager = MdaInvalidTimeManager(self.header.configuration.hardware_configuration.sampling_rate,
+                                                      self.datasets)
+        pos_invalid_time_manager = PosInvalidTimeManager(self.header.configuration.hardware_configuration.sampling_rate,
                                                       self.datasets)
         if self.process_mda:
             mda_invalid_times = mda_invalid_time_manager.build_mda_invalid_times()
             InvalidTimeInjector.inject(mda_invalid_times, nwb_content)
 
-        pos_invalid_times = mda_invalid_time_manager.build_pos_invalid_times()
+        pos_invalid_times = pos_invalid_time_manager.build_pos_invalid_times()
         InvalidTimeInjector.inject(pos_invalid_times, nwb_content)
 
