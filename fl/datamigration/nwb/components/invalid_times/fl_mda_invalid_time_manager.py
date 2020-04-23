@@ -1,13 +1,13 @@
 from mountainlab_pytools.mdaio import readmda
 
-from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_manager import InvalidTimeManager
+from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_manager import FlInvalidTimeManager
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
-class MdaInvalidTimeManager(InvalidTimeManager):
+class FlMdaFlInvalidTimeManager(FlInvalidTimeManager):
     def __init__(self, sampling_rate, datasets):
-        InvalidTimeManager.__init__(self, sampling_rate, datasets)
+        FlInvalidTimeManager.__init__(self, sampling_rate, datasets)
         self.mda_timestamp_files = self.__get_mda_timestamp_files()
 
     def build_mda_invalid_times(self):

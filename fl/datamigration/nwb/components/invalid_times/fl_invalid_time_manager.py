@@ -6,7 +6,7 @@ from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
-class InvalidTimeManager:
+class FlInvalidTimeManager:
     def __init__(self, sampling_rate, datasets):
         self.sampling_rate = sampling_rate
         self.datasets = datasets

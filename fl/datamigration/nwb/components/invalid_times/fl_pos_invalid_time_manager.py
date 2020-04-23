@@ -1,12 +1,12 @@
 import pandas  as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_manager import InvalidTimeManager
+from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_manager import FlInvalidTimeManager
 
 
-class PosInvalidTimeManager(InvalidTimeManager):
+class FlPosFlInvalidTimeManager(FlInvalidTimeManager):
     def __init__(self, sampling_rate, datasets):
-        InvalidTimeManager.__init__(self, sampling_rate, datasets)
+        FlInvalidTimeManager.__init__(self, sampling_rate, datasets)
         self.pos_timestamp_files = self.__get_pos_files()
 
     def build_pos_invalid_times(self):
