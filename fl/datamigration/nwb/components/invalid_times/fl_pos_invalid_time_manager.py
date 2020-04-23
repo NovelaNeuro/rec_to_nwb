@@ -1,4 +1,3 @@
-import numpy
 import pandas  as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
