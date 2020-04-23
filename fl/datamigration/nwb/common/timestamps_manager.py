@@ -17,6 +17,7 @@ class TimestampManager(abc.ABC):
     def __init__(self, directories, continuous_time_directories):
         self.directories = directories
         self.continuous_time_directories = continuous_time_directories
+
         self.continuous_time_extractor = ContinuousTimeExtractor()
         self.timestamp_converter = TimestampConverter()
 
@@ -33,11 +34,17 @@ class TimestampManager(abc.ABC):
             self.continuous_time_directories[dataset_id])
         return self.timestamp_converter.convert_timestamps(continuous_time_dict, timestamps_ids)
 
+    def _get_number_of_datasets(self):
+        return np.shape(self.directories)[0]
+
+    def __calculate_file_lenghts_in_datasets(self):
+        return [self._get_data_shape(i) for i in range(self.number_of_datasets)]
+
+    def _get_data_shape(self, dataset_num):
+        return np.shape(self.read_timestamps_ids(dataset_num))[0]
+
     def read_timestamps_ids(self, dataset_id):
         return self._get_timestamps(dataset_id)
-
-    def get_final_data_shape(self):
-        return sum(self.file_lenghts_in_datasets),
 
     def get_number_of_datasets(self):
         return self.number_of_datasets
@@ -45,11 +52,6 @@ class TimestampManager(abc.ABC):
     def get_file_lenghts_in_datasets(self):
         return self.file_lenghts_in_datasets
 
-    def __calculate_file_lenghts_in_datasets(self):
-        return [self._get_data_shape(i) for i in range(self.number_of_datasets)]
+    def get_final_data_shape(self):
+        return sum(self.file_lenghts_in_datasets),
 
-    def _get_number_of_datasets(self):
-        return np.shape(self.directories)[0]
-
-    def _get_data_shape(self, dataset_num):
-        return np.shape(self.read_timestamps_ids(dataset_num))[0]
