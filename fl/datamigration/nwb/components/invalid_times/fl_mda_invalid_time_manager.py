@@ -5,7 +5,7 @@ from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
-class FlMdaFlInvalidTimeManager(FlInvalidTimeManager):
+class FlMdaInvalidTimeManager(FlInvalidTimeManager):
     def __init__(self, sampling_rate, datasets):
         FlInvalidTimeManager.__init__(self, sampling_rate, datasets)
         self.mda_timestamp_files = self.__get_mda_timestamp_files()

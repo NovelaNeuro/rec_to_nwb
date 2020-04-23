@@ -4,7 +4,7 @@ from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_manager import FlInvalidTimeManager
 
 
-class FlPosFlInvalidTimeManager(FlInvalidTimeManager):
+class FlPosInvalidTimeManager(FlInvalidTimeManager):
     def __init__(self, sampling_rate, datasets):
         FlInvalidTimeManager.__init__(self, sampling_rate, datasets)
         self.pos_timestamp_files = self.__get_pos_files()
