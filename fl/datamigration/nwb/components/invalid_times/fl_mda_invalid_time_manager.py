@@ -7,13 +7,16 @@ from fl.datamigration.validation.validation_registrator import ValidationRegistr
 
 class FlMdaFlInvalidTimeManager(FlInvalidTimeManager):
     def __init__(self, sampling_rate, datasets):
-        FlInvalidTimeManager.__init__(self, sampling_rate, datasets)
+        FlInvalidTimeManager.__init__(self, datasets)
+        self.sampling_rate = sampling_rate
         self.mda_timestamp_files = self.__get_mda_timestamp_files()
 
     def build_mda_invalid_times(self):
         continuous_time_dicts = self._get_continuous_time_dicts()
         mda_timestamps = self.__read_mda_timestamps(self.__get_mda_timestamp_files())
-        return self.build(self._convert_timestamps(mda_timestamps, continuous_time_dicts), 'mda')
+        return self.build(self._convert_timestamps(mda_timestamps, continuous_time_dicts),
+                          'mda',
+                          1E9/self.sampling_rate)
 
     def __get_mda_timestamp_files(self):
         return [dataset.get_mda_timestamps() for dataset in self.datasets]

@@ -2,11 +2,7 @@ from fl.datamigration.nwb.components.invalid_times.fl_gap import FlGap
 
 
 class InvalidTimeBuilder:
-    def build(self, timestamps, data_type, sampling_rate=None, unfinished_gap=None, last_timestamp=None):
-        if(data_type == 'pos'):
-            period = self.__calculate_pos_period(timestamps)
-        else:
-            period = 1 / float(sampling_rate)
+    def build(self, timestamps, data_type, period=None, unfinished_gap=None, last_timestamp=None):
         gap_start_time, gap_stop_time = timestamps[0], timestamps[0]
         gaps = []
         if unfinished_gap:
@@ -34,17 +30,4 @@ class InvalidTimeBuilder:
             last_timestamp = timestamp
         return gaps
 
-    def __calculate_pos_period(self, timestamps):
-        number_of_invalid_records_at_start_of_a_file = 0
-        number_of_invalid_records_at_end_of_a_file = 0
-        first_timestamp = timestamps[0]
-        last_timestamp = timestamps[-1]
-        while not first_timestamp >= 0:
-            number_of_invalid_records_at_start_of_a_file += 1
-            first_timestamp = timestamps[number_of_invalid_records_at_start_of_a_file]
-        while not last_timestamp >= 0:
-            number_of_invalid_records_at_end_of_a_file += 1
-            last_timestamp = timestamps[(-1 - number_of_invalid_records_at_end_of_a_file)]
-        return (last_timestamp-first_timestamp) /\
-               (len(timestamps - number_of_invalid_records_at_end_of_a_file -
-                    number_of_invalid_records_at_start_of_a_file))
+

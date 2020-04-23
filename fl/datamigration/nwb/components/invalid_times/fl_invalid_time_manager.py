@@ -7,21 +7,20 @@ from fl.datamigration.validation.validation_registrator import ValidationRegistr
 
 
 class FlInvalidTimeManager:
-    def __init__(self, sampling_rate, datasets):
-        self.sampling_rate = sampling_rate
+    def __init__(self, datasets):
         self.datasets = datasets
 
         self._validate_parameters()
 
         self.invalid_time_builder = InvalidTimeBuilder()
 
-    def build(self, timestamps, data_type):
+    def build(self, timestamps, data_type, period):
         gaps = []
         unfinished_gap = None
         for single_epoch_timestamps in timestamps:
             gaps.extend(self.invalid_time_builder.build(single_epoch_timestamps,
                                                         data_type,
-                                                        self.sampling_rate,
+                                                        period,
                                                         unfinished_gap
                                                         ))
             if gaps:
@@ -40,6 +39,5 @@ class FlInvalidTimeManager:
 
     def _validate_parameters(self):
         validation_registrator = ValidationRegistrator()
-        validation_registrator.register(NotNoneValidator(self.sampling_rate))
         validation_registrator.register(NotNoneValidator(self.datasets))
         validation_registrator.validate()
