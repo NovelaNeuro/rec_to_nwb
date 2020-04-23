@@ -16,6 +16,7 @@ class FlInvalidTimeBuilder:
                 last_timestamp = timestamps[0]
 
         dist_tab = []
+        counter = 0
 
         for timestamp in timestamps:
 
