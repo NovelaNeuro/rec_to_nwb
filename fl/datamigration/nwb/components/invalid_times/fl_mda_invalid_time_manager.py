@@ -16,6 +16,14 @@ class FlMdaInvalidTimeManager(FlInvalidTimeManager):
         self.invalid_time_builder = InvalidTimeBuilder()
         self.sampling_rate = sampling_rate
 
+    def get_fl_mda_invalid_times(self):
+
+
+
+        fl_mda_invalid_times = []
+
+        return fl_mda_invalid_times
+
     def build_mda_invalid_times(self):
         continuous_time_dicts = self._get_continuous_time_dicts()
         mda_timestamps = self.__read_mda_timestamps()

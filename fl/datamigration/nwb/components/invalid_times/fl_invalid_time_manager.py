@@ -1,5 +1,5 @@
 
-from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_builder import InvalidTimeBuilder
+from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_builder import FlInvalidTimeBuilder
 from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 from fl.datamigration.processing.timestamp_converter import TimestampConverter
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
@@ -12,13 +12,13 @@ class FlInvalidTimeManager:
 
         self._validate_parameters()
 
-        self.invalid_time_builder = InvalidTimeBuilder()
+        self.fl_invalid_time_builder = FlInvalidTimeBuilder()
 
     def build(self, timestamps, data_type, period):
         gaps = []
         unfinished_gap = None
         for single_epoch_timestamps in timestamps:
-            gaps.extend(self.invalid_time_builder.build(single_epoch_timestamps,
+            gaps.extend(self.fl_invalid_time_builder.build(single_epoch_timestamps,
                                                         data_type,
                                                         period,
                                                         unfinished_gap

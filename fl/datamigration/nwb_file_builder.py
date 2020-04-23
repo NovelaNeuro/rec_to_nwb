@@ -190,6 +190,14 @@ class NWBFileBuilder:
             self.dataset_names
         )
 
+        self.fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(
+            sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
+            datasets=self.datasets
+        )
+        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager(
+            datasets=self.datasets
+        )
+
     def extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
@@ -400,13 +408,11 @@ class NWBFileBuilder:
 
     def build_and_inject_invalid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
-        mda_invalid_time_manager = FlMdaInvalidTimeManager(float(self.header.configuration.hardware_configuration.sampling_rate),
-                                                           self.datasets)
-        pos_invalid_time_manager = FlPosInvalidTimeManager(self.datasets)
+
         if self.process_mda:
-            mda_invalid_times = mda_invalid_time_manager.build_mda_invalid_times()
+            mda_invalid_times = self.fl_mda_invalid_time_manager.build_mda_invalid_times()
             InvalidTimeInjector.inject(mda_invalid_times, nwb_content)
 
-        pos_invalid_times = pos_invalid_time_manager.build_pos_invalid_times()
+        pos_invalid_times = self.fl_pos_invalid_time_manager.build_pos_invalid_times()
         InvalidTimeInjector.inject(pos_invalid_times, nwb_content)
 
