@@ -35,8 +35,10 @@ class InvalidTimeBuilder:
                     gap_stop_time = timestamp
                     gaps.append(FlGap(gap_start_time, gap_stop_time, data_type))
             last_timestamp = timestamp
-        pyplot.hist(dist_tab, label=data_type, bins=100)
-        print(set(dist_tab))
+        pyplot.hist(dist_tab, label=data_type, bins=10000)
+        set_dist = set(dist_tab)
+        print(len(set_dist))
+        print(set_dist)
         pyplot.show()
         return gaps
 
