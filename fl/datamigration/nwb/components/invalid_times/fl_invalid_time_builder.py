@@ -2,7 +2,7 @@ from fl.datamigration.nwb.components.invalid_times.fl_gap import FlGap
 
 from matplotlib import pyplot
 
-class InvalidTimeBuilder:
+class FlInvalidTimeBuilder:
     def build(self, timestamps, data_type, period=None, unfinished_gap=None, last_timestamp=None):
         gap_start_time, gap_stop_time = timestamps[0], timestamps[0]
         gaps = []

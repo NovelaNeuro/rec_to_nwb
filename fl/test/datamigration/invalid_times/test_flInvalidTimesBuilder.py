@@ -2,12 +2,13 @@ from unittest import TestCase
 
 import numpy as np
 
-from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_builder import InvalidTimeBuilder
+from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_builder import FlInvalidTimeBuilder
+
 
 class TestInvalidTimesBuilder(TestCase):
     def setUp(self):
         self.sampling_rate = 1
-        self.invalid_times_builder = InvalidTimeBuilder()
+        self.fl_invalid_time_builder = FlInvalidTimeBuilder()
 
     def test_all_data_valid(self):
         timestamps = np.ndarray(dtype='float64', shape=(5,))
