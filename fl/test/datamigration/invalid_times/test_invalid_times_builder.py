@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import numpy as np
 
-from fl.datamigration.nwb.components.invalid_times.invalid_time_builder import InvalidTimeBuilder
+from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_builder import InvalidTimeBuilder
 
 class TestInvalidTimesBuilder(TestCase):
     def setUp(self):

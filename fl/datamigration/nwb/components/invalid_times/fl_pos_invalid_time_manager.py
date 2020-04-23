@@ -1,7 +1,7 @@
 import pandas  as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from fl.datamigration.nwb.components.invalid_times.invalid_time_manager import InvalidTimeManager
+from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_manager import InvalidTimeManager
 
 
 class PosInvalidTimeManager(InvalidTimeManager):

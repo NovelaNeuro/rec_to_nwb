@@ -1,5 +1,5 @@
 
-from fl.datamigration.nwb.components.invalid_times.invalid_time_builder import InvalidTimeBuilder
+from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_builder import InvalidTimeBuilder
 from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 from fl.datamigration.processing.timestamp_converter import TimestampConverter
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
