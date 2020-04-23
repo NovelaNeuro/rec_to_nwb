@@ -22,8 +22,6 @@ class FlInvalidTimeBuilder:
 
             dist_tab.append(timestamp - last_timestamp)
 
-            counter = 0
-
             if not was_last_timestamp_part_of_a_gap:
                 if last_timestamp + period < timestamp:
                     gap_start_time = last_timestamp
