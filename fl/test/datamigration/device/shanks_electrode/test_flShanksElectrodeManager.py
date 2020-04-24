@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from ndx_fllab_novela.probe import ShanksElectrode
+from ndx_fl_novela.probe import ShanksElectrode
 from testfixtures import should_raise
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
