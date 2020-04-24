@@ -26,11 +26,10 @@ install:
 
 script:
   - bash pylint_run.sh
-#  - python -m pytest fl/test/datamigration
+  - python -m pytest fl/test/datamigration
 
 after_success:
-  - conda install conda-build anaconda-client conda-verify && bash conda_upload.sh
-#  - test $TRAVIS_BRANCH = "master_release" && conda install conda-build anaconda-client conda-verify && bash conda_upload.sh
+  - test $TRAVIS_BRANCH = "master_release" && conda install conda-build anaconda-client conda-verify && bash conda_upload.sh
 
 notifications:
   slack: novelaneurote-ibx6025:3bhUUXZXz52ZXXTQCpiJyHkF
