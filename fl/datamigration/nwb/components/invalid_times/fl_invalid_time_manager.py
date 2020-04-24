@@ -19,10 +19,10 @@ class FlInvalidTimeManager:
         unfinished_gap = None
         for single_epoch_timestamps in timestamps:
             gaps.extend(self.fl_invalid_time_builder.build(single_epoch_timestamps,
-                                                        data_type,
-                                                        period,
-                                                        unfinished_gap
-                                                        ))
+                                                           data_type,
+                                                           period,
+                                                           unfinished_gap
+                                                           ))
             if gaps:
                 if gaps[-1].stop_time == single_epoch_timestamps[-1]:
                     unfinished_gap = gaps.pop()

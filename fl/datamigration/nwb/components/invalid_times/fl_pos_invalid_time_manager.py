@@ -1,4 +1,4 @@
-import pandas  as pd
+import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_manager import FlInvalidTimeManager
