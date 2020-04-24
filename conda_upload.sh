@@ -1,7 +1,8 @@
 #!/bin/bash
 
 export PKG_NAME=fldatamigration
-export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TEST_TOKEN
+#export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TEST_TOKEN
+export ANACONDA_API_TOKEN=ac-55c545a3-e7c4-457d-af6b-b123567342a1
 export VERSION=$(python setup.py)
 export CONDA_BUILD_PATH=/home/travis/miniconda/envs/test-environment/conda-bld
 export BASE_PATH=$(pwd)
