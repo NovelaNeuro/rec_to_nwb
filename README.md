@@ -44,7 +44,7 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
    ```
 5. Create conda environment.
    ```bash
-   conda env create -f flenvironment.yml
+   conda env create -f environment.yml
    ```
 6. jupyter notebook installation
    ```bash
