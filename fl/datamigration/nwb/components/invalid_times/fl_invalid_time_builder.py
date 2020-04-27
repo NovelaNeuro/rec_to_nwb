@@ -19,7 +19,7 @@ class FlInvalidTimeBuilder:
                     gap_start_time = last_timestamp
                     was_last_timestamp_part_of_a_gap = True
             else:
-                if last_timestamp + period > timestamp:
+                if last_timestamp + period >= timestamp:
                     gap_stop_time = last_timestamp
                     was_last_timestamp_part_of_a_gap = False
                     gaps.append(FlGap(gap_start_time, gap_stop_time, data_type))

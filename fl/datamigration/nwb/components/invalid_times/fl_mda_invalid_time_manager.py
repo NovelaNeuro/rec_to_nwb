@@ -7,7 +7,7 @@ from fl.datamigration.validation.validation_registrator import ValidationRegistr
 
 class FlMdaInvalidTimeManager(FlInvalidTimeManager):
     def __init__(self, sampling_rate, datasets):
-        FlInvalidTimeManager.__init__(self,datasets)
+        FlInvalidTimeManager.__init__(self, datasets)
         self.sampling_rate = sampling_rate
         self.timestamps_extractor = FlInvalidTimeMdaTimestampExtractor(datasets)
 
