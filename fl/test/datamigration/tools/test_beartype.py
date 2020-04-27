@@ -27,8 +27,8 @@ import typing
 from fl.datamigration.tools.beartype.beartype import beartype
 
 
-class TestBearyype(TestCase)
-    def test_beartype_noop() -> None:
+class TestBearyype(TestCase):
+    def test_beartype_noop(self) -> None:
         '''
         Test bear typing of a function with no function annotations, reducing to
         _no_ type checking.
@@ -43,7 +43,7 @@ class TestBearyype(TestCase)
         assert khorne('WAAAGH!', '!HGAAAW') == 'WAAAGH!!HGAAAW'
 
     # ....................{ TESTS ~ pass : param               }....................
-    def test_beartype_pass_param_keyword_and_positional() -> None:
+    def test_beartype_pass_param_keyword_and_positional(self) -> None:
         '''
         Test bear typing of a function call successfully passed both annotated
         positional and keyword parameters.
@@ -61,7 +61,7 @@ class TestBearyype(TestCase)
             "Seeker of DecadenceN'Kari")
 
 
-    def test_beartype_pass_param_keyword_only() -> None:
+    def test_beartype_pass_param_keyword_only(self) -> None:
         '''
         Test bear typing of a function call successfully passed an annotated
         keyword-only parameter following an `*` or `*args` parameter.
@@ -79,7 +79,7 @@ class TestBearyype(TestCase)
             "ScreamersMith'an'driarkh")
 
 
-    def test_beartype_pass_param_tuple() -> None:
+    def test_beartype_pass_param_tuple(self) -> None:
         '''
         Test bear typing of a function call successfully passed a parameter
         annotated as a tuple.
@@ -97,7 +97,7 @@ class TestBearyype(TestCase)
             'Carnifex', hive_fleet=0xDEADBEEF) == 'Carnifex3735928559'
 
 
-    def test_type_check_pass_param_custom() -> None:
+    def test_type_check_pass_param_custom(self) -> None:
         '''
         Test bear typing of a function call successfully passed a parameter
         annotated as a user-defined rather than builtin type.
@@ -118,7 +118,7 @@ class TestBearyype(TestCase)
             'Troglydium hruddiDelphic Sink')
 
 
-    def test_type_check_pass_typing_module() -> None:
+    def test_type_check_pass_typing_module(self) -> None:
         '''
         Test bear typing of a function call successfully passed a parameter
         annotated with an abstract type from the typing module.
@@ -135,11 +135,12 @@ class TestBearyype(TestCase)
         assert function({1:1}, {2:2}) == {1:1, 2:2}
 
 
-    def test_type_check_pass_parameterized_typing_module() -> None:
+    def test_type_check_pass_parameterized_typing_module(self) -> None:
         '''
         Test bear typing of a function call successfully passed a parameter
         annotated with a parametirized abstract type from the typing module.
         '''
+        MyMap = typing.Mapping
 
         @beartype
         def function(par: MyMap, ameter: MyMap) -> MyMap:
@@ -151,7 +152,7 @@ class TestBearyype(TestCase)
 
 
     # ....................{ TESTS ~ pass : return              }....................
-    def test_type_check_pass_return_none() -> None:
+    def test_type_check_pass_return_none(self) -> None:
         '''
         Test bear typing of a function call successfully returning `None` and
         annotated as such.
@@ -167,7 +168,7 @@ class TestBearyype(TestCase)
             'Luna Wolves', diasporex='Iron Hands Legion') is None
 
     # ....................{ TESTS ~ fail                       }....................
-    def test_beartype_fail_keyword_unknown() -> None:
+    def test_beartype_fail_keyword_unknown(self) -> None:
         '''
         Test bear typing of an annotated function call passed an unrecognized
         keyword parameter.
@@ -192,7 +193,7 @@ class TestBearyype(TestCase)
         assert not str(exception.value).endswith('not a str')
 
 
-    def test_beartype_fail_param_name() -> None:
+    def test_beartype_fail_param_name(self) -> None:
         '''
         Test bear typing of a function accepting a parameter name reserved for
         use by the `@beartype` decorator.
@@ -206,7 +207,7 @@ class TestBearyype(TestCase)
                 return weaponsmith + __beartype_func
 
     # ....................{ TESTS ~ fail : type                }....................
-    def test_beartype_fail_param_type() -> None:
+    def test_beartype_fail_param_type(self) -> None:
         '''
         Test bear typing of an annotated function call failing a parameter type
         check.
@@ -223,7 +224,7 @@ class TestBearyype(TestCase)
             eldar('Mother of the Eldar', 100.100)
 
 
-    def test_beartype_fail_return_type() -> None:
+    def test_beartype_fail_return_type(self) -> None:
         '''
         Test bear typing of an annotated function call failing a return type
         check.
@@ -239,7 +240,7 @@ class TestBearyype(TestCase)
             necron("C'tan", 'Elder Thing')
 
     # ....................{ TESTS ~ fail : annotation          }....................
-    def test_beartype_fail_annotation_param() -> None:
+    def test_beartype_fail_annotation_param(self) -> None:
         '''
         Test bear typing of a function with an unsupported parameter annotation.
         '''
@@ -252,7 +253,7 @@ class TestBearyype(TestCase)
                 return nurgling + great_unclean_one
 
 
-    def test_beartype_fail_annotation_return() -> None:
+    def test_beartype_fail_annotation_return(self) -> None:
         '''
         Test bear typing of a function with an unsupported return annotation.
         '''
