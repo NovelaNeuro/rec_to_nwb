@@ -24,6 +24,8 @@ from unittest import TestCase
 import pytest
 import typing
 
+from testfixtures import should_raise
+
 from fl.datamigration.tools.beartype.beartype import beartype
 
 
@@ -201,10 +203,10 @@ class TestBearyype(TestCase):
 
         # Define a function accepting a reserved parameter name and assert the
         # expected exception.
-        with pytest.raises(NameError):
-            @beartype
-            def jokaero(weaponsmith: str, __beartype_func: str) -> str:
-                return weaponsmith + __beartype_func
+        @beartype
+        @should_raise(NameError)
+        def jokaero(weaponsmith: str, __beartype_func: str) -> str:
+            return weaponsmith + __beartype_func
 
     # ....................{ TESTS ~ fail : type                }....................
     def test_beartype_fail_param_type(self) -> None:
