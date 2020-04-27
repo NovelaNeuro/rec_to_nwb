@@ -12,13 +12,69 @@ build:
   number: 0
 
 requirements:
-  build:
-    - python=3.7.4
-    - pip
-    - setuptools
+   build:
+      - python==3.7.4
+      - pip
+      - setuptools
+      - hdmf==1.6.1
+      - libblas==3.8.0
+      - pynwb==1.3.0
+      - testfixtures==6.14.0
+      - vdom==0.6
+      - xmlschema==1.1.1
+      - hdf5==1.10.5
+      - liblapack==3.8.0
+      - elementpath==1.4.3
+      - rec_to_binaries==0.3.0.dev0
+      - libcblas==3.8.0
+   run:
+      - asn1crypto==1.3.0
+      - blas==1.0
+      - bleach==3.1.4
+      - ca-certificates==2020.1.1
+      - certifi==2019.11.28
+      - cffi==1.14.0
+      - chardet==3.0.4
+      - cryptography==2.8
+      - elementpath==1.4.3
+      - h5py==2.10.0
+      - hdf5==1.10.5
+      - hdmf==1.6.1
+      - idna==2.9
+      - libblas==3.8.0
+      - libcblas==3.8.0
+      - liblapack==3.8.0
+      - mkl==2019.4
+      - mkl-service==2.3.0
+      - mountainlab_pytools==0.7.5
+      - numpy==1.18.1
+      - openssl==1.1.1e
+      - pandas==1.0.3
+      - pip==20.0.2
+      - pycparser==2.20
+      - pynwb==1.3.0
+      - pyopenssl==19.1.0
+      - pysocks==1.7.1
+      - pytest==5.4.1
+      - python==3.7.4
+      - python-dateutil==2.8.0
+      - pytz==2019.3
+      - pyyaml==5.3.1
+      - requests==2.23.0
+      - scipy==1.3.1
+      - setuptools==46.1.3
+      - six==1.14.0
+      - sqlite==3.30.1
+      - testfixtures==6.14.0
+      - urllib3==1.25.7
+      - vdom==0.6
+      - wheel==0.34.2
+      - xmlschema==1.1.1
+      - zlib==1.2.11
+      - rec_to_binaries==0.3.0.dev0
+      - xmldiff==2.4
+      - ndx-fl-novela==0.0.001
 
-  run:
-    - python=3.7.4
 
 about:
   home: https://github.com/NovelaNeuro/fldatamigration
