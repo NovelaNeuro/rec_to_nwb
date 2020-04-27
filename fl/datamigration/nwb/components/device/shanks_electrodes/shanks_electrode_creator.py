@@ -1,4 +1,4 @@
-from ndx_fllab_novela.probe import ShanksElectrode
+from ndx_fl_novela.probe import ShanksElectrode
 
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
 

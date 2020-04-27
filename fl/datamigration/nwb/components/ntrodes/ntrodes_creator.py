@@ -1,4 +1,4 @@
-from ndx_fllab_novela.ntrode import NTrode
+from ndx_fl_novela.ntrode import NTrode
 
 
 class NTrodesCreator:

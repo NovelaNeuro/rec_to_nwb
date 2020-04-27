@@ -1,5 +1,5 @@
-from ndx_fllab_novela.header_device import HeaderDevice
-from ndx_fllab_novela.probe import Probe
+from ndx_fl_novela.header_device import HeaderDevice
+from ndx_fl_novela.probe import Probe
 from pynwb.device import Device
 
 from fl.datamigration.tools.validate_parameters import validate_parameters_not_none

@@ -2,9 +2,9 @@
 import matplotlib.pyplot as plt
 from pynwb import NWBHDF5IO
 
-from ndx_fllab_novela.apparatus import Apparatus, Edge, Node
-from ndx_fllab_novela.header_device import HeaderDevice
-from ndx_fllab_novela.ntrode import NTrode
+from ndx_fl_novela.apparatus import Apparatus, Edge, Node
+from ndx_fl_novela.header_device import HeaderDevice
+from ndx_fl_novela.ntrode import NTrode
 
 nwb_file = NWBHDF5IO('fldatamigration/fl/test/beans20190718.nwb', 'r')
 nwbfile_read = nwb_file.read()
