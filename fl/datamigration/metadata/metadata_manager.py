@@ -1,8 +1,7 @@
-from pyvalid import accepts
 
 from fl.datamigration.metadata.metadata_extractor import MetadataExtractor
 from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
+from fl.datamigration.tools.beartype.beartype import beartype
 from fl.datamigration.validation.metadata_validator import MetadataValidator
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
@@ -10,8 +9,8 @@ from fl.datamigration.validation.validation_registrator import ValidationRegistr
 
 class MetadataManager:
 
-    @accepts(object, metadata_path=str, probes_paths=list)
-    def __init__(self, metadata_path, probes_paths):
+    @beartype
+    def __init__(self, metadata_path: str, probes_paths: list):
 
         """
         Args:

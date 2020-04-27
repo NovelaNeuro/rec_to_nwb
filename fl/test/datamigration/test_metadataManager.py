@@ -1,10 +1,8 @@
 import os
 from unittest import TestCase
 
-from pyvalid import ArgumentValidationError
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.metadata.metadata_manager import MetadataManager
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -82,10 +80,21 @@ class TestMetadataManager(TestCase):
         self.assertEqual(nwb_metadata.probes[0]['contact_side_numbering'], True)
         self.assertEqual(nwb_metadata.probes[0]['contact_size'], 12.5)
 
-    @should_raise(ArgumentValidationError)
-    def test_metadata_manager_failed_reading_metadata_due_to_lack_of_param(self):
+    @should_raise(TypeError)
+    def test_metadata_manager_failed_reading_metadata_due_to_None_param(self):
         MetadataManager(
             metadata_path=None,
+            probes_paths=[
+                str(path) + '/res/probe1.yml',
+                str(path) + '/res/probe2.yml',
+                str(path) + '/res/probe3.yml'
+            ]
+        )
+
+    @should_raise(TypeError)
+    def test_metadata_manager_failed_reading_metadata_due_to_incorrect_type_of_param(self):
+        MetadataManager(
+            metadata_path=123,
             probes_paths=[
                 str(path) + '/res/probe1.yml',
                 str(path) + '/res/probe2.yml',

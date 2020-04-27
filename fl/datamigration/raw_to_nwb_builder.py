@@ -2,12 +2,12 @@ import logging
 import os
 import shutil
 
-from pyvalid import accepts
 from rec_to_binaries import extract_trodes_rec_file
 import xmlschema
 
 from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb_file_builder import NWBFileBuilder
+from fl.datamigration.tools.beartype.beartype import beartype
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
@@ -27,27 +27,24 @@ _DEFAULT_ANALOG_EXPORT_ARGS = ()
 
 class RawToNWBBuilder:
 
-    @accepts(
-        object, data_path=str, animal_name=str, dates=list, nwb_metadata=MetadataManager, extract_dio=bool,
-        extract_mda=bool, extract_analog=bool, output_file=str, extract_lfps=bool, extract_spikes=bool,
-        overwrite=bool, lfp_export_args=tuple, mda_export_args=tuple, analog_export_args=tuple, parallel_instances=int)
+    @beartype
     def __init__(
             self,
-            data_path,
-            animal_name,
-            dates,
-            nwb_metadata,
-            output_path='',
-            extract_analog=True,
-            extract_spikes=False,
-            extract_lfps=False,
-            extract_dio=True,
-            extract_mda=True,
-            overwrite=True,
-            lfp_export_args=_DEFAULT_LFP_EXPORT_ARGS,
-            mda_export_args=_DEFAULT_MDA_EXPORT_ARGS,
-            parallel_instances=4,
-            analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
+            data_path: str,
+            animal_name: str,
+            dates: list,
+            nwb_metadata: MetadataManager,
+            output_path: str ='',
+            extract_analog: bool =True,
+            extract_spikes: bool =False,
+            extract_lfps: bool =False,
+            extract_dio: bool =True,
+            extract_mda: bool =True,
+            overwrite: bool =True,
+            lfp_export_args: tuple =_DEFAULT_LFP_EXPORT_ARGS,
+            mda_export_args: tuple =_DEFAULT_MDA_EXPORT_ARGS,
+            parallel_instances: int =4,
+            analog_export_args: tuple =_DEFAULT_ANALOG_EXPORT_ARGS
     ):
         """
         Args:
