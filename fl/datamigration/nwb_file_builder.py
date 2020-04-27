@@ -2,8 +2,6 @@ import logging.config
 import os
 import uuid
 
-from pyvalid import accepts
-
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
@@ -43,6 +41,7 @@ from fl.datamigration.nwb.components.processing_module.processing_module_creator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.nwb.components.invalid_times.invalid_time_injector import InvalidTimeInjector
 from fl.datamigration.nwb.components.invalid_times.invalid_time_manager import InvalidTimeManager
+from fl.datamigration.tools.beartype.beartype import beartype
 from fl.datamigration.tools.data_scanner import DataScanner
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.task_validator import TaskValidator
@@ -63,19 +62,16 @@ logger = logging.getLogger(__name__)
 class NWBFileBuilder:
     """unpack data from preprocessing folder specified by arguments, and write those data into NWB file format"""
 
-    @accepts(
-        object, data_path=str, animal_name=str, date=str, nwb_metadata=MetadataManager,
-        process_dio=bool, process_mda=bool, process_analog=bool, output_file=str
-    )
+    @beartype
     def __init__(self,
-                 data_path,
-                 animal_name,
-                 date,
-                 nwb_metadata,
-                 process_dio=True,
-                 process_mda=True,
-                 process_analog=True,
-                 output_file='output.nwb'
+                 data_path: str,
+                 animal_name: str,
+                 date: str,
+                 nwb_metadata: MetadataManager,
+                 process_dio: bool=True,
+                 process_mda: bool=True,
+                 process_analog: bool=True,
+                 output_file: str='output.nwb'
                  ):
 
         """
