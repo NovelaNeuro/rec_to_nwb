@@ -11,23 +11,23 @@ class FlPosInvalidTimeManager:
         self.datasets = datasets
 
         self.pos_timestamps_extractor = FlInvalidTimePosTimestampExtractor(datasets)
-        self._validate_parameters()
+        self.__validate_parameters()
 
-    def build(self, timestamps, data_type, period):
+    def build(self, timestamps, period):
         gaps = []
         unfinished_gap = None
         for i,single_epoch_timestamps in enumerate(timestamps):
-            gaps.extend(self.build_gaps_from_single_epoch(single_epoch_timestamps,
-                                                          period,
-                                                          unfinished_gap
-                                                          ))
+            gaps.extend(self.__build_gaps_from_single_epoch(single_epoch_timestamps,
+                                                            period,
+                                                            unfinished_gap
+                                                            ))
             if gaps:
                 if not i == len(timestamps)-1:
                     if gaps[-1].stop_time == single_epoch_timestamps[-1]:
                         unfinished_gap = gaps.pop()
         return gaps
 
-    def build_gaps_from_single_epoch(self, timestamps, period=None, unfinished_gap=None, last_timestamp=None):
+    def __build_gaps_from_single_epoch(self, timestamps, period=None, unfinished_gap=None, last_timestamp=None):
         gap_start_time, gap_stop_time = timestamps[0], timestamps[0]
         gaps = []
         if unfinished_gap:
@@ -54,14 +54,14 @@ class FlPosInvalidTimeManager:
             last_timestamp = timestamp
         return gaps
 
-    def _validate_parameters(self):
+    def __validate_parameters(self):
         validation_registrator = ValidationRegistrator()
         validation_registrator.register(NotNoneValidator(self.datasets))
         validation_registrator.validate()
 
     def build_pos_invalid_times(self):
         timestamps = self.pos_timestamps_extractor.get_converted_timestamps()
-        return self.build(timestamps, 'pos', self.__calculate_pos_period(timestamps))
+        return self.build(timestamps, self.__calculate_pos_period(timestamps))
 
     def __calculate_pos_period(self, timestamps):
         number_of_invalid_records_at_start_of_a_file = 0

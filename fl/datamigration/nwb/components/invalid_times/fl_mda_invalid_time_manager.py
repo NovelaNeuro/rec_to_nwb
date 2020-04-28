@@ -14,21 +14,21 @@ class FlMdaInvalidTimeManager:
         self.__validate_parameters()
         self.timestamps_extractor = FlInvalidTimeMdaTimestampExtractor(datasets)
 
-    def build(self, timestamps, data_type, period):
+    def build(self, timestamps, period):
         gaps = []
         unfinished_gap = None
         for i,single_epoch_timestamps in enumerate(timestamps):
-            gaps.extend(self.build_gaps_from_single_epoch(single_epoch_timestamps,
-                                                          period,
-                                                          unfinished_gap
-                                                          ))
+            gaps.extend(self.__build_gaps_from_single_epoch(single_epoch_timestamps,
+                                                            period,
+                                                            unfinished_gap
+                                                            ))
             if gaps:
                 if not i == len(timestamps)-1:
                     if gaps[-1].stop_time == single_epoch_timestamps[-1]:
                         unfinished_gap = gaps.pop()
         return gaps
 
-    def build_gaps_from_single_epoch(self, timestamps, period=None, unfinished_gap=None, last_timestamp=None):
+    def __build_gaps_from_single_epoch(self, timestamps, period=None, unfinished_gap=None, last_timestamp=None):
         gap_start_time, gap_stop_time = timestamps[0], timestamps[0]
         gaps = []
         if unfinished_gap:
@@ -57,7 +57,6 @@ class FlMdaInvalidTimeManager:
 
     def build_mda_invalid_times(self):
         return self.build(self.timestamps_extractor.get_converted_timestamps(),
-                          'mda',
                           1E9/self.sampling_rate)
 
     def __validate_parameters(self):
