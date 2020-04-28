@@ -5,24 +5,50 @@ from fl.datamigration.validation.validation_registrator import ValidationRegistr
 
 class FlInvalidTimeManager:
     def __init__(self, datasets):
+        self.period_multiplier = 1.5
         self.datasets = datasets
 
         self._validate_parameters()
 
-        self.fl_invalid_time_builder = FlInvalidTimeBuilder()
-
     def build(self, timestamps, data_type, period):
         gaps = []
         unfinished_gap = None
-        for single_epoch_timestamps in timestamps:
-            gaps.extend(self.fl_invalid_time_builder.build(single_epoch_timestamps,
-                                                           data_type,
-                                                           period,
-                                                           unfinished_gap
-                                                           ))
+        for i,single_epoch_timestamps in enumerate(timestamps):
+            gaps.extend(self.build_gaps_from_single_epoch(single_epoch_timestamps,
+                                                          period,
+                                                          unfinished_gap
+                                                          ))
             if gaps:
-                if gaps[-1].stop_time == single_epoch_timestamps[-1]:
-                    unfinished_gap = gaps.pop()
+                if not i == len(timestamps)-1:
+                    if gaps[-1].stop_time == single_epoch_timestamps[-1]:
+                        unfinished_gap = gaps.pop()
+        return gaps
+
+    def build_gaps_from_single_epoch(self, timestamps, period=None, unfinished_gap=None, last_timestamp=None):
+        gap_start_time, gap_stop_time = timestamps[0], timestamps[0]
+        gaps = []
+        if unfinished_gap:
+            was_last_timestamp_part_of_a_gap = True
+            gap_start_time = unfinished_gap.start_time
+            last_timestamp = gap_start_time
+        else:
+            was_last_timestamp_part_of_a_gap = False
+            if not last_timestamp:
+                last_timestamp = timestamps[0]
+        for timestamp in timestamps:
+            if not was_last_timestamp_part_of_a_gap:
+                if last_timestamp + (period * self.period_multiplier) < timestamp:
+                    gap_start_time = last_timestamp
+                    was_last_timestamp_part_of_a_gap = True
+            else:
+                if last_timestamp + (period * self.period_multiplier) >= timestamp:
+                    gap_stop_time = last_timestamp
+                    was_last_timestamp_part_of_a_gap = False
+                    gaps.append(FlInvalidTimeBuilder.build(gap_start_time, gap_stop_time))
+                elif timestamp == timestamps[-1]:
+                    gap_stop_time = timestamp
+                    gaps.append(FlInvalidTimeBuilder.build(gap_start_time, gap_stop_time))
+            last_timestamp = timestamp
         return gaps
 
     def _validate_parameters(self):

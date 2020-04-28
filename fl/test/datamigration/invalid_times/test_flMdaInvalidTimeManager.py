@@ -14,7 +14,7 @@ class TestMdaInvalidTimesManager(TestCase):
         with self.assertRaises(NoneParamException):
             FlInvalidTimeManager(None)
 
-    def test_build_invalid_times(self):
+    def test_gap_in_the_middle(self):
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 2, 3, 4, 5, 7, 9, 10, 11, 12]
         for i, number in enumerate(array):
@@ -28,4 +28,42 @@ class TestMdaInvalidTimesManager(TestCase):
         self.assertEqual(5, invalid_times[0].start_time)
         self.assertEqual(9, invalid_times[0].stop_time)
 
+    def test_no_gap(self):
+        mock_array = np.ndarray(dtype='float', shape=[10,])
+        array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        for i, number in enumerate(array):
+            mock_array[i] = number
+        extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
+        extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
+        manager = FlMdaInvalidTimeManager(1000000000, [])
+        manager.timestamps_extractor = extractor_mock
+        invalid_times = manager.build_mda_invalid_times()
+        self.assertEqual([], invalid_times)
 
+    def test_gap_at_start(self):
+        mock_array = np.ndarray(dtype='float', shape=[10,])
+        array = [1, 3, 5, 6, 7, 8, 9, 10, 11, 12]
+        for i, number in enumerate(array):
+            mock_array[i] = number
+        extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
+        extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
+        manager = FlMdaInvalidTimeManager(1000000000, [])
+        manager.timestamps_extractor = extractor_mock
+        invalid_times = manager.build_mda_invalid_times()
+        self.assertEqual(1, len(invalid_times))
+        self.assertEqual(1, invalid_times[0].start_time)
+        self.assertEqual(5, invalid_times[0].stop_time)
+
+    def test_gap_at_end(self):
+        mock_array = np.ndarray(dtype='float', shape=[10,])
+        array = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
+        for i, number in enumerate(array):
+            mock_array[i] = number
+        extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
+        extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
+        manager = FlMdaInvalidTimeManager(1000000000, [])
+        manager.timestamps_extractor = extractor_mock
+        invalid_times = manager.build_mda_invalid_times()
+        self.assertEqual(1, len(invalid_times))
+        self.assertEqual(8, invalid_times[0].start_time)
+        self.assertEqual(12, invalid_times[0].stop_time)
