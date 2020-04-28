@@ -1,7 +1,7 @@
 import os
 from unittest.mock import Mock
 
-from ndx_fllab_novela.probe import Shank
+from ndx_fl_novela.probe import Shank
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.device.fl_probe import FlProbe

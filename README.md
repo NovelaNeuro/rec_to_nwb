@@ -1,7 +1,7 @@
 # fldatamigration
 # About
 fldatamigration is a python conda package for converting SpikeGadgets rec files to NWB files.<br>
-It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_to_binaries package for preprocessing phase.<br>
+It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` file. It utilizes rec_to_binaries package for preprocessing phase.<br>
 <https://github.com/LorenFrankLab/rec_to_binaries><br>
 
 # Prerequisites
@@ -44,7 +44,7 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
    ```
 5. Create conda environment.
    ```bash
-   conda env create -f flenvironment.yml
+   conda env create -f environment.yml
    ```
 6. jupyter notebook installation
    ```bash
@@ -57,9 +57,12 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
 1. Download example notebook file from <br>
    <https://anaconda.org/NovelaKRK/nwb_generation/notebook>
 2. In terminal navigate to notebook file location
+   ```bash
+   fldatamigration/fl/notebooks
+   ```
 3. Run jupyter notebook
    ```bash
-   jupyter notebook
+   jupyter notebook nwb_generation.ipynb
    ```
 4. Metadata.yml description:
    ```
@@ -158,7 +161,8 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
 7. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
 
 8. We provide two class to generate the NWB file. <br>
-To generate NWB file from raw data use `RawToNWBBuilder`. If you want to use already preprocessed data, use `NWBFileBuilder` instead.
+* `RawToNWBBuilder` - To generate NWB file from raw data. <br>
+* `NWBFileBuilder` - To generate NWB file from preprocessed data. <br>
 
 ##### Raw data
 Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder. Next build the NWB using `build_nwb()`.
