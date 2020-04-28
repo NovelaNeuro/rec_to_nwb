@@ -57,7 +57,6 @@ class TestBadDataManager(TestCase):
             'tetrode_12.5': True
         })
 
-
     @should_raise(TypeError)
     def test_corrupted_data_manager_get_valid_map_dict_failed_due_to_none_param(self):
         CorruptedDataManager(
