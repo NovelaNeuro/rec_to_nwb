@@ -13,10 +13,14 @@ class FlPosInvalidTimeManager:
         self.pos_timestamps_extractor = FlInvalidTimePosTimestampExtractor(datasets)
         self.__validate_parameters()
 
-    def build(self, timestamps, period):
+    def get_pos_invalid_times(self):
+        timestamps = self.pos_timestamps_extractor.get_converted_timestamps()
+        return self.__build_pos_invalid_times(timestamps, self.__calculate_pos_period(timestamps))
+
+    def __build_pos_invalid_times(self, timestamps, period):
         gaps = []
         unfinished_gap = None
-        for i,single_epoch_timestamps in enumerate(timestamps):
+        for i, single_epoch_timestamps in enumerate(timestamps):
             gaps.extend(self.__build_gaps_from_single_epoch(single_epoch_timestamps,
                                                             period,
                                                             unfinished_gap
@@ -58,10 +62,6 @@ class FlPosInvalidTimeManager:
         validation_registrator = ValidationRegistrator()
         validation_registrator.register(NotNoneValidator(self.datasets))
         validation_registrator.validate()
-
-    def build_pos_invalid_times(self):
-        timestamps = self.pos_timestamps_extractor.get_converted_timestamps()
-        return self.build(timestamps, self.__calculate_pos_period(timestamps))
 
     def __calculate_pos_period(self, timestamps):
         number_of_invalid_records_at_start_of_a_file = 0

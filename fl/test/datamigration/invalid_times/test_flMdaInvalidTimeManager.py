@@ -9,11 +9,12 @@ from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_time_manag
 
 
 class TestMdaInvalidTimesManager(TestCase):
-    def test_input_validation(self):
+    def test_pos_invalid_times_manager_input_validation(self):
         with self.assertRaises(NoneParamException):
             FlMdaInvalidTimeManager(None, [])
+            FlMdaInvalidTimeManager(1, None)
 
-    def test_gap_in_the_middle(self):
+    def test_pos_invalid_times_manager_data_with_gap_in_the_middle(self):
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 2, 3, 4, 5, 7, 9, 10, 11, 12]
         for i, number in enumerate(array):
@@ -22,12 +23,13 @@ class TestMdaInvalidTimesManager(TestCase):
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
         manager = FlMdaInvalidTimeManager(1000000000, [])
         manager.timestamps_extractor = extractor_mock
-        invalid_times = manager.build_mda_invalid_times()
+        invalid_times = manager.get_mda_invalid_times()
+
         self.assertEqual(1, len(invalid_times))
         self.assertEqual(5, invalid_times[0].start_time)
         self.assertEqual(9, invalid_times[0].stop_time)
 
-    def test_no_gap(self):
+    def test_pos_invalid_times_manager_data_with_no_gap(self):
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         for i, number in enumerate(array):
@@ -36,10 +38,11 @@ class TestMdaInvalidTimesManager(TestCase):
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
         manager = FlMdaInvalidTimeManager(1000000000, [])
         manager.timestamps_extractor = extractor_mock
-        invalid_times = manager.build_mda_invalid_times()
+        invalid_times = manager.get_mda_invalid_times()
+
         self.assertEqual([], invalid_times)
 
-    def test_gap_at_start(self):
+    def test_pos_invalid_times_manager_data_with_gap_at_start(self):
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 3, 5, 6, 7, 8, 9, 10, 11, 12]
         for i, number in enumerate(array):
@@ -48,12 +51,13 @@ class TestMdaInvalidTimesManager(TestCase):
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
         manager = FlMdaInvalidTimeManager(1000000000, [])
         manager.timestamps_extractor = extractor_mock
-        invalid_times = manager.build_mda_invalid_times()
+        invalid_times = manager.get_mda_invalid_times()
+
         self.assertEqual(1, len(invalid_times))
         self.assertEqual(1, invalid_times[0].start_time)
         self.assertEqual(5, invalid_times[0].stop_time)
 
-    def test_gap_at_end(self):
+    def test_pos_invalid_times_manager_data_with_gap_at_end(self):
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
         for i, number in enumerate(array):
@@ -62,7 +66,8 @@ class TestMdaInvalidTimesManager(TestCase):
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
         manager = FlMdaInvalidTimeManager(1000000000, [])
         manager.timestamps_extractor = extractor_mock
-        invalid_times = manager.build_mda_invalid_times()
+        invalid_times = manager.get_mda_invalid_times()
+
         self.assertEqual(1, len(invalid_times))
         self.assertEqual(8, invalid_times[0].start_time)
         self.assertEqual(12, invalid_times[0].stop_time)
