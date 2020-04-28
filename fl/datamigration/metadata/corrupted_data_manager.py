@@ -1,11 +1,11 @@
 import copy
 
 
-from fl.datamigration.exceptions.bad_channels_exception import BadChannelsException
+from fl.datamigration.exceptions.bad_channels_exception import CorruptedDataException
 from fl.datamigration.tools.beartype.beartype import beartype
 
 
-class BadDataManager:
+class CorruptedDataManager:
 
     @beartype
     def __init__(self, metadata: dict):
@@ -83,4 +83,4 @@ class BadDataManager:
             if probe_value:
                 corrupted_data = False
         if corrupted_data:
-            raise BadChannelsException('All data are corrupted')
+            raise CorruptedDataException('All data are corrupted')

@@ -2,13 +2,13 @@ from unittest import TestCase
 
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.bad_channels_exception import BadChannelsException
-from fl.datamigration.metadata.bad_data_manager import BadDataManager
+from fl.datamigration.exceptions.bad_channels_exception import CorruptedDataException
+from fl.datamigration.metadata.corrupted_data_manager import CorruptedDataManager
 
 
 class TestBadDataManager(TestCase):
 
-    def test_bad_data_manager_get_valid_map_dict_successfully(self):
+    def test_corrupted_data_manager_get_valid_map_dict_successfully(self):
         metadata = {
             'ntrode electrode group channel map': [
                 {'ntrode_id': 1, 'electrode_group_id': 0, 'bad_channels': [1],
@@ -40,10 +40,10 @@ class TestBadDataManager(TestCase):
             ]
         }
 
-        bad_data_manager = BadDataManager(
+        corrupted_data_manager = CorruptedDataManager(
             metadata=metadata
         )
-        electrodes_valid_map_dict = bad_data_manager.get_valid_map_dict()
+        electrodes_valid_map_dict = corrupted_data_manager.get_valid_map_dict()
 
         self.assertIsInstance(electrodes_valid_map_dict, dict)
 
@@ -59,23 +59,23 @@ class TestBadDataManager(TestCase):
 
 
     @should_raise(TypeError)
-    def test_bad_data_manager_get_valid_map_dict_failed_due_to_none_param(self):
-        BadDataManager(
+    def test_corrupted_data_manager_get_valid_map_dict_failed_due_to_none_param(self):
+        CorruptedDataManager(
             metadata=None
         )
 
     @should_raise(TypeError)
-    def test_bad_data_manager_get_valid_map_dict_failed_due_to_bad_type_param(self):
+    def test_corrupted_data_manager_get_valid_map_dict_failed_due_to_bad_type_param(self):
         metadata = [
             {'mock_key': 123}
         ]
 
-        BadDataManager(
+        CorruptedDataManager(
             metadata=metadata
         )
 
-    @should_raise(BadChannelsException)
-    def test_bad_data_manager_get_valid_map_dict_end_nbw_building_process_due_to_lack_of_good_data(self):
+    @should_raise(CorruptedDataException)
+    def test_corrupted_data_manager_get_valid_map_dict_end_nbw_building_process_due_to_lack_of_good_data(self):
         metadata = {
             'ntrode electrode group channel map': [
                 {'ntrode_id': 1, 'electrode_group_id': 0, 'bad_channels': [0, 1], 'map': {0: 0, 1: 1}},
@@ -89,7 +89,7 @@ class TestBadDataManager(TestCase):
             ]
         }
 
-        bad_data_manager = BadDataManager(
+        corrupted_data_manager = CorruptedDataManager(
             metadata=metadata
         )
-        bad_data_manager.get_valid_map_dict()
+        corrupted_data_manager.get_valid_map_dict()
