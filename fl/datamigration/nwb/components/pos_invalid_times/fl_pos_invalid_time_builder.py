@@ -1,4 +1,4 @@
-from fl.datamigration.nwb.components.invalid_times.fl_pos_invalid_times import FlPosInvalidTime
+from fl.datamigration.nwb.components.pos_invalid_times.fl_pos_invalid_times import FlPosInvalidTime
 
 
 class FlPosInvalidTimeBuilder:

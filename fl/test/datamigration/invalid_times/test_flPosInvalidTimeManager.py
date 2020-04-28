@@ -3,9 +3,9 @@ from unittest.mock import Mock
 import numpy as np
 
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
-from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_pos_timestamp_extractor import \
+from fl.datamigration.nwb.components.pos_invalid_times.fl_invalid_time_pos_timestamp_extractor import \
     FlInvalidTimePosTimestampExtractor
-from fl.datamigration.nwb.components.invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
+from fl.datamigration.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
 
 
 class TestPosInvalidTimesManager(TestCase):

@@ -1,6 +1,6 @@
-from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_pos_timestamp_extractor import \
+from fl.datamigration.nwb.components.pos_invalid_times.fl_invalid_time_pos_timestamp_extractor import \
     FlInvalidTimePosTimestampExtractor
-from fl.datamigration.nwb.components.invalid_times.fl_pos_invalid_time_builder import FlPosInvalidTimeBuilder
+from fl.datamigration.nwb.components.pos_invalid_times.fl_pos_invalid_time_builder import FlPosInvalidTimeBuilder
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 

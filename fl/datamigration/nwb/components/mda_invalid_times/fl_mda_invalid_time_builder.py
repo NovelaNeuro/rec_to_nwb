@@ -1,4 +1,4 @@
-from fl.datamigration.nwb.components.invalid_times.fl_mda_invalid_times import FlMdaInvalidTime
+from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_times import FlMdaInvalidTime
 
 
 class FlMdaInvalidTimeBuilder:

@@ -1,5 +1,5 @@
 
-class InvalidTimeInjector:
+class PosInvalidTimeInjector:
 
     @staticmethod
     def inject(gaps, nwb_content):
