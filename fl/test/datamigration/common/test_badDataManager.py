@@ -48,10 +48,14 @@ class TestBadDataManager(TestCase):
         self.assertIsInstance(electrodes_valid_map_dict, dict)
 
         self.assertEqual(electrodes_valid_map_dict['electrodes'], [
-            False, True, False, True, True, True, True, True, True, False, False, False, True, True, True, True
+            True, False, True, False, False, False, False, False, False, True, True, True, False, False, False, False
         ])
         self.assertEqual(electrodes_valid_map_dict['electrode_group'], [True, False, True, False])
-        self.assertEqual(electrodes_valid_map_dict['probes'], [True, True, False])
+        self.assertEqual(electrodes_valid_map_dict['probes_dict'], {
+            '128c-4s8mm6cm-20um-40um-sl': True,
+            '32c-2s8mm6cm-20um-40um-dl': False,
+            'tetrode_12.5': True
+        })
 
     @should_raise(BadChannelsException)
     def test_bad_data_manager_get_valid_map_dict_end_nbw_building_process_due_to_lack_of_good_data(self):
