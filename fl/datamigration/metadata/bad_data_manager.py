@@ -1,15 +1,18 @@
 import copy
 
-from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension_factory import \
-    FlElectrodeExtensionFactory
+
+from fl.datamigration.exceptions.bad_channels_exception import BadChannelsException
+from fl.datamigration.tools.beartype.beartype import beartype
 
 
 class BadDataManager:
 
-    def __init__(self, metadata):
+    @beartype
+    def __init__(self, metadata: dict):
         self.metadata = metadata
 
-    def get_valid_map_dict(self):
+    @beartype
+    def get_valid_map_dict(self) -> dict:
 
         electrodes_valid_map = self.__get_electrodes_valid_map(
             ntrode_metadata=self.metadata['ntrode electrode group channel map']
@@ -23,7 +26,8 @@ class BadDataManager:
             electrode_groups_metadata=self.metadata['electrode groups'],
             electrode_groups_valid_map=electrode_groups_valid_map
         )
-        # ToDo validate()
+
+        self.__validate_data(probes_valid_map)
 
         return {
             'electrodes': electrodes_valid_map,
@@ -32,7 +36,8 @@ class BadDataManager:
         }
 
     @staticmethod
-    def __get_electrodes_valid_map(ntrode_metadata):
+    @beartype
+    def __get_electrodes_valid_map(ntrode_metadata: list) -> list:
         electrodes_valid_map = []
         for ntrode in ntrode_metadata:
             electrodes_valid_map.extend(
@@ -41,7 +46,9 @@ class BadDataManager:
         return electrodes_valid_map
 
     @staticmethod
-    def __get_electrode_groups_valid_map(electrode_groups_metadata, ntrode_metadata, electrodes_valid_map):
+    @beartype
+    def __get_electrode_groups_valid_map(electrode_groups_metadata: list, ntrode_metadata: list,
+                                         electrodes_valid_map: list) -> list:
         electrode_group_valid_map = [False for _ in electrode_groups_metadata]
         tmp_electrodes_valid_map = copy.deepcopy(electrodes_valid_map)
 
@@ -50,11 +57,11 @@ class BadDataManager:
             for _ in ntrode['map']:
                 if tmp_electrodes_valid_map.pop(0) == True:
                     electrode_group_valid_map[electrode_group_id] = True
-
         return electrode_group_valid_map
 
     @staticmethod
-    def __get_probes_valid_map(electrode_groups_metadata, electrode_groups_valid_map):
+    @beartype
+    def __get_probes_valid_map(electrode_groups_metadata: list, electrode_groups_valid_map: list) -> dict:
         tmp_electrode_groups_valid_map = copy.deepcopy(electrode_groups_valid_map)
 
         probes_valid_map_dict = {}
@@ -66,3 +73,14 @@ class BadDataManager:
             elif not probes_valid_map_dict.get(device_type, False):
                 probes_valid_map_dict[device_type] = False
         return probes_valid_map_dict
+
+    @staticmethod
+    @beartype
+    def __validate_data(probes_valid_map: dict):
+        corrupted_data = True
+
+        for probe_value in probes_valid_map.values():
+            if probe_value:
+                corrupted_data = False
+        if corrupted_data:
+            raise BadChannelsException('All data are corrupted')

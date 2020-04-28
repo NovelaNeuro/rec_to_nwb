@@ -57,6 +57,23 @@ class TestBadDataManager(TestCase):
             'tetrode_12.5': True
         })
 
+
+    @should_raise(TypeError)
+    def test_bad_data_manager_get_valid_map_dict_failed_due_to_none_param(self):
+        BadDataManager(
+            metadata=None
+        )
+
+    @should_raise(TypeError)
+    def test_bad_data_manager_get_valid_map_dict_failed_due_to_bad_type_param(self):
+        metadata = [
+            {'mock_key': 123}
+        ]
+
+        BadDataManager(
+            metadata=metadata
+        )
+
     @should_raise(BadChannelsException)
     def test_bad_data_manager_get_valid_map_dict_end_nbw_building_process_due_to_lack_of_good_data(self):
         metadata = {
