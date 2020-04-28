@@ -1,6 +1,6 @@
-from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_builder import FlInvalidTimeBuilder
 from fl.datamigration.nwb.components.invalid_times.fl_invalid_time_pos_timestamp_extractor import \
     FlInvalidTimePosTimestampExtractor
+from fl.datamigration.nwb.components.invalid_times.fl_pos_invalid_time_builder import FlPosInvalidTimeBuilder
 from fl.datamigration.validation.not_none_validator import NotNoneValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
@@ -47,10 +47,10 @@ class FlPosInvalidTimeManager:
                 if last_timestamp + (period * self.period_multiplier) >= timestamp:
                     gap_stop_time = last_timestamp
                     was_last_timestamp_part_of_a_gap = False
-                    gaps.append(FlInvalidTimeBuilder.build(gap_start_time, gap_stop_time))
+                    gaps.append(FlPosInvalidTimeBuilder.build(gap_start_time, gap_stop_time))
                 elif timestamp == timestamps[-1]:
                     gap_stop_time = timestamp
-                    gaps.append(FlInvalidTimeBuilder.build(gap_start_time, gap_stop_time))
+                    gaps.append(FlPosInvalidTimeBuilder.build(gap_start_time, gap_stop_time))
             last_timestamp = timestamp
         return gaps
 
