@@ -10,6 +10,7 @@ class FlMdaManager:
         self.__fl_mda_builder = FlMdaBuilder(sampling_rate)
 
     def get_data(self):
+
         electrode_table_region = self.__table_region_builder.build()
         data = self.__fl_mda_extractor.get_data()
         return self.__fl_mda_builder.build(electrode_table_region, data)

@@ -7,4 +7,4 @@ class InvalidMetadataException(InvalidException):
         if self.message:
             return 'InvalidMetadataException, {0} '.format(self.message)
         else:
-            return 'InvalidMetadataException has been trown!'
+            return 'InvalidMetadataException has been thrown!'
