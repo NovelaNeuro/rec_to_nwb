@@ -21,10 +21,12 @@ class FlPosInvalidTimeManager:
         gaps = []
         unfinished_gap = None
         for i, single_epoch_timestamps in enumerate(timestamps):
-            gaps.extend(self.__build_gaps_from_single_epoch(single_epoch_timestamps,
-                                                            period,
-                                                            unfinished_gap
-                                                            ))
+            gaps.extend(
+                self.__build_gaps_from_single_epoch(
+                    single_epoch_timestamps,
+                    period,
+                    unfinished_gap
+                    ))
             if gaps:
                 if not i == len(timestamps)-1:
                     if gaps[-1].stop_time == single_epoch_timestamps[-1]:
