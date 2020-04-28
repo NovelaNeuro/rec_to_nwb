@@ -5,6 +5,7 @@ import uuid
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
+from fl.datamigration.metadata.corrupted_data_manager import CorruptedDataManager
 from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb.common.session_time_extractor import SessionTimeExtractor
 from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
@@ -143,6 +144,8 @@ class NWBFileBuilder:
 
         self.extract_datasets(animal_name, date)
 
+        self.corrupted_data_manager = CorruptedDataManager(self.metadata)
+
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
         self.task_builder = TaskBuilder(self.metadata)
@@ -205,10 +208,11 @@ class NWBFileBuilder:
                 sex=self.metadata['subject']['sex'],
                 species=self.metadata['subject']['species'],
                 subject_id=self.metadata['subject']['subject id'],
-                weight=str(self.metadata['subject']['weight']
-                           ),
+                weight=str(self.metadata['subject']['weight']),
             ),
         )
+
+        self.__build_corrupted_data_manager()
 
         self.__build_and_inject_processing_module(nwb_content)
 
@@ -250,6 +254,10 @@ class NWBFileBuilder:
 
         logger.info(self.output_file + ' file has been created.')
         return self.output_file
+
+    def __build_corrupted_data_manager(self):
+        logger.info('CorruptedData: Checking')
+        return self.corrupted_data_manager.get_valid_map_dict()
 
     def __build_and_inject_analog(self, nwb_content):
         analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
