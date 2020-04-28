@@ -7,9 +7,9 @@ from fl.datamigration.validation.validation_registrator import ValidationRegistr
 
 class FlPosInvalidTimeManager:
     def __init__(self, datasets):
-        self.period_multiplier = 1.5
         self.datasets = datasets
 
+        self.period_multiplier = 1.5
         self.pos_timestamps_extractor = FlInvalidTimePosTimestampExtractor(datasets)
         self.__validate_parameters()
 

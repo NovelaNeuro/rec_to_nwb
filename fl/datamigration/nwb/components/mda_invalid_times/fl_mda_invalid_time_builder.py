@@ -2,8 +2,12 @@ from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_times impo
 
 
 class FlMdaInvalidTimeBuilder:
+
     @staticmethod
     def build(start_time, stop_time):
-        return FlMdaInvalidTime(start_time=start_time, stop_time=stop_time)
+        return FlMdaInvalidTime(
+            start_time=start_time,
+            stop_time=stop_time
+        )
 
 

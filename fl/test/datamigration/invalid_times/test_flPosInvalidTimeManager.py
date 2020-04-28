@@ -24,12 +24,12 @@ class TestPosInvalidTimesManager(TestCase):
         manager.pos_timestamps_extractor = extractor_mock
         invalid_times = manager.get_pos_invalid_times()
 
-        self.assertEqual(1, len(invalid_times))
-        self.assertEqual(5, invalid_times[0].start_time)
-        self.assertEqual(9, invalid_times[0].stop_time)
+        self.assertEqual(len(invalid_times), 1)
+        self.assertEqual(invalid_times[0].start_time, 5)
+        self.assertEqual(invalid_times[0].stop_time, 9)
 
     def test_pos_invalid_times_manager_data_with_no_gap(self):
-        mock_array = np.ndarray(dtype='float', shape=[10,])
+        mock_array = np.ndarray(dtype='float', shape=[10, ])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         for i, number in enumerate(array):
             mock_array[i] = number
@@ -39,7 +39,7 @@ class TestPosInvalidTimesManager(TestCase):
         manager.pos_timestamps_extractor = extractor_mock
         invalid_times = manager.get_pos_invalid_times()
 
-        self.assertEqual([], invalid_times)
+        self.assertEqual(invalid_times, [])
 
     def test_pos_invalid_times_manager_data_with_gap_at_start(self):
         mock_array = np.ndarray(dtype='float', shape=[10, ])
@@ -52,9 +52,9 @@ class TestPosInvalidTimesManager(TestCase):
         manager.pos_timestamps_extractor = extractor_mock
         invalid_times = manager.get_pos_invalid_times()
 
-        self.assertEqual(1, len(invalid_times))
-        self.assertEqual(1, invalid_times[0].start_time)
-        self.assertEqual(5, invalid_times[0].stop_time)
+        self.assertEqual(len(invalid_times), 1)
+        self.assertEqual(invalid_times[0].start_time, 1)
+        self.assertEqual(invalid_times[0].stop_time, 5)
 
     def test_pos_invalid_times_manager_data_with_gap_at_the_end(self):
         mock_array = np.ndarray(dtype='float', shape=[10, ])
@@ -67,6 +67,6 @@ class TestPosInvalidTimesManager(TestCase):
         manager.pos_timestamps_extractor = extractor_mock
         invalid_times = manager.get_pos_invalid_times()
 
-        self.assertEqual(1, len(invalid_times))
-        self.assertEqual(8, invalid_times[0].start_time)
-        self.assertEqual(12, invalid_times[0].stop_time)
+        self.assertEqual(len(invalid_times), 1)
+        self.assertEqual(invalid_times[0].start_time, 8)
+        self.assertEqual(invalid_times[0].stop_time, 12)
