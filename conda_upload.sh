@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export PKG_NAME=fldatamigration
-export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TEST_TOKEN
+export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TOKEN
 export VERSION=$(python setup.py)
 export CONDA_BUILD_PATH=/home/travis/miniconda/envs/test-environment/conda-bld
 export BASE_PATH=$(pwd)
@@ -28,7 +28,7 @@ anaconda upload $CONDA_BUILD_PATH/**/rec_to_binaries-*.tar.bz2 --force
 anaconda upload $CONDA_BUILD_PATH/**/xmldiff-*.tar.bz2 --force
 
 echo "Building conda package..."
-conda build . -c novelakrk -c acwikla-novela -c conda-forge --no-include-recipe || exit 1
+conda build . -c novelakrk -c conda-forge --no-include-recipe || exit 1
 
 echo "Move conda package..."
 mv ${CONDA_BUILD_PATH}/linux-64/${PKG_NAME}-${VERSION}-py37_0.tar.bz2  ${CONDA_BUILD_PATH} || exit 1
