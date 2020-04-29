@@ -10,14 +10,15 @@ class FlMdaInvalidTimeManager:
         self.sampling_rate = sampling_rate
         self.datasets = datasets
 
-        self.period_multiplier = 1.5
         self.__validate_parameters()
+        self.period_multiplier = 1.5
         self.timestamps_extractor = FlInvalidTimeMdaTimestampExtractor(datasets)
 
     def get_mda_invalid_times(self):
-        return self.__build_mda_invalid_times(self.timestamps_extractor.get_converted_timestamps(),
-                                              1E9/self.sampling_rate
-                                              )
+        return self.__build_mda_invalid_times(
+            timestamps=self.timestamps_extractor.get_converted_timestamps(),
+            period=1E9/self.sampling_rate
+            )
 
     def __build_mda_invalid_times(self, timestamps, period):
         gaps = []
@@ -28,11 +29,10 @@ class FlMdaInvalidTimeManager:
                     single_epoch_timestamps,
                     period,
                     unfinished_gap
-                    ))
-            if gaps:
-                if not i == len(timestamps)-1:
-                    if gaps[-1].stop_time == single_epoch_timestamps[-1]:
-                        unfinished_gap = gaps.pop()
+                    )
+            )
+            if gaps and not i == len(timestamps)-1 and gaps[-1].stop_time == single_epoch_timestamps[-1]:
+                unfinished_gap = gaps.pop()
         return gaps
 
     def __build_gaps_from_single_epoch(self, timestamps, period=None, unfinished_gap=None, last_timestamp=None):

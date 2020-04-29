@@ -17,6 +17,7 @@ class TestMdaInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_data_with_gap_in_the_middle(self):
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 2, 3, 4, 5, 7, 9, 10, 11, 12]
+
         for i, number in enumerate(array):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
@@ -32,6 +33,7 @@ class TestMdaInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_data_with_no_gap(self):
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
         for i, number in enumerate(array):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
@@ -45,6 +47,7 @@ class TestMdaInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_data_with_gap_at_start(self):
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 3, 5, 6, 7, 8, 9, 10, 11, 12]
+
         for i, number in enumerate(array):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
@@ -60,6 +63,7 @@ class TestMdaInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_data_with_gap_at_end(self):
         mock_array = np.ndarray(dtype='float', shape=[10, ])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
+
         for i, number in enumerate(array):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)

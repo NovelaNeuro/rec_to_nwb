@@ -9,9 +9,9 @@ class FlPosInvalidTimeManager:
     def __init__(self, datasets):
         self.datasets = datasets
 
+        self.__validate_parameters()
         self.period_multiplier = 1.5
         self.pos_timestamps_extractor = FlInvalidTimePosTimestampExtractor(datasets)
-        self.__validate_parameters()
 
     def get_pos_invalid_times(self):
         timestamps = self.pos_timestamps_extractor.get_converted_timestamps()
@@ -26,7 +26,8 @@ class FlPosInvalidTimeManager:
                     single_epoch_timestamps,
                     period,
                     unfinished_gap
-                    ))
+                    )
+            )
             if gaps:
                 if not i == len(timestamps)-1:
                     if gaps[-1].stop_time == single_epoch_timestamps[-1]:
