@@ -1,8 +1,8 @@
-import pandas as pd
-from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
-
 from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 from fl.datamigration.processing.timestamp_converter import TimestampConverter
+
+from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
+import pandas as pd
 
 
 class FlInvalidTimePosTimestampExtractor:
@@ -12,7 +12,8 @@ class FlInvalidTimePosTimestampExtractor:
     def get_converted_timestamps(self):
         return self.__convert_timestamps(self.__read_pos_timestamps(), self.__get_continuous_time_dicts())
 
-    def __convert_timestamps(self, timestamps, continuous_time_dicts):
+    @staticmethod
+    def __convert_timestamps(timestamps, continuous_time_dicts):
         return [TimestampConverter.convert_timestamps(continuous_time_dicts[i], timestamp)
                 for i, timestamp in enumerate(timestamps)]
 
@@ -29,7 +30,8 @@ class FlInvalidTimePosTimestampExtractor:
                     all_files.append(dataset.get_data_path_from_dataset('pos') + file)
         return all_files
 
-    def __read_single_pos_timestamps(self, timestamp_file):
+    @staticmethod
+    def __read_single_pos_timestamps(timestamp_file):
         pos_online = readTrodesExtractedDataFile(timestamp_file)
         position = pd.DataFrame(pos_online['data'])
         return position.time.to_numpy(dtype='int64')

@@ -1,7 +1,7 @@
-from mountainlab_pytools.mdaio import readmda
-
 from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 from fl.datamigration.processing.timestamp_converter import TimestampConverter
+
+from mountainlab_pytools.mdaio import readmda
 
 
 class FlInvalidTimeMdaTimestampExtractor:
@@ -11,7 +11,8 @@ class FlInvalidTimeMdaTimestampExtractor:
     def get_converted_timestamps(self):
         return self.__convert_timestamps(self.__read_mda_timestamps(), self.__get_continuous_time_dicts())
 
-    def __convert_timestamps(self, timestamps, continuous_time_dicts):
+    @staticmethod
+    def __convert_timestamps(timestamps, continuous_time_dicts):
         return [TimestampConverter.convert_timestamps(continuous_time_dicts[i], timestamp)
                 for i, timestamp in enumerate(timestamps)]
 

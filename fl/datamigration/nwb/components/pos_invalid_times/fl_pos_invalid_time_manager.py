@@ -66,7 +66,8 @@ class FlPosInvalidTimeManager:
         validation_registrator.register(NotNoneValidator(self.datasets))
         validation_registrator.validate()
 
-    def __calculate_pos_period(self, timestamps):
+    @staticmethod
+    def __calculate_pos_period(timestamps):
         number_of_invalid_records_at_start_of_a_file = 0
         number_of_invalid_records_at_end_of_a_file = 0
         first_timestamp = timestamps[0][0]
