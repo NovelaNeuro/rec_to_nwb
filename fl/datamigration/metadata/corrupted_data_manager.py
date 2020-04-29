@@ -66,12 +66,13 @@ class CorruptedDataManager:
 
         probes_valid_map_dict = {}
         for electrode_group in electrode_groups_metadata:
-
             device_type = electrode_group['device_type']
+
             if tmp_electrode_groups_valid_map.pop(0):
                 probes_valid_map_dict[device_type] = True
             elif not probes_valid_map_dict.get(device_type, False):
                 probes_valid_map_dict[device_type] = False
+
         return probes_valid_map_dict
 
     @staticmethod
