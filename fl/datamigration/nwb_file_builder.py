@@ -32,6 +32,9 @@ from fl.datamigration.nwb.components.electrodes.extension.electrode_extension_in
 from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
     FlElectrodeExtensionManager
 from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
+from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
+from fl.datamigration.nwb.components.pos_invalid_times.fl_pos_invalid_time_injector import PosInvalidTimeInjector
+from fl.datamigration.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
 from fl.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from fl.datamigration.nwb.components.mda.fl_mda_manager import FlMdaManager
 from fl.datamigration.nwb.components.mda.mda_injector import MdaInjector
@@ -39,8 +42,7 @@ from fl.datamigration.nwb.components.position.fl_position_manager import FlPosit
 from fl.datamigration.nwb.components.position.position_creator import PositionCreator
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
-from fl.datamigration.nwb.components.invalid_times.invalid_time_injector import InvalidTimeInjector
-from fl.datamigration.nwb.components.invalid_times.invalid_time_manager import InvalidTimeManager
+from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_time_injector import MdaInvalidTimeInjector
 from fl.datamigration.tools.beartype.beartype import beartype
 from fl.datamigration.tools.data_scanner import DataScanner
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
@@ -184,6 +186,14 @@ class NWBFileBuilder:
             self.dataset_names
         )
 
+        self.fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(
+            sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
+            datasets=self.datasets
+        )
+        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager(
+            datasets=self.datasets
+        )
+
     def extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
@@ -237,6 +247,8 @@ class NWBFileBuilder:
 
         if self.process_analog:
             self.__build_and_inject_analog(nwb_content)
+
+        self.build_and_inject_pos_invalid_times(nwb_content)
 
         return nwb_content
 
@@ -381,6 +393,12 @@ class NWBFileBuilder:
 
     def build_and_inject_mda_invalid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
-        mda_invalid_time_manager = InvalidTimeManager(self.header.configuration.hardware_configuration.sampling_rate, self.datasets)
-        invalid_times = mda_invalid_time_manager.build_mda_invalid_times()
-        InvalidTimeInjector.inject(invalid_times, nwb_content)
+        mda_invalid_times = self.fl_mda_invalid_time_manager.get_mda_invalid_times()
+        logger.info('MDA valid times: Injecting')
+        MdaInvalidTimeInjector.inject_all(mda_invalid_times, nwb_content)
+
+    def build_and_inject_pos_invalid_times(self, nwb_content):
+        logger.info('POS valid times: Building')
+        pos_invalid_times = self.fl_pos_invalid_time_manager.get_pos_invalid_times()
+        logger.info('POS valid times: Injecting')
+        PosInvalidTimeInjector.inject_all(pos_invalid_times, nwb_content)
