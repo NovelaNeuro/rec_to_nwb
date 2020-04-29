@@ -55,7 +55,7 @@ class CorruptedDataManager:
         for ntrode in ntrode_metadata:
             electrode_group_id = ntrode['electrode_group_id']
             for _ in ntrode['map']:
-                if tmp_electrodes_valid_map.pop(0) == True:
+                if tmp_electrodes_valid_map.pop(0):
                     electrode_group_valid_map[electrode_group_id] = True
         return electrode_group_valid_map
 
