@@ -11,7 +11,7 @@ import numpy as np
 
 class TestPosInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_input_validation(self):
-        with self.assertRaises(NoneParamException):
+        with self.assertRaises(TypeError):
             FlPosInvalidTimeManager(None)
 
     def test_pos_invalid_times_manager_data_with_gap_in_the_middle(self):

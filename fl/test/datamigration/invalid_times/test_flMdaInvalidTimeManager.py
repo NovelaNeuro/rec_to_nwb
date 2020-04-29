@@ -11,7 +11,7 @@ import numpy as np
 
 class TestMdaInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_input_validation(self):
-        with self.assertRaises(NoneParamException):
+        with self.assertRaises(TypeError):
             FlMdaInvalidTimeManager(None, [])
             FlMdaInvalidTimeManager(1, None)
 

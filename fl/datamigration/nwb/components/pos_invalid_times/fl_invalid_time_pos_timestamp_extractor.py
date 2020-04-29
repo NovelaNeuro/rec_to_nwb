@@ -1,12 +1,15 @@
 from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
 from fl.datamigration.processing.timestamp_converter import TimestampConverter
+from fl.datamigration.tools.beartype.beartype import beartype
 
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 import pandas as pd
 
 
 class FlInvalidTimePosTimestampExtractor:
-    def __init__(self, datasets):
+
+    @beartype
+    def __init__(self, datasets: list):
         self.datasets = datasets
 
     def get_converted_timestamps(self):

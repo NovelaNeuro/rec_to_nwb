@@ -1,15 +1,15 @@
 from fl.datamigration.nwb.components.pos_invalid_times.fl_invalid_time_pos_timestamp_extractor import \
     FlInvalidTimePosTimestampExtractor
 from fl.datamigration.nwb.components.pos_invalid_times.fl_pos_invalid_time_builder import FlPosInvalidTimeBuilder
-from fl.datamigration.validation.not_none_validator import NotNoneValidator
-from fl.datamigration.validation.validation_registrator import ValidationRegistrator
+from fl.datamigration.tools.beartype.beartype import beartype
 
 
 class FlPosInvalidTimeManager:
-    def __init__(self, datasets):
+
+    @beartype
+    def __init__(self, datasets: list):
         self.datasets = datasets
 
-        self.__validate_parameters()
         self.period_multiplier = 1.5
         self.pos_timestamps_extractor = FlInvalidTimePosTimestampExtractor(datasets)
 
@@ -60,11 +60,6 @@ class FlPosInvalidTimeManager:
                     gaps.append(FlPosInvalidTimeBuilder.build(gap_start_time, gap_stop_time))
             last_timestamp = timestamp
         return gaps
-
-    def __validate_parameters(self):
-        validation_registrator = ValidationRegistrator()
-        validation_registrator.register(NotNoneValidator(self.datasets))
-        validation_registrator.validate()
 
     @staticmethod
     def __calculate_pos_period(timestamps):

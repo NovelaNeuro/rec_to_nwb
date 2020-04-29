@@ -1,16 +1,16 @@
 from fl.datamigration.nwb.components.mda_invalid_times.fl_invalid_time_mda_timestamp_extractor import \
     FlInvalidTimeMdaTimestampExtractor
 from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_time_builder import FlMdaInvalidTimeBuilder
-from fl.datamigration.validation.not_none_validator import NotNoneValidator
-from fl.datamigration.validation.validation_registrator import ValidationRegistrator
+from fl.datamigration.tools.beartype.beartype import beartype
 
 
 class FlMdaInvalidTimeManager:
-    def __init__(self, sampling_rate, datasets):
+
+    @beartype
+    def __init__(self, sampling_rate: int, datasets: list):
         self.sampling_rate = sampling_rate
         self.datasets = datasets
 
-        self.__validate_parameters()
         self.period_multiplier = 1.5
         self.timestamps_extractor = FlInvalidTimeMdaTimestampExtractor(datasets)
 
@@ -61,9 +61,3 @@ class FlMdaInvalidTimeManager:
                     gaps.append(FlMdaInvalidTimeBuilder.build(gap_start_time, gap_stop_time))
             last_timestamp = timestamp
         return gaps
-
-    def __validate_parameters(self):
-        validation_registrator = ValidationRegistrator()
-        validation_registrator.register(NotNoneValidator(self.sampling_rate))
-        validation_registrator.register(NotNoneValidator(self.datasets))
-        validation_registrator.validate()
