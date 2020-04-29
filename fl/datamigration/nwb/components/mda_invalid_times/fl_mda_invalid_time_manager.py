@@ -7,7 +7,7 @@ from fl.datamigration.tools.beartype.beartype import beartype
 class FlMdaInvalidTimeManager:
 
     @beartype
-    def __init__(self, sampling_rate: int, datasets: list):
+    def __init__(self, sampling_rate: float, datasets: list):
         self.sampling_rate = sampling_rate
         self.datasets = datasets
 

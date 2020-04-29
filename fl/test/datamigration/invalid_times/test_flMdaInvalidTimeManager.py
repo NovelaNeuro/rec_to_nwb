@@ -22,7 +22,7 @@ class TestMdaInvalidTimesManager(TestCase):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
-        manager = FlMdaInvalidTimeManager(1000000000, [])
+        manager = FlMdaInvalidTimeManager(1000000000.0, [])
         manager.timestamps_extractor = extractor_mock
 
         invalid_times = manager.get_mda_invalid_times()
@@ -38,7 +38,7 @@ class TestMdaInvalidTimesManager(TestCase):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
-        manager = FlMdaInvalidTimeManager(1000000000, [])
+        manager = FlMdaInvalidTimeManager(1000000000.0, [])
         manager.timestamps_extractor = extractor_mock
 
         invalid_times = manager.get_mda_invalid_times()
@@ -52,7 +52,7 @@ class TestMdaInvalidTimesManager(TestCase):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
-        manager = FlMdaInvalidTimeManager(1000000000, [])
+        manager = FlMdaInvalidTimeManager(1000000000.0, [])
         manager.timestamps_extractor = extractor_mock
 
         invalid_times = manager.get_mda_invalid_times()
@@ -68,7 +68,7 @@ class TestMdaInvalidTimesManager(TestCase):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
-        manager = FlMdaInvalidTimeManager(1000000000, [])
+        manager = FlMdaInvalidTimeManager(1000000000.0, [])
         manager.timestamps_extractor = extractor_mock
 
         invalid_times = manager.get_mda_invalid_times()
