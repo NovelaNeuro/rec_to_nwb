@@ -15,13 +15,11 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    ```
 3. Download miniconda from <br>
    <https://docs.conda.io/en/latest/miniconda.html> <br>
-4. Download `flenvironment.yml` from <br>
-   <https://anaconda.org/NovelaKRK/fldatamigration/files>
-5. Build fldatamigration environment:
+4. Install fldatamigration package:
    ```bash
-   conda env create -f flenvironment.yml
+   conda install -c conda-forge -c novelakrk fldatamigration
    ```
-6. Install Jupyter notebook
+5. Install Jupyter notebook
    ```bash
    pip install jupyter notebook
    ```
@@ -206,7 +204,7 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
       **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')`<br>
 
 ##### Preprocessed data
-Initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
+If you have already preprocessed data or RawToNwb process crashed during building file you can initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
 
    ```bash
    builder = NWBFileBuilder(
