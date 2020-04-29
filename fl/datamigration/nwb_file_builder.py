@@ -33,6 +33,7 @@ from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension
     FlElectrodeExtensionManager
 from fl.datamigration.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
+from fl.datamigration.nwb.components.pos_invalid_times.fl_pos_invalid_time_injector import PosInvalidTimeInjector
 from fl.datamigration.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
 from fl.datamigration.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from fl.datamigration.nwb.components.mda.fl_mda_manager import FlMdaManager
@@ -41,7 +42,7 @@ from fl.datamigration.nwb.components.position.fl_position_manager import FlPosit
 from fl.datamigration.nwb.components.position.position_creator import PositionCreator
 from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
-from fl.datamigration.nwb.components.mda_invalid_times.invalid_time_injector import MdaInvalidTimeInjector
+from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_time_injector import MdaInvalidTimeInjector
 from fl.datamigration.tools.beartype.beartype import beartype
 from fl.datamigration.tools.data_scanner import DataScanner
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
@@ -400,4 +401,4 @@ class NWBFileBuilder:
         logger.info('POS valid times: Building')
         pos_invalid_times = self.fl_pos_invalid_time_manager.get_pos_invalid_times()
         logger.info('POS valid times: Injecting')
-        MdaInvalidTimeInjector.inject_all(pos_invalid_times, nwb_content)
+        PosInvalidTimeInjector.inject_all(pos_invalid_times, nwb_content)
