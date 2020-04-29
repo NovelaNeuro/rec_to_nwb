@@ -28,10 +28,8 @@ class FlPosInvalidTimeManager:
                     unfinished_gap
                     )
             )
-            if gaps:
-                if not i == len(timestamps)-1:
-                    if gaps[-1].stop_time == single_epoch_timestamps[-1]:
-                        unfinished_gap = gaps.pop()
+            if gaps and not i == len(timestamps)-1 and gaps[-1].stop_time == single_epoch_timestamps[-1]:
+                unfinished_gap = gaps.pop()
         return gaps
 
     def __build_gaps_from_single_epoch(self, timestamps, period=None, unfinished_gap=None, last_timestamp=None):
@@ -67,9 +65,7 @@ class FlPosInvalidTimeManager:
         number_of_invalid_records_at_end_of_a_file = 0
         first_timestamp = timestamps[0][0]
         last_timestamp = timestamps[-1][-1]
-        len_of_timestamps = 0
-        for single_epoch_timestamps in timestamps:
-            len_of_timestamps += len(single_epoch_timestamps)
+        len_of_timestamps = sum([len(single_epoch_timestamps) for single_epoch_timestamps in timestamps])
         while not first_timestamp >= 0:
             number_of_invalid_records_at_start_of_a_file += 1
             first_timestamp = timestamps[0][number_of_invalid_records_at_start_of_a_file]

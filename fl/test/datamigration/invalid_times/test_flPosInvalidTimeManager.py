@@ -17,13 +17,13 @@ class TestPosInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_data_with_gap_in_the_middle(self):
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 2, 3, 4, 5, 7, 9, 10, 11, 12]
-
         for i, number in enumerate(array):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimePosTimestampExtractor)
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
         manager = FlPosInvalidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
+
         invalid_times = manager.get_pos_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
@@ -33,13 +33,13 @@ class TestPosInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_data_with_no_gap(self):
         mock_array = np.ndarray(dtype='float', shape=[10, ])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
         for i, number in enumerate(array):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimePosTimestampExtractor)
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
         manager = FlPosInvalidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
+
         invalid_times = manager.get_pos_invalid_times()
 
         self.assertEqual(invalid_times, [])
@@ -47,13 +47,13 @@ class TestPosInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_data_with_gap_at_start(self):
         mock_array = np.ndarray(dtype='float', shape=[10, ])
         array = [1, 3, 5, 6, 7, 8, 9, 10, 11, 12]
-
         for i, number in enumerate(array):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimePosTimestampExtractor)
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
         manager = FlPosInvalidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
+
         invalid_times = manager.get_pos_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
@@ -63,13 +63,13 @@ class TestPosInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_data_with_gap_at_the_end(self):
         mock_array = np.ndarray(dtype='float', shape=[10, ])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
-
         for i, number in enumerate(array):
             mock_array[i] = number
         extractor_mock = Mock(spec=FlInvalidTimePosTimestampExtractor)
         extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
         manager = FlPosInvalidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
+
         invalid_times = manager.get_pos_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
