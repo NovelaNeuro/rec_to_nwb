@@ -22,17 +22,17 @@ class CorruptedDataManager:
             ntrode_metadata=self.metadata['ntrode electrode group channel map'],
             electrodes_valid_map=electrodes_valid_map
         )
-        probes_valid_map = self.__get_probes_valid_map(
+        probes_valid_map_dict = self.__get_probes_valid_map(
             electrode_groups_metadata=self.metadata['electrode groups'],
             electrode_groups_valid_map=electrode_groups_valid_map
         )
 
-        self.__validate_data(probes_valid_map)
+        self.__validate_data(probes_valid_map_dict)
 
         return {
             'electrodes': electrodes_valid_map,
             'electrode_group': electrode_groups_valid_map,
-            'probes_dict': probes_valid_map,
+            'probes_dict': probes_valid_map_dict,
         }
 
     @staticmethod
@@ -55,7 +55,7 @@ class CorruptedDataManager:
         for ntrode in ntrode_metadata:
             electrode_group_id = ntrode['electrode_group_id']
             for _ in ntrode['map']:
-                if tmp_electrodes_valid_map.pop(0) == True:
+                if tmp_electrodes_valid_map.pop(0):
                     electrode_group_valid_map[electrode_group_id] = True
         return electrode_group_valid_map
 
@@ -66,20 +66,21 @@ class CorruptedDataManager:
 
         probes_valid_map_dict = {}
         for electrode_group in electrode_groups_metadata:
-
             device_type = electrode_group['device_type']
+
             if tmp_electrode_groups_valid_map.pop(0):
                 probes_valid_map_dict[device_type] = True
             elif not probes_valid_map_dict.get(device_type, False):
                 probes_valid_map_dict[device_type] = False
+
         return probes_valid_map_dict
 
     @staticmethod
     @beartype
-    def __validate_data(probes_valid_map: dict):
+    def __validate_data(probes_valid_map_dict: dict):
         corrupted_data = True
 
-        for probe_value in probes_valid_map.values():
+        for probe_value in probes_valid_map_dict.values():
             if probe_value:
                 corrupted_data = False
         if corrupted_data:
