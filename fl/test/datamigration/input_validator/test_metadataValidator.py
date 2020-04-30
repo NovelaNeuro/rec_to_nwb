@@ -25,8 +25,8 @@ class TestInputValidator(TestCase):
         validator_wrong_metadata = MetadataValidator(self.wrong_metadata_path, self.probes_paths)
         validator_wrong_probes = MetadataValidator(self.metadata_path, self.wrong_probes_paths)
 
-        self.assertEqual(validator.createSummary().isValid(), True)
+        self.assertEqual(validator.create_summary().is_valid(), True)
         with self.assertRaises(MissingDataException):
-            validator_wrong_metadata.createSummary()
+            validator_wrong_metadata.create_summary()
         with self.assertRaises(MissingDataException):
-            validator_wrong_probes.createSummary()
+            validator_wrong_probes.create_summary()

@@ -1,23 +1,24 @@
 from unittest import TestCase
 
+from testfixtures import should_raise
+
+from fl.datamigration.exceptions.invalid_metadata_exception import InvalidMetadataException
 from fl.datamigration.validation.task_validator import TaskValidator
 
 
 class TestTaskValidator(TestCase):
 
-    def setUp(self):
-        self.number_of_datasets = 2
-
-    def test_task_validator_equal_number_of_task_and_epochs_valid(self):
+    def test_task_validator_existing_tasks_valid(self):
         tasks = [{'task_name': 'task1'}, {'task_name': 'task2'}]
-        task_validator = TaskValidator(self.number_of_datasets, tasks)
-        result = task_validator.createSummary()
-        self.assertTrue(result.isValid())
+        task_validator = TaskValidator(tasks)
+        result = task_validator.create_summary()
+        self.assertTrue(result.is_valid())
 
-    def test_task_validator_different_number_of_tasks_and_epochs_failed(self):
-        tasks = [{'task_name': 'task1'}, {'task_name': 'task2'}, {'task_name': 'task3'}]
-        task_validator = TaskValidator(self.number_of_datasets, tasks)
-        result = task_validator.createSummary()
-        self.assertFalse(result.isValid())
+    @should_raise(InvalidMetadataException)
+    def test_task_validator_empty_tasks_failed(self):
+        tasks = []
+        task_validator = TaskValidator(tasks)
+        result = task_validator.create_summary()
+        self.assertFalse(result.is_valid())
 
 

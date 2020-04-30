@@ -17,9 +17,10 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
+
   - conda env create -q -n test-environment -f fl/environment.yml python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
-  - python setup.py install
+  - python setup.py install --single-version-externally-managed --record=record.txt
   - pip install pylint
   - chown -R $USER:$USER fl/test/
 
@@ -28,9 +29,8 @@ script:
   - python -m pytest fl/test/datamigration
 
 after_success:
-  - test $TRAVIS_BRANCH = "master_release" && conda install conda-build && conda install anaconda-client && conda install conda-verify && bash conda_upload.sh
+  - test $TRAVIS_BRANCH = "master_release" && conda install conda-build anaconda-client conda-verify && bash conda_upload.sh
   # ToDo delete in PR
 #  - pip install recommonmark sphinx-autoapi sphinx_rtd_theme && bash docs_upload.sh
-
 notifications:
   slack: novelaneurote-ibx6025:3bhUUXZXz52ZXXTQCpiJyHkF

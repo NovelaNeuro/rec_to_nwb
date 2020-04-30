@@ -1,6 +1,8 @@
-version = '0.1.005'
+version = '0.1.006'
 print(version)
 from setuptools import setup, find_packages
+
+
 
 setup(
     name='fldatamigration',

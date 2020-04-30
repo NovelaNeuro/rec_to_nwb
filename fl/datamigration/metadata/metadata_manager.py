@@ -1,25 +1,27 @@
+
 from fl.datamigration.metadata.metadata_extractor import MetadataExtractor
 from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
-from fl.datamigration.tools.validate_parameters import validate_parameters_not_none
+from fl.datamigration.tools.beartype.beartype import beartype
 from fl.datamigration.validation.metadata_validator import MetadataValidator
+from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
 class MetadataManager:
-    """
-    Args:
-        metadata_path (string): path to file .yml with metadata describing experiment
-        probes_paths (list of strings): list of paths to .yml files with data describing probes used in experiment
-    """
-    def __init__(self, metadata_path, probes_paths):
 
+    @beartype
+    def __init__(self, metadata_path: str, probes_paths: list):
+        """
+        Args:
+            metadata_path (string): path to file .yml with metadata describing experiment
+            probes_paths (list of strings): list of paths to .yml files with data describing probes used in experiment
+        """
 
-
-        validate_parameters_not_none(__name__, metadata_path, probes_paths)
-
-        validationRegistrator = ValidationRegistrator()
-        validationRegistrator.register(MetadataValidator(metadata_path, probes_paths))
-        validationRegistrator.validate()
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NotEmptyValidator(metadata_path))
+        validation_registrator.register(NotEmptyValidator(probes_paths))
+        validation_registrator.register(MetadataValidator(metadata_path, probes_paths))
+        validation_registrator.validate()
 
         self.probes_paths = probes_paths
         self.metadata_path = metadata_path

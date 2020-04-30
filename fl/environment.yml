@@ -29,7 +29,7 @@ dependencies:
   - pynwb
   - pyopenssl
   - pysocks
-  - python=3.7.4
+  - python=3.7
   - python-dateutil=2.8.0=py_0
   - pytz
   - requests
@@ -46,10 +46,10 @@ dependencies:
   - pyyaml
   - pytest
   - testfixtures
+  - ndx-fl-novela==0.0.001
   - pip:
       - xmldiff
       - rec-to-binaries==0.3.0.dev0
-      - ndx-fllab-novela
 
 
 

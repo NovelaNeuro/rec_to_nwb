@@ -53,9 +53,9 @@ electrode groups:
     description: 'Probe 2'
 
 
-ntrode probe channel map:
+ntrode-electrode group channel map:
   - ntrode_id: 1
-    probe_id: 0 #Changed to 0 - now it corresponding to information above in electrode_group. Id is no longer hardcoded.
+    electrode_group_id: 0 #Changed to 0 - now it corresponding to information above in electrode_group. Id is no longer hardcoded.
     map:
       0: 0
       1: 1
@@ -90,7 +90,7 @@ ntrode probe channel map:
       30: 30
       31: 31
   - ntrode_id: 2
-    probe_id: 0
+    electrode_group_id: 0
     map:
       0: 32
       1: 33
@@ -125,7 +125,7 @@ ntrode probe channel map:
       30: 62
       31: 63
   - ntrode_id: 3
-    probe_id: 0
+    electrode_group_id: 0
     map:
       0: 64
       1: 65
@@ -160,7 +160,7 @@ ntrode probe channel map:
       30: 94
       31: 95
   - ntrode_id: 4
-    probe_id: 0
+    electrode_group_id: 0
     map:
       0: 96
       1: 97
@@ -195,7 +195,7 @@ ntrode probe channel map:
       30: 126
       31: 127
   - ntrode_id: 5
-    probe_id: 0
+    electrode_group_id: 0
     map:
       0: 0
       1: 1
@@ -230,7 +230,7 @@ ntrode probe channel map:
       30: 30
       31: 31
   - ntrode_id: 6
-    probe_id: 0
+    electrode_group_id: 0
     map:
       0: 32
       1: 33
@@ -265,7 +265,7 @@ ntrode probe channel map:
       30: 62
       31: 63
   - ntrode_id: 7
-    probe_id: 0
+    electrode_group_id: 0
     map:
       0: 64
       1: 65
@@ -300,7 +300,7 @@ ntrode probe channel map:
       30: 94
       31: 95
   - ntrode_id: 8
-    probe_id: 0
+    electrode_group_id: 0
     map:
       0: 96
       1: 97

@@ -7,9 +7,8 @@ import xmlschema
 
 from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb_file_builder import NWBFileBuilder
+from fl.datamigration.tools.beartype.beartype import beartype
 from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
-from fl.datamigration.validation.type_validator import TypeValidator
-from fl.datamigration.validation.export_args_validator import ExportArgsValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -27,61 +26,49 @@ _DEFAULT_ANALOG_EXPORT_ARGS = ()
 
 
 class RawToNWBBuilder:
-    """
-    Args:
-        data_path  (string): path to directory containing all experiments data
-        animal_name (string): directory name which represents animal subject of experiment
-        dates (list of strings): dates of experiments on above animal
-        nwb_metadata (MetadataManager): object containig metadata about experiment
-        output_path (string): path and name specifying where .nwb file gonna be written
-        extract_analog (boolean): flag if analog data should be extracted and processed from raw data
-        extract_spikes (boolean): flag if spikes data should be extracted and processed from raw data
-        extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
-        extract_dio (boolean): flag if dio data should be extracted and processed from raw data
-        extract_mda (boolean): flag if mda data should be extracted and processed from raw data
-        overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
-        lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
-        mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
-        analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
-        parallel_instances (int): number of parallel processes used during processing data
-    """
+
+    @beartype
     def __init__(
             self,
-            data_path,
-            animal_name,
-            dates,
-            nwb_metadata,
-            output_path='',
-            extract_analog=True,
-            extract_spikes=False,
-            extract_lfps=False,
-            extract_dio=True,
-            extract_mda=True,
-            overwrite=True,
-            lfp_export_args=_DEFAULT_LFP_EXPORT_ARGS,
-            mda_export_args=_DEFAULT_MDA_EXPORT_ARGS,
-            parallel_instances=4,
-            analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
+            data_path: str,
+            animal_name: str,
+            dates: list,
+            nwb_metadata: MetadataManager,
+            output_path: str ='',
+            extract_analog: bool =True,
+            extract_spikes: bool =False,
+            extract_lfps: bool =False,
+            extract_dio: bool =True,
+            extract_mda: bool =True,
+            overwrite: bool =True,
+            lfp_export_args: tuple =_DEFAULT_LFP_EXPORT_ARGS,
+            mda_export_args: tuple =_DEFAULT_MDA_EXPORT_ARGS,
+            parallel_instances: int =4,
+            analog_export_args: tuple =_DEFAULT_ANALOG_EXPORT_ARGS
     ):
+        """
+        Args:
+            data_path  (string): path to directory containing all experiments data
+            animal_name (string): directory name which represents animal subject of experiment
+            dates (list of strings): dates of experiments on above animal
+            nwb_metadata (MetadataManager): object containig metadata about experiment
+            output_path (string): path and name specifying where .nwb file gonna be written
+            extract_analog (boolean): flag if analog data should be extracted and processed from raw data
+            extract_spikes (boolean): flag if spikes data should be extracted and processed from raw data
+            extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
+            extract_dio (boolean): flag if dio data should be extracted and processed from raw data
+            extract_mda (boolean): flag if mda data should be extracted and processed from raw data
+            overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
+            lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
+            mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
+            analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
+            parallel_instances (int): number of parallel processes used during processing data
+        """
+
         validation_registrator = ValidationRegistrator()
-        validation_registrator.register(TypeValidator(data_path, str))
         validation_registrator.register(NotEmptyValidator(data_path))
-        validation_registrator.register(TypeValidator(animal_name, str))
         validation_registrator.register(NotEmptyValidator(animal_name))
-        validation_registrator.register(TypeValidator(dates, list))
         validation_registrator.register(NotEmptyValidator(dates))
-        validation_registrator.register(TypeValidator(nwb_metadata, MetadataManager))
-        validation_registrator.register(TypeValidator(output_path, str))
-        validation_registrator.register(TypeValidator(extract_analog, bool))
-        validation_registrator.register(TypeValidator(extract_spikes, bool))
-        validation_registrator.register(TypeValidator(extract_lfps, bool))
-        validation_registrator.register(TypeValidator(extract_dio, bool))
-        validation_registrator.register(TypeValidator(extract_mda, bool))
-        validation_registrator.register(TypeValidator(overwrite, bool))
-        validation_registrator.register(TypeValidator(parallel_instances, int))
-        validation_registrator.register(ExportArgsValidator(lfp_export_args))
-        validation_registrator.register(ExportArgsValidator(mda_export_args))
-        validation_registrator.register(ExportArgsValidator(analog_export_args))
         validation_registrator.validate()
 
         self.extract_analog = extract_analog

@@ -1,7 +1,7 @@
 # fldatamigration
 # About
-fldatamigration is a python package for converting SpikeGadgets rec files to NWB files.<br>
-It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_to_binaries package for preprocessing phase.<br>
+fldatamigration is a python conda package for converting SpikeGadgets rec files to NWB files.<br>
+It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` file. It utilizes rec_to_binaries package for preprocessing phase.<br>
 <https://github.com/LorenFrankLab/rec_to_binaries><br>
 
 # Prerequisites
@@ -15,13 +15,11 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
    ```
 3. Download miniconda from <br>
    <https://docs.conda.io/en/latest/miniconda.html> <br>
-4. Download `fldatamigration.yml` from <br>
-   <https://anaconda.org/NovelaKRK/fldatamigration/files>
-5. Build fldatamigration environment:
+4. Install fldatamigration package:
    ```bash
-   conda env create -f fldatamigration.yml
+   conda install -c conda-forge -c novelakrk fldatamigration
    ```
-6. Install Jupyter notebook
+5. Install Jupyter notebook
    ```bash
    pip install jupyter notebook
    ```
@@ -57,9 +55,12 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
 1. Download example notebook file from <br>
    <https://anaconda.org/NovelaKRK/nwb_generation/notebook>
 2. In terminal navigate to notebook file location
+   ```bash
+   fldatamigration/fl/notebooks
+   ```
 3. Run jupyter notebook
    ```bash
-   jupyter notebook
+   jupyter notebook nwb_generation.ipynb
    ```
 4. Metadata.yml description:
    ```
@@ -108,10 +109,10 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
         device_type: 128c-4s8mm6cm-20um-40um-sl
         description: 'Probe 2'
     # Ntrodes list which refer 1:1 to <SpikeNTrode> elements from xml header existing in rec binary file.
-    # ntrode_id has to match to SpikeNTrode id, probe_id refers to electrode group,
+    # ntrode_id has to match to SpikeNTrode id, electrode_group_id refers to electrode group,
     # bad_channels is a list of broken channels in the map, where map corresponds to the electrode channels
       - ntrode_id: 1 
-        probe_id: 0 
+        electrode_group_id: 0 
         bad_channels: [0,2]
         map:  
           0: 0
@@ -119,7 +120,7 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
           2: 2
           3: 3
       - ntrode_id: 2
-        probe_id: 0
+        electrode_group_id: 0
         bad_channels: [0,2]
         map:
           0: 4
@@ -157,42 +158,84 @@ It converts experiment data from `/raw` folder to `.nwb` file. It utilizes rec_t
    ```
 7. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
 
-8. Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder.
+8. We provide two class to generate the NWB file. <br>
+* `RawToNWBBuilder` - To generate NWB file from raw data. <br>
+* `NWBFileBuilder` - To generate NWB file from preprocessed data. <br>
+
+##### Raw data
+Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder. Next build the NWB using `build_nwb()`.
+
    ```bash
-   builder = RawToNWBBuilder(animal_name='beans',
-                             data_path='../test/test_data/',
-                             dates=['20190718'],
-                             nwb_metadata=metadata,
-                             output_path='/out/nwb'
-                             )
+   builder = RawToNWBBuilder(
+             animal_name='beans',
+             data_path='../test/test_data/',
+             dates=['20190718'],
+             nwb_metadata=metadata,
+             output_path='/out/nwb'
+              )
+   builder.build_nwb()
    ```
    raw_to_nwb_builder arguments
 
-      **data_path** = `string` path to the parent folder of animal_name
+      **data_path** = `string` path to the parent folder of animal_name<br>
 
-      **animal_name** = `string` name of the folder that contain few dates-folders
+      **animal_name** = `string` name of the folder that contain few dates-folders<br>
 
-      **dates** = `list of strings` names of folders that contain experiment data
+      **dates** = `list of strings` names of folders that contain experiment data<br>
 
-      **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml
+      **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml<br>
 
-      **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')</br>
+      **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')<br>
 
-      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default False)</br>
+      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True)<br>
 
-      **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)</br>
+      **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)<br>
 
-      **extract_lfps** = `boolean` flag specifying if lfp data should be extracted from raw (default False)</br>
+      **extract_lfps** = `boolean` flag specifying if lfp data should be extracted from raw (default False)<br>
 
-      **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True)</br>
+      **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True)<br>
 
-      **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True)</br>
+      **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True)<br>
 
-      **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4)</br>
+      **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4)<br>
       
-      **overwrite** = `boolean`  If true, will overwrite existing files. (default True)</br>
+      **overwrite** = `boolean`  If true, will overwrite existing files. (default True)<br>
       
-      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')`</br>
+      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')`<br>
+
+##### Preprocessed data
+If you have already preprocessed data or RawToNwb process crashed during building file you can initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
+
+   ```bash
+   builder = NWBFileBuilder(
+            data_path='../data/',
+            animal_name='beans',
+            date='20190718',
+            nwb_metadata=metadata,
+            process_dio=True,
+            process_mda=True,
+            process_analog=True
+        )
+   content = builder.build()
+   builder.write(content)
+   ```
+   NWBFileBuilder arguments
+
+     **data_path** = `string` path to directory containing all experiments data<br>
+     
+     **animal_name** = `string` directory name which represents animal subject of experiment<br>
+     
+     **date** = `string` date of experiment<br>
+     
+     **nwb_metadata** = `MetadataManager` object contains metadata about experiment<br>
+     
+     **process_dio** = `boolean` flag if dio data should be processed<br>
+     
+     **process_mda** = `boolean` flag if mda data should be processed<br>
+     
+     **process_analog** = `boolean` flag if analog data should be processed<br>
+     
+     **output_file** = `string` path and name specifying where .nwb file gonna be written<br>
 
 9. Make sure that the data structure in given directory (in that case `test_data`) looks similar to following example:
    ```bash

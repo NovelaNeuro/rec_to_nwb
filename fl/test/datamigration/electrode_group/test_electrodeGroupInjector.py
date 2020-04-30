@@ -3,7 +3,6 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from dateutil.tz import tzlocal
-from ndx_fllab_novela.nwb_electrode_group import NwbElectrodeGroup
 from pynwb import NWBFile
 from pynwb.ecephys import ElectrodeGroup
 from testfixtures import should_raise
@@ -26,17 +25,17 @@ class TestElectrodeGroupInjector(TestCase):
 
     def test_injector_inject_ElectrodeGroups_to_nwb_successfully(self):
         mock_electrode_group_1 = Mock(spec=ElectrodeGroup)
-        mock_nwb_electrode_group_2 = Mock(spec=NwbElectrodeGroup)
+        mock_electrode_group_2 = Mock(spec=ElectrodeGroup)
         mock_electrode_group_3 = Mock(spec=ElectrodeGroup)
         electrode_group_dict = {mock_electrode_group_1.name: mock_electrode_group_1,
-                                mock_nwb_electrode_group_2.name: mock_nwb_electrode_group_2,
+                                mock_electrode_group_2.name: mock_electrode_group_2,
                                 mock_electrode_group_3.name: mock_electrode_group_3}
 
         self.electrode_group.inject_all_electrode_groups(
             nwb_content=self.nwb_file,
             electrode_groups=[
                 mock_electrode_group_1,
-                mock_nwb_electrode_group_2,
+                mock_electrode_group_2,
                 mock_electrode_group_3
             ]
         )

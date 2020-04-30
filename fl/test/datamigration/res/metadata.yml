@@ -79,9 +79,9 @@ electrode groups:
     description: 'Probe 2'
 
 
-ntrode probe channel map:
+ntrode electrode group channel map:
   - ntrode_id: 1
-    probe_id: 0 #Changed to 0 - now it corresponding to information above in electrode_group. Id is no longer hardcoded.
+    electrode_group_id: 0 #Changed to 0 - now it corresponding to information above in electrode_group. Id is no longer hardcoded.
     bad_channels: [0,2]
     map:
       0: 0
@@ -90,7 +90,7 @@ ntrode probe channel map:
       3: 3
 
   - ntrode_id: 2
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 4
@@ -99,7 +99,7 @@ ntrode probe channel map:
       3: 7
 
   - ntrode_id: 3
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 8
@@ -108,7 +108,7 @@ ntrode probe channel map:
       3: 11
 
   - ntrode_id: 4
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 12
@@ -117,7 +117,7 @@ ntrode probe channel map:
       3: 15
 
   - ntrode_id: 5
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 16
@@ -126,7 +126,7 @@ ntrode probe channel map:
       3: 19
 
   - ntrode_id: 6
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 20
@@ -135,7 +135,7 @@ ntrode probe channel map:
       3: 23
 
   - ntrode_id: 7
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 24
@@ -144,7 +144,7 @@ ntrode probe channel map:
       3: 27
 
   - ntrode_id: 8
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 28
@@ -153,7 +153,7 @@ ntrode probe channel map:
       3: 31
 
   - ntrode_id: 9
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 32
@@ -162,7 +162,7 @@ ntrode probe channel map:
       3: 35
 
   - ntrode_id: 10
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 36
@@ -171,7 +171,7 @@ ntrode probe channel map:
       3: 39
 
   - ntrode_id: 11
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 40
@@ -180,7 +180,7 @@ ntrode probe channel map:
       3: 43
 
   - ntrode_id: 12
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 44
@@ -189,7 +189,7 @@ ntrode probe channel map:
       3: 47
 
   - ntrode_id: 13
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 48
@@ -198,7 +198,7 @@ ntrode probe channel map:
       3: 51
 
   - ntrode_id: 14
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 52
@@ -207,7 +207,7 @@ ntrode probe channel map:
       3: 55
 
   - ntrode_id: 15
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 56
@@ -216,7 +216,7 @@ ntrode probe channel map:
       3: 59
 
   - ntrode_id: 16
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 60
@@ -225,7 +225,7 @@ ntrode probe channel map:
       3: 63
 
   - ntrode_id: 17
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 64
@@ -234,7 +234,7 @@ ntrode probe channel map:
       3: 67
 
   - ntrode_id: 18
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 68
@@ -243,7 +243,7 @@ ntrode probe channel map:
       3: 71
 
   - ntrode_id: 19
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 72
@@ -252,7 +252,7 @@ ntrode probe channel map:
       3: 75
 
   - ntrode_id: 20
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 76
@@ -261,7 +261,7 @@ ntrode probe channel map:
       3: 79
 
   - ntrode_id: 21
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 80
@@ -270,7 +270,7 @@ ntrode probe channel map:
       3: 83
 
   - ntrode_id: 22
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 84
@@ -279,7 +279,7 @@ ntrode probe channel map:
       3: 87
 
   - ntrode_id: 23
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 88
@@ -288,7 +288,7 @@ ntrode probe channel map:
       3: 91
 
   - ntrode_id: 24
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 92
@@ -297,7 +297,7 @@ ntrode probe channel map:
       3: 95
 
   - ntrode_id: 25
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 96
@@ -306,7 +306,7 @@ ntrode probe channel map:
       3: 99
 
   - ntrode_id: 26
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 100
@@ -315,7 +315,7 @@ ntrode probe channel map:
       3: 103
 
   - ntrode_id: 27
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 104
@@ -324,7 +324,7 @@ ntrode probe channel map:
       3: 107
 
   - ntrode_id: 28
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 108
@@ -333,7 +333,7 @@ ntrode probe channel map:
       3: 111
 
   - ntrode_id: 29
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 112
@@ -342,7 +342,7 @@ ntrode probe channel map:
       3: 115
 
   - ntrode_id: 30
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 116
@@ -351,7 +351,7 @@ ntrode probe channel map:
       3: 119
 
   - ntrode_id: 31
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 120
@@ -360,7 +360,7 @@ ntrode probe channel map:
       3: 123
 
   - ntrode_id: 32
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 124
@@ -369,7 +369,7 @@ ntrode probe channel map:
       3: 127
 
   - ntrode_id: 33
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 128
@@ -378,7 +378,7 @@ ntrode probe channel map:
       3: 131
 
   - ntrode_id: 34
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 132
@@ -387,7 +387,7 @@ ntrode probe channel map:
       3: 135
 
   - ntrode_id: 35
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 136
@@ -396,7 +396,7 @@ ntrode probe channel map:
       3: 139
 
   - ntrode_id: 36
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 140
@@ -405,7 +405,7 @@ ntrode probe channel map:
       3: 143
 
   - ntrode_id: 37
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 144
@@ -414,7 +414,7 @@ ntrode probe channel map:
       3: 147
 
   - ntrode_id: 38
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 148
@@ -423,7 +423,7 @@ ntrode probe channel map:
       3: 151
 
   - ntrode_id: 39
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 152
@@ -432,7 +432,7 @@ ntrode probe channel map:
       3: 155
 
   - ntrode_id: 40
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 156
@@ -441,7 +441,7 @@ ntrode probe channel map:
       3: 159
 
   - ntrode_id: 41
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 160
@@ -450,7 +450,7 @@ ntrode probe channel map:
       3: 163
 
   - ntrode_id: 42
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 164
@@ -459,7 +459,7 @@ ntrode probe channel map:
       3: 167
 
   - ntrode_id: 43
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 168
@@ -468,7 +468,7 @@ ntrode probe channel map:
       3: 171
 
   - ntrode_id: 44
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 172
@@ -477,7 +477,7 @@ ntrode probe channel map:
       3: 175
 
   - ntrode_id: 45
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 176
@@ -486,7 +486,7 @@ ntrode probe channel map:
       3: 179
 
   - ntrode_id: 46
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 180
@@ -495,7 +495,7 @@ ntrode probe channel map:
       3: 183
 
   - ntrode_id: 47
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 184
@@ -504,7 +504,7 @@ ntrode probe channel map:
       3: 187
 
   - ntrode_id: 48
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 188
@@ -513,7 +513,7 @@ ntrode probe channel map:
       3: 191
 
   - ntrode_id: 49
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 192
@@ -522,7 +522,7 @@ ntrode probe channel map:
       3: 195
 
   - ntrode_id: 50
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 196
@@ -531,7 +531,7 @@ ntrode probe channel map:
       3: 199
 
   - ntrode_id: 51
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 200
@@ -540,7 +540,7 @@ ntrode probe channel map:
       3: 203
 
   - ntrode_id: 52
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 204
@@ -549,7 +549,7 @@ ntrode probe channel map:
       3: 207
 
   - ntrode_id: 53
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 208
@@ -558,7 +558,7 @@ ntrode probe channel map:
       3: 211
 
   - ntrode_id: 54
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 212
@@ -567,7 +567,7 @@ ntrode probe channel map:
       3: 215
 
   - ntrode_id: 55
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 216
@@ -576,7 +576,7 @@ ntrode probe channel map:
       3: 219
 
   - ntrode_id: 56
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 220
@@ -585,7 +585,7 @@ ntrode probe channel map:
       3: 223
 
   - ntrode_id: 57
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 224
@@ -594,7 +594,7 @@ ntrode probe channel map:
       3: 227
 
   - ntrode_id: 58
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 228
@@ -603,7 +603,7 @@ ntrode probe channel map:
       3: 231
 
   - ntrode_id: 59
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 232
@@ -612,7 +612,7 @@ ntrode probe channel map:
       3: 235
 
   - ntrode_id: 60
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 236
@@ -621,7 +621,7 @@ ntrode probe channel map:
       3: 239
 
   - ntrode_id: 61
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 240
@@ -630,7 +630,7 @@ ntrode probe channel map:
       3: 243
 
   - ntrode_id: 62
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 244
@@ -639,7 +639,7 @@ ntrode probe channel map:
       3: 247
 
   - ntrode_id: 63
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 248
@@ -648,7 +648,7 @@ ntrode probe channel map:
       3: 251
 
   - ntrode_id: 64
-    probe_id: 0
+    electrode_group_id: 0
     bad_channels: [0,2]
     map:
       0: 252
