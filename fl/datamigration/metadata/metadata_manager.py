@@ -3,7 +3,6 @@ from fl.datamigration.metadata.metadata_extractor import MetadataExtractor
 from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
 from fl.datamigration.tools.beartype.beartype import beartype
 from fl.datamigration.validation.metadata_validator import MetadataValidator
-from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.validation_registrator import ValidationRegistrator
 
 
