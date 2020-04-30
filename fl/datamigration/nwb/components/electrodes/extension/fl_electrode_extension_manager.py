@@ -84,7 +84,6 @@ class FlElectrodeExtensionManager:
             raise NotCompatibleMetadata(message)
 
     @staticmethod
-    @beartype
-    def __filter_extension_list_with_electrodes_valid_map(electrodes_valid_map: list, extension: list):
+    def __filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, extension):
         tmp_electrodes_valid_map = copy.deepcopy(electrodes_valid_map)
         return [value for value in extension if tmp_electrodes_valid_map.pop(0)]
