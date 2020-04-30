@@ -57,7 +57,7 @@ class TestFlProbeManager(TestCase):
                                            mock_shank_5, mock_shank_6]
         }
 
-        mock_valid_map_dict = {
+        probes_valid_map_dict = {
             'probes_dict': {
                 'tetrode_12.5': False,
                 '128c-4s8mm6cm-20um-40um-sl': True,
@@ -70,7 +70,7 @@ class TestFlProbeManager(TestCase):
         )
         fl_probes = fl_probe_manager.get_fl_probes(
             shanks_dict=mock_shanks_dict,
-            valid_map_dict=mock_valid_map_dict
+            probes_valid_map_dict=probes_valid_map_dict
         )
 
         self.assertIsInstance(fl_probes[0], FlProbe)

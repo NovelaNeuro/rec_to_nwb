@@ -7,7 +7,7 @@ from fl.datamigration.exceptions.bad_channels_exception import CorruptedDataExce
 from fl.datamigration.metadata.corrupted_data_manager import CorruptedDataManager
 
 
-class TestBadDataManager(TestCase):
+class TestCorruptedDataManager(TestCase):
 
     def test_corrupted_data_manager_get_valid_map_dict_successfully(self):
         metadata = {

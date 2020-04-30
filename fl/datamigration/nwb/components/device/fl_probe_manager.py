@@ -14,7 +14,7 @@ class FlProbeManager:
         self.fl_probe_builder = FlProbeBuilder()
         self.probe_id = -1
 
-    def get_fl_probes(self, shanks_dict, valid_map_dict):
+    def get_fl_probes(self, shanks_dict, probes_valid_map_dict):
         validate_parameters_not_none(__name__, shanks_dict)
         fl_probes = []
         probes_types = []
@@ -23,7 +23,7 @@ class FlProbeManager:
 
             if device_type not in probes_types:
                 probes_types.append(device_type)
-                if valid_map_dict['probes_dict'][device_type]:
+                if probes_valid_map_dict[device_type]:
                     probe_metadata = filter_probe_by_type(self.probes_metadata, device_type)
 
                     fl_probes.append(self._build_single_probe(

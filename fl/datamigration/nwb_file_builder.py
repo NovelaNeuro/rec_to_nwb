@@ -220,7 +220,7 @@ class NWBFileBuilder:
 
         shanks_dict = self.__build_shanks(shanks_electrodes_dict)
 
-        probes = self.__build_and_inject_probes(nwb_content, shanks_dict, valid_map_dict)
+        probes = self.__build_and_inject_probes(nwb_content, shanks_dict, valid_map_dict['probes_dict'])
 
         self.__build_and_inject_header_device(nwb_content)
 
@@ -313,9 +313,9 @@ class NWBFileBuilder:
             shanks_dict[probe_type] = [self.shank_creator.create(fl_shank) for fl_shank in fl_shanks]
         return shanks_dict
 
-    def __build_and_inject_probes(self, nwb_content, shanks_dict, valid_map_dict):
+    def __build_and_inject_probes(self, nwb_content, shanks_dict, probes_valid_map):
         logger.info('Probes: Building')
-        fl_probes = self.fl_probe_manager.get_fl_probes(shanks_dict, valid_map_dict)
+        fl_probes = self.fl_probe_manager.get_fl_probes(shanks_dict, probes_valid_map)
         logger.info('Probes: Creating probes')
         probes = [self.device_factory.create_probe(fl_probe) for fl_probe in fl_probes]
         logger.info('Probes: Injecting probes into NWB')

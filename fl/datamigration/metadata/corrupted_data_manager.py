@@ -22,17 +22,17 @@ class CorruptedDataManager:
             ntrode_metadata=self.metadata['ntrode electrode group channel map'],
             electrodes_valid_map=electrodes_valid_map
         )
-        probes_valid_map = self.__get_probes_valid_map(
+        probes_valid_map_dict = self.__get_probes_valid_map(
             electrode_groups_metadata=self.metadata['electrode groups'],
             electrode_groups_valid_map=electrode_groups_valid_map
         )
 
-        self.__validate_data(probes_valid_map)
+        self.__validate_data(probes_valid_map_dict)
 
         return {
             'electrodes': electrodes_valid_map,
             'electrode_group': electrode_groups_valid_map,
-            'probes_dict': probes_valid_map,
+            'probes_dict': probes_valid_map_dict,
         }
 
     @staticmethod
@@ -77,10 +77,10 @@ class CorruptedDataManager:
 
     @staticmethod
     @beartype
-    def __validate_data(probes_valid_map: dict):
+    def __validate_data(probes_valid_map_dict: dict):
         corrupted_data = True
 
-        for probe_value in probes_valid_map.values():
+        for probe_value in probes_valid_map_dict.values():
             if probe_value:
                 corrupted_data = False
         if corrupted_data:
