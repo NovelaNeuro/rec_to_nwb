@@ -12,11 +12,11 @@ class TestMetadataManager(TestCase):
 
     def test_metadata_manager_reading_metadata_successfully(self):
         nwb_metadata = MetadataManager(
-            metadata_path=str(path) + '/res/metadata.yml',
+            metadata_path=str(path) + '/../res/metadata.yml',
             probes_paths=[
-                str(path) + '/res/probe1.yml',
-                str(path) + '/res/probe2.yml',
-                str(path) + '/res/probe3.yml'
+                str(path) + '/../res/probe1.yml',
+                str(path) + '/../res/probe2.yml',
+                str(path) + '/../res/probe3.yml'
             ]
         )
 
@@ -62,13 +62,14 @@ class TestMetadataManager(TestCase):
 
     def test_metadata_manager_reading_probes_successfully(self):
         nwb_metadata = MetadataManager(
-            metadata_path=str(path) + '/res/metadata.yml',
+            metadata_path=str(path) + '/../res/metadata.yml',
             probes_paths=[
-                str(path) + '/res/probe1.yml',
-                str(path) + '/res/probe2.yml',
-                str(path) + '/res/probe3.yml'
+                str(path) + '/../res/probe1.yml',
+                str(path) + '/../res/probe2.yml',
+                str(path) + '/../res/probe3.yml'
             ]
         )
+
         shanks_fields = nwb_metadata.probes[0]['shanks'][0].keys()
         self.assertIn('shank_id', shanks_fields)
         self.assertIn('electrodes', shanks_fields)

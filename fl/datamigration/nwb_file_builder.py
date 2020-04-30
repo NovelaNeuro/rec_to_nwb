@@ -228,7 +228,7 @@ class NWBFileBuilder:
             nwb_content, probes, valid_map_dict['electrode_group']
         )
 
-        self.__build_and_inject_electrodes(nwb_content, electrode_groups)
+        self.__build_and_inject_electrodes(nwb_content, electrode_groups, valid_map_dict['electrodes'])
 
         self.__build_and_inject_electrodes_extensions(nwb_content)
 
@@ -336,9 +336,9 @@ class NWBFileBuilder:
         self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_groups)
         return electrode_groups
 
-    def __build_and_inject_electrodes(self, nwb_content, electrode_groups):
+    def __build_and_inject_electrodes(self, nwb_content, electrode_groups, electrodes_valid_map):
         logger.info('Electrodes: Building')
-        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(electrode_groups)
+        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(electrode_groups, electrodes_valid_map)
         logger.info('Electrodes: Creating&Injecting into NWB')
         [self.electrode_creator.create(nwb_content, fl_electrode) for fl_electrode in fl_electrodes]
 
