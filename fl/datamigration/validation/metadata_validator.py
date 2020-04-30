@@ -29,12 +29,13 @@ class MetadataValidator(Validator):
             raise(MissingDataException(message))
         return MetadataValidationSummary(missing_metadata)
 
-    def __get_missing_metadata(self):
-        """Gets all missing yml files
+    """Gets all missing yml files
 
-        Returns:
-            list of strings: list of all missing yml files
-        """
+    Returns:
+        list of strings: list of all missing yml files
+    """
+    def __get_missing_metadata(self):
+
         missing_data = []
         if not (os.path.exists(self.metadata_path)):
             missing_data.append(self.metadata_path)
