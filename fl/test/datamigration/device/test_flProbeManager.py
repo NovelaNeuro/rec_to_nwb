@@ -58,10 +58,8 @@ class TestFlProbeManager(TestCase):
         }
 
         probes_valid_map_dict = {
-            'probes_dict': {
-                'tetrode_12.5': False,
-                '128c-4s8mm6cm-20um-40um-sl': True,
-            }
+            'tetrode_12.5': False,
+            '128c-4s8mm6cm-20um-40um-sl': True,
         }
 
         fl_probe_manager = FlProbeManager(
@@ -87,14 +85,14 @@ class TestFlProbeManager(TestCase):
                                                mock_shank_5, mock_shank_6]
                          )
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_manager_fails_due_to_None_param(self):
         FlProbeManager(
             probes_metadata=None,
             electrode_groups_metadata=None,
         )
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_manager_fails_creating_FlProbes_due_to_None_param(self):
         fl_probe_manager = FlProbeManager(
             probes_metadata=self.probes_metadata,
