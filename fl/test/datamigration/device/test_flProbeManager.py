@@ -27,18 +27,19 @@ class TestFlProbeManager(TestCase):
                 {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
                 {'id': 1, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
             ]}]}
-        self.probes_metadata_2 = {'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'num_shanks': 3,
-                                  'shanks': [
-                                      {'shank_id': 0, 'electrodes': [
-                                          {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                                          {'id': 1, 'rel_x': 40, 'rel_y': 0, 'rel_z': 0}]},
-                                      {'shank_id': 1, 'electrodes': [
-                                          {'id': 32, 'rel_x': 0, 'rel_y': 300, 'rel_z': 0},
-                                          {'id': 33, 'rel_x': 40, 'rel_y': 300, 'rel_z': 0}]},
-                                      {'shank_id': 2, 'electrodes': [
-                                          {'id': 64, 'rel_x': 0, 'rel_y': 600, 'rel_z': 0},
-                                          {'id': 65, 'rel_x': 40, 'rel_y': 600, 'rel_z': 0}, ]},
-                                  ]}
+        self.probes_metadata_2 = {
+            'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'num_shanks': 3,
+            'shanks': [
+                {'shank_id': 0, 'electrodes': [
+                    {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
+                    {'id': 1, 'rel_x': 40, 'rel_y': 0, 'rel_z': 0}]},
+                {'shank_id': 1, 'electrodes': [
+                    {'id': 32, 'rel_x': 0, 'rel_y': 300, 'rel_z': 0},
+                    {'id': 33, 'rel_x': 40, 'rel_y': 300, 'rel_z': 0}]},
+                {'shank_id': 2, 'electrodes': [
+                    {'id': 64, 'rel_x': 0, 'rel_y': 600, 'rel_z': 0},
+                    {'id': 65, 'rel_x': 40, 'rel_y': 600, 'rel_z': 0}, ]},
+            ]}
         self.probes_metadata = [self.probes_metadata_1, self.probes_metadata_2]
 
     def test_manager_builds_FlProbes_successfully(self):
@@ -57,7 +58,10 @@ class TestFlProbeManager(TestCase):
         }
 
         mock_valid_map_dict = {
-            probe:
+            'probes_dict': {
+                'tetrode_12.5': False,
+                '128c-4s8mm6cm-20um-40um-sl': True,
+            }
         }
 
         fl_probe_manager = FlProbeManager(
@@ -74,21 +78,11 @@ class TestFlProbeManager(TestCase):
         self.assertIsInstance(fl_probes[0].probe_id, int)
         self.assertIsInstance(fl_probes[0].shanks, list)
 
-        self.assertIsInstance(fl_probes[1], FlProbe)
-        self.assertIsInstance(fl_probes[1].metadata, dict)
-        self.assertIsInstance(fl_probes[1].probe_id, int)
-        self.assertIsInstance(fl_probes[1].shanks, list)
+        self.assertEqual(len(fl_probes[0].shanks), 6)
 
-        self.assertEqual(len(fl_probes[0].shanks), 2)
-        self.assertEqual(len(fl_probes[1].shanks), 6)
-
-        self.assertEqual(fl_probes[0].metadata, self.probes_metadata_1)
+        self.assertEqual(fl_probes[0].metadata, self.probes_metadata_2)
         self.assertEqual(fl_probes[0].probe_id, 0)
-        self.assertEqual(fl_probes[0].shanks, [mock_shank_1, mock_shank_2])
-
-        self.assertEqual(fl_probes[1].metadata, self.probes_metadata_2)
-        self.assertEqual(fl_probes[1].probe_id, 1)
-        self.assertEqual(fl_probes[1].shanks, [mock_shank_1, mock_shank_2,
+        self.assertEqual(fl_probes[0].shanks, [mock_shank_1, mock_shank_2,
                                                mock_shank_3, mock_shank_4,
                                                mock_shank_5, mock_shank_6]
                          )

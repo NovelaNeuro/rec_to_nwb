@@ -19,14 +19,17 @@ class FlProbeManager:
         fl_probes = []
         probes_types = []
         for electrode_group_metadata in self.electrode_groups_metadata:
-            if electrode_group_metadata['device_type'] not in probes_types:
-                probes_types.append(electrode_group_metadata['device_type'])
-                probe_metadata = filter_probe_by_type(self.probes_metadata, electrode_group_metadata['device_type'])
+            device_type = electrode_group_metadata['device_type']
 
-                fl_probes.append(self._build_single_probe(
-                    probe_metadata=probe_metadata,
-                    shanks=shanks_dict[electrode_group_metadata['device_type']])
-                )
+            if device_type not in probes_types:
+                probes_types.append(device_type)
+                if valid_map_dict['probes_dict'][device_type]:
+                    probe_metadata = filter_probe_by_type(self.probes_metadata, device_type)
+
+                    fl_probes.append(self._build_single_probe(
+                        probe_metadata=probe_metadata,
+                        shanks=shanks_dict[device_type])
+                    )
         return fl_probes
 
     def _build_single_probe(self, probe_metadata, shanks):
