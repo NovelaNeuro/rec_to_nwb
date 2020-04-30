@@ -1,6 +1,6 @@
 DOC_REPO='https://github.com/NovelaNeuro/fldatamigration-docs'
-#GH_DOCS_TOKEN='d3fd571a862f479ee606ff79e34b26e588002fe2'
-##USERNAME='acwikla-novela'
+#GH_DOCS_TOKEN=''
+##USERNAME=''
 
 echo 'README.md copying to docs/source and removing first line'
 tail -n +2 README.md > README.tmp && mv README.tmp docs/source/README.md || exit 1
