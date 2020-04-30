@@ -27,6 +27,25 @@ _DEFAULT_ANALOG_EXPORT_ARGS = ()
 
 class RawToNWBBuilder:
 
+    """Unpack data from raw folder specified by arguments, and write those data into NWB file format
+
+    Args:
+        data_path  (string): path to directory containing all experiments data
+        animal_name (string): directory name which represents animal subject of experiment
+        dates (list of strings): dates of experiments on above animal
+        nwb_metadata (MetadataManager): object containig metadata about experiment
+        output_path (string): path and name specifying where .nwb file gonna be written
+        extract_analog (boolean): flag if analog data should be extracted and processed from raw data
+        extract_spikes (boolean): flag if spikes data should be extracted and processed from raw data
+        extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
+        extract_dio (boolean): flag if dio data should be extracted and processed from raw data
+        extract_mda (boolean): flag if mda data should be extracted and processed from raw data
+        overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
+        lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
+        mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
+        analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
+        parallel_instances (int): number of parallel processes used during processing data
+    """
     @beartype
     def __init__(
             self,
@@ -46,24 +65,6 @@ class RawToNWBBuilder:
             parallel_instances: int =4,
             analog_export_args: tuple =_DEFAULT_ANALOG_EXPORT_ARGS
     ):
-        """
-        Args:
-            data_path  (string): path to directory containing all experiments data
-            animal_name (string): directory name which represents animal subject of experiment
-            dates (list of strings): dates of experiments on above animal
-            nwb_metadata (MetadataManager): object containig metadata about experiment
-            output_path (string): path and name specifying where .nwb file gonna be written
-            extract_analog (boolean): flag if analog data should be extracted and processed from raw data
-            extract_spikes (boolean): flag if spikes data should be extracted and processed from raw data
-            extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
-            extract_dio (boolean): flag if dio data should be extracted and processed from raw data
-            extract_mda (boolean): flag if mda data should be extracted and processed from raw data
-            overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
-            lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
-            mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
-            analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
-            parallel_instances (int): number of parallel processes used during processing data
-        """
 
         validation_registrator = ValidationRegistrator()
         validation_registrator.register(NotEmptyValidator(data_path))
