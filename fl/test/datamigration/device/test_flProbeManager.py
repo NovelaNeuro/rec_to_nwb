@@ -56,12 +56,18 @@ class TestFlProbeManager(TestCase):
                                            mock_shank_5, mock_shank_6]
         }
 
+        mock_valid_map_dict = {
+            probe:
+        }
+
         fl_probe_manager = FlProbeManager(
             probes_metadata=self.probes_metadata,
             electrode_groups_metadata=self.electrode_groups_metadata
         )
-
-        fl_probes = fl_probe_manager.get_fl_probes(mock_shanks_dict)
+        fl_probes = fl_probe_manager.get_fl_probes(
+            shanks_dict=mock_shanks_dict,
+            valid_map_dict=mock_valid_map_dict
+        )
 
         self.assertIsInstance(fl_probes[0], FlProbe)
         self.assertIsInstance(fl_probes[0].metadata, dict)
@@ -91,7 +97,7 @@ class TestFlProbeManager(TestCase):
     def test_manager_fails_due_to_None_param(self):
         FlProbeManager(
             probes_metadata=None,
-            electrode_groups_metadata=None
+            electrode_groups_metadata=None,
         )
 
     @should_raise(NoneParamException)
@@ -101,4 +107,4 @@ class TestFlProbeManager(TestCase):
             electrode_groups_metadata=None
         )
 
-        fl_probe_manager.get_fl_probes(None)
+        fl_probe_manager.get_fl_probes(None, None)

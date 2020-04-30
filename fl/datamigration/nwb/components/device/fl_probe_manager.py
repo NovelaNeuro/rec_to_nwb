@@ -14,7 +14,7 @@ class FlProbeManager:
         self.fl_probe_builder = FlProbeBuilder()
         self.probe_id = -1
 
-    def get_fl_probes(self, shanks_dict):
+    def get_fl_probes(self, shanks_dict, valid_map_dict):
         validate_parameters_not_none(__name__, shanks_dict)
         fl_probes = []
         probes_types = []
