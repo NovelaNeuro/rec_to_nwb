@@ -21,6 +21,7 @@ class ElectrodeExtensionInjector:
 
     def __validate_parameters(self, fl_electrode_extension):
 
+        # ToDo delete this validation we only inject
         validate_parameters_not_none(
             __name__,
             fl_electrode_extension.rel_x,

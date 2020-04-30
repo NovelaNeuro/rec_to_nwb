@@ -230,7 +230,7 @@ class NWBFileBuilder:
 
         self.__build_and_inject_electrodes(nwb_content, electrode_groups, valid_map_dict['electrodes'])
 
-        self.__build_and_inject_electrodes_extensions(nwb_content)
+        self.__build_and_inject_electrodes_extensions(nwb_content, valid_map_dict['electrodes'])
 
         self.__build_and_inject_epochs(nwb_content)
 
@@ -342,9 +342,9 @@ class NWBFileBuilder:
         logger.info('Electrodes: Creating&Injecting into NWB')
         [self.electrode_creator.create(nwb_content, fl_electrode) for fl_electrode in fl_electrodes]
 
-    def __build_and_inject_electrodes_extensions(self, nwb_content):
+    def __build_and_inject_electrodes_extensions(self, nwb_content, electrodes_valid_map):
         logger.info('FlElectrodesExtensions: Building')
-        fl_electrode_extension = self.fl_electrode_extension_manager.get_fl_electrodes_extension()
+        fl_electrode_extension = self.fl_electrode_extension_manager.get_fl_electrodes_extension(electrodes_valid_map)
 
         logger.info('FlElectrodesExtensions: Injecting into NWB')
         self.electrode_extension_injector.inject_extensions(
