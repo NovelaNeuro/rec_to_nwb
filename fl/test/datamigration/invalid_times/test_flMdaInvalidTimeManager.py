@@ -19,9 +19,7 @@ class TestMdaInvalidTimesManager(TestCase):
         array = [1, 2, 3, 4, 5, 7, 9, 10, 11, 12]
         for i, number in enumerate(array):
             mock_array[i] = number
-        mock_continuous_time_dict = {}
-        for i in range(20):
-            mock_continuous_time_dict[str(float(i))] = float(i) * 1000000000
+        mock_continuous_time_dict = {str(float(i)) : float(i) * 1E9 for i in range(20)}
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
         extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
         extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
@@ -39,9 +37,7 @@ class TestMdaInvalidTimesManager(TestCase):
         array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         for i, number in enumerate(array):
             mock_array[i] = number
-        mock_continuous_time_dict = {}
-        for i in range(20):
-            mock_continuous_time_dict[str(float(i))] = float(i) * 1000000000
+        mock_continuous_time_dict = {str(float(i)) : float(i) * 1E9 for i in range(20)}
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
         extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
         extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
@@ -57,9 +53,7 @@ class TestMdaInvalidTimesManager(TestCase):
         array = [1, 3, 5, 6, 7, 8, 9, 10, 11, 12]
         for i, number in enumerate(array):
             mock_array[i] = number
-        mock_continuous_time_dict = {}
-        for i in range(20):
-            mock_continuous_time_dict[str(float(i))] = float(i) * 1000000000
+        mock_continuous_time_dict = {str(float(i)) : float(i) * 1E9 for i in range(20)}
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
         extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
         extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
@@ -76,9 +70,7 @@ class TestMdaInvalidTimesManager(TestCase):
         array = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
         for i, number in enumerate(array):
             mock_array[i] = number
-        mock_continuous_time_dict = {}
-        for i in range(20):
-            mock_continuous_time_dict[str(float(i))] = float(i) * 1000000000
+        mock_continuous_time_dict = {str(float(i)) : float(i) * 1E9 for i in range(20)}
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
         extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
         extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
