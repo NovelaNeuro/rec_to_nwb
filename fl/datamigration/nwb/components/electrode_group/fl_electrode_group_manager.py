@@ -13,12 +13,10 @@ class FlElectrodeGroupManager:
         self.electrode_groups_metadata = electrode_groups_metadata
 
     @beartype
-    def get_fl_electrode_groups(self, probes: list, electrode_groups_valid_map: list):
-        tmp_electrode_groups_valid_map = copy.deepcopy(electrode_groups_valid_map)
-
+    def get_fl_electrode_groups(self, probes: list, electrode_groups_valid_map: set):
         fl_electrode_groups = []
         for electrode_group_metadata in self.electrode_groups_metadata:
-            if tmp_electrode_groups_valid_map.pop(0):
+            if electrode_group_metadata['id'] in electrode_groups_valid_map:
                 probe = self.__get_probe_by_type(probes, electrode_group_metadata['device_type'])
                 fl_electrode_groups.append(
                     FlElectrodeGroup(

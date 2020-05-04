@@ -33,7 +33,7 @@ class TestFlElectrodeGroupManager(TestCase):
         mock_probe_2.probe_type = '128c-4s8mm6cm-20um-40um-sl'
         probes = [mock_probe_1, mock_probe_2]
 
-        mock_electrode_groups_valid_map = [True, False, True]
+        mock_electrode_groups_valid_map = {0, 2}
 
         fl_electrode_group_manager = FlElectrodeGroupManager(
             electrode_groups_metadata=electrode_groups_metadata
