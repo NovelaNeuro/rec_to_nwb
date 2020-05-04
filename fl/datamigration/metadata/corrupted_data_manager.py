@@ -5,13 +5,18 @@ from fl.datamigration.tools.beartype.beartype import beartype
 
 
 class CorruptedDataManager:
+    """Manager collect only correct data
 
+    Args:
+        metadata (dict): parsed metadata
+    """
     @beartype
     def __init__(self, metadata: dict):
         self.metadata = metadata
 
     @beartype
     def get_valid_map_dict(self) -> dict:
+        """Get dictionary with correct data"""
 
         electrodes_valid_map = self.__get_electrodes_valid_map(
             ntrode_metadata=self.metadata['ntrode electrode group channel map']
