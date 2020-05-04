@@ -7,6 +7,7 @@ from fl.datamigration.validation.validator import Validator
 
 class PreprocessingValidator(Validator):
     """ Class to validate if preprocessing data is complete
+
         Args:
             all_data_dirs (list of strings): all directories contained in directory <animal name>/<preprocessing>/<date>
             epochs (list of strings): list of all epochs
@@ -50,11 +51,11 @@ class PreprocessingValidator(Validator):
     def __check_single_epoch(self, epoch):
         """finds missing data in single epoch
 
-            Args:
-                epoch (string): name of epoch to check
+        Args:
+            epoch (string): name of epoch to check
 
-            Returns:
-                List of strings: missing preprocessing files from checked epoch
+        Returns:
+            List of strings: missing preprocessing files from checked epoch
         """
         missing_data = []
         for data_type in self.data_types_for_scanning:

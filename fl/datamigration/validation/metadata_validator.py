@@ -6,7 +6,6 @@ from fl.datamigration.validation.validator import Validator
 
 
 class MetadataValidator(Validator):
-
     """ Class to validate if metadata is complete
 
     Args:
@@ -16,6 +15,7 @@ class MetadataValidator(Validator):
     Methods:
         get_missing_metadata()
     """
+    
     def __init__(self, metadata_path, probes_paths):
         self.probes_paths = probes_paths
         self.metadata_path = metadata_path
@@ -29,13 +29,14 @@ class MetadataValidator(Validator):
             raise(MissingDataException(message))
         return MetadataValidationSummary(missing_metadata)
 
+
+    def __get_missing_metadata(self):
     """Gets all missing yml files
 
     Returns:
         list of strings: list of all missing yml files
     """
-    def __get_missing_metadata(self):
-
+    
         missing_data = []
         if not (os.path.exists(self.metadata_path)):
             missing_data.append(self.metadata_path)
