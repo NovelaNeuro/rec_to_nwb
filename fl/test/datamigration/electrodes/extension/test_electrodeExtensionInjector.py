@@ -137,48 +137,29 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         self.assertEqual(nwb_file.electrodes[2, 16], 2)
         self.assertEqual(nwb_file.electrodes[3, 16], 3)
 
-    # ToDo do we need double validation? We validate this cases in the fl_electrode_extension_manager 
-    # @should_raise(NotCompatibleMetadata)
-    # def test_electrodes_extension_injector_failed_injecting_due_to_longer_param(self):
-    #     mock_fl_electrode_extension = Mock(spec=FlElectrodeExtension)
-    #     mock_fl_electrode_extension.rel_x = [0, 0, 0, 0]
-    #     mock_fl_electrode_extension.rel_y = [1, 1, 1, 1]
-    #     mock_fl_electrode_extension.rel_z = [2, 2, 2, 2]
-    #     mock_fl_electrode_extension.hw_chan = [0, 1, 2, 3, 4]
-    #     mock_fl_electrode_extension.ntrode_id = [11, 11, 22, 22]
-    #     mock_fl_electrode_extension.bad_channels = [True, False, False, True]
-    #     mock_fl_electrode_extension.probe_shank = [0, 0, 1, 2]
-    #     mock_fl_electrode_extension.probe_channel = [0, 1, 2, 3]
-    # 
-    #     self.electrode_extension_injector.inject_extensions(nwb_file, mock_fl_electrode_extension)
-    # 
-    # @should_raise(NotCompatibleMetadata)
-    # def test_electrodes_extension_injector_failed_injecting_due_to_shorter_param(self):
-    #     mock_fl_electrode_extension = Mock(spec=FlElectrodeExtension)
-    #     mock_fl_electrode_extension.rel_x = [0, 0, 0]
-    #     mock_fl_electrode_extension.rel_y = [1, 1, 1, 1]
-    #     mock_fl_electrode_extension.rel_z = [2, 2, 2, 2]
-    #     mock_fl_electrode_extension.hw_chan = [0, 1, 2, 3]
-    #     mock_fl_electrode_extension.ntrode_id = [11, 11, 22, 22]
-    #     mock_fl_electrode_extension.bad_channels = [True, False, False, True]
-    #     mock_fl_electrode_extension.probe_shank = [0, 0, 1, 2]
-    #     mock_fl_electrode_extension.probe_channel = [0, 1, 2, 3]
-    # 
-    #     self.electrode_extension_injector.inject_extensions(nwb_file, mock_fl_electrode_extension)
-    # 
-    # @should_raise(NoneParamException)
-    # def test_electrodes_extension_injector_failed_injecting_due_to_None_param(self):
-    #     mock_fl_electrode_extension = Mock(spec=FlElectrodeExtension)
-    #     mock_fl_electrode_extension.rel_x = [0, 0, 0]
-    #     mock_fl_electrode_extension.rel_y = [1, 1, 1, 1]
-    #     mock_fl_electrode_extension.rel_z = [2, 2, 2, 2]
-    #     mock_fl_electrode_extension.hw_chan = [0, 1, 2, 3]
-    #     mock_fl_electrode_extension.ntrode_id = [11, 11, 22, 22]
-    #     mock_fl_electrode_extension.bad_channels = [True, False, False, True]
-    #     mock_fl_electrode_extension.probe_shank = None
-    #     mock_fl_electrode_extension.probe_channel = [0, 1, 2, 3]
-    # 
-    #     self.electrode_extension_injector.inject_extensions(nwb_file, mock_fl_electrode_extension)
+    @should_raise(NoneParamException)
+    def test_electrodes_extension_injector_failed_injecting_due_to_None_param(self):
+        nwb_file = NWBFile(
+            session_description='None',
+            identifier='NWB1',
+            session_start_time=datetime(2017, 4, 3, 11, tzinfo=tzlocal()),
+            file_create_date=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
+        )
+        mock_fl_electrode_extension = Mock(spec=FlElectrodeExtension)
+        mock_fl_electrode_extension.rel_x = [0, 0, 0, 0]
+        mock_fl_electrode_extension.rel_y = [1, 1, 1, 1]
+        mock_fl_electrode_extension.rel_z = [2, 2, 2, 2]
+        mock_fl_electrode_extension.hw_chan = [0, 1, 2, 3]
+        mock_fl_electrode_extension.ntrode_id = [11, 11, 22, 22]
+        mock_fl_electrode_extension.bad_channels = [False, False, False, False]
+        mock_fl_electrode_extension.probe_shank = None
+        mock_fl_electrode_extension.probe_channel = [0, 1, 2, 3]
+
+        electrode_extension_injector = ElectrodeExtensionInjector()
+        electrode_extension_injector.inject_extensions(
+            nwb_content=nwb_file,
+            fl_electrode_extension=mock_fl_electrode_extension
+        )
 
     @should_raise(TypeError)
     def test_electrodes_extension_injector_failed_init_due_to_None_param(self):
