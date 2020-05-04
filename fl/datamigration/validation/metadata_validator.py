@@ -31,11 +31,11 @@ class MetadataValidator(Validator):
 
 
     def __get_missing_metadata(self):
-    """Gets all missing yml files
+        """Gets all missing yml files
 
-    Returns:
-        list of strings: list of all missing yml files
-    """
+        Returns:
+            list of strings: list of all missing yml files
+        """
     
         missing_data = []
         if not (os.path.exists(self.metadata_path)):
