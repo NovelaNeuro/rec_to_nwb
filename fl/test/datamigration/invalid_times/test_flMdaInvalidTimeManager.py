@@ -8,6 +8,8 @@ from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_time_manag
 
 import numpy as np
 
+from fl.datamigration.tools.dataset import Dataset
+
 
 class TestMdaInvalidTimesManager(TestCase):
     def test_pos_invalid_times_manager_input_validation(self):
@@ -20,10 +22,14 @@ class TestMdaInvalidTimesManager(TestCase):
         array = [1, 2, 3, 4, 5, 7, 9, 10, 11, 12]
         for i, number in enumerate(array):
             mock_array[i] = number
+        mock_continuous_time_dict = {}
+        for i in range(20):
+            mock_continuous_time_dict[str(float(i))] = float(i) * 1000000000
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
-        extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
-        manager = FlMdaInvalidTimeManager(1000000000.0, [])
-        manager.timestamps_extractor = extractor_mock
+        extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
+        extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
+        manager = FlMdaInvalidTimeManager(1000000000.0, ['test'])
+        manager.invalid_time_extractor = extractor_mock
 
         invalid_times = manager.get_mda_invalid_times()
 
@@ -36,10 +42,14 @@ class TestMdaInvalidTimesManager(TestCase):
         array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         for i, number in enumerate(array):
             mock_array[i] = number
+        mock_continuous_time_dict = {}
+        for i in range(20):
+            mock_continuous_time_dict[str(float(i))] = float(i) * 1000000000
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
-        extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
-        manager = FlMdaInvalidTimeManager(1000000000.0, [])
-        manager.timestamps_extractor = extractor_mock
+        extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
+        extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
+        manager = FlMdaInvalidTimeManager(1000000000.0, ['test'])
+        manager.invalid_time_extractor = extractor_mock
 
         invalid_times = manager.get_mda_invalid_times()
 
@@ -50,11 +60,14 @@ class TestMdaInvalidTimesManager(TestCase):
         array = [1, 3, 5, 6, 7, 8, 9, 10, 11, 12]
         for i, number in enumerate(array):
             mock_array[i] = number
+        mock_continuous_time_dict = {}
+        for i in range(20):
+            mock_continuous_time_dict[str(float(i))] = float(i) * 1000000000
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
-        extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
-        manager = FlMdaInvalidTimeManager(1000000000.0, [])
-        manager.timestamps_extractor = extractor_mock
-
+        extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
+        extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
+        manager = FlMdaInvalidTimeManager(1000000000.0, ['test'])
+        manager.invalid_time_extractor = extractor_mock
         invalid_times = manager.get_mda_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
@@ -66,10 +79,14 @@ class TestMdaInvalidTimesManager(TestCase):
         array = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
         for i, number in enumerate(array):
             mock_array[i] = number
+        mock_continuous_time_dict = {}
+        for i in range(20):
+            mock_continuous_time_dict[str(float(i))] = float(i) * 1000000000
         extractor_mock = Mock(spec=FlInvalidTimeMdaTimestampExtractor)
-        extractor_mock.get_converted_timestamps = Mock(return_value=[mock_array])
-        manager = FlMdaInvalidTimeManager(1000000000.0, [])
-        manager.timestamps_extractor = extractor_mock
+        extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
+        extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
+        manager = FlMdaInvalidTimeManager(1000000000.0, ['test'])
+        manager.invalid_time_extractor = extractor_mock
 
         invalid_times = manager.get_mda_invalid_times()
 
