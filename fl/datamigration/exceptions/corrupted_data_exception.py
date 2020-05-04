@@ -6,5 +6,4 @@ class CorruptedDataException(InvalidException):
     def __str__(self):
         if self.message:
             return 'CorruptedDataException, {0} '.format(self.message)
-        else:
-            return 'CorruptedDataException has been thrown!'
+        return 'CorruptedDataException has been thrown!'

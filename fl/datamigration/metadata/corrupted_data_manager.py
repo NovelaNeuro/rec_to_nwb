@@ -1,6 +1,6 @@
 import copy
 
-from fl.datamigration.exceptions.bad_channels_exception import CorruptedDataException
+from fl.datamigration.exceptions.corrupted_data_exception import CorruptedDataException
 from fl.datamigration.tools.beartype.beartype import beartype
 
 

@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.bad_channels_exception import CorruptedDataException
+from fl.datamigration.exceptions.corrupted_data_exception import CorruptedDataException
 from fl.datamigration.metadata.corrupted_data_manager import CorruptedDataManager
 
 
