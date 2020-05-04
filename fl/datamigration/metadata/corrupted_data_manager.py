@@ -10,6 +10,7 @@ class CorruptedDataManager:
     Args:
         metadata (dict): parsed metadata
     """
+
     @beartype
     def __init__(self, metadata: dict):
         self.metadata = metadata
