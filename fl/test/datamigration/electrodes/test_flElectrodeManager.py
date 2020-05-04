@@ -51,15 +51,15 @@ class TestFlElectrodeManager(TestCase):
 
         mock_eg_1 = Mock(spec=ElectrodeGroup)
         mock_eg_2 = Mock(spec=ElectrodeGroup)
-        mock_eg_1.name = 'ElectrodeGroup1'
-        mock_eg_2.name = 'ElectrodeGroup2'
+        mock_eg_1.name = 'electrode group 0'
+        mock_eg_2.name = 'electrode group 1'
 
         mock_electrodes_valid_map = [
             False, False, False, True,
             True, True, False, False,
             True, True, True, True
         ]
-        mock_electrode_groups_valid_map=[True, True]
+        mock_electrode_groups_valid_map = {0, 1}
 
         fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
         fl_electrodes = fl_electrodes_manager.get_fl_electrodes(
@@ -125,5 +125,5 @@ class TestFlElectrodeManager(TestCase):
         fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=[mock_eg_1, mock_eg_2],
             electrodes_valid_map=[True, False, True, False],
-            electrode_groups_valid_map=[True, True]
+            electrode_groups_valid_map={True, True}
         )

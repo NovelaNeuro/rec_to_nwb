@@ -1,5 +1,7 @@
 import copy
 
+from pynwb.ecephys import ElectrodeGroup
+
 from fl.datamigration.nwb.components.electrodes.fl_electrode_builder import FlElectrodesBuilder
 from fl.datamigration.tools.beartype.beartype import beartype
 from fl.datamigration.tools.filter_probe_by_type import filter_probe_by_type
@@ -16,27 +18,36 @@ class FlElectrodeManager:
         self.fl_electrodes_builder = FlElectrodesBuilder()
 
     @beartype
-    def get_fl_electrodes(self, electrode_groups: list, electrodes_valid_map: list, electrode_groups_valid_map: list):
+    def get_fl_electrodes(self, electrode_groups: list, electrodes_valid_map: list, electrode_groups_valid_map: set):
         self.__validate_parameters(electrode_groups)
         tmp_electrodes_valid_map = copy.deepcopy(electrodes_valid_map)
 
         fl_electrodes = []
         fl_electrode_id = -1
-        for counter, electrode_group_metadata in enumerate(self.electrode_groups_metadata):
+        for electrode_group_metadata in self.electrode_groups_metadata:
             probe_metadata = filter_probe_by_type(self.probes_metadata, electrode_group_metadata['device_type'])
 
             for shank in probe_metadata['shanks']:
                 for _ in shank['electrodes']:
                     fl_electrode_id += 1
 
-                    if tmp_electrodes_valid_map.pop(0) and electrode_groups_valid_map[counter]:
+                    if tmp_electrodes_valid_map.pop(0) and \
+                            (electrode_group_metadata['id'] in electrode_groups_valid_map):
+
                         fl_electrodes.append(
                             self.fl_electrodes_builder.build(
                                 fl_electrode_id,
-                                electrode_groups[counter],
+                                self.__get_electrode_group(electrode_group_metadata, electrode_groups)
                             )
                         )
         return fl_electrodes
+
+    @staticmethod
+    def __get_electrode_group(electrode_group_metadata, electrode_groups):
+        return [electrode_group
+                for electrode_group in electrode_groups
+                if electrode_group.name == 'electrode group ' + str(electrode_group_metadata['id'])
+                ][0]
 
     @staticmethod
     @beartype

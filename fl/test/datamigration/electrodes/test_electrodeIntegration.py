@@ -55,12 +55,12 @@ class TestElectrodeIntegration(TestCase):
             True, True, False, False,
             True, True, True, True
         ]
-        mock_electrode_groups_valid_map = [False, True]
+        mock_electrode_groups_valid_map = {1}
 
         mock_eg_1 = Mock(spec=ElectrodeGroup)
         mock_eg_2 = Mock(spec=ElectrodeGroup)
-        mock_eg_1.name = 'ElectrodeGroup1'
-        mock_eg_2.name = 'ElectrodeGroup2'
+        mock_eg_1.name = 'electrode group 0'
+        mock_eg_2.name = 'electrode group 1'
 
         nwb_file = NWBFile(
             session_description='demonstrate external files',
@@ -68,7 +68,6 @@ class TestElectrodeIntegration(TestCase):
             session_start_time=datetime(2017, 4, 3, 11, tzinfo=tzlocal()),
             file_create_date=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
         )
-
 
         electrode_creator = ElectrodesCreator()
         fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
@@ -115,8 +114,8 @@ class TestElectrodeIntegration(TestCase):
         self.assertEqual(nwb_file.electrodes[1, 7], mock_eg_2)
 
         # electrode_group name
-        self.assertEqual(nwb_file.electrodes[0, 8], 'ElectrodeGroup2')
-        self.assertEqual(nwb_file.electrodes[1, 8], 'ElectrodeGroup2')
+        self.assertEqual(nwb_file.electrodes[0, 8], 'electrode group 1')
+        self.assertEqual(nwb_file.electrodes[1, 8], 'electrode group 1')
 
     @should_raise(NoneParamException)
     def test_electrode_failed_creating_and_injecting_inside_nwb_due_to_None_NWB(self):
@@ -143,11 +142,11 @@ class TestElectrodeIntegration(TestCase):
                      {'id': 33, 'rel_x': 40, 'rel_y': 300, 'rel_z': 0}]},
                  ]}
         ]
-
+        mock_electrode_groups_valid_map = {0, 1}
         mock_eg_1 = Mock(spec=ElectrodeGroup)
         mock_eg_2 = Mock(spec=ElectrodeGroup)
-        mock_eg_1.name = 'ElectrodeGroup1'
-        mock_eg_2.name = 'ElectrodeGroup2'
+        mock_eg_1.name = 'electrode group 0'
+        mock_eg_2.name = 'electrode group 1'
 
         electrode_creator = ElectrodesCreator()
 
@@ -157,7 +156,8 @@ class TestElectrodeIntegration(TestCase):
             electrode_groups=[mock_eg_1, mock_eg_2],
             electrodes_valid_map=[
                 True, True, False, False, False, True
-            ]
+            ],
+            electrode_groups_valid_map=mock_electrode_groups_valid_map
         )
 
         [electrode_creator.create(None, fl_electrode) for fl_electrode in fl_electrodes]
