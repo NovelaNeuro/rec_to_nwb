@@ -24,7 +24,7 @@ class TestMdaInvalidTimesManager(TestCase):
         extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
         extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
         manager = FlMdaInvalidTimeManager(1000000000.0, ['test'])
-        manager.invalid_time_extractor = extractor_mock
+        manager.fl_invalid_time_mda_extractor = extractor_mock
 
         invalid_times = manager.get_mda_invalid_times()
 
@@ -42,7 +42,7 @@ class TestMdaInvalidTimesManager(TestCase):
         extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
         extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
         manager = FlMdaInvalidTimeManager(1000000000.0, ['test'])
-        manager.invalid_time_extractor = extractor_mock
+        manager.fl_invalid_time_mda_extractor = extractor_mock
 
         invalid_times = manager.get_mda_invalid_times()
 
@@ -58,7 +58,7 @@ class TestMdaInvalidTimesManager(TestCase):
         extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
         extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
         manager = FlMdaInvalidTimeManager(1000000000.0, ['test'])
-        manager.invalid_time_extractor = extractor_mock
+        manager.fl_invalid_time_mda_extractor = extractor_mock
         invalid_times = manager.get_mda_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
@@ -75,7 +75,7 @@ class TestMdaInvalidTimesManager(TestCase):
         extractor_mock.get_continuous_time_dict = Mock(return_value=mock_continuous_time_dict)
         extractor_mock.get_raw_timestamps_from_single_epoch = Mock(return_value=mock_array)
         manager = FlMdaInvalidTimeManager(1000000000.0, ['test'])
-        manager.invalid_time_extractor = extractor_mock
+        manager.fl_invalid_time_mda_extractor = extractor_mock
 
         invalid_times = manager.get_mda_invalid_times()
 
