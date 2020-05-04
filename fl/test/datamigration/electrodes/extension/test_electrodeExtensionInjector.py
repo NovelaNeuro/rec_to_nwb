@@ -138,7 +138,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         self.assertEqual(nwb_file.electrodes[3, 16], 3)
 
     @should_raise(NoneParamException)
-    def test_electrodes_extension_injector_failed_injecting_due_to_None_param(self):
+    def test_electrodes_extension_injector_failed_injecting_due_to_None_fl_electrode_attr(self):
         nwb_file = NWBFile(
             session_description='None',
             identifier='NWB1',
