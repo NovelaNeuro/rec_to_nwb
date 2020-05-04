@@ -1,6 +1,5 @@
 import copy
 
-
 from fl.datamigration.exceptions.bad_channels_exception import CorruptedDataException
 from fl.datamigration.tools.beartype.beartype import beartype
 
@@ -18,21 +17,20 @@ class CorruptedDataManager:
             ntrode_metadata=self.metadata['ntrode electrode group channel map']
         )
         electrode_groups_valid_map = self.__get_electrode_groups_valid_map(
-            electrode_groups_metadata=self.metadata['electrode groups'],
             ntrode_metadata=self.metadata['ntrode electrode group channel map'],
             electrodes_valid_map=electrodes_valid_map
         )
-        probes_valid_map_dict = self.__get_probes_valid_map(
+        probes_valid_map = self.__get_probes_valid_map(
             electrode_groups_metadata=self.metadata['electrode groups'],
             electrode_groups_valid_map=electrode_groups_valid_map
         )
 
-        self.__validate_data(probes_valid_map_dict)
+        self.__validate_data(probes_valid_map)
 
         return {
             'electrodes': electrodes_valid_map,
-            'electrode_group': electrode_groups_valid_map,
-            'probes_dict': probes_valid_map_dict,
+            'electrode_groups': electrode_groups_valid_map,
+            'probes': probes_valid_map,
         }
 
     @staticmethod
@@ -45,43 +43,40 @@ class CorruptedDataManager:
             )
         return electrodes_valid_map
 
-    @staticmethod
     @beartype
-    def __get_electrode_groups_valid_map(electrode_groups_metadata: list, ntrode_metadata: list,
-                                         electrodes_valid_map: list) -> list:
-        electrode_group_valid_map = [False for _ in electrode_groups_metadata]
+    def __get_electrode_groups_valid_map(self, ntrode_metadata: list,
+                                         electrodes_valid_map: list) -> set:
         tmp_electrodes_valid_map = copy.deepcopy(electrodes_valid_map)
+        return {
+            ntrode['electrode_group_id']
+            for ntrode in ntrode_metadata
+            if self.__is_ntrode_valid(ntrode, tmp_electrodes_valid_map)
+        }
 
-        for ntrode in ntrode_metadata:
-            electrode_group_id = ntrode['electrode_group_id']
-            for _ in ntrode['map']:
-                if tmp_electrodes_valid_map.pop(0):
-                    electrode_group_valid_map[electrode_group_id] = True
-        return electrode_group_valid_map
+    @staticmethod
+    def __is_ntrode_valid(ntrode, electrodes_valid_map):
+        is_valid = False
+        for _ in ntrode['map']:
+            if electrodes_valid_map.pop(0):
+                is_valid = True
+        return is_valid
 
     @staticmethod
     @beartype
-    def __get_probes_valid_map(electrode_groups_metadata: list, electrode_groups_valid_map: list) -> dict:
-        tmp_electrode_groups_valid_map = copy.deepcopy(electrode_groups_valid_map)
-
-        probes_valid_map_dict = {}
-        for electrode_group in electrode_groups_metadata:
-            device_type = electrode_group['device_type']
-
-            if tmp_electrode_groups_valid_map.pop(0):
-                probes_valid_map_dict[device_type] = True
-            elif not probes_valid_map_dict.get(device_type, False):
-                probes_valid_map_dict[device_type] = False
-
-        return probes_valid_map_dict
+    def __get_probes_valid_map(electrode_groups_metadata: list, electrode_groups_valid_map: set) -> set:
+        return {
+            electrode_group['device_type']
+            for electrode_group in electrode_groups_metadata
+            if electrode_group['id'] in electrode_groups_valid_map
+        }
 
     @staticmethod
     @beartype
-    def __validate_data(probes_valid_map_dict: dict):
+    def __validate_data(probes_valid_map: set):
         corrupted_data = True
 
-        for probe_value in probes_valid_map_dict.values():
-            if probe_value:
+        for probe_type in probes_valid_map:
+            if probe_type:
                 corrupted_data = False
         if corrupted_data:
             raise CorruptedDataException('All data are corrupted')

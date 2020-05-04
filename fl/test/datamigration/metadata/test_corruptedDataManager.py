@@ -44,19 +44,22 @@ class TestCorruptedDataManager(TestCase):
         corrupted_data_manager = CorruptedDataManager(
             metadata=metadata
         )
-        electrodes_valid_map_dict = corrupted_data_manager.get_valid_map_dict()
+        valid_map_dict = corrupted_data_manager.get_valid_map_dict()
 
-        self.assertIsInstance(electrodes_valid_map_dict, dict)
+        self.assertIsInstance(valid_map_dict, dict)
 
-        self.assertEqual(electrodes_valid_map_dict['electrodes'], [
-            True, False, True, False, False, False, False, False, False, True, True, True, False, False, False, False
+        self.assertEqual(valid_map_dict['electrodes'], [
+            True, False,
+            True, False,
+            False, False,
+            False, False,
+            False, True,
+            True, True,
+            False, False,
+            False, False
         ])
-        self.assertEqual(electrodes_valid_map_dict['electrode_group'], [True, False, True, False])
-        self.assertEqual(electrodes_valid_map_dict['probes_dict'], {
-            '128c-4s8mm6cm-20um-40um-sl': True,
-            '32c-2s8mm6cm-20um-40um-dl': False,
-            'tetrode_12.5': True
-        })
+        self.assertEqual(valid_map_dict['electrode_groups'], {0, 2})
+        self.assertEqual(valid_map_dict['probes'], {'128c-4s8mm6cm-20um-40um-sl','tetrode_12.5'})
 
     @should_raise(TypeError)
     def test_corrupted_data_manager_get_valid_map_dict_failed_due_to_none_param(self):

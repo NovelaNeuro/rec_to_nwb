@@ -16,12 +16,6 @@ path = os.path.dirname(os.path.abspath(__file__))
 class TestFlProbeManager(TestCase):
 
     def setUp(self):
-        self.electrode_groups_metadata = [
-            {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
-            {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'},
-            {'id': 3, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 3'}
-        ]
-
         self.probes_metadata_1 = {'probe_type': 'tetrode_12.5', 'contact_size': 20.0, 'num_shanks': 1, 'shanks': [
             {'shank_id': 0, 'electrodes': [
                 {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
@@ -57,18 +51,14 @@ class TestFlProbeManager(TestCase):
                                            mock_shank_5, mock_shank_6]
         }
 
-        probes_valid_map_dict = {
-            'tetrode_12.5': False,
-            '128c-4s8mm6cm-20um-40um-sl': True,
-        }
+        probes_valid_map = {'128c-4s8mm6cm-20um-40um-sl'}
 
         fl_probe_manager = FlProbeManager(
             probes_metadata=self.probes_metadata,
-            electrode_groups_metadata=self.electrode_groups_metadata
         )
         fl_probes = fl_probe_manager.get_fl_probes(
             shanks_dict=mock_shanks_dict,
-            probes_valid_map_dict=probes_valid_map_dict
+            probes_valid_map=probes_valid_map
         )
 
         self.assertIsInstance(fl_probes[0], FlProbe)
@@ -88,15 +78,13 @@ class TestFlProbeManager(TestCase):
     @should_raise(TypeError)
     def test_manager_fails_due_to_None_param(self):
         FlProbeManager(
-            probes_metadata=None,
-            electrode_groups_metadata=None,
+            probes_metadata=None
         )
 
     @should_raise(TypeError)
     def test_manager_fails_creating_FlProbes_due_to_None_param(self):
         fl_probe_manager = FlProbeManager(
-            probes_metadata=self.probes_metadata,
-            electrode_groups_metadata=None
+            probes_metadata=self.probes_metadata
         )
 
         fl_probe_manager.get_fl_probes(None, None)

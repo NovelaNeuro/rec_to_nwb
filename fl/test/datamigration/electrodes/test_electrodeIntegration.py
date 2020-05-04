@@ -51,10 +51,12 @@ class TestElectrodeIntegration(TestCase):
         ]
 
         mock_electrodes_valid_map = [
-            False, False, False, True,
+            False, False, False, False,
             True, True, False, False,
             True, True, True, True
         ]
+        mock_electrode_groups_valid_map = [False, True]
+
         mock_eg_1 = Mock(spec=ElectrodeGroup)
         mock_eg_2 = Mock(spec=ElectrodeGroup)
         mock_eg_1.name = 'ElectrodeGroup1'
@@ -66,24 +68,23 @@ class TestElectrodeIntegration(TestCase):
             session_start_time=datetime(2017, 4, 3, 11, tzinfo=tzlocal()),
             file_create_date=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
         )
-        
+
+
         electrode_creator = ElectrodesCreator()
-
         fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
-
         fl_electrodes = fl_electrodes_manager.get_fl_electrodes(
-            electrode_groups=[mock_eg_1, mock_eg_2],
-            electrodes_valid_map=mock_electrodes_valid_map
+            electrode_groups=[mock_eg_2],
+            electrodes_valid_map=mock_electrodes_valid_map,
+            electrode_groups_valid_map=mock_electrode_groups_valid_map
         )
-
         [electrode_creator.create(nwb_file, fl_electrode) for fl_electrode in fl_electrodes]
 
-        self.assertEqual(7, len(fl_electrodes))
+        self.assertEqual(6, len(fl_electrodes))
         self.assertIsInstance(nwb_file.electrodes, DynamicTable)
 
         # id
-        self.assertEqual(nwb_file.electrodes[0, 0], 3)
-        self.assertEqual(nwb_file.electrodes[1, 0], 4)
+        self.assertEqual(nwb_file.electrodes[0, 0], 4)
+        self.assertEqual(nwb_file.electrodes[1, 0], 5)
 
         # x
         self.assertEqual(nwb_file.electrodes[0, 1], 0.0)
@@ -110,11 +111,11 @@ class TestElectrodeIntegration(TestCase):
         self.assertEqual(nwb_file.electrodes[1, 6], 'None')
 
         # group
-        self.assertEqual(nwb_file.electrodes[0, 7], mock_eg_1)
+        self.assertEqual(nwb_file.electrodes[0, 7], mock_eg_2)
         self.assertEqual(nwb_file.electrodes[1, 7], mock_eg_2)
 
         # electrode_group name
-        self.assertEqual(nwb_file.electrodes[0, 8], 'ElectrodeGroup1')
+        self.assertEqual(nwb_file.electrodes[0, 8], 'ElectrodeGroup2')
         self.assertEqual(nwb_file.electrodes[1, 8], 'ElectrodeGroup2')
 
     @should_raise(NoneParamException)

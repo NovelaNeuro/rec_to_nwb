@@ -159,7 +159,7 @@ class NWBFileBuilder:
         self.fl_shank_manager = FlShankManager(self.probes, self.metadata['electrode groups'])
         self.shank_creator = ShankCreator()
 
-        self.fl_probe_manager = FlProbeManager(self.probes, self.metadata['electrode groups'])
+        self.fl_probe_manager = FlProbeManager(self.probes)
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
@@ -220,15 +220,17 @@ class NWBFileBuilder:
 
         shanks_dict = self.__build_shanks(shanks_electrodes_dict)
 
-        probes = self.__build_and_inject_probes(nwb_content, shanks_dict, valid_map_dict['probes_dict'])
+        probes = self.__build_and_inject_probes(nwb_content, shanks_dict, valid_map_dict['probes'])
 
         self.__build_and_inject_header_device(nwb_content)
 
         electrode_groups = self.__build_and_inject_electrode_group(
-            nwb_content, probes, valid_map_dict['electrode_group']
+            nwb_content, probes, valid_map_dict['electrode_groups']
         )
 
-        self.__build_and_inject_electrodes(nwb_content, electrode_groups, valid_map_dict['electrodes'])
+        self.__build_and_inject_electrodes(
+            nwb_content, electrode_groups, valid_map_dict['electrodes'], valid_map_dict['electrode_group']
+        )
 
         self.__build_and_inject_electrodes_extensions(nwb_content, valid_map_dict['electrodes'])
 
@@ -336,9 +338,9 @@ class NWBFileBuilder:
         self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_groups)
         return electrode_groups
 
-    def __build_and_inject_electrodes(self, nwb_content, electrode_groups, electrodes_valid_map):
+    def __build_and_inject_electrodes(self, nwb_content, electrode_groups, electrodes_valid_map, electrode_groups_valid_map):
         logger.info('Electrodes: Building')
-        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(electrode_groups, electrodes_valid_map)
+        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(electrode_groups, electrodes_valid_map, electrode_groups_valid_map)
         logger.info('Electrodes: Creating&Injecting into NWB')
         [self.electrode_creator.create(nwb_content, fl_electrode) for fl_electrode in fl_electrodes]
 

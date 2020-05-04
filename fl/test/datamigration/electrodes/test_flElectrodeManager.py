@@ -59,11 +59,13 @@ class TestFlElectrodeManager(TestCase):
             True, True, False, False,
             True, True, True, True
         ]
+        mock_electrode_groups_valid_map=[True, True]
 
         fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
         fl_electrodes = fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=[mock_eg_1, mock_eg_2],
-            electrodes_valid_map=mock_electrodes_valid_map
+            electrodes_valid_map=mock_electrodes_valid_map,
+            electrode_groups_valid_map=mock_electrode_groups_valid_map
         )
 
         self.assertEqual(7, len(fl_electrodes))
@@ -122,5 +124,6 @@ class TestFlElectrodeManager(TestCase):
         fl_electrodes_manager = FlElectrodeManager(probes_metadata, electrode_groups_metadata)
         fl_electrodes_manager.get_fl_electrodes(
             electrode_groups=[mock_eg_1, mock_eg_2],
-            electrodes_valid_map=[True, False, True, False]
+            electrodes_valid_map=[True, False, True, False],
+            electrode_groups_valid_map=[True, True]
         )

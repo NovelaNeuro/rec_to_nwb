@@ -16,7 +16,7 @@ class FlElectrodeManager:
         self.fl_electrodes_builder = FlElectrodesBuilder()
 
     @beartype
-    def get_fl_electrodes(self, electrode_groups: list, electrodes_valid_map: list):
+    def get_fl_electrodes(self, electrode_groups: list, electrodes_valid_map: list, electrode_groups_valid_map: list):
         self.__validate_parameters(electrode_groups)
         tmp_electrodes_valid_map = copy.deepcopy(electrodes_valid_map)
 
@@ -29,20 +29,16 @@ class FlElectrodeManager:
                 for _ in shank['electrodes']:
                     fl_electrode_id += 1
 
-                    if tmp_electrodes_valid_map.pop(0):
-                        fl_electrodes.append(self.fl_electrodes_builder.build(
-                            fl_electrode_id,
-                            electrode_groups[counter],
-                        ))
+                    if tmp_electrodes_valid_map.pop(0) and electrode_groups_valid_map[counter]:
+                        fl_electrodes.append(
+                            self.fl_electrodes_builder.build(
+                                fl_electrode_id,
+                                electrode_groups[counter],
+                            )
+                        )
         return fl_electrodes
 
     @staticmethod
     @beartype
     def __validate_parameters(electrode_groups: list):
         [validate_parameters_not_none(__name__, electrode_group.name) for electrode_group in electrode_groups]
-
-
-
-
-
-
