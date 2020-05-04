@@ -3,19 +3,21 @@ from fl.datamigration.processing.timestamp_converter import TimestampConverter
 
 from mountainlab_pytools.mdaio import readmda
 
+from fl.datamigration.tools.beartype.beartype import beartype
+from fl.datamigration.tools.dataset import Dataset
+
 
 class FlInvalidTimeMdaTimestampExtractor:
-    def get_raw_timestamps_from_single_epoch(self, epoch):
-        return self.read_mda_timestamps_from_single_epoch(self.__get_mda_timestamp_file(epoch))
+    @beartype
+    def get_raw_timestamps_from_single_epoch(self, epoch: Dataset):
+        return self.__read_mda_timestamps_from_single_epoch(self.__get_mda_timestamp_file(epoch))
 
-    def read_mda_timestamps_from_single_epoch(self, timestamp_file):
+    def __read_mda_timestamps_from_single_epoch(self, timestamp_file):
         return readmda(timestamp_file)
 
-    def get_mda_timestamp_file(self, epoch):
-        return epoch.get_mda_timestamps()
-
     @staticmethod
-    def get_continuous_time_dict(epoch):
+    @beartype
+    def get_continuous_time_dict(epoch: Dataset):
         continuous_time_extractor = ContinuousTimeExtractor()
         continuous_time_file = epoch.get_continuous_time()
         return continuous_time_extractor.get_continuous_time_dict([continuous_time_file])[0]
