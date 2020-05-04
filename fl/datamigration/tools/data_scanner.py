@@ -20,9 +20,10 @@ class DataScanner:
         all_datasets = []
         directories = os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
         for directory in directories:
-            dataset_name = (directory.split('_')[2] + '_' + directory.split('_')[3]).split('.')[0]
-            if not dataset_name in all_datasets:
-                all_datasets.append(dataset_name)
+            if directory.startswith(date):
+                dataset_name = (directory.split('_')[2] + '_' + directory.split('_')[3]).split('.')[0]
+                if not dataset_name in all_datasets:
+                    all_datasets.append(dataset_name)
         return all_datasets
 
     def get_all_data_from_dataset(self, date):
