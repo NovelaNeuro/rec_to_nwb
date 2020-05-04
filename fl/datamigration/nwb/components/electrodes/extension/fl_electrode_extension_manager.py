@@ -10,6 +10,7 @@ from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension
 from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension_factory import \
     FlElectrodeExtensionFactory
 from fl.datamigration.tools.beartype.beartype import beartype
+from fl.datamigration.tools.filter_probe_by_type import filter_probe_by_type
 
 path = os.path.dirname(os.path.abspath(__file__))
 

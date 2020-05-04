@@ -69,10 +69,10 @@ class NWBFileBuilder:
                  animal_name: str,
                  date: str,
                  nwb_metadata: MetadataManager,
-                 process_dio: bool=True,
-                 process_mda: bool=True,
-                 process_analog: bool=True,
-                 output_file: str='output.nwb'
+                 process_dio: bool = True,
+                 process_mda: bool = True,
+                 process_analog: bool = True,
+                 output_file: str = 'output.nwb'
                  ):
 
         """
@@ -87,17 +87,11 @@ class NWBFileBuilder:
         output_file (string): path and name specifying where .nwb file gonna be written
         """
 
-        validation_registrator = ValidationRegistrator()
-        validation_registrator.register(NotEmptyValidator(data_path))
-        validation_registrator.register(NotEmptyValidator(animal_name))
-        validation_registrator.register(NotEmptyValidator(date))
-        validation_registrator.validate()
-
         logger.info('NWBFileBuilder initialization')
         logger.info(
             'NWB builder initialization parameters: \n'
             + 'data_path = ' + str(data_path) + '\n'
-            + 'animal_name = ' + str(animal_name)  + '\n'
+            + 'animal_name = ' + str(animal_name) + '\n'
             + 'date = ' + str(date) + '\n'
             + 'nwb_metadata = ' + str(nwb_metadata) + '\n'
             + 'process_dio = ' + str(process_dio) + '\n'
@@ -123,24 +117,26 @@ class NWBFileBuilder:
                                    'analog': process_analog}
 
         rec_files_list = RecFileFinder().find_rec_files(
-
             path=(self.data_path
                   + '/' + self.animal_name
                   + '/raw/'
-                  + self.date))
+                  + self.date)
+        )
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
         self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
         self.dataset_names = self.data_scanner.get_all_epochs(date)
         full_data_path = data_path + '/' + animal_name + '/preprocessing/' + date
 
-        validationRegistrator = ValidationRegistrator()
-        validationRegistrator.register(NTrodeValidator(self.metadata, self.header))
-        validationRegistrator.register(PreprocessingValidator(full_data_path,
-                                                              self.dataset_names,
-                                                              data_types_for_scanning))
-        validationRegistrator.register(TaskValidator(self.metadata['tasks']))
-        validationRegistrator.validate()
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NTrodeValidator(self.metadata, self.header))
+        validation_registrator.register(PreprocessingValidator(
+            full_data_path,
+            self.dataset_names,
+            data_types_for_scanning
+        ))
+        validation_registrator.register(TaskValidator(self.metadata['tasks']))
+        validation_registrator.validate()
 
         self.extract_datasets(animal_name, date)
 
@@ -163,8 +159,10 @@ class NWBFileBuilder:
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
-        self.fl_device_header_manager = FlDeviceHeaderManager('header_device',
-                                                              self.header.configuration.global_configuration)
+        self.fl_device_header_manager = FlDeviceHeaderManager(
+            'header_device',
+            self.header.configuration.global_configuration
+        )
 
         self.fl_electrode_group_manager = FlElectrodeGroupManager(self.metadata['electrode groups'])
         self.electrode_group_creator = ElectrodeGroupFactory()
@@ -229,7 +227,7 @@ class NWBFileBuilder:
         )
 
         self.__build_and_inject_electrodes(
-            nwb_content, electrode_groups, valid_map_dict['electrodes'], valid_map_dict['electrode_group']
+            nwb_content, electrode_groups, valid_map_dict['electrodes'], valid_map_dict['electrode_groups']
         )
 
         self.__build_and_inject_electrodes_extensions(nwb_content, valid_map_dict['electrodes'])
@@ -338,9 +336,11 @@ class NWBFileBuilder:
         self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_groups)
         return electrode_groups
 
-    def __build_and_inject_electrodes(self, nwb_content, electrode_groups, electrodes_valid_map, electrode_groups_valid_map):
+    def __build_and_inject_electrodes(self, nwb_content, electrode_groups, electrodes_valid_map,
+                                      electrode_groups_valid_map):
         logger.info('Electrodes: Building')
-        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(electrode_groups, electrodes_valid_map, electrode_groups_valid_map)
+        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(electrode_groups, electrodes_valid_map,
+                                                                    electrode_groups_valid_map)
         logger.info('Electrodes: Creating&Injecting into NWB')
         [self.electrode_creator.create(nwb_content, fl_electrode) for fl_electrode in fl_electrodes]
 
@@ -395,6 +395,7 @@ class NWBFileBuilder:
 
     def build_and_inject_mda_invalid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
-        mda_invalid_time_manager = InvalidTimeManager(self.header.configuration.hardware_configuration.sampling_rate, self.datasets)
+        mda_invalid_time_manager = InvalidTimeManager(self.header.configuration.hardware_configuration.sampling_rate,
+                                                      self.datasets)
         invalid_times = mda_invalid_time_manager.build_mda_invalid_times()
         InvalidTimeInjector.inject(invalid_times, nwb_content)
