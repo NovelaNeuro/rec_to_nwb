@@ -42,17 +42,17 @@ class FlMdaInvalidTimeManager:
         return gaps_lower_bounds, gaps_upper_bounds
 
     def get_invalid_times_from_single_epoch_raw_timestamps(self, raw_timestamps):
-        lowerBounds = (raw_timestamps + 1)[:-1]
-        upperBounds = (raw_timestamps - 1)[1:]
-        mask = lowerBounds <= upperBounds
-        upperBounds, lowerBounds = upperBounds[mask] + 1, lowerBounds[mask] -1
-        filtered_lowerBounds = lowerBounds
-        filtered_upperBounds = upperBounds
-        for element in upperBounds:
-            filtered_lowerBounds = filtered_lowerBounds[filtered_lowerBounds != element]
-        for element in lowerBounds:
-            filtered_upperBounds = filtered_upperBounds[filtered_upperBounds != element]
-        return filtered_upperBounds, filtered_lowerBounds
+        lower_bounds = (raw_timestamps + 1)[:-1]
+        upper_bounds = (raw_timestamps - 1)[1:]
+        mask = lower_bounds <= upper_bounds
+        upper_bounds, lower_bounds = upper_bounds[mask] + 1, lower_bounds[mask] -1
+        filtered_lower_bounds = lower_bounds
+        filtered_upper_bounds = upper_bounds
+        for element in upper_bounds:
+            filtered_lower_bounds = filtered_lower_bounds[filtered_lower_bounds != element]
+        for element in lower_bounds:
+            filtered_upper_bounds = filtered_upper_bounds[filtered_upper_bounds != element]
+        return filtered_upper_bounds, filtered_lower_bounds
 
     def convert_timestamps_in_invalid_times_from_single_epoch(self, timestamps, continuous_time_dict):
         return TimestampConverter.convert_timestamps(continuous_time_dict, timestamps)
