@@ -3,7 +3,6 @@ print(version)
 from setuptools import setup, find_packages
 
 
-
 setup(
     name='fldatamigration',
     version=version,
