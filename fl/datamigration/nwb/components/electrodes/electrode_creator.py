@@ -3,12 +3,8 @@ from fl.datamigration.tools.validate_parameters import validate_parameters_not_n
 
 class ElectrodesCreator:
 
-    def __init__(self):
-        self.electrode_id = -1
-
     def create(self, nwb_content, fl_electrode):
         self.__validate_parameters(fl_electrode, nwb_content)
-        self.electrode_id += 1
 
         nwb_content.add_electrode(
             x=0.0,
@@ -18,7 +14,7 @@ class ElectrodesCreator:
             location='None',
             filtering='None',
             group=fl_electrode.electrode_group,
-            id=self.electrode_id
+            id=fl_electrode.electrode_id
         )
 
     @staticmethod
