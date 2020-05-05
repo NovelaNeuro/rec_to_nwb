@@ -9,7 +9,7 @@ from fl.datamigration.tools.dataset import Dataset
 
 class FlInvalidTimeMdaTimestampExtractor:
     @beartype
-    def get_raw_timestamps_from_single_epoch(self, epoch: Dataset):
+    def get_sample_count_from_single_epoch(self, epoch: Dataset):
         return self.__read_mda_timestamps_from_single_epoch(self.__get_mda_timestamp_file(epoch))
 
     def __read_mda_timestamps_from_single_epoch(self, timestamp_file):
