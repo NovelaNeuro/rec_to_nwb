@@ -36,9 +36,9 @@ class FlMdaInvalidTimeManager:
                         [last_dataset_last_timestamp,
                          self.fl_invalid_time_mda_extractor.get_sample_count_from_single_epoch(epoch)]):
                     gap_between_datasets = True
-            for i in range(len(converted_lower_bounds)):
+            for i, lower_bound in enumerate(converted_lower_bounds):
                 invalid_times.append(FlMdaInvalidTimeBuilder.build(
-                    converted_lower_bounds[i],
+                    lower_bound,
                     converted_upper_bounds[i]
                 )
                 )
