@@ -19,7 +19,7 @@ class DeviceFactory:
     def create_probe(cls, fl_probe):
         validate_parameters_not_none(__name__, fl_probe)
         validate_parameters_not_none(__name__, fl_probe.probe_id, fl_probe.metadata)
-        return Probe(
+        probe = Probe(
             id=fl_probe.probe_id,
             name="probe " + str(fl_probe.probe_id),
             probe_type=fl_probe.metadata['probe_type'],
@@ -28,8 +28,11 @@ class DeviceFactory:
             num_shanks=fl_probe.metadata['num_shanks'],
             contact_side_numbering=fl_probe.metadata['contact_side_numbering'],
             contact_size=fl_probe.metadata['contact_size'],
-            shanks=fl_probe.shanks
         )
+        for shank in fl_probe.shanks:
+            probe.add_shank(shank)
+
+        return probe
 
     @classmethod
     def create_header_device(cls, fl_header_device):
