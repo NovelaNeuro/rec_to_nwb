@@ -4,12 +4,11 @@ from unittest.mock import Mock
 from fl.datamigration.exceptions.none_param_exception import NoneParamException
 from fl.datamigration.nwb.components.electrode_group.electrode_group_factory import ElectrodeGroupFactory
 from fl.datamigration.nwb.components.electrode_group.fl_electrode_group import FlElectrodeGroup
+from fl.datamigration.nwb.components.electrode_group.fl_nwb_electrode_group import FlNwbElectrodeGroup
 
 from ndx_fl_novela.probe import Probe
 from pynwb.device import Device
 from testfixtures import should_raise
-
-from fl.datamigration.nwb.components.electrode_group.fl_nwb_electrode_group import FlNwbElectrodeGroup
 
 
 class TestElectrodeGroupFactory(TestCase):
