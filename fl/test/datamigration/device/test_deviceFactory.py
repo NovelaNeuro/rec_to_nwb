@@ -66,6 +66,7 @@ class TestDeviceFactory(TestCase):
         
         self.assertIsNotNone(probe)
         self.assertIsInstance(probe, Probe)
+
         self.assertEqual(probe.name, 'probe 1')
         self.assertEqual(probe.id, 1)
         self.assertEqual(probe.num_shanks, 2)
@@ -74,7 +75,10 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(probe.units, 'um')
         self.assertEqual(probe.probe_description, 'sample description')
         self.assertEqual(probe.contact_side_numbering, True)
-        self.assertEqual(probe.shanks, [mock_shank_1, mock_shank_2])
+        self.assertEqual(probe.shanks, {
+            mock_shank_1.name: mock_shank_1,
+            mock_shank_2.name: mock_shank_2
+        })
 
     @should_raise(NoneParamException)
     def test_factory_failed_creating_Probe_due_to_none_FlProbe(self):
