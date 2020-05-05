@@ -1,11 +1,13 @@
 from fl.datamigration.nwb.components.associated_files.fl_associated_file import FlAssociatedFile
 from fl.datamigration.nwb.components.associated_files.fl_associated_files_builder import FlAssociatedFilesBuilder
 from fl.datamigration.nwb.components.associated_files.fl_associated_files_extractor import FlAssociatedFilesExtractor
+from fl.datamigration.tools.beartype.beartype import beartype
 
 
 class FlAssociatedFilesManager:
 
-    def __init__(self, files, files_metadata):
+    @beartype
+    def __init__(self, files: list, files_metadata: list):
         self.files_metadata = files_metadata
         self.fl_associated_files_extractor = FlAssociatedFilesExtractor(files)
         self.fl_associated_files_builder = FlAssociatedFilesBuilder()

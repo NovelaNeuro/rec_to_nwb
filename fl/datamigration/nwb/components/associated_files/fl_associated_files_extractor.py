@@ -1,6 +1,10 @@
+from fl.datamigration.tools.beartype.beartype import beartype
+
+
 class FlAssociatedFilesExtractor:
 
-    def __init__(self, files):
+    @beartype
+    def __init__(self, files: list):
         self.files = files
 
     def extract(self):
