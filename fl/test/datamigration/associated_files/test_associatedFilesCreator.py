@@ -12,13 +12,15 @@ path = os.path.dirname(os.path.abspath(__file__))
 class TestFlAssociatedFilesCreator(unittest.TestCase):
 
     def setUp(self):
-        fl_associated_files = [
+        self.fl_associated_files = [
             FlAssociatedFile('test_name1', 'test description 1', 'test content 1'),
-            FlAssociatedFile('test_name2', 'test description 2', 'test content 2')]
-        self.associated_files_creator = AssociatedFilesCreator(fl_associated_files)
+            FlAssociatedFile('test_name2', 'test description 2', 'test content 2')
+        ]
+        self.associated_files_creator = AssociatedFilesCreator()
 
     def test_fl_associated_files_creator_correct_create(self):
-        associated_files = self.associated_files_creator.create()
+        associated_files = self.associated_files_creator.create(self.fl_associated_files)
+
         self.assertEqual(2, len(associated_files))
         self.assertIsInstance(associated_files[0], AssociatedFiles)
         self.assertEqual('test_name1', associated_files[0].name)

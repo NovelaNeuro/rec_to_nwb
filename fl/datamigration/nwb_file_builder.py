@@ -93,12 +93,6 @@ class NWBFileBuilder:
                  output_file: str = 'output.nwb'
                  ):
 
-        validation_registrator = ValidationRegistrator()
-        validation_registrator.register(NotEmptyValidator(data_path))
-        validation_registrator.register(NotEmptyValidator(animal_name))
-        validation_registrator.register(NotEmptyValidator(date))
-        validation_registrator.validate()
-        
         logger.info('NWBFileBuilder initialization')
         logger.info(
             'NWB builder initialization parameters: \n'
@@ -403,12 +397,14 @@ class NWBFileBuilder:
         return [single_dataset.get_continuous_time() for single_dataset in self.datasets]
 
     def __build_and_inject_associated_files(self, nwb_content):
-        logger.info('AssociatedFiles: Building')
-        fl_associated_files_manager = FlAssociatedFilesManager(self.associated_files_paths,
+        logger.info('AssociatedFiles: Creating')
+        fl_associated_files_manager = FlAssociatedFilesManager(self.associated_files,
                                                                self.metadata['associated_files'])
-        associated_files_creator = AssociatedFilesCreator(fl_associated_files_manager.get_fl_associated_files())
-        associated_files_injector = AssociatedFilesInjector(nwb_content)
-        associated_files_injector.inject(associated_files_creator.create(), 'behavior')
+        associated_files_creator = AssociatedFilesCreator()
+        associated_files_injector = AssociatedFilesInjector()
+        associated_files = associated_files_creator.create(fl_associated_files_manager.get_fl_associated_files())
+        logger.info('AssociatedFiles: Injecting')
+        associated_files_injector.inject(associated_files, 'behavior', nwb_content)
 
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')
