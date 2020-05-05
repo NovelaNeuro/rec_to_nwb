@@ -34,7 +34,7 @@ class FlMdaInvalidTimeManager:
                 if self.check_for_gap_between_datasets(
                         1E9 / self.sampling_rate,
                         [last_dataset_last_timestamp,
-                         self.fl_invalid_time_mda_extractor.get_raw_timestamps_from_single_epoch(epoch)]):
+                         self.fl_invalid_time_mda_extractor.get_sample_count_from_single_epoch(epoch)]):
                     gap_between_datasets = True
             for i in range(len(converted_lower_bounds)):
                 invalid_times.append(FlMdaInvalidTimeBuilder.build(
@@ -62,12 +62,12 @@ class FlMdaInvalidTimeManager:
 
     def get_invalid_times_from_single_epoch(self, epoch):
         gaps_upper_bounds, gaps_lower_bounds = self.get_invalid_times_from_single_epoch_raw_timestamps(
-            self.fl_invalid_time_mda_extractor.get_raw_timestamps_from_single_epoch(epoch))
+            self.fl_invalid_time_mda_extractor.get_sample_count_from_single_epoch(epoch))
         return gaps_lower_bounds, gaps_upper_bounds
 
-    def get_invalid_times_from_single_epoch_raw_timestamps(self, raw_timestamps):
-        lower_bounds = (raw_timestamps + 1)[:-1]
-        upper_bounds = (raw_timestamps - 1)[1:]
+    def get_invalid_times_from_single_epoch_raw_timestamps(self, sample_count):
+        lower_bounds = (sample_count + 1)[:-1]
+        upper_bounds = (sample_count - 1)[1:]
         mask = lower_bounds <= upper_bounds
         upper_bounds, lower_bounds = upper_bounds[mask] + 1, lower_bounds[mask] -1
         filtered_lower_bounds = lower_bounds
