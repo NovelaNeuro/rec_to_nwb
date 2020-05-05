@@ -43,17 +43,21 @@ class FlMdaInvalidTimeManager:
                 )
                 )
                 if i == 0 and gap_between_datasets:
-                    if invalid_times[-1].start_time == invalid_times[-2].stop_time:
-                        first_gap_from_current_epoch = invalid_times.pop()
-                        last_gap_from_previous_dataset = invalid_times.pop()
-                        invalid_times.append(FlMdaInvalidTimeBuilder.build(
-                            first_gap_from_current_epoch.start_time,
-                            last_gap_from_previous_dataset.stop_time
-                        )
-                        )
-                        gap_between_datasets = False
+                    gap_between_datasets = self.__add_gap_between_epochs(gap_between_datasets, invalid_times)
                 last_dataset_last_timestamp = invalid_times[-1].stop_time
         return invalid_times
+
+    def __add_gap_between_epochs(self, gap_between_datasets, invalid_times):
+        if invalid_times[-1].start_time == invalid_times[-2].stop_time:
+            first_gap_from_current_epoch = invalid_times.pop()
+            last_gap_from_previous_dataset = invalid_times.pop()
+            invalid_times.append(FlMdaInvalidTimeBuilder.build(
+                first_gap_from_current_epoch.start_time,
+                last_gap_from_previous_dataset.stop_time
+            )
+            )
+            gap_between_datasets = False
+        return gap_between_datasets
 
     def check_for_gap_between_datasets(self, expected_time_between_timestamps, timestamps):
         if timestamps[0] + expected_time_between_timestamps < timestamps[1]:
