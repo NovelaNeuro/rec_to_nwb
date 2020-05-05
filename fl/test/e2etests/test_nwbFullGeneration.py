@@ -27,6 +27,11 @@ class TestNwbFullGeneration(unittest.TestCase):
             animal_name='beans',
             date='20190718',
             nwb_metadata=cls.metadata,
+            associated_files=[
+                (str(path) + '/datamigration/res/20191212_bill_02_r1.stateScriptLog'),
+                (str(path) + '/datamigration/res/V4_delay_no_home_chinatown_3_4_20.sc'),
+                (str(path) + '/datamigration/res/V4_no_home_light_cue_chinatown_3_4_20.py')
+            ],
             process_dio=True,
             process_mda=True,
             process_analog=True
