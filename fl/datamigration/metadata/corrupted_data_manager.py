@@ -38,7 +38,7 @@ class CorruptedDataManager:
             electrode_groups_valid_map=electrode_groups_valid_map
         )
 
-        self.__are_data_corrupted(probes_valid_map)
+        self.__validate_data(probes_valid_map)
 
         return {
             'electrodes': electrodes_valid_map,
@@ -84,13 +84,13 @@ class CorruptedDataManager:
         }
 
     @staticmethod
-    def __are_data_corrupted(probes_valid_map):
+    def __validate_data(probes_valid_map):
         corrupted_data = True
 
         for probe_type in probes_valid_map:
             if probe_type:
                 corrupted_data = False
         if corrupted_data:
-            raise CorruptedDataException('All data are corrupted')
+            raise CorruptedDataException('There is no valid data to create probe')
 
 
