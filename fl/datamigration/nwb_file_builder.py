@@ -5,6 +5,7 @@ import uuid
 from fl.datamigration.header.header_checker.header_processor import HeaderProcessor
 from fl.datamigration.header.header_checker.rec_file_finder import RecFileFinder
 from fl.datamigration.header.module.header import Header
+from fl.datamigration.metadata.corrupted_data_manager import CorruptedDataManager
 from fl.datamigration.metadata.metadata_manager import MetadataManager
 from fl.datamigration.nwb.common.session_time_extractor import SessionTimeExtractor
 from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
@@ -74,30 +75,25 @@ class NWBFileBuilder:
         process_analog (boolean): flag if analog data should be processed
         output_file (string): path and name specifying where .nwb file gonna be written
     """
+    
     @beartype
     def __init__(self,
                  data_path: str,
                  animal_name: str,
                  date: str,
                  nwb_metadata: MetadataManager,
-                 process_dio: bool=True,
-                 process_mda: bool=True,
-                 process_analog: bool=True,
-                 output_file: str='output.nwb'
+                 process_dio: bool = True,
+                 process_mda: bool = True,
+                 process_analog: bool = True,
+                 output_file: str = 'output.nwb'
                  ):
 
-
-        validation_registrator = ValidationRegistrator()
-        validation_registrator.register(NotEmptyValidator(data_path))
-        validation_registrator.register(NotEmptyValidator(animal_name))
-        validation_registrator.register(NotEmptyValidator(date))
-        validation_registrator.validate()
 
         logger.info('NWBFileBuilder initialization')
         logger.info(
             'NWB builder initialization parameters: \n'
             + 'data_path = ' + str(data_path) + '\n'
-            + 'animal_name = ' + str(animal_name)  + '\n'
+            + 'animal_name = ' + str(animal_name) + '\n'
             + 'date = ' + str(date) + '\n'
             + 'nwb_metadata = ' + str(nwb_metadata) + '\n'
             + 'process_dio = ' + str(process_dio) + '\n'
@@ -123,26 +119,30 @@ class NWBFileBuilder:
                                    'analog': process_analog}
 
         rec_files_list = RecFileFinder().find_rec_files(
-
             path=(self.data_path
                   + '/' + self.animal_name
                   + '/raw/'
-                  + self.date))
+                  + self.date)
+        )
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
         self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
         self.dataset_names = self.data_scanner.get_all_epochs(date)
         full_data_path = data_path + '/' + animal_name + '/preprocessing/' + date
 
-        validationRegistrator = ValidationRegistrator()
-        validationRegistrator.register(NTrodeValidator(self.metadata, self.header))
-        validationRegistrator.register(PreprocessingValidator(full_data_path,
-                                                              self.dataset_names,
-                                                              data_types_for_scanning))
-        validationRegistrator.register(TaskValidator(self.metadata['tasks']))
-        validationRegistrator.validate()
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(NTrodeValidator(self.metadata, self.header))
+        validation_registrator.register(PreprocessingValidator(
+            full_data_path,
+            self.dataset_names,
+            data_types_for_scanning
+        ))
+        validation_registrator.register(TaskValidator(self.metadata['tasks']))
+        validation_registrator.validate()
 
         self.extract_datasets(animal_name, date)
+
+        self.corrupted_data_manager = CorruptedDataManager(self.metadata)
 
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
 
@@ -157,12 +157,14 @@ class NWBFileBuilder:
         self.fl_shank_manager = FlShankManager(self.probes, self.metadata['electrode groups'])
         self.shank_creator = ShankCreator()
 
-        self.fl_probe_manager = FlProbeManager(self.probes, self.metadata['electrode groups'])
+        self.fl_probe_manager = FlProbeManager(self.probes)
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
-        self.fl_device_header_manager = FlDeviceHeaderManager('header_device',
-                                                              self.header.configuration.global_configuration)
+        self.fl_device_header_manager = FlDeviceHeaderManager(
+            'header_device',
+            self.header.configuration.global_configuration
+        )
 
         self.fl_electrode_group_manager = FlElectrodeGroupManager(self.metadata['electrode groups'])
         self.electrode_group_creator = ElectrodeGroupFactory()
@@ -214,10 +216,11 @@ class NWBFileBuilder:
                 sex=self.metadata['subject']['sex'],
                 species=self.metadata['subject']['species'],
                 subject_id=self.metadata['subject']['subject id'],
-                weight=str(self.metadata['subject']['weight']
-                           ),
+                weight=str(self.metadata['subject']['weight']),
             ),
         )
+
+        valid_map_dict = self.__build_corrupted_data_manager()
 
         self.__build_and_inject_processing_module(nwb_content)
 
@@ -225,15 +228,19 @@ class NWBFileBuilder:
 
         shanks_dict = self.__build_shanks(shanks_electrodes_dict)
 
-        probes = self.__build_and_inject_probes(nwb_content, shanks_dict)
+        probes = self.__build_and_inject_probes(nwb_content, shanks_dict, valid_map_dict['probes'])
 
         self.__build_and_inject_header_device(nwb_content)
 
-        electrode_groups = self.__build_and_inject_electrode_group(nwb_content, probes)
+        electrode_groups = self.__build_and_inject_electrode_group(
+            nwb_content, probes, valid_map_dict['electrode_groups']
+        )
 
-        self.__build_and_inject_electrodes(nwb_content, electrode_groups)
+        self.__build_and_inject_electrodes(
+            nwb_content, electrode_groups, valid_map_dict['electrodes'], valid_map_dict['electrode_groups']
+        )
 
-        self.__build_and_inject_electrodes_extensions(nwb_content)
+        self.__build_and_inject_electrodes_extensions(nwb_content, valid_map_dict['electrodes'])
 
         self.__build_and_inject_epochs(nwb_content)
 
@@ -261,6 +268,10 @@ class NWBFileBuilder:
 
         logger.info(self.output_file + ' file has been created.')
         return self.output_file
+
+    def __build_corrupted_data_manager(self):
+        logger.info('CorruptedData: Checking')
+        return self.corrupted_data_manager.get_valid_map_dict()
 
     def __build_and_inject_analog(self, nwb_content):
         analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
@@ -316,18 +327,20 @@ class NWBFileBuilder:
             shanks_dict[probe_type] = [self.shank_creator.create(fl_shank) for fl_shank in fl_shanks]
         return shanks_dict
 
-    def __build_and_inject_probes(self, nwb_content, shanks_dict):
+    def __build_and_inject_probes(self, nwb_content, shanks_dict, probes_valid_map):
         logger.info('Probes: Building')
-        fl_probes = self.fl_probe_manager.get_fl_probes(shanks_dict)
+        fl_probes = self.fl_probe_manager.get_fl_probes(shanks_dict, probes_valid_map)
         logger.info('Probes: Creating probes')
         probes = [self.device_factory.create_probe(fl_probe) for fl_probe in fl_probes]
         logger.info('Probes: Injecting probes into NWB')
         self.device_injector.inject_all_devices(nwb_content, probes)
         return probes
 
-    def __build_and_inject_electrode_group(self, nwb_content, probes):
+    def __build_and_inject_electrode_group(self, nwb_content, probes, electrode_groups_valid_map):
         logger.info('ElectrodeGroups: Building')
-        fl_electrode_groups = self.fl_electrode_group_manager.get_fl_electrode_groups(probes)
+        fl_electrode_groups = self.fl_electrode_group_manager.get_fl_electrode_groups(
+            probes, electrode_groups_valid_map
+        )
         logger.info('ElectrodeGroups: Creating')
         electrode_groups = [self.electrode_group_creator.create_electrode_group(electrode_group)
                             for electrode_group in fl_electrode_groups]
@@ -335,15 +348,17 @@ class NWBFileBuilder:
         self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_groups)
         return electrode_groups
 
-    def __build_and_inject_electrodes(self, nwb_content, electrode_groups):
+    def __build_and_inject_electrodes(self, nwb_content, electrode_groups, electrodes_valid_map,
+                                      electrode_groups_valid_map):
         logger.info('Electrodes: Building')
-        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(electrode_groups)
+        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(electrode_groups, electrodes_valid_map,
+                                                                    electrode_groups_valid_map)
         logger.info('Electrodes: Creating&Injecting into NWB')
         [self.electrode_creator.create(nwb_content, fl_electrode) for fl_electrode in fl_electrodes]
 
-    def __build_and_inject_electrodes_extensions(self, nwb_content):
+    def __build_and_inject_electrodes_extensions(self, nwb_content, electrodes_valid_map):
         logger.info('FlElectrodesExtensions: Building')
-        fl_electrode_extension = self.fl_electrode_extension_manager.get_fl_electrodes_extension()
+        fl_electrode_extension = self.fl_electrode_extension_manager.get_fl_electrodes_extension(electrodes_valid_map)
 
         logger.info('FlElectrodesExtensions: Injecting into NWB')
         self.electrode_extension_injector.inject_extensions(

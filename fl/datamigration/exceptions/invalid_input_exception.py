@@ -6,5 +6,4 @@ class InvalidInputException(InvalidException):
     def __str__(self):
         if self.message:
             return 'InvalidInputException, {0} '.format(self.message)
-        else:
-            return 'InvalidInputException has been trown!'
+        return 'InvalidInputException has been thrown!'
