@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from fl.datamigration.header.header_checker.header_comparator import HeaderComparator
+from fl.processing.header.header_checker.header_comparator import HeaderComparator
 
 path = os.path.dirname(os.path.abspath(__file__))
 

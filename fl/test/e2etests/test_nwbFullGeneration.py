@@ -4,8 +4,8 @@ from pathlib import Path
 
 from testfixtures import should_raise
 
-from fl.datamigration.metadata.metadata_manager import MetadataManager
-from fl.datamigration.nwb_file_builder import NWBFileBuilder
+from fl.processing.metadata.metadata_manager import MetadataManager
+from fl.processing.nwb_file_builder import NWBFileBuilder
 
 path = Path(__file__).parent.parent
 path.resolve()

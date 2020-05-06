@@ -1,2 +1,0 @@
-class MissingDataException(Exception):
-    pass

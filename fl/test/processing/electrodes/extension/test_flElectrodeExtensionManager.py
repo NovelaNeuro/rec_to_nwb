@@ -2,14 +2,14 @@ import os
 from unittest import TestCase
 from unittest.mock import Mock
 
-from fl.datamigration.exceptions.none_param_exception import NoneParamException
-from fl.datamigration.exceptions.not_compatible_metadata import NotCompatibleMetadata
-from fl.datamigration.header.module.header import Header
-from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
+from fl.processing.exceptions.none_param_exception import NoneParamException
+from fl.processing.exceptions.not_compatible_metadata import NotCompatibleMetadata
+from fl.processing.header.module.header import Header
+from fl.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
 
 from testfixtures import should_raise
 
-from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
+from fl.processing.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
     FlElectrodeExtensionManager
 
 path = os.path.dirname(os.path.abspath(__file__))

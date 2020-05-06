@@ -5,7 +5,7 @@ from unittest import TestCase, mock
 
 import yaml
 
-from fl.datamigration.nwb.components.device.fl_probe_extractor import FlProbesExtractor
+from fl.processing.nwb.components.device.fl_probe_extractor import FlProbesExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 

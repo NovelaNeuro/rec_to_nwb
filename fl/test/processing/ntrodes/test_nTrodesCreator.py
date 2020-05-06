@@ -4,8 +4,8 @@ from unittest.mock import Mock
 from ndx_fl_novela.ntrode import NTrode
 from pynwb.device import Device
 
-from fl.datamigration.nwb.components.ntrodes.fl_ntrodes import FlNTrodes
-from fl.datamigration.nwb.components.ntrodes.ntrodes_creator import NTrodesCreator
+from fl.processing.nwb.components.ntrodes.fl_ntrodes import FlNTrodes
+from fl.processing.nwb.components.ntrodes.ntrodes_creator import NTrodesCreator
 
 
 class TestNTrodesCreator(TestCase):

@@ -4,10 +4,10 @@ from unittest.mock import Mock
 from ndx_fl_novela.probe import ShanksElectrode
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_exception import NoneParamException
-from fl.datamigration.nwb.components.device.shanks.fl_shank import FlShank
-from fl.datamigration.nwb.components.device.shanks.fl_shank_manager import FlShankManager
-from fl.datamigration.nwb.components.device.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
+from fl.processing.exceptions.none_param_exception import NoneParamException
+from fl.processing.nwb.components.device.shanks.fl_shank import FlShank
+from fl.processing.nwb.components.device.shanks.fl_shank_manager import FlShankManager
+from fl.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
 
 
 class TestFlShankManager(TestCase):

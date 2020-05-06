@@ -2,10 +2,10 @@ import os
 from unittest import TestCase
 from pathlib import Path
 from testfixtures import should_raise
-from fl.datamigration.validation.ntrode_validator import NTrodeValidator
-from fl.datamigration.header.module import header
-from fl.datamigration.exceptions.invalid_header_exception import InvalidHeaderException
-from fl.datamigration.exceptions.invalid_metadata_exception import InvalidMetadataException
+from fl.processing.validation.ntrode_validator import NTrodeValidator
+from fl.processing.header.module import header
+from fl.processing.exceptions.invalid_header_exception import InvalidHeaderException
+from fl.processing.exceptions.invalid_metadata_exception import InvalidMetadataException
 
 path = os.path.dirname(os.path.abspath(__file__))
 

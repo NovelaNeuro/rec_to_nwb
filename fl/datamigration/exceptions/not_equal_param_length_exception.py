@@ -1,2 +1,0 @@
-class NotEqualParamLengthException(Exception):
-    pass
