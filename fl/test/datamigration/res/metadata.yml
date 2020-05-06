@@ -24,6 +24,12 @@ tasks:
   },
   ]
 
+associated_files:
+ -  name: example_name1
+    description: exmaple description 1
+ -  name: example_name2
+    description: exmaple description 2
+
 behavioral_events:
   - name: Din1
     description: Poke1
