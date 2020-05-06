@@ -85,7 +85,7 @@ class NWBFileBuilder:
                  animal_name: str,
                  date: str,
                  nwb_metadata: MetadataManager,
-                 associated_files: list,
+                 associated_files: list = [],
                  process_dio: bool = True,
                  process_mda: bool = True,
                  process_analog: bool = True,
@@ -185,10 +185,13 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
-        self.fl_associated_files_manager = FlAssociatedFilesManager(self.associated_files,
-                                                                    self.metadata['associated_files'])
-        self.associated_files_creator = AssociatedFilesCreator()
-        self.associated_files_injector = AssociatedFilesInjector()
+        if associated_files:
+            self.fl_associated_files_manager = FlAssociatedFilesManager(
+                self.associated_files,
+                self.metadata['associated_files']
+            )
+            self.associated_files_creator = AssociatedFilesCreator()
+            self.associated_files_injector = AssociatedFilesInjector()
 
         self.session_time_extractor = SessionTimeExtractor(
             self.datasets,
@@ -254,7 +257,8 @@ class NWBFileBuilder:
 
         self.__build_and_inject_epochs(nwb_content)
 
-        self.__build_and_inject_associated_files(nwb_content)
+        if self.associated_files:
+            self.__build_and_inject_associated_files(nwb_content)
 
         if self.process_dio:
             self.__build_and_inject_dio(nwb_content)

@@ -184,7 +184,9 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
       **dates** = `list of strings` names of folders that contain experiment data<br>
 
       **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml<br>
-
+      
+      **associated_files** = `list of strings` paths to associated files<br>
+    
       **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')<br>
 
       **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True)<br>
@@ -228,6 +230,8 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
      **date** = `string` date of experiment<br>
      
      **nwb_metadata** = `MetadataManager` object contains metadata about experiment<br>
+    
+     **associated_files** = `list of strings` paths to associated files<br> 
      
      **process_dio** = `boolean` flag if dio data should be processed<br>
      
