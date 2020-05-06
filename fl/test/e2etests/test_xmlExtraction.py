@@ -2,7 +2,7 @@ import os
 import unittest
 from pathlib import Path
 
-from fl.datamigration.header.xml_extractor import XMLExtractor
+from fl.processing.header.xml_extractor import XMLExtractor
 
 path = Path(__file__).parent.parent
 path.resolve()
