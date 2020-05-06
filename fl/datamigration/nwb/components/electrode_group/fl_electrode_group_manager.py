@@ -1,8 +1,6 @@
-import copy
-
 from ndx_fl_novela.probe import Probe
 
-from fl.datamigration.nwb.components.electrode_group.fl_electrode_group import FlElectrodeGroup
+from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_builder import FlElectrodeGroupBuilder
 from fl.datamigration.tools.beartype.beartype import beartype
 
 
@@ -19,7 +17,7 @@ class FlElectrodeGroupManager:
             if electrode_group_metadata['id'] in electrode_groups_valid_map:
                 probe = self.__get_probe_by_type(probes, electrode_group_metadata['device_type'])
                 fl_electrode_groups.append(
-                    FlElectrodeGroup(
+                    FlElectrodeGroupBuilder.build(
                         metadata=electrode_group_metadata,
                         device=probe
                     )
