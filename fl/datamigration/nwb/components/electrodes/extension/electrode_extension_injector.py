@@ -24,6 +24,7 @@ class ElectrodeExtensionInjector:
             fl_electrode_extension.rel_z,
             fl_electrode_extension.hw_chan,
             fl_electrode_extension.ntrode_id,
+            fl_electrode_extension.channel_id,
             fl_electrode_extension.bad_channels,
             fl_electrode_extension.probe_shank,
             fl_electrode_extension.probe_channel
@@ -41,6 +42,11 @@ class ElectrodeExtensionInjector:
             name='ntrode_id',
             description='None',
             data=fl_electrode_extension.ntrode_id
+        )
+        nwb_content.electrodes.add_column(
+            name='channel_id',
+            description='None',
+            data=fl_electrode_extension.channel_id
         )
         nwb_content.electrodes.add_column(
             name='bad_channel',
