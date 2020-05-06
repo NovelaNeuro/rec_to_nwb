@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 from testfixtures import should_raise
 
-from fl.processing.exceptions.corrupted_data_exception import CorruptedDataException
-from fl.processing.metadata.corrupted_data_manager import CorruptedDataManager
+from fldatamigration.processing.exceptions.corrupted_data_exception import CorruptedDataException
+from fldatamigration.processing.metadata.corrupted_data_manager import CorruptedDataManager
 
 
 class TestCorruptedDataManager(TestCase):

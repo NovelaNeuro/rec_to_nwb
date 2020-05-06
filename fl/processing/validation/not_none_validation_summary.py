@@ -1,5 +1,5 @@
 
-from fl.processing.validation.validation_summary import ValidationSummary
+from fldatamigration.processing.validation.validation_summary import ValidationSummary
 
 
 class NotNoneValidationSummary(ValidationSummary):

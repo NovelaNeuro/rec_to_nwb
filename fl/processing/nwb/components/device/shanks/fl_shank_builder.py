@@ -1,4 +1,4 @@
-from fl.processing.nwb.components.device.shanks.fl_shank import FlShank
+from fldatamigration.processing.nwb.components.device.shanks.fl_shank import FlShank
 
 
 class FlShankBuilder:

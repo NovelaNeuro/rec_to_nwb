@@ -1,6 +1,6 @@
-from fl.processing.nwb.components.associated_files.fl_associated_files_builder import FlAssociatedFilesBuilder
-from fl.processing.nwb.components.associated_files.fl_associated_files_extractor import FlAssociatedFilesExtractor
-from fl.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.nwb.components.associated_files.fl_associated_files_builder import FlAssociatedFilesBuilder
+from fldatamigration.processing.nwb.components.associated_files.fl_associated_files_extractor import FlAssociatedFilesExtractor
+from fldatamigration.processing.tools.beartype.beartype import beartype
 
 
 class FlAssociatedFilesManager:

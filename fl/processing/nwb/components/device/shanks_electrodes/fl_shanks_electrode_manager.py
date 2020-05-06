@@ -1,7 +1,7 @@
-from fl.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode_builder import \
+from fldatamigration.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode_builder import \
     FlShanksElectrodeBuilder
-from fl.processing.tools.filter_probe_by_type import filter_probe_by_type
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.tools.filter_probe_by_type import filter_probe_by_type
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlShanksElectrodeManager:

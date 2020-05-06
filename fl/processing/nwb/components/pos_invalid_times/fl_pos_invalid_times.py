@@ -1,4 +1,4 @@
-from fl.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.tools.beartype.beartype import beartype
 
 
 class FlPosInvalidTime:

@@ -3,7 +3,7 @@ import concurrent.futures
 import numpy as np
 from hdmf.data_utils import DataChunk
 
-from fl.processing.nwb.components.iterator.timestamp_iterator import TimestampIterator
+from fldatamigration.processing.nwb.components.iterator.timestamp_iterator import TimestampIterator
 
 
 class MultiThreadTimestampIterator(TimestampIterator):

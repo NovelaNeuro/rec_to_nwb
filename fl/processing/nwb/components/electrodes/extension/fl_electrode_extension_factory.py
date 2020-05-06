@@ -1,6 +1,6 @@
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
-from fl.processing.tools.filter_probe_by_type import filter_probe_by_type
+from fldatamigration.processing.tools.filter_probe_by_type import filter_probe_by_type
 
 
 class FlElectrodeExtensionFactory:

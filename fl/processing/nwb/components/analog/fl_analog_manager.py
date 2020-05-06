@@ -1,8 +1,8 @@
 import numpy as np
 
-from fl.processing.nwb.components.analog.fl_analog_builder import FlAnalogBuilder
-from fl.processing.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
-from fl.processing.tools.validate_parameters import validate_parameters_not_none, \
+from fldatamigration.processing.nwb.components.analog.fl_analog_builder import FlAnalogBuilder
+from fldatamigration.processing.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none, \
     validate_parameters_equal_length
 
 

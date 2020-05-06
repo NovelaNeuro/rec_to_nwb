@@ -4,20 +4,20 @@ from unittest.mock import Mock
 
 from pynwb.ecephys import ElectrodeGroup
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
 
-from fl.processing.exceptions.not_compatible_metadata import NotCompatibleMetadata
-from fl.processing.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from fl.processing.nwb.components.electrodes.extension.electrode_extension_injector import ElectrodeExtensionInjector
-from fl.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
-from fl.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
+from fldatamigration.processing.exceptions.not_compatible_metadata import NotCompatibleMetadata
+from fldatamigration.processing.nwb.components.electrodes.electrode_creator import ElectrodesCreator
+from fldatamigration.processing.nwb.components.electrodes.extension.electrode_extension_injector import ElectrodeExtensionInjector
+from fldatamigration.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
+from fldatamigration.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 
 from dateutil.tz import tzlocal
 from hdmf.common import VectorData
 from pynwb import NWBFile
 from testfixtures import should_raise
 
-from fl.processing.nwb.components.electrodes.fl_electrodes import FlElectrode
+from fldatamigration.processing.nwb.components.electrodes.fl_electrodes import FlElectrode
 
 
 class TestElectrodeExtensionInjector(unittest.TestCase):

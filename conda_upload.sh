@@ -42,7 +42,7 @@ tar -xf ${CONDA_BUILD_PATH}/${PKG_NAME}-${VERSION}-py37_0.tar.bz2 -C ${CONDA_BUI
 cd ${CONDA_BUILD_PATH}/new_tar || exit 1
 
 echo "Creating new conda package without some files..."
-tar -cjvf ${PKG_NAME}-${VERSION}-py37_0.tar.bz2 --exclude=info/recipe/fl/test --exclude=info/recipe/fl/scripts --exclude='*.sh' --exclude='*.gitignore' --exclude='*.pytest_cache' --exclude='*.gitignore' info lib || exit 1
+tar -cjvf ${PKG_NAME}-${VERSION}-py37_0.tar.bz2 --exclude=info/recipe/fldatamigration/test --exclude=info/recipe/fldatamigration/scripts --exclude='*.sh' --exclude='*.gitignore' --exclude='*.pytest_cache' --exclude='*.gitignore' info lib || exit 1
 
 cd ..
 

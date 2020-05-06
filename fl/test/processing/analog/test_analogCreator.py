@@ -1,8 +1,8 @@
 from unittest import TestCase
 import numpy
 
-from fl.processing.nwb.components.analog.fl_analog import FlAnalog
-from fl.processing.nwb.components.analog.analog_creator import AnalogCreator
+from fldatamigration.processing.nwb.components.analog.fl_analog import FlAnalog
+from fldatamigration.processing.nwb.components.analog.analog_creator import AnalogCreator
 
 
 class TestAnalogCreator(TestCase):

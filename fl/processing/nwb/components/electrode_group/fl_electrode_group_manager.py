@@ -1,7 +1,7 @@
 from ndx_fl_novela.probe import Probe
 
-from fl.processing.nwb.components.electrode_group.fl_electrode_group_builder import FlElectrodeGroupBuilder
-from fl.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.nwb.components.electrode_group.fl_electrode_group_builder import FlElectrodeGroupBuilder
+from fldatamigration.processing.tools.beartype.beartype import beartype
 
 
 class FlElectrodeGroupManager:

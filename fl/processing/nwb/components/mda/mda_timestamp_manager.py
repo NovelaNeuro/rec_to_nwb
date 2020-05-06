@@ -3,7 +3,7 @@ import os
 
 from mountainlab_pytools.mdaio import readmda
 
-from fl.processing.nwb.common.timestamps_manager import TimestampManager
+from fldatamigration.processing.nwb.common.timestamps_manager import TimestampManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 

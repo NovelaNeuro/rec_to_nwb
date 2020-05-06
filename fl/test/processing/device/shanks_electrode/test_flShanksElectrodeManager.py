@@ -3,10 +3,10 @@ from unittest import TestCase
 from ndx_fl_novela.probe import ShanksElectrode
 from testfixtures import should_raise
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode_manager import \
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode_manager import \
     FlShanksElectrodeManager
-from fl.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
+from fldatamigration.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
 
 
 class TestFlShanksElectrodeManager(TestCase):

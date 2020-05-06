@@ -3,10 +3,10 @@ from unittest.mock import patch, Mock
 
 from testfixtures import should_raise
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.nwb.components.epochs.fl_epochs_extractor import FlEpochsExtractor
-from fl.processing.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
-from fl.processing.tools.dataset import Dataset
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.nwb.components.epochs.fl_epochs_extractor import FlEpochsExtractor
+from fldatamigration.processing.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
+from fldatamigration.processing.tools.dataset import Dataset
 
 
 class TestFlElEpochsManager(TestCase):

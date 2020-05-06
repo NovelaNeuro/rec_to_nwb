@@ -1,8 +1,8 @@
 import os
 
-from fl.processing.exceptions.missing_data_exception import MissingDataException
-from fl.processing.validation.metadata_validation_summary import MetadataValidationSummary
-from fl.processing.validation.validator import Validator
+from fldatamigration.processing.exceptions.missing_data_exception import MissingDataException
+from fldatamigration.processing.validation.metadata_validation_summary import MetadataValidationSummary
+from fldatamigration.processing.validation.validator import Validator
 
 
 class MetadataValidator(Validator):

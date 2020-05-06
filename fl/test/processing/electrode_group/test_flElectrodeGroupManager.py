@@ -2,8 +2,8 @@ import os
 from unittest import TestCase
 from unittest.mock import Mock
 
-from fl.processing.nwb.components.electrode_group.fl_electrode_group_manager import FlElectrodeGroupManager
-from fl.processing.nwb.components.electrode_group.fl_electrode_group import FlElectrodeGroup
+from fldatamigration.processing.nwb.components.electrode_group.fl_electrode_group_manager import FlElectrodeGroupManager
+from fldatamigration.processing.nwb.components.electrode_group.fl_electrode_group import FlElectrodeGroup
 
 from ndx_fl_novela.probe import Probe
 from testfixtures import should_raise

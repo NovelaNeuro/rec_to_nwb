@@ -1,10 +1,10 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.nwb.components.pos_invalid_times.fl_invalid_time_pos_timestamp_extractor import \
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.nwb.components.pos_invalid_times.fl_invalid_time_pos_timestamp_extractor import \
     FlInvalidTimePosTimestampExtractor
-from fl.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
+from fldatamigration.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
 
 import numpy as np
 

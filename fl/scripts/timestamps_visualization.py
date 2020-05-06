@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-path_epoch1 = 'GitHub/fldatamigration/fl/test/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/20190718_beans_01_s1.continuoustime.dat'
-path_epoch2 = 'GitHub/fldatamigration/fl/test/20190718_beans_02_r1.continuoustime.dat'
-path_epoch3 = 'GitHub/fldatamigration/fl/test/20190718_beans_03_s2.continuoustime.dat'
-path_epoch4 = 'GitHub/fldatamigration/fl/test/20190718_beans_04_r2.continuoustime.dat'
+path_epoch1 = 'GitHub/fldatamigration/fldatamigration/test/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/20190718_beans_01_s1.continuoustime.dat'
+path_epoch2 = 'GitHub/fldatamigration/fldatamigration/test/20190718_beans_02_r1.continuoustime.dat'
+path_epoch3 = 'GitHub/fldatamigration/fldatamigration/test/20190718_beans_03_s2.continuoustime.dat'
+path_epoch4 = 'GitHub/fldatamigration/fldatamigration/test/20190718_beans_04_r2.continuoustime.dat'
 continuous_time = readTrodesExtractedDataFile(path_epoch1)
 continuous_time_dict_epoch1 = {str(data[0]): float(data[1]) for data in continuous_time['data']}
 print("epoch1 length: " + str(len(continuous_time_dict_epoch1)))

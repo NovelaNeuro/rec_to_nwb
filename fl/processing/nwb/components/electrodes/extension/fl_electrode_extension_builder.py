@@ -1,8 +1,8 @@
-from fl.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
-from fl.processing.nwb.components.electrodes.extension.fl_electrode_extension_factory import \
+from fldatamigration.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
+from fldatamigration.processing.nwb.components.electrodes.extension.fl_electrode_extension_factory import \
     FlElectrodeExtensionFactory
-from fl.processing.tools.beartype.beartype import beartype
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlElectrodeExtensionBuilder:

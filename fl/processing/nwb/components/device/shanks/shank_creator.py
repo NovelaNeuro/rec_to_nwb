@@ -1,6 +1,6 @@
 from ndx_fl_novela.probe import Shank
 
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class ShankCreator:

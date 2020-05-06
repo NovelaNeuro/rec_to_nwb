@@ -1,5 +1,5 @@
-from fl.processing.nwb.components.pos_invalid_times.fl_pos_invalid_times import FlPosInvalidTime
-from fl.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.nwb.components.pos_invalid_times.fl_pos_invalid_times import FlPosInvalidTime
+from fldatamigration.processing.tools.beartype.beartype import beartype
 
 
 class FlPosInvalidTimeBuilder:

@@ -1,5 +1,5 @@
-from fl.processing.nwb.components.apparatus.fl_apparatus_builder import FlApparatusBuilder
-from fl.processing.nwb.components.apparatus.fl_apparatus_extractor import FlApparatusExtractor
+from fldatamigration.processing.nwb.components.apparatus.fl_apparatus_builder import FlApparatusBuilder
+from fldatamigration.processing.nwb.components.apparatus.fl_apparatus_extractor import FlApparatusExtractor
 
 
 class FlApparatusManager:

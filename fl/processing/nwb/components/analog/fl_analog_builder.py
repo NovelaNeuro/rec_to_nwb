@@ -1,4 +1,4 @@
-from fl.processing.nwb.components.analog.fl_analog import FlAnalog
+from fldatamigration.processing.nwb.components.analog.fl_analog import FlAnalog
 
 
 class FlAnalogBuilder:

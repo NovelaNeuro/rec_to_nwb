@@ -1,9 +1,9 @@
-from fl.processing.exceptions.missing_data_exception import MissingDataException
-from fl.processing.nwb.components.iterator.multi_thread_data_iterator import MultiThreadDataIterator
-from fl.processing.nwb.components.iterator.multi_thread_timestamp_iterator import MultiThreadTimestampIterator
-from fl.processing.nwb.components.mda.mda_content import MdaContent
-from fl.processing.nwb.components.mda.mda_data_manager import MdaDataManager
-from fl.processing.nwb.components.mda.mda_timestamp_manager import MdaTimestampDataManager
+from fldatamigration.processing.exceptions.missing_data_exception import MissingDataException
+from fldatamigration.processing.nwb.components.iterator.multi_thread_data_iterator import MultiThreadDataIterator
+from fldatamigration.processing.nwb.components.iterator.multi_thread_timestamp_iterator import MultiThreadTimestampIterator
+from fldatamigration.processing.nwb.components.mda.mda_content import MdaContent
+from fldatamigration.processing.nwb.components.mda.mda_data_manager import MdaDataManager
+from fldatamigration.processing.nwb.components.mda.mda_timestamp_manager import MdaTimestampDataManager
 
 
 class FlMdaExtractor:

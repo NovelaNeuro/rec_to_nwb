@@ -1,4 +1,4 @@
-from fl.processing.nwb.components.device.fl_header_device import FlHeaderDevice
+from fldatamigration.processing.nwb.components.device.fl_header_device import FlHeaderDevice
 
 
 class FlHeaderDeviceBuilder:

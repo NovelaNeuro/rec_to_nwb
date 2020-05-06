@@ -1,10 +1,10 @@
 import logging.config
 import os
 
-from fl.processing.validation.ntrode_validation_summary import NTrodeValidationSummary
-from fl.processing.exceptions.invalid_header_exception import InvalidHeaderException
-from fl.processing.exceptions.invalid_metadata_exception import InvalidMetadataException
-from fl.processing.validation.validator import Validator
+from fldatamigration.processing.validation.ntrode_validation_summary import NTrodeValidationSummary
+from fldatamigration.processing.exceptions.invalid_header_exception import InvalidHeaderException
+from fldatamigration.processing.exceptions.invalid_metadata_exception import InvalidMetadataException
+from fldatamigration.processing.validation.validator import Validator
 
 path = os.path.dirname(os.path.abspath(__file__))
 

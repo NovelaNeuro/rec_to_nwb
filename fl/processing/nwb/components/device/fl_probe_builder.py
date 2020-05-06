@@ -1,4 +1,4 @@
-from fl.processing.nwb.components.device.fl_probe import FlProbe
+from fldatamigration.processing.nwb.components.device.fl_probe import FlProbe
 
 
 class FlProbeBuilder:

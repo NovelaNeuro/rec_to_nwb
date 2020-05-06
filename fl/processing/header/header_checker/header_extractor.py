@@ -1,4 +1,4 @@
-from fl.processing.header.xml_extractor import XMLExtractor
+from fldatamigration.processing.header.xml_extractor import XMLExtractor
 
 
 class HeaderFilesExtractor:

@@ -3,8 +3,8 @@ import os
 
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from fl.processing.time.continuous_time_extractor import ContinuousTimeExtractor
-from fl.processing.time.timestamp_converter import TimestampConverter
+from fldatamigration.processing.time.continuous_time_extractor import ContinuousTimeExtractor
+from fldatamigration.processing.time.timestamp_converter import TimestampConverter
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../../../../logging.conf', disable_existing_loggers=False)

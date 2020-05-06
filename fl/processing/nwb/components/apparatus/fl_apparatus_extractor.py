@@ -1,5 +1,5 @@
-from fl.processing.nwb.components.apparatus.edge_creator import EdgeCreator
-from fl.processing.nwb.components.apparatus.node_creator import NodeCreator
+from fldatamigration.processing.nwb.components.apparatus.edge_creator import EdgeCreator
+from fldatamigration.processing.nwb.components.apparatus.node_creator import NodeCreator
 
 
 class FlApparatusExtractor:

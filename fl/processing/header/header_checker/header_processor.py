@@ -1,6 +1,6 @@
-from fl.processing.header.header_checker.header_comparator import HeaderComparator
-from fl.processing.header.header_checker.header_extractor import HeaderFilesExtractor
-from fl.processing.header.header_checker.header_logger import HeaderLogger
+from fldatamigration.processing.header.header_checker.header_comparator import HeaderComparator
+from fldatamigration.processing.header.header_checker.header_extractor import HeaderFilesExtractor
+from fldatamigration.processing.header.header_checker.header_logger import HeaderLogger
 
 
 class HeaderProcessor:

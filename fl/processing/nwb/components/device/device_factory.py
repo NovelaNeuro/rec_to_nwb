@@ -2,7 +2,7 @@ from ndx_fl_novela.header_device import HeaderDevice
 from ndx_fl_novela.probe import Probe
 from pynwb.device import Device
 
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class DeviceFactory:

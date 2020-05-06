@@ -1,4 +1,4 @@
-from fl.processing.tools.validate_parameters import validate_parameters_equal_length
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_equal_length
 
 
 class FlEpochs:

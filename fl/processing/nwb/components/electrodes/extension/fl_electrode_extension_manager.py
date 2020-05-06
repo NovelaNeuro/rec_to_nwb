@@ -2,15 +2,15 @@ import copy
 import logging.config
 import os
 
-from fl.processing.exceptions.not_compatible_metadata import NotCompatibleMetadata
-from fl.processing.header.module.header import Header
-from fl.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
-from fl.processing.nwb.components.electrodes.extension.fl_electrode_extension_builder import \
+from fldatamigration.processing.exceptions.not_compatible_metadata import NotCompatibleMetadata
+from fldatamigration.processing.header.module.header import Header
+from fldatamigration.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
+from fldatamigration.processing.nwb.components.electrodes.extension.fl_electrode_extension_builder import \
     FlElectrodeExtensionBuilder
-from fl.processing.nwb.components.electrodes.extension.fl_electrode_extension_factory import \
+from fldatamigration.processing.nwb.components.electrodes.extension.fl_electrode_extension_factory import \
     FlElectrodeExtensionFactory
-from fl.processing.tools.beartype.beartype import beartype
-from fl.processing.tools.filter_probe_by_type import filter_probe_by_type
+from fldatamigration.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.tools.filter_probe_by_type import filter_probe_by_type
 
 path = os.path.dirname(os.path.abspath(__file__))
 

@@ -8,7 +8,7 @@ import os
 
 import requests
 
-from fl.processing.tools.abstract_file_downloader import AbstractFileDownloader
+from fldatamigration.processing.tools.abstract_file_downloader import AbstractFileDownloader
 
 path = os.path.dirname(os.path.abspath(__file__))
 

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from fl.processing.tools.file_sorter import FileSorter
+from fldatamigration.processing.tools.file_sorter import FileSorter
 
 
 class TestFilenameSorter(TestCase):

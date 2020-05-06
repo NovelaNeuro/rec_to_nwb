@@ -4,8 +4,8 @@ from unittest import TestCase
 from dateutil.tz import tzlocal
 from pynwb import NWBFile
 
-from fl.processing.nwb.components.epochs.epochs_injector import EpochsInjector
-from fl.processing.nwb.components.epochs.fl_epochs import FlEpochs
+from fldatamigration.processing.nwb.components.epochs.epochs_injector import EpochsInjector
+from fldatamigration.processing.nwb.components.epochs.fl_epochs import FlEpochs
 
 
 class TestEpochInjector(TestCase):

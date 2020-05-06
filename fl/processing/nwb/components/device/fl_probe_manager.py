@@ -1,6 +1,6 @@
-from fl.processing.nwb.components.device.fl_probe_builder import FlProbeBuilder
-from fl.processing.tools.beartype.beartype import beartype
-from fl.processing.tools.filter_probe_by_type import filter_probe_by_type
+from fldatamigration.processing.nwb.components.device.fl_probe_builder import FlProbeBuilder
+from fldatamigration.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.tools.filter_probe_by_type import filter_probe_by_type
 
 
 class FlProbeManager:

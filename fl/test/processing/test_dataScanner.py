@@ -3,9 +3,9 @@ from unittest import TestCase
 
 from testfixtures import should_raise
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.metadata.metadata_manager import MetadataManager
-from fl.processing.tools.data_scanner import DataScanner
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.metadata.metadata_manager import MetadataManager
+from fldatamigration.processing.tools.data_scanner import DataScanner
 
 path = os.path.dirname(os.path.abspath(__file__))
 

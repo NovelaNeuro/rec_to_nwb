@@ -1,10 +1,10 @@
-from fl.processing.time.continuous_time_extractor import ContinuousTimeExtractor
-from fl.processing.time.timestamp_converter import TimestampConverter
+from fldatamigration.processing.time.continuous_time_extractor import ContinuousTimeExtractor
+from fldatamigration.processing.time.timestamp_converter import TimestampConverter
 
 from mountainlab_pytools.mdaio import readmda
 
-from fl.processing.tools.beartype.beartype import beartype
-from fl.processing.tools.dataset import Dataset
+from fldatamigration.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.tools.dataset import Dataset
 
 
 class FlInvalidTimeMdaTimestampExtractor:

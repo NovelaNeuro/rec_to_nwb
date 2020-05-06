@@ -5,11 +5,11 @@ import shutil
 from rec_to_binaries import extract_trodes_rec_file
 import xmlschema
 
-from fl.processing.metadata.metadata_manager import MetadataManager
-from fl.processing.nwb_file_builder import NWBFileBuilder
-from fl.processing.tools.beartype.beartype import beartype
-from fl.processing.validation.not_empty_validator import NotEmptyValidator
-from fl.processing.validation.validation_registrator import ValidationRegistrator
+from fldatamigration.processing.metadata.metadata_manager import MetadataManager
+from fldatamigration.processing.nwb_file_builder import NWBFileBuilder
+from fldatamigration.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.validation.not_empty_validator import NotEmptyValidator
+from fldatamigration.processing.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -164,7 +164,7 @@ class RawToNWBBuilder:
         for i in range(len(self.analog_export_args)):
             if self.analog_export_args[i] == '-reconfig':
                 xml_file_path = self.analog_export_args[i+1]
-        xsd_file_path = str(path) + '/../../fl/data/reconfig_header.xsd'
+        xsd_file_path = str(path) + '/../../fldatamigration/data/reconfig_header.xsd'
         xsd_schema = xmlschema.XMLSchema(xsd_file_path)
         return xsd_schema.is_valid(xml_file_path)
 

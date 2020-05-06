@@ -1,5 +1,5 @@
-from fl.processing.validation.validator import Validator
-from fl.processing.exceptions.invalid_input_exception import InvalidInputException
+from fldatamigration.processing.validation.validator import Validator
+from fldatamigration.processing.exceptions.invalid_input_exception import InvalidInputException
 
 
 class ValidationRegistrator(Validator):

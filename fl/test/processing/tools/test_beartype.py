@@ -26,7 +26,7 @@ import typing
 
 from testfixtures import should_raise
 
-from fl.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.tools.beartype.beartype import beartype
 
 
 class TestBearyype(TestCase):

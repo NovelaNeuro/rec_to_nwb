@@ -1,5 +1,5 @@
-from fl.processing.nwb.components.mda_invalid_times.fl_mda_invalid_times import FlMdaInvalidTime
-from fl.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.nwb.components.mda_invalid_times.fl_mda_invalid_times import FlMdaInvalidTime
+from fldatamigration.processing.tools.beartype.beartype import beartype
 
 
 class FlMdaInvalidTimeBuilder:

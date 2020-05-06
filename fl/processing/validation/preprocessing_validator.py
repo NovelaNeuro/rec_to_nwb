@@ -1,8 +1,8 @@
 import os
 
-from fl.processing.exceptions.missing_data_exception import MissingDataException
-from fl.processing.validation.preprocessing_validation_summary import PreprocessingValidationSummary
-from fl.processing.validation.validator import Validator
+from fldatamigration.processing.exceptions.missing_data_exception import MissingDataException
+from fldatamigration.processing.validation.preprocessing_validation_summary import PreprocessingValidationSummary
+from fldatamigration.processing.validation.validator import Validator
 
 
 class PreprocessingValidator(Validator):

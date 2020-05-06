@@ -4,7 +4,7 @@ import os
 import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from fl.processing.nwb.common.timestamps_manager import TimestampManager
+from fldatamigration.processing.nwb.common.timestamps_manager import TimestampManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 

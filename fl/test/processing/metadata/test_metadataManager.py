@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from testfixtures import should_raise
 
-from fl.processing.metadata.metadata_manager import MetadataManager
+from fldatamigration.processing.metadata.metadata_manager import MetadataManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 

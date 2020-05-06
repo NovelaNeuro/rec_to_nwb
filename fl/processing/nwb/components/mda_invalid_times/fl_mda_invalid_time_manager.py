@@ -1,8 +1,8 @@
-from fl.processing.nwb.components.mda_invalid_times.fl_invalid_time_mda_timestamp_extractor import \
+from fldatamigration.processing.nwb.components.mda_invalid_times.fl_invalid_time_mda_timestamp_extractor import \
     FlInvalidTimeMdaTimestampExtractor
-from fl.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_builder import FlMdaInvalidTimeBuilder
-from fl.processing.time.timestamp_converter import TimestampConverter
-from fl.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_builder import FlMdaInvalidTimeBuilder
+from fldatamigration.processing.time.timestamp_converter import TimestampConverter
+from fldatamigration.processing.tools.beartype.beartype import beartype
 
 
 class FlMdaInvalidTimeManager:

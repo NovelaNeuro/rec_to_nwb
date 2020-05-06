@@ -1,6 +1,6 @@
-from fl.processing.nwb.components.mda.fl_mda_builder import FlMdaBuilder
-from fl.processing.nwb.components.mda.table_region_builder import TableRegionBuilder
-from fl.processing.nwb.components.mda.fl_mda_extractor import FlMdaExtractor
+from fldatamigration.processing.nwb.components.mda.fl_mda_builder import FlMdaBuilder
+from fldatamigration.processing.nwb.components.mda.table_region_builder import TableRegionBuilder
+from fldatamigration.processing.nwb.components.mda.fl_mda_extractor import FlMdaExtractor
 
 
 class FlMdaManager:

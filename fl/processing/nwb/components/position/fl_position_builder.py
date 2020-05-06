@@ -1,4 +1,4 @@
-from fl.processing.nwb.components.position.fl_position import FlPosition
+from fldatamigration.processing.nwb.components.position.fl_position import FlPosition
 
 
 class FlPositionBuilder:

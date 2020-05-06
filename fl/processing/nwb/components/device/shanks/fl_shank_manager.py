@@ -1,6 +1,6 @@
-from fl.processing.nwb.components.device.shanks.fl_shank_builder import FlShankBuilder
-from fl.processing.tools.filter_probe_by_type import filter_probe_by_type
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.nwb.components.device.shanks.fl_shank_builder import FlShankBuilder
+from fldatamigration.processing.tools.filter_probe_by_type import filter_probe_by_type
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlShankManager:

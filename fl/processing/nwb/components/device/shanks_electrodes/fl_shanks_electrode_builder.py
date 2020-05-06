@@ -1,4 +1,4 @@
-from fl.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
+from fldatamigration.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
 
 
 class FlShanksElectrodeBuilder:

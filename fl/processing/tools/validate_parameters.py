@@ -1,5 +1,5 @@
-from fl.processing.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
-from fl.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
 
 
 def validate_parameters_not_none(class_name, *args):

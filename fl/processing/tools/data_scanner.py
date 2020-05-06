@@ -1,9 +1,9 @@
 import fnmatch
 import os
 
-from fl.processing.exceptions.missing_data_exception import MissingDataException
-from fl.processing.tools.dataset import Dataset
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.exceptions.missing_data_exception import MissingDataException
+from fldatamigration.processing.tools.dataset import Dataset
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class DataScanner:

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from fl.processing.nwb.components.dio.dio_builder import DioBuilder
+from fldatamigration.processing.nwb.components.dio.dio_builder import DioBuilder
 
 
 class TestDioBuilder(TestCase):

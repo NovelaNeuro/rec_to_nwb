@@ -1,4 +1,4 @@
-from fl.processing.exceptions.invalid_exception import InvalidException
+from fldatamigration.processing.exceptions.invalid_exception import InvalidException
 
 
 class InvalidHeaderException(InvalidException):

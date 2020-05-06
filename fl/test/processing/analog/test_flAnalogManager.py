@@ -5,10 +5,10 @@ from numpy.testing import assert_array_equal
 from pandas import array
 from testfixtures import should_raise
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
-from fl.processing.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
-from fl.processing.nwb.components.analog.fl_analog_manager import FlAnalogManager
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
+from fldatamigration.processing.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
+from fldatamigration.processing.nwb.components.analog.fl_analog_manager import FlAnalogManager
 
 
 class TestFlAnalogManager(TestCase):

@@ -1,4 +1,4 @@
-from fl.processing.nwb.components.epochs.fl_epochs import FlEpochs
+from fldatamigration.processing.nwb.components.epochs.fl_epochs import FlEpochs
 
 
 class FlEpochsBuilder:

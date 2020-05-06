@@ -1,6 +1,6 @@
 from pynwb.behavior import Position
 
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class PositionCreator:

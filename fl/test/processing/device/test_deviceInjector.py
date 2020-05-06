@@ -9,8 +9,8 @@ from pynwb import NWBFile
 from pynwb.device import Device
 from testfixtures import should_raise
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.nwb.components.device.device_injector import DeviceInjector
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.nwb.components.device.device_injector import DeviceInjector
 
 
 class TestDeviceInjector(TestCase):

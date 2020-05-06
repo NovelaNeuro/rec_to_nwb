@@ -1,7 +1,7 @@
 import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from fl.processing.nwb.common.data_manager import DataManager
+from fldatamigration.processing.nwb.common.data_manager import DataManager
 
 
 class PosDataManager(DataManager):

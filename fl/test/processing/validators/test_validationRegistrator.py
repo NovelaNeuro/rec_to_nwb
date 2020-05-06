@@ -1,8 +1,8 @@
 from unittest import TestCase
 
-from fl.processing.tools.dataset import Dataset
-from fl.processing.validation.validation_registrator import ValidationRegistrator
-from fl.processing.validation.ntrode_validator import NTrodeValidator
+from fldatamigration.processing.tools.dataset import Dataset
+from fldatamigration.processing.validation.validation_registrator import ValidationRegistrator
+from fldatamigration.processing.validation.ntrode_validator import NTrodeValidator
 
 
 class TestValidationRegistrator(TestCase):

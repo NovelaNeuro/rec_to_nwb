@@ -1,6 +1,6 @@
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.validation.not_none_validation_summary import NotNoneValidationSummary
-from fl.processing.validation.validator import Validator
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.validation.not_none_validation_summary import NotNoneValidationSummary
+from fldatamigration.processing.validation.validator import Validator
 
 
 class NotNoneValidator(Validator):

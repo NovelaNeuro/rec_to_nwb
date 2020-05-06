@@ -5,8 +5,8 @@ import pandas as pd
 import numpy as np
 from pandas import array
 
-from fl.processing.nwb.components.dio.dio_extractor import DioExtractor
-from fl.processing.nwb.components.dio.dio_manager import DioManager
+from fldatamigration.processing.nwb.components.dio.dio_extractor import DioExtractor
+from fldatamigration.processing.nwb.components.dio.dio_manager import DioManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 

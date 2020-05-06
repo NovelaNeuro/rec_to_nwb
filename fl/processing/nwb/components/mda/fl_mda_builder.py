@@ -1,4 +1,4 @@
-from fl.processing.nwb.components.mda.fl_mda import FlMda
+from fldatamigration.processing.nwb.components.mda.fl_mda import FlMda
 
 
 class FlMdaBuilder:

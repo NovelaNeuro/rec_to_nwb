@@ -1,10 +1,10 @@
 from ndx_fl_novela.nwb_electrode_group import NwbElectrodeGroup
 from pynwb.ecephys import ElectrodeGroup
 
-from fl.processing.nwb.components.electrode_group.fl_electrode_group import FlElectrodeGroup
-from fl.processing.nwb.components.electrode_group.fl_nwb_electrode_group import FlNwbElectrodeGroup
-from fl.processing.tools.beartype.beartype import beartype
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.nwb.components.electrode_group.fl_electrode_group import FlElectrodeGroup
+from fldatamigration.processing.nwb.components.electrode_group.fl_nwb_electrode_group import FlNwbElectrodeGroup
+from fldatamigration.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class ElectrodeGroupFactory:

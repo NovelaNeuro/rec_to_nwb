@@ -1,9 +1,9 @@
-from fl.processing.exceptions.missing_data_exception import MissingDataException
-from fl.processing.nwb.components.iterator.multi_thread_data_iterator import MultiThreadDataIterator
-from fl.processing.nwb.components.iterator.multi_thread_timestamp_iterator import MultiThreadTimestampIterator
-from fl.processing.nwb.components.position.pos_data_manager import PosDataManager
-from fl.processing.nwb.components.position.pos_timestamp_manager import PosTimestampManager
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.exceptions.missing_data_exception import MissingDataException
+from fldatamigration.processing.nwb.components.iterator.multi_thread_data_iterator import MultiThreadDataIterator
+from fldatamigration.processing.nwb.components.iterator.multi_thread_timestamp_iterator import MultiThreadTimestampIterator
+from fldatamigration.processing.nwb.components.position.pos_data_manager import PosDataManager
+from fldatamigration.processing.nwb.components.position.pos_timestamp_manager import PosTimestampManager
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlPositionExtractor:

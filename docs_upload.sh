@@ -10,7 +10,7 @@ cp LICENSE.md ./docs/source/ || exit 1
 sed -i '1i License' ./docs/source/LICENSE.md && sed -i '2i ===================' ./docs/source/LICENSE.md || exit 1
 
 echo 'Creating API Documentation'
-sphinx-apidoc -fMET ./fl/processing -o ./docs/source/autoapi || exit 1
+sphinx-apidoc -fMET ./fldatamigration/processing -o ./docs/source/autoapi || exit 1
 
 echo 'Create HTML Documentation'
 make html -C ./docs || exit 1

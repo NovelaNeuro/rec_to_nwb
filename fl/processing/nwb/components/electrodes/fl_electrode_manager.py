@@ -2,10 +2,10 @@ import copy
 
 from pynwb.ecephys import ElectrodeGroup
 
-from fl.processing.nwb.components.electrodes.fl_electrode_builder import FlElectrodesBuilder
-from fl.processing.tools.beartype.beartype import beartype
-from fl.processing.tools.filter_probe_by_type import filter_probe_by_type
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.nwb.components.electrodes.fl_electrode_builder import FlElectrodesBuilder
+from fldatamigration.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.tools.filter_probe_by_type import filter_probe_by_type
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlElectrodeManager:

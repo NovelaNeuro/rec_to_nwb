@@ -1,7 +1,7 @@
-from fl.processing.nwb.components.pos_invalid_times.fl_invalid_time_pos_timestamp_extractor import \
+from fldatamigration.processing.nwb.components.pos_invalid_times.fl_invalid_time_pos_timestamp_extractor import \
     FlInvalidTimePosTimestampExtractor
-from fl.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_builder import FlPosInvalidTimeBuilder
-from fl.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_builder import FlPosInvalidTimeBuilder
+from fldatamigration.processing.tools.beartype.beartype import beartype
 
 
 class FlPosInvalidTimeManager:

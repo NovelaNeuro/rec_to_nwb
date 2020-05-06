@@ -10,8 +10,8 @@ from pynwb.ecephys import ElectrodeGroup
 
 from testfixtures import should_raise
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 

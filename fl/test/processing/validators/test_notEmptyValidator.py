@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from fl.processing.validation.not_empty_validator import NotEmptyValidator
+from fldatamigration.processing.validation.not_empty_validator import NotEmptyValidator
 
 
 class TestNotEmptyValidator(TestCase):

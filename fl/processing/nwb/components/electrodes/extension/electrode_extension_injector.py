@@ -3,9 +3,9 @@ import os
 
 from pynwb import NWBFile
 
-from fl.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
-from fl.processing.tools.beartype.beartype import beartype
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
+from fldatamigration.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 path = os.path.dirname(os.path.abspath(__file__))
 

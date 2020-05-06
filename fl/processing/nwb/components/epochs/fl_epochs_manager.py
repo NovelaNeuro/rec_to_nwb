@@ -1,7 +1,7 @@
-from fl.processing.nwb.components.epochs.epochs_tag_extractor import EpochsTagExtractor
-from fl.processing.nwb.components.epochs.fl_epochs_builder import FlEpochsBuilder
-from fl.processing.nwb.components.epochs.fl_epochs_extractor import FlEpochsExtractor
-from fl.processing.tools.validate_parameters import validate_parameters_not_none
+from fldatamigration.processing.nwb.components.epochs.epochs_tag_extractor import EpochsTagExtractor
+from fldatamigration.processing.nwb.components.epochs.fl_epochs_builder import FlEpochsBuilder
+from fldatamigration.processing.nwb.components.epochs.fl_epochs_extractor import FlEpochsExtractor
+from fldatamigration.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlEpochsManager:

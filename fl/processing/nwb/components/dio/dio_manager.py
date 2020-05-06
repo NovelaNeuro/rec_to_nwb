@@ -2,7 +2,7 @@ import concurrent.futures
 
 import numpy as np
 
-from fl.processing.nwb.components.dio.dio_extractor import DioExtractor
+from fldatamigration.processing.nwb.components.dio.dio_extractor import DioExtractor
 
 
 class DioManager:

@@ -4,8 +4,8 @@ import os
 
 import numpy as np
 
-from fl.processing.time.continuous_time_extractor import ContinuousTimeExtractor
-from fl.processing.time.timestamp_converter import TimestampConverter
+from fldatamigration.processing.time.continuous_time_extractor import ContinuousTimeExtractor
+from fldatamigration.processing.time.timestamp_converter import TimestampConverter
 
 path = os.path.dirname(os.path.abspath(__file__))
 

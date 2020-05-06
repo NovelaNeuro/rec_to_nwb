@@ -1,6 +1,6 @@
 from mountainlab_pytools.mdaio import readmda
 
-from fl.processing.nwb.common.data_manager import DataManager
+from fldatamigration.processing.nwb.common.data_manager import DataManager
 
 
 class MdaDataManager(DataManager):

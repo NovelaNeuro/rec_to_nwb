@@ -1,4 +1,4 @@
-from fl.processing.nwb.components.apparatus.fl_apparatus import FlApparatus
+from fldatamigration.processing.nwb.components.apparatus.fl_apparatus import FlApparatus
 
 
 class FlApparatusBuilder:

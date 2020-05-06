@@ -1,9 +1,9 @@
 
-from fl.processing.metadata.metadata_extractor import MetadataExtractor
-from fl.processing.nwb.components.device.fl_probe_extractor import FlProbesExtractor
-from fl.processing.tools.beartype.beartype import beartype
-from fl.processing.validation.metadata_validator import MetadataValidator
-from fl.processing.validation.validation_registrator import ValidationRegistrator
+from fldatamigration.processing.metadata.metadata_extractor import MetadataExtractor
+from fldatamigration.processing.nwb.components.device.fl_probe_extractor import FlProbesExtractor
+from fldatamigration.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.validation.metadata_validator import MetadataValidator
+from fldatamigration.processing.validation.validation_registrator import ValidationRegistrator
 
 
 class MetadataManager:

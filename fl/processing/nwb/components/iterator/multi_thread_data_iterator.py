@@ -3,7 +3,7 @@ import concurrent.futures
 import numpy as np
 from hdmf.data_utils import DataChunk
 
-from fl.processing.nwb.components.iterator.data_iterator import DataIterator
+from fldatamigration.processing.nwb.components.iterator.data_iterator import DataIterator
 
 
 class MultiThreadDataIterator(DataIterator):

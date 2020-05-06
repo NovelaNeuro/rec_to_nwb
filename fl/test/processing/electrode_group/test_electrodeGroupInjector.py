@@ -7,8 +7,8 @@ from pynwb import NWBFile
 from pynwb.ecephys import ElectrodeGroup
 from testfixtures import should_raise
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
+from fldatamigration.processing.exceptions.none_param_exception import NoneParamException
+from fldatamigration.processing.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 
 
 class TestElectrodeGroupInjector(TestCase):

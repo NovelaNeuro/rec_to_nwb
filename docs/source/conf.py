@@ -14,14 +14,14 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath('../../.'))
-sys.path.insert(0, os.path.abspath('../../fl'))
-sys.path.insert(0, os.path.abspath('../../fl/processing'))
-sys.path.insert(0, os.path.abspath('../../fl/processing/exceptions'))
-sys.path.insert(0, os.path.abspath('../../fl/processing/header'))
-sys.path.insert(0, os.path.abspath('../../fl/processing/metadata'))
-sys.path.insert(0, os.path.abspath('../../fl/processing/nwb'))
-sys.path.insert(0, os.path.abspath('../../fl/processing/time'))
-sys.path.insert(0, os.path.abspath('../../fl/processing/tools'))
+sys.path.insert(0, os.path.abspath('../../fldatamigration'))
+sys.path.insert(0, os.path.abspath('../../fldatamigration/processing'))
+sys.path.insert(0, os.path.abspath('../../fldatamigration/processing/exceptions'))
+sys.path.insert(0, os.path.abspath('../../fldatamigration/processing/header'))
+sys.path.insert(0, os.path.abspath('../../fldatamigration/processing/metadata'))
+sys.path.insert(0, os.path.abspath('../../fldatamigration/processing/nwb'))
+sys.path.insert(0, os.path.abspath('../../fldatamigration/processing/time'))
+sys.path.insert(0, os.path.abspath('../../fldatamigration/processing/tools'))
 
 # -- Project information -----------------------------------------------------
 # from setup import version
@@ -47,7 +47,7 @@ extensions = [
 
 autoapi_add_toctree_entry = False
 autoapi_type = 'python'
-autoapi_dirs = ['../../fl/processing']
+autoapi_dirs = ['../../fldatamigration/processing']
 add_module_names = False
 
 

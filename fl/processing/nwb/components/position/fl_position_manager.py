@@ -1,6 +1,6 @@
-from fl.processing.nwb.components.position.fl_position_builder import FlPositionBuilder
-from fl.processing.nwb.components.position.position_creator import PositionCreator
-from fl.processing.nwb.components.position.fl_position_extractor import FlPositionExtractor
+from fldatamigration.processing.nwb.components.position.fl_position_builder import FlPositionBuilder
+from fldatamigration.processing.nwb.components.position.position_creator import PositionCreator
+from fldatamigration.processing.nwb.components.position.fl_position_extractor import FlPositionExtractor
 
 
 class FlPositionManager:

@@ -1,6 +1,6 @@
-from fl.processing.nwb.components.ntrodes.fl_ntrodes import FlNTrodes
+from fldatamigration.processing.nwb.components.ntrodes.fl_ntrodes import FlNTrodes
 
-from fl.processing.nwb.components.ntrodes.fl_ntrodes_extractor import FlNTrodesExtractor
+from fldatamigration.processing.nwb.components.ntrodes.fl_ntrodes_extractor import FlNTrodesExtractor
 
 
 class FlNTrodesBuilder:

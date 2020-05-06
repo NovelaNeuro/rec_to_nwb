@@ -1,7 +1,7 @@
 from pynwb.device import Device
 
-from fl.processing.nwb.components.electrode_group.fl_electrode_group import FlElectrodeGroup
-from fl.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.nwb.components.electrode_group.fl_electrode_group import FlElectrodeGroup
+from fldatamigration.processing.tools.beartype.beartype import beartype
 
 
 class FlElectrodeGroupBuilder:

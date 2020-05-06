@@ -1,7 +1,7 @@
 import copy
 
-from fl.processing.exceptions.corrupted_data_exception import CorruptedDataException
-from fl.processing.tools.beartype.beartype import beartype
+from fldatamigration.processing.exceptions.corrupted_data_exception import CorruptedDataException
+from fldatamigration.processing.tools.beartype.beartype import beartype
 
 
 class CorruptedDataManager:
