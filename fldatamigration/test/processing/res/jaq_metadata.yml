@@ -1,0 +1,336 @@
+experimenter name: Alison Comrie
+lab:               Loren Frank
+institution:       University of California, San Francisco
+experiment description: Reinforcement learning
+session description: Reinforcement leaarning
+session_id:        jaq_01
+subject:
+  description:     Long Evans Rat
+  genotype:        Wild Type
+  sex:             Male
+  species:         Rat
+  subject id:      Beans
+  weight:          Unknown
+
+tasks:
+  [
+  {
+    task_name:          Sleep,
+    task_description:   The animal sleeps in a small empty box.
+  },
+  {
+    task_name:            Stem+Leaf,
+    task_description:     Spatial Bandit,
+  }
+  ]
+
+behavioral_events:
+  - name: Din1
+    description: Poke1
+  - name: Din2
+    description: Poke2
+  - name: Din3
+    description: Poke3
+  - name: Dout1
+    description: Light1
+  - name: Dout2
+    description: Light2
+  - name: Dout3
+    description: Light3
+
+device:
+  name:
+    - Trodes
+
+electrode groups:
+  - id: 0
+    location: mPFC
+    device_type: 128c-4s8mm6cm-20um-40um-sl
+    description: 'Probe 1'
+  - id: 1
+    location: mPFC
+    device_type: 128c-4s8mm6cm-20um-40um-sl
+    description: 'Probe 2'
+
+
+ntrode-electrode group channel map:
+  - ntrode_id: 1
+    electrode_group_id: 0 #Changed to 0 - now it corresponding to information above in electrode_group. Id is no longer hardcoded.
+    map:
+      0: 0
+      1: 1
+      2: 2
+      3: 3
+      4: 4
+      5: 5
+      6: 6
+      7: 7
+      8: 8
+      9: 9
+      10: 10
+      11: 11
+      12: 12
+      13: 13
+      14: 14
+      15: 15
+      16: 16
+      17: 17
+      18: 18
+      19: 19
+      20: 20
+      21: 21
+      22: 22
+      23: 23
+      24: 24
+      25: 25
+      26: 26
+      27: 27
+      28: 28
+      29: 29
+      30: 30
+      31: 31
+  - ntrode_id: 2
+    electrode_group_id: 0
+    map:
+      0: 32
+      1: 33
+      2: 34
+      3: 35
+      4: 36
+      5: 37
+      6: 38
+      7: 39
+      8: 40
+      9: 41
+      10: 42
+      11: 43
+      12: 44
+      13: 45
+      14: 46
+      15: 47
+      16: 48
+      17: 49
+      18: 50
+      19: 51
+      20: 52
+      21: 53
+      22: 54
+      23: 55
+      24: 56
+      25: 57
+      26: 58
+      27: 59
+      28: 60
+      29: 61
+      30: 62
+      31: 63
+  - ntrode_id: 3
+    electrode_group_id: 0
+    map:
+      0: 64
+      1: 65
+      2: 66
+      3: 67
+      4: 68
+      5: 69
+      6: 70
+      7: 71
+      8: 72
+      9: 73
+      10: 74
+      11: 75
+      12: 76
+      13: 77
+      14: 78
+      15: 79
+      16: 80
+      17: 81
+      18: 82
+      19: 83
+      20: 84
+      21: 85
+      22: 86
+      23: 87
+      24: 88
+      25: 89
+      26: 90
+      27: 91
+      28: 92
+      29: 93
+      30: 94
+      31: 95
+  - ntrode_id: 4
+    electrode_group_id: 0
+    map:
+      0: 96
+      1: 97
+      2: 98
+      3: 99
+      4: 100
+      5: 101
+      6: 102
+      7: 103
+      8: 104
+      9: 105
+      10: 106
+      11: 107
+      12: 108
+      13: 109
+      14: 110
+      15: 111
+      16: 112
+      17: 113
+      18: 114
+      19: 115
+      20: 116
+      21: 117
+      22: 118
+      23: 119
+      24: 120
+      25: 121
+      26: 122
+      27: 123
+      28: 124
+      29: 125
+      30: 126
+      31: 127
+  - ntrode_id: 5
+    electrode_group_id: 0
+    map:
+      0: 0
+      1: 1
+      2: 2
+      3: 3
+      4: 4
+      5: 5
+      6: 6
+      7: 7
+      8: 8
+      9: 9
+      10: 10
+      11: 11
+      12: 12
+      13: 13
+      14: 14
+      15: 15
+      16: 16
+      17: 17
+      18: 18
+      19: 19
+      20: 20
+      21: 21
+      22: 22
+      23: 23
+      24: 24
+      25: 25
+      26: 26
+      27: 27
+      28: 28
+      29: 29
+      30: 30
+      31: 31
+  - ntrode_id: 6
+    electrode_group_id: 0
+    map:
+      0: 32
+      1: 33
+      2: 34
+      3: 35
+      4: 36
+      5: 37
+      6: 38
+      7: 39
+      8: 40
+      9: 41
+      10: 42
+      11: 43
+      12: 44
+      13: 45
+      14: 46
+      15: 47
+      16: 48
+      17: 49
+      18: 50
+      19: 51
+      20: 52
+      21: 53
+      22: 54
+      23: 55
+      24: 56
+      25: 57
+      26: 58
+      27: 59
+      28: 60
+      29: 61
+      30: 62
+      31: 63
+  - ntrode_id: 7
+    electrode_group_id: 0
+    map:
+      0: 64
+      1: 65
+      2: 66
+      3: 67
+      4: 68
+      5: 69
+      6: 70
+      7: 71
+      8: 72
+      9: 73
+      10: 74
+      11: 75
+      12: 76
+      13: 77
+      14: 78
+      15: 79
+      16: 80
+      17: 81
+      18: 82
+      19: 83
+      20: 84
+      21: 85
+      22: 86
+      23: 87
+      24: 88
+      25: 89
+      26: 90
+      27: 91
+      28: 92
+      29: 93
+      30: 94
+      31: 95
+  - ntrode_id: 8
+    electrode_group_id: 0
+    map:
+      0: 96
+      1: 97
+      2: 98
+      3: 99
+      4: 100
+      5: 101
+      6: 102
+      7: 103
+      8: 104
+      9: 105
+      10: 106
+      11: 107
+      12: 108
+      13: 109
+      14: 110
+      15: 111
+      16: 112
+      17: 113
+      18: 114
+      19: 115
+      20: 116
+      21: 117
+      22: 118
+      23: 119
+      24: 120
+      25: 121
+      26: 122
+      27: 123
+      28: 124
+      29: 125
+      30: 126
+      31: 127

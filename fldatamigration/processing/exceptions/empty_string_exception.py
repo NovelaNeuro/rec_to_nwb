@@ -1,0 +1,2 @@
+class EmptyStringException(Exception):
+    pass
