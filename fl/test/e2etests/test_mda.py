@@ -3,8 +3,8 @@ import unittest
 
 import numpy as np
 
-from fl.datamigration.nwb.components.mda.fl_mda_extractor import FlMdaExtractor
-from fl.datamigration.tools.dataset import Dataset
+from fl.processing.nwb.components.mda.fl_mda_extractor import FlMdaExtractor
+from fl.processing.tools.dataset import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -26,7 +26,7 @@ class TestMDAExtraction(unittest.TestCase):
 
     def create_test_dataset(self):
         dataset = Dataset('test_dataset')
-        dataset.add_data_to_dataset(self.path + '/../datamigration/res/mda_test/', 'mda')
+        dataset.add_data_to_dataset(self.path + '/../processing/res/mda_test/', 'mda')
         dataset.add_data_to_dataset(path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/',
                                     'time')
         return dataset

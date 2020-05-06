@@ -3,10 +3,10 @@ import unittest
 
 from testfixtures import should_raise
 
-from fl.datamigration.exceptions.none_param_exception import NoneParamException
-from fl.datamigration.nwb.components.position.fl_position_manager import FlPositionManager
-from fl.datamigration.nwb.components.position.position_creator import PositionCreator
-from fl.datamigration.tools.dataset import Dataset
+from fl.processing.exceptions.none_param_exception import NoneParamException
+from fl.processing.nwb.components.position.fl_position_manager import FlPositionManager
+from fl.processing.nwb.components.position.position_creator import PositionCreator
+from fl.processing.tools.dataset import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -17,7 +17,7 @@ class TestPositionExtraction(unittest.TestCase):
     @staticmethod
     def create_test_dataset():
         dataset = Dataset('test_dataset')
-        dataset.add_data_to_dataset(path + '/../datamigration/res/pos_test/', 'pos')
+        dataset.add_data_to_dataset(path + '/../processing/res/pos_test/', 'pos')
         dataset.add_data_to_dataset(path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/',
                                     'time')
         return dataset

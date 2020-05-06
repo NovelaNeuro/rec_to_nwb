@@ -15,13 +15,13 @@ import sys
 
 sys.path.insert(0, os.path.abspath('../../.'))
 sys.path.insert(0, os.path.abspath('../../fl'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/exceptions'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/header'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/metadata'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/nwb'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/time'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/tools'))
+sys.path.insert(0, os.path.abspath('../../fl/processing'))
+sys.path.insert(0, os.path.abspath('../../fl/processing/exceptions'))
+sys.path.insert(0, os.path.abspath('../../fl/processing/header'))
+sys.path.insert(0, os.path.abspath('../../fl/processing/metadata'))
+sys.path.insert(0, os.path.abspath('../../fl/processing/nwb'))
+sys.path.insert(0, os.path.abspath('../../fl/processing/time'))
+sys.path.insert(0, os.path.abspath('../../fl/processing/tools'))
 
 # -- Project information -----------------------------------------------------
 # from setup import version
@@ -47,7 +47,7 @@ extensions = [
 
 autoapi_add_toctree_entry = False
 autoapi_type = 'python'
-autoapi_dirs = ['../../fl/datamigration']
+autoapi_dirs = ['../../fl/processing']
 add_module_names = False
 
 

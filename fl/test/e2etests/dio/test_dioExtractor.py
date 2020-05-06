@@ -7,8 +7,8 @@ import pandas as pd
 import numpy as np
 from pandas import array
 
-from fl.datamigration.nwb.components.dio.dio_extractor import DioExtractor
-from fl.datamigration.time.continuous_time_extractor import ContinuousTimeExtractor
+from fl.processing.nwb.components.dio.dio_extractor import DioExtractor
+from fl.processing.time.continuous_time_extractor import ContinuousTimeExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -28,8 +28,8 @@ class TestDioExtractor(TestCase):
     @patch.object(ContinuousTimeExtractor, 'get_continuous_time_dict_file', new=fake_get_continuous_time_dict_file)
     def setUpClass(cls):
         filtered_files = {
-            'Din1': path + '/../../datamigration/res/dio_test/20190718_beans_01_s1.dio_Din1.dat',
-            'Din2': path + '/../../datamigration/res/dio_test/20190718_beans_01_s1.dio_Din2.dat',
+            'Din1': path + '/../../processing/res/dio_test/20190718_beans_01_s1.dio_Din1.dat',
+            'Din2': path + '/../../processing/res/dio_test/20190718_beans_01_s1.dio_Din2.dat',
         }
 
         cls.single_dataset_data = DioExtractor.extract_dio_for_single_dataset(

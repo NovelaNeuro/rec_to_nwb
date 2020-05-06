@@ -6,7 +6,7 @@ from rec_to_binaries import extract_trodes_rec_file
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '../datamigration/res/reconfig_header.xml')
+_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '../processing/res/reconfig_header.xml')
 
 
 class TestRecToBinGeneration(unittest.TestCase):
