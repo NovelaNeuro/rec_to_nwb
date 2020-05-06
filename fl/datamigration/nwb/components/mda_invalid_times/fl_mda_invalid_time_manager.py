@@ -1,6 +1,7 @@
 from fl.datamigration.nwb.components.mda_invalid_times.fl_invalid_time_mda_timestamp_extractor import \
     FlInvalidTimeMdaTimestampExtractor
 from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_time_builder import FlMdaInvalidTimeBuilder
+from fl.datamigration.processing.timestamp_converter import TimestampConverter
 from fl.datamigration.tools.beartype.beartype import beartype
 
 
@@ -12,52 +13,74 @@ class FlMdaInvalidTimeManager:
         self.datasets = datasets
 
         self.period_multiplier = 1.5
-        self.timestamps_extractor = FlInvalidTimeMdaTimestampExtractor(datasets)
+        self.fl_invalid_time_mda_extractor = FlInvalidTimeMdaTimestampExtractor()
 
     def get_mda_invalid_times(self):
-        return self.__build_mda_invalid_times(
-            timestamps=self.timestamps_extractor.get_converted_timestamps(),
-            period=1E9/self.sampling_rate
+        invalid_times = []
+        gap_between_datasets = False
+        last_dataset_last_timestamp = None
+        for epoch in self.datasets:
+            continuous_time_dict = self.fl_invalid_time_mda_extractor.get_continuous_time_dict(epoch)
+            gaps_lower_bounds, gaps_upper_bounds = self.get_invalid_times_from_single_epoch(epoch)
+            converted_upper_bounds = self.convert_timestamps_in_invalid_times_from_single_epoch(
+                gaps_upper_bounds,
+                continuous_time_dict
             )
-
-    def __build_mda_invalid_times(self, timestamps, period):
-        gaps = []
-        unfinished_gap = None
-        for i, single_epoch_timestamps in enumerate(timestamps):
-            gaps.extend(
-                self.__build_gaps_from_single_epoch(
-                    single_epoch_timestamps,
-                    period,
-                    unfinished_gap
-                    )
+            converted_lower_bounds = self.convert_timestamps_in_invalid_times_from_single_epoch(
+                gaps_lower_bounds,
+                continuous_time_dict
             )
-            if gaps and not i == len(timestamps)-1 and gaps[-1].stop_time == single_epoch_timestamps[-1]:
-                unfinished_gap = gaps.pop()
-        return gaps
+            if last_dataset_last_timestamp:
+                if self.check_for_gap_between_datasets(
+                        1E9 / self.sampling_rate,
+                        [last_dataset_last_timestamp,
+                         self.fl_invalid_time_mda_extractor.get_sample_count_from_single_epoch(epoch)]):
+                    gap_between_datasets = True
+            for i, lower_bound in enumerate(converted_lower_bounds):
+                invalid_times.append(FlMdaInvalidTimeBuilder.build(
+                    lower_bound,
+                    converted_upper_bounds[i]
+                )
+                )
+                if i == 0 and gap_between_datasets:
+                    gap_between_datasets = self.__add_gap_between_epochs(gap_between_datasets, invalid_times)
+                last_dataset_last_timestamp = invalid_times[-1].stop_time
+        return invalid_times
 
-    def __build_gaps_from_single_epoch(self, timestamps, period=None, unfinished_gap=None, last_timestamp=None):
-        gap_start_time, gap_stop_time = timestamps[0], timestamps[0]
-        gaps = []
-        if unfinished_gap:
-            was_last_timestamp_part_of_a_gap = True
-            gap_start_time = unfinished_gap.start_time
-            last_timestamp = gap_start_time
-        else:
-            was_last_timestamp_part_of_a_gap = False
-            if not last_timestamp:
-                last_timestamp = timestamps[0]
-        for timestamp in timestamps:
-            if not was_last_timestamp_part_of_a_gap:
-                if last_timestamp + (period * self.period_multiplier) < timestamp:
-                    gap_start_time = last_timestamp
-                    was_last_timestamp_part_of_a_gap = True
-            else:
-                if last_timestamp + (period * self.period_multiplier) >= timestamp:
-                    gap_stop_time = last_timestamp
-                    was_last_timestamp_part_of_a_gap = False
-                    gaps.append(FlMdaInvalidTimeBuilder.build(gap_start_time, gap_stop_time))
-                elif timestamp == timestamps[-1]:
-                    gap_stop_time = timestamp
-                    gaps.append(FlMdaInvalidTimeBuilder.build(gap_start_time, gap_stop_time))
-            last_timestamp = timestamp
-        return gaps
+    def __add_gap_between_epochs(self, gap_between_datasets, invalid_times):
+        if invalid_times[-1].start_time == invalid_times[-2].stop_time:
+            first_gap_from_current_epoch = invalid_times.pop()
+            last_gap_from_previous_dataset = invalid_times.pop()
+            invalid_times.append(FlMdaInvalidTimeBuilder.build(
+                first_gap_from_current_epoch.start_time,
+                last_gap_from_previous_dataset.stop_time
+            )
+            )
+            gap_between_datasets = False
+        return gap_between_datasets
+
+    def check_for_gap_between_datasets(self, expected_time_between_timestamps, timestamps):
+        if timestamps[0] + expected_time_between_timestamps < timestamps[1]:
+            return True
+        return False
+
+    def get_invalid_times_from_single_epoch(self, epoch):
+        gaps_upper_bounds, gaps_lower_bounds = self.get_invalid_times_from_single_epoch_raw_timestamps(
+            self.fl_invalid_time_mda_extractor.get_sample_count_from_single_epoch(epoch))
+        return gaps_lower_bounds, gaps_upper_bounds
+
+    def get_invalid_times_from_single_epoch_raw_timestamps(self, sample_count):
+        lower_bounds = (sample_count + 1)[:-1]
+        upper_bounds = (sample_count - 1)[1:]
+        mask = lower_bounds <= upper_bounds
+        upper_bounds, lower_bounds = upper_bounds[mask] + 1, lower_bounds[mask] -1
+        filtered_lower_bounds = lower_bounds
+        filtered_upper_bounds = upper_bounds
+        for element in upper_bounds:
+            filtered_lower_bounds = filtered_lower_bounds[filtered_lower_bounds != element]
+        for element in lower_bounds:
+            filtered_upper_bounds = filtered_upper_bounds[filtered_upper_bounds != element]
+        return filtered_upper_bounds, filtered_lower_bounds
+
+    def convert_timestamps_in_invalid_times_from_single_epoch(self, timestamps, continuous_time_dict):
+        return TimestampConverter.convert_timestamps(continuous_time_dict, timestamps)
