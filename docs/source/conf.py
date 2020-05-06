@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('../../fl/datamigration/exceptions'))
 sys.path.insert(0, os.path.abspath('../../fl/datamigration/header'))
 sys.path.insert(0, os.path.abspath('../../fl/datamigration/metadata'))
 sys.path.insert(0, os.path.abspath('../../fl/datamigration/nwb'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/processing'))
+sys.path.insert(0, os.path.abspath('../../fl/datamigration/time'))
 sys.path.insert(0, os.path.abspath('../../fl/datamigration/tools'))
 
 # -- Project information -----------------------------------------------------

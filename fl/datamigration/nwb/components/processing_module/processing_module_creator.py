@@ -19,4 +19,4 @@ class ProcessingModuleCreator:
             self.processing_module.add(data)
         except TypeError as err:
             # log error instead
-            logger.error('Inserting data into processing module has failed: ' + str(err))
+            logger.error('Inserting data into time module has failed: ' + str(err))

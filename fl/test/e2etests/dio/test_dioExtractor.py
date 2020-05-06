@@ -8,7 +8,7 @@ import numpy as np
 from pandas import array
 
 from fl.datamigration.nwb.components.dio.dio_extractor import DioExtractor
-from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
+from fl.datamigration.time.continuous_time_extractor import ContinuousTimeExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 

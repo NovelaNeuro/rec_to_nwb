@@ -1,5 +1,5 @@
-from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
-from fl.datamigration.processing.timestamp_converter import TimestampConverter
+from fl.datamigration.time.continuous_time_extractor import ContinuousTimeExtractor
+from fl.datamigration.time.timestamp_converter import TimestampConverter
 from fl.datamigration.tools.beartype.beartype import beartype
 
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
