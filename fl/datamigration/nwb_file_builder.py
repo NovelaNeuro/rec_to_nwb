@@ -30,7 +30,7 @@ from fl.datamigration.nwb.components.dio.dio_injector import DioInjector
 from fl.datamigration.nwb.components.dio.dio_manager import DioManager
 from fl.datamigration.nwb.components.electrode_group.electrode_group_factory import ElectrodeGroupFactory
 from fl.datamigration.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
-from fl.datamigration.nwb.components.electrode_group.fl_electrode_group_manager import FlElectrodeGroupManager
+from fl.datamigration.nwb.components.electrode_group.fl_nwb_electrode_group_manager import FlNwbElectrodeGroupManager
 from fl.datamigration.nwb.components.electrodes.electrode_creator import ElectrodesCreator
 from fl.datamigration.nwb.components.electrodes.extension.electrode_extension_injector import ElectrodeExtensionInjector
 from fl.datamigration.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
@@ -49,7 +49,6 @@ from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_time_injector import MdaInvalidTimeInjector
 from fl.datamigration.tools.beartype.beartype import beartype
 from fl.datamigration.tools.data_scanner import DataScanner
-from fl.datamigration.validation.not_empty_validator import NotEmptyValidator
 from fl.datamigration.validation.task_validator import TaskValidator
 from fl.datamigration.validation.ntrode_validator import NTrodeValidator
 from fl.datamigration.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
@@ -172,7 +171,7 @@ class NWBFileBuilder:
             self.header.configuration.global_configuration
         )
 
-        self.fl_electrode_group_manager = FlElectrodeGroupManager(self.metadata['electrode groups'])
+        self.fl_nwb_electrode_group_manager = FlNwbElectrodeGroupManager(self.metadata['electrode groups'])
         self.electrode_group_creator = ElectrodeGroupFactory()
         self.electrode_group_injector = ElectrodeGroupInjector()
 
@@ -351,15 +350,17 @@ class NWBFileBuilder:
 
     def __build_and_inject_electrode_group(self, nwb_content, probes, electrode_groups_valid_map):
         logger.info('ElectrodeGroups: Building')
-        fl_electrode_groups = self.fl_electrode_group_manager.get_fl_electrode_groups(
+        fl_nwb_electrode_groups = self.fl_nwb_electrode_group_manager.get_fl_nwb_electrode_groups(
             probes, electrode_groups_valid_map
         )
         logger.info('ElectrodeGroups: Creating')
-        electrode_groups = [self.electrode_group_creator.create_electrode_group(electrode_group)
-                            for electrode_group in fl_electrode_groups]
+        nwb_electrode_groups = [
+            self.electrode_group_creator.create_nwb_electrode_group(nwb_electrode_group)
+                            for nwb_electrode_group in fl_nwb_electrode_groups
+        ]
         logger.info('ElectrodeGroups: Injecting into NWB')
-        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, electrode_groups)
-        return electrode_groups
+        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, nwb_electrode_groups)
+        return nwb_electrode_groups
 
     def __build_and_inject_electrodes(self, nwb_content, electrode_groups, electrodes_valid_map,
                                       electrode_groups_valid_map):
