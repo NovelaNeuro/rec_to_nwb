@@ -12,8 +12,8 @@ class TestFlAssociatedFilesManager(unittest.TestCase):
     def setUp(self):
         self.fl_associated_files_manager = FlAssociatedFilesManager(
             [
-             (path + '/../../datamigration/res/test_text_files/test1_file'),
-             (path + '/../../datamigration/res/test_text_files/test2_file')
+             (path + '/../res/test_text_files/test1_file'),
+             (path + '/../res/test_text_files/test2_file')
             ],
             [
              {'name': 'test1_file',
@@ -47,8 +47,8 @@ class TestFlAssociatedFilesManager(unittest.TestCase):
     def test_fl_associated_files_manager_fail_none_param_associated_files_metadata(self):
         fl_associated_files_manager = FlAssociatedFilesManager(
             [
-                (path + '/../../datamigration/res/test_text_files/test1_file'),
-                (path + '/../../datamigration/res/test_text_files/test2_file')
+                (path + '/../res/test_text_files/test1_file'),
+                (path + '/../res/test_text_files/test2_file')
             ],
             None
         )
