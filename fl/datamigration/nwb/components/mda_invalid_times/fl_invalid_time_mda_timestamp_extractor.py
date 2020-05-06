@@ -1,5 +1,5 @@
-from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
-from fl.datamigration.processing.timestamp_converter import TimestampConverter
+from fl.datamigration.time.continuous_time_extractor import ContinuousTimeExtractor
+from fl.datamigration.time.timestamp_converter import TimestampConverter
 
 from mountainlab_pytools.mdaio import readmda
 
