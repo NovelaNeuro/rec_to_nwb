@@ -28,6 +28,14 @@ class FlElectrodeExtensionFactory:
         [ntrode_id.extend([ntrode['ntrode_id']] * len(ntrode['map'])) for ntrode in ntrode_metadata]
         return ntrode_id
 
+    @classmethod
+    def create_channel_id(cls, ntrode_metadata):
+        validate_parameters_not_none(__name__, ntrode_metadata)
+
+        channel_id = []
+        for ntrode in ntrode_metadata:
+            [channel_id.append(map_index) for map_index in ntrode['map']]
+        return channel_id
 
     @classmethod
     def create_bad_channels(cls, ntrode_metadata):
