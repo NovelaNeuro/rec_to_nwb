@@ -12,6 +12,9 @@ from fl.datamigration.nwb.components.analog.analog_creator import AnalogCreator
 from fl.datamigration.nwb.components.analog.analog_files import AnalogFiles
 from fl.datamigration.nwb.components.analog.analog_injector import AnalogInjector
 from fl.datamigration.nwb.components.analog.fl_analog_manager import FlAnalogManager
+from fl.datamigration.nwb.components.associated_files.associated_files_creator import AssociatedFilesCreator
+from fl.datamigration.nwb.components.associated_files.associated_files_injector import AssociatedFilesInjector
+from fl.datamigration.nwb.components.associated_files.fl_associated_files_manager import FlAssociatedFilesManager
 from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
 from fl.datamigration.nwb.components.device.device_injector import DeviceInjector
 from fl.datamigration.nwb.components.device.fl_device_header_manager import FlDeviceHeaderManager
@@ -69,24 +72,25 @@ class NWBFileBuilder:
         animal_name (string): directory name which represents animal subject of experiment
         date (string): date of experiment
         nwb_metadata (MetadataManager): object contains metadata about experiment
+        associated_files (list of strings): list of paths to files stored inside nwb
         process_dio (boolean): flag if dio data should be processed
         process_mda (boolean): flag if mda data should be processed
         process_analog (boolean): flag if analog data should be processed
         output_file (string): path and name specifying where .nwb file gonna be written
     """
-    
+
     @beartype
     def __init__(self,
                  data_path: str,
                  animal_name: str,
                  date: str,
                  nwb_metadata: MetadataManager,
+                 associated_files: list = [],
                  process_dio: bool = True,
                  process_mda: bool = True,
                  process_analog: bool = True,
                  output_file: str = 'output.nwb'
                  ):
-
 
         logger.info('NWBFileBuilder initialization')
         logger.info(
@@ -95,6 +99,7 @@ class NWBFileBuilder:
             + 'animal_name = ' + str(animal_name) + '\n'
             + 'date = ' + str(date) + '\n'
             + 'nwb_metadata = ' + str(nwb_metadata) + '\n'
+            + 'associated_files = ' + str(associated_files) + '\n'
             + 'process_dio = ' + str(process_dio) + '\n'
             + 'process_mda = ' + str(process_mda) + '\n'
             + 'process_analog = ' + str(process_analog) + '\n'
@@ -105,6 +110,7 @@ class NWBFileBuilder:
         self.date = date
         self.data_path = data_path
         self.metadata = nwb_metadata.metadata
+        self.associated_files = associated_files
         self.probes = nwb_metadata.probes
         self.process_dio = process_dio
         self.process_mda = process_mda
@@ -179,6 +185,14 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
+        if associated_files:
+            self.fl_associated_files_manager = FlAssociatedFilesManager(
+                self.associated_files,
+                self.metadata['associated_files']
+            )
+            self.associated_files_creator = AssociatedFilesCreator()
+            self.associated_files_injector = AssociatedFilesInjector()
+
         self.session_time_extractor = SessionTimeExtractor(
             self.datasets,
             self.animal_name,
@@ -242,6 +256,9 @@ class NWBFileBuilder:
         self.__build_and_inject_electrodes_extensions(nwb_content, valid_map_dict['electrodes'])
 
         self.__build_and_inject_epochs(nwb_content)
+
+        if self.associated_files:
+            self.__build_and_inject_associated_files(nwb_content)
 
         if self.process_dio:
             self.__build_and_inject_dio(nwb_content)
@@ -388,6 +405,16 @@ class NWBFileBuilder:
 
     def __get_continuous_time_files(self):
         return [single_dataset.get_continuous_time() for single_dataset in self.datasets]
+
+    def __build_and_inject_associated_files(self, nwb_content):
+        logger.info('AssociatedFiles: Building')
+        fl_associated_files = self.fl_associated_files_manager.get_fl_associated_files()
+        logger.info('AssociatedFiles: Creating')
+        associated_files = [
+            self.associated_files_creator.create(fl_associated_file) for fl_associated_file in fl_associated_files
+        ]
+        logger.info('AssociatedFiles: Injecting')
+        self.associated_files_injector.inject(associated_files, 'behavior', nwb_content)
 
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')
