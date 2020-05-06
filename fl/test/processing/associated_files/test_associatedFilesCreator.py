@@ -3,8 +3,8 @@ import unittest
 
 from ndx_fl_novela.associated_files import AssociatedFiles
 
-from fl.processing.nwb.components.associated_files.associated_files_creator import AssociatedFilesCreator
-from fl.processing.nwb.components.associated_files.fl_associated_file import FlAssociatedFile
+from fl.datamigration.nwb.components.associated_files.associated_files_creator import AssociatedFilesCreator
+from fl.datamigration.nwb.components.associated_files.fl_associated_file import FlAssociatedFile
 
 path = os.path.dirname(os.path.abspath(__file__))
 

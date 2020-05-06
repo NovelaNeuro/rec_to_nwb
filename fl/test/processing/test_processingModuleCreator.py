@@ -3,8 +3,8 @@ from unittest import TestCase
 
 from ndx_fl_novela.apparatus import Apparatus
 
-from fl.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
-from fl.processing.nwb.components.task.task_builder import TaskBuilder
+from fl.datamigration.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
+from fl.datamigration.nwb.components.task.task_builder import TaskBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 

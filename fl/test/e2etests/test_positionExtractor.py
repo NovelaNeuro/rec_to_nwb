@@ -3,10 +3,10 @@ import unittest
 
 from testfixtures import should_raise
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.nwb.components.position.fl_position_manager import FlPositionManager
-from fl.processing.nwb.components.position.position_creator import PositionCreator
-from fl.processing.tools.dataset import Dataset
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
+from fl.datamigration.nwb.components.position.fl_position_manager import FlPositionManager
+from fl.datamigration.nwb.components.position.position_creator import PositionCreator
+from fl.datamigration.tools.dataset import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))
 

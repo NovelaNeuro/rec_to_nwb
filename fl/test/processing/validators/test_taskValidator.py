@@ -2,8 +2,8 @@ from unittest import TestCase
 
 from testfixtures import should_raise
 
-from fl.processing.exceptions.invalid_metadata_exception import InvalidMetadataException
-from fl.processing.validation.task_validator import TaskValidator
+from fl.datamigration.exceptions.invalid_metadata_exception import InvalidMetadataException
+from fl.datamigration.validation.task_validator import TaskValidator
 
 
 class TestTaskValidator(TestCase):

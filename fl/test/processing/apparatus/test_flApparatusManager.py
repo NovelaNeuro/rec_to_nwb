@@ -1,9 +1,9 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from fl.processing.nwb.components.apparatus.fl_apparatus_extractor import FlApparatusExtractor
-from fl.processing.nwb.components.apparatus.fl_apparatus_manager import FlApparatusManager
-from fl.processing.nwb.components.apparatus.fl_apparatus import FlApparatus
+from fl.datamigration.nwb.components.apparatus.fl_apparatus_extractor import FlApparatusExtractor
+from fl.datamigration.nwb.components.apparatus.fl_apparatus_manager import FlApparatusManager
+from fl.datamigration.nwb.components.apparatus.fl_apparatus import FlApparatus
 
 
 class TestFlApparatusManager(TestCase):

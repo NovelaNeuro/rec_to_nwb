@@ -3,8 +3,8 @@ import unittest
 
 from testfixtures import should_raise
 
-from fl.processing.metadata.metadata_manager import MetadataManager
-from fl.processing.raw_to_nwb_builder import RawToNWBBuilder
+from fl.datamigration.metadata.metadata_manager import MetadataManager
+from fl.datamigration.raw_to_nwb_builder import RawToNWBBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 

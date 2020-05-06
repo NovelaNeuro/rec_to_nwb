@@ -2,8 +2,8 @@ from unittest import TestCase
 
 from pathlib import Path
 
-from fl.processing.exceptions.missing_data_exception import MissingDataException
-from fl.processing.validation.preprocessing_validator import PreprocessingValidator
+from fl.datamigration.exceptions.missing_data_exception import MissingDataException
+from fl.datamigration.validation.preprocessing_validator import PreprocessingValidator
 
 path = Path(__file__).parent.parent
 path.resolve()

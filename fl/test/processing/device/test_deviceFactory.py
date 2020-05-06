@@ -6,12 +6,12 @@ from ndx_fl_novela.probe import Probe, Shank
 from pynwb.device import Device
 from testfixtures import should_raise
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.header.module.global_configuration import GlobalConfiguration
-from fl.processing.nwb.components.device.device_factory import DeviceFactory
-from fl.processing.nwb.components.device.fl_device import FlDevice
-from fl.processing.nwb.components.device.fl_header_device import FlHeaderDevice
-from fl.processing.nwb.components.device.fl_probe import FlProbe
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
+from fl.datamigration.header.module.global_configuration import GlobalConfiguration
+from fl.datamigration.nwb.components.device.device_factory import DeviceFactory
+from fl.datamigration.nwb.components.device.fl_device import FlDevice
+from fl.datamigration.nwb.components.device.fl_header_device import FlHeaderDevice
+from fl.datamigration.nwb.components.device.fl_probe import FlProbe
 
 
 class TestDeviceFactory(TestCase):

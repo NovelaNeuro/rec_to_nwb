@@ -2,7 +2,7 @@ import os
 import unittest
 from pathlib import Path
 
-from fl.processing.header.header_checker.header_extractor import HeaderFilesExtractor
+from fl.datamigration.header.header_checker.header_extractor import HeaderFilesExtractor
 
 path = Path(__file__).parent.parent
 path.resolve()

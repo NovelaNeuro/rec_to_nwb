@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import numpy as np
 
-from fl.processing.nwb.components.iterator.single_thread_data_iterator import SingleThreadDataIterator
+from fl.datamigration.nwb.components.iterator.single_thread_data_iterator import SingleThreadDataIterator
 
 
 class TestDataIterator(TestCase):

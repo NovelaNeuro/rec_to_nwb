@@ -2,8 +2,8 @@ import os
 import unittest
 from datetime import datetime
 
-from fl.processing.nwb.common.session_time_extractor import SessionTimeExtractor
-from fl.processing.tools.dataset import Dataset
+from fl.datamigration.nwb.common.session_time_extractor import SessionTimeExtractor
+from fl.datamigration.tools.dataset import Dataset
 
 path = os.path.dirname(os.path.abspath(__file__))
 

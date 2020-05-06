@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from ndx_fl_novela.apparatus import Node, Edge
 
-from fl.processing.nwb.components.apparatus.fl_apparatus_extractor import FlApparatusExtractor
+from fl.datamigration.nwb.components.apparatus.fl_apparatus_extractor import FlApparatusExtractor
 
 
 class TestFlApparatusExtractor(TestCase):

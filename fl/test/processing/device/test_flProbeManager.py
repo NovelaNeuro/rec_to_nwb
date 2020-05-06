@@ -3,9 +3,9 @@ from unittest.mock import Mock
 
 from ndx_fl_novela.probe import Shank
 
-from fl.processing.exceptions.none_param_exception import NoneParamException
-from fl.processing.nwb.components.device.fl_probe import FlProbe
-from fl.processing.nwb.components.device.fl_probe_manager import FlProbeManager
+from fl.datamigration.exceptions.none_param_exception import NoneParamException
+from fl.datamigration.nwb.components.device.fl_probe import FlProbe
+from fl.datamigration.nwb.components.device.fl_probe_manager import FlProbeManager
 
 from unittest import TestCase
 from testfixtures import should_raise

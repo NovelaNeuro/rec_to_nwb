@@ -1,9 +1,9 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from fl.processing.nwb.components.mda_invalid_times.fl_invalid_time_mda_timestamp_extractor import \
+from fl.datamigration.nwb.components.mda_invalid_times.fl_invalid_time_mda_timestamp_extractor import \
     FlInvalidTimeMdaTimestampExtractor
-from fl.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
+from fl.datamigration.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
 
 import numpy as np
 

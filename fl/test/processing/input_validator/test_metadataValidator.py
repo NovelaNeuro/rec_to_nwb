@@ -2,8 +2,8 @@ from unittest import TestCase
 
 from pathlib import Path
 
-from fl.processing.exceptions.missing_data_exception import MissingDataException
-from fl.processing.validation.metadata_validator import MetadataValidator
+from fl.datamigration.exceptions.missing_data_exception import MissingDataException
+from fl.datamigration.validation.metadata_validator import MetadataValidator
 
 path = Path(__file__).parent.parent
 path.resolve()
