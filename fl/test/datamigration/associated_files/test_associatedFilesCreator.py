@@ -18,8 +18,11 @@ class TestFlAssociatedFilesCreator(unittest.TestCase):
         ]
         self.associated_files_creator = AssociatedFilesCreator()
 
-    def test_fl_associated_files_creator_correct_create(self):
-        associated_files = self.associated_files_creator.create(self.fl_associated_files)
+    def test_fl_associated_files_creator_create_successfully(self):
+        associated_files = [
+            self.associated_files_creator.create(fl_associated_file)
+            for fl_associated_file in self.fl_associated_files
+        ]
 
         self.assertEqual(2, len(associated_files))
         self.assertIsInstance(associated_files[0], AssociatedFiles)

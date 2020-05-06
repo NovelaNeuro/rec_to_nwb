@@ -1,4 +1,3 @@
-from fl.datamigration.nwb.components.associated_files.fl_associated_file import FlAssociatedFile
 from fl.datamigration.nwb.components.associated_files.fl_associated_files_builder import FlAssociatedFilesBuilder
 from fl.datamigration.nwb.components.associated_files.fl_associated_files_extractor import FlAssociatedFilesExtractor
 from fl.datamigration.tools.beartype.beartype import beartype
