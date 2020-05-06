@@ -79,10 +79,20 @@ electrode groups:
     location: mPFC
     device_type: 128c-4s8mm6cm-20um-40um-sl
     description: 'Probe 1'
+    targeted_location: 'Sample predicted location'
+    targeted_x: 0.0
+    targeted_y: 0.0
+    targeted_z: 0.0
+    units: 'um'
   - id: 1
     location: mPFC
     device_type: 128c-4s8mm6cm-20um-40um-sl
     description: 'Probe 2'
+    targeted_location: 'Sample predicted location'
+    targeted_x: 0.0
+    targeted_y: 0.0
+    targeted_z: 0.0
+    units: 'um'
 
 
 ntrode electrode group channel map:
