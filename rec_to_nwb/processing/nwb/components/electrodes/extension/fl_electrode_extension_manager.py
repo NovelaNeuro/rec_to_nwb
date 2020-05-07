@@ -43,6 +43,9 @@ class FlElectrodeExtensionManager:
         ntrode_id = FlElectrodeExtensionFactory.create_ntrode_id(
             ntrode_metadata=ntrode_metadata
         )
+        channel_id = FlElectrodeExtensionFactory.create_channel_id(
+            ntrode_metadata=ntrode_metadata
+        )
         bad_channels = FlElectrodeExtensionFactory.create_bad_channels(
             ntrode_metadata=ntrode_metadata
         )
@@ -61,6 +64,7 @@ class FlElectrodeExtensionManager:
             rel['rel_z'],
             hw_chan,
             ntrode_id,
+            channel_id,
             bad_channels,
             probe_shank,
             probe_channel
@@ -72,6 +76,7 @@ class FlElectrodeExtensionManager:
             rel_z=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, rel['rel_z']),
             hw_chan=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, hw_chan),
             ntrode_id=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, ntrode_id),
+            channel_id=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, channel_id),
             bad_channels=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, bad_channels),
             probe_shank=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, probe_shank),
             probe_channel=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, probe_channel),
