@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PKG_NAME=fldatamigration
+export PKG_NAME=rec_to_nwb
 export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TOKEN
 export VERSION=$(python setup.py)
 export CONDA_BUILD_PATH=/home/travis/miniconda/envs/test-environment/conda-bld
@@ -42,7 +42,7 @@ tar -xf ${CONDA_BUILD_PATH}/${PKG_NAME}-${VERSION}-py37_0.tar.bz2 -C ${CONDA_BUI
 cd ${CONDA_BUILD_PATH}/new_tar || exit 1
 
 echo "Creating new conda package without some files..."
-tar -cjvf ${PKG_NAME}-${VERSION}-py37_0.tar.bz2 --exclude=info/recipe/fl/test --exclude=info/recipe/fl/scripts --exclude='*.sh' --exclude='*.gitignore' --exclude='*.pytest_cache' --exclude='*.gitignore' info lib || exit 1
+tar -cjvf ${PKG_NAME}-${VERSION}-py37_0.tar.bz2 --exclude=info/recipe/rec_to_nwb/test --exclude=info/recipe/rec_to_nwb/scripts --exclude='*.sh' --exclude='*.gitignore' --exclude='*.pytest_cache' --exclude='*.gitignore' info lib || exit 1
 
 cd ..
 

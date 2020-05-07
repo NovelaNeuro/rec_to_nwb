@@ -1,10 +1,11 @@
 version = '0.1.006'
 print(version)
+
 from setuptools import setup, find_packages
 
 
 setup(
-    name='fldatamigration',
+    name='rec_to_nwb',
     version=version,
     author='Novela Neurotech',
     url="https://github.com/NovelaNeuro/fldatamigration",

@@ -10,17 +10,17 @@ cp LICENSE.md ./docs/source/ || exit 1
 sed -i '1i License' ./docs/source/LICENSE.md && sed -i '2i ===================' ./docs/source/LICENSE.md || exit 1
 
 echo 'Creating API Documentation'
-sphinx-apidoc -fMET ./fl/datamigration -o ./docs/source/autoapi || exit 1
+sphinx-apidoc -fMET ./rec_to_nwb/datamigration -o ./docs/source/autoapi || exit 1
 
 echo 'Create HTML Documentation'
 make html -C ./docs || exit 1
 
 #echo 'Deploy documentation to' $DOC_REPO
 #git clone ${DOC_REPO}
-#cd fldatamigration-docs
+#cd rec_to_nwb-docs
 #ls ../
 #git remote rm origin
-#git remote add origin https://${USERNAME}:${GH_DOCS_TOKEN}@github.com/NovelaNeuro/fldatamigration-docs.git
+#git remote add origin https://${USERNAME}:${GH_DOCS_TOKEN}@github.com/NovelaNeuro/rec_to_nwb-docs.git
 #cp -r ../docs/build/html .
 #git add -f .
 #git commit -m "Documentation v$TRAVIS_BUILD_NUMBER"

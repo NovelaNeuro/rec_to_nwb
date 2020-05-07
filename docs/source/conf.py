@@ -14,19 +14,19 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath('../../.'))
-sys.path.insert(0, os.path.abspath('../../fl'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/exceptions'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/header'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/metadata'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/nwb'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/processing'))
-sys.path.insert(0, os.path.abspath('../../fl/datamigration/tools'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/exceptions'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/header'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/metadata'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/nwb'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/processing'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/tools'))
 
 # -- Project information -----------------------------------------------------
 # from setup import version
 
-project = 'fldatamigration'
+project = 'rec_to_nwb'
 copyright = '2020, Novela'
 author = 'Novela'
 
@@ -47,7 +47,7 @@ extensions = [
 
 autoapi_add_toctree_entry = False
 autoapi_type = 'python'
-autoapi_dirs = ['../../fl/datamigration']
+autoapi_dirs = ['../../rec_to_nwb/datamigration']
 add_module_names = False
 
 
