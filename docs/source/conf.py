@@ -15,13 +15,13 @@ import sys
 
 sys.path.insert(0, os.path.abspath('../../.'))
 sys.path.insert(0, os.path.abspath('../../rec_to_nwb'))
-sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration'))
-sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/exceptions'))
-sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/header'))
-sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/metadata'))
-sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/nwb'))
-sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/processing'))
-sys.path.insert(0, os.path.abspath('../../rec_to_nwb/datamigration/tools'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/exceptions'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/header'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/metadata'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/nwb'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/processing'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/tools'))
 
 # -- Project information -----------------------------------------------------
 # from setup import version
@@ -47,7 +47,7 @@ extensions = [
 
 autoapi_add_toctree_entry = False
 autoapi_type = 'python'
-autoapi_dirs = ['../../rec_to_nwb/datamigration']
+autoapi_dirs = ['../../rec_to_nwb/processing']
 add_module_names = False
 
 

@@ -17,10 +17,10 @@ class TestNwbFullGeneration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.metadata = MetadataManager(
-            str(path) + '/datamigration/res/metadata.yml',
-            [str(path) + '/datamigration/res/probe1.yml',
-             str(path) + '/datamigration/res/probe2.yml',
-             str(path) + '/datamigration/res/probe3.yml'])
+            str(path) + '/processing/res/metadata.yml',
+            [str(path) + '/processing/res/probe1.yml',
+             str(path) + '/processing/res/probe2.yml',
+             str(path) + '/processing/res/probe3.yml'])
 
         cls.nwb_builder = NWBFileBuilder(
             data_path=str(path) + '/test_data/',
@@ -28,8 +28,8 @@ class TestNwbFullGeneration(unittest.TestCase):
             date='20190718',
             nwb_metadata=cls.metadata,
             associated_files=[
-                (str(path) + '/datamigration/res/test_text_files/test1_file'),
-                (str(path) + '/datamigration/res/test_text_files/test2_file'),
+                (str(path) + '/processing/res/test_text_files/test1_file'),
+                (str(path) + '/processing/res/test_text_files/test2_file'),
             ],
             process_dio=True,
             process_mda=True,
@@ -49,8 +49,8 @@ class TestNwbFullGeneration(unittest.TestCase):
             date=123,
             nwb_metadata=self.metadata,
             associated_files=[
-                (str(path) + '/datamigration/res/test_text_files/test1_file'),
-                (str(path) + '/datamigration/res/test_text_files/test2_file'),
+                (str(path) + '/processing/res/test_text_files/test1_file'),
+                (str(path) + '/processing/res/test_text_files/test2_file'),
             ],
             process_dio=True,
             process_mda=True,
@@ -65,8 +65,8 @@ class TestNwbFullGeneration(unittest.TestCase):
             date=None,
             nwb_metadata=self.metadata,
             associated_files=[
-                (str(path) + '/datamigration/res/test_text_files/test1_file'),
-                (str(path) + '/datamigration/res/test_text_files/test2_file'),
+                (str(path) + '/processing/res/test_text_files/test1_file'),
+                (str(path) + '/processing/res/test_text_files/test2_file'),
             ],
             process_dio=True,
             process_mda=True,
