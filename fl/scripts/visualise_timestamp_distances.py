@@ -21,7 +21,7 @@ if __name__ == "__main__":
     max_distance = 0
     for i, continuous_time_dict in enumerate(continuous_time_dicts):
         converted_timestamps = TimestampConverter.convert_timestamps(continuous_time_dict, timestamps[i])
-        for j in range(1, len(converted_timestamps)):
+        for j in range(1, len(converted_timestamps) -1):
             if converted_timestamps[j] > 0 and converted_timestamps[j - 1] > 0:
                 new_dist = (converted_timestamps[j] - converted_timestamps[j - 1])
                 if new_dist > max_distance:
@@ -29,5 +29,6 @@ if __name__ == "__main__":
 
                 distances.append(new_dist)
 
-    pyplot.hist(distances, bins=1000, range=(0, max_distance))
+    print(max_distance)
+    pyplot.hist(distances, bins=4000, range=(0, max_distance))
     pyplot.show()
