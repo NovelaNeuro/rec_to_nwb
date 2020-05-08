@@ -17,7 +17,7 @@ class TestPositionExtraction(unittest.TestCase):
     @staticmethod
     def create_test_dataset():
         dataset = Dataset('test_dataset')
-        dataset.add_data_to_dataset(path + '/../datamigration/res/pos_test/', 'pos')
+        dataset.add_data_to_dataset(path + '/../processing/res/pos_test/', 'pos')
         dataset.add_data_to_dataset(path + '/../test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/',
                                     'time')
         return dataset
