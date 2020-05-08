@@ -5,6 +5,7 @@ from fl.datamigration.processing.timestamp_converter import TimestampConverter
 
 from matplotlib import pyplot
 
+
 def read_mda_timestamps(file):
     return readmda(file)
 
@@ -29,6 +30,5 @@ if __name__ == "__main__":
 
                 distances.append(new_dist)
 
-    print(max_distance)
     pyplot.hist(distances, bins=4000, range=(0, max_distance))
     pyplot.show()
