@@ -1,5 +1,5 @@
-from rec_to_nwb.processing.processing.continuous_time_extractor import ContinuousTimeExtractor
-from rec_to_nwb.processing.processing.timestamp_converter import TimestampConverter
+from rec_to_nwb.processing.time.continuous_time_extractor import ContinuousTimeExtractor
+from rec_to_nwb.processing.time.timestamp_converter import TimestampConverter
 
 from mountainlab_pytools.mdaio import readmda
 

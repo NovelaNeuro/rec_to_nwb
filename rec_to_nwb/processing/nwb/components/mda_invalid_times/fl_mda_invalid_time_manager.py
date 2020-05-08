@@ -1,7 +1,7 @@
 from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_invalid_time_mda_timestamp_extractor import \
     FlInvalidTimeMdaTimestampExtractor
 from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_builder import FlMdaInvalidTimeBuilder
-from rec_to_nwb.processing.processing.timestamp_converter import TimestampConverter
+from rec_to_nwb.processing.time.timestamp_converter import TimestampConverter
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
