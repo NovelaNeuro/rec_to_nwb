@@ -10,7 +10,7 @@ class ElectricalSeriesCreator:
             data=fl_mda.mda_data.mda_data,
             electrodes=fl_mda.electrode_table_region,
             timestamps=fl_mda.mda_data.mda_timestamps,
-            resolution=fl_mda.sampling_rate,
+            rate=fl_mda.sampling_rate,
             comments="sample comment",
             description="Electrical series registered on electrode"
         )
