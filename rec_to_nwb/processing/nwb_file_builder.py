@@ -116,6 +116,7 @@ class NWBFileBuilder:
         self.process_mda = process_mda
         self.process_analog = process_analog
         self.output_file = output_file
+        self.link_to_notes = self.metadata.get('link_to_notes', '')
 
         data_types_for_scanning = {'pos': True,
                                    'time': True,
@@ -222,6 +223,7 @@ class NWBFileBuilder:
             institution=self.metadata['institution'],
             session_start_time=self.session_time_extractor.get_session_start_time(),
             identifier=str(uuid.uuid1()),
+            notes=self.link_to_notes,
             experiment_description=self.metadata['experiment description'],
             subject=Subject(
                 description=self.metadata['subject']['description'],
