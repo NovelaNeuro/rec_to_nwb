@@ -2,6 +2,9 @@ import logging.config
 import os
 import uuid
 
+from pynwb import NWBHDF5IO, NWBFile
+from pynwb.file import Subject
+
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -23,41 +26,41 @@ from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank_manager import 
 from rec_to_nwb.processing.nwb.components.device.shanks.shank_creator import ShankCreator
 from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode_manager import \
     FlShanksElectrodeManager
-from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.shanks_electrode_creator import ShanksElectrodeCreator
+from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.shanks_electrode_creator import \
+    ShanksElectrodeCreator
 from rec_to_nwb.processing.nwb.components.dio.dio_builder import DioBuilder
 from rec_to_nwb.processing.nwb.components.dio.dio_files import DioFiles
 from rec_to_nwb.processing.nwb.components.dio.dio_injector import DioInjector
 from rec_to_nwb.processing.nwb.components.dio.dio_manager import DioManager
 from rec_to_nwb.processing.nwb.components.electrode_group.electrode_group_factory import ElectrodeGroupFactory
 from rec_to_nwb.processing.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
-from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group_manager import FlNwbElectrodeGroupManager
+from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group_manager import \
+    FlNwbElectrodeGroupManager
 from rec_to_nwb.processing.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from rec_to_nwb.processing.nwb.components.electrodes.extension.electrode_extension_injector import ElectrodeExtensionInjector
+from rec_to_nwb.processing.nwb.components.electrodes.extension.electrode_extension_injector import \
+    ElectrodeExtensionInjector
 from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
     FlElectrodeExtensionManager
 from rec_to_nwb.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
-from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
-from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_injector import PosInvalidTimeInjector
-from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
+from rec_to_nwb.processing.nwb.components.epochs.epochs_injector import EpochsInjector
+from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from rec_to_nwb.processing.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from rec_to_nwb.processing.nwb.components.mda.fl_mda_manager import FlMdaManager
 from rec_to_nwb.processing.nwb.components.mda.mda_injector import MdaInjector
+from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_injector import MdaInvalidTimeInjector
+from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
+from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_injector import PosInvalidTimeInjector
+from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.position.fl_position_manager import FlPositionManager
 from rec_to_nwb.processing.nwb.components.position.position_creator import PositionCreator
 from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
-from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_injector import MdaInvalidTimeInjector
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
-from rec_to_nwb.processing.validation.task_validator import TaskValidator
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
-from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
-from rec_to_nwb.processing.nwb.components.epochs.epochs_injector import EpochsInjector
 from rec_to_nwb.processing.validation.preprocessing_validator import PreprocessingValidator
+from rec_to_nwb.processing.validation.task_validator import TaskValidator
 from rec_to_nwb.processing.validation.validation_registrator import ValidationRegistrator
-
-from pynwb import NWBHDF5IO, NWBFile
-from pynwb.file import Subject
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
@@ -117,7 +120,6 @@ class NWBFileBuilder:
         self.process_analog = process_analog
         self.output_file = output_file
         self.link_to_notes = self.metadata.get('link to notes', '')
-
         data_types_for_scanning = {'pos': True,
                                    'time': True,
                                    'mda': process_mda,
@@ -223,6 +225,7 @@ class NWBFileBuilder:
             institution=self.metadata['institution'],
             session_start_time=self.session_time_extractor.get_session_start_time(),
             identifier=str(uuid.uuid1()),
+            session_id=self.metadata['session_id'],
             notes=self.link_to_notes,
             experiment_description=self.metadata['experiment description'],
             subject=Subject(
