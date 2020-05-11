@@ -51,8 +51,8 @@ class TestFlElectrodeManager(TestCase):
 
         mock_eg_1 = Mock(spec=ElectrodeGroup)
         mock_eg_2 = Mock(spec=ElectrodeGroup)
-        mock_eg_1.name = 'electrode group 0'
-        mock_eg_2.name = 'electrode group 1'
+        mock_eg_1.name = '0'
+        mock_eg_2.name = '1'
 
         mock_electrodes_valid_map = [
             False, False, False, True,
