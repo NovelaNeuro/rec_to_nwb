@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/exceptions'))
 sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/header'))
 sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/metadata'))
 sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/nwb'))
-sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/processing'))
+sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/time'))
 sys.path.insert(0, os.path.abspath('../../rec_to_nwb/processing/tools'))
 
 # -- Project information -----------------------------------------------------
