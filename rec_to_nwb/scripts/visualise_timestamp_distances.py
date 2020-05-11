@@ -73,6 +73,8 @@ if __name__ == "__main__":
     pyplot.hist(distances, bins=500, range=(0, max_distance))
     pyplot.show()
 
+    max_distance = 0
+    distances = []
     timestamps = [read_mda_timestamps(timestamps_file) for timestamps_file in mda_timestamps_files]
 
     for i, continuous_time_dict in enumerate(continuous_time_dicts):
