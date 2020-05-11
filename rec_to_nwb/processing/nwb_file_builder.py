@@ -116,7 +116,7 @@ class NWBFileBuilder:
         self.process_mda = process_mda
         self.process_analog = process_analog
         self.output_file = output_file
-        self.link_to_notes = self.metadata.get('link_to_notes', '')
+        self.link_to_notes = self.metadata.get('link to notes', '')
 
         data_types_for_scanning = {'pos': True,
                                    'time': True,
