@@ -1,5 +1,5 @@
 ===========================================
-Welcome to fldatamigration's documentation!
+Welcome to rec_to_nwb documentation!
 ===========================================
 
 Table of Contents

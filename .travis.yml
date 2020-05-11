@@ -18,15 +18,15 @@ install:
   - conda update -q conda
   - conda info -a
 
-  - conda env create -q -n test-environment -f fl/environment.yml python=$TRAVIS_PYTHON_VERSION
+  - conda env create -q -n test-environment -f rec_to_nwb/environment.yml python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
   - python setup.py install --single-version-externally-managed --record=record.txt
   - pip install pylint
-  - chown -R $USER:$USER fl/test/
+  - chown -R $USER:$USER rec_to_nwb/test/
 
 script:
   - bash pylint_run.sh
-  - python -m pytest fl/test/datamigration
+  - python -m pytest rec_to_nwb/test/processing
 
 after_success:
   - test $TRAVIS_BRANCH = "master_release" && conda install conda-build anaconda-client conda-verify && bash conda_upload.sh

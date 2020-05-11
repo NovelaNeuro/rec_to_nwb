@@ -1,6 +1,6 @@
-# fldatamigration
+# rec_to_nwb
 # About
-fldatamigration is a python conda package for converting SpikeGadgets rec files to NWB files.<br>
+rec_to_nwb is a python conda package for converting SpikeGadgets rec files to NWB files.<br>
 It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` file. It utilizes rec_to_binaries package for preprocessing phase.<br>
 <https://github.com/LorenFrankLab/rec_to_binaries><br>
 
@@ -15,9 +15,9 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    ```
 3. Download miniconda from <br>
    <https://docs.conda.io/en/latest/miniconda.html> <br>
-4. Install fldatamigration package:
+4. Install rec_to_nwb package:
    ```bash
-   conda install -c conda-forge -c novelakrk fldatamigration
+   conda install -c conda-forge -c novelakrk rec_to_nwb
    ```
 5. Install Jupyter notebook
    ```bash
@@ -36,9 +36,9 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    <https://docs.conda.io/en/latest/miniconda.html><br>
 4. clone repository
    ```bash
-   git clone https://github.com/NovelaNeuro/fldatamigration.git
+   git clone https://github.com/NovelaNeuro/rec_to_nwb.git
 
-   cd fldatamigration/fl
+   cd rec_to_nwb/rec_to_nwb
    ```
 5. Create conda environment.
    ```bash
@@ -49,14 +49,14 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    pip install jupyter notebook
    ```
 7. Documentation can be viewed at <br>
-    <https://novelaneuro.github.io/fldatamigration-docs/>
+    <https://novelaneuro.github.io/rec_to_nwb-docs/>
 
 # How to use it
 1. Download example notebook file from <br>
    <https://anaconda.org/NovelaKRK/nwb_generation/notebook>
 2. In terminal navigate to notebook file location
    ```bash
-   fldatamigration/fl/notebooks
+   rec_to_nwb/rec_to_nwb/notebooks
    ```
 3. Run jupyter notebook
    ```bash
@@ -150,10 +150,10 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    ```
 6. Set up paths to metadata and probe `yaml` files, which corresponds to the experiment you are going to process.
    ```bash
-   metadata = MetadataManager('../test/datamigration/res/metadata.yml',
-                         ['../test/datamigration/res/probe1.yml',
-                          '../test/datamigration/res/probe2.yml',
-                          '../test/datamigration/res/probe3.yml'
+   metadata = MetadataManager('../test/processing/res/metadata.yml',
+                         ['../test/processing/res/probe1.yml',
+                          '../test/processing/res/probe2.yml',
+                          '../test/processing/res/probe3.yml'
                          ])
    ```
 7. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
@@ -203,7 +203,7 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
       
       **overwrite** = `boolean`  If true, will overwrite existing files. (default True)<br>
       
-      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/datamigration/res/reconfig_header.xml')`<br>
+      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')`<br>
 
 ##### Preprocessed data
 If you have already preprocessed data or RawToNwb process crashed during building file you can initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
@@ -265,7 +265,7 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
 
 11. Run processing (generation may take from mins to even hours and it depends on the size of experiment datasets).
 
-12. `fldatamigration.log` contains useful information about processing phases as well as all of the exceptions and errors.
+12. `rec_to_nwb.log` contains useful information about processing phases as well as all of the exceptions and errors.
 
 13. Example structure of preprocessed experiment data
    ```bash
