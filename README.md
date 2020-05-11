@@ -38,7 +38,7 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    ```bash
    git clone https://github.com/NovelaNeuro/rec_to_nwb.git
 
-   cd rec_to_nwb/fl
+   cd rec_to_nwb/rec_to_nwb
    ```
 5. Create conda environment.
    ```bash
@@ -56,7 +56,7 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    <https://anaconda.org/NovelaKRK/nwb_generation/notebook>
 2. In terminal navigate to notebook file location
    ```bash
-   rec_to_nwb/fl/notebooks
+   rec_to_nwb/rec_to_nwb/notebooks
    ```
 3. Run jupyter notebook
    ```bash

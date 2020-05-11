@@ -1,4 +1,4 @@
-DOC_REPO='https://github.com/NovelaNeuro/fldatamigration-docs'
+DOC_REPO='https://github.com/NovelaNeuro/rec_to_nwb-docs'
 #GH_DOCS_TOKEN=''
 ##USERNAME=''
 
@@ -10,7 +10,7 @@ cp LICENSE.md ./docs/source/ || exit 1
 sed -i '1i License' ./docs/source/LICENSE.md && sed -i '2i ===================' ./docs/source/LICENSE.md || exit 1
 
 echo 'Creating API Documentation'
-sphinx-apidoc -fMET ./rec_to_nwb/datamigration -o ./docs/source/autoapi || exit 1
+sphinx-apidoc -fMET ./rec_to_nwb/processing -o ./docs/source/autoapi || exit 1
 
 echo 'Create HTML Documentation'
 make html -C ./docs || exit 1
