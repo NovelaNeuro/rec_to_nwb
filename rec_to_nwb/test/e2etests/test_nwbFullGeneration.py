@@ -44,7 +44,7 @@ class TestNwbFullGeneration(unittest.TestCase):
     @should_raise(TypeError)
     def test_nwb_file_builder_failed_due_to_incorrect_type_of_parameters(self):
         NWBFileBuilder(
-            data_path='C:/Users/wbodo/Desktop/resy/test/',
+            data_path=str(path) + '/test_data',
             animal_name='beans',
             date=123,
             nwb_metadata=self.metadata,
@@ -60,7 +60,7 @@ class TestNwbFullGeneration(unittest.TestCase):
     @should_raise(TypeError)
     def test_nwb_file_builder_failed_due_to_None_parameter(self):
         NWBFileBuilder(
-            data_path='C:/Users/wbodo/Desktop/resy/test/',
+            data_path=str(path) + '/test_data',
             animal_name='beans',
             date=None,
             nwb_metadata=self.metadata,
