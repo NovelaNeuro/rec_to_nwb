@@ -3,14 +3,14 @@ from pathlib import Path
 from mountainlab_pytools.mdaio import readmda
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
-from fl.datamigration.metadata.metadata_manager import MetadataManager
-from fl.datamigration.processing.continuous_time_extractor import ContinuousTimeExtractor
-from fl.datamigration.processing.timestamp_converter import TimestampConverter
+from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
+from rec_to_nwb.processing.time.continuous_time_extractor import ContinuousTimeExtractor
+from rec_to_nwb.processing.time.timestamp_converter import TimestampConverter
 
 from matplotlib import pyplot
 import pandas as pd
 
-from fl.datamigration.tools.data_scanner import DataScanner
+from rec_to_nwb.processing.tools.data_scanner import DataScanner
 
 path = Path(__file__).parent.parent
 path.resolve()
@@ -39,12 +39,13 @@ def extract_datasets(data_scanner, animal_name, date):
 if __name__ == "__main__":
     animal_name = 'beans'
     date = '20190718'
-    data_path = str(path) + '/test/test_data/'
+    data_path = 'C:/Users/wbodo/Desktop/resy/test/'
+    # data_path = str(path) + '/test/test_data/'
     nwb_metadata = MetadataManager(
-        str(path) + '/test/datamigration/res/metadata.yml',
-        [str(path) + '/test/datamigration/res/probe1.yml',
-         str(path) + '/test/datamigration/res/probe2.yml',
-         str(path) + '/test/datamigration/res/probe3.yml']
+        str(path) + '/test/processing/res/metadata.yml',
+        [str(path) + '/test/processing/res/probe1.yml',
+         str(path) + '/test/processing/res/probe2.yml',
+         str(path) + '/test/processing/res/probe3.yml']
     )
     data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
     datasets = extract_datasets(data_scanner, animal_name, date)
