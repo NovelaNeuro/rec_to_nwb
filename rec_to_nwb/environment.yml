@@ -1,0 +1,55 @@
+name: rec_to_nwb
+channels:
+  - conda-forge
+  - defaults
+  - novelakrk
+dependencies:
+  - pip
+  - asn1crypto
+  - blas
+  - ca-certificates
+  - certifi
+  - cffi
+  - chardet
+  - cryptography
+  - elementpath
+  - h5py
+  - hdf5
+  - hdmf=1.6.1
+  - idna
+  - libblas
+  - libcblas
+  - liblapack
+  - mkl
+  - mkl-service
+  - numpy
+  - openssl
+  - pandas
+  - pycparser
+  - pynwb
+  - pyopenssl
+  - pysocks
+  - python=3.7
+  - python-dateutil=2.8.0=py_0
+  - pytz
+  - requests
+  - scipy
+  - setuptools
+  - six
+  - sqlite
+  - urllib3
+  - wheel
+  - xmlschema
+  - zlib
+  - mountainlab_pytools
+  - vdom
+  - pyyaml
+  - pytest
+  - testfixtures
+  - ndx-fl-novela==0.0.002
+  - pip:
+      - xmldiff
+      - rec-to-binaries==0.3.0.dev0
+
+
+

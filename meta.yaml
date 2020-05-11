@@ -2,11 +2,11 @@
 
 
 package:
-  name: fldatamigration
+  name: rec_to_nwb
   version: {{ data.get('version') }}
 
 source:
-  git_url: https://github.com/NovelaNeuro/fldatamigration
+  git_url: https://github.com/NovelaNeuro/rec_to_nwb
 
 build:
   number: 0
@@ -77,6 +77,6 @@ requirements:
 
 
 about:
-  home: https://github.com/NovelaNeuro/fldatamigration
+  home: https://github.com/NovelaNeuro/rec_to_nwb
   license: "Apache 2.0"
   summary: "Tool used to transform data stored in SpikeGadgets raw files into nwb files"
