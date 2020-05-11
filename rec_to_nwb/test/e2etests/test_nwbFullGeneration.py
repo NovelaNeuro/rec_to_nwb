@@ -23,7 +23,7 @@ class TestNwbFullGeneration(unittest.TestCase):
              str(path) + '/processing/res/probe3.yml'])
 
         cls.nwb_builder = NWBFileBuilder(
-            data_path=str(path) + '/test_data',
+            data_path=str(path) + '/test_data/',
             animal_name='beans',
             date='20190718',
             nwb_metadata=cls.metadata,
@@ -44,7 +44,7 @@ class TestNwbFullGeneration(unittest.TestCase):
     @should_raise(TypeError)
     def test_nwb_file_builder_failed_due_to_incorrect_type_of_parameters(self):
         NWBFileBuilder(
-            data_path=str(path) + '/test_data',
+            data_path=str(path) + '/test_data/',
             animal_name='beans',
             date=123,
             nwb_metadata=self.metadata,
@@ -60,7 +60,7 @@ class TestNwbFullGeneration(unittest.TestCase):
     @should_raise(TypeError)
     def test_nwb_file_builder_failed_due_to_None_parameter(self):
         NWBFileBuilder(
-            data_path=str(path) + '/test_data',
+            data_path=str(path) + '/test_data/',
             animal_name='beans',
             date=None,
             nwb_metadata=self.metadata,
