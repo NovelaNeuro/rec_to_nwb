@@ -5,7 +5,7 @@ class MdaInvalidTimeInjector:
     def inject_all(gaps, nwb_content):
         """insert invalid times to nwb file"""
         nwb_content.create_time_intervals(
-            name='Mda Invalid Times',
+            name='mda_invalid_times',
             description='Invalid times based on mda timestamps',
         )
         for gap in gaps:
