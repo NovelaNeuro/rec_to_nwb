@@ -365,7 +365,7 @@ class NWBFileBuilder:
         logger.info('ElectrodeGroups: Creating')
         nwb_electrode_groups = [
             self.electrode_group_creator.create_nwb_electrode_group(nwb_electrode_group)
-                            for nwb_electrode_group in fl_nwb_electrode_groups
+            for nwb_electrode_group in fl_nwb_electrode_groups
         ]
         logger.info('ElectrodeGroups: Injecting into NWB')
         self.electrode_group_injector.inject_all_electrode_groups(nwb_content, nwb_electrode_groups)
