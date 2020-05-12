@@ -4,9 +4,9 @@ from rec_to_nwb.processing.nwb.components.position.fl_position_extractor import 
 
 class FlPositionManager:
     def __init__(self, datasets, conversion):
+        self.conversion = conversion
         self.fl_position_extractor = FlPositionExtractor(datasets)
         self.fl_position_builder = FlPositionBuilder()
-        self.conversion = conversion
 
     def get_fl_position(self):
         position_data = self.fl_position_extractor.get_position()

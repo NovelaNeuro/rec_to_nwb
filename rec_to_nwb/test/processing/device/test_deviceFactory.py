@@ -87,7 +87,7 @@ class TestDeviceFactory(TestCase):
         )
 
     @should_raise(NoneParamException)
-    def test_factory_failed_creating_Probe_due_to_none_param_in_FlProbe(self):
+    def test_factory_failed_creating_Probe_due_to_none_param_in_metadata_FlProbe(self):
         mock_fl_probe = Mock(spec=FlProbe)
         mock_fl_probe.probe_id = 1
         mock_fl_probe.metadata = None

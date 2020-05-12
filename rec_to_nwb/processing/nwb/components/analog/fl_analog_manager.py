@@ -51,4 +51,3 @@ class FlAnalogManager:
         for analog_sensor in merged_epochs.keys():
             if 'timestamps' in analog_sensor:
                 return merged_epochs[analog_sensor]
-            return None

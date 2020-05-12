@@ -9,10 +9,10 @@ class TestNotEmptyValidator(TestCase):
         test_parameter = 'some not empty string'
         not_empty_validator = NotEmptyValidator(test_parameter)
         result = not_empty_validator.create_summary()
-        self.assertTrue(result.is_valid)
+        self.assertTrue(result.is_valid())
 
     def test_not_empty_validator_empty_string_failed(self):
         test_parameter = ''
         not_empty_validator = NotEmptyValidator(test_parameter)
         result = not_empty_validator.create_summary()
-        self.assertFalse(result.is_valid)
+        self.assertFalse(result.is_valid())

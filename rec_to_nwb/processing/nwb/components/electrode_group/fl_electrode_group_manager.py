@@ -30,4 +30,3 @@ class FlElectrodeGroupManager:
         for probe in probes:
             if probe_type == probe.probe_type:
                 return probe
-            return None
