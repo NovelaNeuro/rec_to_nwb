@@ -25,7 +25,7 @@ class TestPositionExtraction(unittest.TestCase):
     def test_position_extractor_reading_data_successfully(self):
         dataset = self.create_test_dataset()
 
-        fl_position_manager = FlPositionManager(datasets=[dataset, ])
+        fl_position_manager = FlPositionManager(datasets=[dataset, ], conversion='1')
         position_creator = PositionCreator()
 
         fl_position = fl_position_manager.get_fl_position()
@@ -39,7 +39,7 @@ class TestPositionExtraction(unittest.TestCase):
 
     @should_raise(NoneParamException)
     def test_position_extractor_fails_reading_data_due_to_None_datasets(self):
-        fl_position_manager = FlPositionManager(datasets=None)
+        fl_position_manager = FlPositionManager(datasets=None, conversion='1')
         position_creator = PositionCreator()
 
         fl_position = fl_position_manager.get_fl_position()

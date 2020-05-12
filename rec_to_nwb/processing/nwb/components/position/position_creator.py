@@ -14,6 +14,7 @@ class PositionCreator:
         position.create_spatial_series(
             name='series',
             data=fl_position.position_data,
+            conversion=fl_position.conversion,
             reference_frame='Description defining what the zero-position is',
             timestamps=fl_position.timestamps
         )

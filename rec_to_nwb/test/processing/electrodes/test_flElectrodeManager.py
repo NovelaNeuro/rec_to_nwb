@@ -1,13 +1,8 @@
 import os
-from datetime import datetime
 from unittest import TestCase
 from unittest.mock import Mock
 
-from dateutil.tz import tzlocal
-from hdmf.common import DynamicTable, VectorData, ElementIdentifiers
-from pynwb import NWBFile
 from pynwb.ecephys import ElectrodeGroup
-
 from testfixtures import should_raise
 
 from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
@@ -51,8 +46,8 @@ class TestFlElectrodeManager(TestCase):
 
         mock_eg_1 = Mock(spec=ElectrodeGroup)
         mock_eg_2 = Mock(spec=ElectrodeGroup)
-        mock_eg_1.name = 'electrode group 0'
-        mock_eg_2.name = 'electrode group 1'
+        mock_eg_1.name = '0'
+        mock_eg_2.name = '1'
 
         mock_electrodes_valid_map = [
             False, False, False, True,

@@ -59,8 +59,8 @@ class TestElectrodeIntegration(TestCase):
 
         mock_eg_1 = Mock(spec=ElectrodeGroup)
         mock_eg_2 = Mock(spec=ElectrodeGroup)
-        mock_eg_1.name = 'electrode group 0'
-        mock_eg_2.name = 'electrode group 1'
+        mock_eg_1.name = '0'
+        mock_eg_2.name = '1'
 
         nwb_file = NWBFile(
             session_description='demonstrate external files',
@@ -114,8 +114,8 @@ class TestElectrodeIntegration(TestCase):
         self.assertEqual(nwb_file.electrodes[1, 7], mock_eg_2)
 
         # electrode_group name
-        self.assertEqual(nwb_file.electrodes[0, 8], 'electrode group 1')
-        self.assertEqual(nwb_file.electrodes[1, 8], 'electrode group 1')
+        self.assertEqual(nwb_file.electrodes[0, 8], '1')
+        self.assertEqual(nwb_file.electrodes[1, 8], '1')
 
     @should_raise(NoneParamException)
     def test_electrode_failed_creating_and_injecting_inside_nwb_due_to_None_NWB(self):
@@ -145,8 +145,8 @@ class TestElectrodeIntegration(TestCase):
         mock_electrode_groups_valid_map = {0, 1}
         mock_eg_1 = Mock(spec=ElectrodeGroup)
         mock_eg_2 = Mock(spec=ElectrodeGroup)
-        mock_eg_1.name = 'electrode group 0'
-        mock_eg_2.name = 'electrode group 1'
+        mock_eg_1.name = '0'
+        mock_eg_2.name = '1'
 
         electrode_creator = ElectrodesCreator()
 
