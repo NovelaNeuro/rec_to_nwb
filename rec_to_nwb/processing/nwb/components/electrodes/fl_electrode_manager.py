@@ -46,7 +46,7 @@ class FlElectrodeManager:
     def __get_electrode_group(electrode_group_metadata, electrode_groups):
         return [electrode_group
                 for electrode_group in electrode_groups
-                if electrode_group.name == 'electrode group ' + str(electrode_group_metadata['id'])
+                if electrode_group.name == str(electrode_group_metadata['id'])
                 ][0]
 
     @staticmethod
