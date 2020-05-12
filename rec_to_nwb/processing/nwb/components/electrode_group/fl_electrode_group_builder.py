@@ -10,7 +10,7 @@ class FlElectrodeGroupBuilder:
     @beartype
     def build(metadata: dict, device: Device):
         return FlElectrodeGroup(
-            name='electrode group ' + str(metadata["id"]),
+            name=str(metadata["id"]),
             description=metadata['description'],
             location=metadata['location'],
             device=device

@@ -18,13 +18,13 @@ class TestElectrodeGroupFactory(TestCase):
         mock_device = Mock(spec=Device)
 
         mock_fl_electrode_group_1 = Mock(spec=FlElectrodeGroup)
-        mock_fl_electrode_group_1.name = 'electrode group 0'
+        mock_fl_electrode_group_1.name = '0'
         mock_fl_electrode_group_1.description = 'ElectrodeGroup 1'
         mock_fl_electrode_group_1.location = 'mPFC'
         mock_fl_electrode_group_1.device = mock_probe
 
         mock_fl_electrode_group_2 = Mock(spec=FlElectrodeGroup)
-        mock_fl_electrode_group_2.name = 'electrode group 1'
+        mock_fl_electrode_group_2.name = '1'
         mock_fl_electrode_group_2.description = 'ElectrodeGroup 2'
         mock_fl_electrode_group_2.location = 'mPFC'
         mock_fl_electrode_group_2.device = mock_device
@@ -34,11 +34,11 @@ class TestElectrodeGroupFactory(TestCase):
         
         self.assertIsNotNone(electrode_group_1)
         self.assertIsNotNone(electrode_group_2)
-        self.assertEqual(electrode_group_1.name, "electrode group 0")
+        self.assertEqual(electrode_group_1.name, "0")
         self.assertEqual(electrode_group_1.description, 'ElectrodeGroup 1')
         self.assertEqual(electrode_group_1.location, 'mPFC')
         self.assertEqual(electrode_group_1.device, mock_probe)
-        self.assertEqual(electrode_group_2.name, 'electrode group 1')
+        self.assertEqual(electrode_group_2.name, '1')
         self.assertEqual(electrode_group_2.description, 'ElectrodeGroup 2')
         self.assertEqual(electrode_group_2.location, 'mPFC')
         self.assertEqual(electrode_group_2.device, mock_device)
@@ -48,7 +48,7 @@ class TestElectrodeGroupFactory(TestCase):
         mock_device = Mock(spec=Device)
 
         mock_fl_nwb_electrode_group_1 = Mock(spec=FlNwbElectrodeGroup)
-        mock_fl_nwb_electrode_group_1.name = 'electrode group 0'
+        mock_fl_nwb_electrode_group_1.name = '0'
         mock_fl_nwb_electrode_group_1.description = 'ElectrodeGroup 1'
         mock_fl_nwb_electrode_group_1.location = 'mPFC'
         mock_fl_nwb_electrode_group_1.device = mock_probe
@@ -59,7 +59,7 @@ class TestElectrodeGroupFactory(TestCase):
         mock_fl_nwb_electrode_group_1.units = 'um'
 
         mock_fl_nwb_electrode_group_2 = Mock(spec=FlNwbElectrodeGroup)
-        mock_fl_nwb_electrode_group_2.name = 'electrode group 1'
+        mock_fl_nwb_electrode_group_2.name = '1'
         mock_fl_nwb_electrode_group_2.description = 'ElectrodeGroup 2'
         mock_fl_nwb_electrode_group_2.location = 'mPFC'
         mock_fl_nwb_electrode_group_2.device = mock_device
@@ -74,7 +74,7 @@ class TestElectrodeGroupFactory(TestCase):
 
         self.assertIsNotNone(nwb_electrode_group_1)
         self.assertIsNotNone(nwb_electrode_group_2)
-        self.assertEqual(nwb_electrode_group_1.name, "electrode group 0")
+        self.assertEqual(nwb_electrode_group_1.name, "0")
         self.assertEqual(nwb_electrode_group_1.description, 'ElectrodeGroup 1')
         self.assertEqual(nwb_electrode_group_1.location, 'mPFC')
         self.assertEqual(nwb_electrode_group_1.device, mock_probe)
@@ -84,7 +84,7 @@ class TestElectrodeGroupFactory(TestCase):
         self.assertEqual(nwb_electrode_group_1.targeted_z, 0.0)
         self.assertEqual(nwb_electrode_group_1.units, 'um')
 
-        self.assertEqual(nwb_electrode_group_2.name, 'electrode group 1')
+        self.assertEqual(nwb_electrode_group_2.name, '1')
         self.assertEqual(nwb_electrode_group_2.description, 'ElectrodeGroup 2')
         self.assertEqual(nwb_electrode_group_2.location, 'mPFC')
         self.assertEqual(nwb_electrode_group_2.device, mock_device)

@@ -16,4 +16,3 @@ class TestNotEmptyValidator(TestCase):
         not_empty_validator = NotEmptyValidator(test_parameter)
         result = not_empty_validator.create_summary()
         self.assertFalse(result.is_valid())
-

@@ -1,6 +1,5 @@
-from unittest import TestCase
-
 from pathlib import Path
+from unittest import TestCase
 
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
 from rec_to_nwb.processing.validation.metadata_validator import MetadataValidator
@@ -25,7 +24,7 @@ class TestInputValidator(TestCase):
         validator_wrong_metadata = MetadataValidator(self.wrong_metadata_path, self.probes_paths)
         validator_wrong_probes = MetadataValidator(self.metadata_path, self.wrong_probes_paths)
 
-        self.assertEqual(validator.create_summary().is_valid(), True)
+        self.assertEqual(validator.create_summary().is_valid, True)
         with self.assertRaises(MissingDataException):
             validator_wrong_metadata.create_summary()
         with self.assertRaises(MissingDataException):

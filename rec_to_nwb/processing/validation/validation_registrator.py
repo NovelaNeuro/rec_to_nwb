@@ -1,5 +1,5 @@
-from rec_to_nwb.processing.validation.validator import Validator
 from rec_to_nwb.processing.exceptions.invalid_input_exception import InvalidInputException
+from rec_to_nwb.processing.validation.validator import Validator
 
 
 class ValidationRegistrator(Validator):
@@ -14,5 +14,5 @@ class ValidationRegistrator(Validator):
     def validate(self):
         for validator in self.validators:
             result = validator.create_summary()
-            if not result.is_valid():
+            if not result.is_valid:
                 raise InvalidInputException("Validation: " + str(type(validator)) + "has failed!")

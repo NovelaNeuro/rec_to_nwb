@@ -65,7 +65,8 @@ disable=R0902,
     # handled by black
     format,
     E1136,
-    R1707
+    R1707,
+    R0201
 
 
 [REPORTS]
