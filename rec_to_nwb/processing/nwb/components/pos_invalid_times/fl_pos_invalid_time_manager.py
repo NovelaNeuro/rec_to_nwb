@@ -25,9 +25,7 @@ class FlPosInvalidTimeManager:
 
     def __build_pos_invalid_times(self, timestamps, period):
         invalid_times = self.__get_pos_invalid_times(timestamps, period)
-        fl_invalid_times = []
-        for gap in invalid_times:
-            fl_invalid_times.append(FlPosInvalidTimeBuilder.build(gap[0], gap[1]))
+        fl_invalid_times = [FlPosInvalidTimeBuilder.build(gap[0], gap[1]) for gap in invalid_times]
         return fl_invalid_times
 
     def __get_pos_valid_times(self, timestamps, period, eps=0.0001):
@@ -51,9 +49,7 @@ class FlPosInvalidTimeManager:
         stop_times = np.append(valid_times[:, 0] - 2 * eps, np.asarray(timestamps[-1] - eps))
         invalid_times = (np.vstack([start_times, stop_times])).transpose()
         valid_intervals = (invalid_times[:, 1] - invalid_times[:, 0]) > min_valid_len
-
         return invalid_times[valid_intervals, :]
-
 
     @staticmethod
     def __calculate_pos_period(timestamps):
@@ -64,10 +60,10 @@ class FlPosInvalidTimeManager:
         len_of_timestamps = len(timestamps)
         while not first_timestamp >= 0:
             number_of_invalid_records_at_start_of_a_file += 1
-            first_timestamp = timestamps[0][number_of_invalid_records_at_start_of_a_file]
+            first_timestamp = timestamps[number_of_invalid_records_at_start_of_a_file]
         while not last_timestamp >= 0:
             number_of_invalid_records_at_end_of_a_file += 1
-            last_timestamp = timestamps[-1][(-1 - number_of_invalid_records_at_end_of_a_file)]
+            last_timestamp = timestamps[(-1 - number_of_invalid_records_at_end_of_a_file)]
         return (last_timestamp - first_timestamp) / \
                (len_of_timestamps - number_of_invalid_records_at_end_of_a_file -
                 number_of_invalid_records_at_start_of_a_file)
