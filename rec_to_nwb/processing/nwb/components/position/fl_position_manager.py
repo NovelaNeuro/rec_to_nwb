@@ -11,4 +11,4 @@ class FlPositionManager:
     def get_fl_position(self):
         position_data = self.fl_position_extractor.get_position()
         timestamps = self.fl_position_extractor.get_timestamps()
-        return self.fl_position_builder.build(position_data, timestamps, conversion)
+        return self.fl_position_builder.build(position_data, timestamps, self.conversion)
