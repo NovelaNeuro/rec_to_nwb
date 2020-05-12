@@ -47,13 +47,13 @@ class TestFlElectrodeGroupManager(TestCase):
         self.assertIsInstance(fl_electrode_groups, list)
 
         self.assertIsInstance(fl_electrode_groups[0], FlElectrodeGroup)
-        self.assertEqual(fl_electrode_groups[0].name, 'electrode group 0')
+        self.assertEqual(fl_electrode_groups[0].name, '0')
         self.assertEqual(fl_electrode_groups[0].description, 'Probe 1')
         self.assertEqual(fl_electrode_groups[0].location, 'mPFC')
         self.assertEqual(fl_electrode_groups[0].device, mock_probe_1)
 
         self.assertIsInstance(fl_electrode_groups[1], FlElectrodeGroup)
-        self.assertEqual(fl_electrode_groups[1].name, 'electrode group 2')
+        self.assertEqual(fl_electrode_groups[1].name, '2')
         self.assertEqual(fl_electrode_groups[1].description, 'Probe 3')
         self.assertEqual(fl_electrode_groups[1].location, 'mPFC')
         self.assertEqual(fl_electrode_groups[1].device, mock_probe_2)
