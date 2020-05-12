@@ -1,8 +1,10 @@
+import numpy as np
+
 from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_invalid_time_pos_timestamp_extractor import \
     FlInvalidTimePosTimestampExtractor
 from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_builder import FlPosInvalidTimeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
-import numpy as np
+
 
 class FlPosInvalidTimeManager:
 
@@ -13,14 +15,13 @@ class FlPosInvalidTimeManager:
         self.period_multiplier = 1.5
         self.pos_timestamps_extractor = FlInvalidTimePosTimestampExtractor(datasets)
 
-    def get_pos_timestamps(self):
-        timestamps = self.pos_timestamps_extractor.get_converted_timestamps()
-        return np.hstack(timestamps)
-
-
     def get_pos_invalid_times(self):
         timestamps = self.get_pos_timestamps()
         return self.__build_pos_invalid_times(timestamps, self.__calculate_pos_period(timestamps))
+
+    def get_pos_timestamps(self):
+        timestamps = self.pos_timestamps_extractor.get_converted_timestamps()
+        return np.hstack(timestamps)
 
     def __build_pos_invalid_times(self, timestamps, period):
         invalid_times = self.__get_pos_invalid_times(timestamps, period)
@@ -33,9 +34,9 @@ class FlPosInvalidTimeManager:
         min_valid_len = 3*eps
         timestamps = timestamps[~np.isnan(timestamps)]
         gaps = np.diff(timestamps) > period * self.period_multiplier
-        gapind = np.asarray(np.where(gaps))
-        gap_start = np.insert(gapind + 1, 0, 0)
-        gap_end = np.append(gapind, np.asarray(len(timestamps)-1))
+        gap_indexes = np.asarray(np.where(gaps))
+        gap_start = np.insert(gap_indexes + 1, 0, 0)
+        gap_end = np.append(gap_indexes, np.asarray(len(timestamps)-1))
         valid_indices = np.vstack([gap_start, gap_end]).transpose()
         valid_times = timestamps[valid_indices]
         valid_times[:, 0] = valid_times[:, 0] + eps
