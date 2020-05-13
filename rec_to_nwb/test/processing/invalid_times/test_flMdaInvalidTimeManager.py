@@ -29,8 +29,8 @@ class TestMdaInvalidTimesManager(TestCase):
         invalid_times = manager.get_mda_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
-        self.assertEqual(invalid_times[0].start_time, 5)
-        self.assertEqual(invalid_times[0].stop_time, 9)
+        self.assertEqual(round(invalid_times[0].start_time, 4), 5.0001)
+        self.assertEqual(round(invalid_times[0].stop_time, 4), 8.9999)
 
     def test_mda_invalid_times_manager_data_with_no_gap(self):
         mock_array = np.ndarray(dtype='float', shape=[10,])
@@ -63,8 +63,8 @@ class TestMdaInvalidTimesManager(TestCase):
         invalid_times = manager.get_mda_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
-        self.assertEqual(invalid_times[0].start_time, 1)
-        self.assertEqual(invalid_times[0].stop_time, 5)
+        self.assertEqual(round(invalid_times[0].start_time, 4), 1.0001)
+        self.assertEqual(round(invalid_times[0].stop_time, 4), 4.9999)
 
     def test_mda_invalid_times_manager_data_with_gap_at_end(self):
         mock_array = np.ndarray(dtype='float', shape=[10, ])
@@ -81,5 +81,5 @@ class TestMdaInvalidTimesManager(TestCase):
         invalid_times = manager.get_mda_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
-        self.assertEqual(invalid_times[0].start_time, 8)
-        self.assertEqual(invalid_times[0].stop_time, 12)
+        self.assertEqual(round(invalid_times[0].start_time, 4), 8.0001)
+        self.assertEqual(round(invalid_times[0].stop_time, 4), 11.9999)
