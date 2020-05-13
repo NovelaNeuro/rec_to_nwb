@@ -1,20 +1,20 @@
 # rec_to_nwb
 # About
-rec_to_nwb is a python conda package for converting SpikeGadgets rec files to NWB files.<br>
-It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` file. It utilizes rec_to_binaries package for preprocessing phase.<br>
-<https://github.com/LorenFrankLab/rec_to_binaries><br>
+rec_to_nwb is a python conda package for converting SpikeGadgets rec files to NWB files.
+It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` file. It utilizes rec_to_binaries package for preprocessing phase.
+<https://github.com/LorenFrankLab/rec_to_binaries>
 
 # Prerequisites
 ## For users
-1. Install Spike Gadgets <br>
+1. Install Spike Gadgets 
    <https://bitbucket.org/mkarlsso/trodes/downloads/>
-2. Add SpikeGadgets to path. <br>
-   If Spike Gadgets is in default location: <br>
+2. Add SpikeGadgets to path. 
+   If Spike Gadgets is in default location: 
    ```bash
    export PATH="$HOME/SpikeGadgets/:$PATH"
    ```
-3. Download miniconda from <br>
-   <https://docs.conda.io/en/latest/miniconda.html> <br>
+3. Download miniconda from 
+   <https://docs.conda.io/en/latest/miniconda.html> 
 4. Install rec_to_nwb package:
    ```bash
    conda install -c conda-forge -c novelakrk rec_to_nwb
@@ -25,15 +25,15 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    ```
 
 ## For developers
-1. Install Spike Gadgets <br>
+1. Install Spike Gadgets 
    <https://bitbucket.org/mkarlsso/trodes/downloads/>
-2. Add SpikeGadgets to path. <br>
+2. Add SpikeGadgets to path. 
    If Spike Gadgets is in default location:
    ```bash
    export PATH="$HOME/SpikeGadgets/:$PATH"
    ```
-3. Download miniconda from<br>
-   <https://docs.conda.io/en/latest/miniconda.html><br>
+3. Download miniconda from
+   <https://docs.conda.io/en/latest/miniconda.html>
 4. clone repository
    ```bash
    git clone https://github.com/NovelaNeuro/rec_to_nwb.git
@@ -48,11 +48,11 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    ```bash
    pip install jupyter notebook
    ```
-7. Documentation can be viewed at <br>
+7. Documentation can be viewed at 
     <https://novelaneuro.github.io/rec_to_nwb-docs/>
 
 # How to use it
-1. Download example notebook file from <br>
+1. Download example notebook file from 
    <https://anaconda.org/NovelaKRK/nwb_generation/notebook>
 2. In terminal navigate to notebook file location
    ```bash
@@ -164,9 +164,9 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    ```
 7. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
 
-8. We provide two class to generate the NWB file. <br>
-* `RawToNWBBuilder` - To generate NWB file from raw data. <br>
-* `NWBFileBuilder` - To generate NWB file from preprocessed data. <br>
+8. We provide two class to generate the NWB file. 
+* `RawToNWBBuilder` - To generate NWB file from raw data. 
+* `NWBFileBuilder` - To generate NWB file from preprocessed data. 
 
 ##### Raw data
 Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder. Next build the NWB using `build_nwb()`.
@@ -184,33 +184,35 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
    ```
    raw_to_nwb_builder arguments
 
-      **data_path** = `string` path to the parent folder of animal_name<br>
+      **data_path** = `string` path to the parent folder of animal_name
 
-      **animal_name** = `string` name of the folder that contain few dates-folders<br>
+      **animal_name** = `string` name of the folder that contain few dates-folders
 
-      **dates** = `list of strings` names of folders that contain experiment data<br>
+      **dates** = `list of strings` names of folders that contain experiment data
 
-      **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml<br>
+      **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml
       
-      **associated_files** = `list of strings` paths to associated files<br>
+      **associated_files** = `list of strings` paths to associated files that will be stored inside 
+                              nwb file. Matching in order with fields from metadata described above each file 
+                              is stored as object with name, description, and content of file as text 
     
-      **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')<br>
+      **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')
 
-      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True)<br>
+      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True)
 
-      **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)<br>
+      **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)
 
-      **extract_lfps** = `boolean` flag specifying if lfp data should be extracted from raw (default False)<br>
+      **extract_lfps** = `boolean` flag specifying if lfp data should be extracted from raw (default False)
 
-      **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True)<br>
+      **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True)
 
-      **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True)<br>
+      **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True)
 
-      **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4)<br>
+      **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4)
       
-      **overwrite** = `boolean`  If true, will overwrite existing files. (default True)<br>
+      **overwrite** = `boolean`  If true, will overwrite existing files. (default True)
       
-      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')`<br>
+      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')`
 
 ##### Preprocessed data
 If you have already preprocessed data or RawToNwb process crashed during building file you can initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
@@ -231,23 +233,25 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
    ```
    NWBFileBuilder arguments
 
-     **data_path** = `string` path to directory containing all experiments data<br>
+     **data_path** = `string` path to directory containing all experiments data
      
-     **animal_name** = `string` directory name which represents animal subject of experiment<br>
+     **animal_name** = `string` directory name which represents animal subject of experiment
      
-     **date** = `string` date of experiment<br>
+     **date** = `string` date of experiment
      
-     **nwb_metadata** = `MetadataManager` object contains metadata about experiment<br>
+     **nwb_metadata** = `MetadataManager` object contains metadata about experiment
     
-     **associated_files** = `list of strings` paths to associated files<br> 
+     **associated_files** = `list of strings` paths to associated files that will be stored inside 
+                             nwb file. Matching in order with fields from metadata described above each file 
+                             is stored as object with name, description, and content of file as text  .
      
-     **process_dio** = `boolean` flag if dio data should be processed<br>
+     **process_dio** = `boolean` flag if dio data should be processed
      
-     **process_mda** = `boolean` flag if mda data should be processed<br>
+     **process_mda** = `boolean` flag if mda data should be processed
      
-     **process_analog** = `boolean` flag if analog data should be processed<br>
+     **process_analog** = `boolean` flag if analog data should be processed
      
-     **output_file** = `string` path and name specifying where .nwb file gonna be written<br>
+     **output_file** = `string` path and name specifying where .nwb file gonna be written
 
 9. Make sure that the data structure in given directory (in that case `test_data`) looks similar to following example:
    ```bash
