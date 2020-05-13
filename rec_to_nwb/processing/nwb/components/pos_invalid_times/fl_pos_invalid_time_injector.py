@@ -4,7 +4,7 @@ class PosInvalidTimeInjector:
     @staticmethod
     def inject_all(gaps, nwb_content):
         nwb_content.create_time_intervals(
-            name='Pos Invalid Times',
+            name='pos_invalid_times',
             description='Invalid times based on pos timestamps',
         )
         for gap in gaps:
