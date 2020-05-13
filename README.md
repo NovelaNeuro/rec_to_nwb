@@ -241,9 +241,7 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
      
      **nwb_metadata** = `MetadataManager` object contains metadata about experiment <br>
     
-     **associated_files** = `list of strings` paths to associated files that will be stored inside <br>
-                             nwb file. Matching in order with fields from metadata described above each file <br>
-                             is stored as object with name, description, and content of file as text <br>
+     **associated_files** = `list of strings` paths to associated files that will be stored inside nwb file. Matching in order with fields from metadata described above each file is stored as object with name, description, and content of file as text <br>
      
      **process_dio** = `boolean` flag if dio data should be processed <br>
      
