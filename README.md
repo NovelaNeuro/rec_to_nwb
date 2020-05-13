@@ -484,7 +484,3 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
    |-- README.md
    ```
 When processing completes, a nwb file is created in the output_path directory
-
-
-
-
