@@ -13,7 +13,7 @@ class AnalogCreator:
         behavioral_events = AnalogCreator.__create_behavioral_events()
         behavioral_events.add_timeseries(
             AnalogCreator.__build_timeseries(
-                name='Analog',
+                name='analog',
                 data=fl_analog.data,
                 timestamps=fl_analog.timestamps))
 
