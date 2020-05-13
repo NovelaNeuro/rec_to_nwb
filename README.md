@@ -192,7 +192,7 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
 
       **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml <br>
       
-      **associated_files** = `list of strings` paths to associated files that will be stored inside nwb file. Matching in order with fields from metadata described above each file is stored as object with name, description, and content of file as text <br>
+      **associated_files** = `list of strings` paths to the associated files that will be stored inside the nwb file. <br>
     
       **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb') <br>
 
@@ -239,7 +239,7 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
      
      **nwb_metadata** = `MetadataManager` object contains metadata about experiment <br>
     
-     **associated_files** = `list of strings` paths to associated files that will be stored inside nwb file. Matching in order with fields from metadata described above each file is stored as object with name, description, and content of file as text <br>
+     **associated_files** = `list of strings` These elements corespond to the metadata.yml, 'associated_files'  section`s. There you should describe in the same order, each file`s name and description <br>
      
      **process_dio** = `boolean` flag if dio data should be processed <br>
      
