@@ -192,9 +192,7 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
 
       **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml <br>
       
-      **associated_files** = `list of strings` paths to associated files that will be stored inside <br>
-                              nwb file. Matching in order with fields from metadata described above each file <br>
-                              is stored as object with name, description, and content of file as text <br>
+      **associated_files** = `list of strings` paths to associated files that will be stored inside nwb file. Matching in order with fields from metadata described above each file is stored as object with name, description, and content of file as text <br>
     
       **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb') <br>
 
