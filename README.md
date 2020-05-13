@@ -89,6 +89,12 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
         task_description: Spatial Bandit,
       }
       ]
+    # Associated files which describe content of files stored inside nwb as text.
+       associated_files:
+     -  name: example_name1
+        description: exmaple description 1
+     -  name: example_name2
+        description: exmaple description 2
     # Din/Dout events which filter out files from DIO data in data directory. Each name has to be unique. Stored in behavioral_events section in output nwb file.
     behavioral_events: 
       - name: Din1
@@ -171,6 +177,7 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
              data_path='../test/test_data/',
              dates=['20190718'],
              nwb_metadata=metadata,
+             associated_files=['../test/test_data/recording_drivers', '../test/test_data/device_software'],
              output_path='/out/nwb'
               )
    builder.build_nwb()
@@ -214,6 +221,7 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
             animal_name='beans',
             date='20190718',
             nwb_metadata=metadata,
+            associated_files=['../test/test_data/recording_drivers', '../test/test_data/device_software'],
             process_dio=True,
             process_mda=True,
             process_analog=True
