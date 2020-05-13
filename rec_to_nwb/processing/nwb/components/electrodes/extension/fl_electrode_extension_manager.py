@@ -10,7 +10,6 @@ from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_exte
 from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_extension_factory import \
     FlElectrodeExtensionFactory
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
-from rec_to_nwb.processing.tools.filter_probe_by_type import filter_probe_by_type
 
 path = os.path.dirname(os.path.abspath(__file__))
 
