@@ -10,7 +10,7 @@ class PositionCreator:
         validate_parameters_not_none(__name__, fl_position)
         validate_parameters_not_none(__name__, fl_position.position_data, fl_position.timestamps)
 
-        position = Position()
+        position = Position(name='position')
         position.create_spatial_series(
             name='series',
             data=fl_position.position_data,

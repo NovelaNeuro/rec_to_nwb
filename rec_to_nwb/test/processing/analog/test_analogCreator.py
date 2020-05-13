@@ -28,5 +28,5 @@ class TestAnalogCreator(TestCase):
     def test_creator_create_analog_successfully(self):
         analog = AnalogCreator.create(self.fl_analog)
         self.assertIsNotNone(analog)
-        self.assertEqual((9, 4), analog.fields['time_series']['Analog'].data.shape)
-        self.assertEqual(4, analog.fields['time_series']['Analog'].timestamps.size)
+        self.assertEqual((9, 4), analog.fields['time_series']['analog'].data.shape)
+        self.assertEqual(4, analog.fields['time_series']['analog'].timestamps.size)
