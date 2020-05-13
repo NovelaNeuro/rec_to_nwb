@@ -2,13 +2,11 @@ import os
 from unittest import TestCase
 from unittest.mock import Mock
 
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
+from testfixtures import should_raise
+
 from rec_to_nwb.processing.exceptions.not_compatible_metadata import NotCompatibleMetadata
 from rec_to_nwb.processing.header.module.header import Header
 from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
-
-from testfixtures import should_raise
-
 from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
     FlElectrodeExtensionManager
 
@@ -23,26 +21,26 @@ class TestFlElectrodeExtensionManager(TestCase):
              'shanks': [
                  {'shank_id': 0,
                   'electrodes': [
-                      {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                      {'id': 1, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                      {'id': 2, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                      {'id': 3, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0}
+                      {'id': 0, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                      {'id': 1, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                      {'id': 2, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                      {'id': 3, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0}
                   ]}
              ]},
             {'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'num_shanks': 4,
              'shanks': [
                  {'shank_id': 0, 'electrodes': [
-                     {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                     {'id': 1, 'rel_x': 40, 'rel_y': 0, 'rel_z': 0}]},
+                     {'id': 0, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                     {'id': 1, 'rel_x': 40.0, 'rel_y': 0.0, 'rel_z': 0.0}]},
                  {'shank_id': 1, 'electrodes': [
-                     {'id': 32, 'rel_x': 0, 'rel_y': 300, 'rel_z': 0},
-                     {'id': 33, 'rel_x': 40, 'rel_y': 300, 'rel_z': 0}]},
+                     {'id': 32, 'rel_x': 0.0, 'rel_y': 300.0, 'rel_z': 0.0},
+                     {'id': 33, 'rel_x': 40.0, 'rel_y': 300.0, 'rel_z': 0.0}]},
                  {'shank_id': 2, 'electrodes': [
-                     {'id': 64, 'rel_x': 0, 'rel_y': 600, 'rel_z': 0},
-                     {'id': 65, 'rel_x': 40, 'rel_y': 600, 'rel_z': 0}, ]},
+                     {'id': 64, 'rel_x': 0.0, 'rel_y': 600.0, 'rel_z': 0.0},
+                     {'id': 65, 'rel_x': 40.0, 'rel_y': 600.0, 'rel_z': 0.0}, ]},
                  {'shank_id': 3, 'electrodes': [
-                     {'id': 96, 'rel_x': 0, 'rel_y': 900, 'rel_z': 0},
-                     {'id': 97, 'rel_x': 40, 'rel_y': 900, 'rel_z': 0}
+                     {'id': 96, 'rel_x': 0.0, 'rel_y': 900.0, 'rel_z': 0.0},
+                     {'id': 97, 'rel_x': 40.0, 'rel_y': 900.0, 'rel_z': 0.0}
                  ]}
              ]}
         ]
@@ -69,9 +67,9 @@ class TestFlElectrodeExtensionManager(TestCase):
         fl_electrode_extension = fl_electrode_extension_manager.get_fl_electrodes_extension(mock_electrodes_valid_map)
 
         self.assertIsInstance(fl_electrode_extension, FlElectrodeExtension)
-        self.assertEqual(fl_electrode_extension.rel_x, [0, 0, 40, 0, 0])
-        self.assertEqual(fl_electrode_extension.rel_y, [0, 0, 0, 600, 900])
-        self.assertEqual(fl_electrode_extension.rel_z, [0, 0, 0, 0, 0])
+        self.assertEqual(fl_electrode_extension.rel_x, [0.0, 0.0, 40.0, 0.0, 0.0])
+        self.assertEqual(fl_electrode_extension.rel_y, [0.0, 0.0, 0.0, 600.0, 900.0])
+        self.assertEqual(fl_electrode_extension.rel_z, [0.0, 0.0, 0.0, 0.0, 0.0])
         self.assertEqual(fl_electrode_extension.hw_chan[0], 85)
         self.assertEqual(fl_electrode_extension.hw_chan[-1], 102)
         self.assertEqual(fl_electrode_extension.ntrode_id, [1, 2, 2, 3, 4])
@@ -87,26 +85,26 @@ class TestFlElectrodeExtensionManager(TestCase):
              'shanks': [
                  {'shank_id': 0,
                   'electrodes': [
-                      {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                      {'id': 1, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                      {'id': 2, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                      {'id': 3, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0}
+                      {'id': 0, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                      {'id': 1, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                      {'id': 2, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                      {'id': 3, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0}
                   ]}
              ]},
             {'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'num_shanks': 4,
              'shanks': [
                  {'shank_id': 0, 'electrodes': [
-                     {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                     {'id': 1, 'rel_x': 40, 'rel_y': 0, 'rel_z': 0}]},
+                     {'id': 0, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                     {'id': 1, 'rel_x': 40.0, 'rel_y': 0.0, 'rel_z': 0.0}]},
                  {'shank_id': 1, 'electrodes': [
-                     {'id': 32, 'rel_x': 0, 'rel_y': 300, 'rel_z': 0},
-                     {'id': 33, 'rel_x': 40, 'rel_y': 300, 'rel_z': 0}]},
+                     {'id': 32, 'rel_x': 0.0, 'rel_y': 300.0, 'rel_z': 0.0},
+                     {'id': 33, 'rel_x': 40.0, 'rel_y': 300.0, 'rel_z': 0.0}]},
                  {'shank_id': 2, 'electrodes': [
-                     {'id': 64, 'rel_x': 0, 'rel_y': 600, 'rel_z': 0},
-                     {'id': 65, 'rel_x': 40, 'rel_y': 600, 'rel_z': 0}, ]},
+                     {'id': 64, 'rel_x': 0.0, 'rel_y': 600.0, 'rel_z': 0.0},
+                     {'id': 65, 'rel_x': 40.0, 'rel_y': 600.0, 'rel_z': 0.0}, ]},
                  {'shank_id': 3, 'electrodes': [
-                     {'id': 96, 'rel_x': 0, 'rel_y': 900, 'rel_z': 0},
-                     {'id': 97, 'rel_x': 40, 'rel_y': 900, 'rel_z': 0}
+                     {'id': 96, 'rel_x': 0.0, 'rel_y': 900.0, 'rel_z': 0.0},
+                     {'id': 97, 'rel_x': 40.0, 'rel_y': 900.0, 'rel_z': 0.0}
                  ]}
              ]}
         ]
