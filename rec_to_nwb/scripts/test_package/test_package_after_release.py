@@ -12,8 +12,7 @@ _DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/reconfig_header.xml')
 class TestPackageAfterRelease(TestCase):
 
     def setUp(self):
-        cmd = subprocess.check_output(str(path)+'/create_conda.sh')
-        print(cmd)
+        subprocess.call('create_conda.sh')
 
     def test_build_and_read_nwb(self):
         metadata = MetadataManager(
@@ -23,7 +22,7 @@ class TestPackageAfterRelease(TestCase):
              str(path) + '/probe3.yml'])
         builder = RawToNWBBuilder(
             animal_name='beans',
-            data_path='C:/Workspace/Python/fldatamigration/fl/test/test_data/',
+            data_path='C:/Workspace/Python/rec_to_nwb/rec_to_nwb/test/test_data/',
             dates=['20190718'],
             nwb_metadata=metadata,
             output_path='',
