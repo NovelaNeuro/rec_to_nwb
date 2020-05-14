@@ -184,33 +184,33 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
    ```
    raw_to_nwb_builder arguments
 
-      **data_path** = `string` path to the parent folder of animal_name<br>
+      **data_path** = `string` path to the parent folder of animal_name <br>
 
-      **animal_name** = `string` name of the folder that contain few dates-folders<br>
+      **animal_name** = `string` name of the folder that contain few dates-folders <br>
 
-      **dates** = `list of strings` names of folders that contain experiment data<br>
+      **dates** = `list of strings` names of folders that contain experiment data <br>
 
-      **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml<br>
+      **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml <br>
       
-      **associated_files** = `list of strings` paths to associated files<br>
+      **associated_files** = `list of strings` These elements corespond to the metadata.yml, 'associated_files'  section`s. There you should describe in the same order, each file`s name and description <br>
     
-      **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb')<br>
+      **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb') <br>
 
-      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True)<br>
+      **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True) <br>
 
-      **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False)<br>
+      **extract_spikes** = `boolean` flag specifying if spikes data should be extracted from raw (default False) <br>
 
-      **extract_lfps** = `boolean` flag specifying if lfp data should be extracted from raw (default False)<br>
+      **extract_lfps** = `boolean` flag specifying if lfp data should be extracted from raw (default False) <br>
 
-      **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True)<br>
+      **extract_dio** = `boolean` flag specifying if dio data should be extracted from raw (default True) <br>
 
-      **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True)<br>
+      **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True) <br>
 
-      **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4)<br>
+      **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4) <br>
       
-      **overwrite** = `boolean`  If true, will overwrite existing files. (default True)<br>
+      **overwrite** = `boolean`  If true, will overwrite existing files. (default True) <br>
       
-      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')`<br>
+      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')` <br>
 
 ##### Preprocessed data
 If you have already preprocessed data or RawToNwb process crashed during building file you can initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
@@ -231,23 +231,23 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
    ```
    NWBFileBuilder arguments
 
-     **data_path** = `string` path to directory containing all experiments data<br>
+     **data_path** = `string` path to directory containing all experiments data <br>
      
-     **animal_name** = `string` directory name which represents animal subject of experiment<br>
+     **animal_name** = `string` directory name which represents animal subject of experiment <br>
      
-     **date** = `string` date of experiment<br>
+     **date** = `string` date of experiment <br>
      
-     **nwb_metadata** = `MetadataManager` object contains metadata about experiment<br>
+     **nwb_metadata** = `MetadataManager` object contains metadata about experiment <br>
     
-     **associated_files** = `list of strings` paths to associated files<br> 
+     **associated_files** = `list of strings` These elements corespond to the metadata.yml, 'associated_files'  section`s. There you should describe in the same order, each file`s name and description <br>
      
-     **process_dio** = `boolean` flag if dio data should be processed<br>
+     **process_dio** = `boolean` flag if dio data should be processed <br>
      
-     **process_mda** = `boolean` flag if mda data should be processed<br>
+     **process_mda** = `boolean` flag if mda data should be processed <br>
      
-     **process_analog** = `boolean` flag if analog data should be processed<br>
+     **process_analog** = `boolean` flag if analog data should be processed <br>
      
-     **output_file** = `string` path and name specifying where .nwb file gonna be written<br>
+     **output_file** = `string` path and name specifying where .nwb file gonna be written <br>
 
 9. Make sure that the data structure in given directory (in that case `test_data`) looks similar to following example:
    ```bash
@@ -484,7 +484,3 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
    |-- README.md
    ```
 When processing completes, a nwb file is created in the output_path directory
-
-
-
-
