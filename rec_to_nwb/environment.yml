@@ -51,5 +51,7 @@ dependencies:
       - xmldiff
       - rec-to-binaries==0.3.0.dev0
 
-
-
+#  Docs
+  - recommonmark
+  - sphinx-autoapi
+  - sphinx_rtd_theme
