@@ -2,21 +2,16 @@ import unittest
 from datetime import datetime
 from unittest.mock import Mock
 
-from pynwb.ecephys import ElectrodeGroup
-
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
-
-from rec_to_nwb.processing.exceptions.not_compatible_metadata import NotCompatibleMetadata
-from rec_to_nwb.processing.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from rec_to_nwb.processing.nwb.components.electrodes.extension.electrode_extension_injector import ElectrodeExtensionInjector
-from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
-from rec_to_nwb.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
-
 from dateutil.tz import tzlocal
-from hdmf.common import VectorData
 from pynwb import NWBFile
+from pynwb.ecephys import ElectrodeGroup
 from testfixtures import should_raise
 
+from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
+from rec_to_nwb.processing.nwb.components.electrodes.electrode_creator import ElectrodesCreator
+from rec_to_nwb.processing.nwb.components.electrodes.extension.electrode_extension_injector import \
+    ElectrodeExtensionInjector
+from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_extension import FlElectrodeExtension
 from rec_to_nwb.processing.nwb.components.electrodes.fl_electrodes import FlElectrode
 
 
@@ -57,9 +52,9 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         [electrode_creator.create(nwb_file, fl_electrode) for fl_electrode in mock_fl_electrodes]
 
         mock_fl_electrode_extension = Mock(spec=FlElectrodeExtension)
-        mock_fl_electrode_extension.rel_x = [0, 0, 0, 0]
-        mock_fl_electrode_extension.rel_y = [1, 1, 1, 1]
-        mock_fl_electrode_extension.rel_z = [2, 2, 2, 2]
+        mock_fl_electrode_extension.rel_x = [0.0, 0.0, 0.0, 0.0]
+        mock_fl_electrode_extension.rel_y = [1.0, 1.0, 1.0, 1.0]
+        mock_fl_electrode_extension.rel_z = [2.0, 2.0, 2.0, 2.0]
         mock_fl_electrode_extension.hw_chan = [0, 1, 2, 3]
         mock_fl_electrode_extension.ntrode_id = [11, 11, 22, 22]
         mock_fl_electrode_extension.channel_id = [1, 1, 2, 3]
@@ -102,25 +97,25 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         self.assertEqual(nwb_file.electrodes[3, 12], False)
 
         # metadata_extension - rel_x
-        self.assertIsInstance(nwb_file.electrodes[0, 13], int)
-        self.assertEqual(nwb_file.electrodes[0, 13], 0)
-        self.assertEqual(nwb_file.electrodes[1, 13], 0)
-        self.assertEqual(nwb_file.electrodes[2, 13], 0)
-        self.assertEqual(nwb_file.electrodes[3, 13], 0)
+        self.assertIsInstance(nwb_file.electrodes[0, 13], float)
+        self.assertEqual(nwb_file.electrodes[0, 13], 0.0)
+        self.assertEqual(nwb_file.electrodes[1, 13], 0.0)
+        self.assertEqual(nwb_file.electrodes[2, 13], 0.0)
+        self.assertEqual(nwb_file.electrodes[3, 13], 0.0)
 
         # metadata_extension - rel_y
-        self.assertIsInstance(nwb_file.electrodes[0, 14], int)
-        self.assertEqual(nwb_file.electrodes[0, 14], 1)
-        self.assertEqual(nwb_file.electrodes[1, 14], 1)
-        self.assertEqual(nwb_file.electrodes[2, 14], 1)
-        self.assertEqual(nwb_file.electrodes[3, 14], 1)
+        self.assertIsInstance(nwb_file.electrodes[0, 14], float)
+        self.assertEqual(nwb_file.electrodes[0, 14], 1.0)
+        self.assertEqual(nwb_file.electrodes[1, 14], 1.0)
+        self.assertEqual(nwb_file.electrodes[2, 14], 1.0)
+        self.assertEqual(nwb_file.electrodes[3, 14], 1.0)
 
         # metadata_extension - rel_z
-        self.assertIsInstance(nwb_file.electrodes[0, 15], int)
-        self.assertEqual(nwb_file.electrodes[0, 15], 2)
-        self.assertEqual(nwb_file.electrodes[1, 15], 2)
-        self.assertEqual(nwb_file.electrodes[2, 15], 2)
-        self.assertEqual(nwb_file.electrodes[3, 15], 2)
+        self.assertIsInstance(nwb_file.electrodes[0, 15], float)
+        self.assertEqual(nwb_file.electrodes[0, 15], 2.0)
+        self.assertEqual(nwb_file.electrodes[1, 15], 2.0)
+        self.assertEqual(nwb_file.electrodes[2, 15], 2.0)
+        self.assertEqual(nwb_file.electrodes[3, 15], 2.0)
 
         # metadata_extension - proba_shank
         self.assertIsInstance(nwb_file.electrodes[0, 16], int)
@@ -145,9 +140,9 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
             file_create_date=datetime(2017, 4, 15, 12, tzinfo=tzlocal())
         )
         mock_fl_electrode_extension = Mock(spec=FlElectrodeExtension)
-        mock_fl_electrode_extension.rel_x = [0, 0, 0, 0]
-        mock_fl_electrode_extension.rel_y = [1, 1, 1, 1]
-        mock_fl_electrode_extension.rel_z = [2, 2, 2, 2]
+        mock_fl_electrode_extension.rel_x = [0.0, 0.0, 0.0, 0.0]
+        mock_fl_electrode_extension.rel_y = [1.0, 1.0, 1.0, 1.0]
+        mock_fl_electrode_extension.rel_z = [2.0, 2.0, 2.0, 2.0]
         mock_fl_electrode_extension.hw_chan = [0, 1, 2, 3]
         mock_fl_electrode_extension.ntrode_id = [11, 11, 22, 22]
         mock_fl_electrode_extension.channel_id = [1, 2, 3, 3]
