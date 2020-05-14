@@ -24,24 +24,24 @@ class TestFlElectrodeManager(TestCase):
              'shanks': [
                  {'shank_id': 0,
                   'electrodes': [
-                      {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                      {'id': 1, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                      {'id': 2, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                      {'id': 3, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0}]}]},
+                      {'id': 0, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                      {'id': 1, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                      {'id': 2, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                      {'id': 3, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0}]}]},
             {'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'num_shanks': 4,
              'shanks': [
                  {'shank_id': 0, 'electrodes': [
-                     {'id': 0, 'rel_x': 0, 'rel_y': 0, 'rel_z': 0},
-                     {'id': 1, 'rel_x': 40, 'rel_y': 0, 'rel_z': 0}]},
+                     {'id': 0, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                     {'id': 1, 'rel_x': 40.0, 'rel_y': 0.0, 'rel_z': 0.0}]},
                  {'shank_id': 1, 'electrodes': [
-                     {'id': 32, 'rel_x': 0, 'rel_y': 300, 'rel_z': 0},
-                     {'id': 33, 'rel_x': 40, 'rel_y': 300, 'rel_z': 0}]},
+                     {'id': 32, 'rel_x': 0.0, 'rel_y': 300.0, 'rel_z': 0.0},
+                     {'id': 33, 'rel_x': 40.0, 'rel_y': 300.0, 'rel_z': 0.0}]},
                  {'shank_id': 2, 'electrodes': [
-                     {'id': 64, 'rel_x': 0, 'rel_y': 600, 'rel_z': 0},
-                     {'id': 65, 'rel_x': 40, 'rel_y': 600, 'rel_z': 0}, ]},
+                     {'id': 64, 'rel_x': 0.0, 'rel_y': 600.0, 'rel_z': 0.0},
+                     {'id': 65, 'rel_x': 40.0, 'rel_y': 600.0, 'rel_z': 0.0}, ]},
                  {'shank_id': 3, 'electrodes': [
-                     {'id': 96, 'rel_x': 0, 'rel_y': 900, 'rel_z': 0},
-                     {'id': 97, 'rel_x': 40, 'rel_y': 900, 'rel_z': 0}]}]}
+                     {'id': 96, 'rel_x': 0.0, 'rel_y': 900.0, 'rel_z': 0.0},
+                     {'id': 97, 'rel_x': 40.0, 'rel_y': 900.0, 'rel_z': 0.0}]}]}
         ]
 
         mock_eg_1 = Mock(spec=ElectrodeGroup)
