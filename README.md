@@ -146,13 +146,13 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
       - shank_id: 0 # Shank_id has to be unique
         electrodes: # List of electrodes that is used to initialize the electrode_table in output nwb file
           - id: 0 # Electrode id has to be unique
-            rel_x: 0
-            rel_y: 0
-            rel_z: 0
+            rel_x: 0.0
+            rel_y: 0.0
+            rel_z: 0.0
           - id: 1
-            rel_x: 0
-            rel_y: 0
-            rel_z: 0
+            rel_x: 0.0
+            rel_y: 0.0
+            rel_z: 0.0
    ```
 6. Set up paths to metadata and probe `yaml` files, which corresponds to the experiment you are going to process.
    ```bash
