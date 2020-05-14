@@ -39,7 +39,7 @@ class TestPackageAfterRelease(TestCase):
             data_path='../rec_to_nwb/rec_to_nwb/test/test_data/',
             dates=['20190718'],
             nwb_metadata=metadata,
-            output_path='test',
+            output_path='',
             associated_files=[],
             extract_spikes=False,
             extract_mda=True,
