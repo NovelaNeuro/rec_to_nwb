@@ -129,7 +129,7 @@ shanks:
         rel_z: 0.0
       - id: 30
         rel_x: 1200.0
-        rel_y: 300
+        rel_y: 300.0
         rel_z: 0.0
       - id: 31
         rel_x: 1240.0
