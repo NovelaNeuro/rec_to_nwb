@@ -1,8 +1,6 @@
 import os
 from unittest import TestCase
 
-from ndx_fl_novela.apparatus import Apparatus
-
 from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 

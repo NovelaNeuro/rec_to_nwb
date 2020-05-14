@@ -97,25 +97,25 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         self.assertEqual(nwb_file.electrodes[3, 12], False)
 
         # metadata_extension - rel_x
-        self.assertIsInstance(nwb_file.electrodes[0, 13], int)
-        self.assertEqual(nwb_file.electrodes[0, 13], 0)
-        self.assertEqual(nwb_file.electrodes[1, 13], 0)
-        self.assertEqual(nwb_file.electrodes[2, 13], 0)
-        self.assertEqual(nwb_file.electrodes[3, 13], 0)
+        self.assertIsInstance(nwb_file.electrodes[0, 13], float)
+        self.assertEqual(nwb_file.electrodes[0, 13], 0.0)
+        self.assertEqual(nwb_file.electrodes[1, 13], 0.0)
+        self.assertEqual(nwb_file.electrodes[2, 13], 0.0)
+        self.assertEqual(nwb_file.electrodes[3, 13], 0.0)
 
         # metadata_extension - rel_y
-        self.assertIsInstance(nwb_file.electrodes[0, 14], int)
-        self.assertEqual(nwb_file.electrodes[0, 14], 1)
-        self.assertEqual(nwb_file.electrodes[1, 14], 1)
-        self.assertEqual(nwb_file.electrodes[2, 14], 1)
-        self.assertEqual(nwb_file.electrodes[3, 14], 1)
+        self.assertIsInstance(nwb_file.electrodes[0, 14], float)
+        self.assertEqual(nwb_file.electrodes[0, 14], 1.0)
+        self.assertEqual(nwb_file.electrodes[1, 14], 1.0)
+        self.assertEqual(nwb_file.electrodes[2, 14], 1.0)
+        self.assertEqual(nwb_file.electrodes[3, 14], 1.0)
 
         # metadata_extension - rel_z
-        self.assertIsInstance(nwb_file.electrodes[0, 15], int)
-        self.assertEqual(nwb_file.electrodes[0, 15], 2)
-        self.assertEqual(nwb_file.electrodes[1, 15], 2)
-        self.assertEqual(nwb_file.electrodes[2, 15], 2)
-        self.assertEqual(nwb_file.electrodes[3, 15], 2)
+        self.assertIsInstance(nwb_file.electrodes[0, 15], float)
+        self.assertEqual(nwb_file.electrodes[0, 15], 2.0)
+        self.assertEqual(nwb_file.electrodes[1, 15], 2.0)
+        self.assertEqual(nwb_file.electrodes[2, 15], 2.0)
+        self.assertEqual(nwb_file.electrodes[3, 15], 2.0)
 
         # metadata_extension - proba_shank
         self.assertIsInstance(nwb_file.electrodes[0, 16], int)
