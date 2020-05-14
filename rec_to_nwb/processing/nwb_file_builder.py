@@ -3,6 +3,7 @@ import os
 import uuid
 
 from pynwb import NWBHDF5IO, NWBFile
+from pynwb.epoch import TimeIntervals
 from pynwb.file import Subject
 
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
@@ -51,6 +52,8 @@ from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_
 from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_injector import PosInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
+from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_injector import PosValidTimeInjector
+from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_manager import FlPosValidTimeManager
 from rec_to_nwb.processing.nwb.components.position.fl_position_manager import FlPositionManager
 from rec_to_nwb.processing.nwb.components.position.position_creator import PositionCreator
 from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
@@ -210,6 +213,10 @@ class NWBFileBuilder:
         self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager(
             datasets=self.datasets
         )
+        self.fl_pos_valid_time_manager = FlPosValidTimeManager(
+            datasets=self.datasets
+        )
+
 
     def extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -276,7 +283,7 @@ class NWBFileBuilder:
             self.__build_and_inject_analog(nwb_content)
 
         self.build_and_inject_pos_invalid_times(nwb_content)
-
+        self.build_and_inject_pos_valid_times(nwb_content)
         return nwb_content
 
     def write(self, content):
@@ -439,13 +446,19 @@ class NWBFileBuilder:
         EpochsInjector.inject(epochs, nwb_content)
 
     def build_and_inject_mda_invalid_times(self, nwb_content):
-        logger.info('MDA valid times: Building')
+        logger.info('MDA invalid times: Building')
         mda_invalid_times = self.fl_mda_invalid_time_manager.get_mda_invalid_times()
-        logger.info('MDA valid times: Injecting')
+        logger.info('MDA invalid times: Injecting')
         MdaInvalidTimeInjector.inject_all(mda_invalid_times, nwb_content)
 
     def build_and_inject_pos_invalid_times(self, nwb_content):
-        logger.info('POS valid times: Building')
+        logger.info('POS invalid times: Building')
         pos_invalid_times = self.fl_pos_invalid_time_manager.get_pos_invalid_times()
-        logger.info('POS valid times: Injecting')
+        logger.info('POS invalid times: Injecting')
         PosInvalidTimeInjector.inject_all(pos_invalid_times, nwb_content)
+
+    def build_and_inject_pos_valid_times(self, nwb_content):
+        logger.info('POS valid times: Building')
+        pos_valid_times = self.fl_pos_valid_time_manager.get_pos_valid_times()
+        logger.info('POS valid times: Injecting')
+        PosValidTimeInjector.inject(pos_valid_times, nwb_content)
