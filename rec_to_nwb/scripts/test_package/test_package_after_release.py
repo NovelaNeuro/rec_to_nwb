@@ -30,13 +30,13 @@ class TestPackageAfterRelease(TestCase):
 
     def test_build_and_read_nwb(self):
         metadata = MetadataManager(
-            str(path) + '../rec_to_nwb/rec_to_nwb/test/processing/res/metadata.yml',
-            [str(path) + '../rec_to_nwb/rec_to_nwb/test/processing/res/probe1.yml',
-             str(path) + '../rec_to_nwb/rec_to_nwb/test/processing/res/probe2.yml',
-             str(path) + '../rec_to_nwb/rec_to_nwb/test/processing/res/probe3.yml'])
+            str(path) + '/../rec_to_nwb/rec_to_nwb/test/processing/res/metadata.yml',
+            [str(path) + '/../rec_to_nwb/rec_to_nwb/test/processing/res/probe1.yml',
+             str(path) + '/../rec_to_nwb/rec_to_nwb/test/processing/res/probe2.yml',
+             str(path) + '/../rec_to_nwb/rec_to_nwb/test/processing/res/probe3.yml'])
         builder = RawToNWBBuilder(
             animal_name='beans',
-            data_path='../rec_to_nwb/rec_to_nwb/test/test_data/',
+            data_path='/../rec_to_nwb/rec_to_nwb/test/test_data/',
             dates=['20190718'],
             nwb_metadata=metadata,
             output_path='',
