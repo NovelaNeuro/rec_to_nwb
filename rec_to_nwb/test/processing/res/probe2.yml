@@ -9,131 +9,131 @@ shanks:
     electrodes:
       - id: 0
         rel_x: 20
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 1
         rel_x: 60
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 2
         rel_x: 100
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 3
         rel_x: 140
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 4
         rel_x: 180
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 5
         rel_x: 220
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 6
         rel_x: 260
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 7
         rel_x: 300
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 8
         rel_x: 340
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 9
         rel_x: 380
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 10
         rel_x: 420
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 11
         rel_x: 460
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 12
         rel_x: 500
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 13
         rel_x: 540
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 14
         rel_x: 580
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
       - id: 15
         rel_x: 620
-        rel_y: 0
-        rel_z: 0
+        rel_y: 0.0
+        rel_z: 0.0
   - shank_id: 1
     electrodes:
       - id: 16
         rel_x: 20
         rel_y: 250
-        rel_z: 0
+        rel_z: 0.0
       - id: 17
         rel_x: 60
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 18
         rel_x: 100
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 19
         rel_x: 140
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 20
         rel_x: 180
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 21
         rel_x: 220
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 22
         rel_x: 260
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 23
         rel_x: 300
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 24
         rel_x: 340
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 25
         rel_x: 380
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 26
         rel_x: 420
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 27
         rel_x: 460
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 28
         rel_x: 500
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 29
         rel_x: 540
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 30
         rel_x: 580
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
       - id: 31
         rel_x: 620
         rel_y: 300
-        rel_z: 0
+        rel_z: 0.0
