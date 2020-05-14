@@ -18,10 +18,12 @@ _DEFAULT_ANALOG_EXPORT_ARGS = (
 class TestPackageAfterRelease(TestCase):
     """Class created to normalize testing.
     1. Copy 'test package' folder to the same catalog as the project is.
-    2. Run test_setUpConda method.
-    3. Set Python interpreter to: path_to_this_folder/test_package/env/python.exe.
+    2. Comment imports [ pynwb, MetadataManager, RawToNWBBuilder ]
+    3. Run test_setUpConda method.
+    4. Set Python interpreter to: path_to_this_folder/test_package/env/python.exe.
     You can run test_setUpInterpreter, then just copy path to your IDE interpreter settings.
-    4. Run test_build_and_read_nwb
+    5. Uncomment imports [ pynwb, MetadataManager, RawToNWBBuilder ]
+    6. Run test_build_and_read_nwb
     """
 
     def test_setUpConda(self):
@@ -60,4 +62,3 @@ class TestPackageAfterRelease(TestCase):
 
         if os.path.isfile('beans20190718.nwb'):
             os.remove('beans20190718.nwb')
-
