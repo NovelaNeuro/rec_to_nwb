@@ -1,6 +1,5 @@
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
-
 from rec_to_nwb.processing.tools.filter_probe_by_type import filter_probe_by_type
+from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlElectrodeExtensionFactory:
@@ -68,11 +67,11 @@ class FlElectrodeExtensionFactory:
         return probe_shank
 
     @classmethod
-    def create_probe_channel(cls, ntrode_metadata):
+    def create_probe_electrode(cls, ntrode_metadata):
         validate_parameters_not_none(__name__, ntrode_metadata)
 
-        probe_channel = []
+        probe_electrode = []
         for ntrode in ntrode_metadata:
-            [probe_channel.append(ntrode['map'][map]) for map in ntrode['map']]
-        return probe_channel
+            [probe_electrode.append(ntrode['map'][map]) for map in ntrode['map']]
+        return probe_electrode
 
