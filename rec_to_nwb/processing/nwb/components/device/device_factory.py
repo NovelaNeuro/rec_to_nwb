@@ -25,7 +25,7 @@ class DeviceFactory:
             probe_type=fl_probe.metadata['probe_type'],
             units=fl_probe.metadata['units'],
             probe_description=fl_probe.metadata['probe_description'],
-            num_shanks=fl_probe.metadata['num_shanks'],
+            num_shanks=len(fl_probe.shanks),
             contact_side_numbering=fl_probe.metadata['contact_side_numbering'],
             contact_size=fl_probe.metadata['contact_size'],
         )

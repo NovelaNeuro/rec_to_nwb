@@ -77,7 +77,6 @@ class TestMetadataManager(TestCase):
 
         self.assertEqual(nwb_metadata.probes[0]['probe_type'], 'tetrode_12.5')
         self.assertEqual(nwb_metadata.probes[0]['probe_description'], 'four wire electrode')
-        self.assertEqual(nwb_metadata.probes[0]['num_shanks'], 1)
         self.assertEqual(nwb_metadata.probes[0]['contact_side_numbering'], True)
         self.assertEqual(nwb_metadata.probes[0]['contact_size'], 12.5)
 
