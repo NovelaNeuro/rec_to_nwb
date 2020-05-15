@@ -29,8 +29,7 @@ class NTrodeValidator(Validator):
         ntrodes = self.metadata['ntrode electrode group channel map']
         if len(ntrodes) == 0:
             raise InvalidMetadataException("There are no ntrodes defined in metadata.yml file.")
-        if \
-                self.header is None or \
+        if self.header is None or \
                 self.header.configuration.spike_configuration is None or \
                 self.header.configuration.spike_configuration.spike_n_trodes is None:
             raise InvalidHeaderException("Rec header does not contain spike_n_trodes data")
@@ -38,7 +37,6 @@ class NTrodeValidator(Validator):
         spike_ntrodes = self.header.configuration.spike_configuration.spike_n_trodes
         ntrodes_num = len(ntrodes)
         spike_ntrodes_num = len(spike_ntrodes)
-
         self.validate_ntrode_metadata_with_probe_metadata(self.metadata, self.probes_metadata)
 
         return NTrodeValidationSummary(ntrodes_num, spike_ntrodes_num)
@@ -54,7 +52,7 @@ class NTrodeValidator(Validator):
             )
             if electrodes_in_probe != electrodes_in_group:
                 raise InvalidMetadataException(
-                    'Incomatible ntrode_metadata to probe_schema.' +
+                    'Ntrode definition in metadata is not compatible with probe schema.' +
                     'Probe_type: ' + str(electrode_group['device_type']) +
                     ' electrodes in this probe_type: ' + str(electrodes_in_probe) +
                     '. Ntrode_metadata for electrode_group of id: ' + str(electrode_group['id']) +
