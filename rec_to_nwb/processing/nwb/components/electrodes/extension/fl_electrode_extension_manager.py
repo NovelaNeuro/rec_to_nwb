@@ -52,7 +52,7 @@ class FlElectrodeExtensionManager:
             probes_metadata=probes_metadata,
             electrode_groups_metadata=electrode_groups_metadata
         )
-        probe_channel = FlElectrodeExtensionFactory.create_probe_channel(
+        probe_electrode = FlElectrodeExtensionFactory.create_probe_electrode(
             ntrode_metadata=ntrode_metadata
         )
 
@@ -66,7 +66,7 @@ class FlElectrodeExtensionManager:
             channel_id,
             bad_channels,
             probe_shank,
-            probe_channel
+            probe_electrode
         )
 
         return FlElectrodeExtensionBuilder.build(
@@ -78,7 +78,7 @@ class FlElectrodeExtensionManager:
             channel_id=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, channel_id),
             bad_channels=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, bad_channels),
             probe_shank=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, probe_shank),
-            probe_channel=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, probe_channel),
+            probe_electrode=self.__filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, probe_electrode),
         )
 
     @staticmethod
