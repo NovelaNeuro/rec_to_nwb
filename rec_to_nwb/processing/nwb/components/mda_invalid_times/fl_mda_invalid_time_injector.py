@@ -1,7 +1,7 @@
 from pynwb.epoch import TimeIntervals
 
 
-class MdaValidTimeInjector:
+class MdaInvalidTimeInjector:
     @staticmethod
     def inject(valid_times, nwb_content):
         intervals = TimeIntervals(
