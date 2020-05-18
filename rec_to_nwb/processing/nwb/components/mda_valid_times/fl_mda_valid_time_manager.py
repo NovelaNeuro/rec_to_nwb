@@ -15,6 +15,7 @@ class FlMdaValidTimeManager:
         self.datasets = datasets
 
         self.period_multiplier = 1.5
+        self.period = 1E9 / sampling_rate
         self.fl_valid_time_mda_extractor = FlValidTimeMdaTimestampExtractor()
 
     # def __get_mda_valid_times_from_single_epoch(self, timestamps, period, eps=0.0001):
@@ -31,10 +32,9 @@ class FlMdaValidTimeManager:
         fl_invalid_times = [FlMdaValidTimeBuilder.build(gap[0], gap[1]) for gap in valid_times]
         return fl_invalid_times
 
-    def __get_mda_valid_times(self, timestamps):
+    def __get_mda_valid_times(self, timestamps, eps=0.0001):
         min_valid_len = 1
         all_valid_times = []
-        gap_between_datasets = False
         last_dataset_last_timestamp = None
         for i, single_epoch_timestamps in enumerate(timestamps):
             single_epoch_timestamps = single_epoch_timestamps[~np.isnan(single_epoch_timestamps)]
@@ -45,7 +45,7 @@ class FlMdaValidTimeManager:
             valid_indices = np.vstack([gap_start, gap_end]).transpose()
             valid_times = single_epoch_timestamps[valid_indices]
             valid_intervals = (valid_times[:, 1] - valid_times[:, 0]) > min_valid_len
-            continuous_time_dict = FlValidTimeMdaTimestampExtractor.get_continuous_time_dict(self.datasets[i])
+            continuous_time_dict = self.fl_valid_time_mda_extractor.get_continuous_time_dict(self.datasets[i])
             converted_intervals = np.ndarray(shape=np.shape(valid_times[valid_intervals, :]), dtype='float')
             converted_intervals[:, 0] = TimestampConverter.convert_timestamps(
                 continuous_time_dict,
@@ -55,42 +55,29 @@ class FlMdaValidTimeManager:
                 continuous_time_dict,
                 valid_times[valid_intervals, 1]
             )
+            last_epoch_last_timestamp = 0
+            if last_dataset_last_timestamp:
+                if not self.check_for_gap_between_datasets(
+                        [single_epoch_timestamps[-1],
+                        last_dataset_last_timestamp]
+                ):
+                    if all_valid_times[-1][-1, 1] == converted_intervals[0, 0]:
+                        all_valid_times[-1][-1, 1] = converted_intervals[0, 1]
+                    elif last_epoch_last_timestamp == converted_intervals[0, 0]:
+                        all_valid_times[-1][-1, 1] = single_epoch_timestamps[-1]
+                    elif single_epoch_timestamps[-1] == all_valid_times[-1][-1, 1]:
+                        all_valid_times[-1][-1, 1] = last_epoch_last_timestamp
+            last_dataset_last_timestamp = single_epoch_timestamps[-1]
             all_valid_times.append(
                 converted_intervals
             )
-            # if last_dataset_last_timestamp:
-            #     if self.check_for_gap_between_datasets(
-            #             1E9 / self.sampling_rate,
-            #             [last_dataset_last_timestamp,
-            #              self.fl_valid_time_mda_extractor.get_sample_count_from_single_epoch(epoch)]):
-            #         gap_between_datasets = True
-            # for i, lower_bound in enumerate(converted_lower_bounds):
-            #     valid_times.append(FlMdaValidTimeBuilder.build(
-            #         lower_bound,
-            #         converted_upper_bounds[i],
-            #     )
-            #     )
-            #     if i == 0 and gap_between_datasets:
-            #         gap_between_datasets = self.__add_gap_between_epochs(gap_between_datasets, valid_times, eps)
-            #     last_dataset_last_timestamp = valid_times[-1].stop_time
         stacked_valid_times = np.hstack(all_valid_times)
-
+        stacked_valid_times[:, 0] = stacked_valid_times[:, 0] + eps
+        stacked_valid_times[:, 1] = stacked_valid_times[:, 1] - eps
         return stacked_valid_times
 
-    def __add_gap_between_epochs(self, gap_between_datasets, valid_times, eps):
-        if valid_times[-1].start_time == valid_times[-2].stop_time - eps:
-            first_gap_from_current_epoch = valid_times.pop()
-            last_gap_from_previous_dataset = valid_times.pop()
-            valid_times.append(FlMdaValidTimeBuilder.build(
-                first_gap_from_current_epoch.start_time,
-                last_gap_from_previous_dataset.stop_time
-            )
-            )
-            gap_between_datasets = False
-        return gap_between_datasets
-
-    def check_for_gap_between_datasets(self, expected_time_between_timestamps, timestamps):
-        if timestamps[0] + expected_time_between_timestamps < timestamps[1]:
+    def check_for_gap_between_datasets(self, timestamps):
+        if timestamps[0] + (self.period * self.period_multiplier) < timestamps[1]:
             return True
         return False
 

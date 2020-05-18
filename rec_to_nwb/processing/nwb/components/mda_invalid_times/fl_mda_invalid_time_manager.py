@@ -62,7 +62,7 @@ class FlMdaInvalidTimeManager:
         return gap_between_datasets
 
     def check_for_gap_between_datasets(self, expected_time_between_timestamps, timestamps):
-        if timestamps[0] + expected_time_between_timestamps < timestamps[1]:
+        if timestamps[0] + (expected_time_between_timestamps * self.period_multiplier) < timestamps[1]:
             return True
         return False
 
