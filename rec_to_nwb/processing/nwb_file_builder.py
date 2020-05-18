@@ -50,6 +50,8 @@ from rec_to_nwb.processing.nwb.components.mda.fl_mda_manager import FlMdaManager
 from rec_to_nwb.processing.nwb.components.mda.mda_injector import MdaInjector
 from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_injector import MdaInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
+from rec_to_nwb.processing.nwb.components.mda_valid_times.fl_mda_valid_time_injector import MdaValidTimeInjector
+from rec_to_nwb.processing.nwb.components.mda_valid_times.fl_mda_valid_time_manager import FlMdaValidTimeManager
 from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_injector import PosInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_injector import PosValidTimeInjector
@@ -207,6 +209,10 @@ class NWBFileBuilder:
         )
 
         self.fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(
+            sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
+            datasets=self.datasets
+        )
+        self.fl_mda_valid_time_manager = FlMdaValidTimeManager(
             sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
             datasets=self.datasets
         )
@@ -447,15 +453,15 @@ class NWBFileBuilder:
 
     def build_and_inject_mda_invalid_times(self, nwb_content):
         logger.info('MDA invalid times: Building')
-        mda_invalid_times = self.fl_mda_invalid_time_manager.get_mda_invalid_times()
+        mda_invalid_times = self.fl_mda_valid_time_manager.get_mda_valid_times()
         logger.info('MDA invalid times: Injecting')
-        MdaInvalidTimeInjector.inject_all(mda_invalid_times, nwb_content)
+        MdaValidTimeInjector.inject(mda_invalid_times, nwb_content)
 
     def build_and_inject_pos_invalid_times(self, nwb_content):
         logger.info('POS invalid times: Building')
         pos_invalid_times = self.fl_pos_invalid_time_manager.get_pos_invalid_times()
         logger.info('POS invalid times: Injecting')
-        PosInvalidTimeInjector.inject_all(pos_invalid_times, nwb_content)
+        PosInvalidTimeInjector.inject(pos_invalid_times, nwb_content)
 
     def build_and_inject_pos_valid_times(self, nwb_content):
         logger.info('POS valid times: Building')

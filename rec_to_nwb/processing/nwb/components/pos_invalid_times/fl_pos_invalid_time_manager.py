@@ -16,10 +16,10 @@ class FlPosInvalidTimeManager:
         self.pos_timestamps_extractor = FlInvalidTimePosTimestampExtractor(datasets)
 
     def get_pos_invalid_times(self):
-        timestamps = self.get_pos_timestamps()
+        timestamps = self.__get_pos_timestamps()
         return self.__build_pos_invalid_times(timestamps, self.__calculate_pos_period(timestamps))
 
-    def get_pos_timestamps(self):
+    def __get_pos_timestamps(self):
         timestamps = self.pos_timestamps_extractor.get_converted_timestamps()
         return np.hstack(timestamps)
 
