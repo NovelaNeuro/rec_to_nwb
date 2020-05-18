@@ -1,21 +1,19 @@
+from pynwb.epoch import TimeIntervals
+
 
 class PosInvalidTimeInjector:
 
     @staticmethod
-    def inject_all(gaps, nwb_content):
-        nwb_content.create_time_intervals(
+    @staticmethod
+    def inject(valid_times, nwb_content):
+        intervals = TimeIntervals(
             name='pos_invalid_times',
             description='Invalid times based on pos timestamps',
         )
-        for gap in gaps:
-            PosInvalidTimeInjector.inject(gap, nwb_content)
+        for interval in valid_times:
+            intervals.add_interval(interval.start_time, interval.stop_time)
+        nwb_content.add_time_intervals(intervals)
 
-    @staticmethod
-    def inject(gap, nwb_content):
-        """insert invalid times to nwb file"""
-        nwb_content.add_invalid_time_interval(
-            start_time=gap.start_time,
-            stop_time=gap.stop_time
-        )
+
 
 
