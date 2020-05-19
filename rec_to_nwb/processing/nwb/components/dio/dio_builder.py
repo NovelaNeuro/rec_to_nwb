@@ -19,7 +19,7 @@ class DioBuilder:
                 self.__build_timeseries(
                     name=dio_event['name'],
                     description=dio_event['description'],
-                    data=self.data[dio_event['name']]))
+                    data=self.data[dio_event['description']]))
         return behavioral_events
 
     @classmethod

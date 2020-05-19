@@ -33,44 +33,44 @@ associated_files:
     description: exmaple description 2
 
 behavioral_events:
-  - name: Din1
-    description: Poke1
-  - name: Din2
-    description: Poke2
-  - name: Din3
-    description: Poke3
-  - name: Din4
-    description: Poke4
-  - name: Din5
-    description: Poke5
-  - name: Din6
-    description: Poke6
-  - name: Din13
-    description: Camera_Ticks
-  - name: Dout1
-    description: Light1
-  - name: Dout2
-    description: Light2
-  - name: Dout3
-    description: Light3
-  - name: Dout4
-    description: Light4
-  - name: Dout5
-    description: Light5
-  - name: Dout6
-    description: Light6
-  - name: Dout7
-    description: Pump1
-  - name: Dout8
-    description: Pump2
-  - name: Dout9
-    description: Pump3
-  - name: Dout10
-    description: Pump4
-  - name: Dout11
-    description: Pump5
-  - name: Dout12
-    description: Pump6
+  - description: Din1
+    name: Poke1
+  - description: Din2
+    name: Poke2
+  - description: Din3
+    name: Poke3
+  - description: Din4
+    name: Poke4
+  - description: Din5
+    name: Poke5
+  - description: Din6
+    name: Poke6
+  - description: Din13
+    name: Camera_Ticks
+  - description: Dout1
+    name: Light1
+  - description: Dout2
+    name: Light2
+  - description: Dout3
+    name: Light3
+  - description: Dout4
+    name: Light4
+  - description: Dout5
+    name: Light5
+  - description: Dout6
+    name: Light6
+  - description: Dout7
+    name: Pump1
+  - description: Dout8
+    name: Pump2
+  - description: Dout9
+    name: Pump3
+  - description: Dout10
+    name: Pump4
+  - description: Dout11
+    name: Pump5
+  - description: Dout12
+    name: Pump6
 
 device:
   name:
