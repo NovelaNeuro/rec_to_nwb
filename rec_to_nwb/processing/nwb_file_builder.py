@@ -460,4 +460,4 @@ class NWBFileBuilder:
         logger.info('POS valid times: Building')
         pos_valid_times = self.fl_pos_valid_time_manager.get_pos_valid_times()
         logger.info('POS valid times: Injecting')
-        PosValidTimeInjector.inject(pos_valid_times, nwb_content)
+        PosValidTimeInjector.inject_all(pos_valid_times, nwb_content)
