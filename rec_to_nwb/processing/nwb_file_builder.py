@@ -219,7 +219,6 @@ class NWBFileBuilder:
         )
 
 
-
     def extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
