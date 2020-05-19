@@ -7,7 +7,7 @@ class MdaInvalidTimeInjector:
     def inject_all(invalid_times, nwb_content):
         intervals = TimeIntervals(
             name='pos_invalid_times',
-            description='Invalid times based on pos timestamps',
+            description='Invalid times based on mda timestamps',
         )
         for single_interval in invalid_times:
             MdaInvalidTimeInjector.inject(single_interval, intervals)
@@ -15,6 +15,9 @@ class MdaInvalidTimeInjector:
 
     @staticmethod
     def inject(single_interval, intervals):
-        intervals.add_interval(single_interval.start_time, single_interval.stop_time)
+        intervals.add_interval(
+            single_interval.start_time,
+            single_interval.stop_time
+        )
 
 
