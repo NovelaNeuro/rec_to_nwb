@@ -14,7 +14,10 @@ class MdaInvalidTimeInjector:
 
     @staticmethod
     def inject(single_interval, intervals):
-        intervals.add_interval(single_interval.start_time, single_interval.stop_time)
+        intervals.add_interval(
+            single_interval.start_time,
+            single_interval.stop_time
+        )
 
 
 

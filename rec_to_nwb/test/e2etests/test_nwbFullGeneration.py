@@ -11,7 +11,7 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-@unittest.skip("NWB file creation")
+# @unittest.skip("NWB file creation")
 class TestNwbFullGeneration(unittest.TestCase):
 
     @classmethod
@@ -23,7 +23,7 @@ class TestNwbFullGeneration(unittest.TestCase):
              str(path) + '/processing/res/probe3.yml'])
 
         cls.nwb_builder = NWBFileBuilder(
-            data_path=str(path) + '/test_data/',
+            data_path='C:/Users/wbodo/Desktop/resy/test/',
             animal_name='beans',
             date='20190718',
             nwb_metadata=cls.metadata,
@@ -31,9 +31,9 @@ class TestNwbFullGeneration(unittest.TestCase):
                 (str(path) + '/processing/res/test_text_files/test1_file'),
                 (str(path) + '/processing/res/test_text_files/test2_file'),
             ],
-            process_dio=True,
+            process_dio=False,
             process_mda=True,
-            process_analog=True
+            process_analog=False
         )
 
     def test_generate_nwb(self):
@@ -44,7 +44,7 @@ class TestNwbFullGeneration(unittest.TestCase):
     @should_raise(TypeError)
     def test_nwb_file_builder_failed_due_to_incorrect_type_of_parameters(self):
         NWBFileBuilder(
-            data_path=str(path) + '/test_data/',
+            data_path='C:/Users/wbodo/Desktop/resy/test/',
             animal_name='beans',
             date=123,
             nwb_metadata=self.metadata,
@@ -52,15 +52,15 @@ class TestNwbFullGeneration(unittest.TestCase):
                 (str(path) + '/processing/res/test_text_files/test1_file'),
                 (str(path) + '/processing/res/test_text_files/test2_file'),
             ],
-            process_dio=True,
-            process_mda=True,
-            process_analog=True
+            process_dio=False,
+            process_mda=False,
+            process_analog=False
         )
 
     @should_raise(TypeError)
     def test_nwb_file_builder_failed_due_to_None_parameter(self):
         NWBFileBuilder(
-            data_path=str(path) + '/test_data/',
+            data_path='C:/Users/wbodo/Desktop/resy/test/',
             animal_name='beans',
             date=None,
             nwb_metadata=self.metadata,
@@ -68,13 +68,13 @@ class TestNwbFullGeneration(unittest.TestCase):
                 (str(path) + '/processing/res/test_text_files/test1_file'),
                 (str(path) + '/processing/res/test_text_files/test2_file'),
             ],
-            process_dio=True,
-            process_mda=True,
-            process_analog=True
+            process_dio=False,
+            process_mda=False,
+            process_analog=False
         )
 
-    @classmethod
-    def tearDownClass(cls):
-        del cls.nwb_builder
-        if os.path.isfile('output.nwb'):
-            os.remove('output.nwb')
+    # @classmethod
+    # def tearDownClass(cls):
+    #     del cls.nwb_builder
+    #     if os.path.isfile('output.nwb'):
+    #         os.remove('output.nwb')

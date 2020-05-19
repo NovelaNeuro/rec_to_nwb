@@ -6,7 +6,7 @@ class PosValidTimeInjector:
     def inject_all(valid_times, nwb_content):
         intervals = TimeIntervals(
             name='pos_valid_times',
-            description='Valid times based on mda timestamps',
+            description='Valid times based on pos timestamps',
         )
         for single_interval in valid_times:
             PosValidTimeInjector.inject(single_interval, intervals)
@@ -14,4 +14,7 @@ class PosValidTimeInjector:
 
     @staticmethod
     def inject(single_interval, intervals):
-        intervals.add_interval(single_interval.start_time, single_interval.stop_time)
+        intervals.add_interval(
+            single_interval.start_time,
+            single_interval.stop_time
+        )
