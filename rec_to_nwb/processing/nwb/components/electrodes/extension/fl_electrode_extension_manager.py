@@ -53,7 +53,8 @@ class FlElectrodeExtensionManager:
             electrode_groups_metadata=electrode_groups_metadata
         )
         probe_electrode = FlElectrodeExtensionFactory.create_probe_electrode(
-            ntrode_metadata=ntrode_metadata
+            probes_metadata=probes_metadata,
+            electrode_groups_metadata=electrode_groups_metadata
         )
 
         self.__validate_extension_length(
