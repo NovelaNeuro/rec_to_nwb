@@ -24,8 +24,7 @@ class FlMdaValidTimeManager:
 
     def __build_mda_valid_times(self, timestamps):
         valid_times = self.__get_mda_valid_times(timestamps)
-        fl_invalid_times = [FlMdaValidTimeBuilder.build(gap[0], gap[1]) for gap in valid_times]
-        return fl_invalid_times
+        return [FlMdaValidTimeBuilder.build(gap[0], gap[1]) for gap in valid_times]
 
     def __get_mda_valid_times(self, timestamps, eps=0.0001):
         min_valid_len = 1
