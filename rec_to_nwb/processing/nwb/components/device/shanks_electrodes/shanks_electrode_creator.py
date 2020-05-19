@@ -13,7 +13,7 @@ class ShanksElectrodeCreator:
 
         return ShanksElectrode(
             name=str(fl_shanks_electrode.shanks_electrode_id),
-            rel_x=fl_shanks_electrode.rel_x,
-            rel_y=fl_shanks_electrode.rel_y,
-            rel_z=fl_shanks_electrode.rel_z,
+            rel_x=float(fl_shanks_electrode.rel_x),
+            rel_y=float(fl_shanks_electrode.rel_y),
+            rel_z=float(fl_shanks_electrode.rel_z),
         )
