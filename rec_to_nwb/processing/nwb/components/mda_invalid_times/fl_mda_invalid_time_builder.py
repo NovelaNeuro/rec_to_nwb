@@ -11,5 +11,3 @@ class FlMdaInvalidTimeBuilder:
             start_time=start_time,
             stop_time=stop_time
         )
-
-

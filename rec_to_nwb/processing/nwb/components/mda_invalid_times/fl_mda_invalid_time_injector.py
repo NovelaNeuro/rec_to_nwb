@@ -19,5 +19,3 @@ class MdaInvalidTimeInjector:
             single_interval.start_time,
             single_interval.stop_time
         )
-
-

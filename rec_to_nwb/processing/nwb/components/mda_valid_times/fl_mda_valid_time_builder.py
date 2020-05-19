@@ -8,5 +8,3 @@ class FlMdaValidTimeBuilder:
     @beartype
     def build(start_time: float, stop_time: float):
         return FlMdaValidTime(start_time, stop_time)
-
-
