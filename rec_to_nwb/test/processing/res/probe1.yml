@@ -1,7 +1,6 @@
 probe_type: tetrode_12.5
 units: 'um'
 probe_description: 'four wire electrode'
-num_shanks: 1
 contact_side_numbering: true
 contact_size: 12.5
 shanks:

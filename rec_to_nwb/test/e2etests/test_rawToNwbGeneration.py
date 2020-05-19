@@ -29,8 +29,8 @@ class TestRawToNWBGeneration(unittest.TestCase):
             dates=['20190718'],
             nwb_metadata=self.metadata,
             associated_files=[
-                (str(path) + '/processing/res/test_text_files/test1_file'),
-                (str(path) + '/processing/res/test_text_files/test2_file'),
+                (str(path) + '/../processing/res/test_text_files/test1_file'),
+                (str(path) + '/../processing/res/test_text_files/test2_file'),
             ],
             output_path='',
             extract_spikes=False,
@@ -54,9 +54,9 @@ class TestRawToNWBGeneration(unittest.TestCase):
             dates=['20190718'],
             nwb_metadata=None,
             associated_files=[
-                (str(path) + '/processing/res/20191212_bill_02_r1.stateScriptLog'),
-                (str(path) + '/processing/res/V4_delay_no_home_chinatown_3_4_20.sc'),
-                (str(path) + '/processing/res/V4_no_home_light_cue_chinatown_3_4_20.py')
+                (str(path) + '/../processing/res/20191212_bill_02_r1.stateScriptLog'),
+                (str(path) + '/../processing/res/V4_delay_no_home_chinatown_3_4_20.sc'),
+                (str(path) + '/../processing/res/V4_no_home_light_cue_chinatown_3_4_20.py')
             ]
         )
 
