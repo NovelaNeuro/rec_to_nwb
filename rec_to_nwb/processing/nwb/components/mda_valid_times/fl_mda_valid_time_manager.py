@@ -18,11 +18,6 @@ class FlMdaValidTimeManager:
         self.period = 1E9 / sampling_rate
         self.fl_valid_time_mda_extractor = FlValidTimeMdaTimestampExtractor()
 
-    # def __get_mda_valid_times_from_single_epoch(self, timestamps, period, eps=0.0001):
-    #     min_valid_len = 3*eps
-    #
-    #     valid_times[:, 0] = valid_times[:, 0] + eps
-    #     valid_times[:, 1] = valid_times[:, 1] - eps
     def get_mda_valid_times(self):
         timestamps = [self.fl_valid_time_mda_extractor.get_sample_count_from_single_epoch(epoch) for epoch in self.datasets]
         return self.__build_mda_valid_times(timestamps)
@@ -57,7 +52,7 @@ class FlMdaValidTimeManager:
             )
             last_epoch_last_timestamp = 0
             if last_dataset_last_timestamp:
-                if not self.check_for_gap_between_datasets(
+                if not self.__check_for_gap_between_datasets(
                         [single_epoch_timestamps[-1],
                         last_dataset_last_timestamp]
                 ):
@@ -76,28 +71,10 @@ class FlMdaValidTimeManager:
         stacked_valid_times[:, 1] = stacked_valid_times[:, 1] - eps
         return stacked_valid_times
 
-    def check_for_gap_between_datasets(self, timestamps):
+    def __check_for_gap_between_datasets(self, timestamps):
         if timestamps[0] + (self.period * self.period_multiplier) < timestamps[1]:
             return True
         return False
 
-    def get_valid_times_from_single_epoch(self, epoch):
-        gaps_upper_bounds, gaps_lower_bounds = self.get_valid_times_from_single_epoch_raw_timestamps(
-            self.fl_valid_time_mda_extractor.get_sample_count_from_single_epoch(epoch))
-        return gaps_lower_bounds, gaps_upper_bounds
-
-    def get_valid_times_from_single_epoch_raw_timestamps(self, sample_count):
-        lower_bounds = (sample_count + 1)[:-1]
-        upper_bounds = (sample_count - 1)[1:]
-        mask = lower_bounds <= upper_bounds
-        upper_bounds, lower_bounds = upper_bounds[mask] + 1, lower_bounds[mask] -1
-        filtered_lower_bounds = lower_bounds
-        filtered_upper_bounds = upper_bounds
-        for element in upper_bounds:
-            filtered_lower_bounds = filtered_lower_bounds[filtered_lower_bounds != element]
-        for element in lower_bounds:
-            filtered_upper_bounds = filtered_upper_bounds[filtered_upper_bounds != element]
-        return filtered_upper_bounds, filtered_lower_bounds
-
-    def convert_timestamps_in_valid_times_from_single_epoch(self, timestamps, continuous_time_dict):
+    def __convert_timestamps_in_valid_times_from_single_epoch(self, timestamps, continuous_time_dict):
         return TimestampConverter.convert_timestamps(continuous_time_dict, timestamps)

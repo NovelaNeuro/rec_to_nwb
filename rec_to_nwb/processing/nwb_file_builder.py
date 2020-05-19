@@ -283,6 +283,7 @@ class NWBFileBuilder:
         if self.process_mda:
             self.__build_and_inject_mda(nwb_content)
             self.build_and_inject_mda_invalid_times(nwb_content)
+            self.build_and_inject_mda_valid_times(nwb_content)
 
         if self.process_analog:
             self.__build_and_inject_analog(nwb_content)
@@ -452,9 +453,15 @@ class NWBFileBuilder:
 
     def build_and_inject_mda_invalid_times(self, nwb_content):
         logger.info('MDA invalid times: Building')
-        mda_invalid_times = self.fl_mda_valid_time_manager.get_mda_valid_times()
+        mda_invalid_times = self.fl_mda_invalid_time_manager.get_mda_invalid_times()
         logger.info('MDA invalid times: Injecting')
-        MdaValidTimeInjector.inject(mda_invalid_times, nwb_content)
+        MdaInvalidTimeInjector.inject(mda_invalid_times, nwb_content)
+
+    def build_and_inject_mda_valid_times(self, nwb_content):
+        logger.info('MDA valid times: Building')
+        mda_valid_times = self.fl_mda_valid_time_manager.get_mda_valid_times()
+        logger.info('MDA valid times: Injecting')
+        MdaValidTimeInjector.inject(mda_valid_times, nwb_content)
 
     def build_and_inject_pos_invalid_times(self, nwb_content):
         logger.info('POS invalid times: Building')
