@@ -4,12 +4,12 @@ from pynwb.epoch import TimeIntervals
 class PosInvalidTimeInjector:
 
     @staticmethod
-    def inject(valid_times, nwb_content):
+    def inject(invalid_times, nwb_content):
         intervals = TimeIntervals(
-            name='pos_inalid_times',
+            name='pos_invalid_times',
             description='Invalid times based on pos timestamps',
         )
-        for interval in valid_times:
+        for interval in invalid_times:
             intervals.add_interval(interval.start_time, interval.stop_time)
         nwb_content.add_time_intervals(intervals)
 
