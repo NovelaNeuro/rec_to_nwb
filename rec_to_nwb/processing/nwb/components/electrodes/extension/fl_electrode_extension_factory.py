@@ -14,9 +14,9 @@ class FlElectrodeExtensionFactory:
 
             for shank in probe_metadata['shanks']:
                 for electrode in shank['electrodes']:
-                    rel_x.append(electrode['rel_x'])
-                    rel_y.append(electrode['rel_y'])
-                    rel_z.append(electrode['rel_z'])
+                    rel_x.append(float(electrode['rel_x']))
+                    rel_y.append(float(electrode['rel_y']))
+                    rel_z.append(float(electrode['rel_z']))
         return {'rel_x': rel_x, 'rel_y': rel_y, 'rel_z': rel_z}
 
     @classmethod
