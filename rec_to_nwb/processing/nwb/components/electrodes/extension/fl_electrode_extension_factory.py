@@ -68,7 +68,7 @@ class FlElectrodeExtensionFactory:
 
     @classmethod
     def create_probe_electrode(cls, probes_metadata, electrode_groups_metadata):
-        validate_parameters_not_none(__name__, probes_metadata)
+        validate_parameters_not_none(__name__, probes_metadata, electrode_groups_metadata)
 
         probe_electrode = []
         for electrode_group_metadata in electrode_groups_metadata:
