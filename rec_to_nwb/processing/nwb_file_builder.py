@@ -1,3 +1,5 @@
+from datetime import datetime
+import pytz
 import logging.config
 import os
 import uuid
@@ -230,6 +232,7 @@ class NWBFileBuilder:
             lab=self.metadata['lab'],
             institution=self.metadata['institution'],
             session_start_time=self.session_time_extractor.get_session_start_time(),
+            timestamps_reference_time=datetime.fromtimestamp(0, pytz.utc),
             identifier=str(uuid.uuid1()),
             session_id=self.metadata['session_id'],
             notes=self.link_to_notes,
