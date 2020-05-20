@@ -49,7 +49,7 @@ dependencies:
   - ndx-fl-novela==0.0.003
   - pip:
       - xmldiff
-      - rec-to-binaries==0.3.0.dev0
+      - rec-to-binaries==0.4.2.dev0
 
 #  Docs
   - recommonmark
