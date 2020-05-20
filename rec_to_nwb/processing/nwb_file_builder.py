@@ -1,9 +1,9 @@
-from datetime import datetime
-import pytz
 import logging.config
 import os
 import uuid
+from datetime import datetime
 
+import pytz
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
@@ -160,7 +160,7 @@ class NWBFileBuilder:
 
         self.task_builder = TaskBuilder(self.metadata)
 
-        self.fl_position_manager = FlPositionManager(self.datasets, str(self.metadata['meter_per_pixel']))
+        self.fl_position_manager = FlPositionManager(self.datasets, str(self.metadata['meters_per_pixel']))
         self.position_creator = PositionCreator()
 
         self.fl_shanks_electrode_manager = FlShanksElectrodeManager(self.probes, self.metadata['electrode groups'])
