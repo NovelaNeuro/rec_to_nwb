@@ -54,12 +54,11 @@ class FlMdaValidTimeManager:
 
     def __get_valid_times(self, gap_end, gap_start, single_epoch_timestamps):
         valid_indices = np.vstack([gap_start, gap_end]).transpose()
-        valid_times = single_epoch_timestamps[valid_indices]
-        return valid_times
+        return single_epoch_timestamps[valid_indices]
 
     def __get_valid_intervals(self, min_valid_len, valid_times):
-        valid_intervals = (valid_times[:, 1] - valid_times[:, 0]) > min_valid_len
-        return valid_intervals
+        return (valid_times[:, 1] - valid_times[:, 0]) > min_valid_len
+
 
     def __get_converted_intervals(self, i, valid_intervals, valid_times):
         continuous_time_dict = self.fl_valid_time_mda_extractor.get_continuous_time_dict(self.datasets[i])
@@ -98,7 +97,8 @@ class FlMdaValidTimeManager:
             return True
         return False
 
-    def __get_stacked_valid_times(self, all_valid_times, eps):
+    @staticmethod
+    def __get_stacked_valid_times(all_valid_times, eps):
         stacked_valid_times = np.hstack(all_valid_times)
         stacked_valid_times[:, 0] = stacked_valid_times[:, 0] + eps
         stacked_valid_times[:, 1] = stacked_valid_times[:, 1] - eps
