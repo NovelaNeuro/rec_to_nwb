@@ -1,4 +1,4 @@
-version = '0.1.008.dev'
+version = '0.1.009'
 print(version)
 
 from setuptools import setup, find_packages
