@@ -88,6 +88,10 @@ class NWBFileBuilder:
         process_pos_valid_times (boolean): flag if pos valid times should be processed
         process_pos_invalid_times (boolean): flag if pos invalid times should be processed
         output_file (string): path and name specifying where .nwb file gonna be written
+
+    Methods:
+        build()
+        write()
     """
 
     @beartype
@@ -165,7 +169,7 @@ class NWBFileBuilder:
         validation_registrator.register(TaskValidator(self.metadata['tasks']))
         validation_registrator.validate()
 
-        self.extract_datasets(animal_name, date)
+        self.__extract_datasets(animal_name, date)
 
         self.corrupted_data_manager = CorruptedDataManager(self.metadata)
 
@@ -231,11 +235,17 @@ class NWBFileBuilder:
             datasets=self.datasets
         )
 
-    def extract_datasets(self, animal_name, date):
+    def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
 
     def build(self):
+        """Build NWBFile
+
+        Returns:
+              NWBFile: Return NWBFile content
+        """
+
         logger.info('Building components for NWB')
 
         nwb_content = NWBFile(
@@ -296,21 +306,21 @@ class NWBFileBuilder:
             self.__build_and_inject_analog(nwb_content)
 
         if self.process_mda_valid_times:
-            self.build_and_inject_mda_valid_times(nwb_content)
+            self.__build_and_inject_mda_valid_times(nwb_content)
 
         if self.process_mda_invalid_times:
-            self.build_and_inject_mda_invalid_times(nwb_content)
+            self.__build_and_inject_mda_invalid_times(nwb_content)
 
         if self.process_pos_valid_times:
-            self.build_and_inject_pos_valid_times(nwb_content)
+            self.__build_and_inject_pos_valid_times(nwb_content)
 
         if self.process_pos_invalid_times:
-            self.build_and_inject_pos_invalid_times(nwb_content)
+            self.__build_and_inject_pos_invalid_times(nwb_content)
 
         return nwb_content
 
     def write(self, content):
-        """write nwb file handler with colected data into actual file"""
+        """Write nwb file handler with colected data into actual file"""
 
         logger.info('Writing down content to ' + self.output_file)
         with NWBHDF5IO(path=self.output_file, mode='w') as nwb_fileIO:
@@ -468,23 +478,23 @@ class NWBFileBuilder:
         epochs = fl_epochs_manager.get_epochs()
         EpochsInjector.inject(epochs, nwb_content)
 
-    def build_and_inject_mda_valid_times(self, nwb_content):
+    def __build_and_inject_mda_valid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
         logger.info('MDA valid times: Injecting')
 
-    def build_and_inject_mda_invalid_times(self, nwb_content):
+    def __build_and_inject_mda_invalid_times(self, nwb_content):
         logger.info('MDA invalid times: Building')
         mda_invalid_times = self.fl_mda_invalid_time_manager.get_mda_invalid_times()
         logger.info('MDA invalid times: Injecting')
         MdaInvalidTimeInjector.inject_all(mda_invalid_times, nwb_content)
 
-    def build_and_inject_pos_invalid_times(self, nwb_content):
+    def __build_and_inject_pos_invalid_times(self, nwb_content):
         logger.info('POS invalid times: Building')
         pos_invalid_times = self.fl_pos_invalid_time_manager.get_pos_invalid_times()
         logger.info('POS invalid times: Injecting')
         PosInvalidTimeInjector.inject_all(pos_invalid_times, nwb_content)
 
-    def build_and_inject_pos_valid_times(self, nwb_content):
+    def __build_and_inject_pos_valid_times(self, nwb_content):
         logger.info('POS valid times: Building')
         pos_valid_times = self.fl_pos_valid_time_manager.get_pos_valid_times()
         logger.info('POS valid times: Injecting')
