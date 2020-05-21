@@ -226,7 +226,8 @@ class NWBFileBuilder:
 
         self.fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(
             sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
-            datasets=self.datasets
+            period_multiplier=1.5
+        #     ToDo hardcoded? maybe add it as param
         )
         self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager(
             datasets=self.datasets
@@ -456,7 +457,8 @@ class NWBFileBuilder:
         fl_associated_files = self.fl_associated_files_manager.get_fl_associated_files()
         logger.info('AssociatedFiles: Creating')
         associated_files = [
-            self.associated_files_creator.create(fl_associated_file) for fl_associated_file in fl_associated_files
+            self.associated_files_creator.create(fl_associated_file)
+            for fl_associated_file in fl_associated_files
         ]
         logger.info('AssociatedFiles: Injecting')
         self.associated_files_injector.inject(associated_files, 'behavior', nwb_content)
@@ -475,7 +477,9 @@ class NWBFileBuilder:
     def __build_and_inject_epochs(self, nwb_content):
         logger.info('Epochs: Building')
         fl_epochs_manager = FlEpochsManager(self.datasets)
+        logger.info('Epochs: Creating')
         epochs = fl_epochs_manager.get_epochs()
+        logger.info('Epochs: Injecting')
         EpochsInjector.inject(epochs, nwb_content)
 
     def __build_and_inject_mda_valid_times(self, nwb_content):
@@ -499,3 +503,7 @@ class NWBFileBuilder:
         pos_valid_times = self.fl_pos_valid_time_manager.get_pos_valid_times()
         logger.info('POS valid times: Injecting')
         PosValidTimeInjector.inject_all(pos_valid_times, nwb_content)
+
+    def build_and_append_mda_invalid_times(self):
+        with NWBHDF5IO(path=self.output_file, mode='a+') as nwb_file_io:
+            nwbfile = nwb_file_io.read()
