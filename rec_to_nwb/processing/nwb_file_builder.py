@@ -248,7 +248,6 @@ class NWBFileBuilder:
         """
 
         logger.info('Building components for NWB')
-
         nwb_content = NWBFile(
             session_description=self.metadata['session description'],
             experimenter=self.metadata['experimenter name'],
@@ -340,7 +339,8 @@ class NWBFileBuilder:
         analog_files = AnalogFiles(analog_directories)
         analog_manager = FlAnalogManager(
             analog_files=analog_files.get_files(),
-            continuous_time_files=self.__get_continuous_time_files())
+            continuous_time_files=self.__get_continuous_time_files()
+        )
         fl_analog = analog_manager.get_analog()
         analog_injector = AnalogInjector(nwb_content)
         analog_injector.inject(AnalogCreator.create(fl_analog), 'behavior')
@@ -401,7 +401,8 @@ class NWBFileBuilder:
     def __build_and_inject_electrode_group(self, nwb_content, probes, electrode_groups_valid_map):
         logger.info('ElectrodeGroups: Building')
         fl_nwb_electrode_groups = self.fl_nwb_electrode_group_manager.get_fl_nwb_electrode_groups(
-            probes, electrode_groups_valid_map
+            probes=probes,
+            electrode_groups_valid_map=electrode_groups_valid_map
         )
         logger.info('ElectrodeGroups: Creating')
         nwb_electrode_groups = [
@@ -415,15 +416,17 @@ class NWBFileBuilder:
     def __build_and_inject_electrodes(self, nwb_content, electrode_groups, electrodes_valid_map,
                                       electrode_groups_valid_map):
         logger.info('Electrodes: Building')
-        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(electrode_groups, electrodes_valid_map,
-                                                                    electrode_groups_valid_map)
+        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(
+            electrode_groups=electrode_groups,
+            electrodes_valid_map=electrodes_valid_map,
+            electrode_groups_valid_map=electrode_groups_valid_map
+        )
         logger.info('Electrodes: Creating&Injecting into NWB')
         [self.electrode_creator.create(nwb_content, fl_electrode) for fl_electrode in fl_electrodes]
 
     def __build_and_inject_electrodes_extensions(self, nwb_content, electrodes_valid_map):
         logger.info('FlElectrodesExtensions: Building')
         fl_electrode_extension = self.fl_electrode_extension_manager.get_fl_electrodes_extension(electrodes_valid_map)
-
         logger.info('FlElectrodesExtensions: Injecting into NWB')
         self.electrode_extension_injector.inject_extensions(
             nwb_content,
@@ -433,21 +436,21 @@ class NWBFileBuilder:
     def __build_and_inject_dio(self, nwb_content):
         logger.info('DIO: Prepare directories')
         dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
-
         logger.info('DIO: Prepare files')
         dio_files = DioFiles(dio_directories, self.metadata['behavioral_events'])
-
-        dio_manager = DioManager(dio_files=dio_files.get_files(),
-                                 dio_metadata=self.metadata['behavioral_events'],
-                                 continuous_time_files=self.__get_continuous_time_files())
         logger.info('DIO: Retrieve data')
+        dio_manager = DioManager(
+            dio_files=dio_files.get_files(),
+            dio_metadata=self.metadata['behavioral_events'],
+            continuous_time_files=self.__get_continuous_time_files()
+        )
         dio_data = dio_manager.get_dio()
-
+        logger.info('DIO: Building')
         dio_builder = DioBuilder(dio_data, self.metadata['behavioral_events'])
+        behavioral_events = dio_builder.build()
+        logger.info('DIO: Injecting into NWB')
         dio_injector = DioInjector(nwb_content)
-
-        logger.info('DIO: Building&Injecting into NWB')
-        dio_injector.inject(dio_builder.build(), 'behavior')
+        dio_injector.inject(behavioral_events, 'behavior')
 
     def __get_continuous_time_files(self):
         return [single_dataset.get_continuous_time() for single_dataset in self.datasets]
@@ -465,14 +468,17 @@ class NWBFileBuilder:
 
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')
-
         fl_mda_manager = FlMdaManager(
-            nwb_content,
-            float(self.header.configuration.hardware_configuration.sampling_rate),
-            self.datasets
+            nwb_content=nwb_content,
+            sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
+            datasets=self.datasets
         )
-        MdaInjector.inject_mda(nwb_content=nwb_content,
-                               electrical_series=ElectricalSeriesCreator.create_mda(fl_mda_manager.get_data()))
+        fl_mda = fl_mda_manager.get_data()
+        logger.info('MDA: Injecting')
+        MdaInjector.inject_mda(
+            nwb_content=nwb_content,
+            electrical_series=ElectricalSeriesCreator.create_mda(fl_mda)
+        )
 
     def __build_and_inject_epochs(self, nwb_content):
         logger.info('Epochs: Building')
