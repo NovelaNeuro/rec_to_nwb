@@ -2,9 +2,10 @@ import logging
 import os
 import shutil
 
-from rec_to_binaries import extract_trodes_rec_file
 import xmlschema
+from rec_to_binaries import extract_trodes_rec_file
 
+from rec_to_nwb.processing.exceptions.invalid_xml_exception import InvalidXMLException
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.nwb_file_builder import NWBFileBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
@@ -26,7 +27,6 @@ _DEFAULT_ANALOG_EXPORT_ARGS = ()
 
 
 class RawToNWBBuilder:
-
     """Unpack data from raw folder specified by arguments, and write those data into NWB file format
 
     Args:
@@ -40,12 +40,21 @@ class RawToNWBBuilder:
         extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
         extract_dio (boolean): flag if dio data should be extracted and processed from raw data
         extract_mda (boolean): flag if mda data should be extracted and processed from raw data
+        process_mda_valid_times (boolean): flag if mda valid times should be processed
+        process_mda_invalid_times (boolean): flag if mda invalid times should be processed
+        process_pos_valid_times (boolean): flag if pos valid times should be processed
+        process_pos_invalid_times (boolean): flag if pos invalid times should be processed
         overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
         lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
         mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
         analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
         parallel_instances (int): number of parallel processes used during processing data
+
+    Methods:
+        build_nwb()
+        cleanup()
     """
+
     @beartype
     def __init__(
             self,
@@ -54,17 +63,21 @@ class RawToNWBBuilder:
             dates: list,
             nwb_metadata: MetadataManager,
             associated_files: list,
-            output_path: str ='',
-            extract_analog: bool =True,
-            extract_spikes: bool =False,
-            extract_lfps: bool =False,
-            extract_dio: bool =True,
-            extract_mda: bool =True,
-            overwrite: bool =True,
-            lfp_export_args: tuple =_DEFAULT_LFP_EXPORT_ARGS,
-            mda_export_args: tuple =_DEFAULT_MDA_EXPORT_ARGS,
-            parallel_instances: int =4,
-            analog_export_args: tuple =_DEFAULT_ANALOG_EXPORT_ARGS
+            output_path: str = '',
+            extract_analog: bool = True,
+            extract_spikes: bool = False,
+            extract_lfps: bool = False,
+            extract_dio: bool = True,
+            extract_mda: bool = True,
+            process_mda_valid_times: bool = True,
+            process_mda_invalid_times: bool = True,
+            process_pos_valid_times: bool = True,
+            process_pos_invalid_times: bool = True,
+            overwrite: bool = True,
+            lfp_export_args: tuple = _DEFAULT_LFP_EXPORT_ARGS,
+            mda_export_args: tuple = _DEFAULT_MDA_EXPORT_ARGS,
+            parallel_instances: int = 4,
+            analog_export_args: tuple = _DEFAULT_ANALOG_EXPORT_ARGS
     ):
 
         validation_registrator = ValidationRegistrator()
@@ -78,6 +91,10 @@ class RawToNWBBuilder:
         self.extract_dio = extract_dio
         self.extract_lfps = extract_lfps
         self.extract_mda = extract_mda
+        self.process_mda_valid_times = process_mda_valid_times
+        self.process_mda_invalid_times = process_mda_invalid_times
+        self.process_pos_valid_times = process_pos_valid_times
+        self.process_pos_invalid_times = process_pos_invalid_times
         self.lfp_export_args = lfp_export_args
         self.mda_export_args = mda_export_args
         self.overwrite = overwrite
@@ -92,9 +109,8 @@ class RawToNWBBuilder:
         self.parallel_instances = parallel_instances
         self.analog_export_args = analog_export_args
 
-        if self.analog_export_args != ():
-            if not self.__is_rec_config_valid():
-                raise Exception('reconfig xml does not match expected xsd')
+        if self.analog_export_args != () and not self.__is_rec_config_valid():
+            raise InvalidXMLException('Reconfig xml does not match expected xsd')
 
     def __preprocess_data(self):
         """process data with rec_to_binaries library"""
@@ -116,23 +132,24 @@ class RawToNWBBuilder:
             + 'analog_export_args = ' + str(self.analog_export_args) + '\n'
         )
 
-        extract_trodes_rec_file(self.data_path,
-                                self.animal_name,
-                                parallel_instances=self.parallel_instances,
-                                extract_analog=self.extract_analog,
-                                extract_dio=self.extract_dio,
-                                extract_time=True,
-                                extract_mda=self.extract_mda,
-                                extract_lfps=self.extract_lfps,
-                                extract_spikes=self.extract_spikes,
-                                overwrite=self.overwrite,
-                                lfp_export_args=self.lfp_export_args,
-                                mda_export_args=self.mda_export_args,
-                                analog_export_args=self.analog_export_args
-                                )
+        extract_trodes_rec_file(
+            self.data_path,
+            self.animal_name,
+            parallel_instances=self.parallel_instances,
+            extract_analog=self.extract_analog,
+            extract_dio=self.extract_dio,
+            extract_time=True,
+            extract_mda=self.extract_mda,
+            extract_lfps=self.extract_lfps,
+            extract_spikes=self.extract_spikes,
+            overwrite=self.overwrite,
+            lfp_export_args=self.lfp_export_args,
+            mda_export_args=self.mda_export_args,
+            analog_export_args=self.analog_export_args
+        )
 
     def build_nwb(self):
-        """builds nwb file for experiments from given dates"""
+        """Builds nwb file for experiments from given dates"""
 
         self.__preprocess_data()
         for date in self.dates:
@@ -145,13 +162,17 @@ class RawToNWBBuilder:
                 output_file=self.output_path + self.animal_name + date + ".nwb",
                 process_mda=self.extract_mda,
                 process_dio=self.extract_dio,
-                process_analog=self.extract_analog
+                process_analog=self.extract_analog,
+                process_mda_valid_times=self.process_mda_valid_times,
+                process_mda_invalid_times=self.process_mda_invalid_times,
+                process_pos_valid_times=self.process_pos_valid_times,
+                process_pos_invalid_times=self.process_pos_invalid_times
             )
             content = nwb_builder.build()
             nwb_builder.write(content)
 
     def cleanup(self):
-        """remove all temporary files structure from preprocessing folder"""
+        """Remove all temporary files structure from preprocessing folder"""
 
         preprocessing = self.data_path + '/' + self.animal_name + '/preprocessing'
         if os.path.exists(preprocessing):
@@ -163,8 +184,7 @@ class RawToNWBBuilder:
         xml_file_path = ''
         for i in range(len(self.analog_export_args)):
             if self.analog_export_args[i] == '-reconfig':
-                xml_file_path = self.analog_export_args[i+1]
+                xml_file_path = self.analog_export_args[i + 1]
         xsd_file_path = str(path) + '/../../rec_to_nwb/data/reconfig_header.xsd'
         xsd_schema = xmlschema.XMLSchema(xsd_file_path)
         return xsd_schema.is_valid(xml_file_path)
-
