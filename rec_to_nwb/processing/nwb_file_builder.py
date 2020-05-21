@@ -83,21 +83,30 @@ class NWBFileBuilder:
         process_dio (boolean): flag if dio data should be processed
         process_mda (boolean): flag if mda data should be processed
         process_analog (boolean): flag if analog data should be processed
+        process_mda_valid_times (boolean): flag if mda valid times should be processed
+        process_mda_invalid_times (boolean): flag if mda invalid times should be processed
+        process_pos_valid_times (boolean): flag if pos valid times should be processed
+        process_pos_invalid_times (boolean): flag if pos invalid times should be processed
         output_file (string): path and name specifying where .nwb file gonna be written
     """
 
     @beartype
-    def __init__(self,
-                 data_path: str,
-                 animal_name: str,
-                 date: str,
-                 nwb_metadata: MetadataManager,
-                 associated_files: list = [],
-                 process_dio: bool = True,
-                 process_mda: bool = True,
-                 process_analog: bool = True,
-                 output_file: str = 'output.nwb'
-                 ):
+    def __init__(
+            self,
+            data_path: str,
+            animal_name: str,
+            date: str,
+            nwb_metadata: MetadataManager,
+            associated_files: list = [],
+            process_dio: bool = True,
+            process_mda: bool = True,
+            process_analog: bool = True,
+            process_mda_valid_times: bool = False,
+            process_mda_invalid_times: bool = False,
+            process_pos_valid_times: bool = False,
+            process_pos_invalid_times: bool = False,
+            output_file: str = 'output.nwb'
+    ):
 
         logger.info('NWBFileBuilder initialization')
         logger.info(
@@ -122,6 +131,10 @@ class NWBFileBuilder:
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.process_analog = process_analog
+        self.process_mda_valid_times = process_mda_valid_times
+        self.process_mda_invalid_times = process_mda_invalid_times
+        self.process_pos_valid_times = process_pos_valid_times
+        self.process_pos_invalid_times = process_pos_invalid_times
         self.output_file = output_file
         self.link_to_notes = self.metadata.get('link to notes', '')
         data_types_for_scanning = {'pos': True,
@@ -218,7 +231,6 @@ class NWBFileBuilder:
             datasets=self.datasets
         )
 
-
     def extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
@@ -279,13 +291,22 @@ class NWBFileBuilder:
 
         if self.process_mda:
             self.__build_and_inject_mda(nwb_content)
-            self.build_and_inject_mda_invalid_times(nwb_content)
 
         if self.process_analog:
             self.__build_and_inject_analog(nwb_content)
 
-        self.build_and_inject_pos_invalid_times(nwb_content)
-        self.build_and_inject_pos_valid_times(nwb_content)
+        if self.process_mda_valid_times:
+            self.build_and_inject_mda_valid_times(nwb_content)
+
+        if self.process_mda_invalid_times:
+            self.build_and_inject_mda_invalid_times(nwb_content)
+
+        if self.process_pos_valid_times:
+            self.build_and_inject_pos_valid_times(nwb_content)
+
+        if self.process_pos_invalid_times:
+            self.build_and_inject_pos_invalid_times(nwb_content)
+
         return nwb_content
 
     def write(self, content):
@@ -446,6 +467,10 @@ class NWBFileBuilder:
         fl_epochs_manager = FlEpochsManager(self.datasets)
         epochs = fl_epochs_manager.get_epochs()
         EpochsInjector.inject(epochs, nwb_content)
+
+    def build_and_inject_mda_valid_times(self, nwb_content):
+        logger.info('MDA valid times: Building')
+        logger.info('MDA valid times: Injecting')
 
     def build_and_inject_mda_invalid_times(self, nwb_content):
         logger.info('MDA invalid times: Building')
