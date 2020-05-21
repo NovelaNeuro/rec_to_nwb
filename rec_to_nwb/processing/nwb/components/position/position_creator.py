@@ -13,6 +13,7 @@ class PositionCreator:
         position = Position(name='position')
         position.create_spatial_series(
             name='series',
+            description='xpos, ypos, xpos2, ypos2',
             data=fl_position.position_data,
             conversion=fl_position.conversion,
             reference_frame='Description defining what the zero-position is',
