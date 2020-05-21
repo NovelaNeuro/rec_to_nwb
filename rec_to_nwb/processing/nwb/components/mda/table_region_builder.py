@@ -7,6 +7,6 @@ class TableRegionBuilder:
     def build(self):
         return self.nwb_content.create_electrode_table_region(
             description='-',
-            region=[0, 1],
+            region=list(range(len(self.nwb_content.electrodes))),
             name='electrodes'
         )
