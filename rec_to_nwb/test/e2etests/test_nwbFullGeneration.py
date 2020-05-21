@@ -1,7 +1,7 @@
-import os
 import unittest
 from pathlib import Path
 
+from pynwb import NWBHDF5IO
 from testfixtures import should_raise
 
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
@@ -11,7 +11,6 @@ path = Path(__file__).parent.parent
 path.resolve()
 
 
-@unittest.skip("NWB file creation")
 class TestNwbFullGeneration(unittest.TestCase):
 
     @classmethod
@@ -40,10 +39,17 @@ class TestNwbFullGeneration(unittest.TestCase):
             process_pos_invalid_times=True,
         )
 
-    def test_generate_nwb(self):
+    @unittest.skip("NWB file creation")
+    def test_nwb_file_builder_generate_nwb(self):
         content = self.nwb_builder.build()
         self.nwb_builder.write(content)
         self.assertIsNotNone(self.nwb_builder)
+
+    @unittest.skip("read created NWB")
+    def test_nwb_file_builder_read_nwb(self):
+        with NWBHDF5IO(self.nwb_builder.output_file, 'a') as nwb_file:
+            content = nwb_file.read()
+            print(content)
 
     @should_raise(TypeError)
     def test_nwb_file_builder_failed_due_to_incorrect_type_of_parameters(self):
