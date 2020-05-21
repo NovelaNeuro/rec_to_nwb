@@ -84,7 +84,6 @@ class TestRawToNWBGeneration(unittest.TestCase):
             extract_dio=True,
             overwrite=True,
             analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
-
         )
 
     def tearDown(self):
