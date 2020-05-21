@@ -33,7 +33,11 @@ class TestNwbFullGeneration(unittest.TestCase):
             ],
             process_dio=True,
             process_mda=True,
-            process_analog=True
+            process_analog=True,
+            process_mda_valid_times=True,
+            process_mda_invalid_times=True,
+            process_pos_valid_times=True,
+            process_pos_invalid_times=True,
         )
 
     def test_generate_nwb(self):
