@@ -28,10 +28,6 @@ class TestRawToNWBGeneration(unittest.TestCase):
             data_path=str(path) + '/../test_data/',
             dates=['20190718'],
             nwb_metadata=self.metadata,
-            associated_files=[
-                (str(path) + '/../processing/res/test_text_files/test1_file'),
-                (str(path) + '/../processing/res/test_text_files/test2_file'),
-            ],
             output_path='',
             extract_spikes=False,
             extract_mda=True,
@@ -57,11 +53,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
             data_path=str(path) + '/../test_data/',
             dates=['20190718'],
             nwb_metadata=None,
-            associated_files=[
-                (str(path) + '/../processing/res/20191212_bill_02_r1.stateScriptLog'),
-                (str(path) + '/../processing/res/V4_delay_no_home_chinatown_3_4_20.sc'),
-                (str(path) + '/../processing/res/V4_no_home_light_cue_chinatown_3_4_20.py')
-            ]
+
         )
 
     @should_raise(TypeError)
@@ -71,11 +63,6 @@ class TestRawToNWBGeneration(unittest.TestCase):
             data_path=str(path) + '/../test_data/',
             dates=['20190718'],
             nwb_metadata=self.metadata,
-            associated_files=[
-                str(path) + '/../processing/res/20191212_bill_02_r1.stateScriptLog',
-                str(path) + '/../processing/res/V4_delay_no_home_chinatown_3_4_20.sc',
-                str(path) + '/../processing/res/V4_no_home_light_cue_chinatown_3_4_20.py'
-            ],
             output_path='',
             extract_spikes=False,
             extract_mda=True,
