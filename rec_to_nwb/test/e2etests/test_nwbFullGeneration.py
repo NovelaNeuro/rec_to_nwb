@@ -1,4 +1,3 @@
-import os
 import unittest
 from pathlib import Path
 
@@ -46,18 +45,21 @@ class TestNwbFullGeneration(unittest.TestCase):
         self.nwb_builder.write(content)
         self.assertIsNotNone(self.nwb_builder)
 
-    @unittest.skip("read created NWB")
+    # @unittest.skip("read created NWB")
     def test_nwb_file_builder_read_nwb(self):
         with NWBHDF5IO(self.nwb_builder.output_file, 'a') as nwb_file:
             content = nwb_file.read()
-            print(content)
+            print(content.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps)
 
     # @unittest.skip("append to created NWB")
     def test_nwb_file_builder_append_to_nwb(self):
-        with NWBHDF5IO(self.nwb_builder.output_file, 'a') as nwb_file:
-            content = nwb_file.read()
-            print(content.acquisition)
-            print(content.acquisition['timestamps'])
+        #ToDo self.nwb_builder.build_and_append_mda_valid_times()
+
+        # ToDo check if already exist. If yes raise exception. Now it just crash
+        # self.nwb_builder.build_and_append_mda_invalid_times()
+        # self.nwb_builder.build_and_append_pos_valid_times()
+        self.nwb_builder.build_and_append_pos_invalid_times()
+        # Todo add tests. I check in HdfView
 
     @should_raise(TypeError)
     def test_nwb_file_builder_failed_due_to_incorrect_type_of_parameters(self):
