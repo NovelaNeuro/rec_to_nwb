@@ -27,10 +27,6 @@ class TestNwbFullGeneration(unittest.TestCase):
             animal_name='beans',
             date='20190718',
             nwb_metadata=cls.metadata,
-            associated_files=[
-                (str(path) + '/processing/res/test_text_files/test1_file'),
-                (str(path) + '/processing/res/test_text_files/test2_file'),
-            ],
             process_dio=True,
             process_mda=True,
             process_analog=True,
@@ -59,10 +55,6 @@ class TestNwbFullGeneration(unittest.TestCase):
             animal_name='beans',
             date=123,
             nwb_metadata=self.metadata,
-            associated_files=[
-                (str(path) + '/processing/res/test_text_files/test1_file'),
-                (str(path) + '/processing/res/test_text_files/test2_file'),
-            ],
             process_dio=True,
             process_mda=True,
             process_analog=True
@@ -75,10 +67,6 @@ class TestNwbFullGeneration(unittest.TestCase):
             animal_name='beans',
             date=None,
             nwb_metadata=self.metadata,
-            associated_files=[
-                (str(path) + '/processing/res/test_text_files/test1_file'),
-                (str(path) + '/processing/res/test_text_files/test2_file'),
-            ],
             process_dio=True,
             process_mda=True,
             process_analog=True

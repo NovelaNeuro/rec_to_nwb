@@ -12,14 +12,13 @@ class TestFlAssociatedFilesManager(unittest.TestCase):
     def setUp(self):
         self.fl_associated_files_manager = FlAssociatedFilesManager(
             [
-             (path + '/../res/test_text_files/test1_file'),
-             (path + '/../res/test_text_files/test2_file')
-            ],
-            [
              {'name': 'test1_file',
-              'description': 'test1 description of the file'},
+              'description': 'test1 description of the file',
+              'path': path + '/../res/test_text_files/test1_file'}
+             ,
              {'name': 'test2_file',
-              'description': 'test2 description of the file'}
+              'description': 'test2 description of the file',
+              'path': path + '/../res/test_text_files/test2_file'}
             ]
         )
 
@@ -32,23 +31,7 @@ class TestFlAssociatedFilesManager(unittest.TestCase):
         self.assertEqual('some test text inside from test1_file', fl_associated_files[0].content)
 
     @should_raise(TypeError)
-    def test_fl_associated_files_manager_fail_none_param_associated_files(self):
-        fl_associated_files_manager = FlAssociatedFilesManager(
-            None,
-            [
-                {'name': 'test1_file',
-                 'description': 'test1 description of the file'},
-                {'name': 'test2_file',
-                 'description': 'test2 description of the file'}
-            ]
-        )
-
-    @should_raise(TypeError)
     def test_fl_associated_files_manager_fail_none_param_associated_files_metadata(self):
         fl_associated_files_manager = FlAssociatedFilesManager(
-            [
-                (path + '/../res/test_text_files/test1_file'),
-                (path + '/../res/test_text_files/test2_file')
-            ],
             None
         )

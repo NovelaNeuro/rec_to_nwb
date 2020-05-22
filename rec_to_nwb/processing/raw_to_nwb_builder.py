@@ -62,7 +62,6 @@ class RawToNWBBuilder:
             animal_name: str,
             dates: list,
             nwb_metadata: MetadataManager,
-            associated_files: list,
             output_path: str = '',
             extract_analog: bool = True,
             extract_spikes: bool = False,
@@ -102,7 +101,6 @@ class RawToNWBBuilder:
         self.data_path = data_path
         self.dates = dates
         self.metadata = nwb_metadata.metadata
-        self.associated_files = associated_files
         self.output_path = output_path
         self.probes = nwb_metadata.probes
         self.nwb_metadata = nwb_metadata
@@ -158,7 +156,6 @@ class RawToNWBBuilder:
                 animal_name=self.animal_name,
                 date=date,
                 nwb_metadata=self.nwb_metadata,
-                associated_files=self.associated_files,
                 output_file=self.output_path + self.animal_name + date + ".nwb",
                 process_mda=self.extract_mda,
                 process_dio=self.extract_dio,
