@@ -11,7 +11,16 @@ class PosDataManager(DataManager):
     # override
     def read_data(self, dataset_id, file_id):
         """extract data from POS files and build FlPos"""
-
         pos_online = readTrodesExtractedDataFile(self.directories[dataset_id][file_id])
         position = pd.DataFrame(pos_online['data'])
-        return position.xloc, position.yloc, position.xloc2, position.yloc2
+        labels = self.get_column_labels(dataset_id, file_id)
+        filtered_position = [position[label] for label in labels]
+        return filtered_position
+
+    def get_column_labels(self, dataset_id, file_id):
+        """extract column labels from POS files"""
+        pos_online = readTrodesExtractedDataFile(self.directories[dataset_id][file_id])
+        column_labels = pd.DataFrame(pos_online['data']).columns
+        column_labels = column_labels[1:]
+        column_labels_list = [label for label in column_labels]
+        return column_labels_list
