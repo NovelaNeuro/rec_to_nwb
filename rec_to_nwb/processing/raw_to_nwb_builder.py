@@ -143,7 +143,7 @@ class RawToNWBBuilder:
             overwrite=self.overwrite,
             lfp_export_args=self.lfp_export_args,
             mda_export_args=self.mda_export_args,
-            trodes_rec_export_args=self.trodes_rec_export_args
+            analog_export_args=self.trodes_rec_export_args
         )
 
     def build_nwb(self):
