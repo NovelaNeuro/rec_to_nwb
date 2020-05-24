@@ -8,7 +8,7 @@ from rec_to_nwb.processing.raw_to_nwb_builder import RawToNWBBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/../processing/res/reconfig_header.xml')
+_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '/../processing/res/reconfig_header.xml')
 
 
 @unittest.skip("Super heavy RAW to NWB Generation")
@@ -39,7 +39,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
             process_pos_valid_times=True,
             process_pos_invalid_times=True,
             overwrite=True,
-            analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
+            trodes_rec_export_args=_DEFAULT_TRODES_REC_EXPORT_ARGS
         )
 
     def test_from_raw_to_nwb_generation(self):
@@ -70,7 +70,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
             extract_analog=True,
             extract_dio=True,
             overwrite=True,
-            analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
+            trodes_rec_export_args=_DEFAULT_TRODES_REC_EXPORT_ARGS
         )
 
     def tearDown(self):
