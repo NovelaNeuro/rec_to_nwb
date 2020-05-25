@@ -7,5 +7,5 @@ class FlAssociatedFilesReader:
 
     @staticmethod
     def read(file_path):
-        with open(str(path) + '/../../../../../' + file_path, 'r') as open_file:
+        with open(file_path, 'r') as open_file:
             return open_file.read()
