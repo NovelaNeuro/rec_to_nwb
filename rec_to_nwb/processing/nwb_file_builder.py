@@ -543,5 +543,6 @@ class NWBFileBuilder:
 
 # ToDo Maybe build_and_append_to_nwb(). We can pass in param string "mda_invalid_times" and function should do the rest.
 # ToDo check if module exist
+# ToDo Update readme
 # ToDo check pylint - After few commit I test some other branch where I recreate env and as I see now,
 #  I forgot install pylint. I will add it tomorrow
