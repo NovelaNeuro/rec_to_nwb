@@ -61,6 +61,7 @@ from rec_to_nwb.processing.nwb.components.processing_module.processing_module_cr
 from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
+from rec_to_nwb.processing.validation.associated_files_validation import AssociatedFilesValidator
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
 from rec_to_nwb.processing.validation.preprocessing_validator import PreprocessingValidator
 from rec_to_nwb.processing.validation.task_validator import TaskValidator
@@ -205,11 +206,14 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
-        self.fl_associated_files_manager = FlAssociatedFilesManager(
-            self.metadata['associated_files']
-        )
-        self.associated_files_creator = AssociatedFilesCreator()
-        self.associated_files_injector = AssociatedFilesInjector()
+        if 'associated_files' in self.metadata:
+            validation_registrator.register(AssociatedFilesValidator(self.metadata['associated_files']))
+            validation_registrator.validate()
+            self.fl_associated_files_manager = FlAssociatedFilesManager(
+                self.metadata['associated_files']
+            )
+            self.associated_files_creator = AssociatedFilesCreator()
+            self.associated_files_injector = AssociatedFilesInjector()
 
         self.session_time_extractor = SessionTimeExtractor(
             self.datasets,
@@ -286,7 +290,8 @@ class NWBFileBuilder:
 
         self.__build_and_inject_epochs(nwb_content)
 
-        self.__build_and_inject_associated_files(nwb_content)
+        if 'associated_files' in self.metadata:
+            self.__build_and_inject_associated_files(nwb_content)
 
         if self.process_dio:
             self.__build_and_inject_dio(nwb_content)
