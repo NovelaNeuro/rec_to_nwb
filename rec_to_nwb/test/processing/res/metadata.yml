@@ -26,13 +26,8 @@ tasks:
   },
   ]
 
-associated_files:
- -  name: example_name1
-    description: exmaple description 1
-    path: /rec_to_nwb/test/processing/res/test_text_files/test1_file
- -  name: example_name2
-    description: exmaple description 2
-    path: /rec_to_nwb/test/processing/res/test_text_files/test2_file
+associated_files: []
+
 
 behavioral_events:
   - description: Din1

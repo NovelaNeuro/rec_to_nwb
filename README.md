@@ -89,19 +89,18 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
         task_description: Spatial Bandit,
       }
       ]
-    # Associated files which describe content of files stored inside nwb as text, paths are related to main rec_to_nwb directory.
+    # Associated files which describe content of files stored inside nwb as text.
        associated_files:
       -  name: example_name1
          description: exmaple description 1
-         path: /test/processing/res/test_text_files/test1_file
+         path: C:/Users/sampleuser/PycharmProjects/rec_to_nwb/test/processing/res/test_text_files/test1_file
       -  name: example_name2
          description: exmaple description 2
-         path: /test/processing/res/test_text_files/test2_file
+         path: C:/Users/sampleuser/PycharmProjects/rec_to_nwb/test/processing/res/test_text_files/test2_file
     # Din/Dout events which filter out files from DIO data in data directory. Each name has to be unique. Stored in behavioral_events section in output nwb file.
     behavioral_events: 
-      - name: Din1
-      - name: Din2
-        description: Poke2
+      - name: Poke2
+        description: Din2
     # Device name. Stored in output nwb file.
     device: 
       name:

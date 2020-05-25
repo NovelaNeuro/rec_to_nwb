@@ -205,11 +205,14 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
-        self.fl_associated_files_manager = FlAssociatedFilesManager(
-            self.metadata['associated_files']
-        )
-        self.associated_files_creator = AssociatedFilesCreator()
-        self.associated_files_injector = AssociatedFilesInjector()
+        self.associated_files_passed = False
+        if self.metadata['associated_files']:
+            self.fl_associated_files_manager = FlAssociatedFilesManager(
+                self.metadata['associated_files']
+            )
+            self.associated_files_creator = AssociatedFilesCreator()
+            self.associated_files_injector = AssociatedFilesInjector()
+            self.associated_files_passed = True
 
         self.session_time_extractor = SessionTimeExtractor(
             self.datasets,
@@ -286,7 +289,8 @@ class NWBFileBuilder:
 
         self.__build_and_inject_epochs(nwb_content)
 
-        self.__build_and_inject_associated_files(nwb_content)
+        if self.associated_files_passed:
+            self.__build_and_inject_associated_files(nwb_content)
 
         if self.process_dio:
             self.__build_and_inject_dio(nwb_content)
