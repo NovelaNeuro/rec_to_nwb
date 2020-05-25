@@ -61,6 +61,7 @@ from rec_to_nwb.processing.nwb.components.processing_module.processing_module_cr
 from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
+from rec_to_nwb.processing.validation.associated_files_validation import AssociatedFilesValidator
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
 from rec_to_nwb.processing.validation.preprocessing_validator import PreprocessingValidator
 from rec_to_nwb.processing.validation.task_validator import TaskValidator
@@ -205,6 +206,8 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
+        validation_registrator.register(AssociatedFilesValidator(self.metadata['associated_files']))
+        validation_registrator.validate()
         self.associated_files_passed = False
         if self.metadata['associated_files']:
             self.fl_associated_files_manager = FlAssociatedFilesManager(
