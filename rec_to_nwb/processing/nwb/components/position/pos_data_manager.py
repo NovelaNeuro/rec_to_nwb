@@ -22,7 +22,7 @@ class PosDataManager(DataManager):
         pos_online = readTrodesExtractedDataFile(self.directories[0][0])
         column_labels = pd.DataFrame(pos_online['data']).columns
         column_labels = column_labels[1:]
-        column_labels_list = [label for label in column_labels]
+        column_labels_list = column_labels.values.tolist()
         return column_labels_list
 
     def get_column_labels_as_string(self):
