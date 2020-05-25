@@ -1,6 +1,7 @@
 import numpy as np
 from pynwb import NWBFile
 
+from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
 from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_builder import FlMdaInvalidTimeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
@@ -27,25 +28,33 @@ class FlMdaInvalidTimeManager:
 
     @beartype
     def get_fl_mda_invalid_times(self, nwb_content: NWBFile, gaps_margin: float = 0.0001) -> list:
-        """ Manage MDA data and call FLMdaInvalidTimeBuilder for every invalid gap.
+        """ Manage MDA data and call FlMdaInvalidTimeBuilder for every invalid gap.
 
         Args:
             nwb_content (NWBFile): NWBFile object with MDA timestamps inside
             gaps_margin (float): Error margin for invalid gaps
 
+        Raises:
+            MissingDataException: If timestamps are empty
+
         Returns:
             list of FlMdaInvalidTime objects
         """
 
-        timestamps = self.__get_timestamps(nwb_content)
+        timestamps = self.__get_mda_timestamps(nwb_content)
         period = 1E9 / self.sampling_rate
         invalid_times = self.__get_mda_invalid_times(timestamps, period, gaps_margin)
         return self.__build_mda_invalid_times(invalid_times)
 
     @staticmethod
-    def __get_timestamps(nwb_content):
-        return np.array(nwb_content.acquisition['e-series'].timestamps)
-    # ToDo add exception if timestamps is missing
+    def __get_mda_timestamps(nwb_content):
+        timestamps = np.array(
+            nwb_content.acquisition['e-series'].timestamps
+        )
+
+        if timestamps.any():
+            return timestamps
+        raise MissingDataException('MDA timestamp not found')
 
     def __get_mda_invalid_times(self, timestamps, period, gaps_margin):
         min_valid_len = 3 * gaps_margin

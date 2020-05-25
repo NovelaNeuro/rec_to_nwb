@@ -1,11 +1,10 @@
 import numpy as np
 from pynwb import NWBFile
 
+from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
 from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_builder import FlPosValidTimeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
-
-# ToDo change tests if it will work
 
 class FlPosValidTimeManager:
     """" Manage POS data and call FLPosValidTimeBuilder to create list of FLPosValidTime objects.
@@ -19,11 +18,14 @@ class FlPosValidTimeManager:
 
     @beartype
     def get_fl_pos_valid_times(self, nwb_content: NWBFile, gaps_margin: float = 0.0001) -> list:
-        """ Manage POS data and call FLPosValidTimeBuilder for every invalid gap.
+        """ Manage POS data and call FlPosValidTimeBuilder for every valid gap.
 
         Args:
             nwb_content (NWBFile): NWBFile object with MDA timestamps inside
             gaps_margin (float): Error margin for valid gaps
+
+        Raises:
+            MissingDataException: If timestamps are empty
 
         Returns:
             list of FlPosValidTime objects
@@ -36,10 +38,13 @@ class FlPosValidTimeManager:
 
     @staticmethod
     def __get_pos_timestamps(nwb_content):
-        return np.array(
+        timestamps = np.array(
             nwb_content.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps
         )
-    # ToDo add exception if timestamps is missing
+
+        if timestamps.any():
+            return timestamps
+        raise MissingDataException('POS timestamp not found')
 
     @staticmethod
     def __calculate_pos_period(timestamps):

@@ -541,3 +541,5 @@ class NWBFileBuilder:
             nwb_content = nwb_file_io.read()
             self.__build_and_inject_pos_invalid_times(nwb_content)
             nwb_file_io.write(nwb_content)
+
+#     ToDo check if module exist
