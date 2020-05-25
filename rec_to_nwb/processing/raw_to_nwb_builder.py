@@ -23,7 +23,7 @@ _DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
 _DEFAULT_MDA_EXPORT_ARGS = ('-usespikefilters', '0',
                             '-interp', '0', '-userefs', '0')
 
-_DEFAULT_ANALOG_EXPORT_ARGS = ()
+_DEFAULT_TRODES_REC_EXPORT_ARGS = ()
 
 
 class RawToNWBBuilder:
@@ -47,7 +47,7 @@ class RawToNWBBuilder:
         overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
         lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
         mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
-        analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
+        trodes_rec_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
         parallel_instances (int): number of parallel processes used during processing data
 
     Methods:
@@ -76,7 +76,7 @@ class RawToNWBBuilder:
             lfp_export_args: tuple = _DEFAULT_LFP_EXPORT_ARGS,
             mda_export_args: tuple = _DEFAULT_MDA_EXPORT_ARGS,
             parallel_instances: int = 4,
-            analog_export_args: tuple = _DEFAULT_ANALOG_EXPORT_ARGS
+            trodes_rec_export_args: tuple = _DEFAULT_TRODES_REC_EXPORT_ARGS
     ):
 
         validation_registrator = ValidationRegistrator()
@@ -105,9 +105,9 @@ class RawToNWBBuilder:
         self.probes = nwb_metadata.probes
         self.nwb_metadata = nwb_metadata
         self.parallel_instances = parallel_instances
-        self.analog_export_args = analog_export_args
+        self.trodes_rec_export_args = trodes_rec_export_args
 
-        if self.analog_export_args != () and not self.__is_rec_config_valid():
+        if self.trodes_rec_export_args != () and not self.__is_rec_config_valid():
             raise InvalidXMLException('Reconfig xml does not match expected xsd')
 
     def __preprocess_data(self):
@@ -127,7 +127,7 @@ class RawToNWBBuilder:
             + 'overwrite = ' + str(self.overwrite) + '\n'
             + 'lfp_export_args = ' + str(self.lfp_export_args) + '\n'
             + 'mda_export_args = ' + str(self.mda_export_args) + '\n'
-            + 'analog_export_args = ' + str(self.analog_export_args) + '\n'
+            + 'trodes_rec_export_args = ' + str(self.trodes_rec_export_args) + '\n'
         )
 
         extract_trodes_rec_file(
@@ -143,7 +143,7 @@ class RawToNWBBuilder:
             overwrite=self.overwrite,
             lfp_export_args=self.lfp_export_args,
             mda_export_args=self.mda_export_args,
-            analog_export_args=self.analog_export_args
+            analog_export_args=self.trodes_rec_export_args
         )
 
     def build_nwb(self):
@@ -179,9 +179,9 @@ class RawToNWBBuilder:
         """ Check if XML is valid with XSD file """
 
         xml_file_path = ''
-        for i in range(len(self.analog_export_args)):
-            if self.analog_export_args[i] == '-reconfig':
-                xml_file_path = self.analog_export_args[i + 1]
+        for i in range(len(self.trodes_rec_export_args)):
+            if self.trodes_rec_export_args[i] == '-reconfig':
+                xml_file_path = self.trodes_rec_export_args[i + 1]
         xsd_file_path = str(path) + '/../../rec_to_nwb/data/reconfig_header.xsd'
         xsd_schema = xmlschema.XMLSchema(xsd_file_path)
         return xsd_schema.is_valid(xml_file_path)
