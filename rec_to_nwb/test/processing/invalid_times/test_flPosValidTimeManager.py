@@ -2,9 +2,9 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 import numpy as np
-
 from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_valid_time_pos_timestamp_extractor import \
     FlValidTimePosTimestampExtractor
+
 from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_manager import FlPosValidTimeManager
 
 
@@ -24,7 +24,7 @@ class TestPosValidTimesManager(TestCase):
         manager = FlPosValidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
 
-        valid_times = manager.get_pos_valid_times()
+        valid_times = manager.get_fl_pos_valid_times()
 
         self.assertEqual(len(valid_times), 2)
         self.assertEqual(round(valid_times[0].start_time, 4), 1 + eps)
@@ -43,7 +43,7 @@ class TestPosValidTimesManager(TestCase):
         manager = FlPosValidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
 
-        valid_times = manager.get_pos_valid_times()
+        valid_times = manager.get_fl_pos_valid_times()
 
         self.assertEqual(len(valid_times), 1)
         self.assertEqual(round(valid_times[0].start_time, 4),  1 + eps)
@@ -60,7 +60,7 @@ class TestPosValidTimesManager(TestCase):
         manager = FlPosValidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
 
-        valid_times = manager.get_pos_valid_times()
+        valid_times = manager.get_fl_pos_valid_times()
 
         self.assertEqual(len(valid_times), 1)
         self.assertEqual(round(valid_times[0].start_time, 4),  5 + eps)
@@ -77,7 +77,7 @@ class TestPosValidTimesManager(TestCase):
         manager = FlPosValidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
 
-        valid_times = manager.get_pos_valid_times()
+        valid_times = manager.get_fl_pos_valid_times()
 
         self.assertEqual(len(valid_times), 1)
         self.assertEqual(round(valid_times[0].start_time, 4), 1 + eps)

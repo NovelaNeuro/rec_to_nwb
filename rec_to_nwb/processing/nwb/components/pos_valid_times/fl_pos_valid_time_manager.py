@@ -1,47 +1,45 @@
 import numpy as np
+from pynwb import NWBFile
 
 from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_builder import FlPosValidTimeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
-# ToDo delete extractor used before
 # ToDo change tests if it will work
 
 class FlPosValidTimeManager:
+    """" Manage POS data and call FLPosValidTimeBuilder to create list of FLPosValidTime objects.
 
-    @beartype
+    Methods:
+        get_fl_pos_valid_times()
+    """
+
     def __init__(self):
         self.period_multiplier = 1.5
 
-    def get_pos_valid_times(self, nwb_content):
-        timestamps = self.__get_pos_timestamps(nwb_content)
-        return self.__build_pos_valid_times(timestamps, self.__calculate_pos_period(timestamps))
+    @beartype
+    def get_fl_pos_valid_times(self, nwb_content: NWBFile, gaps_margin: float = 0.0001) -> list:
+        """ Manage POS data and call FLPosValidTimeBuilder for every invalid gap.
 
-    def __get_pos_timestamps(self, nwb_content):
+        Args:
+            nwb_content (NWBFile): NWBFile object with MDA timestamps inside
+            gaps_margin (float): Error margin for valid gaps
+
+        Returns:
+            list of FlPosValidTime objects
+        """
+
+        timestamps = self.__get_pos_timestamps(nwb_content)
+        pos_period = self.__calculate_pos_period(timestamps)
+        valid_times = self.__get_pos_valid_times(timestamps, pos_period, gaps_margin)
+        return self.__build_pos_valid_times(valid_times)
+
+    @staticmethod
+    def __get_pos_timestamps(nwb_content):
         return np.array(
             nwb_content.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps
         )
-
-    def __build_pos_valid_times(self, timestamps, period):
-        valid_times = self.__get_pos_valid_times(timestamps, period)
-        fl_invalid_times = [FlPosValidTimeBuilder.build(gap[0], gap[1]) for gap in valid_times]
-        return fl_invalid_times
-
-    def __get_pos_valid_times(self, timestamps, period, eps=0.0001):
-        min_valid_len = 3*eps
-        timestamps = timestamps[~np.isnan(timestamps)]
-
-        gaps = np.diff(timestamps) > period * self.period_multiplier
-        gap_indexes = np.asarray(np.where(gaps))
-        gap_start = np.insert(gap_indexes + 1, 0, 0)
-        gap_end = np.append(gap_indexes, np.asarray(len(timestamps)-1))
-
-        valid_indices = np.vstack([gap_start, gap_end]).transpose()
-        valid_times = timestamps[valid_indices]
-        valid_times[:, 0] = valid_times[:, 0] + eps
-        valid_times[:, 1] = valid_times[:, 1] - eps
-        valid_intervals = (valid_times[:, 1] - valid_times[:, 0]) > min_valid_len
-        return valid_times[valid_intervals, :]
+    # ToDo add exception if timestamps is missing
 
     @staticmethod
     def __calculate_pos_period(timestamps):
@@ -61,3 +59,25 @@ class FlPosValidTimeManager:
         return (last_timestamp - first_timestamp) / \
                (len_of_timestamps - number_of_invalid_records_at_end_of_a_file -
                 number_of_invalid_records_at_start_of_a_file)
+
+    def __get_pos_valid_times(self, timestamps, period, gaps_margin):
+        min_valid_len = 3*gaps_margin
+        timestamps = timestamps[~np.isnan(timestamps)]
+
+        gaps = np.diff(timestamps) > period * self.period_multiplier
+        gap_indexes = np.asarray(np.where(gaps))
+        gap_start = np.insert(gap_indexes + 1, 0, 0)
+        gap_end = np.append(gap_indexes, np.asarray(len(timestamps)-1))
+
+        valid_indices = np.vstack([gap_start, gap_end]).transpose()
+        valid_times = timestamps[valid_indices]
+        valid_times[:, 0] = valid_times[:, 0] + gaps_margin
+        valid_times[:, 1] = valid_times[:, 1] - gaps_margin
+        valid_intervals = (valid_times[:, 1] - valid_times[:, 0]) > min_valid_len
+        return valid_times[valid_intervals, :]
+
+    @staticmethod
+    def __build_pos_valid_times(valid_times):
+        return [FlPosValidTimeBuilder.build(gap[0], gap[1]) for gap in valid_times]
+
+

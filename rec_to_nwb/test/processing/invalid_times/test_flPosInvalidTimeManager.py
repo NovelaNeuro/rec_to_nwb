@@ -2,9 +2,9 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 import numpy as np
-
 from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_invalid_time_pos_timestamp_extractor import \
     FlInvalidTimePosTimestampExtractor
+
 from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
 
 
@@ -24,7 +24,7 @@ class TestPosInvalidTimesManager(TestCase):
         manager = FlPosInvalidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
 
-        invalid_times = manager.get_pos_invalid_times()
+        invalid_times = manager.get_fl_pos_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
         self.assertEqual(round(invalid_times[0].start_time, 4), 5 + eps)
@@ -40,7 +40,7 @@ class TestPosInvalidTimesManager(TestCase):
         manager = FlPosInvalidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
 
-        invalid_times = manager.get_pos_invalid_times()
+        invalid_times = manager.get_fl_pos_invalid_times()
 
         self.assertEqual(invalid_times, [])
 
@@ -55,7 +55,7 @@ class TestPosInvalidTimesManager(TestCase):
         manager = FlPosInvalidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
 
-        invalid_times = manager.get_pos_invalid_times()
+        invalid_times = manager.get_fl_pos_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
         self.assertEqual(round(invalid_times[0].start_time, 4),  1 + eps)
@@ -72,7 +72,7 @@ class TestPosInvalidTimesManager(TestCase):
         manager = FlPosInvalidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
 
-        invalid_times = manager.get_pos_invalid_times()
+        invalid_times = manager.get_fl_pos_invalid_times()
 
         self.assertEqual(len(invalid_times), 1)
         self.assertEqual(round(invalid_times[0].start_time, 4), 8 + eps)
@@ -89,7 +89,7 @@ class TestPosInvalidTimesManager(TestCase):
         manager = FlPosInvalidTimeManager([])
         manager.pos_timestamps_extractor = extractor_mock
 
-        invalid_times = manager.get_pos_invalid_times()
+        invalid_times = manager.get_fl_pos_invalid_times()
 
         self.assertEqual(len(invalid_times), 2)
         self.assertEqual(round(invalid_times[0].start_time, 4), 2 + eps)
