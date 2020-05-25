@@ -209,7 +209,7 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
       
       **overwrite** = `boolean`  If true, will overwrite existing files. (default True) <br>
       
-      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')` <br>
+      **trodes_rec_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')` <br>
 
 ##### Preprocessed data
 If you have already preprocessed data or RawToNwb process crashed during building file you can initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
