@@ -30,5 +30,7 @@ class PosDataManager(DataManager):
         labels = self.get_column_labels()
         labels_string = ''
         for label in labels:
-            labels_string += label + ', '
+            labels_string += label
+            if not label == labels[-1]:
+                labels_string += ', '
         return labels_string
