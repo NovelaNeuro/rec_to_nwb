@@ -206,16 +206,14 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
-        validation_registrator.register(AssociatedFilesValidator(self.metadata['associated_files']))
-        validation_registrator.validate()
-        self.associated_files_passed = False
-        if self.metadata['associated_files']:
+        if 'associated_files' in self.metadata:
+            validation_registrator.register(AssociatedFilesValidator(self.metadata['associated_files']))
+            validation_registrator.validate()
             self.fl_associated_files_manager = FlAssociatedFilesManager(
                 self.metadata['associated_files']
             )
             self.associated_files_creator = AssociatedFilesCreator()
             self.associated_files_injector = AssociatedFilesInjector()
-            self.associated_files_passed = True
 
         self.session_time_extractor = SessionTimeExtractor(
             self.datasets,
@@ -292,7 +290,7 @@ class NWBFileBuilder:
 
         self.__build_and_inject_epochs(nwb_content)
 
-        if self.associated_files_passed:
+        if 'associated_files' in self.metadata:
             self.__build_and_inject_associated_files(nwb_content)
 
         if self.process_dio:

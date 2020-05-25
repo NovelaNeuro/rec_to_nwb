@@ -37,3 +37,8 @@ class TestFlAssociatedFilesManager(unittest.TestCase):
         fl_associated_files_manager = FlAssociatedFilesManager(
             None
         )
+
+    def test_if_associated_files_empty(self):
+        fl_associated_files_manager = FlAssociatedFilesManager(
+            []
+        )
