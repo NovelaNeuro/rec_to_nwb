@@ -9,9 +9,9 @@ from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataE
 from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
 
 
-class TestFlPosInvalidTimesManager(TestCase):
+class TestFlPosInvalidTimeManager(TestCase):
 
-    def test_fl_pos_invalid_times_manager_data_with_gap_in_the_middle(self):
+    def test_fl_pos_invalid_time_manager_get_fl_pos_invalid_times_with_gap_in_middle(self):
         gaps_margin = 0.0001
         mock_array = np.ndarray(dtype='float', shape=[10, ])
         array = [1, 2, 3, 4, 5, 7, 9, 10, 11, 12]
@@ -30,7 +30,7 @@ class TestFlPosInvalidTimesManager(TestCase):
         self.assertEqual(round(fl_pos_invalid_times[0].start_time, 4), 5 + gaps_margin)
         self.assertEqual(round(fl_pos_invalid_times[0].stop_time, 4),  9 - gaps_margin)
 
-    def test_fl_pos_invalid_times_manager_data_with_no_gap(self):
+    def test_fl_pos_invalid_time_manager_get_fl_pos_invalid_times_without_gap(self):
         gaps_margin = 0.0001
         mock_array = np.ndarray(dtype='float', shape=[10, ])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -47,7 +47,7 @@ class TestFlPosInvalidTimesManager(TestCase):
 
         self.assertEqual(fl_pos_invalid_times, [])
 
-    def test_fl_pos_invalid_times_manager_data_with_gap_at_start(self):
+    def test_fl_pos_invalid_time_manager_get_fl_pos_invalid_times_with_gap_at_start(self):
         gaps_margin = 0.0001
         mock_array = np.ndarray(dtype='float', shape=[10, ])
         array = [1, 3, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -66,7 +66,7 @@ class TestFlPosInvalidTimesManager(TestCase):
         self.assertEqual(round(fl_pos_invalid_times[0].start_time, 4),  1 + gaps_margin)
         self.assertEqual(round(fl_pos_invalid_times[0].stop_time, 4), 5 - gaps_margin)
 
-    def test_fl_pos_invalid_times_manager_data_with_gap_at_the_end(self):
+    def test_fl_pos_invalid_time_manager_get_fl_pos_invalid_times_with_gap_at_end(self):
         gaps_margin = 0.0001
         mock_array = np.ndarray(dtype='float', shape=[10, ])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
@@ -85,7 +85,7 @@ class TestFlPosInvalidTimesManager(TestCase):
         self.assertEqual(round(fl_pos_invalid_times[0].start_time, 4), 8 + gaps_margin)
         self.assertEqual(round(fl_pos_invalid_times[0].stop_time, 4), 12 - gaps_margin)
 
-    def test_fl_pos_invalid_times_manager_data_with_two_gaps(self):
+    def test_fl_pos_invalid_time_manager_get_fl_pos_invalid_times_with_two_gaps(self):
         gaps_margin = 0.0001
         mock_array = np.ndarray(dtype='float', shape=[12, ])
         array = [1, 2, 6, 12, 13, 14, 20, 25, 26, 27, 28, 29]
@@ -107,7 +107,7 @@ class TestFlPosInvalidTimesManager(TestCase):
         self.assertEqual(round(fl_pos_invalid_times[1].stop_time, 4), 25 - gaps_margin)
 
     @should_raise(TypeError)
-    def test_fl_pos_invalid_times_manager_failed_due_to_none_param_in_method(self):
+    def test_fl_pos_invalid_time_manager_get_fl_pos_invalid_times_failed_due_to_None_param(self):
         gaps_margin = 0.0001
 
         fl_pos_invalid_time_manager = FlPosInvalidTimeManager()
@@ -117,7 +117,7 @@ class TestFlPosInvalidTimesManager(TestCase):
         )
 
     @should_raise(MissingDataException)
-    def test_fl_pos_invalid_times_manager_failed_due_to_none_timestamp_inside_nwb(self):
+    def test_fl_pos_invalid_time_manager_get_fl_pos_invalid_times_failed_due_to_lack_of_timestamps(self):
         gaps_margin = 0.0001
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = None

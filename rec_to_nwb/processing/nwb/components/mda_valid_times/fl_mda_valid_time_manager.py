@@ -6,8 +6,6 @@ from rec_to_nwb.processing.nwb.components.mda_valid_times.fl_mda_valid_time_buil
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
-# ToDo change tests if it will work
-
 class FlMdaValidTimeManager:
     """" Manage MDA data and call FLMdaValidTimeBuilder to create list of FLMdaValidTime objects.
 

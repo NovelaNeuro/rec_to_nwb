@@ -6,8 +6,6 @@ from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
-# ToDo change tests if it will work
-
 class FlMdaInvalidTimeManager:
     """" Manage MDA data and call FLMdaInvalidTimeBuilder to create list of FLMdaInvalidTime objects.
 

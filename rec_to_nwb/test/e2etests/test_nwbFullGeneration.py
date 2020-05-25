@@ -49,8 +49,8 @@ class TestNwbFullGeneration(unittest.TestCase):
     def test_nwb_file_builder_read_nwb(self):
         with NWBHDF5IO(self.nwb_builder.output_file, 'a') as nwb_file:
             content = nwb_file.read()
-            # print(content.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps)
-            print(type(content.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps))
+            print(content.acquisition['e-series'].timestamps)
+            print(type(content.acquisition['e-series'].timestamps))
 
     # @unittest.skip("append to created NWB")
     def test_nwb_file_builder_append_to_nwb(self):

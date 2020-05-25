@@ -517,7 +517,6 @@ class NWBFileBuilder:
         logger.info('POS invalid times: Injecting')
         self.pos_invalid_time_injector.inject_all(pos_invalid_times, nwb_content)
 
-    # ToDo Maybe build_and_append_to_nwb(). We can pass in param "mda_invalid_times" and function should do the rest.
     def build_and_append_mda_valid_times(self):
         with NWBHDF5IO(path=self.output_file, mode='a') as nwb_file_io:
             nwb_content = nwb_file_io.read()
@@ -542,4 +541,5 @@ class NWBFileBuilder:
             self.__build_and_inject_pos_invalid_times(nwb_content)
             nwb_file_io.write(nwb_content)
 
-#     ToDo check if module exist
+# ToDo Maybe build_and_append_to_nwb(). We can pass in param "mda_invalid_times" and function should do the rest.
+# ToDo check if module exist
