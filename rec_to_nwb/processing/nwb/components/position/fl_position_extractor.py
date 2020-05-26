@@ -34,6 +34,10 @@ class FlPositionExtractor:
         pos_data = PosDataManager(directories=self.all_pos)
         return MultiThreadDataIterator(pos_data)
 
+    def get_column_labels(self):
+        pos_data_manager = PosDataManager(self.all_pos)
+        return pos_data_manager.get_column_labels_as_string()
+
     def get_timestamps(self):
         pos_timestamp_manager = PosTimestampManager(
             directories=self.all_pos,

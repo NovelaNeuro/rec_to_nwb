@@ -91,15 +91,16 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
       ]
     # Associated files which describe content of files stored inside nwb as text.
        associated_files:
-     -  name: example_name1
-        description: exmaple description 1
-     -  name: example_name2
-        description: exmaple description 2
+      -  name: example_name1
+         description: exmaple description 1
+         path: C:/Users/sampleuser/PycharmProjects/rec_to_nwb/test/processing/res/test_text_files/test1_file
+      -  name: example_name2
+         description: exmaple description 2
+         path: C:/Users/sampleuser/PycharmProjects/rec_to_nwb/test/processing/res/test_text_files/test2_file
     # Din/Dout events which filter out files from DIO data in data directory. Each name has to be unique. Stored in behavioral_events section in output nwb file.
     behavioral_events: 
-      - name: Din1
-      - name: Din2
-        description: Poke2
+      - name: Poke2
+        description: Din2
     # Device name. Stored in output nwb file.
     device: 
       name:
@@ -177,7 +178,6 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
              data_path='../test/test_data/',
              dates=['20190718'],
              nwb_metadata=metadata,
-             associated_files=['../test/test_data/recording_drivers', '../test/test_data/device_software'],
              output_path='/out/nwb'
               )
    builder.build_nwb()
@@ -192,8 +192,6 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
 
       **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml <br>
       
-      **associated_files** = `list of strings` These elements corespond to the metadata.yml, 'associated_files'  section`s. There you should describe in the same order, each file`s name and description <br>
-    
       **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb') <br>
 
       **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True) <br>
@@ -210,7 +208,7 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
       
       **overwrite** = `boolean`  If true, will overwrite existing files. (default True) <br>
       
-      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')` <br>
+      **trodes_rec_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')` <br>
 
 ##### Preprocessed data
 If you have already preprocessed data or RawToNwb process crashed during building file you can initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
@@ -221,7 +219,6 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
             animal_name='beans',
             date='20190718',
             nwb_metadata=metadata,
-            associated_files=['../test/test_data/recording_drivers', '../test/test_data/device_software'],
             process_dio=True,
             process_mda=True,
             process_analog=True
@@ -239,8 +236,6 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
      
      **nwb_metadata** = `MetadataManager` object contains metadata about experiment <br>
     
-     **associated_files** = `list of strings` These elements corespond to the metadata.yml, 'associated_files'  section`s. There you should describe in the same order, each file`s name and description <br>
-     
      **process_dio** = `boolean` flag if dio data should be processed <br>
      
      **process_mda** = `boolean` flag if mda data should be processed <br>
