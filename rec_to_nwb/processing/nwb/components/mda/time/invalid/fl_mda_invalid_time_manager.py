@@ -48,7 +48,7 @@ class FlMdaInvalidTimeManager:
             nwb_content.acquisition['e-series'].timestamps
         )
 
-        if timestamps.any():
+        if timestamps and timestamps.shape[0]:
             return timestamps
         raise MissingDataException('MDA timestamp not found')
 

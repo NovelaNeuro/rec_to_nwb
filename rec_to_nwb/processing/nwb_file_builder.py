@@ -518,34 +518,25 @@ class NWBFileBuilder:
         logger.info('POS invalid times: Injecting')
         self.pos_invalid_time_injector.inject_all(pos_invalid_times, nwb_content)
 
-    def build_and_append_mda_valid_times(self):
+    def build_and_append_to_nwb(self, process_mda_valid_time=False, process_mda_invalid_time=False,
+                                process_pos_valid_time=False, process_pos_invalid_time=False):
         with NWBHDF5IO(path=self.output_file, mode='a') as nwb_file_io:
             nwb_content = nwb_file_io.read()
-            self.__build_and_inject_mda_valid_times(nwb_content)
+
+            if process_mda_valid_time:
+                self.__build_and_inject_mda_valid_times(nwb_content)
+            if process_mda_invalid_time:
+                self.__build_and_inject_mda_invalid_times(nwb_content)
+            if process_pos_valid_time:
+                self.__build_and_inject_pos_valid_times(nwb_content)
+            if process_pos_invalid_time:
+                self.__build_and_inject_pos_invalid_times(nwb_content)
+
             nwb_file_io.write(nwb_content)
 
-    def build_and_append_mda_invalid_times(self):
-        with NWBHDF5IO(path=self.output_file, mode='a') as nwb_file_io:
-            nwb_content = nwb_file_io.read()
-            self.__build_and_inject_mda_invalid_times(nwb_content)
-            nwb_file_io.write(nwb_content)
 
-    def build_and_append_pos_valid_times(self):
-        with NWBHDF5IO(path=self.output_file, mode='a') as nwb_file_io:
-            nwb_content = nwb_file_io.read()
-            self.__build_and_inject_pos_valid_times(nwb_content)
-            nwb_file_io.write(nwb_content)
-
-    def build_and_append_pos_invalid_times(self):
-        with NWBHDF5IO(path=self.output_file, mode='a') as nwb_file_io:
-            nwb_content = nwb_file_io.read()
-            self.__build_and_inject_pos_invalid_times(nwb_content)
-            nwb_file_io.write(nwb_content)
-
-# ToDo TImestamps.any()
-# ToDo Maybe build_and_append_to_nwb(). We can pass in param string "mda_invalid_times" and function should do the rest.
 # ToDo check if module exist
 # ToDo Update readme
+
 # ToDo check pylint - After few commit I test some other branch where I recreate env and as I see now,
 #  I forgot install pylint. I will add it tomorrow
-#     ToDo Period should be stored in NWBFileBuilder / metadata.yml
