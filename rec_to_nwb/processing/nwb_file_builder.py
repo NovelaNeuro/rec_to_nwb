@@ -59,6 +59,7 @@ from rec_to_nwb.processing.nwb.components.position.time.invalid.fl_pos_invalid_t
     FlPosInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.position.time.invalid.pos_invalid_time_injector import PosInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_manager import FlPosValidTimeManager
+from rec_to_nwb.processing.nwb.components.position.time.valid.pos_valid_time_injector import PosValidTimeInjector
 from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
@@ -226,7 +227,7 @@ class NWBFileBuilder:
         self.mda_invalid_time_injector = MdaInvalidTimeInjector()
 
         self.fl_pos_valid_time_manager = FlPosValidTimeManager()
-        self.pos_valid_time_injector = MdaValidTimeInjector()
+        self.pos_valid_time_injector = PosValidTimeInjector()
 
         self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager()
         self.pos_invalid_time_injector = PosInvalidTimeInjector()
@@ -529,8 +530,3 @@ class NWBFileBuilder:
                 self.__build_and_inject_pos_invalid_times(nwb_content)
 
             nwb_file_io.write(nwb_content)
-
-
-# ToDo check if module exist
-# ToDo Update readme
-
