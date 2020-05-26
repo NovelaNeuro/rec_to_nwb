@@ -14,6 +14,10 @@ subject:
   subject id:      Beans
   weight:          Unknown
 
+units:
+  analog: 'unspecified'
+  behavioral_events: 'unspecified'
+
 tasks:
   [
   {
