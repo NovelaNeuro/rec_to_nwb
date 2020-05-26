@@ -1,8 +1,9 @@
 from unittest import TestCase
+
 import numpy
 
-from rec_to_nwb.processing.nwb.components.analog.fl_analog import FlAnalog
 from rec_to_nwb.processing.nwb.components.analog.analog_creator import AnalogCreator
+from rec_to_nwb.processing.nwb.components.analog.fl_analog import FlAnalog
 
 
 class TestAnalogCreator(TestCase):
@@ -26,7 +27,7 @@ class TestAnalogCreator(TestCase):
         self.fl_analog = FlAnalog(self.data, self.timestamp)
 
     def test_creator_create_analog_successfully(self):
-        analog = AnalogCreator.create(self.fl_analog)
+        analog = AnalogCreator.create(self.fl_analog, 'um')
         self.assertIsNotNone(analog)
         self.assertEqual((9, 4), analog.fields['time_series']['analog'].data.shape)
         self.assertEqual(4, analog.fields['time_series']['analog'].timestamps.size)

@@ -33,6 +33,10 @@ class TestMetadataManager(TestCase):
         self.assertIn('electrode groups', metadata_fields)
         self.assertIn('ntrode electrode group channel map', metadata_fields)
 
+        self.assertIn('units', metadata_fields)
+        self.assertIn('unspecified', nwb_metadata.metadata['units']['analog'])
+        self.assertIn('unspecified', nwb_metadata.metadata['units']['behavioral_events'])
+
         subject_fields = nwb_metadata.metadata['subject'].keys()
         self.assertIn('description', subject_fields)
         self.assertIn('genotype', subject_fields)
