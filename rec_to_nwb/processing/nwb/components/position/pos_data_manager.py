@@ -29,8 +29,5 @@ class PosDataManager(DataManager):
         """extract column labels from POS files and converts them do single string"""
         labels = self.get_column_labels()
         labels_string = ''
-        for label in labels:
-            labels_string += label
-            if not label == labels[-1]:
-                labels_string += ', '
+        labels_string = ', '.join(labels)
         return labels_string
