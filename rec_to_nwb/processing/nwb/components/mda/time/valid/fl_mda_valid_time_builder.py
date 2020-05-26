@@ -1,4 +1,4 @@
-from rec_to_nwb.processing.nwb.components.mda_valid_times.fl_mda_valid_time import FlMdaValidTime
+from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time import FlMdaValidTime
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 

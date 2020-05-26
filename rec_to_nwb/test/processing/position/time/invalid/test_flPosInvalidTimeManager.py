@@ -6,7 +6,8 @@ from pynwb import NWBFile
 from testfixtures import should_raise
 
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
-from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
+from rec_to_nwb.processing.nwb.components.position.time.invalid.fl_pos_invalid_time_manager import \
+    FlPosInvalidTimeManager
 
 
 class TestFlPosInvalidTimeManager(TestCase):

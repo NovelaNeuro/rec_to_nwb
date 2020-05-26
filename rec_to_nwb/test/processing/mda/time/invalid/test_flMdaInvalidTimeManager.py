@@ -6,7 +6,7 @@ from pynwb import NWBFile
 from testfixtures import should_raise
 
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
-from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
+from rec_to_nwb.processing.nwb.components.mda.time.invalid.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
 
 
 class TestMdaInvalidTimeManager(TestCase):

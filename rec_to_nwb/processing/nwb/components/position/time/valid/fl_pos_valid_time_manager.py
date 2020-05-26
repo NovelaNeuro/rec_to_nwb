@@ -2,7 +2,7 @@ import numpy as np
 from pynwb import NWBFile
 
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
-from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_builder import FlPosValidTimeBuilder
+from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_builder import FlPosValidTimeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
@@ -42,7 +42,7 @@ class FlPosValidTimeManager:
             nwb_content.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps
         )
 
-        if timestamps.any():
+        if timestamps.shape[0]:
             return timestamps
         raise MissingDataException('POS timestamp not found')
 

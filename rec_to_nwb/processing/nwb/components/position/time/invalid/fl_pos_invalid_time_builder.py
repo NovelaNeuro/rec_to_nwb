@@ -1,15 +1,13 @@
-from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time import FlMdaInvalidTime
+from rec_to_nwb.processing.nwb.components.position.time.invalid.fl_pos_invalid_time import FlPosInvalidTime
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
-class FlMdaInvalidTimeBuilder:
+class FlPosInvalidTimeBuilder:
 
     @staticmethod
     @beartype
     def build(start_time: float, stop_time: float):
-        return FlMdaInvalidTime(
+        return FlPosInvalidTime(
             start_time=start_time,
             stop_time=stop_time
         )
-
-

@@ -49,15 +49,16 @@ from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_manager import FlEpoc
 from rec_to_nwb.processing.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from rec_to_nwb.processing.nwb.components.mda.fl_mda_manager import FlMdaManager
 from rec_to_nwb.processing.nwb.components.mda.mda_injector import MdaInjector
-from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
-from rec_to_nwb.processing.nwb.components.mda_invalid_times.mda_invalid_time_injector import MdaInvalidTimeInjector
-from rec_to_nwb.processing.nwb.components.mda_valid_times.fl_mda_valid_time_manager import FlMdaValidTimeManager
-from rec_to_nwb.processing.nwb.components.mda_valid_times.mda_valid_time_injector import MdaValidTimeInjector
-from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
-from rec_to_nwb.processing.nwb.components.pos_invalid_times.pos_invalid_time_injector import PosInvalidTimeInjector
-from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_manager import FlPosValidTimeManager
+from rec_to_nwb.processing.nwb.components.mda.time.invalid.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
+from rec_to_nwb.processing.nwb.components.mda.time.invalid.mda_invalid_time_injector import MdaInvalidTimeInjector
+from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time_manager import FlMdaValidTimeManager
+from rec_to_nwb.processing.nwb.components.mda.time.valid.mda_valid_time_injector import MdaValidTimeInjector
 from rec_to_nwb.processing.nwb.components.position.fl_position_manager import FlPositionManager
 from rec_to_nwb.processing.nwb.components.position.position_creator import PositionCreator
+from rec_to_nwb.processing.nwb.components.position.time.invalid.fl_pos_invalid_time_manager import \
+    FlPosInvalidTimeManager
+from rec_to_nwb.processing.nwb.components.position.time.invalid.pos_invalid_time_injector import PosInvalidTimeInjector
+from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_manager import FlPosValidTimeManager
 from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
