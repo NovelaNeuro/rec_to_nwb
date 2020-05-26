@@ -8,7 +8,7 @@ from rec_to_nwb.processing.raw_to_nwb_builder import RawToNWBBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/../processing/res/reconfig_header.xml')
+_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '/../processing/res/reconfig_header.xml')
 
 
 @unittest.skip("Super heavy RAW to NWB Generation")
@@ -28,10 +28,6 @@ class TestRawToNWBGeneration(unittest.TestCase):
             data_path=str(path) + '/../test_data/',
             dates=['20190718'],
             nwb_metadata=self.metadata,
-            associated_files=[
-                (str(path) + '/../processing/res/test_text_files/test1_file'),
-                (str(path) + '/../processing/res/test_text_files/test2_file'),
-            ],
             output_path='',
             extract_spikes=False,
             extract_mda=True,
@@ -39,7 +35,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
             extract_analog=True,
             extract_dio=True,
             overwrite=True,
-            analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
+            trodes_rec_export_args=_DEFAULT_TRODES_REC_EXPORT_ARGS
         )
 
     def test_from_raw_to_nwb_generation(self):
@@ -53,11 +49,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
             data_path=str(path) + '/../test_data/',
             dates=['20190718'],
             nwb_metadata=None,
-            associated_files=[
-                (str(path) + '/../processing/res/20191212_bill_02_r1.stateScriptLog'),
-                (str(path) + '/../processing/res/V4_delay_no_home_chinatown_3_4_20.sc'),
-                (str(path) + '/../processing/res/V4_no_home_light_cue_chinatown_3_4_20.py')
-            ]
+
         )
 
     @should_raise(TypeError)
@@ -67,11 +59,6 @@ class TestRawToNWBGeneration(unittest.TestCase):
             data_path=str(path) + '/../test_data/',
             dates=['20190718'],
             nwb_metadata=self.metadata,
-            associated_files=[
-                str(path) + '/../processing/res/20191212_bill_02_r1.stateScriptLog',
-                str(path) + '/../processing/res/V4_delay_no_home_chinatown_3_4_20.sc',
-                str(path) + '/../processing/res/V4_no_home_light_cue_chinatown_3_4_20.py'
-            ],
             output_path='',
             extract_spikes=False,
             extract_mda=True,
@@ -79,7 +66,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
             extract_analog=True,
             extract_dio=True,
             overwrite=True,
-            analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
+            trodes_rec_export_args=_DEFAULT_TRODES_REC_EXPORT_ARGS
         )
 
     def tearDown(self):

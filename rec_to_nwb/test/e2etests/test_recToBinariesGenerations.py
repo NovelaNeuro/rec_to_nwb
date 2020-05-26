@@ -5,7 +5,7 @@ from rec_to_binaries import extract_trodes_rec_file
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '../processing/res/reconfig_header.xml')
+_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '../processing/res/reconfig_header.xml')
 
 
 class TestRecToBinGeneration(unittest.TestCase):
@@ -16,7 +16,7 @@ class TestRecToBinGeneration(unittest.TestCase):
                 data_dir='../test_data/',
                 animal='beans',
                 parallel_instances=4,
-                analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS,
+            trodes_rec_export_args=_DEFAULT_TRODES_REC_EXPORT_ARGS,
                 overwrite=True,
         )
 
