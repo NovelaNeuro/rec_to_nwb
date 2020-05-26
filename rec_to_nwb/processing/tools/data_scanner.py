@@ -3,6 +3,7 @@ import os
 
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
 from rec_to_nwb.processing.tools.dataset import Dataset
+from rec_to_nwb.processing.tools.file_sorter import FileSorter
 from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
 
 
@@ -18,8 +19,9 @@ class DataScanner:
 
     def get_all_epochs(self, date):
         all_datasets = []
-        directories = os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
-        directories.sort()
+        directories = FileSorter.sort_filenames(
+            os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
+        )
         for directory in directories:
             if directory.startswith(date):
                 dataset_name = (directory.split('_')[2] + '_' + directory.split('_')[3]).split('.')[0]
@@ -45,15 +47,14 @@ class DataScanner:
     def __extract_experiments(self, data_path, animal_name, dates):
         preprocessing_path = data_path + animal_name + '/preprocessing'
         if not dates:
-            dates = sorted(os.listdir(preprocessing_path))
+            dates = FileSorter.sort_filenames((os.listdir(preprocessing_path)))
         return {date: self.__extract_datasets(preprocessing_path + '/' + date) for date in dates}
 
     @staticmethod
     def __extract_datasets(date_path):
         existing_datasets = set()
         datasets = {}
-        directories = os.listdir(date_path)
-        directories.sort()
+        directories = FileSorter.sort_filenames(os.listdir(date_path))
 
         for directory in directories:
             dir_split = directory.split('_')
@@ -86,8 +87,7 @@ class DataScanner:
     @staticmethod
     def get_probes_from_directory(path):
         probes = []
-        files = os.listdir(path)
-        files.sort()
+        files = FileSorter.sort_filenames(os.listdir(path))
         for probe_file in files:
             if fnmatch.fnmatch(probe_file, "probe*.yml"):
                 probes.append(path + '/' + probe_file)
