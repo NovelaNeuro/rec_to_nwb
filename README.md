@@ -89,19 +89,18 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
         task_description: Spatial Bandit,
       }
       ]
-    # Associated files which describe content of files stored inside nwb as text, paths are related to main rec_to_nwb directory.
+    # Associated files which describe content of files stored inside nwb as text.
        associated_files:
       -  name: example_name1
          description: exmaple description 1
-         path: /test/processing/res/test_text_files/test1_file
+         path: C:/Users/sampleuser/PycharmProjects/rec_to_nwb/test/processing/res/test_text_files/test1_file
       -  name: example_name2
          description: exmaple description 2
-         path: /test/processing/res/test_text_files/test2_file
+         path: C:/Users/sampleuser/PycharmProjects/rec_to_nwb/test/processing/res/test_text_files/test2_file
     # Din/Dout events which filter out files from DIO data in data directory. Each name has to be unique. Stored in behavioral_events section in output nwb file.
     behavioral_events: 
-      - name: Din1
-      - name: Din2
-        description: Poke2
+      - name: Poke2
+        description: Din2
     # Device name. Stored in output nwb file.
     device: 
       name:
@@ -209,7 +208,7 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
       
       **overwrite** = `boolean`  If true, will overwrite existing files. (default True) <br>
       
-      **analog_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_ANALOG_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')` <br>
+      **trodes_rec_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')` <br>
 
 ##### Preprocessed data
 If you have already preprocessed data or RawToNwb process crashed during building file you can initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
