@@ -1,5 +1,7 @@
 import os
 
+from rec_to_nwb.processing.tools.file_sorter import FileSorter
+
 
 class Dataset:
     def __init__(self, name):
@@ -14,7 +16,7 @@ class Dataset:
 
     def get_all_data_from_dataset(self, data_type):
         directories = os.listdir(self.data[data_type])
-        directories.sort()
+        FileSorter.sort_filenames(directories)
         return directories
 
     def get_mda_timestamps(self):
