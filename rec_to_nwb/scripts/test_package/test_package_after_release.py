@@ -9,7 +9,7 @@ from rec_to_nwb.processing.raw_to_nwb_builder import RawToNWBBuilder
 
 path = Path(__file__).parent.parent
 path.resolve()
-_DEFAULT_ANALOG_EXPORT_ARGS = (
+_DEFAULT_TRODES_REC_EXPORT_ARGS = (
     '-reconfig',
     str(path) + '/rec_to_nwb/rec_to_nwb/test/processing/res/reconfig_header.xml'
 )
@@ -51,7 +51,7 @@ class TestPackageAfterRelease(TestCase):
             extract_analog=True,
             extract_dio=True,
             overwrite=True,
-            analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
+            trodes_rec_export_args=_DEFAULT_TRODES_REC_EXPORT_ARGS
         )
         builder.build_nwb()
 

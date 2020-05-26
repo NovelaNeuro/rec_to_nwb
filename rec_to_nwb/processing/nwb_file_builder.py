@@ -61,6 +61,7 @@ from rec_to_nwb.processing.nwb.components.processing_module.processing_module_cr
 from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
+from rec_to_nwb.processing.validation.associated_files_validation import AssociatedFilesValidator
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
 from rec_to_nwb.processing.validation.preprocessing_validator import PreprocessingValidator
 from rec_to_nwb.processing.validation.task_validator import TaskValidator
@@ -79,7 +80,6 @@ class NWBFileBuilder:
         animal_name (string): directory name which represents animal subject of experiment
         date (string): date of experiment
         nwb_metadata (MetadataManager): object contains metadata about experiment
-        associated_files (list of strings): list of paths to files stored inside nwb
         process_dio (boolean): flag if dio data should be processed
         process_mda (boolean): flag if mda data should be processed
         process_analog (boolean): flag if analog data should be processed
@@ -101,7 +101,6 @@ class NWBFileBuilder:
             animal_name: str,
             date: str,
             nwb_metadata: MetadataManager,
-            associated_files: list = [],
             process_dio: bool = True,
             process_mda: bool = True,
             process_analog: bool = True,
@@ -119,7 +118,6 @@ class NWBFileBuilder:
             + 'animal_name = ' + str(animal_name) + '\n'
             + 'date = ' + str(date) + '\n'
             + 'nwb_metadata = ' + str(nwb_metadata) + '\n'
-            + 'associated_files = ' + str(associated_files) + '\n'
             + 'process_dio = ' + str(process_dio) + '\n'
             + 'process_mda = ' + str(process_mda) + '\n'
             + 'process_analog = ' + str(process_analog) + '\n'
@@ -130,7 +128,6 @@ class NWBFileBuilder:
         self.date = date
         self.data_path = data_path
         self.metadata = nwb_metadata.metadata
-        self.associated_files = associated_files
         self.probes = nwb_metadata.probes
         self.process_dio = process_dio
         self.process_mda = process_mda
@@ -209,9 +206,10 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
-        if associated_files:
+        if 'associated_files' in self.metadata:
+            validation_registrator.register(AssociatedFilesValidator(self.metadata['associated_files']))
+            validation_registrator.validate()
             self.fl_associated_files_manager = FlAssociatedFilesManager(
-                self.associated_files,
                 self.metadata['associated_files']
             )
             self.associated_files_creator = AssociatedFilesCreator()
@@ -292,7 +290,7 @@ class NWBFileBuilder:
 
         self.__build_and_inject_epochs(nwb_content)
 
-        if self.associated_files:
+        if 'associated_files' in self.metadata:
             self.__build_and_inject_associated_files(nwb_content)
 
         if self.process_dio:
@@ -463,6 +461,7 @@ class NWBFileBuilder:
         ]
         logger.info('AssociatedFiles: Injecting')
         self.associated_files_injector.inject(associated_files, 'behavior', nwb_content)
+        logger.info("Files stored inside nwb: " + str(associated_files))
 
     def __build_and_inject_mda(self, nwb_content):
         logger.info('MDA: Building')
