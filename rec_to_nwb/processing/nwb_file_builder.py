@@ -90,6 +90,7 @@ class NWBFileBuilder:
     Methods:
         build()
         write()
+        build_and_append_to_nwb()
     """
 
     @beartype
@@ -496,6 +497,25 @@ class NWBFileBuilder:
 
     def build_and_append_to_nwb(self, process_mda_valid_time=False, process_mda_invalid_time=False,
                                 process_pos_valid_time=False, process_pos_invalid_time=False):
+        """Create and append to existing nwb. Set flag to add it to nwb
+
+        Args:
+            process_mda_valid_time (boolean): flag if the mda valid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default False)
+            process_mda_invalid_time (boolean): flag if the mda invalid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default False)
+            process_pos_valid_time (boolean): flag if the pos valid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default False)
+            process_pos_invalid_time (boolean): flag if the pos invalid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default False)
+
+        Raises:
+            ElementExistException: If element already exist in NWB
+
+        Returns:
+            NWBFile: Return NWBFile content
+        """
+
         with NWBHDF5IO(path=self.output_file, mode='a') as nwb_file_io:
             nwb_content = nwb_file_io.read()
 
