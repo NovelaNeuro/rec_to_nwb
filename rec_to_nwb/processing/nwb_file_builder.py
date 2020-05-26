@@ -340,7 +340,7 @@ class NWBFileBuilder:
         )
         fl_analog = analog_manager.get_analog()
         analog_injector = AnalogInjector(nwb_content)
-        analog_injector.inject(AnalogCreator.create(fl_analog), 'behavior')
+        analog_injector.inject(AnalogCreator.create(fl_analog, self.metadata['units']['analog']), 'behavior')
 
     def __build_and_inject_processing_module(self, nwb_content):
         logger.info('Task: Building')
@@ -443,7 +443,8 @@ class NWBFileBuilder:
         )
         dio_data = dio_manager.get_dio()
         logger.info('DIO: Building')
-        dio_builder = DioBuilder(dio_data, self.metadata['behavioral_events'])
+        dio_builder = DioBuilder(dio_data, self.metadata['behavioral_events'],
+                                 self.metadata['units']['behavioral_events'])
         behavioral_events = dio_builder.build()
         logger.info('DIO: Injecting into NWB')
         dio_injector = DioInjector(nwb_content)
