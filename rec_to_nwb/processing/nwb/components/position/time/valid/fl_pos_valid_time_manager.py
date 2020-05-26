@@ -42,7 +42,7 @@ class FlPosValidTimeManager:
             nwb_content.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps
         )
 
-        if timestamps.shape[0]:
+        if timestamps.any():
             return timestamps
         raise MissingDataException('POS timestamp not found')
 
