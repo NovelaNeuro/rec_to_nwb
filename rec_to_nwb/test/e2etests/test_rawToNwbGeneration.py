@@ -38,10 +38,6 @@ class TestRawToNWBGeneration(unittest.TestCase):
             extract_lfps=False,
             extract_analog=True,
             extract_dio=True,
-            process_mda_valid_times=True,
-            process_mda_invalid_times=True,
-            process_pos_valid_times=True,
-            process_pos_invalid_times=True,
             overwrite=True,
             analog_export_args=_DEFAULT_ANALOG_EXPORT_ARGS
         )

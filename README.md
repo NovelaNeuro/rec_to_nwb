@@ -484,3 +484,15 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
    |-- README.md
    ```
 When processing completes, a nwb file is created in the output_path directory
+
+14. Invalid and valid data of mda / pos can be added to nwb using `build_and_append_to_nwb` method from `NWBFileBuilder` class. <br>
+    Just set one of interesting you flag to True, program will read NWB and add indicated element. <br>
+    Check if your `NWBFile` contains accordingly mda/pos data. <br>
+    build_and_append_to_nwb arguments:
+    ```
+    **process_mda_valid_time** = 'boolean' Set to true to build and append the mda valid time to the nwb. Need the mda data inside NWB (default: False) <br>
+    **process_mda_invalid_time** = 'boolean' Set to true to build and append the mda invalid time to the nwb. Need the mda data inside NWB (default: False) <br>
+    **process_pos_valid_time** = 'boolean' Set to true to build and append the pos valid time to the nwb. Need the pos data inside NWB (default: False) <br>
+    **process_pos_invalid_time** = 'boolean' Set to true to build and append the pos invalid time to the nwb. Need the pos data inside NWB (default: False) <br>
+    ```
+

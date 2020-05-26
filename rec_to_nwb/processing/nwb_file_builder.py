@@ -85,10 +85,6 @@ class NWBFileBuilder:
         process_dio (boolean): flag if dio data should be processed
         process_mda (boolean): flag if mda data should be processed
         process_analog (boolean): flag if analog data should be processed
-        process_mda_valid_times (boolean): flag if mda valid times should be processed
-        process_mda_invalid_times (boolean): flag if mda invalid times should be processed
-        process_pos_valid_times (boolean): flag if pos valid times should be processed
-        process_pos_invalid_times (boolean): flag if pos invalid times should be processed
         output_file (string): path and name specifying where .nwb file gonna be written
 
     Methods:
@@ -107,10 +103,6 @@ class NWBFileBuilder:
             process_dio: bool = True,
             process_mda: bool = True,
             process_analog: bool = True,
-            process_mda_valid_times: bool = False,
-            process_mda_invalid_times: bool = False,
-            process_pos_valid_times: bool = False,
-            process_pos_invalid_times: bool = False,
             output_file: str = 'output.nwb'
     ):
 
@@ -137,10 +129,6 @@ class NWBFileBuilder:
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.process_analog = process_analog
-        self.process_mda_valid_times = process_mda_valid_times
-        self.process_mda_invalid_times = process_mda_invalid_times
-        self.process_pos_valid_times = process_pos_valid_times
-        self.process_pos_invalid_times = process_pos_invalid_times
         self.output_file = output_file
         self.link_to_notes = self.metadata.get('link to notes', '')
         data_types_for_scanning = {'pos': True,
@@ -308,20 +296,8 @@ class NWBFileBuilder:
         if self.process_mda:
             self.__build_and_inject_mda(nwb_content)
 
-            if self.process_mda_valid_times:
-                self.__build_and_inject_mda_valid_times(nwb_content)
-
-            if self.process_mda_invalid_times:
-                self.__build_and_inject_mda_invalid_times(nwb_content)
-
         if self.process_analog:
             self.__build_and_inject_analog(nwb_content)
-
-        if self.process_pos_valid_times:
-            self.__build_and_inject_pos_valid_times(nwb_content)
-
-        if self.process_pos_invalid_times:
-            self.__build_and_inject_pos_invalid_times(nwb_content)
 
         return nwb_content
 
@@ -538,5 +514,3 @@ class NWBFileBuilder:
 # ToDo check if module exist
 # ToDo Update readme
 
-# ToDo check pylint - After few commit I test some other branch where I recreate env and as I see now,
-#  I forgot install pylint. I will add it tomorrow

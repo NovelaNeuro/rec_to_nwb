@@ -40,10 +40,6 @@ class RawToNWBBuilder:
         extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
         extract_dio (boolean): flag if dio data should be extracted and processed from raw data
         extract_mda (boolean): flag if mda data should be extracted and processed from raw data
-        process_mda_valid_times (boolean): flag if mda valid times should be processed
-        process_mda_invalid_times (boolean): flag if mda invalid times should be processed
-        process_pos_valid_times (boolean): flag if pos valid times should be processed
-        process_pos_invalid_times (boolean): flag if pos invalid times should be processed
         overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
         lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
         mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
@@ -69,10 +65,6 @@ class RawToNWBBuilder:
             extract_lfps: bool = False,
             extract_dio: bool = True,
             extract_mda: bool = True,
-            process_mda_valid_times: bool = True,
-            process_mda_invalid_times: bool = True,
-            process_pos_valid_times: bool = True,
-            process_pos_invalid_times: bool = True,
             overwrite: bool = True,
             lfp_export_args: tuple = _DEFAULT_LFP_EXPORT_ARGS,
             mda_export_args: tuple = _DEFAULT_MDA_EXPORT_ARGS,
@@ -91,10 +83,6 @@ class RawToNWBBuilder:
         self.extract_dio = extract_dio
         self.extract_lfps = extract_lfps
         self.extract_mda = extract_mda
-        self.process_mda_valid_times = process_mda_valid_times
-        self.process_mda_invalid_times = process_mda_invalid_times
-        self.process_pos_valid_times = process_pos_valid_times
-        self.process_pos_invalid_times = process_pos_invalid_times
         self.lfp_export_args = lfp_export_args
         self.mda_export_args = mda_export_args
         self.overwrite = overwrite
@@ -163,10 +151,6 @@ class RawToNWBBuilder:
                 process_mda=self.extract_mda,
                 process_dio=self.extract_dio,
                 process_analog=self.extract_analog,
-                process_mda_valid_times=self.process_mda_valid_times,
-                process_mda_invalid_times=self.process_mda_invalid_times,
-                process_pos_valid_times=self.process_pos_valid_times,
-                process_pos_invalid_times=self.process_pos_invalid_times
             )
             content = nwb_builder.build()
             nwb_builder.write(content)

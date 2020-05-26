@@ -1,6 +1,5 @@
 import os
 import unittest
-from pathlib import Path
 
 from rec_to_binaries import extract_trodes_rec_file
 
