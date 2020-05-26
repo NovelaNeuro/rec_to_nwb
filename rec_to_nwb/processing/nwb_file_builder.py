@@ -542,8 +542,10 @@ class NWBFileBuilder:
             self.__build_and_inject_pos_invalid_times(nwb_content)
             nwb_file_io.write(nwb_content)
 
+# ToDo TImestamps.any()
 # ToDo Maybe build_and_append_to_nwb(). We can pass in param string "mda_invalid_times" and function should do the rest.
 # ToDo check if module exist
 # ToDo Update readme
 # ToDo check pylint - After few commit I test some other branch where I recreate env and as I see now,
 #  I forgot install pylint. I will add it tomorrow
+#     ToDo Period should be stored in NWBFileBuilder / metadata.yml
