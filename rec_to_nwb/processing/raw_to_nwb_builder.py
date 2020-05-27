@@ -48,6 +48,7 @@ class RawToNWBBuilder:
 
     Methods:
         build_nwb()
+        append_to_nwb()
         cleanup()
     """
 
@@ -98,6 +99,50 @@ class RawToNWBBuilder:
         if self.trodes_rec_export_args != () and not self.__is_rec_config_valid():
             raise InvalidXMLException('Reconfig xml does not match expected xsd')
 
+    def __is_rec_config_valid(self):
+        """ Check if XML is valid with XSD file """
+
+        xml_file_path = ''
+        for i in range(len(self.trodes_rec_export_args)):
+            if self.trodes_rec_export_args[i] == '-reconfig':
+                xml_file_path = self.trodes_rec_export_args[i + 1]
+        xsd_file_path = str(path) + '/../../rec_to_nwb/data/reconfig_header.xsd'
+        xsd_schema = xmlschema.XMLSchema(xsd_file_path)
+        return xsd_schema.is_valid(xml_file_path)
+
+    def build_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
+                  process_pos_valid_time=True, process_pos_invalid_time=True):
+        """Builds nwb file for experiments from given dates.
+
+        Args:
+            process_mda_valid_time (boolean): If true, build and inject into NWB mda valid times (default: True)
+            process_mda_invalid_time (boolean): If true, build and inject into NWB mda vinalid times (default: True)
+            process_pos_valid_time (boolean): If true, build and inject into NWB pos valid times (default: True)
+            process_pos_invalid_time (boolean): If true, build and inject into NWB pos invalid times (default: True)
+        """
+
+        self.__preprocess_data()
+        for date in self.dates:
+            nwb_builder = NWBFileBuilder(
+                data_path=self.data_path,
+                animal_name=self.animal_name,
+                date=date,
+                nwb_metadata=self.nwb_metadata,
+                output_file=self.output_path + self.animal_name + date + ".nwb",
+                process_mda=self.extract_mda,
+                process_dio=self.extract_dio,
+                process_analog=self.extract_analog,
+            )
+            content = nwb_builder.build()
+            nwb_builder.write(content)
+            self.append_to_nwb(
+                nwb_builder=nwb_builder,
+                process_mda_valid_time=process_mda_valid_time,
+                process_mda_invalid_time=process_mda_invalid_time,
+                process_pos_valid_time=process_pos_valid_time,
+                process_pos_invalid_time=process_pos_invalid_time
+            )
+
     def __preprocess_data(self):
         """process data with rec_to_binaries library"""
 
@@ -134,31 +179,25 @@ class RawToNWBBuilder:
             analog_export_args=self.trodes_rec_export_args
         )
 
-    def append(self, process_mda_valid_time=True, process_mda_invalid_time=True,
-               process_pos_valid_time=True, process_pos_invalid_time=True):
-        self.nwb_builder.build_and_append_to_nwb(process_mda_valid_time=process_mda_valid_time,
-                                                 process_mda_invalid_time=process_mda_invalid_time,
-                                                 process_pos_valid_time=process_pos_valid_time,
-                                                 process_pos_invalid_time=process_pos_invalid_time)
+    @staticmethod
+    def append_to_nwb(nwb_builder, process_mda_valid_time, process_mda_invalid_time,
+               process_pos_valid_time, process_pos_invalid_time):
+        """Append to NWBFile that was build using NWBFileBuilder passed in parameter.
 
+        Args:
+            nwb_builder (NWBFileBuilder): Builder that created NWBFile you want to append to
+            process_mda_valid_time (boolean): If true, build and inject into NWB mda valid times
+            process_mda_invalid_time (boolean): If true, build and inject into NWB mda invalid times
+            process_pos_valid_time (boolean): If true, build and inject into NWB pos valid times
+            process_pos_invalid_time (boolean): If true, build and inject into NWB pos invalid times
+        """
 
-    def build_nwb(self):
-        """Builds nwb file for experiments from given dates"""
-
-        self.__preprocess_data()
-        for date in self.dates:
-            nwb_builder = NWBFileBuilder(
-                data_path=self.data_path,
-                animal_name=self.animal_name,
-                date=date,
-                nwb_metadata=self.nwb_metadata,
-                output_file=self.output_path + self.animal_name + date + ".nwb",
-                process_mda=self.extract_mda,
-                process_dio=self.extract_dio,
-                process_analog=self.extract_analog,
-            )
-            content = nwb_builder.build()
-            nwb_builder.write(content)
+        nwb_builder.build_and_append_to_nwb(
+            process_mda_valid_time=process_mda_valid_time,
+            process_mda_invalid_time=process_mda_invalid_time,
+            process_pos_valid_time=process_pos_valid_time,
+            process_pos_invalid_time=process_pos_invalid_time
+        )
 
     def cleanup(self):
         """Remove all temporary files structure from preprocessing folder"""
@@ -167,13 +206,3 @@ class RawToNWBBuilder:
         if os.path.exists(preprocessing):
             shutil.rmtree(preprocessing)
 
-    def __is_rec_config_valid(self):
-        """ Check if XML is valid with XSD file """
-
-        xml_file_path = ''
-        for i in range(len(self.trodes_rec_export_args)):
-            if self.trodes_rec_export_args[i] == '-reconfig':
-                xml_file_path = self.trodes_rec_export_args[i + 1]
-        xsd_file_path = str(path) + '/../../rec_to_nwb/data/reconfig_header.xsd'
-        xsd_schema = xmlschema.XMLSchema(xsd_file_path)
-        return xsd_schema.is_valid(xml_file_path)

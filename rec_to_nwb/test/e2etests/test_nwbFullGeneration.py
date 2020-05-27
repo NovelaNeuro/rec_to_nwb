@@ -36,8 +36,12 @@ class TestNwbFullGeneration(unittest.TestCase):
     def test_nwb_file_builder_generate_nwb(self):
         content = self.nwb_builder.build()
         self.nwb_builder.write(content)
-        self.nwb_builder.build_and_append_to_nwb(process_mda_valid_time=True, process_mda_invalid_time=True,
-                                                 process_pos_valid_time=True, process_pos_invalid_time=True)
+        self.nwb_builder.build_and_append_to_nwb(
+            process_mda_valid_time=True,
+            process_mda_invalid_time=True,
+            process_pos_valid_time=True,
+            process_pos_invalid_time=True
+        )
         self.assertIsNotNone(self.nwb_builder)
 
     @unittest.skip("read created NWB")
