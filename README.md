@@ -157,11 +157,12 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    ```
 6. Set up paths to metadata and probe `yaml` files, which corresponds to the experiment you are going to process.
    ```bash
-   metadata = MetadataManager('../test/processing/res/metadata.yml',
-                         ['../test/processing/res/probe1.yml',
-                          '../test/processing/res/probe2.yml',
-                          '../test/processing/res/probe3.yml'
-                         ])
+   metadata = MetadataManager(
+        '../test/processing/res/metadata.yml',
+        ['../test/processing/res/probe1.yml',
+        '../test/processing/res/probe2.yml',
+        '../test/processing/res/probe3.yml']  
+   )
    ```
 7. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
 
@@ -170,7 +171,8 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
 * `NWBFileBuilder` - To generate NWB file from preprocessed data. <br>
 
 ##### Raw data
-Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder. Next build the NWB using `build_nwb()`.
+Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder. Next build the NWB using `build_nwb()`. <br>
+If you don't want mda or pos invalid/valid times in your nwb, set accordingly flag to false in 'build_nwb' method.
 
    ```bash
    builder = RawToNWBBuilder(
@@ -208,10 +210,26 @@ Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates
       
       **overwrite** = `boolean`  If true, will overwrite existing files. (default True) <br>
       
-      **trodes_rec_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')` <br>
+      **trodes_rec_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')` <br>  
+
+   build_nwb arguments:
+
+     **process_mda_valid_time** = 'boolean' True if the mda valid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default True) <br>
+     
+     **process_mda_invalid_time** = 'boolean' True if the mda invalid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default True) <br>
+     
+     **process_pos_valid_time** = 'boolean' True if the pos valid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default True) <br>
+     
+     **process_pos_invalid_time** = 'boolean' True if the pos invalid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default True) <br>
 
 ##### Preprocessed data
-If you have already preprocessed data or RawToNwb process crashed during building file you can initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`. Next build the NWB using `build()` and write it to file by `write(content)` method.
+If you have already preprocessed data or RawToNwb process crashed during building file you can initialize NWBFileBuilder, which requires `data_path`, `animal_name`, `date`, `nwb_metadata`.  
+Next build the NWB using `build()` and write it to file by `write(content)` method.
+After that, you can add mda or pos invalid/valid data to your NWB, using 'build_and_append_to_nwb' method.
 
    ```bash
    builder = NWBFileBuilder(
@@ -243,6 +261,20 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
      **process_analog** = `boolean` flag if analog data should be processed <br>
      
      **output_file** = `string` path and name specifying where .nwb file gonna be written <br>
+
+   build_and_append_to_nwb arguments:
+
+     **process_mda_valid_time** = 'boolean' True if the mda valid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default True) <br>
+     
+     **process_mda_invalid_time** = 'boolean' True if the mda invalid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default True) <br>
+     
+     **process_pos_valid_time** = 'boolean' True if the pos valid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default True) <br>
+     
+     **process_pos_invalid_time** = 'boolean' True if the pos invalid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default True) <br>
 
 9. Make sure that the data structure in given directory (in that case `test_data`) looks similar to following example:
    ```bash
@@ -479,15 +511,4 @@ If you have already preprocessed data or RawToNwb process crashed during buildin
    |-- README.md
    ```
 When processing completes, a nwb file is created in the output_path directory
-
-14. Invalid and valid data of mda / pos can be added to nwb using `build_and_append_to_nwb` method from `NWBFileBuilder` class. <br>
-    Just set one of interesting you flag to True, program will read NWB and add indicated element. <br>
-    Check if your `NWBFile` contains accordingly mda/pos data. <br>
-    build_and_append_to_nwb arguments:
-    ```
-    **process_mda_valid_time** = 'boolean' Set to true to build and append the mda valid time to the nwb. Need the mda data inside NWB (default: False) <br>
-    **process_mda_invalid_time** = 'boolean' Set to true to build and append the mda invalid time to the nwb. Need the mda data inside NWB (default: False) <br>
-    **process_pos_valid_time** = 'boolean' Set to true to build and append the pos valid time to the nwb. Need the pos data inside NWB (default: False) <br>
-    **process_pos_invalid_time** = 'boolean' Set to true to build and append the pos invalid time to the nwb. Need the pos data inside NWB (default: False) <br>
-    ```
 

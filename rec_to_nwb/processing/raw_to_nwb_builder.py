@@ -115,10 +115,14 @@ class RawToNWBBuilder:
         """Builds nwb file for experiments from given dates.
 
         Args:
-            process_mda_valid_time (boolean): If true, build and inject into NWB mda valid times (default: True)
-            process_mda_invalid_time (boolean): If true, build and inject into NWB mda vinalid times (default: True)
-            process_pos_valid_time (boolean): If true, build and inject into NWB pos valid times (default: True)
-            process_pos_invalid_time (boolean): If true, build and inject into NWB pos invalid times (default: True)
+            process_mda_valid_time (boolean): True if the mda valid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default True)
+            process_mda_invalid_time (boolean): True if the mda invalid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default True)
+            process_pos_valid_time (boolean): True if the pos valid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default True)
+            process_pos_invalid_time (boolean): True if the pos invalid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default True)
         """
 
         self.__preprocess_data()
