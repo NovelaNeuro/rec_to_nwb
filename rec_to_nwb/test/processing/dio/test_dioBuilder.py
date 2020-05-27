@@ -15,7 +15,9 @@ class TestDioBuilder(TestCase):
 
     def test_build(self):
         dio_builder = DioBuilder(data=self.data,
-                                 dio_metadata=self.metadata)
+                                 dio_metadata=self.metadata,
+                                 unit='um'
+                                 )
         behavioral_events = dio_builder.build()
         self.assertEqual(2, len(behavioral_events.time_series))
         self.assertEqual([11, 11, 11, 11], behavioral_events.time_series['poke1'].data)

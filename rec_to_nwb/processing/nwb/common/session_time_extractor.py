@@ -18,7 +18,7 @@ class SessionTimeExtractor:
             + self.dataset_names[0] + '.continuoustime.dat'
         continuous_time = SessionTimeExtractor.__read_continuous_time(continuous_time_file)
         session_start_timestamp = continuous_time['System_time_at_creation']
-        session_start_datetime = datetime.fromtimestamp(int(session_start_timestamp)/1E3, tz=tzlocal())
+        session_start_datetime = datetime.fromtimestamp(int(session_start_timestamp)/1E3, tzlocal())
         return session_start_datetime
 
     @staticmethod
