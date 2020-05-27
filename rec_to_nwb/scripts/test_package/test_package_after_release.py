@@ -19,8 +19,8 @@ class TestPackageAfterRelease(TestCase):
     """Class created to normalize testing.
     1. Copy 'test package' folder to the same catalog as the project is.
     2. Run create_conda.sh from terminal.
-    4. Set Python interpreter to created environment
-    6. Run test_build_and_read_nwb
+    3. Set Python interpreter to created environment
+    4. Run test_build_and_read_nwb
     """
 
     def test_build_and_read_nwb(self):
