@@ -1,4 +1,4 @@
-from ndx_fl_novela.probe import Probe
+from ndx_franklab_novela.probe import Probe
 
 from rec_to_nwb.processing.nwb.components.electrode_group.fl_electrode_group import FlElectrodeGroup
 from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group_builder import FlNwbElectrodeGroupBuilder

@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from ndx_fl_novela.probe import ShanksElectrode
+from ndx_franklab_novela.probe import ShanksElectrode
 from testfixtures import should_raise
 
 from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
