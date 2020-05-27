@@ -134,6 +134,14 @@ class RawToNWBBuilder:
             analog_export_args=self.trodes_rec_export_args
         )
 
+    def append(self, process_mda_valid_time=True, process_mda_invalid_time=True,
+               process_pos_valid_time=True, process_pos_invalid_time=True):
+        self.nwb_builder.build_and_append_to_nwb(process_mda_valid_time=process_mda_valid_time,
+                                                 process_mda_invalid_time=process_mda_invalid_time,
+                                                 process_pos_valid_time=process_pos_valid_time,
+                                                 process_pos_invalid_time=process_pos_invalid_time)
+
+
     def build_nwb(self):
         """Builds nwb file for experiments from given dates"""
 
