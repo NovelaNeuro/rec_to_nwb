@@ -18,19 +18,10 @@ _DEFAULT_TRODES_REC_EXPORT_ARGS = (
 class TestPackageAfterRelease(TestCase):
     """Class created to normalize testing.
     1. Copy 'test package' folder to the same catalog as the project is.
-    2. Comment imports [ pynwb, MetadataManager, RawToNWBBuilder ]
-    3. Run test_setUpConda method.
-    4. Set Python interpreter to: path_to_this_folder/test_package/env/python.exe.
-    You can run test_setUpInterpreter, then just copy path to your IDE interpreter settings.
-    5. Uncomment imports [ pynwb, MetadataManager, RawToNWBBuilder ]
-    6. Run test_build_and_read_nwb
+    2. Run create_conda.sh from terminal.
+    3. Set Python interpreter to created environment
+    4. Run test_build_and_read_nwb
     """
-
-    def test_setUpConda(self):
-        os.system('create_conda.sh')
-
-    def test_setUpInterpreter(self):
-        print(str(path) + '\\test_package\env\python.exe')
 
     def test_build_and_read_nwb(self):
         metadata = MetadataManager(
@@ -44,7 +35,6 @@ class TestPackageAfterRelease(TestCase):
             dates=['20190718'],
             nwb_metadata=metadata,
             output_path='',
-            associated_files=[],
             extract_spikes=False,
             extract_mda=True,
             extract_lfps=False,
