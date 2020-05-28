@@ -1,5 +1,3 @@
-import concurrent.futures
-
 import numpy as np
 
 from rec_to_nwb.processing.nwb.components.dio.dio_extractor import DioExtractor
