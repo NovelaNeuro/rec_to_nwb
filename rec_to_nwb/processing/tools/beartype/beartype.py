@@ -15,7 +15,6 @@ https://stackoverflow.com/a/37961120/2809027
 # *NOT* passed to this interpreter), enable type checking.
 if __debug__:
     import inspect
-    from functools import wraps
     from inspect import Parameter, Signature
 
     def beartype(func: callable) -> callable:

@@ -4,6 +4,7 @@ import unittest
 from testfixtures import should_raise
 
 from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_files_manager import FlAssociatedFilesManager
+
 path = os.path.dirname(os.path.abspath(__file__))
 
 

@@ -29,7 +29,6 @@ class MetadataValidator(Validator):
             raise(MissingDataException(message))
         return MetadataValidationSummary(missing_metadata)
 
-
     def __get_missing_metadata(self):
         """Gets all missing yml files
 

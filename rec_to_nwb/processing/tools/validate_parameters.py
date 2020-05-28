@@ -1,5 +1,5 @@
-from rec_to_nwb.processing.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
 from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
+from rec_to_nwb.processing.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
 
 
 def validate_parameters_not_none(class_name, *args):

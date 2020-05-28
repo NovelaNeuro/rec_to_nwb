@@ -1,6 +1,5 @@
-from unittest import TestCase
-
 from pathlib import Path
+from unittest import TestCase
 
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
 from rec_to_nwb.processing.validation.preprocessing_validator import PreprocessingValidator

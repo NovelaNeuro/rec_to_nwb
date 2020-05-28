@@ -2,11 +2,12 @@ import os
 from unittest import TestCase
 from unittest.mock import Mock
 
-from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group import FlNwbElectrodeGroup
-from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group_manager import FlNwbElectrodeGroupManager
-
 from ndx_franklab_novela.probe import Probe
 from testfixtures import should_raise
+
+from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group import FlNwbElectrodeGroup
+from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group_manager import \
+    FlNwbElectrodeGroupManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 

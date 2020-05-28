@@ -1,8 +1,8 @@
 import numpy as np
 
+from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_builder import FlPosValidTimeBuilder
 from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_valid_time_pos_timestamp_extractor import \
     FlValidTimePosTimestampExtractor
-from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_builder import FlPosValidTimeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 

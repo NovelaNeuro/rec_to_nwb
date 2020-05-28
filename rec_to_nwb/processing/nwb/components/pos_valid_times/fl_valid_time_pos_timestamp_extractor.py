@@ -1,9 +1,9 @@
+import pandas as pd
+from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
+
 from rec_to_nwb.processing.time.continuous_time_extractor import ContinuousTimeExtractor
 from rec_to_nwb.processing.time.timestamp_converter import TimestampConverter
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
-
-from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
-import pandas as pd
 
 
 class FlValidTimePosTimestampExtractor:

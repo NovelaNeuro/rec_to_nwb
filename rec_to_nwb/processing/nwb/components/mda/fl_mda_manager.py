@@ -1,6 +1,6 @@
 from rec_to_nwb.processing.nwb.components.mda.fl_mda_builder import FlMdaBuilder
-from rec_to_nwb.processing.nwb.components.mda.table_region_builder import TableRegionBuilder
 from rec_to_nwb.processing.nwb.components.mda.fl_mda_extractor import FlMdaExtractor
+from rec_to_nwb.processing.nwb.components.mda.table_region_builder import TableRegionBuilder
 
 
 class FlMdaManager:

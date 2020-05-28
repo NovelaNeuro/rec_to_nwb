@@ -3,9 +3,9 @@ from unittest.mock import Mock
 
 import numpy as np
 
+from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_manager import FlPosValidTimeManager
 from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_valid_time_pos_timestamp_extractor import \
     FlValidTimePosTimestampExtractor
-from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_manager import FlPosValidTimeManager
 
 
 class TestPosValidTimesManager(TestCase):

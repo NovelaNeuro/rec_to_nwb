@@ -1,15 +1,13 @@
 from pathlib import Path
 
+import pandas as pd
+from matplotlib import pyplot
 from mountainlab_pytools.mdaio import readmda
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.time.continuous_time_extractor import ContinuousTimeExtractor
 from rec_to_nwb.processing.time.timestamp_converter import TimestampConverter
-
-from matplotlib import pyplot
-import pandas as pd
-
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
 
 path = Path(__file__).parent.parent

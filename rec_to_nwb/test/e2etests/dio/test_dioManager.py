@@ -1,8 +1,9 @@
 import os
 import unittest
 from unittest.mock import Mock, patch
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 from pandas import array
 
 from rec_to_nwb.processing.nwb.components.dio.dio_extractor import DioExtractor

@@ -19,11 +19,10 @@ See Also
 https://stackoverflow.com/a/37961120/2809027
     Stackoverflow answer introducing the `@beartype` decorator.
 '''
+import typing
 from unittest import TestCase
 
 import pytest
-import typing
-
 from testfixtures import should_raise
 
 from rec_to_nwb.processing.tools.beartype.beartype import beartype

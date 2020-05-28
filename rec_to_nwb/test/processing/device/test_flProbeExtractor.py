@@ -1,7 +1,6 @@
 import os
 import tempfile
-from tempfile import tempdir
-from unittest import TestCase, mock
+from unittest import TestCase
 
 import yaml
 
