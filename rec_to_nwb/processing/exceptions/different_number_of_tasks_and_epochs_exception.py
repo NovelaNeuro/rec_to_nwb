@@ -1,2 +1,0 @@
-class DifferentNumberOfTasksAndEpochsException(Exception):
-    pass
