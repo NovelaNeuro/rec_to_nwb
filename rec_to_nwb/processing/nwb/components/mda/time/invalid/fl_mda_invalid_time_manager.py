@@ -76,7 +76,7 @@ class FlMdaInvalidTimeManager:
         valid_times = timestamps[valid_indices]
         valid_times[:, 0] = valid_times[:, 0] + gaps_margin
         valid_times[:, 1] = valid_times[:, 1] - gaps_margin
-        valid_intervals = (valid_times[:, 1] - valid_times[:, 0]) > min_valid_len
+        valid_intervals = [valid_time > min_valid_len for valid_time in valid_times[:, 1] - valid_times[:, 0]]
         return valid_times[valid_intervals, :]
 
     @staticmethod
