@@ -16,7 +16,7 @@ class TestMdaValidTimeManager(TestCase):
             FlMdaValidTimeManager(None)
 
     def test_fl_mda_valid_time_manager_get_fl_mda_valid_times_with_gap_in_middle(self):
-        sampling_rate = 1000000000.0
+        sampling_rate = 1.0
         gaps_margin = 0.0001
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 2, 3, 4, 5, 7, 9, 10, 11, 12]
@@ -38,7 +38,7 @@ class TestMdaValidTimeManager(TestCase):
         self.assertEqual(round(fl_mda_valid_times[1].stop_time, 4), 11.9999)
 
     def test_fl_mda_valid_time_manager_get_fl_mda_valid_times_without_gap(self):
-        sampling_rate = 1000000000.0
+        sampling_rate = 1.0
         gaps_margin = 0.0001
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -58,7 +58,7 @@ class TestMdaValidTimeManager(TestCase):
         self.assertEqual(round(fl_mda_valid_times[0].stop_time, 4), 9.9999)
 
     def test_fl_mda_valid_time_manager_get_fl_mda_valid_times_with_gap_at_start(self):
-        sampling_rate = 1000000000.0
+        sampling_rate = 1.0
         gaps_margin = 0.0001
         mock_array = np.ndarray(dtype='float', shape=[10,])
         array = [1, 3, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -78,7 +78,7 @@ class TestMdaValidTimeManager(TestCase):
         self.assertEqual(round(fl_mda_valid_times[0].stop_time, 4), 11.9999)
 
     def test_fl_mda_valid_time_manager_get_fl_mda_valid_times_with_gap_at_end(self):
-        sampling_rate = 1000000000.0
+        sampling_rate = 1.0
         gaps_margin = 0.0001
         mock_array = np.ndarray(dtype='float', shape=[10, ])
         array = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
@@ -100,7 +100,7 @@ class TestMdaValidTimeManager(TestCase):
     @should_raise(TypeError)
     def test_fl_mda_valid_time_manager_get_fl_mda_valid_times_failed_due_to_None_param(self):
         gaps_margin = 0.0001
-        sampling_rate = 1000000000.0
+        sampling_rate = 1.0
 
         fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate)
         fl_mda_valid_time_manager.get_fl_mda_valid_times(
@@ -111,7 +111,7 @@ class TestMdaValidTimeManager(TestCase):
     @should_raise(MissingDataException)
     def test_fl_mda_valid_time_manager_get_fl_mda_valid_times_failed_due_to_lack_of_timestamps(self):
         gaps_margin = 0.0001
-        sampling_rate = 1000000000.0
+        sampling_rate = 1.0
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = None
 
