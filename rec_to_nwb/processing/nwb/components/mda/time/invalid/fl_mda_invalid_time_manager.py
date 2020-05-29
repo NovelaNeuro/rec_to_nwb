@@ -38,7 +38,7 @@ class FlMdaInvalidTimeManager:
         """
 
         timestamps = self.__get_mda_timestamps(nwb_content)
-        period = 1E9 / self.sampling_rate
+        period = 1 / self.sampling_rate
         invalid_times = self.__get_mda_invalid_times(timestamps, period, gaps_margin)
         return self.__build_mda_invalid_times(invalid_times)
 
