@@ -18,10 +18,11 @@ class TestHeaderComparator(unittest.TestCase):
                 xml_2.write('<random_test_strings/>')
             with open(path + '/../processing//res/test_xmls/test3.xml', 'w') as xml_3:
                 xml_3.write('<some_content/>')
-            self.header_comparator = HeaderComparator([path + '/../processing/res/test_xmls/test1.xml',
-                                                       path + '/../processing/res/test_xmls/test2.xml',
-                                                       path + '/../processing/res/test_xmls/test3.xml']
-                                                       )
+            self.header_comparator = HeaderComparator(
+                [path + '/../processing/res/test_xmls/test1.xml',
+                 path + '/../processing/res/test_xmls/test2.xml',
+                 path + '/../processing/res/test_xmls/test3.xml']
+            )
 
         def test_comparing_headers(self):
             headers_difference = self.header_comparator.compare()
