@@ -22,7 +22,7 @@ from rec_to_nwb.processing.nwb.components.associated_files.associated_files_inje
 from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_files_manager import FlAssociatedFilesManager
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
-from rec_to_nwb.processing.nwb.components.device.fl_device_header_manager import FlDeviceHeaderManager
+from rec_to_nwb.processing.nwb.components.device.fl_header_device_manager import FlHeaderDeviceManager
 from rec_to_nwb.processing.nwb.components.device.fl_probe_manager import FlProbeManager
 from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank_manager import FlShankManager
 from rec_to_nwb.processing.nwb.components.device.shanks.shank_creator import ShankCreator
@@ -179,7 +179,7 @@ class NWBFileBuilder:
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
-        self.fl_device_header_manager = FlDeviceHeaderManager(
+        self.fl_header_device_manager = FlHeaderDeviceManager(
             'header_device',
             self.header.configuration.global_configuration
         )
@@ -344,7 +344,7 @@ class NWBFileBuilder:
 
     def __build_and_inject_header_device(self, nwb_content):
         logger.info('HeaderDevice: Building')
-        fl_header_device = self.fl_device_header_manager.get_fl_header_device()
+        fl_header_device = self.fl_header_device_manager.get_fl_header_device()
         logger.info('HeaderDevice: Creating')
         header_device = self.device_factory.create_header_device(fl_header_device)
         logger.info('HeaderDevice: Injecting into NWB')

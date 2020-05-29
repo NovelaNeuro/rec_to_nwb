@@ -1,7 +1,7 @@
 from rec_to_nwb.processing.nwb.components.device.fl_header_device_builder import FlHeaderDeviceBuilder
 
 
-class FlDeviceHeaderManager:
+class FlHeaderDeviceManager:
 
     def __init__(self, name, global_configuration):
         self.name = name
