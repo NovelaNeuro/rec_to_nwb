@@ -22,13 +22,12 @@ class MetadataValidator(Validator):
 
     def create_summary(self):
         missing_metadata = self.__get_missing_metadata()
-        if not (missing_metadata == []):
+        if missing_metadata:
             message = ''
             for missing_metadata_file in missing_metadata:
                 message += missing_metadata_file + '\n'
             raise(MissingDataException(message))
         return MetadataValidationSummary(missing_metadata)
-
 
     def __get_missing_metadata(self):
         """Gets all missing yml files
