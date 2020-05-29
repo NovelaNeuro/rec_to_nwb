@@ -48,7 +48,7 @@ class FlPosInvalidTimeManager:
         start_times = np.append(np.asarray(timestamps[0] + eps), (valid_times[:, 1] + 2 * eps))
         stop_times = np.append(valid_times[:, 0] - 2 * eps, np.asarray(timestamps[-1] - eps))
         invalid_times = (np.vstack([start_times, stop_times])).transpose()
-        valid_intervals = (invalid_times[:, 1] - invalid_times[:, 0]) > min_valid_len
+        valid_intervals = [invalid_time > min_valid_len for invalid_time in invalid_times[:, 1] - invalid_times[:, 0]]
         return invalid_times[valid_intervals, :]
 
     @staticmethod
