@@ -19,7 +19,8 @@ install:
   - conda info -a
   - conda env create -q -n test-environment -f rec_to_nwb/environment.yml python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
-  - pip install pylint conda-build
+  - pip install pylint
+  - conda install conda-build anaconda-client conda-verify
   #  - python setup.py install --single-version-externally-managed --record=record.txt
   - conda build .
   - conda install rec_to_nwb --use-local
