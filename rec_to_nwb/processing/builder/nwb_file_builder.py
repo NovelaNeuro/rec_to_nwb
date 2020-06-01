@@ -7,9 +7,9 @@ import pytz
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
-
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
-from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
+from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
+rom rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -29,10 +29,6 @@ from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_ele
     FlShanksElectrodeManager
 from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.shanks_electrode_creator import \
     ShanksElectrodeCreator
-from rec_to_nwb.processing.nwb.components.dio.dio_builder import DioBuilder
-from rec_to_nwb.processing.nwb.components.dio.dio_files import DioFiles
-from rec_to_nwb.processing.nwb.components.dio.dio_injector import DioInjector
-from rec_to_nwb.processing.nwb.components.dio.dio_manager import DioManager
 from rec_to_nwb.processing.nwb.components.electrode_group.electrode_group_factory import ElectrodeGroupFactory
 from rec_to_nwb.processing.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
 from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group_manager import \
@@ -227,6 +223,7 @@ class NWBFileBuilder:
         self.pos_invalid_time_injector = PosInvalidTimeInjector()
 
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
+        self.dio_originator = DioOriginator(self.metadata, self.datasets)
 
         if self.process_mda:
             self.mda_originator = MdaOriginator(self.datasets, self.header)
@@ -292,7 +289,7 @@ class NWBFileBuilder:
             self.__build_and_inject_associated_files(nwb_content)
 
         if self.process_dio:
-            self.__build_and_inject_dio(nwb_content)
+            self.dio_originator.make(nwb_content)
 
         if self.process_mda:
             self.mda_originator.make(nwb_content)
@@ -405,26 +402,6 @@ class NWBFileBuilder:
             fl_electrode_extension
         )
 
-    def __build_and_inject_dio(self, nwb_content):
-        logger.info('DIO: Prepare directories')
-        dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
-        logger.info('DIO: Prepare files')
-        dio_files = DioFiles(dio_directories, self.metadata['behavioral_events'])
-        logger.info('DIO: Retrieve data')
-        dio_manager = DioManager(
-            dio_files=dio_files.get_files(),
-            dio_metadata=self.metadata['behavioral_events'],
-            continuous_time_files=self.__get_continuous_time_files()
-        )
-        dio_data = dio_manager.get_dio()
-        logger.info('DIO: Building')
-        dio_builder = DioBuilder(dio_data, self.metadata['behavioral_events'],
-                                 self.metadata['units']['behavioral_events'])
-        behavioral_events = dio_builder.build()
-        logger.info('DIO: Injecting into NWB')
-        dio_injector = DioInjector(nwb_content)
-        dio_injector.inject(behavioral_events, 'behavior')
-
     def __build_and_inject_associated_files(self, nwb_content):
         logger.info('AssociatedFiles: Building')
         fl_associated_files = self.fl_associated_files_manager.get_fl_associated_files()
@@ -436,8 +413,6 @@ class NWBFileBuilder:
         logger.info('AssociatedFiles: Injecting')
         self.associated_files_injector.inject(associated_files, 'behavior', nwb_content)
         logger.info("Files stored inside nwb: " + str(associated_files))
-
-
 
     def __build_and_inject_epochs(self, nwb_content):
         logger.info('Epochs: Building')

@@ -19,9 +19,8 @@ class DataScanner:
 
     def get_all_epochs(self, date):
         all_datasets = []
-        directories = FileSorter.sort_filenames(
-            os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
-        )
+        directories = os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
+        FileSorter.sort_filenames(directories)
         for directory in directories:
             if directory.startswith(date):
                 dataset_name = (directory.split('_')[2] + '_' + directory.split('_')[3]).split('.')[0]
@@ -47,7 +46,7 @@ class DataScanner:
     def __extract_experiments(self, data_path, animal_name, dates):
         preprocessing_path = data_path + animal_name + '/preprocessing'
         if not dates:
-            dates = FileSorter.sort_filenames((os.listdir(preprocessing_path)))
+            dates = FileSorter.sort_filenames(os.listdir(preprocessing_path))
         return {date: self.__extract_datasets(preprocessing_path + '/' + date) for date in dates}
 
     @staticmethod
