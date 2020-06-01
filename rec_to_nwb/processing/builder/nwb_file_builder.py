@@ -236,6 +236,8 @@ class NWBFileBuilder:
             datasets=self.datasets
         )
 
+        self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
+
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
@@ -309,7 +311,7 @@ class NWBFileBuilder:
                 self.__build_and_inject_mda_invalid_times(nwb_content)
 
         if self.process_analog:
-            AnalogOriginator.make(nwb_content, self.datasets, self.__get_continuous_time_files(), self.metadata)
+            self.analog_originator.make(nwb_content)
 
         if self.process_pos_valid_times:
             self.__build_and_inject_pos_valid_times(nwb_content)
@@ -441,9 +443,6 @@ class NWBFileBuilder:
         logger.info('DIO: Injecting into NWB')
         dio_injector = DioInjector(nwb_content)
         dio_injector.inject(behavioral_events, 'behavior')
-
-    def __get_continuous_time_files(self):
-        return [single_dataset.get_continuous_time() for single_dataset in self.datasets]
 
     def __build_and_inject_associated_files(self, nwb_content):
         logger.info('AssociatedFiles: Building')
