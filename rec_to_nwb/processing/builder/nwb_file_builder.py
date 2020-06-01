@@ -9,6 +9,7 @@ from pynwb.file import Subject
 
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
+from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -156,13 +157,6 @@ class NWBFileBuilder:
 
         self.corrupted_data_manager = CorruptedDataManager(self.metadata)
 
-        self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
-
-        self.task_builder = TaskBuilder(self.metadata)
-
-        self.fl_position_manager = FlPositionManager(self.datasets, float(self.metadata['meters_per_pixel']))
-        self.position_creator = PositionCreator()
-
         self.fl_shanks_electrode_manager = FlShanksElectrodeManager(self.probes, self.metadata['electrode groups'])
         self.shanks_electrodes_creator = ShanksElectrodeCreator()
 
@@ -226,6 +220,7 @@ class NWBFileBuilder:
 
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
         self.dio_originator = DioOriginator(self.metadata, self.datasets)
+        self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -284,6 +279,8 @@ class NWBFileBuilder:
 
         self.__build_and_inject_epochs(nwb_content)
 
+        self.processing_module_originator.make(nwb_content)
+
         if 'associated_files' in self.metadata:
             self.__build_and_inject_associated_files(nwb_content)
 
@@ -312,21 +309,6 @@ class NWBFileBuilder:
     def __build_corrupted_data_manager(self):
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
-
-    def __build_and_inject_processing_module(self, nwb_content):
-        logger.info('Task: Building')
-        task = self.task_builder.build()
-        logger.info('Task: Injecting into ProcessingModule')
-        self.pm_creator.insert(task)
-
-        logger.info('Position: Building')
-        fl_position = self.fl_position_manager.get_fl_position()
-        logger.info('Position: Creating')
-        position = self.position_creator.create(fl_position)
-        logger.info('Position: Injecting into ProcessingModule')
-        self.pm_creator.insert(position)
-
-        nwb_content.add_processing_module(self.pm_creator.processing_module)
 
     def __build_and_inject_header_device(self, nwb_content):
         logger.info('HeaderDevice: Building')
