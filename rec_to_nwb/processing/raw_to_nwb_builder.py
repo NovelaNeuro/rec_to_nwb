@@ -40,10 +40,6 @@ class RawToNWBBuilder:
         extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
         extract_dio (boolean): flag if dio data should be extracted and processed from raw data
         extract_mda (boolean): flag if mda data should be extracted and processed from raw data
-        process_mda_valid_times (boolean): flag if mda valid times should be processed
-        process_mda_invalid_times (boolean): flag if mda invalid times should be processed
-        process_pos_valid_times (boolean): flag if pos valid times should be processed
-        process_pos_invalid_times (boolean): flag if pos invalid times should be processed
         overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
         lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
         mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
@@ -52,6 +48,7 @@ class RawToNWBBuilder:
 
     Methods:
         build_nwb()
+        append_to_nwb()
         cleanup()
     """
 
@@ -68,10 +65,6 @@ class RawToNWBBuilder:
             extract_lfps: bool = False,
             extract_dio: bool = True,
             extract_mda: bool = True,
-            process_mda_valid_times: bool = True,
-            process_mda_invalid_times: bool = True,
-            process_pos_valid_times: bool = True,
-            process_pos_invalid_times: bool = True,
             overwrite: bool = True,
             lfp_export_args: tuple = _DEFAULT_LFP_EXPORT_ARGS,
             mda_export_args: tuple = _DEFAULT_MDA_EXPORT_ARGS,
@@ -90,10 +83,6 @@ class RawToNWBBuilder:
         self.extract_dio = extract_dio
         self.extract_lfps = extract_lfps
         self.extract_mda = extract_mda
-        self.process_mda_valid_times = process_mda_valid_times
-        self.process_mda_invalid_times = process_mda_invalid_times
-        self.process_pos_valid_times = process_pos_valid_times
-        self.process_pos_invalid_times = process_pos_invalid_times
         self.lfp_export_args = lfp_export_args
         self.mda_export_args = mda_export_args
         self.overwrite = overwrite
@@ -109,6 +98,54 @@ class RawToNWBBuilder:
 
         if self.trodes_rec_export_args != () and not self.__is_rec_config_valid():
             raise InvalidXMLException('Reconfig xml does not match expected xsd')
+
+    def __is_rec_config_valid(self):
+        """ Check if XML is valid with XSD file """
+
+        xml_file_path = ''
+        for i in range(len(self.trodes_rec_export_args)):
+            if self.trodes_rec_export_args[i] == '-reconfig':
+                xml_file_path = self.trodes_rec_export_args[i + 1]
+        xsd_file_path = str(path) + '/../../rec_to_nwb/data/reconfig_header.xsd'
+        xsd_schema = xmlschema.XMLSchema(xsd_file_path)
+        return xsd_schema.is_valid(xml_file_path)
+
+    def build_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
+                  process_pos_valid_time=True, process_pos_invalid_time=True):
+        """Builds nwb file for experiments from given dates.
+
+        Args:
+            process_mda_valid_time (boolean): True if the mda valid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default True)
+            process_mda_invalid_time (boolean): True if the mda invalid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default True)
+            process_pos_valid_time (boolean): True if the pos valid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default True)
+            process_pos_invalid_time (boolean): True if the pos invalid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default True)
+        """
+
+        self.__preprocess_data()
+        for date in self.dates:
+            nwb_builder = NWBFileBuilder(
+                data_path=self.data_path,
+                animal_name=self.animal_name,
+                date=date,
+                nwb_metadata=self.nwb_metadata,
+                output_file=self.output_path + self.animal_name + date + ".nwb",
+                process_mda=self.extract_mda,
+                process_dio=self.extract_dio,
+                process_analog=self.extract_analog,
+            )
+            content = nwb_builder.build()
+            nwb_builder.write(content)
+            self.append_to_nwb(
+                nwb_builder=nwb_builder,
+                process_mda_valid_time=process_mda_valid_time,
+                process_mda_invalid_time=process_mda_invalid_time,
+                process_pos_valid_time=process_pos_valid_time,
+                process_pos_invalid_time=process_pos_invalid_time
+            )
 
     def __preprocess_data(self):
         """process data with rec_to_binaries library"""
@@ -146,27 +183,25 @@ class RawToNWBBuilder:
             analog_export_args=self.trodes_rec_export_args
         )
 
-    def build_nwb(self):
-        """Builds nwb file for experiments from given dates"""
+    @staticmethod
+    def append_to_nwb(nwb_builder, process_mda_valid_time, process_mda_invalid_time,
+               process_pos_valid_time, process_pos_invalid_time):
+        """Append to NWBFile that was build using NWBFileBuilder passed in parameter.
 
-        self.__preprocess_data()
-        for date in self.dates:
-            nwb_builder = NWBFileBuilder(
-                data_path=self.data_path,
-                animal_name=self.animal_name,
-                date=date,
-                nwb_metadata=self.nwb_metadata,
-                output_file=self.output_path + self.animal_name + date + ".nwb",
-                process_mda=self.extract_mda,
-                process_dio=self.extract_dio,
-                process_analog=self.extract_analog,
-                process_mda_valid_times=self.process_mda_valid_times,
-                process_mda_invalid_times=self.process_mda_invalid_times,
-                process_pos_valid_times=self.process_pos_valid_times,
-                process_pos_invalid_times=self.process_pos_invalid_times
-            )
-            content = nwb_builder.build()
-            nwb_builder.write(content)
+        Args:
+            nwb_builder (NWBFileBuilder): Builder that created NWBFile you want to append to
+            process_mda_valid_time (boolean): If true, build and inject into NWB mda valid times
+            process_mda_invalid_time (boolean): If true, build and inject into NWB mda invalid times
+            process_pos_valid_time (boolean): If true, build and inject into NWB pos valid times
+            process_pos_invalid_time (boolean): If true, build and inject into NWB pos invalid times
+        """
+
+        nwb_builder.build_and_append_to_nwb(
+            process_mda_valid_time=process_mda_valid_time,
+            process_mda_invalid_time=process_mda_invalid_time,
+            process_pos_valid_time=process_pos_valid_time,
+            process_pos_invalid_time=process_pos_invalid_time
+        )
 
     def cleanup(self):
         """Remove all temporary files structure from preprocessing folder"""
@@ -175,13 +210,3 @@ class RawToNWBBuilder:
         if os.path.exists(preprocessing):
             shutil.rmtree(preprocessing)
 
-    def __is_rec_config_valid(self):
-        """ Check if XML is valid with XSD file """
-
-        xml_file_path = ''
-        for i in range(len(self.trodes_rec_export_args)):
-            if self.trodes_rec_export_args[i] == '-reconfig':
-                xml_file_path = self.trodes_rec_export_args[i + 1]
-        xsd_file_path = str(path) + '/../../rec_to_nwb/data/reconfig_header.xsd'
-        xsd_schema = xmlschema.XMLSchema(xsd_file_path)
-        return xsd_schema.is_valid(xml_file_path)

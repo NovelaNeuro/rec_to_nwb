@@ -49,14 +49,17 @@ from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_manager import FlEpoc
 from rec_to_nwb.processing.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from rec_to_nwb.processing.nwb.components.mda.fl_mda_manager import FlMdaManager
 from rec_to_nwb.processing.nwb.components.mda.mda_injector import MdaInjector
-from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_injector import MdaInvalidTimeInjector
-from rec_to_nwb.processing.nwb.components.mda_invalid_times.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
-from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_injector import PosInvalidTimeInjector
-from rec_to_nwb.processing.nwb.components.pos_invalid_times.fl_pos_invalid_time_manager import FlPosInvalidTimeManager
-from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_injector import PosValidTimeInjector
-from rec_to_nwb.processing.nwb.components.pos_valid_times.fl_pos_valid_time_manager import FlPosValidTimeManager
+from rec_to_nwb.processing.nwb.components.mda.time.invalid.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
+from rec_to_nwb.processing.nwb.components.mda.time.invalid.mda_invalid_time_injector import MdaInvalidTimeInjector
+from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time_manager import FlMdaValidTimeManager
+from rec_to_nwb.processing.nwb.components.mda.time.valid.mda_valid_time_injector import MdaValidTimeInjector
 from rec_to_nwb.processing.nwb.components.position.fl_position_manager import FlPositionManager
 from rec_to_nwb.processing.nwb.components.position.position_creator import PositionCreator
+from rec_to_nwb.processing.nwb.components.position.time.invalid.fl_pos_invalid_time_manager import \
+    FlPosInvalidTimeManager
+from rec_to_nwb.processing.nwb.components.position.time.invalid.pos_invalid_time_injector import PosInvalidTimeInjector
+from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_manager import FlPosValidTimeManager
+from rec_to_nwb.processing.nwb.components.position.time.valid.pos_valid_time_injector import PosValidTimeInjector
 from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
@@ -83,15 +86,12 @@ class NWBFileBuilder:
         process_dio (boolean): flag if dio data should be processed
         process_mda (boolean): flag if mda data should be processed
         process_analog (boolean): flag if analog data should be processed
-        process_mda_valid_times (boolean): flag if mda valid times should be processed
-        process_mda_invalid_times (boolean): flag if mda invalid times should be processed
-        process_pos_valid_times (boolean): flag if pos valid times should be processed
-        process_pos_invalid_times (boolean): flag if pos invalid times should be processed
         output_file (string): path and name specifying where .nwb file gonna be written
 
     Methods:
         build()
         write()
+        build_and_append_to_nwb()
     """
 
     @beartype
@@ -104,10 +104,6 @@ class NWBFileBuilder:
             process_dio: bool = True,
             process_mda: bool = True,
             process_analog: bool = True,
-            process_mda_valid_times: bool = False,
-            process_mda_invalid_times: bool = False,
-            process_pos_valid_times: bool = False,
-            process_pos_invalid_times: bool = False,
             output_file: str = 'output.nwb'
     ):
 
@@ -132,10 +128,6 @@ class NWBFileBuilder:
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.process_analog = process_analog
-        self.process_mda_valid_times = process_mda_valid_times
-        self.process_mda_invalid_times = process_mda_invalid_times
-        self.process_pos_valid_times = process_pos_valid_times
-        self.process_pos_invalid_times = process_pos_invalid_times
         self.output_file = output_file
         self.link_to_notes = self.metadata.get('link to notes', '')
         data_types_for_scanning = {'pos': True,
@@ -222,16 +214,21 @@ class NWBFileBuilder:
             self.dataset_names
         )
 
+        self.fl_mda_valid_time_manager = FlMdaValidTimeManager(
+            sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
+        )
+        self.mda_valid_time_injector = MdaValidTimeInjector()
+
         self.fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(
             sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
-            datasets=self.datasets
         )
-        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager(
-            datasets=self.datasets
-        )
-        self.fl_pos_valid_time_manager = FlPosValidTimeManager(
-            datasets=self.datasets
-        )
+        self.mda_invalid_time_injector = MdaInvalidTimeInjector()
+
+        self.fl_pos_valid_time_manager = FlPosValidTimeManager()
+        self.pos_valid_time_injector = PosValidTimeInjector()
+
+        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager()
+        self.pos_invalid_time_injector = PosInvalidTimeInjector()
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -299,20 +296,8 @@ class NWBFileBuilder:
         if self.process_mda:
             self.__build_and_inject_mda(nwb_content)
 
-            if self.process_mda_valid_times:
-                self.__build_and_inject_mda_valid_times(nwb_content)
-
-            if self.process_mda_invalid_times:
-                self.__build_and_inject_mda_invalid_times(nwb_content)
-
         if self.process_analog:
             self.__build_and_inject_analog(nwb_content)
-
-        if self.process_pos_valid_times:
-            self.__build_and_inject_pos_valid_times(nwb_content)
-
-        if self.process_pos_invalid_times:
-            self.__build_and_inject_pos_invalid_times(nwb_content)
 
         return nwb_content
 
@@ -458,7 +443,8 @@ class NWBFileBuilder:
         fl_associated_files = self.fl_associated_files_manager.get_fl_associated_files()
         logger.info('AssociatedFiles: Creating')
         associated_files = [
-            self.associated_files_creator.create(fl_associated_file) for fl_associated_file in fl_associated_files
+            self.associated_files_creator.create(fl_associated_file)
+            for fl_associated_file in fl_associated_files
         ]
         logger.info('AssociatedFiles: Injecting')
         self.associated_files_injector.inject(associated_files, 'behavior', nwb_content)
@@ -481,27 +467,66 @@ class NWBFileBuilder:
     def __build_and_inject_epochs(self, nwb_content):
         logger.info('Epochs: Building')
         fl_epochs_manager = FlEpochsManager(self.datasets)
+        logger.info('Epochs: Creating')
         epochs = fl_epochs_manager.get_epochs()
+        logger.info('Epochs: Injecting')
         EpochsInjector.inject(epochs, nwb_content)
 
     def __build_and_inject_mda_valid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
+        mda_valid_times = self.fl_mda_valid_time_manager.get_fl_mda_valid_times(nwb_content)
         logger.info('MDA valid times: Injecting')
+        self.mda_valid_time_injector.inject_all(mda_valid_times, nwb_content)
 
     def __build_and_inject_mda_invalid_times(self, nwb_content):
         logger.info('MDA invalid times: Building')
-        mda_invalid_times = self.fl_mda_invalid_time_manager.get_mda_invalid_times()
+        mda_invalid_times = self.fl_mda_invalid_time_manager.get_fl_mda_invalid_times(nwb_content)
         logger.info('MDA invalid times: Injecting')
-        MdaInvalidTimeInjector.inject_all(mda_invalid_times, nwb_content)
-
-    def __build_and_inject_pos_invalid_times(self, nwb_content):
-        logger.info('POS invalid times: Building')
-        pos_invalid_times = self.fl_pos_invalid_time_manager.get_pos_invalid_times()
-        logger.info('POS invalid times: Injecting')
-        PosInvalidTimeInjector.inject_all(pos_invalid_times, nwb_content)
+        self.mda_invalid_time_injector.inject_all(mda_invalid_times, nwb_content)
 
     def __build_and_inject_pos_valid_times(self, nwb_content):
         logger.info('POS valid times: Building')
-        pos_valid_times = self.fl_pos_valid_time_manager.get_pos_valid_times()
+        pos_valid_times = self.fl_pos_valid_time_manager.get_fl_pos_valid_times(nwb_content)
         logger.info('POS valid times: Injecting')
-        PosValidTimeInjector.inject_all(pos_valid_times, nwb_content)
+        self.pos_valid_time_injector.inject_all(pos_valid_times, nwb_content)
+
+    def __build_and_inject_pos_invalid_times(self, nwb_content):
+        logger.info('POS invalid times: Building')
+        pos_invalid_times = self.fl_pos_invalid_time_manager.get_fl_pos_invalid_times(nwb_content)
+        logger.info('POS invalid times: Injecting')
+        self.pos_invalid_time_injector.inject_all(pos_invalid_times, nwb_content)
+
+    def build_and_append_to_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
+                                process_pos_valid_time=True, process_pos_invalid_time=True):
+        """Create and append to existing nwb. Set flag to add it to nwb
+
+        Args:
+            process_mda_valid_time (boolean): True if the mda valid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default True)
+            process_mda_invalid_time (boolean): True if the mda invalid times should be build and append to nwb.
+                Need the mda data inside the nwb. (default True)
+            process_pos_valid_time (boolean): True if the pos valid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default True)
+            process_pos_invalid_time (boolean): True if the pos invalid times should be build and append to nwb.
+                Need the pos data inside the nwb. (default True)
+
+        Raises:
+            ElementExistException: If element already exist in NWB
+
+        Returns:
+            NWBFile: Return NWBFile content
+        """
+
+        with NWBHDF5IO(path=self.output_file, mode='a') as nwb_file_io:
+            nwb_content = nwb_file_io.read()
+
+            if process_mda_valid_time:
+                self.__build_and_inject_mda_valid_times(nwb_content)
+            if process_mda_invalid_time:
+                self.__build_and_inject_mda_invalid_times(nwb_content)
+            if process_pos_valid_time:
+                self.__build_and_inject_pos_valid_times(nwb_content)
+            if process_pos_invalid_time:
+                self.__build_and_inject_pos_invalid_times(nwb_content)
+
+            nwb_file_io.write(nwb_content)
