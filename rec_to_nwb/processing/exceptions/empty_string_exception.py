@@ -1,2 +1,0 @@
-class EmptyStringException(Exception):
-    pass

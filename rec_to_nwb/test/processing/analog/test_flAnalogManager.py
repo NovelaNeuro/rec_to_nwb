@@ -1,8 +1,7 @@
 from unittest import TestCase
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 import numpy as np
 from numpy.testing import assert_array_equal
-from pandas import array
 from testfixtures import should_raise
 
 from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException

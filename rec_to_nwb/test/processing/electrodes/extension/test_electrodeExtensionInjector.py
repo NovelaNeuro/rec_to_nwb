@@ -22,7 +22,6 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         mock_eg_2 = Mock(spec=ElectrodeGroup)
         mock_eg_1.name = 'ElectrodeGroup1'
         mock_eg_2.name = 'ElectrodeGroup2'
-        electrode_groups = [mock_eg_1, mock_eg_2]
 
         nwb_file = NWBFile(
             session_description='None',

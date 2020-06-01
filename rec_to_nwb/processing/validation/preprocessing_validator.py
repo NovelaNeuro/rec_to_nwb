@@ -31,7 +31,7 @@ class PreprocessingValidator(Validator):
         """
         missing_preprocessing_data = self.__get_missing_preprocessing_data()
         message = ''
-        if not missing_preprocessing_data == []:
+        if missing_preprocessing_data:
             for missing_preprocessing_file in missing_preprocessing_data:
                 message += missing_preprocessing_file[0] + ' from epoch ' + missing_preprocessing_file[1] + '\n'
             raise MissingDataException(message + "are missing")

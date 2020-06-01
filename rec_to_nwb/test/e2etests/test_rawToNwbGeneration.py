@@ -34,16 +34,17 @@ class TestRawToNWBGeneration(unittest.TestCase):
             extract_lfps=False,
             extract_analog=True,
             extract_dio=True,
-            process_mda_valid_times=True,
-            process_mda_invalid_times=True,
-            process_pos_valid_times=True,
-            process_pos_invalid_times=True,
             overwrite=True,
             trodes_rec_export_args=_DEFAULT_TRODES_REC_EXPORT_ARGS
         )
 
     def test_from_raw_to_nwb_generation(self):
-        self.builder.build_nwb()
+        self.builder.build_nwb(
+            process_mda_valid_time=True,
+            process_mda_invalid_time=True,
+            process_pos_valid_time=True,
+            process_pos_invalid_time=True
+        )
         self.assertTrue(os.path.exists('beans20190718.nwb'), 'NWBFile did not build')
 
     @should_raise(TypeError)
