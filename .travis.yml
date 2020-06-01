@@ -33,7 +33,7 @@ script:
   - python -m pytest rec_to_nwb/test/processing
 
 after_success:
-  - test $TRAVIS_BRANCH = "master_release" && conda install conda-build anaconda-client conda-verify && bash conda_upload.sh
+  - test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
 # ToDo uncomment when we automate git upload process
 #  - pip install recommonmark sphinx-autoapi sphinx_rtd_theme && bash docs_upload.sh
 notifications:
