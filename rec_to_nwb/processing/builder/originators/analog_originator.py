@@ -8,8 +8,8 @@ class AnalogOriginator:
 
     def __init__(self, datasets, metadata):
         self.datasets = datasets
-        self.continuous_time_files = self.__get_continuous_time_files()
         self.metadata = metadata
+        self.continuous_time_files = self.__get_continuous_time_files()
 
     def make(self, nwb_content):
         analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
