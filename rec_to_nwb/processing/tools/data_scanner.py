@@ -19,7 +19,9 @@ class DataScanner:
 
     def get_all_epochs(self, date):
         all_datasets = []
-        directories = os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
+        directories = FileSorter.sort_filenames(
+            os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
+        )
         FileSorter.sort_filenames(directories)
         for directory in directories:
             if directory.startswith(date):

@@ -9,7 +9,7 @@ from pynwb.file import Subject
 
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
-rom rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
+from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
