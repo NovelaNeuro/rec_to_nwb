@@ -7,6 +7,9 @@ import pytz
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
+from rec_to_nwb.processing.builder.Originers.analog_originer import AnalogOriginer
+
+from rec_to_nwb.processing.builder.Originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -230,6 +233,8 @@ class NWBFileBuilder:
         self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager()
         self.pos_invalid_time_injector = PosInvalidTimeInjector()
 
+        self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
+
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
@@ -297,7 +302,7 @@ class NWBFileBuilder:
             self.__build_and_inject_mda(nwb_content)
 
         if self.process_analog:
-            self.__build_and_inject_analog(nwb_content)
+            self.analog_originator.make(nwb_content)
 
         return nwb_content
 
@@ -315,17 +320,6 @@ class NWBFileBuilder:
     def __build_corrupted_data_manager(self):
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
-
-    def __build_and_inject_analog(self, nwb_content):
-        analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
-        analog_files = AnalogFiles(analog_directories)
-        analog_manager = FlAnalogManager(
-            analog_files=analog_files.get_files(),
-            continuous_time_files=self.__get_continuous_time_files()
-        )
-        fl_analog = analog_manager.get_analog()
-        analog_injector = AnalogInjector(nwb_content)
-        analog_injector.inject(AnalogCreator.create(fl_analog, self.metadata['units']['analog']), 'behavior')
 
     def __build_and_inject_processing_module(self, nwb_content):
         logger.info('Task: Building')
@@ -434,9 +428,6 @@ class NWBFileBuilder:
         logger.info('DIO: Injecting into NWB')
         dio_injector = DioInjector(nwb_content)
         dio_injector.inject(behavioral_events, 'behavior')
-
-    def __get_continuous_time_files(self):
-        return [single_dataset.get_continuous_time() for single_dataset in self.datasets]
 
     def __build_and_inject_associated_files(self, nwb_content):
         logger.info('AssociatedFiles: Building')
