@@ -6,7 +6,7 @@ from pynwb import NWBHDF5IO
 from testfixtures import should_raise
 
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
-from rec_to_nwb.processing.nwb_file_builder import NWBFileBuilder
+from rec_to_nwb.processing.builder.nwb_file_builder import NWBFileBuilder
 
 path = Path(__file__).parent.parent
 path.resolve()

@@ -4,7 +4,7 @@ import unittest
 from testfixtures import should_raise
 
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
-from rec_to_nwb.processing.raw_to_nwb_builder import RawToNWBBuilder
+from rec_to_nwb.processing.builder.raw_to_nwb_builder import RawToNWBBuilder
 
 path = os.path.dirname(os.path.abspath(__file__))
 
