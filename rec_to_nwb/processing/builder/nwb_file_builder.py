@@ -48,15 +48,11 @@ from rec_to_nwb.processing.nwb.components.mda.time.invalid.fl_mda_invalid_time_m
 from rec_to_nwb.processing.nwb.components.mda.time.invalid.mda_invalid_time_injector import MdaInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time_manager import FlMdaValidTimeManager
 from rec_to_nwb.processing.nwb.components.mda.time.valid.mda_valid_time_injector import MdaValidTimeInjector
-from rec_to_nwb.processing.nwb.components.position.fl_position_manager import FlPositionManager
-from rec_to_nwb.processing.nwb.components.position.position_creator import PositionCreator
 from rec_to_nwb.processing.nwb.components.position.time.invalid.fl_pos_invalid_time_manager import \
     FlPosInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.position.time.invalid.pos_invalid_time_injector import PosInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_manager import FlPosValidTimeManager
 from rec_to_nwb.processing.nwb.components.position.time.valid.pos_valid_time_injector import PosValidTimeInjector
-from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
-from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
 from rec_to_nwb.processing.validation.associated_files_validation import AssociatedFilesValidator
