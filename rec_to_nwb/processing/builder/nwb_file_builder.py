@@ -65,7 +65,7 @@ from rec_to_nwb.processing.validation.task_validator import TaskValidator
 from rec_to_nwb.processing.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 
