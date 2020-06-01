@@ -89,7 +89,7 @@ class TestElectrodeIntegration(TestCase):
         self.assertEqual(nwb_file.electrodes[1, 1], 0.0)
 
         # y
-        self.assertEqual(nwb_file.electrodes[0, 2], 0.0)
+        self.assertEqual(nwb_file.electrodes[0, 2], 8.0)
         self.assertEqual(nwb_file.electrodes[1, 2], 0.0)
 
         # z
