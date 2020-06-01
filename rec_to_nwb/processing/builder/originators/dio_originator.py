@@ -30,8 +30,11 @@ class DioOriginator:
         )
         dio_data = dio_manager.get_dio()
         logger.info('DIO: Building')
-        dio_builder = DioBuilder(dio_data, self.metadata['behavioral_events'],
-                                 self.metadata['units']['behavioral_events'])
+        dio_builder = DioBuilder(
+            dio_data,
+            self.metadata['behavioral_events'],
+            self.metadata['units']['behavioral_events']
+        )
         behavioral_events = dio_builder.build()
         logger.info('DIO: Injecting into NWB')
         dio_injector = DioInjector(nwb_content)
