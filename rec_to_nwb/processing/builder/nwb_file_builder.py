@@ -7,6 +7,7 @@ import pytz
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
+from rec_to_nwb.processing.builder.Originers.analog_originer import AnalogOriginer
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -233,6 +234,8 @@ class NWBFileBuilder:
             datasets=self.datasets
         )
 
+        self.analog_originer = AnalogOriginer(self.datasets, self.__get_continuous_time_files(), self.metadata)
+
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
@@ -306,7 +309,7 @@ class NWBFileBuilder:
                 self.__build_and_inject_mda_invalid_times(nwb_content)
 
         if self.process_analog:
-            self.__build_and_inject_analog(nwb_content)
+            self.analog_originer.make(nwb_content)
 
         if self.process_pos_valid_times:
             self.__build_and_inject_pos_valid_times(nwb_content)
@@ -330,17 +333,6 @@ class NWBFileBuilder:
     def __build_corrupted_data_manager(self):
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
-
-    def __build_and_inject_analog(self, nwb_content):
-        analog_directories = [single_dataset.get_data_path_from_dataset('analog') for single_dataset in self.datasets]
-        analog_files = AnalogFiles(analog_directories)
-        analog_manager = FlAnalogManager(
-            analog_files=analog_files.get_files(),
-            continuous_time_files=self.__get_continuous_time_files()
-        )
-        fl_analog = analog_manager.get_analog()
-        analog_injector = AnalogInjector(nwb_content)
-        analog_injector.inject(AnalogCreator.create(fl_analog, self.metadata['units']['analog']), 'behavior')
 
     def __build_and_inject_processing_module(self, nwb_content):
         logger.info('Task: Building')

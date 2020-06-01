@@ -7,7 +7,7 @@ from rec_to_binaries import extract_trodes_rec_file
 
 from rec_to_nwb.processing.exceptions.invalid_xml_exception import InvalidXMLException
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
-from rec_to_nwb.processing.nwb_file_builder import NWBFileBuilder
+from rec_to_nwb.processing.builder.nwb_file_builder import NWBFileBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.validation.not_empty_validator import NotEmptyValidator
 from rec_to_nwb.processing.validation.validation_registrator import ValidationRegistrator
