@@ -257,8 +257,6 @@ class NWBFileBuilder:
 
         valid_map_dict = self.__build_corrupted_data_manager()
 
-        self.__build_and_inject_processing_module(nwb_content)
-
         shanks_electrodes_dict = self.__build_shanks_electrodes()
 
         shanks_dict = self.__build_shanks(shanks_electrodes_dict)
