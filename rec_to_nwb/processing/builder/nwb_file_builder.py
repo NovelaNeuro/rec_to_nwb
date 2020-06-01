@@ -11,6 +11,7 @@ from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOr
 from rec_to_nwb.processing.builder.originators.associated_files_originator import AssociatedFilesOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
+from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -39,9 +40,6 @@ from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_exte
 from rec_to_nwb.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 from rec_to_nwb.processing.nwb.components.epochs.epochs_injector import EpochsInjector
 from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
-from rec_to_nwb.processing.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
-from rec_to_nwb.processing.nwb.components.mda.fl_mda_manager import FlMdaManager
-from rec_to_nwb.processing.nwb.components.mda.mda_injector import MdaInjector
 from rec_to_nwb.processing.nwb.components.mda.time.invalid.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.mda.time.invalid.mda_invalid_time_injector import MdaInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time_manager import FlMdaValidTimeManager
@@ -209,6 +207,9 @@ class NWBFileBuilder:
         self.dio_originator = DioOriginator(self.metadata, self.datasets)
         self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
 
+        if self.process_mda:
+            self.mda_originator = MdaOriginator(self.datasets, self.header)
+
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
@@ -273,7 +274,7 @@ class NWBFileBuilder:
             self.dio_originator.make(nwb_content)
 
         if self.process_mda:
-            self.__build_and_inject_mda(nwb_content)
+            self.mda_originator.make(nwb_content)
 
         if self.process_analog:
             self.analog_originator.make(nwb_content)
@@ -379,20 +380,6 @@ class NWBFileBuilder:
         logger.info('AssociatedFiles: Injecting')
         self.associated_files_injector.inject(associated_files, 'behavior', nwb_content)
         logger.info("Files stored inside nwb: " + str(associated_files))
-
-    def __build_and_inject_mda(self, nwb_content):
-        logger.info('MDA: Building')
-        fl_mda_manager = FlMdaManager(
-            nwb_content=nwb_content,
-            sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
-            datasets=self.datasets
-        )
-        fl_mda = fl_mda_manager.get_data()
-        logger.info('MDA: Injecting')
-        MdaInjector.inject_mda(
-            nwb_content=nwb_content,
-            electrical_series=ElectricalSeriesCreator.create_mda(fl_mda)
-        )
 
     def __build_and_inject_epochs(self, nwb_content):
         logger.info('Epochs: Building')

@@ -47,7 +47,7 @@ class DataScanner:
     def __extract_experiments(self, data_path, animal_name, dates):
         preprocessing_path = data_path + animal_name + '/preprocessing'
         if not dates:
-            dates = FileSorter.sort_filenames((os.listdir(preprocessing_path)))
+            dates = FileSorter.sort_filenames(os.listdir(preprocessing_path))
         return {date: self.__extract_datasets(preprocessing_path + '/' + date) for date in dates}
 
     @staticmethod
