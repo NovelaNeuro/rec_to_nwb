@@ -8,6 +8,8 @@ from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
 from rec_to_nwb.processing.builder.Originers.analog_originer import AnalogOriginer
+
+from rec_to_nwb.processing.builder.Originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -234,8 +236,6 @@ class NWBFileBuilder:
             datasets=self.datasets
         )
 
-        self.analog_originer = AnalogOriginer(self.datasets, self.__get_continuous_time_files(), self.metadata)
-
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
@@ -309,7 +309,7 @@ class NWBFileBuilder:
                 self.__build_and_inject_mda_invalid_times(nwb_content)
 
         if self.process_analog:
-            self.analog_originer.make(nwb_content)
+            AnalogOriginator.make(nwb_content, self.datasets, self.__get_continuous_time_files(), self.metadata)
 
         if self.process_pos_valid_times:
             self.__build_and_inject_pos_valid_times(nwb_content)
