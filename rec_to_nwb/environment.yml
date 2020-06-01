@@ -12,12 +12,12 @@ dependencies:
   - cffi
   - chardet
   - cryptography
-  - elementpath
+  - elementpath==1.4.3
   - h5py
-  - hdf5
-  - hdmf=1.6.1
+  - hdf5==1.10.5
+  - hdmf==1.6.1
   - idna
-  - libblas
+  - libblas==3.8.0
   - libcblas
   - liblapack
   - mkl
@@ -26,7 +26,7 @@ dependencies:
   - openssl
   - pandas
   - pycparser
-  - pynwb
+  - pynwb==1.3.0
   - pyopenssl
   - pysocks
   - python=3.7
@@ -42,10 +42,10 @@ dependencies:
   - xmlschema
   - zlib
   - mountainlab_pytools
-  - vdom
+  - vdom==0.6
   - pyyaml
   - pytest
-  - testfixtures
+  - testfixtures==6.14.0
   - ndx-franklab-novela==0.0.004
   - pip:
       - xmldiff
