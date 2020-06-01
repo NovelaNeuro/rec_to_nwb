@@ -8,6 +8,7 @@ from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
+from rec_to_nwb.processing.builder.originators.associated_files_originator import AssociatedFilesOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
@@ -16,9 +17,6 @@ from rec_to_nwb.processing.header.module.header import Header
 from rec_to_nwb.processing.metadata.corrupted_data_manager import CorruptedDataManager
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.nwb.common.session_time_extractor import SessionTimeExtractor
-from rec_to_nwb.processing.nwb.components.associated_files.associated_files_creator import AssociatedFilesCreator
-from rec_to_nwb.processing.nwb.components.associated_files.associated_files_injector import AssociatedFilesInjector
-from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_files_manager import FlAssociatedFilesManager
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
 from rec_to_nwb.processing.nwb.components.device.fl_header_device_manager import FlHeaderDeviceManager
@@ -55,7 +53,6 @@ from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_
 from rec_to_nwb.processing.nwb.components.position.time.valid.pos_valid_time_injector import PosValidTimeInjector
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
-from rec_to_nwb.processing.validation.associated_files_validation import AssociatedFilesValidator
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
 from rec_to_nwb.processing.validation.preprocessing_validator import PreprocessingValidator
 from rec_to_nwb.processing.validation.task_validator import TaskValidator
@@ -182,15 +179,6 @@ class NWBFileBuilder:
         )
         self.electrode_extension_injector = ElectrodeExtensionInjector()
 
-        if 'associated_files' in self.metadata:
-            validation_registrator.register(AssociatedFilesValidator(self.metadata['associated_files']))
-            validation_registrator.validate()
-            self.fl_associated_files_manager = FlAssociatedFilesManager(
-                self.metadata['associated_files']
-            )
-            self.associated_files_creator = AssociatedFilesCreator()
-            self.associated_files_injector = AssociatedFilesInjector()
-
         self.session_time_extractor = SessionTimeExtractor(
             self.datasets,
             self.animal_name,
@@ -213,6 +201,9 @@ class NWBFileBuilder:
 
         self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager()
         self.pos_invalid_time_injector = PosInvalidTimeInjector()
+
+        if 'associated_files' in self.metadata:
+            self.associated_files_originator=AssociatedFilesOriginator(self.metadata)
 
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
         self.dio_originator = DioOriginator(self.metadata, self.datasets)
@@ -276,7 +267,7 @@ class NWBFileBuilder:
         self.processing_module_originator.make(nwb_content)
 
         if 'associated_files' in self.metadata:
-            self.__build_and_inject_associated_files(nwb_content)
+            self.associated_files_originator.make(nwb_content)
 
         if self.process_dio:
             self.dio_originator.make(nwb_content)
