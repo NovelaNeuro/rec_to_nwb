@@ -10,6 +10,7 @@ from pynwb.file import Subject
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.builder.originators.associated_files_originator import AssociatedFilesOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
+from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -45,15 +46,11 @@ from rec_to_nwb.processing.nwb.components.mda.time.invalid.fl_mda_invalid_time_m
 from rec_to_nwb.processing.nwb.components.mda.time.invalid.mda_invalid_time_injector import MdaInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time_manager import FlMdaValidTimeManager
 from rec_to_nwb.processing.nwb.components.mda.time.valid.mda_valid_time_injector import MdaValidTimeInjector
-from rec_to_nwb.processing.nwb.components.position.fl_position_manager import FlPositionManager
-from rec_to_nwb.processing.nwb.components.position.position_creator import PositionCreator
 from rec_to_nwb.processing.nwb.components.position.time.invalid.fl_pos_invalid_time_manager import \
     FlPosInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.position.time.invalid.pos_invalid_time_injector import PosInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_manager import FlPosValidTimeManager
 from rec_to_nwb.processing.nwb.components.position.time.valid.pos_valid_time_injector import PosValidTimeInjector
-from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
-from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
@@ -153,13 +150,6 @@ class NWBFileBuilder:
 
         self.corrupted_data_manager = CorruptedDataManager(self.metadata)
 
-        self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
-
-        self.task_builder = TaskBuilder(self.metadata)
-
-        self.fl_position_manager = FlPositionManager(self.datasets, float(self.metadata['meters_per_pixel']))
-        self.position_creator = PositionCreator()
-
         self.fl_shanks_electrode_manager = FlShanksElectrodeManager(self.probes, self.metadata['electrode groups'])
         self.shanks_electrodes_creator = ShanksElectrodeCreator()
 
@@ -217,6 +207,7 @@ class NWBFileBuilder:
 
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
         self.dio_originator = DioOriginator(self.metadata, self.datasets)
+        self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -253,8 +244,6 @@ class NWBFileBuilder:
 
         valid_map_dict = self.__build_corrupted_data_manager()
 
-        self.__build_and_inject_processing_module(nwb_content)
-
         shanks_electrodes_dict = self.__build_shanks_electrodes()
 
         shanks_dict = self.__build_shanks(shanks_electrodes_dict)
@@ -274,6 +263,8 @@ class NWBFileBuilder:
         self.__build_and_inject_electrodes_extensions(nwb_content, valid_map_dict['electrodes'])
 
         self.__build_and_inject_epochs(nwb_content)
+
+        self.processing_module_originator.make(nwb_content)
 
         if 'associated_files' in self.metadata:
             self.associated_files_originator.make(nwb_content)
@@ -303,21 +294,6 @@ class NWBFileBuilder:
     def __build_corrupted_data_manager(self):
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
-
-    def __build_and_inject_processing_module(self, nwb_content):
-        logger.info('Task: Building')
-        task = self.task_builder.build()
-        logger.info('Task: Injecting into ProcessingModule')
-        self.pm_creator.insert(task)
-
-        logger.info('Position: Building')
-        fl_position = self.fl_position_manager.get_fl_position()
-        logger.info('Position: Creating')
-        position = self.position_creator.create(fl_position)
-        logger.info('Position: Injecting into ProcessingModule')
-        self.pm_creator.insert(position)
-
-        nwb_content.add_processing_module(self.pm_creator.processing_module)
 
     def __build_and_inject_header_device(self, nwb_content):
         logger.info('HeaderDevice: Building')
