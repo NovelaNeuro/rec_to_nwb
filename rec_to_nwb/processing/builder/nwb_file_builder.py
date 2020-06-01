@@ -7,19 +7,15 @@ import pytz
 from pynwb import NWBHDF5IO, NWBFile
 from pynwb.file import Subject
 
-from rec_to_nwb.processing.builder.Originers.analog_originer import AnalogOriginer
 
-from rec_to_nwb.processing.builder.Originators.analog_originator import AnalogOriginator
+from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
+from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
 from rec_to_nwb.processing.metadata.corrupted_data_manager import CorruptedDataManager
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.nwb.common.session_time_extractor import SessionTimeExtractor
-from rec_to_nwb.processing.nwb.components.analog.analog_creator import AnalogCreator
-from rec_to_nwb.processing.nwb.components.analog.analog_files import AnalogFiles
-from rec_to_nwb.processing.nwb.components.analog.analog_injector import AnalogInjector
-from rec_to_nwb.processing.nwb.components.analog.fl_analog_manager import FlAnalogManager
 from rec_to_nwb.processing.nwb.components.associated_files.associated_files_creator import AssociatedFilesCreator
 from rec_to_nwb.processing.nwb.components.associated_files.associated_files_injector import AssociatedFilesInjector
 from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_files_manager import FlAssociatedFilesManager
@@ -49,9 +45,6 @@ from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_exte
 from rec_to_nwb.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 from rec_to_nwb.processing.nwb.components.epochs.epochs_injector import EpochsInjector
 from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
-from rec_to_nwb.processing.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
-from rec_to_nwb.processing.nwb.components.mda.fl_mda_manager import FlMdaManager
-from rec_to_nwb.processing.nwb.components.mda.mda_injector import MdaInjector
 from rec_to_nwb.processing.nwb.components.mda.time.invalid.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.mda.time.invalid.mda_invalid_time_injector import MdaInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time_manager import FlMdaValidTimeManager
@@ -74,7 +67,7 @@ from rec_to_nwb.processing.validation.task_validator import TaskValidator
 from rec_to_nwb.processing.validation.validation_registrator import ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 
@@ -235,6 +228,9 @@ class NWBFileBuilder:
 
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
 
+        if self.process_mda:
+            self.mda_originator = MdaOriginator(self.datasets, self.header)
+
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
         self.datasets = [self.data_scanner.data[animal_name][date][dataset] for dataset in self.dataset_names]
@@ -299,7 +295,7 @@ class NWBFileBuilder:
             self.__build_and_inject_dio(nwb_content)
 
         if self.process_mda:
-            self.__build_and_inject_mda(nwb_content)
+            self.mda_originator.make(nwb_content)
 
         if self.process_analog:
             self.analog_originator.make(nwb_content)
@@ -441,19 +437,7 @@ class NWBFileBuilder:
         self.associated_files_injector.inject(associated_files, 'behavior', nwb_content)
         logger.info("Files stored inside nwb: " + str(associated_files))
 
-    def __build_and_inject_mda(self, nwb_content):
-        logger.info('MDA: Building')
-        fl_mda_manager = FlMdaManager(
-            nwb_content=nwb_content,
-            sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
-            datasets=self.datasets
-        )
-        fl_mda = fl_mda_manager.get_data()
-        logger.info('MDA: Injecting')
-        MdaInjector.inject_mda(
-            nwb_content=nwb_content,
-            electrical_series=ElectricalSeriesCreator.create_mda(fl_mda)
-        )
+
 
     def __build_and_inject_epochs(self, nwb_content):
         logger.info('Epochs: Building')
