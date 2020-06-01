@@ -1,7 +1,7 @@
 # visualize timestamps from epoch in function of its indexes from continuoustime.dat files.
+from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 import matplotlib.pyplot as plt
 import numpy as np
-from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 path_epoch1 = 'GitHub/rec_to_nwb/rec_to_nwb/test/test_data/beans/preprocessing/20190718/20190718_beans_01_s1.time/20190718_beans_01_s1.continuoustime.dat'
 path_epoch2 = 'GitHub/rec_to_nwb/rec_to_nwb/test/20190718_beans_02_r1.continuoustime.dat'

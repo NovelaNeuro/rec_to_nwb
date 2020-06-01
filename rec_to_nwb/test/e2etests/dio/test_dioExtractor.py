@@ -1,9 +1,8 @@
 import os
 import unittest
 from unittest import TestCase
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
-import pandas as pd
 import numpy as np
 from pandas import array
 

@@ -6,11 +6,10 @@ from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.time.continuous_time_extractor import ContinuousTimeExtractor
 from rec_to_nwb.processing.time.timestamp_converter import TimestampConverter
+from rec_to_nwb.processing.tools.data_scanner import DataScanner
 
 from matplotlib import pyplot
 import pandas as pd
-
-from rec_to_nwb.processing.tools.data_scanner import DataScanner
 
 path = Path(__file__).parent.parent
 path.resolve()
@@ -19,10 +18,12 @@ path.resolve()
 def read_mda_timestamps(file):
     return readmda(file)
 
+
 def read_pos_timestamps(file):
     pos_online = readTrodesExtractedDataFile(file)
     position = pd.DataFrame(pos_online['data'])
     return position.time.to_numpy(dtype='int64')
+
 
 def get_posonline_data_file(dataset):
     all_pos = dataset.get_all_data_from_dataset('pos')
@@ -31,10 +32,12 @@ def get_posonline_data_file(dataset):
             return dataset.get_data_path_from_dataset('pos') + pos_file
     return None
 
+
 def extract_datasets(data_scanner, animal_name, date):
     data_scanner.extract_data_from_date_folder(date)
     dataset_names = data_scanner.get_all_epochs(date)
     return[data_scanner.data[animal_name][date][dataset] for dataset in dataset_names]
+
 
 if __name__ == "__main__":
     animal_name = 'beans'

@@ -11,6 +11,7 @@ class TestDataIterator(TestCase):
         iterated_data = SingleThreadDataIterator(fake_data_manager)
         self.assertEqual([11, 8], np.shape(iterated_data))
 
+
 class FakeDataManager:
     def __init__(self):
         self.number_of_datasets = 2
