@@ -9,6 +9,7 @@ from pynwb.file import Subject
 
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
+from rec_to_nwb.processing.builder.originators.epochs_originator import EpochsOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -38,8 +39,6 @@ from rec_to_nwb.processing.nwb.components.electrodes.extension.electrode_extensi
 from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
     FlElectrodeExtensionManager
 from rec_to_nwb.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
-from rec_to_nwb.processing.nwb.components.epochs.epochs_injector import EpochsInjector
-from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from rec_to_nwb.processing.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
 from rec_to_nwb.processing.nwb.components.mda.fl_mda_manager import FlMdaManager
 from rec_to_nwb.processing.nwb.components.mda.mda_injector import MdaInjector
@@ -224,6 +223,7 @@ class NWBFileBuilder:
         self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager()
         self.pos_invalid_time_injector = PosInvalidTimeInjector()
 
+        self.epochs_originator = EpochsOriginator(self.datasets)
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
         self.dio_originator = DioOriginator(self.metadata, self.datasets)
 
@@ -282,7 +282,7 @@ class NWBFileBuilder:
 
         self.__build_and_inject_electrodes_extensions(nwb_content, valid_map_dict['electrodes'])
 
-        self.__build_and_inject_epochs(nwb_content)
+        self.epochs_originator.make(nwb_content)
 
         if 'associated_files' in self.metadata:
             self.__build_and_inject_associated_files(nwb_content)
@@ -426,14 +426,6 @@ class NWBFileBuilder:
             nwb_content=nwb_content,
             electrical_series=ElectricalSeriesCreator.create_mda(fl_mda)
         )
-
-    def __build_and_inject_epochs(self, nwb_content):
-        logger.info('Epochs: Building')
-        fl_epochs_manager = FlEpochsManager(self.datasets)
-        logger.info('Epochs: Creating')
-        epochs = fl_epochs_manager.get_epochs()
-        logger.info('Epochs: Injecting')
-        EpochsInjector.inject(epochs, nwb_content)
 
     def __build_and_inject_mda_valid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
