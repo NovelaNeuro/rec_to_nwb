@@ -1,9 +1,9 @@
 import os
 from unittest import TestCase
 from unittest.mock import Mock
+from testfixtures import should_raise
 
 from ndx_franklab_novela.probe import Shank
-from testfixtures import should_raise
 
 from rec_to_nwb.processing.nwb.components.device.fl_probe import FlProbe
 from rec_to_nwb.processing.nwb.components.device.fl_probe_manager import FlProbeManager
@@ -15,7 +15,7 @@ class TestFlProbeManager(TestCase):
 
     def setUp(self):
         self.probes_metadata_1 = {
-            'probe_type': 'tetrode_12.5', 'contact_size': 20.0, 'num_shanks': 1, 'units': 'um',
+            'probe_type': 'tetrode_12.5', 'contact_size': 20.0, 'units': 'um',
             'probe_description': 'sample description 1', 'contact_side_numbering': True,
             'shanks': [
                 {'shank_id': 0, 'electrodes': [
@@ -23,7 +23,7 @@ class TestFlProbeManager(TestCase):
                     {'id': 1, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
                 ]}]}
         self.probes_metadata_2 = {
-            'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'num_shanks': 3, 'units': 'mm',
+            'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'units': 'mm',
             'probe_description': 'sample description 2', 'contact_side_numbering': False,
             'shanks': [
                 {'shank_id': 0, 'electrodes': [
@@ -69,7 +69,6 @@ class TestFlProbeManager(TestCase):
         self.assertIsInstance(fl_probes[0].probe_type, str)
         self.assertIsInstance(fl_probes[0].units, str)
         self.assertIsInstance(fl_probes[0].probe_description, str)
-        self.assertIsInstance(fl_probes[0].num_shanks, int)
         self.assertIsInstance(fl_probes[0].contact_size, float)
         self.assertIsInstance(fl_probes[0].shanks, list)
 
@@ -80,7 +79,6 @@ class TestFlProbeManager(TestCase):
         self.assertEqual(fl_probes[0].probe_type, '128c-4s8mm6cm-20um-40um-sl')
         self.assertEqual(fl_probes[0].units, 'mm')
         self.assertEqual(fl_probes[0].probe_description, 'sample description 2')
-        self.assertEqual(fl_probes[0].num_shanks, 6)
         self.assertEqual(fl_probes[0].contact_size, 20.0)
         self.assertEqual(fl_probes[0].shanks, [mock_shank_1, mock_shank_2,
                                                mock_shank_3, mock_shank_4,

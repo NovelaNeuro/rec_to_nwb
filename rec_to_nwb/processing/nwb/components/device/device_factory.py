@@ -23,7 +23,7 @@ class DeviceFactory:
     @beartype
     def create_probe(cls, fl_probe: FlProbe) -> Probe:
         validate_parameters_not_none(__name__, fl_probe.probe_id, fl_probe.name, fl_probe.probe_type, fl_probe.units,
-                                     fl_probe.probe_description, fl_probe.num_shanks, fl_probe.contact_side_numbering,
+                                     fl_probe.probe_description, fl_probe.contact_side_numbering,
                                      fl_probe.contact_size, fl_probe.shanks)
         probe = Probe(
             id=fl_probe.probe_id,
@@ -31,7 +31,6 @@ class DeviceFactory:
             probe_type=fl_probe.probe_type,
             units=fl_probe.units,
             probe_description=fl_probe.probe_description,
-            num_shanks=fl_probe.num_shanks,
             contact_side_numbering=fl_probe.contact_side_numbering,
             contact_size=fl_probe.contact_size
         )

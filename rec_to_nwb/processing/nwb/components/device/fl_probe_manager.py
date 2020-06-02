@@ -33,7 +33,6 @@ class FlProbeManager:
             probe_type=probe_metadata['probe_type'],
             units=probe_metadata['units'],
             probe_description=probe_metadata['probe_description'],
-            num_shanks=len(shanks),
             contact_side_numbering=probe_metadata['contact_side_numbering'],
             contact_size=float(probe_metadata['contact_size']),
             shanks=shanks

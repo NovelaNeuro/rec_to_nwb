@@ -1,10 +1,10 @@
 from unittest import TestCase
 from unittest.mock import Mock
+from testfixtures import should_raise
 
 from ndx_franklab_novela.header_device import HeaderDevice
 from ndx_franklab_novela.probe import Probe, Shank
 from pynwb.device import Device
-from testfixtures import should_raise
 
 from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.header.module.global_configuration import GlobalConfiguration
@@ -54,7 +54,6 @@ class TestDeviceFactory(TestCase):
         mock_fl_probe.probe_type = 'Type1'
         mock_fl_probe.units = 'um'
         mock_fl_probe.probe_description = 'sample description'
-        mock_fl_probe.num_shanks = 2
         mock_fl_probe.contact_side_numbering = True
         mock_fl_probe.contact_size = 20.0
         mock_fl_probe.shanks = [mock_shank_1, mock_shank_2]
@@ -68,7 +67,6 @@ class TestDeviceFactory(TestCase):
 
         self.assertEqual(probe.name, 'probe 1')
         self.assertEqual(probe.id, 1)
-        self.assertEqual(probe.num_shanks, 2)
         self.assertEqual(probe.contact_size, 20.0)
         self.assertEqual(probe.probe_type, 'Type1')
         self.assertEqual(probe.units, 'um')
@@ -93,7 +91,6 @@ class TestDeviceFactory(TestCase):
         mock_fl_probe.probe_type = None
         mock_fl_probe.units = None
         mock_fl_probe.probe_description = None
-        mock_fl_probe.num_shanks = None
         mock_fl_probe.contact_side_numbering = None
         mock_fl_probe.contact_size = None
         mock_fl_probe.shanks = None
