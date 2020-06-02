@@ -24,8 +24,9 @@ class TestMdaValidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = mock_array
+        mock_metadata = {}
 
-        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate)
+        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate, mock_metadata)
         fl_mda_valid_times = fl_mda_valid_time_manager.get_fl_mda_valid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -46,8 +47,9 @@ class TestMdaValidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = mock_array
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate)
+        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate, mock_metadata)
         fl_mda_valid_times = fl_mda_valid_time_manager.get_fl_mda_valid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -66,8 +68,9 @@ class TestMdaValidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = mock_array
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate)
+        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate, mock_metadata)
         fl_mda_valid_times = fl_mda_valid_time_manager.get_fl_mda_valid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -86,8 +89,9 @@ class TestMdaValidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = mock_array
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate)
+        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate, mock_metadata)
         fl_mda_valid_times = fl_mda_valid_time_manager.get_fl_mda_valid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -101,8 +105,9 @@ class TestMdaValidTimeManager(TestCase):
     def test_fl_mda_valid_time_manager_get_fl_mda_valid_times_failed_due_to_None_param(self):
         gaps_margin = 0.0001
         sampling_rate = 1.0
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate)
+        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate, mock_metadata)
         fl_mda_valid_time_manager.get_fl_mda_valid_times(
             nwb_content=None,
             gaps_margin=gaps_margin
@@ -114,8 +119,9 @@ class TestMdaValidTimeManager(TestCase):
         sampling_rate = 1.0
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = None
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate)
+        fl_mda_valid_time_manager = FlMdaValidTimeManager(sampling_rate, mock_metadata)
         fl_mda_valid_time_manager.get_fl_mda_valid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
