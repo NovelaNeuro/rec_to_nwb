@@ -10,6 +10,7 @@ from pynwb.file import Subject
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.builder.originators.associated_files_originator import AssociatedFilesOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
+from rec_to_nwb.processing.builder.originators.header_device_originator import HeaderDeviceOriginator
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
 from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
@@ -158,11 +159,6 @@ class NWBFileBuilder:
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
-        self.fl_header_device_manager = FlHeaderDeviceManager(
-            'header_device',
-            self.header.configuration.global_configuration
-        )
-
         self.fl_nwb_electrode_group_manager = FlNwbElectrodeGroupManager(self.metadata['electrode groups'])
         self.electrode_group_creator = ElectrodeGroupFactory()
         self.electrode_group_injector = ElectrodeGroupInjector()
@@ -203,6 +199,7 @@ class NWBFileBuilder:
         if 'associated_files' in self.metadata:
             self.associated_files_originator=AssociatedFilesOriginator(self.metadata)
 
+        self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
         self.dio_originator = DioOriginator(self.metadata, self.datasets)
         self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
@@ -251,7 +248,7 @@ class NWBFileBuilder:
 
         probes = self.__build_and_inject_probes(nwb_content, shanks_dict, valid_map_dict['probes'])
 
-        self.__build_and_inject_header_device(nwb_content)
+        self.header_device_originator.make(nwb_content)
 
         electrode_groups = self.__build_and_inject_electrode_group(
             nwb_content, probes, valid_map_dict['electrode_groups']
@@ -295,14 +292,6 @@ class NWBFileBuilder:
     def __build_corrupted_data_manager(self):
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
-
-    def __build_and_inject_header_device(self, nwb_content):
-        logger.info('HeaderDevice: Building')
-        fl_header_device = self.fl_header_device_manager.get_fl_header_device()
-        logger.info('HeaderDevice: Creating')
-        header_device = self.device_factory.create_header_device(fl_header_device)
-        logger.info('HeaderDevice: Injecting into NWB')
-        self.device_injector.inject_all_devices(nwb_content, [header_device])
 
     def __build_shanks_electrodes(self):
         logger.info('Probes-ShanksElectrode: Building')
@@ -368,18 +357,6 @@ class NWBFileBuilder:
             nwb_content,
             fl_electrode_extension
         )
-
-    def __build_and_inject_associated_files(self, nwb_content):
-        logger.info('AssociatedFiles: Building')
-        fl_associated_files = self.fl_associated_files_manager.get_fl_associated_files()
-        logger.info('AssociatedFiles: Creating')
-        associated_files = [
-            self.associated_files_creator.create(fl_associated_file)
-            for fl_associated_file in fl_associated_files
-        ]
-        logger.info('AssociatedFiles: Injecting')
-        self.associated_files_injector.inject(associated_files, 'behavior', nwb_content)
-        logger.info("Files stored inside nwb: " + str(associated_files))
 
     def __build_and_inject_epochs(self, nwb_content):
         logger.info('Epochs: Building')
