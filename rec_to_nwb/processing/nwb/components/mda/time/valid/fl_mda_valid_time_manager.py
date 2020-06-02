@@ -12,6 +12,7 @@ class FlMdaValidTimeManager:
 
     Args:
         sampling_rate (float): Sampling rate of MDA data
+        metadata (dict): Project metadata
 
     Methods:
         get_fl_mda_valid_times()
@@ -20,7 +21,6 @@ class FlMdaValidTimeManager:
     @beartype
     def __init__(self, sampling_rate: float, metadata: dict):
         self.sampling_rate = sampling_rate
-        self.metadata = metadata
 
         self.period_multiplier = get_times_period_multiplier(metadata)
 
