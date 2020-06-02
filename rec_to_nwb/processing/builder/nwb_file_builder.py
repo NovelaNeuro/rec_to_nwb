@@ -16,6 +16,10 @@ from rec_to_nwb.processing.builder.originators.electrodes_originator import Elec
 from rec_to_nwb.processing.builder.originators.header_device_originator import HeaderDeviceOriginator
 from rec_to_nwb.processing.builder.originators.epochs_originator import EpochsOriginator
 from rec_to_nwb.processing.builder.originators.probe_originator import ProbeOriginator
+from rec_to_nwb.processing.builder.originators.mda_invalid_time_originator import MdaInvalidTimeOriginator
+from rec_to_nwb.processing.builder.originators.mda_valid_time_originator import MdaValidTimeOriginator
+from rec_to_nwb.processing.builder.originators.pos_invalid_originator import PosInvalidTimeOriginator
+from rec_to_nwb.processing.builder.originators.pos_valid_time_originator import PosValidTimeOriginator
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
 from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.builder.originators.shanks_electrodes_originator import ShanksElectrodeOriginator
@@ -29,15 +33,6 @@ from rec_to_nwb.processing.nwb.common.session_time_extractor import SessionTimeE
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
 from rec_to_nwb.processing.nwb.components.device.fl_probe_manager import FlProbeManager
-from rec_to_nwb.processing.nwb.components.mda.time.invalid.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
-from rec_to_nwb.processing.nwb.components.mda.time.invalid.mda_invalid_time_injector import MdaInvalidTimeInjector
-from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time_manager import FlMdaValidTimeManager
-from rec_to_nwb.processing.nwb.components.mda.time.valid.mda_valid_time_injector import MdaValidTimeInjector
-from rec_to_nwb.processing.nwb.components.position.time.invalid.fl_pos_invalid_time_manager import \
-    FlPosInvalidTimeManager
-from rec_to_nwb.processing.nwb.components.position.time.invalid.pos_invalid_time_injector import PosInvalidTimeInjector
-from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_manager import FlPosValidTimeManager
-from rec_to_nwb.processing.nwb.components.position.time.valid.pos_valid_time_injector import PosValidTimeInjector
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
@@ -145,7 +140,6 @@ class NWBFileBuilder:
         self.device_factory = DeviceFactory()
 
         self.electrode_group_originator = ElectrodeGroupOriginator(self.metadata)
-
         self.electrodes_originator = ElectrodesOriginator(self.probes, self.metadata)
 
         self.session_time_extractor = SessionTimeExtractor(
@@ -155,27 +149,10 @@ class NWBFileBuilder:
             self.dataset_names
         )
 
-        self.fl_mda_valid_time_manager = FlMdaValidTimeManager(
-            sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
-            metadata=self.metadata
-        )
-        self.mda_valid_time_injector = MdaValidTimeInjector()
-
-        self.fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(
-            sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
-            metadata=self.metadata
-        )
-        self.mda_invalid_time_injector = MdaInvalidTimeInjector()
-
-        self.fl_pos_valid_time_manager = FlPosValidTimeManager(
-            metadata=self.metadata
-        )
-        self.pos_valid_time_injector = PosValidTimeInjector()
-
-        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager(
-            metadata=self.metadata
-        )
-        self.pos_invalid_time_injector = PosInvalidTimeInjector()
+        self.mda_valid_time_originator = MdaValidTimeOriginator(self.header)
+        self.mda_invalid_time_originator = MdaInvalidTimeOriginator(self.header)
+        self.pos_valid_time_originator = PosValidTimeOriginator()
+        self.pos_invalid_time_originator = PosInvalidTimeOriginator()
 
         self.epochs_originator = EpochsOriginator(self.datasets)
 
@@ -291,30 +268,6 @@ class NWBFileBuilder:
         self.device_injector.inject_all_devices(nwb_content, probes)
         return probes
 
-    def __build_and_inject_mda_valid_times(self, nwb_content):
-        logger.info('MDA valid times: Building')
-        mda_valid_times = self.fl_mda_valid_time_manager.get_fl_mda_valid_times(nwb_content)
-        logger.info('MDA valid times: Injecting')
-        self.mda_valid_time_injector.inject_all(mda_valid_times, nwb_content)
-
-    def __build_and_inject_mda_invalid_times(self, nwb_content):
-        logger.info('MDA invalid times: Building')
-        mda_invalid_times = self.fl_mda_invalid_time_manager.get_fl_mda_invalid_times(nwb_content)
-        logger.info('MDA invalid times: Injecting')
-        self.mda_invalid_time_injector.inject_all(mda_invalid_times, nwb_content)
-
-    def __build_and_inject_pos_valid_times(self, nwb_content):
-        logger.info('POS valid times: Building')
-        pos_valid_times = self.fl_pos_valid_time_manager.get_fl_pos_valid_times(nwb_content)
-        logger.info('POS valid times: Injecting')
-        self.pos_valid_time_injector.inject_all(pos_valid_times, nwb_content)
-
-    def __build_and_inject_pos_invalid_times(self, nwb_content):
-        logger.info('POS invalid times: Building')
-        pos_invalid_times = self.fl_pos_invalid_time_manager.get_fl_pos_invalid_times(nwb_content)
-        logger.info('POS invalid times: Injecting')
-        self.pos_invalid_time_injector.inject_all(pos_invalid_times, nwb_content)
-
     def build_and_append_to_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
                                 process_pos_valid_time=True, process_pos_invalid_time=True):
         """Create and append to existing nwb. Set flag to add it to nwb
@@ -340,12 +293,12 @@ class NWBFileBuilder:
             nwb_content = nwb_file_io.read()
 
             if process_mda_valid_time:
-                self.__build_and_inject_mda_valid_times(nwb_content)
+                self.mda_valid_time_originator.make(nwb_content)
             if process_mda_invalid_time:
-                self.__build_and_inject_mda_invalid_times(nwb_content)
+                self.mda_invalid_time_originator.make(nwb_content)
             if process_pos_valid_time:
-                self.__build_and_inject_pos_valid_times(nwb_content)
+                self.pos_valid_time_originator.make(nwb_content)
             if process_pos_invalid_time:
-                self.__build_and_inject_pos_invalid_times(nwb_content)
+                self.pos_invalid_time_originator.make(nwb_content)
 
             nwb_file_io.write(nwb_content)
