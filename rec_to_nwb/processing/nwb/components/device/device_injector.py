@@ -1,10 +1,12 @@
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
+from pynwb import NWBFile
+
+from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
 class DeviceInjector:
 
-    def inject_all_devices(self, nwb_content, devices):
-        validate_parameters_not_none(__name__, nwb_content, devices)
+    @beartype
+    def inject_all_devices(self, nwb_content: NWBFile, devices: list):
         for device in devices:
             self.__inject_device(nwb_content, device)
 
