@@ -11,6 +11,8 @@ from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOr
 from rec_to_nwb.processing.builder.originators.associated_files_originator import AssociatedFilesOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
 from rec_to_nwb.processing.builder.originators.epochs_originator import EpochsOriginator
+from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
+from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -37,22 +39,15 @@ from rec_to_nwb.processing.nwb.components.electrodes.extension.electrode_extensi
 from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
     FlElectrodeExtensionManager
 from rec_to_nwb.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
-from rec_to_nwb.processing.nwb.components.mda.electrical_series_creator import ElectricalSeriesCreator
-from rec_to_nwb.processing.nwb.components.mda.fl_mda_manager import FlMdaManager
-from rec_to_nwb.processing.nwb.components.mda.mda_injector import MdaInjector
 from rec_to_nwb.processing.nwb.components.mda.time.invalid.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.mda.time.invalid.mda_invalid_time_injector import MdaInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time_manager import FlMdaValidTimeManager
 from rec_to_nwb.processing.nwb.components.mda.time.valid.mda_valid_time_injector import MdaValidTimeInjector
-from rec_to_nwb.processing.nwb.components.position.fl_position_manager import FlPositionManager
-from rec_to_nwb.processing.nwb.components.position.position_creator import PositionCreator
 from rec_to_nwb.processing.nwb.components.position.time.invalid.fl_pos_invalid_time_manager import \
     FlPosInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.position.time.invalid.pos_invalid_time_injector import PosInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_manager import FlPosValidTimeManager
 from rec_to_nwb.processing.nwb.components.position.time.valid.pos_valid_time_injector import PosValidTimeInjector
-from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
-from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
@@ -152,13 +147,6 @@ class NWBFileBuilder:
 
         self.corrupted_data_manager = CorruptedDataManager(self.metadata)
 
-        self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
-
-        self.task_builder = TaskBuilder(self.metadata)
-
-        self.fl_position_manager = FlPositionManager(self.datasets, float(self.metadata['meters_per_pixel']))
-        self.position_creator = PositionCreator()
-
         self.fl_shanks_electrode_manager = FlShanksElectrodeManager(self.probes, self.metadata['electrode groups'])
         self.shanks_electrodes_creator = ShanksElectrodeCreator()
 
@@ -219,6 +207,10 @@ class NWBFileBuilder:
 
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
         self.dio_originator = DioOriginator(self.metadata, self.datasets)
+        self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
+
+        if self.process_mda:
+            self.mda_originator = MdaOriginator(self.datasets, self.header)
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -255,8 +247,6 @@ class NWBFileBuilder:
 
         valid_map_dict = self.__build_corrupted_data_manager()
 
-        self.__build_and_inject_processing_module(nwb_content)
-
         shanks_electrodes_dict = self.__build_shanks_electrodes()
 
         shanks_dict = self.__build_shanks(shanks_electrodes_dict)
@@ -277,6 +267,8 @@ class NWBFileBuilder:
 
         self.epochs_originator.make(nwb_content)
 
+        self.processing_module_originator.make(nwb_content)
+
         if 'associated_files' in self.metadata:
             self.associated_files_originator.make(nwb_content)
 
@@ -284,7 +276,7 @@ class NWBFileBuilder:
             self.dio_originator.make(nwb_content)
 
         if self.process_mda:
-            self.__build_and_inject_mda(nwb_content)
+            self.mda_originator.make(nwb_content)
 
         if self.process_analog:
             self.analog_originator.make(nwb_content)
@@ -305,21 +297,6 @@ class NWBFileBuilder:
     def __build_corrupted_data_manager(self):
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
-
-    def __build_and_inject_processing_module(self, nwb_content):
-        logger.info('Task: Building')
-        task = self.task_builder.build()
-        logger.info('Task: Injecting into ProcessingModule')
-        self.pm_creator.insert(task)
-
-        logger.info('Position: Building')
-        fl_position = self.fl_position_manager.get_fl_position()
-        logger.info('Position: Creating')
-        position = self.position_creator.create(fl_position)
-        logger.info('Position: Injecting into ProcessingModule')
-        self.pm_creator.insert(position)
-
-        nwb_content.add_processing_module(self.pm_creator.processing_module)
 
     def __build_and_inject_header_device(self, nwb_content):
         logger.info('HeaderDevice: Building')
@@ -405,20 +382,6 @@ class NWBFileBuilder:
         logger.info('AssociatedFiles: Injecting')
         self.associated_files_injector.inject(associated_files, 'behavior', nwb_content)
         logger.info("Files stored inside nwb: " + str(associated_files))
-
-    def __build_and_inject_mda(self, nwb_content):
-        logger.info('MDA: Building')
-        fl_mda_manager = FlMdaManager(
-            nwb_content=nwb_content,
-            sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
-            datasets=self.datasets
-        )
-        fl_mda = fl_mda_manager.get_data()
-        logger.info('MDA: Injecting')
-        MdaInjector.inject_mda(
-            nwb_content=nwb_content,
-            electrical_series=ElectricalSeriesCreator.create_mda(fl_mda)
-        )
 
     def __build_and_inject_mda_valid_times(self, nwb_content):
         logger.info('MDA valid times: Building')
