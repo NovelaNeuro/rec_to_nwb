@@ -38,11 +38,11 @@ class DataScanner:
         return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
     @beartype
-    def extract_data_from_date_folder(self, date: str) -> list:
+    def extract_data_from_date_folder(self, date: str):
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, [date])}
 
     @beartype
-    def extract_data_from_dates_folders(self, dates: list) -> list:
+    def extract_data_from_dates_folders(self, dates: list):
         self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, dates)}
 
     def extract_data_from_all_dates_folders(self):
@@ -73,7 +73,8 @@ class DataScanner:
                         dataset.add_data_to_dataset(date_path + '/' + directory + '/', dir_last_part.pop())
         return datasets
 
-    def get_all_animals(self):
+    @beartype
+    def get_all_animals(self) -> list:
         return list(self.data.keys())
 
     @beartype
