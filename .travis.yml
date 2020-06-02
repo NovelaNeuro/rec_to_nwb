@@ -17,11 +17,17 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-
   - conda env create -q -n test-environment -f rec_to_nwb/environment.yml python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
-  - python setup.py install --single-version-externally-managed --record=record.txt
+  - conda config --add channels conda-forge
+  - conda config --add channels novelakrk
   - pip install pylint
+  - if [ $TRAVIS_BRANCH == "master_release" ]; then
+    conda install conda-build anaconda-client conda-verify;
+    conda build .;
+    conda install rec_to_nwb --use-local; else
+    python setup.py install --single-version-externally-managed --record=record.txt;
+    fi
   - chown -R $USER:$USER rec_to_nwb/test/
 
 script:
@@ -29,7 +35,7 @@ script:
   - python -m pytest rec_to_nwb/test/processing
 
 after_success:
-  - test $TRAVIS_BRANCH = "master_release" && conda install conda-build anaconda-client conda-verify && bash conda_upload.sh
+  - test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
 # ToDo uncomment when we automate git upload process
 #  - pip install recommonmark sphinx-autoapi sphinx_rtd_theme && bash docs_upload.sh
 notifications:
