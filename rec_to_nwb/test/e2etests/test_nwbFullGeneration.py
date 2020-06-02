@@ -32,7 +32,7 @@ class TestNwbFullGeneration(unittest.TestCase):
             process_analog=True,
         )
 
-    @unittest.skip("NWB file creation")
+    # @unittest.skip("NWB file creation")
     def test_nwb_file_builder_generate_nwb(self):
         content = self.nwb_builder.build()
         self.nwb_builder.write(content)
@@ -44,7 +44,7 @@ class TestNwbFullGeneration(unittest.TestCase):
         )
         self.assertIsNotNone(self.nwb_builder)
 
-    @unittest.skip("read created NWB")
+    # @unittest.skip("read created NWB")
     def test_nwb_file_builder_read_nwb(self):
         with NWBHDF5IO(self.nwb_builder.output_file, 'r') as nwb_file:
             content = nwb_file.read()
@@ -74,8 +74,8 @@ class TestNwbFullGeneration(unittest.TestCase):
             process_analog=True
         )
 
-    @classmethod
-    def tearDownClass(cls):
-        del cls.nwb_builder
-        if os.path.isfile('output.nwb'):
-            os.remove('output.nwb')
+    # @classmethod
+    # def tearDownClass(cls):
+    #     del cls.nwb_builder
+    #     if os.path.isfile('output.nwb'):
+    #         os.remove('output.nwb')
