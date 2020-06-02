@@ -3,17 +3,17 @@ from rec_to_nwb.processing.nwb.components.iterator.multi_thread_data_iterator im
 from rec_to_nwb.processing.nwb.components.iterator.multi_thread_timestamp_iterator import MultiThreadTimestampIterator
 from rec_to_nwb.processing.nwb.components.position.pos_data_manager import PosDataManager
 from rec_to_nwb.processing.nwb.components.position.pos_timestamp_manager import PosTimestampManager
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
+from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
 class FlPositionExtractor:
-    def __init__(self, datasets):
+
+    @beartype
+    def __init__(self, datasets: list):
         self.datasets = datasets
         self.all_pos, self.continuous_time = self.__extract_data()
 
     def __extract_data(self):
-        validate_parameters_not_none(__name__, self.datasets)
-
         all_pos = []
         continuous_time = []
         for dataset in self.datasets:
@@ -21,7 +21,7 @@ class FlPositionExtractor:
                 dataset.get_data_path_from_dataset('pos') + pos_file for pos_file in
                 dataset.get_all_data_from_dataset('pos') if
                 (pos_file.endswith('.pos_online.dat'))]
-            if data_from_current_dataset is None or dataset.get_continuous_time() is None:
+            if dataset.get_continuous_time() is None:
                 raise MissingDataException(
                     'Incomplete data in dataset '
                     + str(dataset.name)

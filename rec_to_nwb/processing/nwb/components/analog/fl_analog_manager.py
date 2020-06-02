@@ -1,21 +1,23 @@
 import numpy as np
 
+from rec_to_nwb.processing.nwb.components.analog.fl_analog import FlAnalog
 from rec_to_nwb.processing.nwb.components.analog.fl_analog_builder import FlAnalogBuilder
 from rec_to_nwb.processing.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none, \
-    validate_parameters_equal_length
+from rec_to_nwb.processing.tools.beartype.beartype import beartype
+from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_equal_length
 
 
 class FlAnalogManager:
 
-    def __init__(self, analog_files, continuous_time_files):
-        validate_parameters_not_none(__name__, analog_files, continuous_time_files)
+    @beartype
+    def __init__(self, analog_files: list, continuous_time_files: list):
         validate_parameters_equal_length(__name__, analog_files, continuous_time_files)
 
         self.analog_files = analog_files
         self.continuous_time_files = continuous_time_files
 
-    def get_analog(self):
+    @beartype
+    def get_analog(self) -> FlAnalog:
         """"extract data from analog files"""
 
         all_analog_data = []

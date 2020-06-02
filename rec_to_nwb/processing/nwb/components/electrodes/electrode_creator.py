@@ -1,10 +1,16 @@
+from pynwb import NWBFile
+
+from rec_to_nwb.processing.nwb.components.electrodes.fl_electrodes import FlElectrode
+from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class ElectrodesCreator:
 
-    def create(self, nwb_content, fl_electrode):
-        self.__validate_parameters(fl_electrode, nwb_content)
+    @classmethod
+    @beartype
+    def create(cls, nwb_content: NWBFile, fl_electrode: FlElectrode):
+        validate_parameters_not_none(__name__, fl_electrode.electrode_group, fl_electrode.electrode_id)
 
         nwb_content.add_electrode(
             x=0.0,
@@ -17,7 +23,3 @@ class ElectrodesCreator:
             id=fl_electrode.electrode_id
         )
 
-    @staticmethod
-    def __validate_parameters(fl_electrode, nwb_content):
-        validate_parameters_not_none(__name__, nwb_content, fl_electrode)
-        validate_parameters_not_none(__name__, fl_electrode.electrode_group)
