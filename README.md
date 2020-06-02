@@ -97,6 +97,9 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
       -  name: example_name2
          description: exmaple description 2
          path: C:/Users/sampleuser/PycharmProjects/rec_to_nwb/test/processing/res/test_text_files/test2_file
+    # Times period multiplier is used in pos/mda invalid/valid times, to multiply the period when detecting gaps,
+        to avoid creating invalid times in case of only small deviations. (optional parameter, default 1.5)
+       times_period_multiplier: 1.5      
     # Din/Dout events which filter out files from DIO data in data directory. Each name has to be unique. Stored in behavioral_events section in output nwb file.
     behavioral_events: 
       - name: Poke2

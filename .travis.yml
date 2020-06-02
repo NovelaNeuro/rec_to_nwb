@@ -1,42 +1,34 @@
 language: python
 cache: false
 python:
-  - "3.7.4"
-before_install:
-# command to install dependencies
+- 3.7.4
+before_install: 
 install:
-  - sudo apt-get update
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-    else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-    fi
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - source "$HOME/miniconda/etc/profile.d/conda.sh"
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  - conda info -a
-  - conda env create -q -n test-environment -f rec_to_nwb/environment.yml python=$TRAVIS_PYTHON_VERSION
-  - conda activate test-environment
-  - conda config --add channels conda-forge
-  - conda config --add channels novelakrk
-  - pip install pylint
-  - if [ $TRAVIS_BRANCH == "master_release" ]; then
-    conda install conda-build anaconda-client conda-verify;
-    conda build .;
-    conda install rec_to_nwb --use-local; else
-    python setup.py install --single-version-externally-managed --record=record.txt;
-    fi
-  - chown -R $USER:$USER rec_to_nwb/test/
-
+- sudo apt-get update
+- if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+  -O miniconda.sh; else wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  -O miniconda.sh; fi
+- bash miniconda.sh -b -p $HOME/miniconda
+- source "$HOME/miniconda/etc/profile.d/conda.sh"
+- hash -r
+- conda config --set always_yes yes --set changeps1 no
+- conda update -q conda
+- conda info -a
+- conda env create -q -n test-environment -f rec_to_nwb/environment.yml python=$TRAVIS_PYTHON_VERSION
+- conda activate test-environment
+- conda config --add channels conda-forge
+- conda config --add channels novelakrk
+- pip install pylint
+- if [ $TRAVIS_BRANCH == "master_release" ]; then conda install conda-build anaconda-client
+  conda-verify; conda build .; conda install rec_to_nwb --use-local; else python setup.py
+  install --single-version-externally-managed --record=record.txt; fi
+- chown -R $USER:$USER rec_to_nwb/test/
 script:
-  - bash pylint_run.sh
-  - python -m pytest rec_to_nwb/test/processing
-
+- bash pylint_run.sh
+- python -m pytest rec_to_nwb/test/processing
 after_success:
-  - test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
-# ToDo uncomment when we automate git upload process
-#  - pip install recommonmark sphinx-autoapi sphinx_rtd_theme && bash docs_upload.sh
+- test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
 notifications:
-  slack: novelaneurote-ibx6025:3bhUUXZXz52ZXXTQCpiJyHkF
+  slack:
+    rooms:
+      secure: ljoKdWUXfNwnSWqrfgw8/b6u2Z2f5/d0iSsDWOLg6c+dTM57+1GE+SEjjgz3sBX8HEoyzfU0k8b38XVl3uRrO1ABuy196WZhb1KRxxNQX4H+z2ywnZ3XEJ2dx7CmFfOujvSuA/jYQhGPScEl10YIZ3DqmnKXsQulDQH86ivrLGvc5oiAcBww+Z4sAqMiTAK4LJWOW2kvz27OjoHn3QmhLuOwVOnvpov45bvlJ6Ge7gcwmt+32rNOS8G4Rz3RDTZCanj7UXFhsufXP5PKhEF8to6m6OIzNeVAvglixUmvynGHgJDD+3+OjdIthdm1YwL8wPC0WdyJJybSPT2EFe8DYKS2it+l/K5CAlXJs+5ZU1LQsVduQ9FS2HKCiK+XECma/6ivyZzwvfxuLye/pRAnBI0GuXQyuLLgdU08NMJVXLBr1W8U+sqoMMdzRZGp8e1NMzgeXatrG/yuwXRuAgN8JmiswzP2bPbubCBrM7ARbcYDYU/chCRwhaTK4RiY2PHKSaYvBbqah3Ep9PeNsjCBuYEs9//s+DLf80p9Cm5NZ/tfHNL/83j91CGpTy6qOPKm06TfY+ZbUaaKae7ZH/Rxp+PSmMG3CHIJ5ghuL0PHNGPbkIKe5BdJzoP8QwcPQX2uYSxua67cDJ7FPj9gEG4osd13f61Hbyu29xEr53JHfYQ=

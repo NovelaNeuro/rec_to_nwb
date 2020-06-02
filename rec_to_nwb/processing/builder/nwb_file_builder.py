@@ -10,10 +10,15 @@ from pynwb.file import Subject
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.builder.originators.associated_files_originator import AssociatedFilesOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
+from rec_to_nwb.processing.builder.originators.electrode_group_originator import ElectrodeGroupOriginator
+from rec_to_nwb.processing.builder.originators.electrodes_extension_originator import ElectrodesExtensionOriginator
+from rec_to_nwb.processing.builder.originators.electrodes_originator import ElectrodesOriginator
 from rec_to_nwb.processing.builder.originators.header_device_originator import HeaderDeviceOriginator
 from rec_to_nwb.processing.builder.originators.epochs_originator import EpochsOriginator
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
 from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
+from rec_to_nwb.processing.builder.originators.shanks_electrodes_originator import ShanksElectrodeOriginator
+from rec_to_nwb.processing.builder.originators.shanks_originator import ShanksOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -23,22 +28,6 @@ from rec_to_nwb.processing.nwb.common.session_time_extractor import SessionTimeE
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
 from rec_to_nwb.processing.nwb.components.device.fl_probe_manager import FlProbeManager
-from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank_manager import FlShankManager
-from rec_to_nwb.processing.nwb.components.device.shanks.shank_creator import ShankCreator
-from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode_manager import \
-    FlShanksElectrodeManager
-from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.shanks_electrode_creator import \
-    ShanksElectrodeCreator
-from rec_to_nwb.processing.nwb.components.electrode_group.electrode_group_factory import ElectrodeGroupFactory
-from rec_to_nwb.processing.nwb.components.electrode_group.electrode_group_injector import ElectrodeGroupInjector
-from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group_manager import \
-    FlNwbElectrodeGroupManager
-from rec_to_nwb.processing.nwb.components.electrodes.electrode_creator import ElectrodesCreator
-from rec_to_nwb.processing.nwb.components.electrodes.extension.electrode_extension_injector import \
-    ElectrodeExtensionInjector
-from rec_to_nwb.processing.nwb.components.electrodes.extension.fl_electrode_extension_manager import \
-    FlElectrodeExtensionManager
-from rec_to_nwb.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 from rec_to_nwb.processing.nwb.components.mda.time.invalid.fl_mda_invalid_time_manager import FlMdaInvalidTimeManager
 from rec_to_nwb.processing.nwb.components.mda.time.invalid.mda_invalid_time_injector import MdaInvalidTimeInjector
 from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time_manager import FlMdaValidTimeManager
@@ -147,29 +136,16 @@ class NWBFileBuilder:
 
         self.corrupted_data_manager = CorruptedDataManager(self.metadata)
 
-        self.fl_shanks_electrode_manager = FlShanksElectrodeManager(self.probes, self.metadata['electrode groups'])
-        self.shanks_electrodes_creator = ShanksElectrodeCreator()
-
-        self.fl_shank_manager = FlShankManager(self.probes, self.metadata['electrode groups'])
-        self.shank_creator = ShankCreator()
+        self.shanks_electrode_originator = ShanksElectrodeOriginator(self.probes, self.metadata)
+        self.shanks_originator = ShanksOriginator(self.probes, self.metadata)
 
         self.fl_probe_manager = FlProbeManager(self.probes)
         self.device_injector = DeviceInjector()
         self.device_factory = DeviceFactory()
 
-        self.fl_nwb_electrode_group_manager = FlNwbElectrodeGroupManager(self.metadata['electrode groups'])
-        self.electrode_group_creator = ElectrodeGroupFactory()
-        self.electrode_group_injector = ElectrodeGroupInjector()
+        self.electrode_group_originator = ElectrodeGroupOriginator(self.metadata)
 
-        self.fl_electrode_manager = FlElectrodeManager(self.probes, self.metadata['electrode groups'])
-        self.electrode_creator = ElectrodesCreator()
-
-        self.fl_electrode_extension_manager = FlElectrodeExtensionManager(
-            self.probes,
-            self.metadata,
-            self.header
-        )
-        self.electrode_extension_injector = ElectrodeExtensionInjector()
+        self.electrodes_originator = ElectrodesOriginator(self.probes, self.metadata)
 
         self.session_time_extractor = SessionTimeExtractor(
             self.datasets,
@@ -180,26 +156,36 @@ class NWBFileBuilder:
 
         self.fl_mda_valid_time_manager = FlMdaValidTimeManager(
             sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
+            metadata=self.metadata
         )
         self.mda_valid_time_injector = MdaValidTimeInjector()
 
         self.fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(
             sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
+            metadata=self.metadata
         )
         self.mda_invalid_time_injector = MdaInvalidTimeInjector()
 
-        self.fl_pos_valid_time_manager = FlPosValidTimeManager()
+        self.fl_pos_valid_time_manager = FlPosValidTimeManager(
+            metadata=self.metadata
+        )
         self.pos_valid_time_injector = PosValidTimeInjector()
 
-        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager()
+        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager(
+            metadata=self.metadata
+        )
         self.pos_invalid_time_injector = PosInvalidTimeInjector()
-
 
         self.epochs_originator = EpochsOriginator(self.datasets)
 
         if 'associated_files' in self.metadata:
             self.associated_files_originator = AssociatedFilesOriginator(self.metadata)
 
+        self.electrodes_extension_originator = ElectrodesExtensionOriginator(
+            self.probes,
+            self.metadata,
+            self.header
+        )
         self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
         self.dio_originator = DioOriginator(self.metadata, self.datasets)
@@ -243,23 +229,23 @@ class NWBFileBuilder:
 
         valid_map_dict = self.__build_corrupted_data_manager()
 
-        shanks_electrodes_dict = self.__build_shanks_electrodes()
+        shanks_electrodes_dict = self.shanks_electrode_originator.make()
 
-        shanks_dict = self.__build_shanks(shanks_electrodes_dict)
+        shanks_dict = self.shanks_originator.make(shanks_electrodes_dict)
 
         probes = self.__build_and_inject_probes(nwb_content, shanks_dict, valid_map_dict['probes'])
 
         self.header_device_originator.make(nwb_content)
 
-        electrode_groups = self.__build_and_inject_electrode_group(
+        electrode_groups = self.electrode_group_originator.make(
             nwb_content, probes, valid_map_dict['electrode_groups']
         )
 
-        self.__build_and_inject_electrodes(
+        self.electrodes_originator.make(
             nwb_content, electrode_groups, valid_map_dict['electrodes'], valid_map_dict['electrode_groups']
         )
 
-        self.__build_and_inject_electrodes_extensions(nwb_content, valid_map_dict['electrodes'])
+        self.electrodes_extension_originator.make(nwb_content, valid_map_dict['electrodes'])
 
         self.epochs_originator.make(nwb_content)
 
@@ -294,27 +280,6 @@ class NWBFileBuilder:
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
 
-    def __build_shanks_electrodes(self):
-        logger.info('Probes-ShanksElectrode: Building')
-        fl_shanks_electrodes_dict = self.fl_shanks_electrode_manager.get_fl_shanks_electrodes_dict()
-        logger.info('Probes-ShanksElectrode: Creating')
-        shanks_electrodes_dict = {}
-        for probe_type, fl_shanks_electrodes in fl_shanks_electrodes_dict.items():
-            shanks_electrodes_dict[probe_type] = [
-                self.shanks_electrodes_creator.create(fl_shanks_electrode)
-                for fl_shanks_electrode in fl_shanks_electrodes
-            ]
-        return shanks_electrodes_dict
-
-    def __build_shanks(self, shanks_electrodes_dict):
-        logger.info('Probes-Shanks: Building')
-        fl_shanks_dict = self.fl_shank_manager.get_fl_shanks_dict(shanks_electrodes_dict)
-        logger.info('Probes-Shanks: Creating')
-        shanks_dict = {}
-        for probe_type, fl_shanks in fl_shanks_dict.items():
-            shanks_dict[probe_type] = [self.shank_creator.create(fl_shank) for fl_shank in fl_shanks]
-        return shanks_dict
-
     def __build_and_inject_probes(self, nwb_content, shanks_dict, probes_valid_map):
         logger.info('Probes: Building')
         fl_probes = self.fl_probe_manager.get_fl_probes(shanks_dict, probes_valid_map)
@@ -323,41 +288,6 @@ class NWBFileBuilder:
         logger.info('Probes: Injecting probes into NWB')
         self.device_injector.inject_all_devices(nwb_content, probes)
         return probes
-
-    def __build_and_inject_electrode_group(self, nwb_content, probes, electrode_groups_valid_map):
-        logger.info('ElectrodeGroups: Building')
-        fl_nwb_electrode_groups = self.fl_nwb_electrode_group_manager.get_fl_nwb_electrode_groups(
-            probes=probes,
-            electrode_groups_valid_map=electrode_groups_valid_map
-        )
-        logger.info('ElectrodeGroups: Creating')
-        nwb_electrode_groups = [
-            self.electrode_group_creator.create_nwb_electrode_group(nwb_electrode_group)
-            for nwb_electrode_group in fl_nwb_electrode_groups
-        ]
-        logger.info('ElectrodeGroups: Injecting into NWB')
-        self.electrode_group_injector.inject_all_electrode_groups(nwb_content, nwb_electrode_groups)
-        return nwb_electrode_groups
-
-    def __build_and_inject_electrodes(self, nwb_content, electrode_groups, electrodes_valid_map,
-                                      electrode_groups_valid_map):
-        logger.info('Electrodes: Building')
-        fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(
-            electrode_groups=electrode_groups,
-            electrodes_valid_map=electrodes_valid_map,
-            electrode_groups_valid_map=electrode_groups_valid_map
-        )
-        logger.info('Electrodes: Creating&Injecting into NWB')
-        [self.electrode_creator.create(nwb_content, fl_electrode) for fl_electrode in fl_electrodes]
-
-    def __build_and_inject_electrodes_extensions(self, nwb_content, electrodes_valid_map):
-        logger.info('FlElectrodesExtensions: Building')
-        fl_electrode_extension = self.fl_electrode_extension_manager.get_fl_electrodes_extension(electrodes_valid_map)
-        logger.info('FlElectrodesExtensions: Injecting into NWB')
-        self.electrode_extension_injector.inject_extensions(
-            nwb_content,
-            fl_electrode_extension
-        )
 
     def __build_and_inject_mda_valid_times(self, nwb_content):
         logger.info('MDA valid times: Building')

@@ -5,17 +5,22 @@ from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataE
 from rec_to_nwb.processing.nwb.components.position.time.invalid.fl_pos_invalid_time_builder import \
     FlPosInvalidTimeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
+from rec_to_nwb.processing.tools.get_times_period_multiplier import get_times_period_multiplier
 
 
 class FlPosInvalidTimeManager:
     """" Manage POS data and call FLPosInvalidTimeBuilder to create list of FLPosInvalidTime objects.
 
+    Args:
+        metadata (dict): Project metadata
+
     Methods:
         get_fl_pos_invalid_times()
     """
 
-    def __init__(self):
-        self.period_multiplier = 1.5
+    @beartype
+    def __init__(self, metadata: dict):
+        self.period_multiplier = get_times_period_multiplier(metadata)
 
     @beartype
     def get_fl_pos_invalid_times(self, nwb_content: NWBFile, gaps_margin: float = 0.000001) -> list:
