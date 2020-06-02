@@ -27,7 +27,9 @@ class ElectrodeExtensionInjector:
             fl_electrode_extension.channel_id,
             fl_electrode_extension.bad_channels,
             fl_electrode_extension.probe_shank,
-            fl_electrode_extension.probe_electrode
+            fl_electrode_extension.probe_electrode,
+            fl_electrode_extension.ref_n_trode_id,
+            fl_electrode_extension.ref_chan
         )
         self.__join_extensions_to_electrodes(nwb_content, fl_electrode_extension)
 
@@ -77,4 +79,14 @@ class ElectrodeExtensionInjector:
             name='probe_electrode',
             description='None',
             data=fl_electrode_extension.probe_electrode
+        )
+        nwb_content.electrodes.add_column(
+            name='ref_n_trode_id',
+            description='None',
+            data=fl_electrode_extension.ref_n_trode_id
+        )
+        nwb_content.electrodes.add_column(
+            name='ref_chan',
+            description='None',
+            data=fl_electrode_extension.ref_chan
         )

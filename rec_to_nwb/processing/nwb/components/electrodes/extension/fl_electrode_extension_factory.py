@@ -70,3 +70,24 @@ class FlElectrodeExtensionFactory:
                 [probe_electrode.append(electrode['id']) for electrode in shank['electrodes']]
         return probe_electrode
 
+    @classmethod
+    def create_ref_n_trode_id(cls, spike_n_trodes: list):
+        ref_n_trode_id = []
+        [
+            ref_n_trode_id.extend(
+                [int(spike_n_trode.ref_n_trode_id)] * len(spike_n_trode.spike_channels)
+            )
+            for spike_n_trode in spike_n_trodes
+        ]
+        return ref_n_trode_id
+
+    @classmethod
+    def create_ref_chan(cls, spike_n_trodes: list):
+        ref_chan = []
+        [
+            ref_chan.extend(
+                [int(spike_n_trode.ref_chan)] * len(spike_n_trode.spike_channels)
+            )
+            for spike_n_trode in spike_n_trodes
+        ]
+        return ref_chan
