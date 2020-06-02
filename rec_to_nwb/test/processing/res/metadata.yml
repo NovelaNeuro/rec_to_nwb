@@ -6,6 +6,7 @@ session description: Reinforcement leaarning
 session_id:        beans_01
 link to notes: https://www.novelaneuro.com/
 meters_per_pixel: 1
+period_multiplier: 1.5
 subject:
   description:     Long Evans Rat
   genotype:        Wild Type

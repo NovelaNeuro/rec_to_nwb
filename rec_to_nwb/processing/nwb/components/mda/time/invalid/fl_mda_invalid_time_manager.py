@@ -17,10 +17,10 @@ class FlMdaInvalidTimeManager:
     """
 
     @beartype
-    def __init__(self, sampling_rate: float):
+    def __init__(self, metadata, sampling_rate: float):
         self.sampling_rate = sampling_rate
 
-        self.period_multiplier = 1.5
+        self.period_multiplier = metadata['period_multiplier']
 
     @beartype
     def get_fl_mda_invalid_times(self, nwb_content: NWBFile, gaps_margin: float = 0.000001) -> list:

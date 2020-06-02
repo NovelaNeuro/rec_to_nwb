@@ -14,8 +14,8 @@ class FlPosInvalidTimeManager:
         get_fl_pos_invalid_times()
     """
 
-    def __init__(self):
-        self.period_multiplier = 1.5
+    def __init__(self, metadata):
+        self.period_multiplier = metadata['period_multiplier']
 
     @beartype
     def get_fl_pos_invalid_times(self, nwb_content: NWBFile, gaps_margin: float = 0.000001) -> list:
