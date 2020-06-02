@@ -1,3 +1,4 @@
+from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
 from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank_builder import FlShankBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.filter_probe_by_type import filter_probe_by_type
@@ -34,7 +35,10 @@ class FlShankManager:
         for shank in probe_metadata['shanks']:
             shanks_electrodes_in_shank = []
             for _ in shank['electrodes']:
-                shanks_electrodes_in_shank.append(shanks_electrodes.pop(0))
+                if shanks_electrodes:
+                    shanks_electrodes_in_shank.append(shanks_electrodes.pop(0))
+                else:
+                    raise MissingDataException('Not enough shanks_electrodes')
             yield self.__build_single_fl_shank(shank['shank_id'], shanks_electrodes_in_shank)
 
     def __build_single_fl_shank(self, shank_id, shanks_electrodes):
