@@ -3,7 +3,6 @@ from unittest import TestCase
 
 from testfixtures import should_raise
 
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
 
@@ -16,7 +15,7 @@ class TestDataScanner(TestCase):
         data_scanner = DataScanner(
             data_path=path + '/res/scanner_test/',
             animal_name='alien',
-            nwb_metadata = MetadataManager(
+            nwb_metadata=MetadataManager(
                 metadata_path=str(path) + '/res/metadata.yml',
                 probes_paths=[
                     str(path) + '/res/probe1.yml',
@@ -109,7 +108,7 @@ class TestDataScanner(TestCase):
         self.assertTrue(probes[1].endswith('probe2.yml'))
         self.assertTrue(probes[2].endswith('probe21.yml'))
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_data_scanner_failed_due_to_None_parameter(self):
         DataScanner(
             data_path=None,

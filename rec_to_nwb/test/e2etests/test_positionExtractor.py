@@ -3,7 +3,6 @@ import unittest
 
 from testfixtures import should_raise
 
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.nwb.components.position.fl_position_manager import FlPositionManager
 from rec_to_nwb.processing.nwb.components.position.position_creator import PositionCreator
 from rec_to_nwb.processing.tools.dataset import Dataset
@@ -37,7 +36,7 @@ class TestPositionExtraction(unittest.TestCase):
         self.assertEqual((32658,), position['Fields'].timestamps.shape,
                          'Shape should be (32658,)')
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_position_extractor_fails_reading_data_due_to_None_datasets(self):
         fl_position_manager = FlPositionManager(datasets=None, conversion='1')
         position_creator = PositionCreator()

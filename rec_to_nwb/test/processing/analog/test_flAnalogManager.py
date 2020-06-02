@@ -4,7 +4,6 @@ import numpy as np
 from numpy.testing import assert_array_equal
 from testfixtures import should_raise
 
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.exceptions.not_equal_param_length_exception import NotEqualParamLengthException
 from rec_to_nwb.processing.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
 from rec_to_nwb.processing.nwb.components.analog.fl_analog_manager import FlAnalogManager
@@ -58,7 +57,7 @@ class TestFlAnalogManager(TestCase):
         )
         self.assertIsInstance(timestamps, np.ndarray)
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_get_analog_fails_due_to_None_param(self):
         mock_continuous_time_files = ['Mock1', 'Mock2']
         FlAnalogManager(

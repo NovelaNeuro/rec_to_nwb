@@ -1,12 +1,12 @@
+from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.filter_probe_by_type import filter_probe_by_type
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlElectrodeExtensionFactory:
 
     @classmethod
-    def create_rel(cls, probes_metadata, electrode_groups_metadata):
-        validate_parameters_not_none(__name__, probes_metadata, electrode_groups_metadata)
+    @beartype
+    def create_rel(cls, probes_metadata: list, electrode_groups_metadata: list) -> dict:
 
         rel_x, rel_y, rel_z = [], [], []
         for electrode_group_metadata in electrode_groups_metadata:
@@ -20,26 +20,23 @@ class FlElectrodeExtensionFactory:
         return {'rel_x': rel_x, 'rel_y': rel_y, 'rel_z': rel_z}
 
     @classmethod
-    def create_ntrode_id(cls, ntrode_metadata):
-        validate_parameters_not_none(__name__, ntrode_metadata)
-
+    @beartype
+    def create_ntrode_id(cls, ntrode_metadata: list) -> list:
         ntrode_id = []
         [ntrode_id.extend([ntrode['ntrode_id']] * len(ntrode['map'])) for ntrode in ntrode_metadata]
         return ntrode_id
 
     @classmethod
-    def create_channel_id(cls, ntrode_metadata):
-        validate_parameters_not_none(__name__, ntrode_metadata)
-
+    @beartype
+    def create_channel_id(cls, ntrode_metadata: list) -> list:
         channel_id = []
         for ntrode in ntrode_metadata:
             [channel_id.append(map_index) for map_index in ntrode['map']]
         return channel_id
 
     @classmethod
-    def create_bad_channels(cls, ntrode_metadata):
-        validate_parameters_not_none(__name__, ntrode_metadata)
-
+    @beartype
+    def create_bad_channels(cls, ntrode_metadata: list) -> list:
         bad_channels = []
         for ntrode in ntrode_metadata:
             bad_channels.extend(
@@ -48,18 +45,16 @@ class FlElectrodeExtensionFactory:
         return bad_channels
 
     @classmethod
-    def create_hw_chan(cls, spike_n_trodes):
-        validate_parameters_not_none(__name__, spike_n_trodes)
-
+    @beartype
+    def create_hw_chan(cls, spike_n_trodes: list) -> list:
         hw_chan = []
         for spike_n_trode in spike_n_trodes:
             [hw_chan.append(int(spike_channel.hw_chan)) for spike_channel in spike_n_trode.spike_channels]
         return hw_chan
 
     @classmethod
-    def create_probe_shank(cls, probes_metadata, electrode_groups_metadata):
-        validate_parameters_not_none(__name__, probes_metadata, electrode_groups_metadata)
-
+    @beartype
+    def create_probe_shank(cls, probes_metadata: list, electrode_groups_metadata: list):
         probe_shank = []
         for electrode_group_metadata in electrode_groups_metadata:
             probe_metadata = filter_probe_by_type(probes_metadata, electrode_group_metadata['device_type'])
@@ -67,9 +62,7 @@ class FlElectrodeExtensionFactory:
         return probe_shank
 
     @classmethod
-    def create_probe_electrode(cls, probes_metadata, electrode_groups_metadata):
-        validate_parameters_not_none(__name__, probes_metadata, electrode_groups_metadata)
-
+    def create_probe_electrode(cls, probes_metadata: list, electrode_groups_metadata: list):
         probe_electrode = []
         for electrode_group_metadata in electrode_groups_metadata:
             probe_metadata = filter_probe_by_type(probes_metadata, electrode_group_metadata['device_type'])
@@ -77,3 +70,24 @@ class FlElectrodeExtensionFactory:
                 [probe_electrode.append(electrode['id']) for electrode in shank['electrodes']]
         return probe_electrode
 
+    @classmethod
+    def create_ref_n_trode_id(cls, spike_n_trodes: list):
+        ref_n_trode_id = []
+        [
+            ref_n_trode_id.extend(
+                [int(spike_n_trode.ref_n_trode_id)] * len(spike_n_trode.spike_channels)
+            )
+            for spike_n_trode in spike_n_trodes
+        ]
+        return ref_n_trode_id
+
+    @classmethod
+    def create_ref_chan(cls, spike_n_trodes: list):
+        ref_chan = []
+        [
+            ref_chan.extend(
+                [int(spike_n_trode.ref_chan)] * len(spike_n_trode.spike_channels)
+            )
+            for spike_n_trode in spike_n_trodes
+        ]
+        return ref_chan

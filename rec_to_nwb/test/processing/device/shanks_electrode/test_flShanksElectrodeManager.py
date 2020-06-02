@@ -2,7 +2,6 @@ from unittest import TestCase
 
 from testfixtures import should_raise
 
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
 from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode_manager import \
     FlShanksElectrodeManager
@@ -60,7 +59,7 @@ class TestFlShanksElectrodeManager(TestCase):
         self.assertEqual(fl_shanks_elecrodes_dict[probes_metadata_1['probe_type']][0].rel_y, 22)
         self.assertEqual(fl_shanks_elecrodes_dict[probes_metadata_1['probe_type']][0].rel_z, 33)
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_fl_shanks_electrode_manager_failed_due_to_None_param(self):
         FlShanksElectrodeManager(
             probes_metadata=None,

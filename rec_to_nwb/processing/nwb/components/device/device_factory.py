@@ -2,23 +2,27 @@ from ndx_franklab_novela.header_device import HeaderDevice
 from ndx_franklab_novela.probe import Probe
 from pynwb.device import Device
 
+from rec_to_nwb.processing.nwb.components.device.fl_device import FlDevice
+from rec_to_nwb.processing.nwb.components.device.fl_header_device import FlHeaderDevice
+from rec_to_nwb.processing.nwb.components.device.fl_probe import FlProbe
+from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class DeviceFactory:
 
     @classmethod
-    def create_device(cls, fl_device):
-        validate_parameters_not_none(__name__, fl_device)
+    @beartype
+    def create_device(cls, fl_device: FlDevice) -> Device:
         validate_parameters_not_none(__name__, fl_device.name)
         return Device(
             name=str(fl_device.name)
         )
 
     @classmethod
-    def create_probe(cls, fl_probe):
-        validate_parameters_not_none(__name__, fl_probe)
-        validate_parameters_not_none(__name__, fl_probe.probe_id, fl_probe.metadata)
+    @beartype
+    def create_probe(cls, fl_probe: FlProbe) -> Probe:
+        validate_parameters_not_none(__name__, fl_probe.probe_id, fl_probe.metadata, fl_probe.shanks)
         probe = Probe(
             id=fl_probe.probe_id,
             name="probe " + str(fl_probe.probe_id),
@@ -35,8 +39,8 @@ class DeviceFactory:
         return probe
 
     @classmethod
-    def create_header_device(cls, fl_header_device):
-        validate_parameters_not_none(__name__, fl_header_device)
+    @beartype
+    def create_header_device(cls, fl_header_device: FlHeaderDevice) -> HeaderDevice:
         validate_parameters_not_none(__name__, fl_header_device.name, fl_header_device.global_configuration)
 
         return HeaderDevice(
