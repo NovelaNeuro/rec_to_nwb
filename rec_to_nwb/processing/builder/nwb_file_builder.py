@@ -15,6 +15,7 @@ from rec_to_nwb.processing.builder.originators.electrodes_extension_originator i
 from rec_to_nwb.processing.builder.originators.electrodes_originator import ElectrodesOriginator
 from rec_to_nwb.processing.builder.originators.header_device_originator import HeaderDeviceOriginator
 from rec_to_nwb.processing.builder.originators.epochs_originator import EpochsOriginator
+from rec_to_nwb.processing.builder.originators.probe_originator import ProbeOriginator
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
 from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.builder.originators.shanks_electrodes_originator import ShanksElectrodeOriginator
@@ -190,6 +191,7 @@ class NWBFileBuilder:
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
         self.dio_originator = DioOriginator(self.metadata, self.datasets)
         self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
+        self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector)
 
         if self.process_mda:
             self.mda_originator = MdaOriginator(self.datasets, self.header)
@@ -233,7 +235,7 @@ class NWBFileBuilder:
 
         shanks_dict = self.shanks_originator.make(shanks_electrodes_dict)
 
-        probes = self.__build_and_inject_probes(nwb_content, shanks_dict, valid_map_dict['probes'])
+        probes = self.probes_originator.make(nwb_content, shanks_dict, valid_map_dict['probes'])
 
         self.header_device_originator.make(nwb_content)
 
