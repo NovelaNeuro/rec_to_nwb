@@ -21,7 +21,6 @@ from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.nwb.common.session_time_extractor import SessionTimeExtractor
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
-from rec_to_nwb.processing.nwb.components.device.fl_header_device_manager import FlHeaderDeviceManager
 from rec_to_nwb.processing.nwb.components.device.fl_probe_manager import FlProbeManager
 from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank_manager import FlShankManager
 from rec_to_nwb.processing.nwb.components.device.shanks.shank_creator import ShankCreator
@@ -197,7 +196,7 @@ class NWBFileBuilder:
         self.pos_invalid_time_injector = PosInvalidTimeInjector()
 
         if 'associated_files' in self.metadata:
-            self.associated_files_originator=AssociatedFilesOriginator(self.metadata)
+            self.associated_files_originator = AssociatedFilesOriginator(self.metadata)
 
         self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
