@@ -184,19 +184,21 @@ class NWBFileBuilder:
         )
 
         self.fl_mda_valid_time_manager = FlMdaValidTimeManager(
+            metadata=self.metadata,
             sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
         )
         self.mda_valid_time_injector = MdaValidTimeInjector()
 
         self.fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(
+            metadata=self.metadata,
             sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
         )
         self.mda_invalid_time_injector = MdaInvalidTimeInjector()
 
-        self.fl_pos_valid_time_manager = FlPosValidTimeManager()
+        self.fl_pos_valid_time_manager = FlPosValidTimeManager(self.metadata)
         self.pos_valid_time_injector = PosValidTimeInjector()
 
-        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager()
+        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager(self.metadata)
         self.pos_invalid_time_injector = PosInvalidTimeInjector()
 
 
