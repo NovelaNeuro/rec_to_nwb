@@ -9,7 +9,6 @@ from pynwb import NWBFile
 from pynwb.device import Device
 from testfixtures import should_raise
 
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
 
 
@@ -152,14 +151,14 @@ class TestDeviceInjector(TestCase):
                          'Sample system_time_at_creation')
         self.assertEqual(self.nwb_content.devices['HeaderDevice_1'].file_path, 'Sample file_path')
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_injector_failed_injecting_devices_to_nwb_due_to_None_devices(self):
         self.device_injector.inject_all_devices(
             nwb_content=self.nwb_content,
             devices=None
         )
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_injector_failed_injecting_devices_to_nwb_due_to_None_nwb(self):
         self.device_injector.inject_all_devices(
             nwb_content=None,

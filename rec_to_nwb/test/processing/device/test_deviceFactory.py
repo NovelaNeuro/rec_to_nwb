@@ -29,7 +29,7 @@ class TestDeviceFactory(TestCase):
         self.assertIsInstance(device, Device)
         self.assertEqual(device.name, 'Device1')
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_factory_failed_creating_Device_due_to_none_FlDevice(self):
         DeviceFactory.create_device(
             fl_device=None
@@ -80,7 +80,7 @@ class TestDeviceFactory(TestCase):
             mock_shank_2.name: mock_shank_2
         })
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_factory_failed_creating_Probe_due_to_none_FlProbe(self):
         DeviceFactory.create_probe(
             fl_probe=None
@@ -91,6 +91,7 @@ class TestDeviceFactory(TestCase):
         mock_fl_probe = Mock(spec=FlProbe)
         mock_fl_probe.probe_id = 1
         mock_fl_probe.metadata = None
+        mock_fl_probe.shanks = None
 
         DeviceFactory.create_probe(
             fl_probe=mock_fl_probe
@@ -150,7 +151,7 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(header_device.system_time_at_creation, 'Sample system_time_at_creation')
         self.assertEqual(header_device.file_path, 'Sample file_path')
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_factory_failed_creating_HeaderDevice_due_to_none_FlHeaderDevice(self):
         DeviceFactory.create_header_device(
             fl_header_device=None

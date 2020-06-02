@@ -4,7 +4,6 @@ from unittest.mock import Mock
 from ndx_franklab_novela.probe import ShanksElectrode
 from testfixtures import should_raise
 
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank import FlShank
 from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank_manager import FlShankManager
 
@@ -86,14 +85,14 @@ class TestFlShankManager(TestCase):
             mock_shanks_electrode_5, mock_shanks_electrode_6
         ])
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_fl_shank_manager_failed_due_to_None_param(self):
         FlShankManager(
             probes_metadata=None,
             electrode_groups_metadata=None
         )
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_fl_shank_manager_failed_creating_fl_shanks_dict_due_to_None_param(self):
         fl_shank_manager = FlShankManager(
             probes_metadata=Mock(spec=list),

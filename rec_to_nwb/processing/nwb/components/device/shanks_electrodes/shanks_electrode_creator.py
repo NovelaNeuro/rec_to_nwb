@@ -1,13 +1,15 @@
 from ndx_franklab_novela.probe import ShanksElectrode
 
+from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
+from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class ShanksElectrodeCreator:
 
     @classmethod
-    def create(cls, fl_shanks_electrode):
-        validate_parameters_not_none(__name__, fl_shanks_electrode)
+    @beartype
+    def create(cls, fl_shanks_electrode: FlShanksElectrode) -> ShanksElectrode:
         validate_parameters_not_none(__name__, fl_shanks_electrode.shanks_electrode_id,
                                      fl_shanks_electrode.rel_x, fl_shanks_electrode.rel_y, fl_shanks_electrode.rel_z)
 

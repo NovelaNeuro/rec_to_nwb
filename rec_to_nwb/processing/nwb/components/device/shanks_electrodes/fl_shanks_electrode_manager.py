@@ -1,21 +1,20 @@
 from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode_builder import \
     FlShanksElectrodeBuilder
+from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.filter_probe_by_type import filter_probe_by_type
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
 
 
 class FlShanksElectrodeManager:
 
-    def __init__(self, probes_metadata, electrode_groups_metadata):
-        validate_parameters_not_none(__name__, probes_metadata, electrode_groups_metadata)
-
+    @beartype
+    def __init__(self, probes_metadata: list, electrode_groups_metadata: list):
         self.probes_metadata = probes_metadata
         self.electrode_groups_metadata = electrode_groups_metadata
 
         self.fl_shanks_electrodes_builder = FlShanksElectrodeBuilder()
 
-    def get_fl_shanks_electrodes_dict(self):
-
+    @beartype
+    def get_fl_shanks_electrodes_dict(self) -> dict:
         fl_shanks_electrodes_dict = {}
         probes_types = []
         for electrode_group_metadata in self.electrode_groups_metadata:
