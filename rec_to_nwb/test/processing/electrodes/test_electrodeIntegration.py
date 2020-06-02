@@ -9,7 +9,6 @@ from pynwb import NWBFile
 from pynwb.ecephys import ElectrodeGroup
 from testfixtures import should_raise
 
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.nwb.components.electrodes.electrode_creator import ElectrodesCreator
 from rec_to_nwb.processing.nwb.components.electrodes.fl_electrode_manager import FlElectrodeManager
 
@@ -116,7 +115,7 @@ class TestElectrodeIntegration(TestCase):
         self.assertEqual(nwb_file.electrodes[0, 8], '1')
         self.assertEqual(nwb_file.electrodes[1, 8], '1')
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_electrode_failed_creating_and_injecting_inside_nwb_due_to_None_NWB(self):
         electrode_groups_metadata = [
             {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
