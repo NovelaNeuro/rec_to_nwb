@@ -32,6 +32,7 @@ tasks:
 
 associated_files: []
 
+times_period_multiplier: 1.5
 
 behavioral_events:
   - description: Din1

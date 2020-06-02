@@ -4,17 +4,21 @@ from pynwb import NWBFile
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
 from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_builder import FlPosValidTimeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
+from rec_to_nwb.processing.tools.get_times_period_multiplier import get_times_period_multiplier
 
 
 class FlPosValidTimeManager:
     """" Manage POS data and call FLPosValidTimeBuilder to create list of FLPosValidTime objects.
 
+    Args:
+        metadata (dict): Project metadata
+
     Methods:
         get_fl_pos_valid_times()
     """
 
-    def __init__(self):
-        self.period_multiplier = 1.5
+    def __init__(self, metadata):
+        self.period_multiplier = get_times_period_multiplier(metadata)
 
     @beartype
     def get_fl_pos_valid_times(self, nwb_content: NWBFile, gaps_margin: float = 0.000001) -> list:

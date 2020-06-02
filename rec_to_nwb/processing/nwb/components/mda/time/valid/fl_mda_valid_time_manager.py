@@ -4,6 +4,7 @@ from pynwb import NWBFile
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
 from rec_to_nwb.processing.nwb.components.mda.time.valid.fl_mda_valid_time_builder import FlMdaValidTimeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
+from rec_to_nwb.processing.tools.get_times_period_multiplier import get_times_period_multiplier
 
 
 class FlMdaValidTimeManager:
@@ -11,16 +12,17 @@ class FlMdaValidTimeManager:
 
     Args:
         sampling_rate (float): Sampling rate of MDA data
+        metadata (dict): Project metadata
 
     Methods:
         get_fl_mda_valid_times()
     """
 
     @beartype
-    def __init__(self, sampling_rate: float):
+    def __init__(self, sampling_rate: float, metadata: dict):
         self.sampling_rate = sampling_rate
 
-        self.period_multiplier = 1.5
+        self.period_multiplier = get_times_period_multiplier(metadata)
 
     @beartype
     def get_fl_mda_valid_times(self, nwb_content: NWBFile, gaps_margin: float = 0.000001) -> list:

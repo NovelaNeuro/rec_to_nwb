@@ -19,8 +19,9 @@ class TestFlPosValidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = mock_array
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_pos_valid_time_manager = FlPosValidTimeManager()
+        fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
         fl_pos_valid_times = fl_pos_valid_time_manager.get_fl_pos_valid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -40,8 +41,9 @@ class TestFlPosValidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = mock_array
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_pos_valid_time_manager = FlPosValidTimeManager()
+        fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
         fl_pos_valid_times = fl_pos_valid_time_manager.get_fl_pos_valid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -59,8 +61,9 @@ class TestFlPosValidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = mock_array
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_pos_valid_time_manager = FlPosValidTimeManager()
+        fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
         fl_pos_valid_times = fl_pos_valid_time_manager.get_fl_pos_valid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -78,8 +81,9 @@ class TestFlPosValidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = mock_array
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_pos_valid_time_manager = FlPosValidTimeManager()
+        fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
         fl_pos_valid_times = fl_pos_valid_time_manager.get_fl_pos_valid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -92,8 +96,9 @@ class TestFlPosValidTimeManager(TestCase):
     @should_raise(TypeError)
     def test_fl_pos_valid_time_manager_get_fl_pos_valid_times_failed_due_to_None_param(self):
         gaps_margin = 0.0001
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_pos_valid_time_manager = FlPosValidTimeManager()
+        fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
         fl_pos_valid_time_manager.get_fl_pos_valid_times(
             nwb_content=None,
             gaps_margin=gaps_margin
@@ -104,8 +109,9 @@ class TestFlPosValidTimeManager(TestCase):
         gaps_margin = 0.0001
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = None
+        mock_metadata = {'times_period_multiplier': 1.5}
 
-        fl_pos_valid_time_manager = FlPosValidTimeManager()
+        fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
         fl_pos_valid_time_manager.get_fl_pos_valid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
