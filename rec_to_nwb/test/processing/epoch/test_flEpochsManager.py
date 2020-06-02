@@ -3,7 +3,6 @@ from unittest.mock import patch, Mock
 
 from testfixtures import should_raise
 
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_extractor import FlEpochsExtractor
 from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
 from rec_to_nwb.processing.tools.dataset import Dataset
@@ -41,7 +40,7 @@ class TestFlElEpochsManager(TestCase):
         self.assertEqual(4444444444.0, fl_epochs.session_end_times[1])
         self.assertEqual('mock1', fl_epochs.tags[0])
 
-    @should_raise(NoneParamException)
+    @should_raise(TypeError)
     def test_get_epochs_fails_due_to_None_param(self):
         FlEpochsManager(
             None
