@@ -23,7 +23,7 @@ class FlMdaValidTimeManager:
         self.period_multiplier = 1.5
 
     @beartype
-    def get_fl_mda_valid_times(self, nwb_content: NWBFile, gaps_margin: float = 0.0001) -> list:
+    def get_fl_mda_valid_times(self, nwb_content: NWBFile, gaps_margin: float = 0.000001) -> list:
         """ Manage MDA data and call FlMdaValidTimeBuilder for every valid gap.
 
         Args:
