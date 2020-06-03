@@ -27,5 +27,14 @@ class FlProbeManager:
     @beartype
     def _build_single_probe(self, probe_metadata: dict, shanks: list):
         self.probe_id += 1
-        return self.fl_probe_builder.build(probe_metadata, self.probe_id, shanks)
+        return self.fl_probe_builder.build(
+            probe_id=self.probe_id,
+            name='probe ' + str(self.probe_id),
+            probe_type=probe_metadata['probe_type'],
+            units=probe_metadata['units'],
+            probe_description=probe_metadata['probe_description'],
+            contact_side_numbering=probe_metadata['contact_side_numbering'],
+            contact_size=float(probe_metadata['contact_size']),
+            shanks=shanks
+        )
 
