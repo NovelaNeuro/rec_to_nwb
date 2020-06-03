@@ -1,4 +1,4 @@
-import logging
+import logging.config
 import os
 import shutil
 
@@ -14,7 +14,7 @@ from rec_to_nwb.processing.validation.validation_registrator import ValidationRe
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-logging.config.fileConfig(fname=str(path) + '/../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 _DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
@@ -106,7 +106,7 @@ class RawToNWBBuilder:
         for i in range(len(self.trodes_rec_export_args)):
             if self.trodes_rec_export_args[i] == '-reconfig':
                 xml_file_path = self.trodes_rec_export_args[i + 1]
-        xsd_file_path = str(path) + '/../../rec_to_nwb/data/reconfig_header.xsd'
+        xsd_file_path = str(path) + '/../../../rec_to_nwb/data/reconfig_header.xsd'
         xsd_schema = xmlschema.XMLSchema(xsd_file_path)
         return xsd_schema.is_valid(xml_file_path)
 
