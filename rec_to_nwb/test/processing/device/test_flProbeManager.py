@@ -1,9 +1,9 @@
 import os
 from unittest import TestCase
 from unittest.mock import Mock
+from testfixtures import should_raise
 
 from ndx_franklab_novela.probe import Shank
-from testfixtures import should_raise
 
 from rec_to_nwb.processing.nwb.components.device.fl_probe import FlProbe
 from rec_to_nwb.processing.nwb.components.device.fl_probe_manager import FlProbeManager
@@ -14,13 +14,17 @@ path = os.path.dirname(os.path.abspath(__file__))
 class TestFlProbeManager(TestCase):
 
     def setUp(self):
-        self.probes_metadata_1 = {'probe_type': 'tetrode_12.5', 'contact_size': 20.0, 'num_shanks': 1, 'shanks': [
-            {'shank_id': 0, 'electrodes': [
-                {'id': 0, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
-                {'id': 1, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
-            ]}]}
+        self.probes_metadata_1 = {
+            'probe_type': 'tetrode_12.5', 'contact_size': 20.0, 'units': 'um',
+            'probe_description': 'sample description 1', 'contact_side_numbering': True,
+            'shanks': [
+                {'shank_id': 0, 'electrodes': [
+                    {'id': 0, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                    {'id': 1, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
+                ]}]}
         self.probes_metadata_2 = {
-            'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'num_shanks': 3,
+            'probe_type': '128c-4s8mm6cm-20um-40um-sl', 'contact_size': 20.0, 'units': 'mm',
+            'probe_description': 'sample description 2', 'contact_side_numbering': False,
             'shanks': [
                 {'shank_id': 0, 'electrodes': [
                     {'id': 0, 'rel_x': 0.0, 'rel_y': 0.0, 'rel_z': 0.0},
@@ -60,14 +64,22 @@ class TestFlProbeManager(TestCase):
         )
 
         self.assertIsInstance(fl_probes[0], FlProbe)
-        self.assertIsInstance(fl_probes[0].metadata, dict)
         self.assertIsInstance(fl_probes[0].probe_id, int)
+        self.assertIsInstance(fl_probes[0].name, str)
+        self.assertIsInstance(fl_probes[0].probe_type, str)
+        self.assertIsInstance(fl_probes[0].units, str)
+        self.assertIsInstance(fl_probes[0].probe_description, str)
+        self.assertIsInstance(fl_probes[0].contact_size, float)
         self.assertIsInstance(fl_probes[0].shanks, list)
 
         self.assertEqual(len(fl_probes[0].shanks), 6)
 
-        self.assertEqual(fl_probes[0].metadata, self.probes_metadata_2)
         self.assertEqual(fl_probes[0].probe_id, 0)
+        self.assertEqual(fl_probes[0].name, 'probe 0')
+        self.assertEqual(fl_probes[0].probe_type, '128c-4s8mm6cm-20um-40um-sl')
+        self.assertEqual(fl_probes[0].units, 'mm')
+        self.assertEqual(fl_probes[0].probe_description, 'sample description 2')
+        self.assertEqual(fl_probes[0].contact_size, 20.0)
         self.assertEqual(fl_probes[0].shanks, [mock_shank_1, mock_shank_2,
                                                mock_shank_3, mock_shank_4,
                                                mock_shank_5, mock_shank_6]
