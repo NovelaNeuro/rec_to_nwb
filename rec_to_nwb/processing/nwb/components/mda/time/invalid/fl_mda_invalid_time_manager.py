@@ -62,8 +62,9 @@ class FlMdaInvalidTimeManager:
         stop_times = np.append(valid_times[:, 0] - 2 * gaps_margin, np.asarray(timestamps[-1] - gaps_margin))
 
         invalid_times = (np.vstack([start_times, stop_times])).transpose()
-        valid_intervals = (invalid_times[:, 1] - invalid_times[:, 0]) > min_valid_len
-        return invalid_times[valid_intervals, :]
+        invalid_intervals = [invalid_time > min_valid_len for invalid_time in invalid_times[:, 1] - invalid_times[:, 0]]
+
+        return invalid_times[invalid_intervals, :]
 
     def __get_mda_valid_times(self, timestamps, period, gaps_margin):
         min_valid_len = 3 * gaps_margin
