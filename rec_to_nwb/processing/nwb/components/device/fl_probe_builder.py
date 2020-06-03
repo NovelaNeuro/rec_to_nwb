@@ -7,7 +7,7 @@ class FlProbeBuilder:
     @staticmethod
     @beartype
     def build(probe_id: int, name: str, probe_type: str, units: str, probe_description: str,
-              contact_side_numbering: bool, contact_size: float, shanks: list) -> FlProbe:
+              contact_side_numbering: bool, contact_size: float, shanks: list):
         return FlProbe(
             probe_id=probe_id,
             name=name,
