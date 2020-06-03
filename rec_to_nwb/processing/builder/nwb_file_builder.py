@@ -149,10 +149,10 @@ class NWBFileBuilder:
             self.dataset_names
         )
 
-        self.mda_valid_time_originator = MdaValidTimeOriginator(self.header)
-        self.mda_invalid_time_originator = MdaInvalidTimeOriginator(self.header)
-        self.pos_valid_time_originator = PosValidTimeOriginator()
-        self.pos_invalid_time_originator = PosInvalidTimeOriginator()
+        self.mda_valid_time_originator = MdaValidTimeOriginator(self.header, self.metadata)
+        self.mda_invalid_time_originator = MdaInvalidTimeOriginator(self.header, self.metadata)
+        self.pos_valid_time_originator = PosValidTimeOriginator(self.metadata)
+        self.pos_invalid_time_originator = PosInvalidTimeOriginator(self.metadata)
 
         self.epochs_originator = EpochsOriginator(self.datasets)
 
@@ -168,7 +168,7 @@ class NWBFileBuilder:
         self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
         self.dio_originator = DioOriginator(self.metadata, self.datasets)
         self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
-        self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector)
+        self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
 
         if self.process_mda:
             self.mda_originator = MdaOriginator(self.datasets, self.header)

@@ -9,11 +9,11 @@ logger = logging.getLogger(__name__)
 
 
 class ProbeOriginator:
-    def __init__(self, device_factory, device_injector):
+    def __init__(self, device_factory, device_injector, probes_metadata):
         self.device_factory = device_factory
         self.device_injector = device_injector
 
-        self.fl_probe_manager = FlProbeManager()
+        self.fl_probe_manager = FlProbeManager(probes_metadata)
 
     def make(self, nwb_content, shanks_dict, probes_valid_map, ):
         logger.info('Probes: Building')

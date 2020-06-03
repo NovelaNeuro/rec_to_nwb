@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 
 class PosValidTimeOriginator:
 
-    def __init__(self):
-        self.fl_pos_valid_time_manager = FlPosValidTimeManager()
+    def __init__(self, metadata):
+        self.fl_pos_valid_time_manager = FlPosValidTimeManager(metadata)
         self.pos_valid_time_injector = PosValidTimeInjector()
 
     def make(self, nwb_content):
