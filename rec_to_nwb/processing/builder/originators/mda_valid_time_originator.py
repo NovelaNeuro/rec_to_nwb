@@ -11,9 +11,10 @@ logger = logging.getLogger(__name__)
 
 class MdaValidTimeOriginator:
 
-    def __init__(self, header):
+    def __init__(self, header, metadata):
         self.fl_mda_valid_time_manager = FlMdaValidTimeManager(
             sampling_rate=float(header.configuration.hardware_configuration.sampling_rate),
+            metadata=metadata
         )
         self.mda_valid_time_injector = MdaValidTimeInjector()
 

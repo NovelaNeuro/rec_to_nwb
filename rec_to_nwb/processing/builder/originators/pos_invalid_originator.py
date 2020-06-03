@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 class PosInvalidTimeOriginator:
 
-    def __init__(self):
-        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager()
+    def __init__(self, metadata):
+        self.fl_pos_invalid_time_manager = FlPosInvalidTimeManager(metadata)
         self.pos_invalid_time_injector = PosInvalidTimeInjector()
 
     def make(self, nwb_content):
