@@ -22,16 +22,17 @@ class DeviceFactory:
     @classmethod
     @beartype
     def create_probe(cls, fl_probe: FlProbe) -> Probe:
-        validate_parameters_not_none(__name__, fl_probe.probe_id, fl_probe.metadata, fl_probe.shanks)
+        validate_parameters_not_none(__name__, fl_probe.probe_id, fl_probe.name, fl_probe.probe_type, fl_probe.units,
+                                     fl_probe.probe_description, fl_probe.contact_side_numbering,
+                                     fl_probe.contact_size, fl_probe.shanks)
         probe = Probe(
             id=fl_probe.probe_id,
-            name="probe " + str(fl_probe.probe_id),
-            probe_type=fl_probe.metadata['probe_type'],
-            units=fl_probe.metadata['units'],
-            probe_description=fl_probe.metadata['probe_description'],
-            num_shanks=len(fl_probe.shanks),
-            contact_side_numbering=fl_probe.metadata['contact_side_numbering'],
-            contact_size=fl_probe.metadata['contact_size'],
+            name=fl_probe.name,
+            probe_type=fl_probe.probe_type,
+            units=fl_probe.units,
+            probe_description=fl_probe.probe_description,
+            contact_side_numbering=fl_probe.contact_side_numbering,
+            contact_size=fl_probe.contact_size
         )
         for shank in fl_probe.shanks:
             probe.add_shank(shank)

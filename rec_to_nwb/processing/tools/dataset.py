@@ -15,7 +15,8 @@ class Dataset:
         return self.data[data_type]
 
     def get_all_data_from_dataset(self, data_type):
-        directories = FileSorter.sort_filenames(os.listdir(self.data[data_type]))
+        directories = os.listdir(self.data[data_type])
+        FileSorter.sort_filenames(directories)
         return directories
 
     def get_mda_timestamps(self):
