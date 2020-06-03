@@ -24,8 +24,9 @@ class TestMdaInvalidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = mock_array
+        mock_metadata = {}
 
-        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate)
+        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate, mock_metadata)
         fl_mda_invalid_times = fl_mda_invalid_time_manager.get_fl_mda_invalid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -44,8 +45,9 @@ class TestMdaInvalidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = mock_array
+        mock_metadata = {}
 
-        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate)
+        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate, mock_metadata)
         fl_mda_invalid_times = fl_mda_invalid_time_manager.get_fl_mda_invalid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -62,8 +64,9 @@ class TestMdaInvalidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = mock_array
+        mock_metadata = {}
 
-        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate)
+        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate, mock_metadata)
         fl_mda_invalid_times = fl_mda_invalid_time_manager.get_fl_mda_invalid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -82,8 +85,9 @@ class TestMdaInvalidTimeManager(TestCase):
             mock_array[i] = number
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = mock_array
+        mock_metadata = {}
 
-        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate)
+        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate, mock_metadata)
         fl_mda_invalid_times = fl_mda_invalid_time_manager.get_fl_mda_invalid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
@@ -97,8 +101,9 @@ class TestMdaInvalidTimeManager(TestCase):
     def test_fl_mda_invalid_time_manager_get_fl_mda_invalid_times_failed_due_to_None_param(self):
         gaps_margin = 0.0001
         sampling_rate = 1.0
+        mock_metadata = {}
 
-        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate)
+        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate, mock_metadata)
         fl_mda_invalid_time_manager.get_fl_mda_invalid_times(
             nwb_content=None,
             gaps_margin=gaps_margin
@@ -110,8 +115,9 @@ class TestMdaInvalidTimeManager(TestCase):
         sampling_rate = 1.0
         mock_nwb = MagicMock(spec=NWBFile)
         mock_nwb.acquisition['e-series'].timestamps = None
+        mock_metadata = {}
 
-        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate)
+        fl_mda_invalid_time_manager = FlMdaInvalidTimeManager(sampling_rate, mock_metadata)
         fl_mda_invalid_time_manager.get_fl_mda_invalid_times(
             nwb_content=mock_nwb,
             gaps_margin=gaps_margin
