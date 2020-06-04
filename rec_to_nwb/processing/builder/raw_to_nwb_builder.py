@@ -96,9 +96,6 @@ class RawToNWBBuilder:
         self.parallel_instances = parallel_instances
         self.trodes_rec_export_args = trodes_rec_export_args
 
-        if self.trodes_rec_export_args != () and not self.__is_rec_config_valid():
-            raise InvalidXMLException('Reconfig xml does not match expected xsd')
-
     def __is_rec_config_valid(self):
         """ Check if XML is valid with XSD file """
 
@@ -108,7 +105,7 @@ class RawToNWBBuilder:
                 xml_file_path = self.trodes_rec_export_args[i + 1]
         xsd_file_path = str(path) + '/../../../rec_to_nwb/data/reconfig_header.xsd'
         xsd_schema = xmlschema.XMLSchema(xsd_file_path)
-        return xsd_schema.is_valid(xml_file_path)
+        xmlschema.validate(xml_file_path, xsd_schema)
 
     def build_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
                   process_pos_valid_time=True, process_pos_invalid_time=True):
