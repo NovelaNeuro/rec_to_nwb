@@ -165,13 +165,17 @@ class NWBFileBuilder:
             self.header
         )
         self.header_device_originator = HeaderDeviceOriginator(self.header)
-        self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
-        self.dio_originator = DioOriginator(self.metadata, self.datasets)
         self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
 
         if self.process_mda:
             self.mda_originator = MdaOriginator(self.datasets, self.header)
+
+        if self.process_dio:
+            self.dio_originator = DioOriginator(self.metadata, self.datasets)
+
+        if self.process_analog:
+            self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -258,15 +262,6 @@ class NWBFileBuilder:
     def __build_corrupted_data_manager(self):
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
-
-    def __build_and_inject_probes(self, nwb_content, shanks_dict, probes_valid_map):
-        logger.info('Probes: Building')
-        fl_probes = self.fl_probe_manager.get_fl_probes(shanks_dict, probes_valid_map)
-        logger.info('Probes: Creating probes')
-        probes = [self.device_factory.create_probe(fl_probe) for fl_probe in fl_probes]
-        logger.info('Probes: Injecting probes into NWB')
-        self.device_injector.inject_all_devices(nwb_content, probes)
-        return probes
 
     def build_and_append_to_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
                                 process_pos_valid_time=True, process_pos_invalid_time=True):
