@@ -9,6 +9,7 @@ from pynwb.file import Subject
 
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.builder.originators.associated_files_originator import AssociatedFilesOriginator
+from rec_to_nwb.processing.builder.originators.data_acq_device_originator import DataAcqDeviceOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
 from rec_to_nwb.processing.builder.originators.electrode_group_originator import ElectrodeGroupOriginator
 from rec_to_nwb.processing.builder.originators.electrodes_extension_originator import ElectrodesExtensionOriginator
@@ -168,6 +169,12 @@ class NWBFileBuilder:
         self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
 
+        self.data_acq_device_originator = DataAcqDeviceOriginator(
+            device_factory=self.device_factory,
+            device_injector=self.device_injector,
+            metadata=self.metadata['data acq device']
+        )
+
         if self.process_mda:
             self.mda_originator = MdaOriginator(self.datasets, self.header)
 
@@ -217,6 +224,8 @@ class NWBFileBuilder:
         shanks_dict = self.shanks_originator.make(shanks_electrodes_dict)
 
         probes = self.probes_originator.make(nwb_content, shanks_dict, valid_map_dict['probes'])
+
+        self.data_acq_device_originator.make(nwb_content)
 
         self.header_device_originator.make(nwb_content)
 

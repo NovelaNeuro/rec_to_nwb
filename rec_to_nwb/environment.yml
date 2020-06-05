@@ -46,7 +46,7 @@ dependencies:
   - pyyaml
   - pytest
   - testfixtures
-  - ndx-franklab-novela==0.0.005
+  - ndx-franklab-novela==0.0.006
   - pip:
       - xmldiff
       - rec-to-binaries==0.4.2.dev0

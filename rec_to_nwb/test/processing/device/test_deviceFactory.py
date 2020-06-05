@@ -8,6 +8,7 @@ from pynwb.device import Device
 
 from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.header.module.global_configuration import GlobalConfiguration
+from rec_to_nwb.processing.nwb.components.device.acq.fl_data_acq_device import FlDataAcqDevice
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.fl_device import FlDevice
 from rec_to_nwb.processing.nwb.components.device.header.fl_header_device import FlHeaderDevice
@@ -97,6 +98,17 @@ class TestDeviceFactory(TestCase):
 
         DeviceFactory.create_probe(
             fl_probe=mock_fl_probe
+        )
+
+    def test_factory_create_DataAcqDevice_successfully(self):
+        mock_fl_data_acq_device = Mock(spec=FlDataAcqDevice)
+        mock_fl_data_acq_device.name = 'Acq_0'
+        mock_fl_data_acq_device.system = 'system_0'
+        mock_fl_data_acq_device.amplifier = 'amplifier_0'
+        mock_fl_data_acq_device.adc_circuit = 'adc_circuit_0'
+
+        DeviceFactory.create_data_acq_device(
+            fl_data_acq_device=mock_fl_data_acq_device
         )
 
     def test_factory_create_HeaderDevice_successfully(self):
