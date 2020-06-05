@@ -32,7 +32,7 @@ from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.nwb.common.session_time_extractor import SessionTimeExtractor
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
-from rec_to_nwb.processing.nwb.components.device.fl_probe_manager import FlProbeManager
+from rec_to_nwb.processing.nwb.components.device.probe.fl_probe_manager import FlProbeManager
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator

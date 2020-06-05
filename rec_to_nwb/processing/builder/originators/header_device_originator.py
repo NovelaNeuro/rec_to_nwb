@@ -3,7 +3,7 @@ import os
 
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
-from rec_to_nwb.processing.nwb.components.device.fl_header_device_manager import FlHeaderDeviceManager
+from rec_to_nwb.processing.nwb.components.device.header.fl_header_device_manager import FlHeaderDeviceManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)

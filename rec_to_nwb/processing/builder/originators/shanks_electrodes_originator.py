@@ -1,9 +1,9 @@
 import logging.config
 import os
 
-from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode_manager import \
+from rec_to_nwb.processing.nwb.components.device.probe.shanks_electrodes.fl_shanks_electrode_manager import \
     FlShanksElectrodeManager
-from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.shanks_electrode_creator import \
+from rec_to_nwb.processing.nwb.components.device.probe.shanks_electrodes.shanks_electrode_creator import \
     ShanksElectrodeCreator
 
 path = os.path.dirname(os.path.abspath(__file__))

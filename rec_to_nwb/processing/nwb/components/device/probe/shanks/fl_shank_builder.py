@@ -1,4 +1,4 @@
-from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank import FlShank
+from rec_to_nwb.processing.nwb.components.device.probe.shanks.fl_shank import FlShank
 
 
 class FlShankBuilder:

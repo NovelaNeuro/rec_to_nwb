@@ -4,7 +4,7 @@ from unittest import TestCase
 
 import yaml
 
-from rec_to_nwb.processing.nwb.components.device.fl_probe_extractor import FlProbesExtractor
+from rec_to_nwb.processing.nwb.components.device.probe.fl_probe_extractor import FlProbesExtractor
 
 path = os.path.dirname(os.path.abspath(__file__))
 
