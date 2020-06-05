@@ -1,7 +1,9 @@
+from ndx_franklab_novela.data_acq_device import DataAcqDevice
 from ndx_franklab_novela.header_device import HeaderDevice
 from ndx_franklab_novela.probe import Probe
 from pynwb.device import Device
 
+from rec_to_nwb.processing.nwb.components.device.acq.fl_data_acq_device import FlDataAcqDevice
 from rec_to_nwb.processing.nwb.components.device.fl_device import FlDevice
 from rec_to_nwb.processing.nwb.components.device.header.fl_header_device import FlHeaderDevice
 from rec_to_nwb.processing.nwb.components.device.probe.fl_probe import FlProbe
@@ -38,6 +40,18 @@ class DeviceFactory:
             probe.add_shank(shank)
 
         return probe
+
+    @classmethod
+    @beartype
+    def create_data_acq_device(cls, fl_data_acq_device: FlDataAcqDevice) -> DataAcqDevice:
+        validate_parameters_not_none(__name__, fl_data_acq_device.name, fl_data_acq_device.system,
+                                     fl_data_acq_device.amplifier, fl_data_acq_device.adc_circuit)
+        return DataAcqDevice(
+            name=fl_data_acq_device.name,
+            system=fl_data_acq_device.system,
+            amplifier=fl_data_acq_device.amplifier,
+            adc_circuit=fl_data_acq_device.adc_circuit
+        )
 
     @classmethod
     @beartype

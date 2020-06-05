@@ -1,13 +1,14 @@
 from datetime import datetime
 from unittest import TestCase
 from unittest.mock import Mock
+from testfixtures import should_raise
 
 from dateutil.tz import tzlocal
+from ndx_franklab_novela.data_acq_device import DataAcqDevice
 from ndx_franklab_novela.header_device import HeaderDevice
 from ndx_franklab_novela.probe import Probe
 from pynwb import NWBFile
 from pynwb.device import Device
-from testfixtures import should_raise
 
 from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
 
@@ -52,6 +53,18 @@ class TestDeviceInjector(TestCase):
         cls.probe_2.id = 2
         cls.probe_2.contact_size = 25.0
         cls.probe_2.num_shanks = 30
+        
+        cls.data_acq_device_0 = Mock(spec=DataAcqDevice)
+        cls.data_acq_device_0.name = 'Acq_0'
+        cls.data_acq_device_0.system = 'system_0'
+        cls.data_acq_device_0.amplifier = 'amplifier_0'
+        cls.data_acq_device_0.adc_circuit = 'adc_circuit_0'        
+        
+        cls.data_acq_device_1 = Mock(spec=DataAcqDevice)
+        cls.data_acq_device_1.name = 'Acq_1'
+        cls.data_acq_device_1.system = 'system_1'
+        cls.data_acq_device_1.amplifier = 'amplifier_1'
+        cls.data_acq_device_1.adc_circuit = 'adc_circuit_1'
 
         cls.device_1 = Mock(spec=Device)
         cls.device_1.name = 'Device_1'
@@ -60,6 +73,8 @@ class TestDeviceInjector(TestCase):
         cls.device_2.name = 'Device_2'
 
         cls.probes_dict = {'Probe_1': cls.probe_1, 'Probe_2': cls.probe_2}
+        
+        cls.data_acq_device_dict = {'Acq_0': cls.data_acq_device_0, 'Acq_1': cls.data_acq_device_1}
 
         cls.header_device_dict = {'HeaderDevice_1': cls.header_device_1}
 
@@ -109,7 +124,29 @@ class TestDeviceInjector(TestCase):
         self.assertEqual(self.nwb_content.devices['Probe_2'].id, 2)
         self.assertEqual(self.nwb_content.devices['Probe_2'].name, 'Probe_2')
         self.assertEqual(self.nwb_content.devices['Probe_2'].num_shanks, 30)
-        self.assertEqual(self.nwb_content.devices['Probe_2'].contact_size, 25.0)
+        self.assertEqual(self.nwb_content.devices['Probe_2'].contact_size, 25.0)    
+        
+    def test_injector_inject_data_acq_device_to_nwb_successfully(self):
+        self.device_injector.inject_all_devices(
+            nwb_content=self.nwb_content,
+            devices=[self.data_acq_device_0, self.data_acq_device_1]
+        )
+
+        self.assertEqual(self.nwb_content.devices, self.data_acq_device_dict)
+        self.assertIsInstance(self.nwb_content.devices, dict)
+
+        self.assertIsInstance(self.nwb_content.devices['Acq_0'], DataAcqDevice)
+        self.assertEqual(self.nwb_content.devices['Acq_0'].name, 'Acq_0')
+        self.assertEqual(self.nwb_content.devices['Acq_0'].system, 'system_0')
+        self.assertEqual(self.nwb_content.devices['Acq_0'].amplifier, 'amplifier_0')
+        self.assertEqual(self.nwb_content.devices['Acq_0'].adc_circuit, 'adc_circuit_0')        
+        
+        self.assertIsInstance(self.nwb_content.devices['Acq_1'], DataAcqDevice)
+        self.assertEqual(self.nwb_content.devices['Acq_1'].name, 'Acq_1')
+        self.assertEqual(self.nwb_content.devices['Acq_1'].system, 'system_1')
+        self.assertEqual(self.nwb_content.devices['Acq_1'].amplifier, 'amplifier_1')
+        self.assertEqual(self.nwb_content.devices['Acq_1'].adc_circuit, 'adc_circuit_1')
+
 
     def test_injector_inject_header_device_to_nwb_successfully(self):
         self.device_injector.inject_all_devices(
