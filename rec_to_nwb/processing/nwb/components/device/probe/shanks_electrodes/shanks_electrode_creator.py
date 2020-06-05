@@ -1,6 +1,6 @@
 from ndx_franklab_novela.probe import ShanksElectrode
 
-from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
+from rec_to_nwb.processing.nwb.components.device.probe.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
 

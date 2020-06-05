@@ -1,4 +1,4 @@
-from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
+from rec_to_nwb.processing.nwb.components.device.probe.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
 
 
 class FlShanksElectrodeBuilder:

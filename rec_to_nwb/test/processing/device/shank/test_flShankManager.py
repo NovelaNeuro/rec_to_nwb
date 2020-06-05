@@ -5,8 +5,8 @@ from testfixtures import should_raise
 from ndx_franklab_novela.probe import ShanksElectrode
 
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
-from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank import FlShank
-from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank_manager import FlShankManager
+from rec_to_nwb.processing.nwb.components.device.probe.shanks.fl_shank import FlShank
+from rec_to_nwb.processing.nwb.components.device.probe.shanks.fl_shank_manager import FlShankManager
 
 
 class TestFlShankManager(TestCase):

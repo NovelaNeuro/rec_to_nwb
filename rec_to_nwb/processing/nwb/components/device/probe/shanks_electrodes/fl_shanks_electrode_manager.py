@@ -1,4 +1,4 @@
-from rec_to_nwb.processing.nwb.components.device.shanks_electrodes.fl_shanks_electrode_builder import \
+from rec_to_nwb.processing.nwb.components.device.probe.shanks_electrodes.fl_shanks_electrode_builder import \
     FlShanksElectrodeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.filter_probe_by_type import filter_probe_by_type

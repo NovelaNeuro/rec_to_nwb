@@ -5,8 +5,8 @@ from testfixtures import should_raise
 
 from ndx_franklab_novela.probe import Shank
 
-from rec_to_nwb.processing.nwb.components.device.fl_probe import FlProbe
-from rec_to_nwb.processing.nwb.components.device.fl_probe_manager import FlProbeManager
+from rec_to_nwb.processing.nwb.components.device.probe.fl_probe import FlProbe
+from rec_to_nwb.processing.nwb.components.device.probe.fl_probe_manager import FlProbeManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 

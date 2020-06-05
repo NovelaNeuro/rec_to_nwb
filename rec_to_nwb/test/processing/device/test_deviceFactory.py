@@ -10,8 +10,8 @@ from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamExcep
 from rec_to_nwb.processing.header.module.global_configuration import GlobalConfiguration
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.fl_device import FlDevice
-from rec_to_nwb.processing.nwb.components.device.fl_header_device import FlHeaderDevice
-from rec_to_nwb.processing.nwb.components.device.fl_probe import FlProbe
+from rec_to_nwb.processing.nwb.components.device.header.fl_header_device import FlHeaderDevice
+from rec_to_nwb.processing.nwb.components.device.probe.fl_probe import FlProbe
 
 
 class TestDeviceFactory(TestCase):

@@ -1,4 +1,4 @@
-from rec_to_nwb.processing.nwb.components.device.fl_probe_builder import FlProbeBuilder
+from rec_to_nwb.processing.nwb.components.device.probe.fl_probe_builder import FlProbeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.filter_probe_by_type import filter_probe_by_type
 

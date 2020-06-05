@@ -3,8 +3,8 @@ from ndx_franklab_novela.probe import Probe
 from pynwb.device import Device
 
 from rec_to_nwb.processing.nwb.components.device.fl_device import FlDevice
-from rec_to_nwb.processing.nwb.components.device.fl_header_device import FlHeaderDevice
-from rec_to_nwb.processing.nwb.components.device.fl_probe import FlProbe
+from rec_to_nwb.processing.nwb.components.device.header.fl_header_device import FlHeaderDevice
+from rec_to_nwb.processing.nwb.components.device.probe.fl_probe import FlProbe
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
 
