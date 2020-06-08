@@ -28,6 +28,10 @@ class TaskBuilder:
             name='task_description',
             description='None',
         )
+        nwb_table.add_column(
+            name='epoch',
+            description='Epoch this task belongs to'
+        )
         for task in self.metadata['tasks']:
             nwb_table.add_row(task)
         return nwb_table

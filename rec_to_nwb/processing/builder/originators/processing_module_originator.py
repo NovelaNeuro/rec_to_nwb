@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class ProcessingModuleOriginator:
+
     def __init__(self, datasets, metadata):
         self.task_builder = TaskBuilder(metadata)
 

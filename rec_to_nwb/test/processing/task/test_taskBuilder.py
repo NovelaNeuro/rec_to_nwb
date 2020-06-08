@@ -9,7 +9,13 @@ path = os.path.dirname(os.path.abspath(__file__))
 class TestTaskBuilder(TestCase):
 
     def test_should_build_task(self):
-        metadata = {"tasks": [{"task_name": "Sleep", "task_description": "The animal sleeps in a small empty box."}]}
+        metadata = {
+            "tasks": [
+                {"task_name": "Sleep",
+                 "task_description": "The animal sleeps in a small empty box.",
+                 'epoch': 0}
+            ]
+        }
         task_builder = TaskBuilder(metadata)
 
         dynamic_table_with_tasks = task_builder.build()
@@ -19,6 +25,8 @@ class TestTaskBuilder(TestCase):
         self.assertEqual(['Sleep'], dynamic_table_with_tasks.columns[0].data)
         self.assertEqual('task_description', dynamic_table_with_tasks.columns[1].name)
         self.assertEqual(['The animal sleeps in a small empty box.'], dynamic_table_with_tasks.columns[1].data)
+        self.assertEqual('epoch', dynamic_table_with_tasks.columns[2].name)
+        self.assertEqual([0], dynamic_table_with_tasks.columns[2].data)
 
     def test_no_table_when_no_metadata(self):
         task_builder = TaskBuilder(None)
