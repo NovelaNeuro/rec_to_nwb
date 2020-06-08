@@ -9,6 +9,7 @@ from pynwb.file import Subject
 
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.builder.originators.associated_files_originator import AssociatedFilesOriginator
+from rec_to_nwb.processing.builder.originators.data_acq_device_originator import DataAcqDeviceOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
 from rec_to_nwb.processing.builder.originators.electrode_group_originator import ElectrodeGroupOriginator
 from rec_to_nwb.processing.builder.originators.electrodes_extension_originator import ElectrodesExtensionOriginator
@@ -32,7 +33,7 @@ from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.nwb.common.session_time_extractor import SessionTimeExtractor
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
-from rec_to_nwb.processing.nwb.components.device.fl_probe_manager import FlProbeManager
+from rec_to_nwb.processing.nwb.components.device.probe.fl_probe_manager import FlProbeManager
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
@@ -165,13 +166,23 @@ class NWBFileBuilder:
             self.header
         )
         self.header_device_originator = HeaderDeviceOriginator(self.header)
-        self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
-        self.dio_originator = DioOriginator(self.metadata, self.datasets)
         self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
 
+        self.data_acq_device_originator = DataAcqDeviceOriginator(
+            device_factory=self.device_factory,
+            device_injector=self.device_injector,
+            metadata=self.metadata['data acq device']
+        )
+
         if self.process_mda:
             self.mda_originator = MdaOriginator(self.datasets, self.header)
+
+        if self.process_dio:
+            self.dio_originator = DioOriginator(self.metadata, self.datasets)
+
+        if self.process_analog:
+            self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -213,6 +224,8 @@ class NWBFileBuilder:
         shanks_dict = self.shanks_originator.make(shanks_electrodes_dict)
 
         probes = self.probes_originator.make(nwb_content, shanks_dict, valid_map_dict['probes'])
+
+        self.data_acq_device_originator.make(nwb_content)
 
         self.header_device_originator.make(nwb_content)
 
@@ -258,15 +271,6 @@ class NWBFileBuilder:
     def __build_corrupted_data_manager(self):
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
-
-    def __build_and_inject_probes(self, nwb_content, shanks_dict, probes_valid_map):
-        logger.info('Probes: Building')
-        fl_probes = self.fl_probe_manager.get_fl_probes(shanks_dict, probes_valid_map)
-        logger.info('Probes: Creating probes')
-        probes = [self.device_factory.create_probe(fl_probe) for fl_probe in fl_probes]
-        logger.info('Probes: Injecting probes into NWB')
-        self.device_injector.inject_all_devices(nwb_content, probes)
-        return probes
 
     def build_and_append_to_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
                                 process_pos_valid_time=True, process_pos_invalid_time=True):

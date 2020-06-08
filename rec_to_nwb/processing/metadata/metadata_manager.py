@@ -1,6 +1,6 @@
 
 from rec_to_nwb.processing.metadata.metadata_extractor import MetadataExtractor
-from rec_to_nwb.processing.nwb.components.device.fl_probe_extractor import FlProbesExtractor
+from rec_to_nwb.processing.nwb.components.device.probe.fl_probe_extractor import FlProbesExtractor
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.validation.metadata_validator import MetadataValidator
 from rec_to_nwb.processing.validation.validation_registrator import ValidationRegistrator

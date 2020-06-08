@@ -1,5 +1,5 @@
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
-from rec_to_nwb.processing.nwb.components.device.shanks.fl_shank_builder import FlShankBuilder
+from rec_to_nwb.processing.nwb.components.device.probe.shanks.fl_shank_builder import FlShankBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.filter_probe_by_type import filter_probe_by_type
 
