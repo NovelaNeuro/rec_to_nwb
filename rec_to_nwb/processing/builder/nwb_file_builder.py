@@ -25,6 +25,7 @@ from rec_to_nwb.processing.builder.originators.processing_module_originator impo
 from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.builder.originators.shanks_electrodes_originator import ShanksElectrodeOriginator
 from rec_to_nwb.processing.builder.originators.shanks_originator import ShanksOriginator
+from rec_to_nwb.processing.builder.originators.video_files_originator import VideoFilesOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -75,6 +76,7 @@ class NWBFileBuilder:
             process_dio: bool = True,
             process_mda: bool = True,
             process_analog: bool = True,
+            video_directory: str = '',
             output_file: str = 'output.nwb'
     ):
 
@@ -99,6 +101,7 @@ class NWBFileBuilder:
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.process_analog = process_analog
+        self.video_directory = video_directory
         self.output_file = output_file
         self.link_to_notes = self.metadata.get('link to notes', '')
         data_types_for_scanning = {'pos': True,
@@ -168,6 +171,7 @@ class NWBFileBuilder:
         self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
+        self.video_files_originator = VideoFilesOriginator(self.video_directory)
 
         self.data_acq_device_originator = DataAcqDeviceOriginator(
             device_factory=self.device_factory,
@@ -254,6 +258,8 @@ class NWBFileBuilder:
 
         if self.process_analog:
             self.analog_originator.make(nwb_content)
+
+        self.video_files_originator.make()
 
         return nwb_content
 
