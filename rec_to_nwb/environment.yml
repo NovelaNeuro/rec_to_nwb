@@ -3,7 +3,9 @@ channels:
   - conda-forge
   - defaults
   - novelakrk
+  - wbodo
 dependencies:
+  - python
   - pip
   - asn1crypto
   - blas
@@ -29,8 +31,7 @@ dependencies:
   - pynwb
   - pyopenssl
   - pysocks
-  - python=3.7
-  - python-dateutil=2.8.0=py_0
+  - python-dateutil
   - pytz
   - requests
   - scipy
