@@ -5,7 +5,7 @@ channels:
   - novelakrk
   - wbodo
 dependencies:
-  - python
+  - python>=3.6
   - pip
   - asn1crypto
   - blas
