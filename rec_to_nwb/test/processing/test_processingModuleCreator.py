@@ -11,7 +11,7 @@ class TestProcessingModuleCreator(TestCase):
 
     def test_successfully_insert_apparatus_into_processing_module(self):
         pm_creator = ProcessingModuleCreator('pm_name', 'pm_description')
-        metadata = {"tasks": [{"task_name": "Sleep", "task_description": "The animal sleeps in a small empty box."}]}
+        metadata = {"tasks": [{"task_name": "Sleep", "task_description": "The animal sleeps in a small empty box.", 'epoch': 1}]}
         task = TaskBuilder(metadata).build()
 
         pm_creator.insert(task)
