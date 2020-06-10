@@ -3,7 +3,9 @@ channels:
   - conda-forge
   - defaults
   - novelakrk
+  - wbodo
 dependencies:
+  - python>=3.6
   - pip
   - asn1crypto
   - blas
@@ -29,8 +31,7 @@ dependencies:
   - pynwb
   - pyopenssl
   - pysocks
-  - python=3.7
-  - python-dateutil=2.8.0=py_0
+  - python-dateutil
   - pytz
   - requests
   - scipy
@@ -49,7 +50,7 @@ dependencies:
   - ndx-franklab-novela==0.0.006
   - pip:
       - xmldiff
-      - rec-to-binaries==0.4.2.dev0
+      - rec-to-binaries==0.5.1.dev0
 
 #  Docs
   - recommonmark
