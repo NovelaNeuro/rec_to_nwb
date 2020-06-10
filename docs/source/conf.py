@@ -31,7 +31,7 @@ copyright = '2020, Novela'
 author = 'Novela'
 
 # The full version, including alpha/beta/rc tags
-release = "0.1.011"
+release = "0.1.012"
 
 # -- General configuration ---------------------------------------------------
 
