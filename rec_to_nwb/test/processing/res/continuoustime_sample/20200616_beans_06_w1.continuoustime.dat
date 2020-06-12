@@ -3,7 +3,7 @@ Description: Continuous time periods (start and end times)
 Byte_order: little endian
 Original_file: 20190718_beans_01_s1.rec
 Clockrate: 20000
-System_time_at_creation: 1563488986885
+system_time_at_creation: 1563488986885
 Timestamp_at_creation: 1327428
 Byte_order: little endian
 Original_file: 20190718_beans_01_s1.rec
