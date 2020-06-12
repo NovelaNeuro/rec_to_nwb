@@ -23,8 +23,9 @@ install:
 - if [ $TRAVIS_BRANCH == "master_release" ]; then
   conda install conda-build anaconda-client;
   bash upload_dependencies.sh;
+  conda install
+  conda-build anaconda-client
   conda-verify;
-  conda build .;
   conda install rec_to_nwb --use-local;
   else python setup.py install --single-version-externally-managed --record=record.txt; fi
 - chown -R $USER:$USER rec_to_nwb/test/
