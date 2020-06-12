@@ -16,13 +16,13 @@ install:
 - conda info -a
 - conda env create -q -n test-environment -f rec_to_nwb/environment.yml python=$TRAVIS_PYTHON_VERSION
 - conda activate test-environment
+- conda list
 - conda config --add channels conda-forge
 - conda config --add channels novelakrk
 - pip install pylint
 - if [ $TRAVIS_BRANCH == "master_release" ]; then
-  conda install conda-build anaconda-client;
+  conda install conda-build anaconda-client conda-verify;
   bash upload_dependencies.sh;
-  conda-verify;
   conda build .;
   conda install rec_to_nwb --use-local;
   else python setup.py install --single-version-externally-managed --record=record.txt; fi
