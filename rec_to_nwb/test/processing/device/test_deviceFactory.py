@@ -19,7 +19,7 @@ class TestDeviceFactory(TestCase):
 
     def test_factory_create_Device_successfully(self):
         mock_fl_device = Mock(spec=FlDevice)
-        mock_fl_device.name = 'Device1'
+        mock_fl_device.name = 'Device111'
         
         device = DeviceFactory.create_device(
             fl_device=mock_fl_device
