@@ -31,6 +31,11 @@ script:
 - bash pylint_run.sh
 - python -m pytest rec_to_nwb/test/processing
 after_success:
+- export PKG_NAME=rec_to_nwb
+- export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TOKEN
+- export CONDA_BUILD_PATH=/home/travis/miniconda/envs/test-environment/conda-bld
+- conda config --set anaconda_upload no
+- anaconda upload to_upload/**/rec_to_binaries-*.tar.bz2 --force
 - test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
 notifications:
   slack:
