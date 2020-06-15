@@ -28,11 +28,11 @@ data acq device:
 
 cameras:
   - id: 0
-    meters_per_picel: 0.02
+    meters_per_pixel: 0.02
   - id: 1
-    meters_per_picel: 0.03
+    meters_per_pixel: 0.03
   - id: 2
-    meters_per_picel: 0.05
+    meters_per_pixel: 0.05
 
 
 tasks:
