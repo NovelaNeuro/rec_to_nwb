@@ -41,13 +41,13 @@ dependencies:
   - wheel
   - xmlschema
   - zlib
-  - mountainlab_pytools
   - vdom
   - pyyaml
   - pytest
   - testfixtures
-  - ndx-franklab-novela==0.0.006
+  - ndx-franklab-novela==0.0.007
   - pip:
+      - mountainlab_pytools
       - xmldiff
       - rec-to-binaries==0.5.1.dev0
 
