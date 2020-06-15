@@ -9,6 +9,7 @@ conda config --set anaconda_upload no
 echo "Build missing pypi packages..."
 conda skeleton pypi rec_to_binaries --version 0.5.1.dev0
 conda skeleton pypi xmldiff
+conda skeleton pypi mountainlab_pytools
 
 echo "Build missing pypi packages into conda packages..."
 conda build rec_to_binaries
