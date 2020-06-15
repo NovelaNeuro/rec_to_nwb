@@ -28,6 +28,14 @@ class TaskBuilder:
             name='task_description',
             description='None',
         )
+        nwb_table.add_column(
+            name='camera_id',
+            description='None',
+        )
+        nwb_table.add_column(
+            name='task_epochs',
+            description='None',
+        )
         for task in self.metadata['tasks']:
             nwb_table.add_row(task)
         return nwb_table
