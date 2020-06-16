@@ -35,21 +35,25 @@ class TaskBuilder:
             name='task_name',
             description='None',
             data=task_name,
+            index=[id_counter for id_counter, _ in enumerate(task_name)]
         )
         nwb_table.add_column(
             name='task_description',
             description='None',
-            data=task_description
+            data=task_description,
+            index=[id_counter for id_counter, _ in enumerate(task_description)]
         )
         nwb_table.add_column(
             name='camera_id',
             description='None',
             data=camera_id,
+            index=[id_counter for id_counter, _ in enumerate(camera_id)]
         )
         nwb_table.add_column(
             name='task_epochs',
             description='None',
             data=task_epochs,
+            index=[id_counter for id_counter, _ in enumerate(task_epochs)]
         )
 
         return nwb_table
