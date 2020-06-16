@@ -26,34 +26,47 @@ class TaskBuilder:
             camera_id.append(task['camera_id'])
             task_epochs.append(task['task_epochs'])
 
+        # task_name_data = VectorData(
+        #     name='task_name_data',
+        #     description='None',
+        #     data=task_name
+        # )
+        # task_name_index = VectorIndex(
+        #     name='task_name_index',
+        #     data=[id_counter for id_counter, _ in enumerate(task_name)],
+        #     target=task_name_data
+        # )
+        index = [id_counter for id_counter, _ in enumerate(task_name)]
+
         nwb_table = DynamicTable(
             name='task',
             description='None',
-            id=[id_counter for id_counter, _ in enumerate(task_name)]
+            id=index
         )
+
         nwb_table.add_column(
             name='task_name',
             description='None',
             data=task_name,
-            index=[id_counter for id_counter, _ in enumerate(task_name)]
+            index=index
         )
         nwb_table.add_column(
             name='task_description',
             description='None',
             data=task_description,
-            index=[id_counter for id_counter, _ in enumerate(task_description)]
+            index=index
         )
         nwb_table.add_column(
             name='camera_id',
             description='None',
             data=camera_id,
-            index=[id_counter for id_counter, _ in enumerate(camera_id)]
+            index=index
         )
         nwb_table.add_column(
             name='task_epochs',
             description='None',
             data=task_epochs,
-            index=[id_counter for id_counter, _ in enumerate(task_epochs)]
+            index=index
         )
 
         return nwb_table
