@@ -1,9 +1,9 @@
 import os
 from datetime import datetime
-from unittest import TestCase
 
 from dateutil.tz import tzlocal
 from pynwb import NWBFile, ProcessingModule, NWBHDF5IO
+from pynwb.testing import TestCase
 
 from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 
@@ -68,7 +68,7 @@ class TestTaskBuilder(TestCase):
 
         with NWBHDF5IO(path='task.nwb', mode='r') as nwb_file_io:
             nwb_content = nwb_file_io.read()
-            print(nwb_content.processing['pm'].data_interfaces['task'])
+            self.assertContainerEqual(nwb_content.processing['pm'].data_interfaces['task'], task)
 
     def test_task_builder_build_empty_table_when_no_metadata(self):
         task_builder = TaskBuilder(None)
