@@ -16,7 +16,7 @@ class TestTaskBuilder(TestCase):
         task_builder = TaskBuilder(metadata)
 
         dynamic_table_with_tasks = task_builder.build()
-        print(dynamic_table_with_tasks)
+
         self.assertIsNotNone(dynamic_table_with_tasks)
         self.assertEqual('task_name_index', dynamic_table_with_tasks.columns[0].name)
         self.assertEqual([0], dynamic_table_with_tasks.columns[0].data)
