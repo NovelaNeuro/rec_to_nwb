@@ -96,13 +96,15 @@ class FlElectrodeExtensionFactory:
     def create_ref_elect_id(cls, spike_n_trodes: list, ntrode_metadata: dict):
         ref_elect_id = []
         for spike_n_trode in spike_n_trodes:
-            for ntrode in ntrode_metadata:
-                if ntrode["ntrode_id"] == int(spike_n_trode.ref_n_trode_id):
-                    print(type(ntrode["map"]))
-                    ref_elect_id.extend(
-                        [ntrode["map"][int(spike_n_trode.ref_chan)]]
-                        * len(spike_n_trode.spike_channels)
-                    )
+            if not int(spike_n_trode.ref_n_trode_id) == 0:
+                for ntrode in ntrode_metadata:
+                    if ntrode["ntrode_id"] == int(spike_n_trode.ref_n_trode_id):
+                        ref_elect_id.extend(
+                            [ntrode["map"][int(spike_n_trode.ref_chan)]]
+                            * len(spike_n_trode.spike_channels)
+                        )
+            else:
+                ref_elect_id.extend([-1] * len(spike_n_trode.spike_channels))
         return ref_elect_id
 
 
