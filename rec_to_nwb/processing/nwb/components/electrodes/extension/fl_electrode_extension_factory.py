@@ -91,3 +91,15 @@ class FlElectrodeExtensionFactory:
             for spike_n_trode in spike_n_trodes
         ]
         return ref_chan
+
+    @classmethod
+    def create_ref_elect_id(cls, spike_n_trodes: list, ntrode_metadata: list):
+        ref_elect_id = []
+        [
+            ref_elect_id.extend(
+                [ntrode_metadata[int(spike_n_trode.ref_n_trode_id)][int(spike_n_trode.ref_chan)]]
+                * len(spike_n_trode.spike_channels)
+            )
+            for spike_n_trode in spike_n_trodes
+        ]
+

@@ -7,7 +7,7 @@ class FlElectrodeExtensionBuilder:
     @staticmethod
     @beartype
     def build(rel_x: list, rel_y: list, rel_z: list, hw_chan: list, ntrode_id: list, channel_id: list,
-              bad_channels: list, probe_shank: list, probe_electrode: list, ref_n_trode_id: list, ref_chan: list
+              bad_channels: list, probe_shank: list, probe_electrode: list, ref_elect_id: list
               ) -> FlElectrodeExtension:
         return FlElectrodeExtension(
             rel_x=rel_x,
@@ -19,6 +19,5 @@ class FlElectrodeExtensionBuilder:
             bad_channels=bad_channels,
             probe_shank=probe_shank,
             probe_electrode=probe_electrode,
-            ref_n_trode_id=ref_n_trode_id,
-            ref_chan=ref_chan
+            ref_elect_id=ref_elect_id
         )
