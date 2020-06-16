@@ -36,6 +36,36 @@ class TaskBuilder:
         #     data=[id_counter for id_counter, _ in enumerate(task_name)],
         #     target=task_name_data
         # )
+        # task_description_data = VectorData(
+        #     name='task_description_data',
+        #     description='None',
+        #     data=task_description
+        # )
+        # task_description_index = VectorIndex(
+        #     name='task_description_index',
+        #     data=[id_counter for id_counter, _ in enumerate(task_description)],
+        #     target=task_description_data
+        # )
+        # camera_id_data = VectorData(
+        #     name='camera_id_data',
+        #     description='None',
+        #     data=camera_id
+        # )
+        # camera_id_index = VectorIndex(
+        #     name='camera_id_index',
+        #     data=[id_counter for id_counter, _ in enumerate(camera_id)],
+        #     target=camera_id_data
+        # )
+        # task_epochs_data = VectorData(
+        #     name='task_epochs_data',
+        #     description='None',
+        #     data=task_epochs
+        # )
+        # task_epochs_index = VectorIndex(
+        #     name='task_description_index',
+        #     data=[id_counter for id_counter, _ in enumerate(task_epochs)],
+        #     target=task_epochs_data
+        # )
         index = [id_counter for id_counter, _ in enumerate(task_name)]
 
         nwb_table = DynamicTable(
