@@ -68,6 +68,7 @@ requirements:
       - testfixtures
       - urllib3
       - vdom
+      - jp_proxy_widget
       - wheel
       - xmlschema
       - zlib
