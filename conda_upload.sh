@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export PKG_NAME=rec_to_nwb
-export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TOKEN
+export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TEST_TOKEN
 export VERSION=$(python setup.py)
 export CONDA_BUILD_PATH=/home/travis/miniconda/envs/test-environment/conda-bld
 export BASE_PATH=$(pwd)
@@ -9,7 +9,7 @@ export BASE_PATH=$(pwd)
 conda config --set anaconda_upload no
 
 echo "Building conda package..."
-conda build . -c novelakrk -c conda-forge --no-include-recipe || exit 1
+conda build . -c acwikla-novela -c novelakrk -c conda-forge --no-include-recipe || exit 1
 
 echo "Move conda package..."
 mv ${CONDA_BUILD_PATH}/linux-64/${PKG_NAME}-${VERSION}-py37_0.tar.bz2  ${CONDA_BUILD_PATH} || exit 1
