@@ -77,8 +77,7 @@ class TestFlElectrodeExtensionManager(TestCase):
         self.assertEqual(fl_electrode_extension.probe_shank, [0, 0, 0, 2, 3])
         self.assertEqual(fl_electrode_extension.bad_channels, [False, False, False, False, False])
         self.assertEqual(fl_electrode_extension.probe_electrode, [1, 0, 1, 64, 96])
-        self.assertEqual(fl_electrode_extension.ref_n_trode_id, [0, 1, 1, 1, 1])
-        self.assertEqual(fl_electrode_extension.ref_chan, [1, 2, 2, 3, 3])
+        self.assertEqual(fl_electrode_extension.ref_elect_id, [-1, 2, 2, 34, 34])
 
     @should_raise(NotCompatibleMetadata)
     def test_electrode_extension_manager_failed_due_to_not_equal_extensions_length(self):

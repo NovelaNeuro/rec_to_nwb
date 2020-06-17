@@ -60,8 +60,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         mock_fl_electrode_extension.bad_channels = [False, False, False, False]
         mock_fl_electrode_extension.probe_shank = [0, 0, 1, 2]
         mock_fl_electrode_extension.probe_electrode = [0, 1, 2, 3]
-        mock_fl_electrode_extension.ref_n_trode_id = [0, 1, 2, 2]
-        mock_fl_electrode_extension.ref_chan = [0, 1, 2, 3]
+        mock_fl_electrode_extension.ref_elect_id = [0, 1, 2, 3]
 
         electrode_extension_injector = ElectrodeExtensionInjector()
         electrode_extension_injector.inject_extensions(
@@ -132,19 +131,13 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         self.assertEqual(nwb_file.electrodes[2, 17], 2)
         self.assertEqual(nwb_file.electrodes[3, 17], 3)
 
-        # metadata_extension - ref_n_trode_id
+        # metadata_extension - ref_elect_id
         self.assertIsInstance(nwb_file.electrodes[0, 18], int)
         self.assertEqual(nwb_file.electrodes[0, 18], 0)
         self.assertEqual(nwb_file.electrodes[1, 18], 1)
         self.assertEqual(nwb_file.electrodes[2, 18], 2)
-        self.assertEqual(nwb_file.electrodes[3, 18], 2)
+        self.assertEqual(nwb_file.electrodes[3, 18], 3)
 
-        # metadata_extension - ref_chan
-        self.assertIsInstance(nwb_file.electrodes[0, 19], int)
-        self.assertEqual(nwb_file.electrodes[0, 19], 0)
-        self.assertEqual(nwb_file.electrodes[1, 19], 1)
-        self.assertEqual(nwb_file.electrodes[2, 19], 2)
-        self.assertEqual(nwb_file.electrodes[3, 19], 3)
 
     @should_raise(NoneParamException)
     def test_electrodes_extension_injector_failed_injecting_due_to_None_fl_electrode_attr(self):
@@ -164,8 +157,7 @@ class TestElectrodeExtensionInjector(unittest.TestCase):
         mock_fl_electrode_extension.bad_channels = [False, False, False, False]
         mock_fl_electrode_extension.probe_shank = None
         mock_fl_electrode_extension.probe_electrode = [0, 1, 2, 3]
-        mock_fl_electrode_extension.ref_n_trode_id = [0, 1, 2, 2]
-        mock_fl_electrode_extension.ref_chan = [0, 1, 2, 3]
+        mock_fl_electrode_extension.ref_elect_id = [0, 1, 2, 3]
 
         electrode_extension_injector = ElectrodeExtensionInjector()
         electrode_extension_injector.inject_extensions(
