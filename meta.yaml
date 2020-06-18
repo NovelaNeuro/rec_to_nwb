@@ -7,7 +7,7 @@ package:
 
 source:
   git_url: https://github.com/NovelaNeuro/rec_to_nwb.git
-  git_rev: user/wmerynda/update_upload
+  git_rev: user/wbodo/test_python_36
 
 build:
   number: 0

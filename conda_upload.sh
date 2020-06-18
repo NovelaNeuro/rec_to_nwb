@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export PKG_NAME=rec_to_nwb
-export ANACONDA_API_TOKEN=$CONDA_UPLOAD_TEST_TOKEN
+export ANACONDA_API_TOKEN=wb-5fbc6785-4006-4a9d-8eb7-c9d640e330e4
 export VERSION=$(python setup.py)
 export CONDA_BUILD_PATH=/home/travis/miniconda/envs/test-environment/conda-bld
 export BASE_PATH=$(pwd)
