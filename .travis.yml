@@ -1,8 +1,8 @@
 language: python
 cache: false
 python:
-- 3.7.4
-#- 3.6.10
+  #- 3.7.4
+  - 3.6.10
 before_install: 
 install:
 - sudo apt-get update
