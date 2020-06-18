@@ -24,6 +24,6 @@ class FlCameraDeviceManager:
         )
 
         return FlCameraDeviceBuilder.build(
-            name=str(camera_metadata['id']),
+            name='camera_device ' + str(camera_metadata['id']),
             meters_per_pixel=float(camera_metadata['meters_per_pixel'])
         )

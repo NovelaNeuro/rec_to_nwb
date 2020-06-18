@@ -24,11 +24,11 @@ class TestFlCameraDeviceManager(TestCase):
         self.assertIsInstance(fl_camera_devices, list)
         self.assertIsInstance(fl_camera_devices[0], FlCameraDevice)
 
-        self.assertEqual(fl_camera_devices[0].name, '0')
+        self.assertEqual(fl_camera_devices[0].name, 'camera_device 0')
         self.assertEqual(fl_camera_devices[0].meters_per_pixel, 0.02)
-        self.assertEqual(fl_camera_devices[1].name, '1')
+        self.assertEqual(fl_camera_devices[1].name, 'camera_device 1')
         self.assertEqual(fl_camera_devices[1].meters_per_pixel, 3.0)
-        self.assertEqual(fl_camera_devices[2].name, '2')
+        self.assertEqual(fl_camera_devices[2].name, 'camera_device 2')
         self.assertEqual(fl_camera_devices[2].meters_per_pixel, 0.05)
 
     @should_raise(NoneParamException)
