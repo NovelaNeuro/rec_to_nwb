@@ -189,7 +189,7 @@
    <SpikeChannel maxDisp="225" triggerOn="1" hwChan="72" thresh="10"/>
    <SpikeChannel maxDisp="225" triggerOn="1" hwChan="76" thresh="10"/>
   </SpikeNTrode>
-  <SpikeNTrode filterOn="1" lowFilter="300" lfpRefOn="0" color="#24c600" highFilter="6000" lfpFilterOn="1" moduleDataOn="0" LFPHighFilter="400" refGroup="0" LFPChan="1" refNTrodeID="1" refChan="3" groupRefOn="0" refOn="0" id="3">
+  <SpikeNTrode filterOn="1" lowFilter="300" lfpRefOn="0" color="#24c600" highFilter="6000" lfpFilterOn="1" moduleDataOn="0" LFPHighFilter="400" refGroup="0" LFPChan="1" refNTrodeID="2" refChan="2" groupRefOn="0" refOn="0" id="3">
    <SpikeChannel maxDisp="225" triggerOn="1" hwChan="98" thresh="10"/>
    <SpikeChannel maxDisp="225" triggerOn="1" hwChan="99" thresh="10"/>
    <SpikeChannel maxDisp="225" triggerOn="1" hwChan="102" thresh="10"/>
