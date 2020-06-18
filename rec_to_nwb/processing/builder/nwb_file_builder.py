@@ -9,6 +9,7 @@ from pynwb.file import Subject
 
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.builder.originators.associated_files_originator import AssociatedFilesOriginator
+from rec_to_nwb.processing.builder.originators.camera_device_originator import CameraDeviceOriginator
 from rec_to_nwb.processing.builder.originators.data_acq_device_originator import DataAcqDeviceOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
 from rec_to_nwb.processing.builder.originators.electrode_group_originator import ElectrodeGroupOriginator
@@ -166,6 +167,7 @@ class NWBFileBuilder:
             self.header
         )
         self.header_device_originator = HeaderDeviceOriginator(self.header)
+        self.camera_device_originator = CameraDeviceOriginator(self.metadata)
         self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
 
@@ -228,6 +230,7 @@ class NWBFileBuilder:
         self.data_acq_device_originator.make(nwb_content)
 
         self.header_device_originator.make(nwb_content)
+        self.camera_device_originator.make(nwb_content)
 
         electrode_groups = self.electrode_group_originator.make(
             nwb_content, probes, valid_map_dict['electrode_groups']
