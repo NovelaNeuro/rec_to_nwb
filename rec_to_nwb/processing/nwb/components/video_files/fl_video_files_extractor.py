@@ -11,4 +11,6 @@ class FlVideoFilesExtractor:
         video_files = os.listdir(self.video_directory)
         extracted_video_files = []
         for video_file in video_files:
-            pass
+            new_fl_video_file = {}
+            new_fl_video_file["name"] = str(video_file)
+            new_fl_video_file["timestamps"] = 0
