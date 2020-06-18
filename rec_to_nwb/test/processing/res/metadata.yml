@@ -27,16 +27,22 @@ data acq device:
     system: sample_system_2
 
 tasks:
-  [
-  {
-    task_name:          Sleep,
+  - task_name:          Sleep,
     task_description:   The animal sleeps in a small empty box.
-  },
-  {
-    task_name:            Stem+Leaf,
+    camera_id:
+      - 0
+    task_epochs:
+      - 1
+      - 3
+      - 5
+  - task_name:            Stem+Leaf,
     task_description:     Spatial Bandit,
-  },
-  ]
+    camera_id:
+      - 1
+      - 2
+    task_epochs:
+      - 2
+      - 4
 
 associated_files: []
 
