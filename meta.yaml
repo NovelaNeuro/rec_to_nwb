@@ -6,7 +6,8 @@ package:
   version: {{ data.get('version') }}
 
 source:
-  git_url: --branch user/wmerynda/update_upload https://github.com/NovelaNeuro/rec_to_nwb.git
+  git_url: https://github.com/NovelaNeuro/rec_to_nwb.git
+  git_tag: user/wmerynda/update_upload
 
 build:
   number: 0
