@@ -1,14 +1,16 @@
 from unittest import TestCase
 from unittest.mock import Mock
-from testfixtures import should_raise
 
+from ndx_franklab_novela.camera_device import CameraDevice
 from ndx_franklab_novela.header_device import HeaderDevice
 from ndx_franklab_novela.probe import Probe, Shank
 from pynwb.device import Device
+from testfixtures import should_raise
 
 from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
 from rec_to_nwb.processing.header.module.global_configuration import GlobalConfiguration
 from rec_to_nwb.processing.nwb.components.device.acq.fl_data_acq_device import FlDataAcqDevice
+from rec_to_nwb.processing.nwb.components.device.camera.fl_camera_device import FlCameraDevice
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
 from rec_to_nwb.processing.nwb.components.device.fl_device import FlDevice
 from rec_to_nwb.processing.nwb.components.device.header.fl_header_device import FlHeaderDevice
@@ -17,7 +19,7 @@ from rec_to_nwb.processing.nwb.components.device.probe.fl_probe import FlProbe
 
 class TestDeviceFactory(TestCase):
 
-    def test_factory_create_Device_successfully(self):
+    def test_device_factory_create_Device_successfully(self):
         mock_fl_device = Mock(spec=FlDevice)
         mock_fl_device.name = 'Device1'
         
@@ -31,13 +33,13 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(device.name, 'Device1')
 
     @should_raise(TypeError)
-    def test_factory_failed_creating_Device_due_to_none_FlDevice(self):
+    def test_device_factory_failed_creating_Device_due_to_none_FlDevice(self):
         DeviceFactory.create_device(
             fl_device=None
         )
 
     @should_raise(NoneParamException)
-    def test_factory_failed_creating_Device_due_to_none_name_in_FlDevice(self):
+    def test_device_factory_failed_creating_Device_due_to_none_name_in_FlDevice(self):
         mock_fl_device = Mock(spec=FlDevice)
         mock_fl_device.name = None
 
@@ -45,7 +47,36 @@ class TestDeviceFactory(TestCase):
             fl_device=mock_fl_device
         )
 
-    def test_factory_create_Probe_successfully(self):
+    def test_device_factory_create_CameraDevice_successfully(self):
+        mock_fl_camera_device = Mock(spec=FlCameraDevice)
+        mock_fl_camera_device.name = 'CameraDevice1'
+        mock_fl_camera_device.meters_per_pixel = 0.02
+
+        camera_device = DeviceFactory.create_camera_device(
+            fl_camera_device=mock_fl_camera_device
+        )
+
+        self.assertIsInstance(camera_device, CameraDevice)
+        self.assertEqual(camera_device.name, 'CameraDevice1')
+        self.assertEqual(camera_device.meters_per_pixel, 0.02)
+
+    @should_raise(TypeError)
+    def test_device_factory_failed_creating_CameraDevice_due_to_none_FlDevice(self):
+        DeviceFactory.create_camera_device(
+            fl_camera_device=None
+        )
+
+    @should_raise(NoneParamException)
+    def test_device_factory_failed_creating_CameraDevice_due_to_none_name_in_FlDevice(self):
+        mock_fl_camera_device = Mock(spec=FlCameraDevice)
+        mock_fl_camera_device.name = 'CameraDevice1'
+        mock_fl_camera_device.meters_per_pixel = None
+
+        DeviceFactory.create_camera_device(
+            fl_camera_device=mock_fl_camera_device
+        )
+
+    def test_device_factory_create_Probe_successfully(self):
         mock_shank_1 = Mock(spec=Shank)
         mock_shank_2 = Mock(spec=Shank)
 
@@ -79,13 +110,13 @@ class TestDeviceFactory(TestCase):
         })
 
     @should_raise(TypeError)
-    def test_factory_failed_creating_Probe_due_to_none_FlProbe(self):
+    def test_device_factory_failed_creating_Probe_due_to_none_FlProbe(self):
         DeviceFactory.create_probe(
             fl_probe=None
         )
 
     @should_raise(NoneParamException)
-    def test_factory_failed_creating_Probe_due_to_none_param_in_metadata_FlProbe(self):
+    def test_device_factory_failed_creating_Probe_due_to_none_param_in_metadata_FlProbe(self):
         mock_fl_probe = Mock(spec=FlProbe)
         mock_fl_probe.probe_id = 1
         mock_fl_probe.name = None
@@ -100,7 +131,7 @@ class TestDeviceFactory(TestCase):
             fl_probe=mock_fl_probe
         )
 
-    def test_factory_create_DataAcqDevice_successfully(self):
+    def test_device_factory_create_DataAcqDevice_successfully(self):
         mock_fl_data_acq_device = Mock(spec=FlDataAcqDevice)
         mock_fl_data_acq_device.name = 'Acq_0'
         mock_fl_data_acq_device.system = 'system_0'
@@ -111,7 +142,7 @@ class TestDeviceFactory(TestCase):
             fl_data_acq_device=mock_fl_data_acq_device
         )
 
-    def test_factory_create_HeaderDevice_successfully(self):
+    def test_device_factory_create_HeaderDevice_successfully(self):
         mock_fl_header_device = Mock(spec=FlHeaderDevice)
         mock_global_configuration = Mock(spec=GlobalConfiguration)
         mock_global_configuration.headstage_serial = 'Sample headstage_serial'
@@ -166,13 +197,13 @@ class TestDeviceFactory(TestCase):
         self.assertEqual(header_device.file_path, 'Sample file_path')
 
     @should_raise(TypeError)
-    def test_factory_failed_creating_HeaderDevice_due_to_none_FlHeaderDevice(self):
+    def test_device_factory_failed_creating_HeaderDevice_due_to_none_FlHeaderDevice(self):
         DeviceFactory.create_header_device(
             fl_header_device=None
         )
 
     @should_raise(NoneParamException)
-    def test_factory_failed_creating_Probe_due_to_none_param_in_FlProbe(self):
+    def test_device_factory_failed_creating_Probe_due_to_none_param_in_FlProbe(self):
         mock_fl_header_device = Mock(spec=FlHeaderDevice)
         mock_fl_header_device.name = 'HeaderDevice_1'
         mock_fl_header_device.global_configuration = None

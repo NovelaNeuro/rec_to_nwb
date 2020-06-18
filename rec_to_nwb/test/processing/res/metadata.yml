@@ -26,6 +26,15 @@ data acq device:
   - name: acq_1
     system: sample_system_2
 
+cameras:
+  - id: 0
+    meters_per_pixel: 0.02
+  - id: 1
+    meters_per_pixel: 0.03
+  - id: 2
+    meters_per_pixel: 0.05
+
+
 tasks:
   - task_name:          Sleep,
     task_description:   The animal sleeps in a small empty box.

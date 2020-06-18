@@ -1,9 +1,11 @@
+from ndx_franklab_novela.camera_device import CameraDevice
 from ndx_franklab_novela.data_acq_device import DataAcqDevice
 from ndx_franklab_novela.header_device import HeaderDevice
 from ndx_franklab_novela.probe import Probe
 from pynwb.device import Device
 
 from rec_to_nwb.processing.nwb.components.device.acq.fl_data_acq_device import FlDataAcqDevice
+from rec_to_nwb.processing.nwb.components.device.camera.fl_camera_device import FlCameraDevice
 from rec_to_nwb.processing.nwb.components.device.fl_device import FlDevice
 from rec_to_nwb.processing.nwb.components.device.header.fl_header_device import FlHeaderDevice
 from rec_to_nwb.processing.nwb.components.device.probe.fl_probe import FlProbe
@@ -19,6 +21,15 @@ class DeviceFactory:
         validate_parameters_not_none(__name__, fl_device.name)
         return Device(
             name=str(fl_device.name)
+        )
+
+    @classmethod
+    @beartype
+    def create_camera_device(cls, fl_camera_device: FlCameraDevice) -> CameraDevice:
+        validate_parameters_not_none(__name__, fl_camera_device.name, fl_camera_device.meters_per_pixel)
+        return CameraDevice(
+            name=fl_camera_device.name,
+            meters_per_pixel=fl_camera_device.meters_per_pixel
         )
 
     @classmethod
