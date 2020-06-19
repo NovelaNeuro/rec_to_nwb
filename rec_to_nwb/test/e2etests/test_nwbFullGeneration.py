@@ -27,56 +27,56 @@ class TestNwbFullGeneration(unittest.TestCase):
             animal_name='beans',
             date='20190718',
             nwb_metadata=cls.metadata,
-            process_dio=False,
-            process_mda=False,
-            process_analog=False,
+            process_dio=True,
+            process_mda=True,
+            process_analog=True,
             video_directory=str(path) + '/test_data/beans/raw/20190718/'
         )
 
-    #@unittest.skip("NWB file creation")
+    @unittest.skip("NWB file creation")
     def test_nwb_file_builder_generate_nwb(self):
         content = self.nwb_builder.build()
         self.nwb_builder.write(content)
         self.nwb_builder.build_and_append_to_nwb(
-            process_mda_valid_time=False,
-            process_mda_invalid_time=False,
-            process_pos_valid_time=False,
-            process_pos_invalid_time=False
+            process_mda_valid_time=True,
+            process_mda_invalid_time=True,
+            process_pos_valid_time=True,
+            process_pos_invalid_time=True
         )
         self.assertIsNotNone(self.nwb_builder)
 
-    # @unittest.skip("read created NWB")
-    # def test_nwb_file_builder_read_nwb(self):
-    #     with NWBHDF5IO(self.nwb_builder.output_file, 'r') as nwb_file:
-    #         content = nwb_file.read()
-    #         print(content)
-    #
-    # @should_raise(TypeError)
-    # def test_nwb_file_builder_failed_due_to_incorrect_type_of_parameters(self):
-    #     NWBFileBuilder(
-    #         data_path=str(path) + '/test_data/',
-    #         animal_name='beans',
-    #         date=123,
-    #         nwb_metadata=self.metadata,
-    #         process_dio=True,
-    #         process_mda=True,
-    #         process_analog=True
-    #     )
-    #
-    # @should_raise(TypeError)
-    # def test_nwb_file_builder_failed_due_to_None_parameter(self):
-    #     NWBFileBuilder(
-    #         data_path=str(path) + '/test_data/',
-    #         animal_name='beans',
-    #         date=None,
-    #         nwb_metadata=self.metadata,
-    #         process_dio=True,
-    #         process_mda=True,
-    #         process_analog=True
-    #     )
-    #
-    # @classmethod
-    # def tearDownClass(cls):
-    #     del cls.nwb_builder
-    #     if os.path.isfile('output.nwb'):
-    #         os.remove('output.nwb')
+    @unittest.skip("read created NWB")
+    def test_nwb_file_builder_read_nwb(self):
+        with NWBHDF5IO(self.nwb_builder.output_file, 'r') as nwb_file:
+            content = nwb_file.read()
+            print(content)
+
+    @should_raise(TypeError)
+    def test_nwb_file_builder_failed_due_to_incorrect_type_of_parameters(self):
+        NWBFileBuilder(
+            data_path=str(path) + '/test_data/',
+            animal_name='beans',
+            date=123,
+            nwb_metadata=self.metadata,
+            process_dio=True,
+            process_mda=True,
+            process_analog=True
+        )
+
+    @should_raise(TypeError)
+    def test_nwb_file_builder_failed_due_to_None_parameter(self):
+        NWBFileBuilder(
+            data_path=str(path) + '/test_data/',
+            animal_name='beans',
+            date=None,
+            nwb_metadata=self.metadata,
+            process_dio=True,
+            process_mda=True,
+            process_analog=True
+        )
+
+    @classmethod
+    def tearDownClass(cls):
+        del cls.nwb_builder
+        if os.path.isfile('output.nwb'):
+            os.remove('output.nwb')
