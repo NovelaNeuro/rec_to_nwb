@@ -2,7 +2,6 @@ language: python
 cache: false
 python:
 - 3.7.4
-before_install: 
 install:
 - sudo apt-get update
 - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
@@ -26,12 +25,19 @@ install:
   conda build .;
   conda install rec_to_nwb --use-local;
   else python setup.py install --single-version-externally-managed --record=record.txt; fi
+- if [ $TRAVIS_EVENT_TYPE == 'cron' ]; then
+  conda install conda-build anaconda-client conda-verify;
+  conda build .;
+  conda install rec_to_nwb --use-local; fi
 - chown -R $USER:$USER rec_to_nwb/test/
+
 script:
 - bash pylint_run.sh
 - python -m pytest rec_to_nwb/test/processing
+
 after_success:
 - test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
+
 notifications:
   slack:
     rooms:
