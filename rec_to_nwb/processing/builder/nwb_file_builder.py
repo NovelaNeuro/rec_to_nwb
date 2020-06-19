@@ -27,6 +27,7 @@ from rec_to_nwb.processing.builder.originators.probe_originator import ProbeOrig
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
 from rec_to_nwb.processing.builder.originators.shanks_electrodes_originator import ShanksElectrodeOriginator
 from rec_to_nwb.processing.builder.originators.shanks_originator import ShanksOriginator
+from rec_to_nwb.processing.builder.originators.video_files_originator import VideoFilesOriginator
 from rec_to_nwb.processing.builder.originators.task_originator import TaskOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
@@ -78,6 +79,7 @@ class NWBFileBuilder:
             process_dio: bool = True,
             process_mda: bool = True,
             process_analog: bool = True,
+            video_directory: str = '',
             output_file: str = 'output.nwb'
     ):
 
@@ -103,6 +105,7 @@ class NWBFileBuilder:
         self.process_mda = process_mda
         self.process_analog = process_analog
         self.output_file = output_file
+        self.video_directory = video_directory
         self.link_to_notes = self.metadata.get('link to notes', '')
         data_types_for_scanning = {'pos': True,
                                    'time': True,
@@ -172,10 +175,16 @@ class NWBFileBuilder:
         self.processing_module_originator = ProcessingModuleOriginator()
         self.task_originator = TaskOriginator(self.metadata)
         self.position_originator = PositionOriginator(self.datasets, self.metadata)
-
-        self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.camera_device_originator = CameraDeviceOriginator(self.metadata)
+        self.header_device_originator = HeaderDeviceOriginator(self.header)
+        self.processing_module_originator = ProcessingModuleOriginator()
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
+        self.video_files_originator = VideoFilesOriginator(
+            self.data_path + "/" + animal_name + "/raw/" + self.date + "/",
+            self.video_directory,
+            self.metadata["associated_video_files"],
+        )
+
         self.data_acq_device_originator = DataAcqDeviceOriginator(
             device_factory=self.device_factory,
             device_injector=self.device_injector,
@@ -264,6 +273,8 @@ class NWBFileBuilder:
 
         if self.process_analog:
             self.analog_originator.make(nwb_content)
+
+        self.video_files_originator.make(nwb_content)
 
         return nwb_content
 
