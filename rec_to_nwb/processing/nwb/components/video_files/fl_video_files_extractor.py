@@ -1,10 +1,13 @@
 import numpy as np
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
+from rec_to_nwb.processing.tools.beartype.beartype import beartype
+
 
 class FlVideoFilesExtractor:
 
-    def __init__(self, raw_data_path, video_directory, video_files_metadata):
+    @beartype
+    def __init__(self, raw_data_path: str, video_directory: str, video_files_metadata: list):
         self.raw_data_path = raw_data_path
         self.video_directory = video_directory
         self.video_files_metadata = video_files_metadata
@@ -28,5 +31,5 @@ class FlVideoFilesExtractor:
     def convert_timestamps(self, timestamps):
         converted_timestamps = np.ndarray(shape=np.shape(timestamps), dtype='float64')
         for i, record in enumerate(timestamps):
-            converted_timestamps[i] = record[2]
+            converted_timestamps[i] = record[2]/1E9
         return converted_timestamps
