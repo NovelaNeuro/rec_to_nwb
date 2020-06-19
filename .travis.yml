@@ -20,9 +20,10 @@ install:
 - conda config --add channels conda-forge
 - conda config --add channels novelakrk
 - pip install pylint
-- if [ $TRAVIS_BRANCH == "master_release" ]; then
+- if [ $TRAVIS_BRANCH == "master_release" or TRAVIS_EVENT_TYPE == 'cron']; then
   conda install conda-build anaconda-client conda-verify;
-  bash upload_dependencies.sh;
+  - if [ TRAVIS_EVENT_TYPE != 'cron']; then
+  bash upload_dependencies.sh; fi
   conda build .;
   conda install rec_to_nwb --use-local;
   else python setup.py install --single-version-externally-managed --record=record.txt; fi
