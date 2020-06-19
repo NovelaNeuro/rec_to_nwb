@@ -27,7 +27,7 @@ from rec_to_nwb.processing.builder.originators.probe_originator import ProbeOrig
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
 from rec_to_nwb.processing.builder.originators.shanks_electrodes_originator import ShanksElectrodeOriginator
 from rec_to_nwb.processing.builder.originators.shanks_originator import ShanksOriginator
-from rec_to_nwb.processing.builder.originators.task_originators import TaskOriginator
+from rec_to_nwb.processing.builder.originators.task_originator import TaskOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
