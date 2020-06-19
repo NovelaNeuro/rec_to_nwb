@@ -15,17 +15,19 @@ from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginat
 from rec_to_nwb.processing.builder.originators.electrode_group_originator import ElectrodeGroupOriginator
 from rec_to_nwb.processing.builder.originators.electrodes_extension_originator import ElectrodesExtensionOriginator
 from rec_to_nwb.processing.builder.originators.electrodes_originator import ElectrodesOriginator
-from rec_to_nwb.processing.builder.originators.header_device_originator import HeaderDeviceOriginator
 from rec_to_nwb.processing.builder.originators.epochs_originator import EpochsOriginator
-from rec_to_nwb.processing.builder.originators.probe_originator import ProbeOriginator
+from rec_to_nwb.processing.builder.originators.header_device_originator import HeaderDeviceOriginator
 from rec_to_nwb.processing.builder.originators.mda_invalid_time_originator import MdaInvalidTimeOriginator
+from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.builder.originators.mda_valid_time_originator import MdaValidTimeOriginator
 from rec_to_nwb.processing.builder.originators.pos_invalid_originator import PosInvalidTimeOriginator
 from rec_to_nwb.processing.builder.originators.pos_valid_time_originator import PosValidTimeOriginator
+from rec_to_nwb.processing.builder.originators.position_originator import PositionOriginator
+from rec_to_nwb.processing.builder.originators.probe_originator import ProbeOriginator
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
-from rec_to_nwb.processing.builder.originators.mda_originator import MdaOriginator
 from rec_to_nwb.processing.builder.originators.shanks_electrodes_originator import ShanksElectrodeOriginator
 from rec_to_nwb.processing.builder.originators.shanks_originator import ShanksOriginator
+from rec_to_nwb.processing.builder.originators.task_originator import TaskOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -166,11 +168,14 @@ class NWBFileBuilder:
             self.metadata,
             self.header
         )
+
+        self.processing_module_originator = ProcessingModuleOriginator()
+        self.task_originator = TaskOriginator(self.metadata)
+        self.position_originator = PositionOriginator(self.datasets, self.metadata)
+
         self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.camera_device_originator = CameraDeviceOriginator(self.metadata)
-        self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
-
         self.data_acq_device_originator = DataAcqDeviceOriginator(
             device_factory=self.device_factory,
             device_injector=self.device_injector,
@@ -245,6 +250,8 @@ class NWBFileBuilder:
         self.epochs_originator.make(nwb_content)
 
         self.processing_module_originator.make(nwb_content)
+        self.task_originator.make(nwb_content)
+        self.position_originator.make(nwb_content)
 
         if 'associated_files' in self.metadata:
             self.associated_files_originator.make(nwb_content)
