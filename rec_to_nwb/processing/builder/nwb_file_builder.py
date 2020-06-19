@@ -171,7 +171,11 @@ class NWBFileBuilder:
         self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
-        self.video_files_originator = VideoFilesOriginator(self.video_directory)
+        self.video_files_originator = VideoFilesOriginator(
+            self.data_path + "/" + animal_name + "/raw/" + self.date + "/",
+            self.video_directory,
+            self.metadata["associated_video_files"],
+        )
 
         self.data_acq_device_originator = DataAcqDeviceOriginator(
             device_factory=self.device_factory,
@@ -259,7 +263,7 @@ class NWBFileBuilder:
         if self.process_analog:
             self.analog_originator.make(nwb_content)
 
-        self.video_files_originator.make()
+        self.video_files_originator.make(nwb_content)
 
         return nwb_content
 

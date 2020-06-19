@@ -5,13 +5,11 @@ from rec_to_nwb.processing.nwb.components.video_files.video_files_injector impor
 
 class VideoFilesOriginator:
 
-    def __init__(self, datasets, video_directory, neb_content, processing_module_name):
-        self.nwb_content = neb_content
-        self.processing_module_name = processing_module_name
+    def __init__(self, raw_data_path, video_directory, video_files_metadata):
         self.video_directory = video_directory
-        self.fl_video_files_manager = FlVideoFilesManager(datasets, video_directory)
+        self.fl_video_files_manager = FlVideoFilesManager(raw_data_path, video_directory, video_files_metadata)
 
-    def make(self):
+    def make(self, nwb_content):
         fl_video_files = self.fl_video_files_manager.get_video_files()
         image_series = VideoFilesCreator.create(fl_video_files)
-        VideoFilesInjector.inject(self.nwb_content, self.processing_module_name, image_series)
+        VideoFilesInjector.inject(nwb_content, 'behavior', image_series)

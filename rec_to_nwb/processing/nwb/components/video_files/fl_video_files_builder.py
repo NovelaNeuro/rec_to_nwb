@@ -4,5 +4,5 @@ from rec_to_nwb.processing.nwb.components.video_files.fl_video_file import FlVid
 class FlVideoFilesBuilder:
 
     @staticmethod
-    def build(name, timestamps, devices):
-        return FlVideoFile(name, timestamps, devices)
+    def build(name, timestamps, device):
+        return FlVideoFile(name, timestamps, device)

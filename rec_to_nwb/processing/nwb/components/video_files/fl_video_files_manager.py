@@ -4,8 +4,8 @@ from rec_to_nwb.processing.nwb.components.video_files.fl_video_files_extractor i
 
 class FlVideoFilesManager:
 
-    def __init__(self, datasets, video_directory):
-        self.fl_video_files_extractor = FlVideoFilesExtractor(datasets, video_directory)
+    def __init__(self, raw_data_path, video_directory, video_files_metadata):
+        self.fl_video_files_extractor = FlVideoFilesExtractor(raw_data_path, video_directory, video_files_metadata)
         self.fl_video_files_builder = FlVideoFilesBuilder()
 
     def get_video_files(self):

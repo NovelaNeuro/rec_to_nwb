@@ -6,7 +6,7 @@ class VideoFilesCreator:
     @staticmethod
     def create(fl_video_file):
         return NwbImageSeries(
-            devices=fl_video_file.devices,
+            devices=fl_video_file.device,
             name=fl_video_file.name,
             timestamps=fl_video_file.timestamps
         )
