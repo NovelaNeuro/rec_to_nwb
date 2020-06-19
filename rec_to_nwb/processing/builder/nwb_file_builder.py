@@ -105,6 +105,7 @@ class NWBFileBuilder:
         self.process_mda = process_mda
         self.process_analog = process_analog
         self.output_file = output_file
+        self.video_directory = video_directory
         self.link_to_notes = self.metadata.get('link to notes', '')
         data_types_for_scanning = {'pos': True,
                                    'time': True,
@@ -174,9 +175,9 @@ class NWBFileBuilder:
         self.processing_module_originator = ProcessingModuleOriginator()
         self.task_originator = TaskOriginator(self.metadata)
         self.position_originator = PositionOriginator(self.datasets, self.metadata)
-
+        self.camera_device_originator = CameraDeviceOriginator(self.metadata)
         self.header_device_originator = HeaderDeviceOriginator(self.header)
-        self.processing_module_originator = ProcessingModuleOriginator(self.datasets, self.metadata)
+        self.processing_module_originator = ProcessingModuleOriginator()
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
         self.video_files_originator = VideoFilesOriginator(
             self.data_path + "/" + animal_name + "/raw/" + self.date + "/",

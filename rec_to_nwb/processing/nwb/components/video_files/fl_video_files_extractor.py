@@ -22,3 +22,4 @@ class FlVideoFilesExtractor:
                 "device": video_file["camera_id"]
             }
             extracted_video_files.append(new_fl_video_file)
+        return extracted_video_files

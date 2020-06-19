@@ -13,5 +13,5 @@ class FlVideoFilesManager:
         return [self.fl_video_files_builder.build(
             video_file["name"],
             video_file["timestamps"],
-            video_file["devices"]
+            video_file["device"]
         ) for video_file in extracted_video_files]
