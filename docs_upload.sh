@@ -3,17 +3,17 @@ DOC_REPO='https://github.com/NovelaNeuro/rec_to_nwb-docs'
 ##USERNAME=''
 
 echo 'README.md copying to docs/source and removing first line'
-tail -n +2 README.md > README.tmp && mv README.tmp docs/source/README.md || exit 1
+tail -n +2 README.md > README.tmp && mv README.tmp docs/source/README.md
 
 echo 'LICENSE.md copying to docs/source and adding first line'
-cp LICENSE.md ./docs/source/ || exit 1
-sed -i '1i License' ./docs/source/LICENSE.md && sed -i '2i ===================' ./docs/source/LICENSE.md || exit 1
+cp LICENSE.md ./docs/source/
+sed -i '1i License' ./docs/source/LICENSE.md && sed -i '2i ===================' ./docs/source/LICENSE.md
 
 echo 'Creating API Documentation'
-sphinx-apidoc -fMET ./rec_to_nwb/processing -o ./docs/source/autoapi || exit 1
+sphinx-apidoc -fMET ./rec_to_nwb/processing -o ./docs/source/autoapi
 
 echo 'Create HTML Documentation'
-make html -C ./docs || exit 1
+make html -C ./docs
 
 #echo 'Deploy documentation to' $DOC_REPO
 #git clone ${DOC_REPO}

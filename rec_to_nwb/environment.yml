@@ -4,6 +4,7 @@ channels:
   - defaults
   - novelakrk
 dependencies:
+  - python>=3.6
   - pip
   - asn1crypto
   - blas
@@ -29,8 +30,7 @@ dependencies:
   - pynwb
   - pyopenssl
   - pysocks
-  - python=3.7
-  - python-dateutil=2.8.0=py_0
+  - python-dateutil
   - pytz
   - requests
   - scipy
@@ -41,15 +41,15 @@ dependencies:
   - wheel
   - xmlschema
   - zlib
-  - mountainlab_pytools
   - vdom
   - pyyaml
   - pytest
   - testfixtures
-  - ndx-franklab-novela==0.0.006
+  - ndx-franklab-novela==0.0.007
   - pip:
+      - mountainlab_pytools
       - xmldiff
-      - rec-to-binaries==0.4.2.dev0
+      - rec-to-binaries==0.5.1.dev0
 
 #  Docs
   - recommonmark
