@@ -20,7 +20,7 @@ requirements:
       - hdmf==1.6.1
       - libblas=3.8.0
       - pynwb==1.3.0
-      - testfixtures=6.14.1=
+      - testfixtures=6.14.1
       - vdom=0.6
       - xmlschema=1.2.2
       - hdf5=1.6.1
