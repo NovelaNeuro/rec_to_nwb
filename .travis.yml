@@ -22,7 +22,7 @@ install:
 - conda config --add channels novelakrk
 - pip install pylint
 - conda install conda-build anaconda-client conda-verify
-- bash upload_dependencies.sh
+  #- bash upload_dependencies.sh
 - conda build .
 - conda install rec_to_nwb --use-local
 - chown -R $USER:$USER rec_to_nwb/test/

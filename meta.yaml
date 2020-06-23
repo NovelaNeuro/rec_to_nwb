@@ -40,7 +40,7 @@ requirements:
       - cryptography=2.9.2
       - elementpath=1.4.6
       - h5py=2.10.0
-      - hdf51.10.5
+      - hdf5=1.10.5
       - hdmf==1.6.1
       - idna=2.9
       - libblas=3.8.0
