@@ -22,15 +22,17 @@ install:
 - conda config --add channels novelakrk
 - pip install pylint
 - conda install conda-build anaconda-client conda-verify
+- bash conda_upload.sh
+
   #- bash upload_dependencies.sh
 #- conda build .
 #- conda install rec_to_nwb --use-local
 #- chown -R $USER:$USER rec_to_nwb/test/
-script:
+#script:
 #- bash pylint_run.sh
 #- python -m pytest rec_to_nwb/test/processing
-after_success:
-- bash conda_upload.sh
+#after_success:
+#- bash conda_upload.sh
 notifications:
   slack:
     rooms:
