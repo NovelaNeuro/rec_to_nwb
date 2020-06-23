@@ -15,60 +15,60 @@ build:
 requirements:
    build:
       - python>=3.6
-      - pip=20.1.1
-      - setuptools=47.3.1
+      - pip
+      - setuptools
       - hdmf==1.6.1
-      - libblas=3.8.0
+      - libblas
       - pynwb==1.3.0
-      - testfixtures=6.14.1
-      - vdom=0.6
-      - xmlschema=1.2.2
-      - hdf5=1.6.1
-      - liblapack=3.8.0
-      - elementpath=1.4.6
+      - testfixtures
+      - vdom
+      - xmlschema
+      - hdf5
+      - liblapack
+      - elementpath
       - rec_to_binaries==0.5.1.dev0
-      - libcblas=3.8.0
+      - libcblas
    run:
       - python>=3.6
-      - asn1crypto=1.3.0
-      - blas=1.0
+      - asn1crypto
+      - blas
       - bleach
-      - ca-certificates=2020.6.20
-      - certifi=2020.6.20
-      - cffi=1.14.0
-      - chardet=3.0.4
-      - cryptography=2.9.2
-      - elementpath=1.4.6
-      - h5py=2.10.0
-      - hdf5=1.10.5
+      - ca-certificates
+      - certifi
+      - cffi
+      - chardet
+      - cryptography
+      - elementpath
+      - h5py
+      - hdf5
       - hdmf==1.6.1
-      - idna=2.9
-      - libblas=3.8.0
-      - libcblas=3.8.0
-      - liblapack=3.8.0
-      - mkl=2019.4
-      - mkl-service=2.3.0
+      - idna
+      - libblas
+      - libcblas
+      - liblapack
+      - mkl
+      - mkl-service
       - mountainlab_pytools
-      - numpy=1.18.5
-      - openssl=1.1.1g
-      - pandas=1.0.5
-      - pip=20.1.1
-      - pycparser=2.20
+      - numpy
+      - openssl
+      - pandas
+      - pip
+      - pycparser
       - pynwb==1.3.0
-      - pyopenssl=19.1.0
-      - pysocks=1.7.1
-      - pytest=5.4.3
-      - python-dateutil=2.8.1
-      - pytz=2020.1
-      - pyyaml=5.3.1
-      - requests=2.24.0
-      - scipy=1.3.1
-      - setuptools=47.3.1
-      - six=1.15.0
-      - sqlite=3.30.1
-      - testfixtures=6.14.1
-      - urllib3=1.25.9
-      - vdom=0.6
+      - pyopenssl
+      - pysocks
+      - pytest
+      - python-dateutil
+      - pytz
+      - pyyaml
+      - requests
+      - scipy
+      - setuptools
+      - six
+      - sqlite
+      - testfixtures
+      - urllib3
+      - vdom
       - jp_proxy_widget
       - wheel
       - xmlschema
