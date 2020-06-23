@@ -9,10 +9,10 @@ export BASE_PATH=$(pwd)
 conda config --set anaconda_upload no
 
 echo "Building conda package..."
-conda build . -c acwikla-novela -c novelakrk -c conda-forge --no-include-recipe || exit 1
+conda build . -c acwikla-novela -c novelakrk -c conda-forge --no-include-recipe --python 3.6 || exit 1
 
 echo "Move conda package..."
-mv ${CONDA_BUILD_PATH}/linux-64/${PKG_NAME}-${VERSION}-*.tar.bz2  ${CONDA_BUILD_PATH} || exit 1
+mv ${CONDA_BUILD_PATH}/linux-64/${PKG_NAME}-${VERSION}-*.tar.bz2 ${CONDA_BUILD_PATH} || exit 1
 
 echo "Making new_tar dir..."
 mkdir ${CONDA_BUILD_PATH}/new_tar || exit 1
@@ -39,6 +39,3 @@ conda convert --platform win-64 $CONDA_BUILD_PATH/linux-64/${PKG_NAME}-${VERSION
 
 echo "Deploying to Anaconda.org..."
 anaconda upload $CONDA_BUILD_PATH/**/${PKG_NAME}-${VERSION}-*.tar.bz2 --force || exit 1
-
-
-
