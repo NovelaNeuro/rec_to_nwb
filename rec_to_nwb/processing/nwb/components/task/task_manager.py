@@ -20,8 +20,8 @@ class TaskManager:
             self.__get_single_fl_task(
                 task_name=task['task_name'],
                 task_description=task['task_description'],
-                camera_id=task['camera_id'],
-                task_epochs=task['task_epochs']
+                camera_id=[int(camera_id) for camera_id in task['camera_id']],
+                task_epochs=[int(epoch) for epoch in task['task_epochs']]
             )
             for task in self.metadata['tasks']
         ]

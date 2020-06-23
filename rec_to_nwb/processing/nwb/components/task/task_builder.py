@@ -7,7 +7,7 @@ class TaskBuilder:
     @staticmethod
     def build(name, description, task_name, task_description, camera_id, task_epochs):
         return FlTask(
-            name=name,
+            name=str(name),
             description=description,
             columns=[task_name, task_description, camera_id, task_epochs]
         )
