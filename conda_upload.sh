@@ -9,7 +9,7 @@ export BASE_PATH=$(pwd)
 conda config --set anaconda_upload no
 
 echo "Building conda package..."
-conda build . -c acwikla-novela -c novelakrk -c conda-forge --no-include-recipe --python 3.6 || exit 1
+conda build . -c acwikla-novela -c novelakrk -c conda-forge --no-include-recipe --python=3.6 || exit 1
 
 echo "Move conda package..."
 mv ${CONDA_BUILD_PATH}/linux-64/${PKG_NAME}-${VERSION}-py36_0.tar.bz2 ${CONDA_BUILD_PATH} || exit 1
@@ -33,7 +33,6 @@ mv new_tar/${PKG_NAME}-${VERSION}-py36_0.tar.bz2 linux-64 || exit 1
 echo "Converting conda package..."
 conda convert --platform osx-64 $CONDA_BUILD_PATH/linux-64/${PKG_NAME}-${VERSION}-py36_0.tar.bz2 --output-dir $CONDA_BUILD_PATH -q || exit 1
 conda convert --platform linux-32 $CONDA_BUILD_PATH/linux-64/${PKG_NAME}-${VERSION}-py36_0.tar.bz2 --output-dir $CONDA_BUILD_PATH -q || exit 1
-conda convert --platform linux-64 $CONDA_BUILD_PATH/linux-64/${PKG_NAME}-${VERSION}-py36_0.tar.bz2 --output-dir $CONDA_BUILD_PATH -q || exit 1
 conda convert --platform win-32 $CONDA_BUILD_PATH/linux-64/${PKG_NAME}-${VERSION}-py36_0.tar.bz2 --output-dir $CONDA_BUILD_PATH -q || exit 1
 conda convert --platform win-64 $CONDA_BUILD_PATH/linux-64/${PKG_NAME}-${VERSION}-py36_0.tar.bz2 --output-dir $CONDA_BUILD_PATH -q || exit 1
 
