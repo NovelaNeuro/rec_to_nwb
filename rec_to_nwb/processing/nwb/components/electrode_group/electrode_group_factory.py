@@ -39,8 +39,8 @@ class ElectrodeGroupFactory:
             location=fl_nwb_electrode_group.location,
             device=fl_nwb_electrode_group.device,
             targeted_location=fl_nwb_electrode_group.targeted_location,
-            targeted_x=float(fl_nwb_electrode_group.targeted_x),
-            targeted_y=float(fl_nwb_electrode_group.targeted_y),
-            targeted_z=float(fl_nwb_electrode_group.targeted_z),
+            targeted_x=fl_nwb_electrode_group.targeted_x,
+            targeted_y=fl_nwb_electrode_group.targeted_y,
+            targeted_z=fl_nwb_electrode_group.targeted_z,
             units=fl_nwb_electrode_group.units,
         )
