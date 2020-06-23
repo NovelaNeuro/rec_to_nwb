@@ -61,7 +61,6 @@ class FlElectrodeExtensionManager:
             ntrode_metadata=ntrode_metadata
         )
 
-
         self.__validate_extension_length(
             electrodes_valid_map,
             rel['rel_x'],
