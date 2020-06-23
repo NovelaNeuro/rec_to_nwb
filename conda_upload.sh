@@ -38,7 +38,7 @@ conda convert --platform win-32 $CONDA_BUILD_PATH/linux-64/${PKG_NAME}-${VERSION
 conda convert --platform win-64 $CONDA_BUILD_PATH/linux-64/${PKG_NAME}-${VERSION}-*.tar.bz2 --output-dir $CONDA_BUILD_PATH -q || exit 1
 
 echo "Deploying to Anaconda.org..."
-anaconda upload $CONDA_BUILD_PATH/**/$PKG_NAME-*.tar.bz2 --force || exit 1
+anaconda upload $CONDA_BUILD_PATH/**/${PKG_NAME}-${VERSION}-*.tar.bz2 --force || exit 1
 
 
 
