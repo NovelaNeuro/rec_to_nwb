@@ -97,6 +97,10 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
       -  name: example_name2
          description: exmaple description 2
          path: C:/Users/sampleuser/PycharmProjects/rec_to_nwb/test/processing/res/test_text_files/test2_file
+    # Associated video files describe .h264 files stored as ImageSeries in nwb.
+       associated_video_files:
+      - name: 20190718_beans_01_s1.1.h264
+        camera_id : 0
     # Times period multiplier is used in pos/mda invalid/valid times, to multiply the period when detecting gaps,
         to avoid creating invalid times in case of only small deviations. (optional parameter, default 1.5)
        times_period_multiplier: 1.5      
@@ -198,6 +202,8 @@ If you don't want mda or pos invalid/valid times in your nwb, set accordingly fl
       **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml <br>
       
       **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb') <br>
+      
+      **video_directory** = `string` path specifying location of video files .h264 where those are copied <b4>
 
       **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True) <br>
 
@@ -262,6 +268,8 @@ After that, you can add mda or pos invalid/valid data to your NWB, using 'build_
      **process_mda** = `boolean` flag if mda data should be processed <br>
      
      **process_analog** = `boolean` flag if analog data should be processed <br>
+     
+     **video_directory** = `string` path specifying location of video files .h264 where those are copied <b4>
      
      **output_file** = `string` path and name specifying where .nwb file gonna be written <br>
 

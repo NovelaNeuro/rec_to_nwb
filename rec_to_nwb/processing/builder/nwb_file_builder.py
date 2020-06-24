@@ -61,6 +61,7 @@ class NWBFileBuilder:
         process_dio (boolean): flag if dio data should be processed
         process_mda (boolean): flag if mda data should be processed
         process_analog (boolean): flag if analog data should be processed
+        video_directory (string): path to directory with video files associated to nwb file
         output_file (string): path and name specifying where .nwb file gonna be written
 
     Methods:
