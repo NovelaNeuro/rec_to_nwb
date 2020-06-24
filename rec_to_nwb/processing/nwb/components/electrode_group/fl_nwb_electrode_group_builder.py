@@ -15,8 +15,8 @@ class FlNwbElectrodeGroupBuilder:
             location=metadata['location'],
             device=device,
             targeted_location=metadata['targeted_location'],
-            targeted_x=metadata['targeted_x'],
-            targeted_y=metadata['targeted_y'],
-            targeted_z=metadata['targeted_z'],
+            targeted_x=float(metadata['targeted_x']),
+            targeted_y=float(metadata['targeted_y']),
+            targeted_z=float(metadata['targeted_z']),
             units=metadata['units'],
         )
