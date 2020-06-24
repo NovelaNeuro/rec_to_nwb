@@ -78,7 +78,7 @@ class FlElectrodeExtensionFactory:
                 for ntrode in ntrode_metadata:
                     if int(ntrode["ntrode_id"]) == int(spike_n_trode.ref_n_trode_id):
                         ref_elect_id.extend(
-                            [ntrode["map"][int(spike_n_trode.ref_chan)]]
+                            [ntrode["map"][spike_n_trode.ref_chan]]
                             * len(spike_n_trode.spike_channels)
                         )
             else:
