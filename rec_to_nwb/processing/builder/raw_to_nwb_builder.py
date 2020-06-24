@@ -5,7 +5,6 @@ import shutil
 import xmlschema
 from rec_to_binaries import extract_trodes_rec_file
 
-from rec_to_nwb.processing.exceptions.invalid_xml_exception import InvalidXMLException
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.builder.nwb_file_builder import NWBFileBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
@@ -35,6 +34,7 @@ class RawToNWBBuilder:
         dates (list of strings): dates of experiments on above animal
         nwb_metadata (MetadataManager): object containig metadata about experiment
         output_path (string): path and name specifying where .nwb file gonna be written
+        video_directory (string): path to directory with video files associated to nwb file
         extract_analog (boolean): flag if analog data should be extracted and processed from raw data
         extract_spikes (boolean): flag if spikes data should be extracted and processed from raw data
         extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
@@ -60,6 +60,7 @@ class RawToNWBBuilder:
             dates: list,
             nwb_metadata: MetadataManager,
             output_path: str = '',
+            video_directory: str = '',
             extract_analog: bool = True,
             extract_spikes: bool = False,
             extract_lfps: bool = False,
@@ -91,6 +92,7 @@ class RawToNWBBuilder:
         self.dates = dates
         self.metadata = nwb_metadata.metadata
         self.output_path = output_path
+        self.video_directory = video_directory
         self.probes = nwb_metadata.probes
         self.nwb_metadata = nwb_metadata
         self.parallel_instances = parallel_instances
@@ -133,6 +135,7 @@ class RawToNWBBuilder:
                 process_mda=self.extract_mda,
                 process_dio=self.extract_dio,
                 process_analog=self.extract_analog,
+                video_directory=self.video_directory,
             )
             content = nwb_builder.build()
             nwb_builder.write(content)
