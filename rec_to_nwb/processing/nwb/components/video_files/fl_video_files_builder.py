@@ -5,4 +5,4 @@ class FlVideoFilesBuilder:
 
     @staticmethod
     def build(name, timestamps, device):
-        return FlVideoFile(name, timestamps, device)
+        return FlVideoFile(name, timestamps, int(device))

@@ -28,7 +28,8 @@ class ElectrodeGroupFactory:
         validate_parameters_not_none(__name__, fl_nwb_electrode_group.name, fl_nwb_electrode_group.description,
                                      fl_nwb_electrode_group.location, fl_nwb_electrode_group.device,
                                      fl_nwb_electrode_group.targeted_location,
-                                     fl_nwb_electrode_group.targeted_x, fl_nwb_electrode_group.targeted_y,
+                                     fl_nwb_electrode_group.targeted_x,
+                                     fl_nwb_electrode_group.targeted_y,
                                      fl_nwb_electrode_group.targeted_z,
                                      fl_nwb_electrode_group.units
                                      )
