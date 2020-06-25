@@ -24,8 +24,12 @@ class PositionOriginator:
     @beartype
     def make(self, nwb_content: NWBFile):
         logger.info('Position: Building')
-        fl_position = self.fl_position_manager.get_fl_positions()
+        fl_positions = self.fl_position_manager.get_fl_positions()
         logger.info('Position: Creating')
-        position = self.position_creator.create(fl_position)
+        positions = [
+            self.position_creator.create(fl_position)
+            for fl_position in fl_positions
+        ]
         logger.info('Position: Injecting into ProcessingModule')
-        nwb_content.processing['behavior'].add(position)
+        for position in positions:
+            nwb_content.processing['behavior'].add(position)
