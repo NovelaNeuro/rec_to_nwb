@@ -31,15 +31,34 @@ class FlPositionExtractor:
         return all_pos, continuous_time
 
     def get_positions(self):
-        pos_data = PosDataManager(directories=self.all_pos)
-        return MultiThreadDataIterator(pos_data)
+        pos_datas = [
+            PosDataManager(directories=[single_pos])
+            for single_pos in self.all_pos
+        ]
+        return [
+            MultiThreadDataIterator(pos_data)
+            for pos_data in pos_datas
+        ]
 
     def get_columns_labels(self):
-        pos_data_manager = PosDataManager(self.all_pos)
-        return pos_data_manager.get_column_labels_as_string()
+        pos_datas = [
+            PosDataManager(directories=[single_pos])
+            for single_pos in self.all_pos
+        ]
+        return [
+            pos_data.get_column_labels_as_string()
+            for pos_data in pos_datas
+        ]
 
     def get_timestamps(self):
-        pos_timestamp_manager = PosTimestampManager(
-            directories=self.all_pos,
-            continuous_time_directories=self.continuous_time)
-        return MultiThreadTimestampIterator(pos_timestamp_manager)
+        pos_timestamp_managers = [
+            PosTimestampManager(
+                directories=[single_pos],
+                continuous_time_directories=[continuous_time]
+            )
+            for single_pos, continuous_time in zip(self.all_pos, self.continuous_time)
+        ]
+        return [
+            MultiThreadTimestampIterator(pos_timestamp_manager)
+            for pos_timestamp_manager in pos_timestamp_managers
+        ]
