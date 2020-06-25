@@ -1,8 +1,10 @@
 import re
 
+from rec_to_nwb.processing.exceptions.invalid_metadata_exception import InvalidMetadataException
 from rec_to_nwb.processing.nwb.components.position.fl_position_builder import FlPositionBuilder
 from rec_to_nwb.processing.nwb.components.position.fl_position_extractor import FlPositionExtractor
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
+from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_equal_length
 
 
 class FlPositionManager:
@@ -25,6 +27,8 @@ class FlPositionManager:
         columns_labels = self.fl_position_extractor.get_columns_labels()
         timestamps = self.fl_position_extractor.get_timestamps()
 
+        validate_parameters_equal_length(__name__, position_datas, columns_labels, timestamps)
+
         return [
             self.fl_position_builder.build(
                 position_data,
@@ -43,24 +47,30 @@ class FlPositionManager:
             dataset_name = re.sub(r'_\w\d\d?', '', dataset_name)
             dataset_name = re.sub(r'^[0]', '', dataset_name)
 
-            camera_ids.append(
-                next(
-                    task['camera_id']
-                    for task in metadata['tasks']
-                    if dataset_name in task['task_epochs']
-                )[0]
-            )
+            try:
+                camera_ids.append(
+                    next(
+                        task['camera_id']
+                        for task in metadata['tasks']
+                        if dataset_name in task['task_epochs']
+                    )[0]
+                )
+            except:
+                raise InvalidMetadataException('Invalid camera metadata for datasets')
         return camera_ids
 
     @staticmethod
     def __get_meters_per_pixels(cameras_ids, metadata):
         meters_per_pixels = []
         for camera_id in cameras_ids:
-            meters_per_pixels.append(
-                next(
-                    float(camera['meters_per_pixel'])
-                    for camera in metadata['cameras']
-                    if camera_id == camera['id']
+            try:
+                meters_per_pixels.append(
+                    next(
+                        float(camera['meters_per_pixel'])
+                        for camera in metadata['cameras']
+                        if camera_id == camera['id']
+                    )
                 )
-            )
+            except:
+                raise InvalidMetadataException('Invalid camera metadata')
         return meters_per_pixels
