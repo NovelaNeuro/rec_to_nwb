@@ -12,6 +12,7 @@ class MockFlPositionExtractor:
 
     @staticmethod
     def get_positions():
+        # In the real project, we get list of MultiThreadDataIterator objects
         return ['1', '2']
 
     @staticmethod
@@ -20,6 +21,7 @@ class MockFlPositionExtractor:
 
     @staticmethod
     def get_timestamps():
+        # In the real project, we get list of MultiThreadTimestampIterator objects
         return [111, 222]
 
 
@@ -27,6 +29,7 @@ class MockBadFlPositionExtractor:
 
     @staticmethod
     def get_positions():
+        # In the real project, we get list of MultiThreadDataIterator objects
         return ['1']
 
     @staticmethod
@@ -35,6 +38,7 @@ class MockBadFlPositionExtractor:
 
     @staticmethod
     def get_timestamps():
+        # In the real project, we get list of MultiThreadTimestampIterator objects
         return [111, 222]
 
 
