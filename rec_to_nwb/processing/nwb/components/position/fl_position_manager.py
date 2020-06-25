@@ -1,15 +1,66 @@
+import re
+
 from rec_to_nwb.processing.nwb.components.position.fl_position_builder import FlPositionBuilder
 from rec_to_nwb.processing.nwb.components.position.fl_position_extractor import FlPositionExtractor
+from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
 class FlPositionManager:
-    def __init__(self, datasets, conversion):
-        self.conversion = conversion
+
+    @beartype
+    def __init__(self, datasets: list, metadata: dict, dataset_names: list):
+        self.datasets = datasets
+        self.metadata = metadata
+        self.dataset_names = dataset_names
+
         self.fl_position_extractor = FlPositionExtractor(datasets)
         self.fl_position_builder = FlPositionBuilder()
 
-    def get_fl_position(self):
-        position_data = self.fl_position_extractor.get_position()
-        column_labels = self.fl_position_extractor.get_column_labels()
+    @beartype
+    def get_fl_positions(self) -> list:
+        cameras_ids = self.__get_cameras_ids(self.dataset_names, self.metadata)
+        meters_per_pixels = self.__get_meters_per_pixels(cameras_ids, self.metadata)
+
+        position_datas = self.fl_position_extractor.get_positions()
+        columns_labels = self.fl_position_extractor.get_columns_labels()
         timestamps = self.fl_position_extractor.get_timestamps()
-        return self.fl_position_builder.build(position_data, column_labels, timestamps, self.conversion)
+
+        return [
+            self.fl_position_builder.build(
+                position_data,
+                column_labels,
+                timestamp,
+                float(meters_per_pixel)
+            )
+            for position_data, column_labels, timestamp, meters_per_pixel in
+            zip(position_datas, columns_labels, timestamps, meters_per_pixels)
+        ]
+
+    @staticmethod
+    def __get_cameras_ids(dataset_names, metadata):
+        camera_ids = []
+        for dataset_name in dataset_names:
+            dataset_name = re.sub(r'_\w\d\d?', '', dataset_name)
+            dataset_name = re.sub(r'^[0]', '', dataset_name)
+
+            camera_ids.append(
+                next(
+                    task['camera_id']
+                    for task in metadata['tasks']
+                    if dataset_name in task['task_epochs']
+                )[0]
+            )
+        return camera_ids
+
+    @staticmethod
+    def __get_meters_per_pixels(cameras_ids, metadata):
+        meters_per_pixels = []
+        for camera_id in cameras_ids:
+            meters_per_pixels.append(
+                next(
+                    float(camera['meters_per_pixel'])
+                    for camera in metadata['cameras']
+                    if camera_id == camera['id']
+                )
+            )
+        return meters_per_pixels
