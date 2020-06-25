@@ -5,7 +5,6 @@ experiment description: Reinforcement learning
 session description: Reinforcement leaarning
 session_id:        beans_01
 link to notes: https://www.novelaneuro.com/
-meters_per_pixel: 1
 subject:
   description:     Long Evans Rat
   genotype:        Wild Type
@@ -48,7 +47,6 @@ tasks:
     task_description:     Spatial Bandit,
     camera_id:
       - 1
-      - 2
     task_epochs:
       - 2
       - 4
