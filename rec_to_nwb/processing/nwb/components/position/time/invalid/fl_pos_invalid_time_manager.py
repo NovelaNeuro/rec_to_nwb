@@ -44,12 +44,15 @@ class FlPosInvalidTimeManager:
 
     @staticmethod
     def __get_pos_timestamps(nwb_content):
-        timestamps = np.array(
-            nwb_content.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps
-        )
+        timestamps = [
+            np.array(spatial_series.timestamps)
+            for spatial_series in
+            nwb_content.processing['behavior'].data_interfaces['position'].spatial_series.values()
+        ]
+        timestamp = np.hstack(timestamps)
 
-        if timestamps.any():
-            return timestamps
+        if timestamp.any():
+            return timestamp
         raise MissingDataException('POS timestamp not found')
 
     @staticmethod
@@ -84,13 +87,13 @@ class FlPosInvalidTimeManager:
         return invalid_times[invalid_intervals, :]
 
     def __get_pos_valid_times(self, timestamps, period, gaps_margin):
-        min_valid_len = 3*gaps_margin
+        min_valid_len = 3 * gaps_margin
         timestamps = timestamps[~np.isnan(timestamps)]
 
         gaps = np.diff(timestamps) > period * self.period_multiplier
         gap_indexes = np.asarray(np.where(gaps))
         gap_start = np.insert(gap_indexes + 1, 0, 0)
-        gap_end = np.append(gap_indexes, np.asarray(len(timestamps)-1))
+        gap_end = np.append(gap_indexes, np.asarray(len(timestamps) - 1))
 
         valid_indices = np.vstack([gap_start, gap_end]).transpose()
         valid_times = timestamps[valid_indices]
@@ -102,7 +105,3 @@ class FlPosInvalidTimeManager:
     @staticmethod
     def __build_pos_invalid_times(invalid_times):
         return [FlPosInvalidTimeBuilder.build(gap[0], gap[1]) for gap in invalid_times]
-
-
-
-

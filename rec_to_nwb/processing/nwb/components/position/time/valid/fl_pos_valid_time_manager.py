@@ -42,12 +42,15 @@ class FlPosValidTimeManager:
 
     @staticmethod
     def __get_pos_timestamps(nwb_content):
-        timestamps = np.array(
-            nwb_content.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps
-        )
+        timestamps = [
+            np.array(spatial_series.timestamps)
+            for spatial_series in
+            nwb_content.processing['behavior'].data_interfaces['position'].spatial_series.values()
+        ]
+        timestamp = np.hstack(timestamps)
 
-        if timestamps.any():
-            return timestamps
+        if timestamp.any():
+            return timestamp
         raise MissingDataException('POS timestamp not found')
 
     @staticmethod

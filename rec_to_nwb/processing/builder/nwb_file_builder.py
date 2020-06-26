@@ -27,8 +27,8 @@ from rec_to_nwb.processing.builder.originators.probe_originator import ProbeOrig
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
 from rec_to_nwb.processing.builder.originators.shanks_electrodes_originator import ShanksElectrodeOriginator
 from rec_to_nwb.processing.builder.originators.shanks_originator import ShanksOriginator
-from rec_to_nwb.processing.builder.originators.video_files_originator import VideoFilesOriginator
 from rec_to_nwb.processing.builder.originators.task_originator import TaskOriginator
+from rec_to_nwb.processing.builder.originators.video_files_originator import VideoFilesOriginator
 from rec_to_nwb.processing.header.header_checker.header_processor import HeaderProcessor
 from rec_to_nwb.processing.header.header_checker.rec_file_finder import RecFileFinder
 from rec_to_nwb.processing.header.module.header import Header
@@ -175,7 +175,7 @@ class NWBFileBuilder:
 
         self.processing_module_originator = ProcessingModuleOriginator()
         self.task_originator = TaskOriginator(self.metadata)
-        self.position_originator = PositionOriginator(self.datasets, self.metadata)
+        self.position_originator = PositionOriginator(self.datasets, self.metadata, self.dataset_names)
         self.camera_device_originator = CameraDeviceOriginator(self.metadata)
         self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.processing_module_originator = ProcessingModuleOriginator()
