@@ -1,6 +1,8 @@
 import os
 import unittest
 
+from pynwb.behavior import Position
+
 from rec_to_nwb.processing.nwb.components.iterator.multi_thread_data_iterator import MultiThreadDataIterator
 from rec_to_nwb.processing.nwb.components.position.fl_position_manager import FlPositionManager
 from rec_to_nwb.processing.nwb.components.position.position_creator import PositionCreator
@@ -9,7 +11,7 @@ from rec_to_nwb.processing.tools.dataset import Dataset
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-@unittest.skip("test requires continuoustime.dat file and can't be used on travis")
+# @unittest.skip("test requires continuoustime.dat file and can't be used on travis")
 class TestPositionIntegration(unittest.TestCase):
 
     @staticmethod
@@ -40,14 +42,11 @@ class TestPositionIntegration(unittest.TestCase):
         )
         position_creator = PositionCreator()
         fl_positions = fl_position_manager.get_fl_positions()
-        position = [
-            position_creator.create(fl_position)
-            for fl_position in fl_positions
-        ]
+        positions = position_creator.create_all(fl_positions)
 
-        self.assertIsInstance(position, list)
-        self.assertEqual(position[0].spatial_series['series'].conversion, 0.02)
-        self.assertIsInstance(position[0].spatial_series['series'].data, MultiThreadDataIterator)
-        self.assertEqual(position[0].spatial_series['series'].data.shape, [32658, 4])
-        self.assertEqual(position[0].spatial_series['series'].timestamps_unit, 'seconds')
-        self.assertEqual(position[0].spatial_series['series'].unit, 'meters')
+        self.assertIsInstance(positions, Position)
+        self.assertEqual(positions.spatial_series['series_0'].conversion, 0.02)
+        self.assertIsInstance(positions.spatial_series['series_0'].data, MultiThreadDataIterator)
+        self.assertEqual(positions.spatial_series['series_0'].data.shape, [32658, 4])
+        self.assertEqual(positions.spatial_series['series_0'].timestamps_unit, 'seconds')
+        self.assertEqual(positions.spatial_series['series_0'].unit, 'meters')

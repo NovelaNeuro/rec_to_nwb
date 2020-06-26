@@ -26,10 +26,6 @@ class PositionOriginator:
         logger.info('Position: Building')
         fl_positions = self.fl_position_manager.get_fl_positions()
         logger.info('Position: Creating')
-        positions = [
-            self.position_creator.create(fl_position)
-            for fl_position in fl_positions
-        ]
+        position = self.position_creator.create_all(fl_positions)
         logger.info('Position: Injecting into ProcessingModule')
-        for position in positions:
-            nwb_content.processing['behavior'].add(position)
+        nwb_content.processing['behavior'].add(position)
