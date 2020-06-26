@@ -17,8 +17,10 @@ class TestFlPosValidTimeManager(TestCase):
         array = [1, 2, 3, 4, 5, 7, 9, 10, 11, 12]
         for i, number in enumerate(array):
             mock_array[i] = number
+        mock_series = MagicMock()
+        mock_series.timestamps = mock_array
         mock_nwb = MagicMock(spec=NWBFile)
-        mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = mock_array
+        mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series = {'series': mock_series}
         mock_metadata = {'times_period_multiplier': 1.5}
 
         fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
@@ -39,8 +41,10 @@ class TestFlPosValidTimeManager(TestCase):
         array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         for i, number in enumerate(array):
             mock_array[i] = number
+        mock_series = MagicMock()
+        mock_series.timestamps = mock_array
         mock_nwb = MagicMock(spec=NWBFile)
-        mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = mock_array
+        mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series = {'series': mock_series}
         mock_metadata = {'times_period_multiplier': 1.5}
 
         fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
@@ -59,8 +63,10 @@ class TestFlPosValidTimeManager(TestCase):
         array = [1, 3, 5, 6, 7, 8, 9, 10, 11, 12]
         for i, number in enumerate(array):
             mock_array[i] = number
+        mock_series = MagicMock()
+        mock_series.timestamps = mock_array
         mock_nwb = MagicMock(spec=NWBFile)
-        mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = mock_array
+        mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series = {'series': mock_series}
         mock_metadata = {'times_period_multiplier': 1.5}
 
         fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
@@ -79,8 +85,10 @@ class TestFlPosValidTimeManager(TestCase):
         array = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]
         for i, number in enumerate(array):
             mock_array[i] = number
+        mock_series = MagicMock()
+        mock_series.timestamps = mock_array
         mock_nwb = MagicMock(spec=NWBFile)
-        mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = mock_array
+        mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series = {'series': mock_series}
         mock_metadata = {'times_period_multiplier': 1.5}
 
         fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
@@ -107,8 +115,9 @@ class TestFlPosValidTimeManager(TestCase):
     @should_raise(MissingDataException)
     def test_fl_pos_valid_time_manager_get_fl_pos_valid_times_failed_due_to_lack_of_timestamps(self):
         gaps_margin = 0.0001
+        mock_series = MagicMock()
         mock_nwb = MagicMock(spec=NWBFile)
-        mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series['series'].timestamps = None
+        mock_nwb.processing['behavior'].data_interfaces['position'].spatial_series = {'series': mock_series}
         mock_metadata = {'times_period_multiplier': 1.5}
 
         fl_pos_valid_time_manager = FlPosValidTimeManager(mock_metadata)
