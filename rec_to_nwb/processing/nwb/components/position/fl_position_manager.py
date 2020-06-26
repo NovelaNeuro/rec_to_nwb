@@ -31,10 +31,10 @@ class FlPositionManager:
 
         return [
             self.fl_position_builder.build(
-                position_data,
-                column_labels,
-                timestamp,
-                float(meters_per_pixel)
+                position_data=position_data,
+                column_labels=column_labels,
+                timestamps=timestamp,
+                conversion=float(meters_per_pixel)
             )
             for position_data, column_labels, timestamp, meters_per_pixel in
             zip(position_datas, columns_labels, timestamps, meters_per_pixels)
