@@ -76,7 +76,6 @@ requirements:
       - xmldiff
       - ndx-franklab-novela==0.0.009
 
-
 about:
   home: https://github.com/NovelaNeuro/rec_to_nwb
   license: "Apache 2.0"

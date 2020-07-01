@@ -19,6 +19,8 @@ install:
 - conda config --add channels conda-forge
 - conda config --add channels novelakrk
 - pip install pylint
+- pip install -r requirements.txt
+- pip install -e .
 - if [ $TRAVIS_BRANCH == "master_release" ]; then
   conda install conda-build anaconda-client conda-verify;
   bash upload_dependencies.sh;
@@ -36,7 +38,7 @@ script:
 - pytest -m pytest rec_to_nwb/test/processing
 
 after_success:
-- test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
+  - test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
 
 notifications:
   slack:
