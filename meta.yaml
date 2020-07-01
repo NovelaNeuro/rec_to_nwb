@@ -74,7 +74,7 @@ requirements:
       - zlib
       - rec_to_binaries==0.5.1.dev0
       - xmldiff
-      - ndx-franklab-novela==0.0.008
+      - ndx-franklab-novela==0.0.009
 
 
 about:
