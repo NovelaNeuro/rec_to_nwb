@@ -1,7 +1,7 @@
 language: python
 cache: false
 python:
-- 3.7.4
+- '3.6'
 install:
 - sudo apt-get update
 - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
@@ -33,7 +33,7 @@ install:
 
 script:
 - bash pylint_run.sh
-- pytest -m pytest rec_to_nwb/test/processing
+- python -m pytest rec_to_nwb/test/processing
 
 after_success:
   - test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
