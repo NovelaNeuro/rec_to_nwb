@@ -12,18 +12,18 @@ echo "Building conda package..."
 conda build . -c novelakrk -c conda-forge --no-include-recipe || exit 1
 
 echo "Move conda package..."
-mv ${CONDA_BUILD_PATH}/linux-64/${PKG_NAME}-${VERSION}-py36_0.tar.bz2  ${CONDA_BUILD_PATH} || exit 1
+mv ${CONDA_BUILD_PATH}/linux-64/${PKG_NAME}-${VERSION}-py37_0.tar.bz2  ${CONDA_BUILD_PATH} || exit 1
 
 echo "Making new_tar dir..."
 mkdir ${CONDA_BUILD_PATH}/new_tar || exit 1
 
 echo "Extracting conda package..."
-tar -xf ${CONDA_BUILD_PATH}/${PKG_NAME}-${VERSION}-py36_0.tar.bz2 -C ${CONDA_BUILD_PATH}/new_tar || exit 1
+tar -xf ${CONDA_BUILD_PATH}/${PKG_NAME}-${VERSION}-py37_0.tar.bz2 -C ${CONDA_BUILD_PATH}/new_tar || exit 1
 
 cd ${CONDA_BUILD_PATH}/new_tar || exit 1
 
 echo "Creating new conda package without some files..."
-tar -cjvf ${PKG_NAME}-${VERSION}-py36_0.tar.bz2 --exclude=info/recipe/rec_to_nwb/test --exclude=info/recipe/rec_to_nwb/scripts --exclude='*.sh' --exclude='*.gitignore' --exclude='*.pytest_cache' --exclude='*.gitignore' info lib || exit 1
+tar -cjvf ${PKG_NAME}-${VERSION}-py37_0.tar.bz2 --exclude=info/recipe/rec_to_nwb/test --exclude=info/recipe/rec_to_nwb/scripts --exclude='*.sh' --exclude='*.gitignore' --exclude='*.pytest_cache' --exclude='*.gitignore' info lib || exit 1
 
 cd ..
 
