@@ -4,7 +4,7 @@ channels:
   - defaults
   - novelakrk
 dependencies:
-  - python>=3.6
+  - python=3.6
   - pip
   - asn1crypto
   - blas
@@ -45,7 +45,7 @@ dependencies:
   - pyyaml
   - pytest
   - testfixtures
-  - ndx-franklab-novela=0.0.008
+  - ndx-franklab-novela=0.0.009.36
   - pip:
       - mountainlab_pytools
       - xmldiff
