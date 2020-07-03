@@ -1,5 +1,6 @@
 from rec_to_nwb.processing.nwb.components.video_files.fl_video_files_builder import FlVideoFilesBuilder
 from rec_to_nwb.processing.nwb.components.video_files.fl_video_files_extractor import FlVideoFilesExtractor
+from rec_to_nwb.processing.nwb.components.video_files.video_files_copy_maker import VideoFilesCopyMaker
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
@@ -7,6 +8,8 @@ class FlVideoFilesManager:
 
     @beartype
     def __init__(self, raw_data_path: str, video_directory: str, video_files_metadata: list):
+        self.video_files_copy_maker = VideoFilesCopyMaker([video_files['name'] for video_files in video_files_metadata])
+        self.video_files_copy_maker.copy(raw_data_path, video_directory)
         self.fl_video_files_extractor = FlVideoFilesExtractor(raw_data_path, video_directory, video_files_metadata)
         self.fl_video_files_builder = FlVideoFilesBuilder()
 

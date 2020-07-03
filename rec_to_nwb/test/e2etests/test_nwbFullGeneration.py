@@ -30,7 +30,7 @@ class TestNwbFullGeneration(unittest.TestCase):
             process_dio=True,
             process_mda=True,
             process_analog=True,
-            video_directory=str(path) + '/test_data/beans/raw/20190718/'
+            video_directory=str(path) + '/test_data'
         )
 
     @unittest.skip("NWB file creation")
@@ -38,8 +38,8 @@ class TestNwbFullGeneration(unittest.TestCase):
         content = self.nwb_builder.build()
         self.nwb_builder.write(content)
         self.nwb_builder.build_and_append_to_nwb(
-            process_mda_valid_time=True,
-            process_mda_invalid_time=True,
+            process_mda_valid_time=False,
+            process_mda_invalid_time=False,
             process_pos_valid_time=True,
             process_pos_invalid_time=True
         )
