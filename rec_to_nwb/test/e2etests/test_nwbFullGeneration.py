@@ -30,7 +30,7 @@ class TestNwbFullGeneration(unittest.TestCase):
             process_dio=True,
             process_mda=True,
             process_analog=True,
-            video_directory=str(path) + '/test_data/beans/raw/20190718/'
+            video_directory=str(path) + '/test_data'
         )
 
     @unittest.skip("NWB file creation")
