@@ -10,6 +10,7 @@ from rec_to_nwb.processing.builder.nwb_file_builder import NWBFileBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.validation.not_empty_validator import NotEmptyValidator
 from rec_to_nwb.processing.validation.validation_registrator import ValidationRegistrator
+from rec_to_nwb.processing.validation.xml_files_validation import XmlFilesValidator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -105,6 +106,11 @@ class RawToNWBBuilder:
         for i in range(len(self.trodes_rec_export_args)):
             if self.trodes_rec_export_args[i] == '-reconfig':
                 xml_file_path = self.trodes_rec_export_args[i + 1]
+
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(XmlFilesValidator(xml_file_path))
+        validation_registrator.validate()
+
         xsd_file_path = str(path) + '/../../../rec_to_nwb/data/reconfig_header.xsd'
         xsd_schema = xmlschema.XMLSchema(xsd_file_path)
         xmlschema.validate(xml_file_path, xsd_schema)
@@ -182,6 +188,7 @@ class RawToNWBBuilder:
             mda_export_args=self.mda_export_args,
             analog_export_args=self.trodes_rec_export_args
         )
+        self.__is_rec_config_valid()
 
     @staticmethod
     def append_to_nwb(nwb_builder, process_mda_valid_time, process_mda_invalid_time,
