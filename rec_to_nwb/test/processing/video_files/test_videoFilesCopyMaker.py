@@ -25,7 +25,3 @@ class TestVideoFilesCopyMaker(TestCase):
     def tearDown(self):
         if os.path.isfile(path + '/../res/video_test/probe1.yml'):
             os.remove(path + '/../res/video_test/probe1.yml')
-
-
-
-
