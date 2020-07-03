@@ -13,7 +13,7 @@ build:
 
 requirements:
    build:
-      - python==3.6
+      - python>=3.6
       - pip
       - setuptools
       - hdmf==1.6.1
@@ -28,7 +28,7 @@ requirements:
       - rec_to_binaries==0.5.1.dev0
       - libcblas
    run:
-      - python>=3.6,<3.7
+      - python>=3.6
       - asn1crypto
       - blas
       - bleach
@@ -74,7 +74,7 @@ requirements:
       - zlib
       - rec_to_binaries==0.5.1.dev0
       - xmldiff
-      - ndx-franklab-novela=0.0.009.36
+      - ndx-franklab-novela=0.0.009
 
 
 about:
