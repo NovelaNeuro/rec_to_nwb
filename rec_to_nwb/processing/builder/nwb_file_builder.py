@@ -41,6 +41,7 @@ from rec_to_nwb.processing.nwb.components.device.probe.fl_probe_manager import F
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
+from rec_to_nwb.processing.validation.path_validator import PathValidator
 from rec_to_nwb.processing.validation.preprocessing_validator import PreprocessingValidator
 from rec_to_nwb.processing.validation.task_validator import TaskValidator
 from rec_to_nwb.processing.validation.validation_registrator import ValidationRegistrator
@@ -97,6 +98,10 @@ class NWBFileBuilder:
             + 'output_file = ' + str(output_file) + '\n'
         )
 
+        validation_registrator = ValidationRegistrator()
+        validation_registrator.register(PathValidator(data_path))
+        validation_registrator.validate()
+
         self.animal_name = animal_name
         self.date = date
         self.data_path = data_path
@@ -120,6 +125,7 @@ class NWBFileBuilder:
                   + '/raw/'
                   + self.date)
         )
+
         header_file = HeaderProcessor.process_headers(rec_files_list)
         self.header = Header(header_file)
         self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
