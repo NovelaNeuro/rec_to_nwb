@@ -138,7 +138,7 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
     device: 
       name:
         - Trodes
-    # Electrode Groups list used in experiment. Each Id has to be unique, device_type has to refer to existing device_type in probe.yml. Possible value of units: 'um' or 'mm' 
+    # Electrode Groups list used in experiment. Each Id has to be unique, device_type has to refer to existing device_type in probe.yml. Target_x,y,z fields describe the specified location where this group should be. Possible value of units: 'um' or 'mm' 
     electrode groups:
       - id: 0
         location: mPFC
