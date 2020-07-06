@@ -13,4 +13,4 @@ class VideoFilesOriginator:
         fl_video_files = self.fl_video_files_manager.get_video_files()
         for fl_video_file in fl_video_files:
             image_series = VideoFilesCreator.create(fl_video_file, self.video_directory, nwb_content)
-            VideoFilesInjector.inject(nwb_content, 'behavior', image_series)
+            VideoFilesInjector.inject(nwb_content, image_series)
