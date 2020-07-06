@@ -138,16 +138,26 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
     device: 
       name:
         - Trodes
-    # Probes/Electrode Groups list used in experiment. Each Id has to be unique, device_type has to refer to existing device_type in probe.yml
+    # Electrode Groups list used in experiment. Each Id has to be unique, device_type has to refer to existing device_type in probe.yml. Possible value of units: 'um' or 'mm' 
     electrode groups:
       - id: 0
         location: mPFC
-        device_type: 128c-4s8mm6cm-20um-40um-sl 
+        device_type: 128c-4s8mm6cm-20um-40um-sl
         description: 'Probe 1'
+        targeted_location: 'Sample predicted location'
+        targeted_x: 0.0
+        targeted_y: 0.0
+        targeted_z: 0.0
+        units: 'um'
       - id: 1
         location: mPFC
         device_type: 128c-4s8mm6cm-20um-40um-sl
         description: 'Probe 2'
+        targeted_location: 'Sample predicted location'
+        targeted_x: 0.0
+        targeted_y: 0.0
+        targeted_z: 0.0
+        units: 'um'
     # Ntrodes list which refer 1:1 to <SpikeNTrode> elements from xml header existing in rec binary file.
     # ntrode_id has to match to SpikeNTrode id, electrode_group_id refers to electrode group,
     # bad_channels is a list of broken channels in the map, where map corresponds to the electrode channels
