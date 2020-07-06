@@ -8,5 +8,5 @@ class VideoFilesInjector:
 
     @staticmethod
     @beartype
-    def inject(nwb_content: NWBFile, processing_module_name: str, image_series: ImageSeries):
-        nwb_content.processing[processing_module_name].add(image_series)
+    def inject(nwb_content: NWBFile, image_series: ImageSeries):
+        nwb_content.add_stimulus_template(image_series)
