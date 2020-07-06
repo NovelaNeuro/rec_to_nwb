@@ -78,17 +78,43 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
       species: Rat
       subject id: Beans
       weight: Unknown
-    #Tasks represent epochs in experiment. Contain task_name and task_description in the list. Stored in behavioral section in output nwb file.
-    tasks:   [
-      {
-        task_name: Sleep,
-        task_description: The animal sleeps in a small empty box.
-      },
-      {
-        task_name: Stem+Leaf,
-        task_description: Spatial Bandit,
-      }
-      ]
+   #Units of analog and behavioral_events
+   units:
+      analog: 'unspecified'
+      behavioral_events: 'unspecified'  
+   #data acq device used in experiment   
+   data acq device:
+      - name: acq_0
+        system: sample_system
+        amplifier: sample_amplifier
+        adc_circuit: sample_adc_circuit
+      - name: acq_1
+        system: sample_system_2
+   #CameraDevice that were used in experiment    
+    cameras:
+      - id: 0
+        meters_per_pixel: 0.02
+      - id: 1
+        meters_per_pixel: 0.03
+      - id: 2
+        meters_per_pixel: 0.05  
+    #Tasks represent epochs in experiment. Contains task_name, task_description, camera_id that were used in this task and task_epochs that this task correspond to. Stored in behavioral section in output nwb file.
+    tasks:
+      - task_name:          Sleep,
+        task_description:   The animal sleeps in a small empty box.
+        camera_id:
+          - 0
+        task_epochs:
+          - 1
+          - 3
+          - 5
+      - task_name:            Stem+Leaf,
+        task_description:     Spatial Bandit,
+        camera_id:
+          - 1
+        task_epochs:
+          - 2
+          - 4
     # Associated files which describe content of files stored inside nwb as text.
        associated_files:
       -  name: example_name1
