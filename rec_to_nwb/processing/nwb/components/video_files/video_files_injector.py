@@ -8,7 +8,7 @@ class VideoFilesInjector:
 
     @staticmethod
     @beartype
-    def inject(nwb_content: NWBFile, image_series_list: list):
+    def inject_all(nwb_content: NWBFile, image_series_list: list):
         video = BehavioralEvents(name='video')
         for image_series in image_series_list:
             video.add_timeseries(image_series)

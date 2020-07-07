@@ -15,5 +15,5 @@ class VideoFilesOriginator:
             VideoFilesCreator.create(fl_video_file, self.video_directory, nwb_content)
             for fl_video_file in fl_video_files
         ]
-        VideoFilesInjector.inject(nwb_content, image_series_list)
+        VideoFilesInjector.inject_all(nwb_content, image_series_list)
 
