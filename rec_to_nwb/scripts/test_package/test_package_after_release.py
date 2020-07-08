@@ -34,7 +34,7 @@ class TestPackageAfterRelease(TestCase):
             data_path=str(path) + '/rec_to_nwb/rec_to_nwb/test/test_data/',
             dates=['20190718'],
             nwb_metadata=metadata,
-            video_directory='../test/test_data/beans/raw/20190718/',
+            video_directory=str(path) + '/rec_to_nwb/rec_to_nwb/test/test_data/beans/raw/20190718/',
             output_path='',
             extract_spikes=False,
             extract_mda=True,
