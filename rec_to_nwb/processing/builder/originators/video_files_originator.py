@@ -11,6 +11,9 @@ class VideoFilesOriginator:
 
     def make(self, nwb_content):
         fl_video_files = self.fl_video_files_manager.get_video_files()
-        for fl_video_file in fl_video_files:
-            image_series = VideoFilesCreator.create(fl_video_file, self.video_directory, nwb_content)
-            VideoFilesInjector.inject(nwb_content, image_series)
+        image_series_list = [
+            VideoFilesCreator.create(fl_video_file, self.video_directory, nwb_content)
+            for fl_video_file in fl_video_files
+        ]
+        VideoFilesInjector.inject_all(nwb_content, image_series_list)
+
