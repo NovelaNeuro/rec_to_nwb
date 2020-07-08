@@ -4,8 +4,8 @@ from unittest import TestCase
 
 import pynwb
 
-from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.builder.raw_to_nwb_builder import RawToNWBBuilder
+from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 
 path = Path(__file__).parent.parent
 path.resolve()
@@ -34,6 +34,7 @@ class TestPackageAfterRelease(TestCase):
             data_path=str(path) + '/rec_to_nwb/rec_to_nwb/test/test_data/',
             dates=['20190718'],
             nwb_metadata=metadata,
+            video_directory='../test/test_data/beans/raw/20190718/',
             output_path='',
             extract_spikes=False,
             extract_mda=True,
