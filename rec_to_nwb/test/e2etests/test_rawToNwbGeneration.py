@@ -3,8 +3,8 @@ import unittest
 
 from testfixtures import should_raise
 
-from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.builder.raw_to_nwb_builder import RawToNWBBuilder
+from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -29,7 +29,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
             dates=['20190718'],
             nwb_metadata=self.metadata,
             output_path='',
-            video_directory=str(path) + '/test_data',
+            video_directory=str(path) + '/../test_data',
             extract_spikes=False,
             extract_mda=True,
             extract_lfps=False,
