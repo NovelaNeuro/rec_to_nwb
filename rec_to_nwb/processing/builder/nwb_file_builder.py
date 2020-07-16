@@ -62,7 +62,7 @@ class NWBFileBuilder:
         process_dio (boolean): flag if dio data should be processed
         process_mda (boolean): flag if mda data should be processed
         process_analog (boolean): flag if analog data should be processed
-        video_directory (string): path to directory with video files associated to nwb file
+        video_path (string): path to directory with video files associated to nwb file
         output_file (string): path and name specifying where .nwb file gonna be written
 
     Methods:
@@ -81,7 +81,7 @@ class NWBFileBuilder:
             process_dio: bool = True,
             process_mda: bool = True,
             process_analog: bool = True,
-            video_directory: str = '',
+            video_path: str = '',
             output_file: str = 'output.nwb'
     ):
 
@@ -111,7 +111,7 @@ class NWBFileBuilder:
         self.process_mda = process_mda
         self.process_analog = process_analog
         self.output_file = output_file
-        self.video_directory = video_directory
+        self.video_directory = video_path
         self.link_to_notes = self.metadata.get('link to notes', '')
         data_types_for_scanning = {'pos': True,
                                    'time': True,

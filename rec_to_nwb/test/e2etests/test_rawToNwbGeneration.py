@@ -29,7 +29,7 @@ class TestRawToNWBGeneration(unittest.TestCase):
             dates=['20190718'],
             nwb_metadata=self.metadata,
             output_path='',
-            video_directory=str(path) + '/test_data',
+            video_path=str(path) + '/test_data',
             extract_spikes=False,
             extract_mda=True,
             extract_lfps=False,

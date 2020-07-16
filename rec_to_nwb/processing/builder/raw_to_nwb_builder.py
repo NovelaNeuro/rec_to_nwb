@@ -141,7 +141,7 @@ class RawToNWBBuilder:
                 process_mda=self.extract_mda,
                 process_dio=self.extract_dio,
                 process_analog=self.extract_analog,
-                video_directory=self.video_directory,
+                video_path=self.video_directory,
             )
             content = nwb_builder.build()
             nwb_builder.write(content)
