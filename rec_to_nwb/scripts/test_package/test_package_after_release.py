@@ -42,7 +42,7 @@ class TestPackageAfterRelease(TestCase):
             extract_dio=True,
             overwrite=True,
             trodes_rec_export_args=_DEFAULT_TRODES_REC_EXPORT_ARGS,
-            video_directory=str(path) + '/rec_to_nwb/rec_to_nwb/test/test_data'
+            video_path=str(path) + '/rec_to_nwb/rec_to_nwb/test/test_data'
         )
         builder.build_nwb()
 
