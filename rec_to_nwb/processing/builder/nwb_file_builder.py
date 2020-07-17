@@ -111,7 +111,7 @@ class NWBFileBuilder:
         self.process_mda = process_mda
         self.process_analog = process_analog
         self.output_file = output_file
-        self.video_directory = video_path
+        self.video_path = video_path
         self.link_to_notes = self.metadata.get('link to notes', '')
         data_types_for_scanning = {'pos': True,
                                    'time': True,
@@ -188,7 +188,7 @@ class NWBFileBuilder:
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
         self.video_files_originator = VideoFilesOriginator(
             self.data_path + "/" + animal_name + "/raw/" + self.date + "/",
-            self.video_directory,
+            self.video_path,
             self.metadata["associated_video_files"],
         )
 
