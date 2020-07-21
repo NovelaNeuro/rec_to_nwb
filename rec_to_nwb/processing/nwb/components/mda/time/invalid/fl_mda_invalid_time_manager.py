@@ -46,11 +46,11 @@ class FlMdaInvalidTimeManager:
 
     @staticmethod
     def __get_mda_timestamps(nwb_content):
-        if 'e-series' in nwb_content.acquisition:
+        try:
             timestamps = np.array(
                 nwb_content.acquisition['e-series'].timestamps
             )
-        else:
+        except (KeyError):
             raise MissingDataException('MDA timestamp not found')
 
         if timestamps.any():
