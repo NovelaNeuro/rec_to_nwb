@@ -28,10 +28,22 @@ data acq device:
 cameras:
   - id: 0
     meters_per_pixel: 0.02
+    manufacturer: novela
+    model: GT500
+    lens: 500dpt
+    camera_name: john
   - id: 1
     meters_per_pixel: 0.03
+    manufacturer: novela
+    model: GT400
+    lens: 400dpt
+    camera_name: bob
   - id: 2
     meters_per_pixel: 0.05
+    manufacturer: novela
+    model: GT300
+    lens: 300dpt
+    camera_name: joe
 
 
 tasks:
