@@ -13,8 +13,8 @@ class TestFlAssociatedFilesCreator(unittest.TestCase):
 
     def setUp(self):
         self.fl_associated_files = [
-            FlAssociatedFile('test_name1', 'test description 1', 'test content 1'),
-            FlAssociatedFile('test_name2', 'test description 2', 'test content 2')
+            FlAssociatedFile('test_name1', 'test description 1', 'test content 1', '1,2'),
+            FlAssociatedFile('test_name2', 'test description 2', 'test content 2', '1,2')
         ]
         self.associated_files_creator = AssociatedFilesCreator()
 

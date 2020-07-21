@@ -20,10 +20,18 @@ class FlCameraDeviceManager:
         validate_parameters_not_none(
             __name__,
             camera_metadata.get('id', None),
-            camera_metadata.get('meters_per_pixel', None)
+            camera_metadata.get('meters_per_pixel', None),
+            camera_metadata.get('manufacturer', None),
+            camera_metadata.get('model', None),
+            camera_metadata.get('lens', None),
+            camera_metadata.get('camera_name', None)
         )
 
         return FlCameraDeviceBuilder.build(
             name='camera_device ' + str(camera_metadata['id']),
-            meters_per_pixel=float(camera_metadata['meters_per_pixel'])
+            meters_per_pixel=float(camera_metadata['meters_per_pixel']),
+            manufacturer=str(camera_metadata['manufacturer']),
+            model=str(camera_metadata['model']),
+            lens=str(camera_metadata['lens']),
+            camera_name=str(camera_metadata['camera_name'])
         )
