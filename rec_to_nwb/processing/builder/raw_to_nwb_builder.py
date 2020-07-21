@@ -23,6 +23,11 @@ _DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
 _DEFAULT_MDA_EXPORT_ARGS = ('-usespikefilters', '0',
                             '-interp', '0', '-userefs', '0')
 
+_DEFAULT_ANALOG_EXPORT_ARGS = ()
+_DEFAULT_DIO_EXPORT_ARGS = ()
+_DEFAULT_SPIKE_EXPORT_ARGS = ()
+_DEFAULT_TIME_EXPORT_ARGS = ()
+
 _DEFAULT_TRODES_REC_EXPORT_ARGS = ()
 
 
@@ -44,6 +49,10 @@ class RawToNWBBuilder:
         overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
         lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
         mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
+        dio_export_args (tuple of strings): parameters to launch dio extraction from spikegadgets
+        analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
+        spikes_export_args (tuple of strings): parameters to launch spikes extraction from spikegadgets
+        time_export_args (tuple of strings): parameters to launch time extraction from spikegadgets
         trodes_rec_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
         parallel_instances (int): number of parallel processes used during processing data
 
@@ -70,6 +79,10 @@ class RawToNWBBuilder:
             overwrite: bool = True,
             lfp_export_args: tuple = _DEFAULT_LFP_EXPORT_ARGS,
             mda_export_args: tuple = _DEFAULT_MDA_EXPORT_ARGS,
+            analog_export_args: tuple = _DEFAULT_ANALOG_EXPORT_ARGS,
+            dio_export_args: tuple = _DEFAULT_DIO_EXPORT_ARGS,
+            time_export_args: tuple = _DEFAULT_TIME_EXPORT_ARGS,
+            spikes_export_args: tuple = _DEFAULT_SPIKE_EXPORT_ARGS,
             parallel_instances: int = 4,
             trodes_rec_export_args: tuple = _DEFAULT_TRODES_REC_EXPORT_ARGS
     ):
@@ -85,8 +98,12 @@ class RawToNWBBuilder:
         self.extract_dio = extract_dio
         self.extract_lfps = extract_lfps
         self.extract_mda = extract_mda
-        self.lfp_export_args = lfp_export_args
-        self.mda_export_args = mda_export_args
+        self.lfp_export_args = lfp_export_args + trodes_rec_export_args
+        self.mda_export_args = mda_export_args + trodes_rec_export_args
+        self.analog_export_args = analog_export_args + trodes_rec_export_args
+        self.dio_export_args = dio_export_args + trodes_rec_export_args
+        self.time_export_args = time_export_args + trodes_rec_export_args
+        self.spikes_export_args = spikes_export_args + trodes_rec_export_args
         self.overwrite = overwrite
         self.animal_name = animal_name
         self.data_path = data_path
@@ -170,6 +187,10 @@ class RawToNWBBuilder:
             + 'overwrite = ' + str(self.overwrite) + '\n'
             + 'lfp_export_args = ' + str(self.lfp_export_args) + '\n'
             + 'mda_export_args = ' + str(self.mda_export_args) + '\n'
+            + 'analog_export_args = ' + str(self.analog_export_args) + '\n'
+            + 'time_export_args = ' + str(self.time_export_args) + '\n'
+            + 'spikes_export_args = ' + str(self.spikes_export_args) + '\n'
+            + 'dio_export_args = ' + str(self.dio_export_args) + '\n'
             + 'trodes_rec_export_args = ' + str(self.trodes_rec_export_args) + '\n'
         )
 
@@ -186,7 +207,10 @@ class RawToNWBBuilder:
             overwrite=self.overwrite,
             lfp_export_args=self.lfp_export_args,
             mda_export_args=self.mda_export_args,
-            analog_export_args=self.trodes_rec_export_args
+            analog_export_args=self.analog_export_args,
+            dio_export_args=self.dio_export_args,
+            spikes_export_args=self.spikes_export_args,
+            time_export_args=self.time_export_args,
         )
         self.__is_rec_config_valid()
 
