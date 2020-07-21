@@ -16,7 +16,8 @@ class FlAssociatedFilesManager:
             self.fl_associated_files_builder.build(
                 file['name'],
                 file['description'],
-                self.fl_associated_files_reader.read(file["path"])
+                self.fl_associated_files_reader.read(file["path"]),
+                file['task_epochs']
             )
             for file in self.associated_files_metadata
         ]

@@ -9,5 +9,7 @@ class VideoFilesCreator:
             devices=[nwb_content.devices['camera_device ' + str(fl_video_file.device)]],
             name=fl_video_file.name,
             timestamps=fl_video_file.timestamps,
-            external_file=[video_directory + '/' + fl_video_file.name]
+            external_file=[video_directory + '/' + fl_video_file.name],
+            format='external',
+            starting_frame=[]
         )

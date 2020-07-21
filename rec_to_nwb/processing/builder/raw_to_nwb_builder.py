@@ -23,6 +23,11 @@ _DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
 _DEFAULT_MDA_EXPORT_ARGS = ('-usespikefilters', '0',
                             '-interp', '0', '-userefs', '0')
 
+_DEFAULT_ANALOG_EXPORT_ARGS = ()
+_DEFAULT_DIO_EXPORT_ARGS = ()
+_DEFAULT_SPIKE_EXPORT_ARGS = ()
+_DEFAULT_TIME_EXPORT_ARGS = ()
+
 _DEFAULT_TRODES_REC_EXPORT_ARGS = ()
 
 
@@ -35,7 +40,7 @@ class RawToNWBBuilder:
         dates (list of strings): dates of experiments on above animal
         nwb_metadata (MetadataManager): object containig metadata about experiment
         output_path (string): path and name specifying where .nwb file gonna be written
-        video_directory (string): path to directory with video files associated to nwb file
+        video_path (string): path to directory with video files associated to nwb file
         extract_analog (boolean): flag if analog data should be extracted and processed from raw data
         extract_spikes (boolean): flag if spikes data should be extracted and processed from raw data
         extract_lfps (boolean): flag  if lfps data should be extracted and processed from raw data
@@ -44,6 +49,10 @@ class RawToNWBBuilder:
         overwrite (boolean): flag if current extracted data in preprocessed folder content should be overwritten
         lfp_export_args (tuple of strings): parameters to launch lfp extraction from spikegadgets
         mda_export_args (tuple of strings): parameters to launch mda extraction from spikegadgets
+        dio_export_args (tuple of strings): parameters to launch dio extraction from spikegadgets
+        analog_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
+        spikes_export_args (tuple of strings): parameters to launch spikes extraction from spikegadgets
+        time_export_args (tuple of strings): parameters to launch time extraction from spikegadgets
         trodes_rec_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
         parallel_instances (int): number of parallel processes used during processing data
 
@@ -61,7 +70,7 @@ class RawToNWBBuilder:
             dates: list,
             nwb_metadata: MetadataManager,
             output_path: str = '',
-            video_directory: str = '',
+            video_path: str = '',
             extract_analog: bool = True,
             extract_spikes: bool = False,
             extract_lfps: bool = False,
@@ -70,6 +79,10 @@ class RawToNWBBuilder:
             overwrite: bool = True,
             lfp_export_args: tuple = _DEFAULT_LFP_EXPORT_ARGS,
             mda_export_args: tuple = _DEFAULT_MDA_EXPORT_ARGS,
+            analog_export_args: tuple = _DEFAULT_ANALOG_EXPORT_ARGS,
+            dio_export_args: tuple = _DEFAULT_DIO_EXPORT_ARGS,
+            time_export_args: tuple = _DEFAULT_TIME_EXPORT_ARGS,
+            spikes_export_args: tuple = _DEFAULT_SPIKE_EXPORT_ARGS,
             parallel_instances: int = 4,
             trodes_rec_export_args: tuple = _DEFAULT_TRODES_REC_EXPORT_ARGS
     ):
@@ -85,15 +98,19 @@ class RawToNWBBuilder:
         self.extract_dio = extract_dio
         self.extract_lfps = extract_lfps
         self.extract_mda = extract_mda
-        self.lfp_export_args = lfp_export_args
-        self.mda_export_args = mda_export_args
+        self.lfp_export_args = lfp_export_args + trodes_rec_export_args
+        self.mda_export_args = mda_export_args + trodes_rec_export_args
+        self.analog_export_args = analog_export_args + trodes_rec_export_args
+        self.dio_export_args = dio_export_args + trodes_rec_export_args
+        self.time_export_args = time_export_args + trodes_rec_export_args
+        self.spikes_export_args = spikes_export_args + trodes_rec_export_args
         self.overwrite = overwrite
         self.animal_name = animal_name
         self.data_path = data_path
         self.dates = dates
         self.metadata = nwb_metadata.metadata
         self.output_path = output_path
-        self.video_directory = video_directory
+        self.video_path = video_path
         self.probes = nwb_metadata.probes
         self.nwb_metadata = nwb_metadata
         self.parallel_instances = parallel_instances
@@ -141,7 +158,7 @@ class RawToNWBBuilder:
                 process_mda=self.extract_mda,
                 process_dio=self.extract_dio,
                 process_analog=self.extract_analog,
-                video_directory=self.video_directory,
+                video_path=self.video_path,
             )
             content = nwb_builder.build()
             nwb_builder.write(content)
@@ -170,6 +187,10 @@ class RawToNWBBuilder:
             + 'overwrite = ' + str(self.overwrite) + '\n'
             + 'lfp_export_args = ' + str(self.lfp_export_args) + '\n'
             + 'mda_export_args = ' + str(self.mda_export_args) + '\n'
+            + 'analog_export_args = ' + str(self.analog_export_args) + '\n'
+            + 'time_export_args = ' + str(self.time_export_args) + '\n'
+            + 'spikes_export_args = ' + str(self.spikes_export_args) + '\n'
+            + 'dio_export_args = ' + str(self.dio_export_args) + '\n'
             + 'trodes_rec_export_args = ' + str(self.trodes_rec_export_args) + '\n'
         )
 
@@ -186,7 +207,10 @@ class RawToNWBBuilder:
             overwrite=self.overwrite,
             lfp_export_args=self.lfp_export_args,
             mda_export_args=self.mda_export_args,
-            analog_export_args=self.trodes_rec_export_args
+            analog_export_args=self.analog_export_args,
+            dio_export_args=self.dio_export_args,
+            spikes_export_args=self.spikes_export_args,
+            time_export_args=self.time_export_args,
         )
         self.__is_rec_config_valid()
 

@@ -12,9 +12,9 @@ class TestFlCameraDeviceManager(TestCase):
     def test_fl_camera_device_manager_created_successfully(self):
         metadata = {
             'cameras': [
-                {'id': 0, 'meters_per_pixel': 0.02},
-                {'id': 1, 'meters_per_pixel': 3},
-                {'id': 2, 'meters_per_pixel': '0.05'},
+                {'id': 0, 'meters_per_pixel': 0.02, 'manufacturer': 'novela', 'model': 'gt500', 'lens': '500dpt', 'camera_name': 'john'},
+                {'id': 1, 'meters_per_pixel': 3, 'manufacturer': 'novela', 'model': 'gt400', 'lens': '400dpt', 'camera_name': 'josh'},
+                {'id': 2, 'meters_per_pixel': '0.05', 'manufacturer': 'novela', 'model': 'gt300', 'lens': '300dpt', 'camera_name': 'joe'},
             ]
         }
 

@@ -29,7 +29,11 @@ class DeviceFactory:
         validate_parameters_not_none(__name__, fl_camera_device.name, fl_camera_device.meters_per_pixel)
         return CameraDevice(
             name=fl_camera_device.name,
-            meters_per_pixel=fl_camera_device.meters_per_pixel
+            meters_per_pixel=fl_camera_device.meters_per_pixel,
+            manufacturer=fl_camera_device.manufacturer,
+            model=fl_camera_device.model,
+            lens=fl_camera_device.lens,
+            camera_name=fl_camera_device.camera_name
         )
 
     @classmethod

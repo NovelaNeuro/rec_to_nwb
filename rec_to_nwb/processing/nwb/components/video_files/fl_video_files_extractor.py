@@ -7,9 +7,8 @@ from rec_to_nwb.processing.tools.beartype.beartype import beartype
 class FlVideoFilesExtractor:
 
     @beartype
-    def __init__(self, raw_data_path: str, video_directory: str, video_files_metadata: list):
+    def __init__(self, raw_data_path: str, video_files_metadata: list):
         self.raw_data_path = raw_data_path
-        self.video_directory = video_directory
         self.video_files_metadata = video_files_metadata
 
     def extract_video_files(self):
