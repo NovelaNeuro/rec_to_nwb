@@ -4,5 +4,5 @@ from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_file im
 class FlAssociatedFilesBuilder:
 
     @staticmethod
-    def build(name, description, content):
-        return FlAssociatedFile(name, description, content)
+    def build(name, description, content, task_epochs):
+        return FlAssociatedFile(name, description, content, task_epochs)
