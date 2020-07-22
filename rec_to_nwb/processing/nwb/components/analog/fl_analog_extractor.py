@@ -20,12 +20,14 @@ class FlAnalogExtractor:
             if not 'timestamps' in analog_file:
                 analog_data = readTrodesExtractedDataFile(analog_files[analog_file])
                 values = analog_data['data']
-                single_dataset_data[analog_file] = values
+                single_dataset_data[analog_data['id']] = values
             else:
                 continuous_time_dict = ContinuousTimeExtractor.get_continuous_time_dict_file(continuous_time_file)
                 timestamp = readTrodesExtractedDataFile(analog_files[analog_file])
                 keys = [key[0] for key in timestamp['data']]
                 single_dataset_data[analog_file] = TimestampConverter.convert_timestamps(continuous_time_dict, keys)
         return single_dataset_data
+
+
 
 
