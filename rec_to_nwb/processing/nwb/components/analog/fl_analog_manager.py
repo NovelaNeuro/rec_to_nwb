@@ -30,16 +30,25 @@ class FlAnalogManager:
                 )
             )
         merged_epochs = self.__merge_epochs(all_analog_data)
+        description = self.__merge_column_description(all_analog_data)
         analog_data = self.__merge_analog_sensors(merged_epochs)
-        return FlAnalogBuilder.build(analog_data, self.__get_timestamps(merged_epochs))
+        return FlAnalogBuilder.build(analog_data, self.__get_timestamps(merged_epochs), description)
 
     @staticmethod
     def __merge_epochs(data_from_multiple_datasets):
         merged_epochs = data_from_multiple_datasets[0]
         for single_dataset_data in data_from_multiple_datasets[1:]:
-            for analog_file in single_dataset_data.keys():
-                merged_epochs[analog_file] = np.hstack((merged_epochs[analog_file], single_dataset_data[analog_file]))
+            for column in single_dataset_data.keys():
+                merged_epochs[column] = np.hstack((merged_epochs[column], single_dataset_data[column]))
         return merged_epochs
+
+    @staticmethod
+    def __merge_column_description(data_from_multiple_datasets):
+        column_ids = data_from_multiple_datasets[0].keys()
+        description = ''
+        for id in column_ids:
+            description += id + '   '
+        return description
 
     @classmethod
     def __merge_analog_sensors(cls, merged_epochs):
