@@ -18,7 +18,7 @@ class FlDataAcqDeviceManager:
     @beartype
     def __build_single_data_acq_device(acq_device_metadata: dict, device_id: int):
         return FlDataAcqDeviceBuilder.build(
-            name=acq_device_metadata['dataacq_device' + str(device_id)],
+            name='dataacq_device' + str(device_id),
             system=acq_device_metadata['system'],
             amplifier=acq_device_metadata.get('amplifier', ''),
             adc_circuit=acq_device_metadata.get('adc_circuit', '')
