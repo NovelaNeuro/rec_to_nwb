@@ -239,7 +239,7 @@ If you don't want mda or pos invalid/valid times in your nwb, set accordingly fl
       
       **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb') <br>
       
-      **video_directory** = `string` path specifying location of video files .h264 where those are copied <b4>
+      **video_path** = `string` path specifying location of video files .h264 where those are copied <b4>
 
       **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True) <br>
 
@@ -305,7 +305,7 @@ After that, you can add mda or pos invalid/valid data to your NWB, using 'build_
      
      **process_analog** = `boolean` flag if analog data should be processed <br>
      
-     **video_directory** = `string` path specifying location of video files .h264 where those are copied <b4>
+     **video_path** = `string` path specifying location of video files .h264 where those are copied <b4>
      
      **output_file** = `string` path and name specifying where .nwb file gonna be written <br>
 

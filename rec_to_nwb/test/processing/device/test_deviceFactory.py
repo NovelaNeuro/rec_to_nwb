@@ -51,6 +51,10 @@ class TestDeviceFactory(TestCase):
         mock_fl_camera_device = Mock(spec=FlCameraDevice)
         mock_fl_camera_device.name = 'CameraDevice1'
         mock_fl_camera_device.meters_per_pixel = 0.02
+        mock_fl_camera_device.manufacturer = 'novela'
+        mock_fl_camera_device.model = 'gt500'
+        mock_fl_camera_device.lens = '500dpt'
+        mock_fl_camera_device.camera_name = 'john'
 
         camera_device = DeviceFactory.create_camera_device(
             fl_camera_device=mock_fl_camera_device
@@ -71,6 +75,10 @@ class TestDeviceFactory(TestCase):
         mock_fl_camera_device = Mock(spec=FlCameraDevice)
         mock_fl_camera_device.name = 'CameraDevice1'
         mock_fl_camera_device.meters_per_pixel = None
+        mock_fl_camera_device.manufacturer = 'novela'
+        mock_fl_camera_device.model = 'gt500'
+        mock_fl_camera_device.lens = '500dpt'
+        mock_fl_camera_device.camera_name = 'john'
 
         DeviceFactory.create_camera_device(
             fl_camera_device=mock_fl_camera_device

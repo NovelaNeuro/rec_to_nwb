@@ -8,6 +8,7 @@ class AssociatedFilesCreator:
         return AssociatedFiles(
                     name=fl_associated_file.name,
                     description=fl_associated_file.description,
-                    content=fl_associated_file.content
+                    content=fl_associated_file.content,
+                    task_epochs=fl_associated_file.task_epochs
             )
 

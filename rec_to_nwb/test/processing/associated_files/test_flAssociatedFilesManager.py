@@ -14,12 +14,14 @@ class TestFlAssociatedFilesManager(unittest.TestCase):
             [
              {'name': 'test1_file',
               'description': 'test1 description of the file',
-              'path': path + '/../res/test_text_files/test1_file'
+              'path': path + '/../res/test_text_files/test1_file',
+              'task_epochs': '1,2'
               }
              ,
              {'name': 'test2_file',
               'description': 'test2 description of the file',
-              'path': path + '/../res/test_text_files/test2_file'
+              'path': path + '/../res/test_text_files/test2_file',
+              'task_epochs': '1,2'
               }
             ]
         )

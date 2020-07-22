@@ -5,9 +5,9 @@ from rec_to_nwb.processing.nwb.components.video_files.video_files_injector impor
 
 class VideoFilesOriginator:
 
-    def __init__(self, raw_data_path, video_directory, video_files_metadata):
-        self.video_directory = video_directory
-        self.fl_video_files_manager = FlVideoFilesManager(raw_data_path, video_directory, video_files_metadata)
+    def __init__(self, raw_data_path, video_path, video_files_metadata):
+        self.video_directory = video_path
+        self.fl_video_files_manager = FlVideoFilesManager(raw_data_path, video_path, video_files_metadata)
 
     def make(self, nwb_content):
         fl_video_files = self.fl_video_files_manager.get_video_files()
