@@ -14,8 +14,8 @@ subject:
   weight:          Unknown
 
 units:
-  analog: 'unspecified'
-  behavioral_events: 'unspecified'
+  analog: unspecified
+  behavioral_events: unspecified
 
 data acq device:
   - name: acq_0
