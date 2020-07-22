@@ -14,16 +14,14 @@ subject:
   weight:          Unknown
 
 units:
-  analog: 'unspecified'
-  behavioral_events: 'unspecified'
+  analog: unspecified
+  behavioral_events: unspecified
 
 data acq device:
-  - name: acq_0
-    system: sample_system
+  - system: sample_system
     amplifier: sample_amplifier
     adc_circuit: sample_adc_circuit
-  - name: acq_1
-    system: sample_system_2
+  - system: sample_system_2
 
 cameras:
   - id: 0
