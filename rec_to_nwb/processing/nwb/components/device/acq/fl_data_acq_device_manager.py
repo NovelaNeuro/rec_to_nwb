@@ -10,15 +10,15 @@ class FlDataAcqDeviceManager:
 
     def get_fl_data_acq_device(self):
         return [
-            self.__build_single_data_acq_device(acq_device_metadata)
-            for acq_device_metadata in self.metadata
+            self.__build_single_data_acq_device(acq_device_metadata, device_id)
+            for device_id, acq_device_metadata in enumerate(self.metadata)
         ]
 
     @staticmethod
     @beartype
-    def __build_single_data_acq_device(acq_device_metadata: dict):
+    def __build_single_data_acq_device(acq_device_metadata: dict, device_id: int):
         return FlDataAcqDeviceBuilder.build(
-            name=acq_device_metadata['name'],
+            name='dataacq_device' + str(device_id),
             system=acq_device_metadata['system'],
             amplifier=acq_device_metadata.get('amplifier', ''),
             adc_circuit=acq_device_metadata.get('adc_circuit', '')
