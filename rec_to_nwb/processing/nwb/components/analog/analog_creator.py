@@ -14,6 +14,7 @@ class AnalogCreator:
         behavioral_events.add_timeseries(
             AnalogCreator.__build_timeseries(
                 name='analog',
+                description=fl_analog.description,
                 data=fl_analog.data,
                 timestamps=fl_analog.timestamps,
                 unit=unit
@@ -27,9 +28,9 @@ class AnalogCreator:
         return BehavioralEvents(name="analog")
 
     @staticmethod
-    def __build_timeseries(name, data, timestamps, unit):
+    def __build_timeseries(name, description, data, timestamps, unit):
         return TimeSeries(name=name,
-                          description='-',
+                          description=description,
                           data=data,
                           timestamps=timestamps,
                           unit=unit

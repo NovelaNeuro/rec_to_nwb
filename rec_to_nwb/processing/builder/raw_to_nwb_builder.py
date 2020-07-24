@@ -132,6 +132,8 @@ class RawToNWBBuilder:
         xsd_schema = xmlschema.XMLSchema(xsd_file_path)
         xmlschema.validate(xml_file_path, xsd_schema)
 
+        return xml_file_path
+
     def build_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
                   process_pos_valid_time=True, process_pos_invalid_time=True):
         """Builds nwb file for experiments from given dates.
@@ -159,6 +161,7 @@ class RawToNWBBuilder:
                 process_dio=self.extract_dio,
                 process_analog=self.extract_analog,
                 video_path=self.video_path,
+                reconfig_header=self.__is_rec_config_valid()
             )
             content = nwb_builder.build()
             nwb_builder.write(content)

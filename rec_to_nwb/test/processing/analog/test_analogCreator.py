@@ -24,7 +24,7 @@ class TestAnalogCreator(TestCase):
         )
 
         self.timestamp = numpy.array([1, 2, 3, 4])
-        self.fl_analog = FlAnalog(self.data, self.timestamp)
+        self.fl_analog = FlAnalog(self.data, self.timestamp, 'description')
 
     def test_creator_create_analog_successfully(self):
         analog = AnalogCreator.create(self.fl_analog, 'um')

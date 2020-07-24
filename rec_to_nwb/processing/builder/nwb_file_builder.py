@@ -82,7 +82,8 @@ class NWBFileBuilder:
             process_mda: bool = True,
             process_analog: bool = True,
             video_path: str = '',
-            output_file: str = 'output.nwb'
+            output_file: str = 'output.nwb',
+            reconfig_header: str = ''
     ):
 
         logger.info('NWBFileBuilder initialization')
@@ -127,7 +128,10 @@ class NWBFileBuilder:
         )
 
         header_file = HeaderProcessor.process_headers(rec_files_list)
-        self.header = Header(header_file)
+        if not reconfig_header:
+            self.header = Header(reconfig_header)
+        else:
+            self.header = Header(header_file)
         self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
         self.dataset_names = self.data_scanner.get_all_epochs(date)
         full_data_path = data_path + '/' + animal_name + '/preprocessing/' + date
