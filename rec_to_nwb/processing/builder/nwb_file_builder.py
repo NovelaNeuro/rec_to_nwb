@@ -128,7 +128,7 @@ class NWBFileBuilder:
         )
 
         header_file = HeaderProcessor.process_headers(rec_files_list)
-        if not reconfig_header:
+        if reconfig_header:
             self.header = Header(reconfig_header)
         else:
             self.header = Header(header_file)
