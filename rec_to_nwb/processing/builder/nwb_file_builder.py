@@ -113,7 +113,7 @@ class NWBFileBuilder:
         self.process_analog = process_analog
         self.output_file = output_file
         self.video_path = video_path
-        self.link_to_notes = self.metadata.get('link to notes', '')
+        self.link_to_notes = self.metadata.get('link to notes', None)
         data_types_for_scanning = {'pos': True,
                                    'time': True,
                                    'mda': process_mda,
@@ -128,7 +128,7 @@ class NWBFileBuilder:
         )
 
         header_file = HeaderProcessor.process_headers(rec_files_list)
-        if not reconfig_header:
+        if reconfig_header:
             self.header = Header(reconfig_header)
         else:
             self.header = Header(header_file)
