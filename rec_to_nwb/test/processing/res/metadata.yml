@@ -4,12 +4,11 @@ institution:       University of California, San Francisco
 experiment description: Reinforcement learning
 session description: Reinforcement leaarning
 session_id:        beans_01
-link to notes: https://www.novelaneuro.com/
 subject:
   description:     Long Evans Rat
   genotype:        Wild Type
-  sex:             Male
-  species:         Rat
+  sex:             M
+  species:         Ratticus norvegicus
   subject id:      Beans
   weight:          Unknown
 
