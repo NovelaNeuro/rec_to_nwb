@@ -23,4 +23,4 @@ class TaskOriginator:
         ]
         logger.info('Task: Injecting into ProcessingModule')
         for task in tasks:
-            nwb_content.processing['behavior'].add(task)
+            nwb_content.processing['tasks'].add(task)
