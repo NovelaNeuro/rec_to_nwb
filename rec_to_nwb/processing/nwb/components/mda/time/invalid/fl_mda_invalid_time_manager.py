@@ -46,13 +46,16 @@ class FlMdaInvalidTimeManager:
 
     @staticmethod
     def __get_mda_timestamps(nwb_content):
-        timestamps = np.array(
-            nwb_content.acquisition['e-series'].timestamps
-        )
+        try:
+            timestamps = np.array(
+                nwb_content.acquisition['e-series'].timestamps
+            )
+        except (KeyError):
+            raise MissingDataException('MDA timestamps are not found!')
 
         if timestamps.any():
             return timestamps
-        raise MissingDataException('MDA timestamp not found')
+        raise MissingDataException('MDA timestamps are not found!')
 
     def __get_mda_invalid_times(self, timestamps, period, gaps_margin):
         min_valid_len = 3 * gaps_margin

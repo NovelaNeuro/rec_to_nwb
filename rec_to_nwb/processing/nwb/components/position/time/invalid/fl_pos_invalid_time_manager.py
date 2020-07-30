@@ -53,7 +53,7 @@ class FlPosInvalidTimeManager:
 
         if timestamp.any():
             return timestamp
-        raise MissingDataException('POS timestamp not found')
+        raise MissingDataException('POS timestamps are not found!')
 
     @staticmethod
     def __calculate_pos_period(timestamps):
