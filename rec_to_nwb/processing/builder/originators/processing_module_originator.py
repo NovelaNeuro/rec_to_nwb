@@ -12,7 +12,28 @@ class ProcessingModuleOriginator:
 
     @staticmethod
     def make(nwb_content):
-        logger.info('ProcessingModule: Creating')
+        logger.info('ProcessingModule: Creating behavior')
         pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
-        logger.info('ProcessingModule: Injecting')
+        logger.info('ProcessingModule: Injecting behavior')
         nwb_content.add_processing_module(pm_creator.processing_module)
+
+        logger.info('ProcessingModule: Creating tasks')
+        pm_creator = ProcessingModuleCreator('tasks', 'Contains all tasks information')
+        logger.info('ProcessingModule: Injecting tasks')
+        nwb_content.add_processing_module(pm_creator.processing_module)
+
+        logger.info('ProcessingModule: Creating associated files')
+        pm_creator = ProcessingModuleCreator('associated files', 'Contains all associated files data')
+        logger.info('ProcessingModule: Injecting associated files')
+        nwb_content.add_processing_module(pm_creator.processing_module)
+
+        logger.info('ProcessingModule: Creating video files')
+        pm_creator = ProcessingModuleCreator('video files', 'Contains all associated video files data')
+        logger.info('ProcessingModule: Injecting video files')
+        nwb_content.add_processing_module(pm_creator.processing_module)
+
+        logger.info('ProcessingModule: Creating analog')
+        pm_creator = ProcessingModuleCreator('analog', 'Contains all analog data')
+        logger.info('ProcessingModule: Injecting analog')
+        nwb_content.add_processing_module(pm_creator.processing_module)
+

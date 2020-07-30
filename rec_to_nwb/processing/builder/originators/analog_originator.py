@@ -20,7 +20,7 @@ class AnalogOriginator:
         )
         fl_analog = analog_manager.get_analog()
         analog_injector = AnalogInjector(nwb_content)
-        analog_injector.inject(AnalogCreator.create(fl_analog, self.metadata['units']['analog']), 'behavior')
+        analog_injector.inject(AnalogCreator.create(fl_analog, self.metadata['units']['analog']), 'analog')
 
     def __get_continuous_time_files(self):
         return [single_dataset.get_continuous_time() for single_dataset in self.datasets]

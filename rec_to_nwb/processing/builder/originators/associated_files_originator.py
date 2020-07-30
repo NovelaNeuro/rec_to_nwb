@@ -34,5 +34,5 @@ class AssociatedFilesOriginator:
             for fl_associated_file in fl_associated_files
         ]
         logger.info('AssociatedFiles: Injecting')
-        self.associated_files_injector.inject(associated_files, 'behavior', nwb_content)
+        self.associated_files_injector.inject(associated_files, 'associated files', nwb_content)
         logger.info("Files stored inside nwb: " + str(associated_files))
