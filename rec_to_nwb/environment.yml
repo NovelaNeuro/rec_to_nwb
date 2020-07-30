@@ -16,7 +16,7 @@ dependencies:
   - elementpath
   - h5py
   - hdf5
-  - hdmf=1.6.1
+  - hdmf=1.6.4
   - idna
   - libblas
   - libcblas
@@ -45,7 +45,7 @@ dependencies:
   - pyyaml
   - pytest
   - testfixtures
-  - ndx-franklab-novela=0.0.0010
+  - ndx-franklab-novela=0.0.0011
   - pip:
       - mountainlab_pytools
       - xmldiff
