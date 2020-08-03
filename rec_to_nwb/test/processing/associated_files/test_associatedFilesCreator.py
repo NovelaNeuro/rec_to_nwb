@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from ndx_franklab_novela import AssociatedFiles
+from ndx_franklab_novela.associated_files import AssociatedFiles
 
 from rec_to_nwb.processing.nwb.components.associated_files.associated_files_creator import AssociatedFilesCreator
 from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_file import FlAssociatedFile
