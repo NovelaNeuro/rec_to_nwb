@@ -130,7 +130,7 @@ class RawToNWBBuilder:
 
         xsd_file_path = str(path) + '/../../../rec_to_nwb/data/reconfig_header.xsd'
         xsd_schema = xmlschema.XMLSchema(xsd_file_path)
-        xmlschema.validate(xml_file_path, xsd_schema)
+        #xmlschema.validate(xml_file_path, xsd_schema)
 
         return xml_file_path
 
