@@ -16,9 +16,9 @@ requirements:
       - python>=3.6
       - pip
       - setuptools
-      - hdmf==1.6.4
+      - hdmf
       - libblas
-      - pynwb==1.3.3
+      - pynwb
       - testfixtures
       - vdom
       - xmlschema
