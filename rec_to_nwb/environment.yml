@@ -16,7 +16,7 @@ dependencies:
   - elementpath
   - h5py
   - hdf5
-  - hdmf=1.6.4
+  - hdmf=1.6.1
   - idna
   - libblas
   - libcblas
