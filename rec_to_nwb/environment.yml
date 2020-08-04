@@ -49,7 +49,7 @@ dependencies:
   - pip:
       - mountainlab_pytools
       - xmldiff
-      - rec-to-binaries==0.6.1.dev0
+      - rec-to-binaries==0.5.1.dev0
 
 #  Docs
   - recommonmark
