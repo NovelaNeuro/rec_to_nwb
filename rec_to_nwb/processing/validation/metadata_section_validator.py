@@ -46,4 +46,3 @@ class MetadataSectionValidator:
             raise MissingDataException('metadata is missing electrode groups')
         if 'ntrode electrode group channel map' not in self.metadata:
             raise MissingDataException('metadata is missing ntrode electrode group channel map')
-        return True
