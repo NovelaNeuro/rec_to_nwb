@@ -25,7 +25,7 @@ requirements:
       - hdf5
       - liblapack
       - elementpath
-      - rec_to_binaries==0.5.1.dev0
+      - rec_to_binaries==0.6.0.dev0
       - libcblas
    run:
       - python>=3.6
@@ -72,7 +72,7 @@ requirements:
       - wheel
       - xmlschema
       - zlib
-      - rec_to_binaries==0.5.1.dev0
+      - rec_to_binaries==0.6.0.dev0
       - xmldiff
       - ndx-franklab-novela=0.0.0011
 
