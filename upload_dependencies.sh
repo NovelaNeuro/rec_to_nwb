@@ -7,7 +7,7 @@ export CONDA_BUILD_PATH=/home/travis/miniconda/envs/test-environment/conda-bld
 conda config --set anaconda_upload no
 
 echo "Build missing pypi packages..."
-conda skeleton pypi rec_to_binaries --version 0.6.1.dev0
+conda skeleton pypi rec_to_binaries --version 0.5.1.dev0
 conda skeleton pypi xmldiff
 conda skeleton pypi vdom
 conda skeleton pypi jp_proxy_widget
