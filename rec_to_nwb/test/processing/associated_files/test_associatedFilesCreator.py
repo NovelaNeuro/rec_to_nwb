@@ -8,7 +8,7 @@ from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_file im
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-@unittest.skip('skip')
+
 class TestFlAssociatedFilesCreator(unittest.TestCase):
 
     def setUp(self):
