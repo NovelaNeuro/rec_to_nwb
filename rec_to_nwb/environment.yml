@@ -45,11 +45,11 @@ dependencies:
   - pyyaml
   - pytest
   - testfixtures
-  - ndx-franklab-novela==0.0.0011
+  - ndx-franklab-novela=0.0.0011.36
   - pip:
       - mountainlab_pytools
       - xmldiff
-      - rec-to-binaries=0.6.1.dev0
+      - rec-to-binaries=0.5.1.dev0
 
 #  Docs
   - recommonmark
