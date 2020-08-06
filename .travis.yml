@@ -19,16 +19,10 @@ install:
 - conda config --add channels conda-forge
 - conda config --add channels novelakrk
 - pip install pylint
-- if [ $TRAVIS_BRANCH == "master_release" ]; then
-  conda install conda-build anaconda-client conda-verify;
-  bash upload_dependencies.sh;
-  conda build .;
-  conda install rec_to_nwb --use-local;
-  else python setup.py install --single-version-externally-managed --record=record.txt; fi
-- if [ $TRAVIS_EVENT_TYPE == 'cron' ]; then
-  conda install conda-build anaconda-client conda-verify;
-  conda build .;
-  conda install rec_to_nwb --use-local; fi
+- conda install conda-build anaconda-client conda-verify
+- bash upload_dependencies.sh
+- conda build .
+- conda install rec_to_nwb --use-local
 - chown -R $USER:$USER rec_to_nwb/test/
 
 script:
@@ -36,7 +30,8 @@ script:
 - python -m pytest rec_to_nwb/test/processing
 
 after_success:
-- test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
+  #- test $TRAVIS_BRANCH = "master_release" && bash conda_upload.sh
+  - bash conda_upload.sh
 
 notifications:
   slack:

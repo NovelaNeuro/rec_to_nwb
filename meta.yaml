@@ -7,6 +7,7 @@ package:
 
 source:
   git_url: https://github.com/NovelaNeuro/rec_to_nwb
+  git_tag: user/acwikla/test_fix_release
 
 build:
   number: 0
@@ -15,10 +16,10 @@ requirements:
    build:
       - python>=3.6
       - pip
+      - hdmf==1.6.4
+      - pynwb==1.3.3
       - setuptools
-      - hdmf
       - libblas
-      - pynwb
       - testfixtures
       - vdom
       - xmlschema
@@ -29,6 +30,8 @@ requirements:
       - libcblas
    run:
       - python>=3.6
+      - hdmf==1.6.4
+      - pynwb==1.3.3
       - asn1crypto
       - blas
       - bleach
@@ -40,7 +43,6 @@ requirements:
       - elementpath
       - h5py
       - hdf5
-      - hdmf
       - idna
       - libblas
       - libcblas
@@ -53,7 +55,6 @@ requirements:
       - pandas
       - pip
       - pycparser
-      - pynwb
       - pyopenssl
       - pysocks
       - pytest

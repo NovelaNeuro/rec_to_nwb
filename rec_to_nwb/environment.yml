@@ -1,4 +1,4 @@
-name: rec_to_nwb
+name: rec_to_nwb_test
 channels:
   - conda-forge
   - defaults
@@ -6,6 +6,8 @@ channels:
 dependencies:
   - python>=3.6
   - pip
+  - hdmf=1.6.4
+  - pynwb=1.3.3
   - asn1crypto
   - blas
   - ca-certificates
@@ -16,7 +18,6 @@ dependencies:
   - elementpath
   - h5py
   - hdf5
-  - hdmf
   - idna
   - libblas
   - libcblas
@@ -27,7 +28,6 @@ dependencies:
   - openssl
   - pandas
   - pycparser
-  - pynwb
   - pyopenssl
   - pysocks
   - python-dateutil
@@ -45,7 +45,7 @@ dependencies:
   - pyyaml
   - pytest
   - testfixtures
-  - ndx-franklab-novela=0.0.011.36
+  - ndx-franklab-novela=0.0.011
   - pip:
       - mountainlab_pytools
       - xmldiff
