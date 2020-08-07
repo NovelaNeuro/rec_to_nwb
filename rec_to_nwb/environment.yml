@@ -6,8 +6,8 @@ channels:
 dependencies:
   - python>=3.6,<3.8
   - pip
-  - hdmf=1.6.4
-  - pynwb=1.3.3
+  - hdmf
+  - pynwb
   - asn1crypto
   - blas
   - ca-certificates

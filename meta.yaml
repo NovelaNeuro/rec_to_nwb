@@ -13,11 +13,11 @@ build:
 
 requirements:
   build:
-    - python==3.6.11
+    - python=3.6
     - setuptools
     - pip
-    - hdmf==1.6.4
-    - pynwb==1.3.3
+    - hdmf
+    - pynwb
     - libblas
     - testfixtures
     - vdom
@@ -30,8 +30,8 @@ requirements:
   run:
     - python>=3.6
     - setuptools
-    - hdmf==1.6.4
-    - pynwb==1.3.3
+    - hdmf
+    - pynwb
     - asn1crypto
     - blas
     - bleach
