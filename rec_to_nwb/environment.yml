@@ -45,7 +45,7 @@ dependencies:
   - pyyaml
   - pytest
   - testfixtures
-  - ndx-franklab-novela=0.0.010
+  - ndx-franklab-novela=0.0.011
   - pip:
       - mountainlab_pytools
       - xmldiff
