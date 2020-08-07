@@ -14,7 +14,7 @@ build:
 
 requirements:
   build:
-    - python {{ python }}
+    - python=3.6
     - setuptools
     - pip
     - hdmf
