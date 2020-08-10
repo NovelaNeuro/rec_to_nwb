@@ -12,7 +12,6 @@ class SampleCountTimestampCorespondenceExtractor:
         for file in self.files:
             data.append(self.__get_continuous_time_data_from_single_file(file))
         merged_data = self.__merge_data_from_multiple_files(data)
-        print(np.shape(merged_data))
 
     def __merge_data_from_multiple_files(self, data):
         merged_data = np.vstack(data)
