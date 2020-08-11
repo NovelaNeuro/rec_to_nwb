@@ -5,9 +5,9 @@ from rec_to_nwb.processing.nwb.components.video_files.camera_sample_frame_counts
 
 
 class SampleCountTimestampCorespondenceManager:
-    def __init__(self, datasets):
-        self.continuous_time_files = [dataset.get_continuous_time() for dataset in datasets]
-        self.extractor = CameraSampleFrameCountsExtractor(self.continuous_time_files)
+    def __init__(self, raw_data_path, datasets):
+        self.hw_sync_files = [dataset.get_continuous_time() for dataset in datasets]
+        self.extractor = CameraSampleFrameCountsExtractor(raw_data_path)
 
     def get_timeseries(self):
         data = self.extractor.extract()
