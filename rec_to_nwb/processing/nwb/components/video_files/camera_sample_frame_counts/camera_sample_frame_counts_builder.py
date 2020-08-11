@@ -11,7 +11,7 @@ class CameraSampleFrameCountsBuilder:
     @classmethod
     def __build_timeseries(cls, data):
         return TimeSeries(name="CameraSampleFrameCounts",
-                          description="Camera sample frame counts",
+                          description="HW Frame Count, Pos Timestamps",
                           data=data.frame_count,
                           timestamps=data.timestamps
                           )
