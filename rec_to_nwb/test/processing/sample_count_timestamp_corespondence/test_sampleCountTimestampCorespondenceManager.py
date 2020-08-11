@@ -17,7 +17,6 @@ class TestSampleCountTimestampCorespondenceManager(TestCase):
         for i, single_row in enumerate(mock_list):
             mock_ndarray[i, 0] = single_row[0]
             mock_ndarray[i, 1] = single_row[3]
-        print(mock_ndarray)
         mock_extractor = MagicMock(spec=SampleCountTimestampCorespondenceExtractor)
         mock_extractor.files = []
         mock_extractor.extract = MagicMock(return_value=mock_ndarray)
@@ -25,6 +24,7 @@ class TestSampleCountTimestampCorespondenceManager(TestCase):
         corespondence_manager = SampleCountTimestampCorespondenceManager([])
         corespondence_manager.extractor = mock_extractor
         timeseries = corespondence_manager.get_timeseries()
+
         self.assertEqual(timeseries.data[0], 1)
         self.assertEqual(timeseries.data[1], 2)
         self.assertEqual(timeseries.data[2], 3)
