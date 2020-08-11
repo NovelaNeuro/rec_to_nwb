@@ -195,7 +195,6 @@ class NWBFileBuilder:
         self.position_originator = PositionOriginator(self.datasets, self.metadata, self.dataset_names)
         self.camera_device_originator = CameraDeviceOriginator(self.metadata)
         self.header_device_originator = HeaderDeviceOriginator(self.header)
-        self.processing_module_originator = ProcessingModuleOriginator()
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
         self.video_files_originator = VideoFilesOriginator(
             self.data_path + "/" + animal_name + "/raw/" + self.date + "/",
@@ -276,8 +275,8 @@ class NWBFileBuilder:
 
         self.epochs_originator.make(nwb_content)
 
-        self.sample_count_timestamp_corespondence_originator.make(nwb_content)
         self.processing_module_originator.make(nwb_content)
+        self.sample_count_timestamp_corespondence_originator.make(nwb_content)
         self.task_originator.make(nwb_content)
         self.position_originator.make(nwb_content)
 

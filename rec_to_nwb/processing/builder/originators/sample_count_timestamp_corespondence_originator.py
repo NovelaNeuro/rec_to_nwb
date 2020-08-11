@@ -1,6 +1,7 @@
 import os
 import logging.config
 
+from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from rec_to_nwb.processing.nwb.components.sample_count_timestamp_corespondence.sample_count_timestamp_corespondence_injector import \
     SampleCountTimestampCorespondenceInjector
 from rec_to_nwb.processing.nwb.components.sample_count_timestamp_corespondence.sample_count_timestamp_corespondence_manager import \
@@ -24,5 +25,6 @@ class SampleCountTimestampCorespondenceOriginator:
         logger.info('Sample Count Timestamp Corespondence: Injecting')
         SampleCountTimestampCorespondenceInjector.inject(
             nwb_content=nwb_content,
+            processing_module_name="sample count",
             timeseries=timeseries
         )
