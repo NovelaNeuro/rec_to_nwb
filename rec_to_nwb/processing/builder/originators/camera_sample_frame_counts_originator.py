@@ -11,7 +11,7 @@ logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_ex
 logger = logging.getLogger(__name__)
 
 
-class SampleCountTimestampCorespondenceOriginator:
+class CameraSampleFrameCountsOriginator:
     def __init__(self, raw_data_path):
         self.raw_data_path = raw_data_path
 
