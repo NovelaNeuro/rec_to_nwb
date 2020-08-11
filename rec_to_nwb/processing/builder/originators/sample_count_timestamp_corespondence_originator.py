@@ -1,7 +1,6 @@
 import os
 import logging.config
 
-from rec_to_nwb.processing.nwb.components.processing_module.processing_module_creator import ProcessingModuleCreator
 from rec_to_nwb.processing.nwb.components.sample_count_timestamp_corespondence.sample_count_timestamp_corespondence_injector import \
     SampleCountTimestampCorespondenceInjector
 from rec_to_nwb.processing.nwb.components.sample_count_timestamp_corespondence.sample_count_timestamp_corespondence_manager import \
@@ -18,10 +17,10 @@ class SampleCountTimestampCorespondenceOriginator:
 
     def make(self, nwb_content):
         logger.info('Sample Count Timestamp Corespondence: Building')
-        fl_mda_manager = SampleCountTimestampCorespondenceManager(
+        manager = SampleCountTimestampCorespondenceManager(
             datasets=self.datasets
         )
-        timeseries = fl_mda_manager.get_timeseries()
+        timeseries = manager.get_timeseries()
         logger.info('Sample Count Timestamp Corespondence: Injecting')
         SampleCountTimestampCorespondenceInjector.inject(
             nwb_content=nwb_content,
