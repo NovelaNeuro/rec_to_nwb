@@ -1,4 +1,4 @@
-class CameraSampleDrameCountsInjector:
+class CameraSampleFrameCountsInjector:
 
     @staticmethod
     def inject(timeseries, processing_module_name, nwb_content):
