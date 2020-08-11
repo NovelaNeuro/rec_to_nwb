@@ -38,6 +38,6 @@ class ProcessingModuleOriginator:
         nwb_content.add_processing_module(pm_creator.processing_module)
 
         logger.info('ProcessingModule: Creating sample count-timestamp corespondence')
-        pm_creator = ProcessingModuleCreator('sample count', 'aa')
+        pm_creator = ProcessingModuleCreator('sample count', 'corespondence between sample count and timestamps')
         logger.info('ProcessingModule: Injecting sample count-timestamp corespondence')
         nwb_content.add_processing_module(pm_creator.processing_module)
