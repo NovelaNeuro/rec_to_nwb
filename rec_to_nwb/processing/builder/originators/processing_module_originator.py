@@ -37,6 +37,11 @@ class ProcessingModuleOriginator:
         logger.info('ProcessingModule: Injecting analog')
         nwb_content.add_processing_module(pm_creator.processing_module)
 
+        logger.info('ProcessingModule: Creating sample count-timestamp corespondence')
+        pm_creator = ProcessingModuleCreator('sample count', 'corespondence between sample count and timestamps')
+        logger.info('ProcessingModule: Injecting sample count-timestamp corespondence')
+        nwb_content.add_processing_module(pm_creator.processing_module)
+
         logger.info('ProcessingModule: Creating Camera Sample Frame Counts')
         pm_creator = ProcessingModuleCreator('Camera Sample Frame Counts', 'Camera Sample Frame Counts')
         logger.info('ProcessingModule: Injecting Camera Sample Frame Counts')

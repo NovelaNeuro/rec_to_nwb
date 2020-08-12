@@ -27,6 +27,8 @@ from rec_to_nwb.processing.builder.originators.pos_valid_time_originator import 
 from rec_to_nwb.processing.builder.originators.position_originator import PositionOriginator
 from rec_to_nwb.processing.builder.originators.probe_originator import ProbeOriginator
 from rec_to_nwb.processing.builder.originators.processing_module_originator import ProcessingModuleOriginator
+from rec_to_nwb.processing.builder.originators.sample_count_timestamp_corespondence_originator import \
+    SampleCountTimestampCorespondenceOriginator
 from rec_to_nwb.processing.builder.originators.shanks_electrodes_originator import ShanksElectrodeOriginator
 from rec_to_nwb.processing.builder.originators.shanks_originator import ShanksOriginator
 from rec_to_nwb.processing.builder.originators.task_originator import TaskOriginator
@@ -188,12 +190,13 @@ class NWBFileBuilder:
             self.header
         )
 
+        self.sample_count_timestamp_corespondence_originator =\
+            SampleCountTimestampCorespondenceOriginator(self.datasets)
         self.processing_module_originator = ProcessingModuleOriginator()
         self.task_originator = TaskOriginator(self.metadata)
         self.position_originator = PositionOriginator(self.datasets, self.metadata, self.dataset_names)
         self.camera_device_originator = CameraDeviceOriginator(self.metadata)
         self.header_device_originator = HeaderDeviceOriginator(self.header)
-        self.processing_module_originator = ProcessingModuleOriginator()
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
         self.camera_sample_frame_counts_originator = CameraSampleFrameCountsOriginator(
             self.data_path + "/" + animal_name + "/raw/" + self.date + "/")
@@ -277,6 +280,7 @@ class NWBFileBuilder:
         self.epochs_originator.make(nwb_content)
 
         self.processing_module_originator.make(nwb_content)
+        self.sample_count_timestamp_corespondence_originator.make(nwb_content)
         self.task_originator.make(nwb_content)
         self.position_originator.make(nwb_content)
         self.camera_sample_frame_counts_originator.make(nwb_content)
