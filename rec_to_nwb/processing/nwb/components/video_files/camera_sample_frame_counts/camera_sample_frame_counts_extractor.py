@@ -38,9 +38,3 @@ class CameraSampleFrameCountsExtractor:
             camera_sample_frame_counts[i, 0] = record[1]
             camera_sample_frame_counts[i, 1] = record[0]
         return camera_sample_frame_counts
-
-    # def extract_timestamps(self, video_timestamps_filename):
-    #     # timestamps = readTrodesExtractedDataFile(
-    #     #             self.raw_data_path + "/" + video_timestamps_filename + "videoTimeStamps"
-    #     #         )["data"]
-    #     return timestamps
