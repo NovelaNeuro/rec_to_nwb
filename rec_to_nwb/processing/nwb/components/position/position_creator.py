@@ -18,12 +18,12 @@ class PositionCreator:
     @beartype
     def create(position: Position, series_id: int, fl_position: FlPosition):
         validate_parameters_not_none(__name__, fl_position.column_labels, fl_position.position_data,
-                                     fl_position.conversion, fl_position.timestamps)
+                                     fl_position.conversion)
         position.create_spatial_series(
             name='series_' + str(series_id),
             description=fl_position.column_labels,
             data=fl_position.position_data,
             conversion=fl_position.conversion,
             reference_frame='Description defining what the zero-position is',
-            timestamps=[],
+            timestamps=fl_position.timestamps,
         )

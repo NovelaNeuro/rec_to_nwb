@@ -220,8 +220,8 @@ class NWBFileBuilder:
         if self.process_analog:
             self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
 
-        if self.process_pos_timestamps:
-            self.position_originator = PositionOriginator(self.datasets, self.metadata, self.dataset_names)
+        self.position_originator = PositionOriginator(self.datasets, self.metadata,
+                                                      self.dataset_names, self.process_pos_timestamps)
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -297,8 +297,7 @@ class NWBFileBuilder:
         if self.process_analog:
             self.analog_originator.make(nwb_content)
 
-        if self.process_pos_timestamps:
-            self.position_originator.make(nwb_content)
+        self.position_originator.make(nwb_content)
 
         self.video_files_originator.make(nwb_content)
 
