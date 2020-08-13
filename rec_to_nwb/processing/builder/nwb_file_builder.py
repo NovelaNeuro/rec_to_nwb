@@ -280,7 +280,6 @@ class NWBFileBuilder:
         self.processing_module_originator.make(nwb_content)
         self.sample_count_timestamp_corespondence_originator.make(nwb_content)
         self.task_originator.make(nwb_content)
-        self.position_originator.make(nwb_content)
 
         if 'associated_files' in self.metadata:
             self.associated_files_originator.make(nwb_content)
@@ -338,6 +337,7 @@ class NWBFileBuilder:
             nwb_content = nwb_file_io.read()
 
             if process_position:
+                self.position_originator.make(nwb_content)
                 if process_pos_valid_time:
                     self.pos_valid_time_originator.make(nwb_content)
                 if process_pos_invalid_time:
