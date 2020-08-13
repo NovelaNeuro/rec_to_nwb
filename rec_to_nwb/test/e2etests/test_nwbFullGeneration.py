@@ -27,22 +27,22 @@ class TestNwbFullGeneration(unittest.TestCase):
             animal_name='beans',
             date='20190718',
             nwb_metadata=cls.metadata,
-            process_dio=False,
-            process_mda=False,
-            process_analog=False,
+            process_dio=True,
+            process_mda=True,
+            process_analog=True,
             video_path=str(path) + '/test_data'
         )
 
-    # @unittest.skip("NWB file creation")
+    @unittest.skip("NWB file creation")
     def test_nwb_file_builder_generate_nwb(self):
         content = self.nwb_builder.build()
         self.nwb_builder.write(content)
         self.nwb_builder.build_and_append_to_nwb(
-            process_position=False,
-            process_mda_valid_time=False,
-            process_mda_invalid_time=False,
+            process_position=True,
+            process_mda_valid_time=True,
+            process_mda_invalid_time=True,
             process_pos_valid_time=True,
-            process_pos_invalid_time=False
+            process_pos_invalid_time=True
         )
         self.assertIsNotNone(self.nwb_builder)
 
@@ -76,8 +76,8 @@ class TestNwbFullGeneration(unittest.TestCase):
             process_analog=True
         )
 
-    # @classmethod
-    # def tearDownClass(cls):
-    #     del cls.nwb_builder
-    #     if os.path.isfile('output.nwb'):
-    #         os.remove('output.nwb')
+    @classmethod
+    def tearDownClass(cls):
+        del cls.nwb_builder
+        if os.path.isfile('output.nwb'):
+            os.remove('output.nwb')
