@@ -131,6 +131,8 @@ class NWBFileBuilder:
                   + '/raw/'
                   + self.date)
         )
+        print(rec_files_list)
+
 
         header_file = HeaderProcessor.process_headers(rec_files_list)
         if reconfig_header:
@@ -311,7 +313,7 @@ class NWBFileBuilder:
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
 
-    def build_and_append_to_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
+    def build_and_append_to_nwb(self, process_position=True, process_mda_valid_time=True, process_mda_invalid_time=True,
                                 process_pos_valid_time=True, process_pos_invalid_time=True):
         """Create and append to existing nwb. Set flag to add it to nwb
 
@@ -335,13 +337,16 @@ class NWBFileBuilder:
         with NWBHDF5IO(path=self.output_file, mode='a') as nwb_file_io:
             nwb_content = nwb_file_io.read()
 
+            if process_position:
+                if process_pos_valid_time:
+                    self.pos_valid_time_originator.make(nwb_content)
+                if process_pos_invalid_time:
+                    self.pos_invalid_time_originator.make(nwb_content)
+
             if process_mda_valid_time:
                 self.mda_valid_time_originator.make(nwb_content)
             if process_mda_invalid_time:
                 self.mda_invalid_time_originator.make(nwb_content)
-            if process_pos_valid_time:
-                self.pos_valid_time_originator.make(nwb_content)
-            if process_pos_invalid_time:
-                self.pos_invalid_time_originator.make(nwb_content)
+
 
             nwb_file_io.write(nwb_content)
