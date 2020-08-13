@@ -25,5 +25,5 @@ class PositionCreator:
             data=fl_position.position_data,
             conversion=fl_position.conversion,
             reference_frame='Description defining what the zero-position is',
-            timestamps=fl_position.timestamps,
+            timestamps=[],
         )

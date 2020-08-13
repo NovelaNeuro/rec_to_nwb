@@ -84,6 +84,7 @@ class NWBFileBuilder:
             process_dio: bool = True,
             process_mda: bool = True,
             process_analog: bool = True,
+            process_pos_timestamps: bool = True,
             video_path: str = '',
             output_file: str = 'output.nwb',
             reconfig_header: str = ''
@@ -116,6 +117,7 @@ class NWBFileBuilder:
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.process_analog = process_analog
+        self.process_pos_timestamps = process_pos_timestamps
         self.output_file = output_file
         self.video_path = video_path
         self.link_to_notes = self.metadata.get('link to notes', None)
@@ -194,7 +196,6 @@ class NWBFileBuilder:
             SampleCountTimestampCorespondenceOriginator(self.datasets)
         self.processing_module_originator = ProcessingModuleOriginator()
         self.task_originator = TaskOriginator(self.metadata)
-        self.position_originator = PositionOriginator(self.datasets, self.metadata, self.dataset_names)
         self.camera_device_originator = CameraDeviceOriginator(self.metadata)
         self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
@@ -218,6 +219,9 @@ class NWBFileBuilder:
 
         if self.process_analog:
             self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
+
+        if self.process_pos_timestamps:
+            self.position_originator = PositionOriginator(self.datasets, self.metadata, self.dataset_names)
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -293,6 +297,9 @@ class NWBFileBuilder:
         if self.process_analog:
             self.analog_originator.make(nwb_content)
 
+        if self.process_pos_timestamps:
+            self.position_originator.make(nwb_content)
+
         self.video_files_originator.make(nwb_content)
 
         return nwb_content
@@ -312,7 +319,7 @@ class NWBFileBuilder:
         logger.info('CorruptedData: Checking')
         return self.corrupted_data_manager.get_valid_map_dict()
 
-    def build_and_append_to_nwb(self, process_position=True, process_mda_valid_time=True, process_mda_invalid_time=True,
+    def build_and_append_to_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
                                 process_pos_valid_time=True, process_pos_invalid_time=True):
         """Create and append to existing nwb. Set flag to add it to nwb
 
@@ -336,8 +343,7 @@ class NWBFileBuilder:
         with NWBHDF5IO(path=self.output_file, mode='a') as nwb_file_io:
             nwb_content = nwb_file_io.read()
 
-            if process_position:
-                self.position_originator.make(nwb_content)
+            if self.process_pos_timestamps:
                 if process_pos_valid_time:
                     self.pos_valid_time_originator.make(nwb_content)
                 if process_pos_invalid_time:
