@@ -65,6 +65,7 @@ class TestPositionManager(TestCase):
             datasets=mock_dataset,
             metadata=mock_metadata,
             dataset_names=mock_dataset_names,
+            process_timestamps=True
         )
         fl_position_manager.fl_position_extractor = MockFlPositionExtractor()
         fl_positions = fl_position_manager.get_fl_positions()
@@ -88,6 +89,7 @@ class TestPositionManager(TestCase):
             datasets=None,
             metadata=None,
             dataset_names=None,
+            process_timestamps=True
         )
 
     @should_raise(InvalidMetadataException)
@@ -112,6 +114,7 @@ class TestPositionManager(TestCase):
             datasets=mock_dataset,
             metadata=mock_metadata,
             dataset_names=mock_dataset_names,
+            process_timestamps=True
         )
         fl_position_manager.fl_position_extractor = MockFlPositionExtractor()
         fl_position_manager.get_fl_positions()
@@ -138,6 +141,7 @@ class TestPositionManager(TestCase):
             datasets=mock_dataset,
             metadata=mock_metadata,
             dataset_names=mock_dataset_names,
+            process_timestamps=True
         )
         fl_position_manager.fl_position_extractor = MockBadFlPositionExtractor()
         fl_position_manager.get_fl_positions()

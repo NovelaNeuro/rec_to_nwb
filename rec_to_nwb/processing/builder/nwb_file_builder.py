@@ -84,6 +84,7 @@ class NWBFileBuilder:
             process_dio: bool = True,
             process_mda: bool = True,
             process_analog: bool = True,
+            process_pos_timestamps: bool = True,
             video_path: str = '',
             output_file: str = 'output.nwb',
             reconfig_header: str = ''
@@ -116,6 +117,7 @@ class NWBFileBuilder:
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.process_analog = process_analog
+        self.process_pos_timestamps = process_pos_timestamps
         self.output_file = output_file
         self.video_path = video_path
         self.link_to_notes = self.metadata.get('link to notes', None)
@@ -131,6 +133,8 @@ class NWBFileBuilder:
                   + '/raw/'
                   + self.date)
         )
+        print(rec_files_list)
+
 
         header_file = HeaderProcessor.process_headers(rec_files_list)
         if reconfig_header:
@@ -192,7 +196,6 @@ class NWBFileBuilder:
             SampleCountTimestampCorespondenceOriginator(self.datasets)
         self.processing_module_originator = ProcessingModuleOriginator()
         self.task_originator = TaskOriginator(self.metadata)
-        self.position_originator = PositionOriginator(self.datasets, self.metadata, self.dataset_names)
         self.camera_device_originator = CameraDeviceOriginator(self.metadata)
         self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
@@ -216,6 +219,9 @@ class NWBFileBuilder:
 
         if self.process_analog:
             self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
+
+        self.position_originator = PositionOriginator(self.datasets, self.metadata,
+                                                      self.dataset_names, self.process_pos_timestamps)
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -278,7 +284,6 @@ class NWBFileBuilder:
         self.processing_module_originator.make(nwb_content)
         self.sample_count_timestamp_corespondence_originator.make(nwb_content)
         self.task_originator.make(nwb_content)
-        self.position_originator.make(nwb_content)
 
         if 'associated_files' in self.metadata:
             self.associated_files_originator.make(nwb_content)
@@ -291,6 +296,8 @@ class NWBFileBuilder:
 
         if self.process_analog:
             self.analog_originator.make(nwb_content)
+
+        self.position_originator.make(nwb_content)
 
         self.video_files_originator.make(nwb_content)
 
@@ -335,13 +342,16 @@ class NWBFileBuilder:
         with NWBHDF5IO(path=self.output_file, mode='a') as nwb_file_io:
             nwb_content = nwb_file_io.read()
 
+            if self.process_pos_timestamps:
+                if process_pos_valid_time:
+                    self.pos_valid_time_originator.make(nwb_content)
+                if process_pos_invalid_time:
+                    self.pos_invalid_time_originator.make(nwb_content)
+
             if process_mda_valid_time:
                 self.mda_valid_time_originator.make(nwb_content)
             if process_mda_invalid_time:
                 self.mda_invalid_time_originator.make(nwb_content)
-            if process_pos_valid_time:
-                self.pos_valid_time_originator.make(nwb_content)
-            if process_pos_invalid_time:
-                self.pos_invalid_time_originator.make(nwb_content)
+
 
             nwb_file_io.write(nwb_content)
