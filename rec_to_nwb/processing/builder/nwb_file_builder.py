@@ -209,7 +209,7 @@ class NWBFileBuilder:
         )
 
         if self.process_mda:
-            self.mda_originator = MdaOriginator(self.datasets, self.header)
+            self.mda_originator = MdaOriginator(self.datasets, self.header, self.metadata)
 
         if self.process_dio:
             self.dio_originator = DioOriginator(self.metadata, self.datasets)
