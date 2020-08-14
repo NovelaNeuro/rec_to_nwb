@@ -124,6 +124,13 @@ class RawToNWBBuilder:
             if self.trodes_rec_export_args[i] == '-reconfig':
                 xml_file_path = self.trodes_rec_export_args[i + 1]
 
+        if xml_file_path == '':
+            raw_data_path = self.data_path + '/' + self.animal_name + '/raw/' + self.dates[0]
+            all_raw_dirs = os.listdir(raw_data_path)
+            for raw_dir in all_raw_dirs:
+                if 'rec_header.xml' in raw_dir:
+                    xml_file_path = raw_data_path + '/' + raw_dir
+
         validation_registrator = ValidationRegistrator()
         validation_registrator.register(XmlFilesValidator(xml_file_path))
         validation_registrator.validate()
