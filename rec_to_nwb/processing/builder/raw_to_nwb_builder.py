@@ -125,11 +125,7 @@ class RawToNWBBuilder:
                 xml_file_path = self.trodes_rec_export_args[i + 1]
 
         if xml_file_path == '':
-            raw_data_path = self.data_path + '/' + self.animal_name + '/raw/' + self.dates[0]
-            all_raw_dirs = os.listdir(raw_data_path)
-            for raw_dir in all_raw_dirs:
-                if 'rec_header.xml' in raw_dir:
-                    xml_file_path = raw_data_path + '/' + raw_dir
+            xml_file_path = self.__get_rec_header()
 
         validation_registrator = ValidationRegistrator()
         validation_registrator.register(XmlFilesValidator(xml_file_path))
@@ -140,6 +136,13 @@ class RawToNWBBuilder:
         xmlschema.validate(xml_file_path, xsd_schema)
 
         return xml_file_path
+
+    def __get_rec_header(self):
+        raw_data_path = self.data_path + '/' + self.animal_name + '/raw/' + self.dates[0]
+        all_raw_dirs = os.listdir(raw_data_path)
+        for raw_dir in all_raw_dirs:
+            if 'rec_header.xml' in raw_dir:
+                return raw_data_path + '/' + raw_dir
 
     def build_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
                   process_pos_valid_time=True, process_pos_invalid_time=True):
