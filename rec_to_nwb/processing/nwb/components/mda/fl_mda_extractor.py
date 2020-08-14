@@ -8,8 +8,9 @@ from rec_to_nwb.processing.nwb.components.mda.mda_timestamp_manager import MdaTi
 
 class FlMdaExtractor:
 
-    def __init__(self, datasets):
+    def __init__(self, datasets, conversion):
         self.datasets = datasets
+        self.conversion = conversion
 
     def get_data(self):
         mda_data, timestamps, continuous_time = self.__extract_data()
@@ -17,7 +18,7 @@ class FlMdaExtractor:
             directories=timestamps,
             continuous_time_directories=continuous_time
         )
-        mda_data_manager = MdaDataManager(mda_data)
+        mda_data_manager = MdaDataManager(mda_data, self.conversion)
         data_iterator = MultiThreadDataIterator(mda_data_manager)
         timestamp_iterator = MultiThreadTimestampIterator(mda_timestamp_data_manager)
 

@@ -4,9 +4,9 @@ from rec_to_nwb.processing.nwb.components.mda.fl_mda_extractor import FlMdaExtra
 
 
 class FlMdaManager:
-    def __init__(self, nwb_content, sampling_rate, datasets):
+    def __init__(self, nwb_content, sampling_rate, datasets, conversion):
         self.__table_region_builder = TableRegionBuilder(nwb_content)
-        self.__fl_mda_extractor = FlMdaExtractor(datasets)
+        self.__fl_mda_extractor = FlMdaExtractor(datasets, conversion)
         self.__fl_mda_builder = FlMdaBuilder(sampling_rate)
 
     def get_data(self):

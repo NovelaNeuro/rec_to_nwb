@@ -30,6 +30,7 @@ class TestNwbFullGeneration(unittest.TestCase):
             process_dio=True,
             process_mda=True,
             process_analog=True,
+            process_pos_timestamps=True,
             video_path=str(path) + '/test_data'
         )
 
