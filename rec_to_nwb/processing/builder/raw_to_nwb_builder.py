@@ -135,8 +135,6 @@ class RawToNWBBuilder:
 
         return xml_file_path
 
-
-
     def build_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
                   process_pos_valid_time=True, process_pos_invalid_time=True):
         """Builds nwb file for experiments from given dates.
