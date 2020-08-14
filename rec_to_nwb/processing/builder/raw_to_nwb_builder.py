@@ -129,9 +129,9 @@ class RawToNWBBuilder:
             validation_registrator.register(XmlFilesValidator(xml_file_path))
             validation_registrator.validate()
 
-        xsd_file_path = str(path) + '/../../../rec_to_nwb/data/reconfig_header.xsd'
-        xsd_schema = xmlschema.XMLSchema(xsd_file_path)
-        xmlschema.validate(xml_file_path, xsd_schema)
+            xsd_file_path = str(path) + '/../../../rec_to_nwb/data/reconfig_header.xsd'
+            xsd_schema = xmlschema.XMLSchema(xsd_file_path)
+            xmlschema.validate(xml_file_path, xsd_schema)
 
         return xml_file_path
 
