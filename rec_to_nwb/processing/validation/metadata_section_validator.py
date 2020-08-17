@@ -1,6 +1,3 @@
-import logging.config
-import os
-
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
 
 
@@ -40,8 +37,6 @@ class MetadataSectionValidator:
             raise MissingDataException('metadata is missing times_period_multiplier')
         if 'behavioral_events' not in self.metadata:
             raise MissingDataException('metadata is missing behavioral_events')
-        if 'device' not in self.metadata:
-            raise MissingDataException('metadata is missing device')
         if 'electrode groups' not in self.metadata:
             raise MissingDataException('metadata is missing electrode groups')
         if 'ntrode electrode group channel map' not in self.metadata:
