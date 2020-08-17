@@ -2,15 +2,14 @@ import logging.config
 import os
 import shutil
 
-import xmlschema
 from rec_to_binaries import extract_trodes_rec_file
 
+from rec_to_nwb.processing.header.reconfig_header_checker import ReconfigHeaderChecker
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.builder.nwb_file_builder import NWBFileBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.validation.not_empty_validator import NotEmptyValidator
 from rec_to_nwb.processing.validation.validation_registrator import ValidationRegistrator
-from rec_to_nwb.processing.validation.xml_files_validation import XmlFilesValidator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -119,20 +118,17 @@ class RawToNWBBuilder:
     def __is_rec_config_valid(self):
         """ Check if XML is valid with XSD file """
 
+        xml_file_path = self.__get_header_path()
+
+        ReconfigHeaderChecker.validate(xml_file_path)
+
+        return xml_file_path
+
+    def __get_header_path(self):
         xml_file_path = ''
         for i in range(len(self.trodes_rec_export_args)):
             if self.trodes_rec_export_args[i] == '-reconfig':
                 xml_file_path = self.trodes_rec_export_args[i + 1]
-
-        if xml_file_path:
-            validation_registrator = ValidationRegistrator()
-            validation_registrator.register(XmlFilesValidator(xml_file_path))
-            validation_registrator.validate()
-
-            xsd_file_path = str(path) + '/../../../rec_to_nwb/data/reconfig_header.xsd'
-            xsd_schema = xmlschema.XMLSchema(xsd_file_path)
-            xmlschema.validate(xml_file_path, xsd_schema)
-
         return xml_file_path
 
     def build_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
@@ -237,6 +233,7 @@ class RawToNWBBuilder:
             process_pos_valid_time=process_pos_valid_time,
             process_pos_invalid_time=process_pos_invalid_time
         )
+
 
     def cleanup(self):
         """Remove all temporary files structure from preprocessing folder"""
