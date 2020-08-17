@@ -133,8 +133,6 @@ class NWBFileBuilder:
                   + '/raw/'
                   + self.date)
         )
-        print(rec_files_list)
-
 
         header_file = HeaderProcessor.process_headers(rec_files_list)
         if reconfig_header:
