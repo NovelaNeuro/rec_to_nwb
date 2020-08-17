@@ -51,8 +51,9 @@ class CorruptedDataManager:
     def __get_electrodes_valid_map(ntrode_metadata: list) -> list:
         electrodes_valid_map = []
         for ntrode in ntrode_metadata:
+            bad_channels = [int(bad_channel) for bad_channel in ntrode['bad_channels']]
             electrodes_valid_map.extend(
-                [bool(counter not in ntrode['bad_channels']) for counter, _ in enumerate(ntrode['map'])]
+                [bool(counter not in bad_channels) for counter, _ in enumerate(ntrode['map'])]
             )
         return electrodes_valid_map
 
