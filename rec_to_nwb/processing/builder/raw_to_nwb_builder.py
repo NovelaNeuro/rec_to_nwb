@@ -126,8 +126,8 @@ class RawToNWBBuilder:
 
     def __get_header_path(self):
         xml_file_path = ''
-        for i in range(len(self.trodes_rec_export_args)):
-            if self.trodes_rec_export_args[i] == '-reconfig':
+        for i, export_arg in enumerate(self.trodes_rec_export_args):
+            if export_arg == '-reconfig':
                 xml_file_path = self.trodes_rec_export_args[i + 1]
         return xml_file_path
 
