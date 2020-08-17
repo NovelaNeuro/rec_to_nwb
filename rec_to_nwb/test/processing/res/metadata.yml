@@ -66,6 +66,7 @@ associated_video_files:
   - name: 20190718_beans_01_s1.1.h264
     camera_id : 0
 
+conversion: 1.0
 times_period_multiplier: 1.5
 
 behavioral_events:
@@ -108,9 +109,6 @@ behavioral_events:
   - description: Dout12
     name: Pump6
 
-device:
-  name:
-    - Trodes
 
 electrode groups:
   - id: 0
