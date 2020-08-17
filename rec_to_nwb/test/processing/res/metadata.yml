@@ -109,9 +109,6 @@ behavioral_events:
   - description: Dout12
     name: Pump6
 
-device:
-  name:
-    - Trodes
 
 electrode groups:
   - id: 0
