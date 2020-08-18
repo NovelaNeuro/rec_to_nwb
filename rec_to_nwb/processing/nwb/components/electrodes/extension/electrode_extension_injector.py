@@ -36,12 +36,12 @@ class ElectrodeExtensionInjector:
     def __join_extensions_to_electrodes(nwb_content, fl_electrode_extension):
         nwb_content.electrodes.add_column(
             name='hwChan',
-            description='None',
+            description='SpikeGadgets Hardware channel',
             data=fl_electrode_extension.hw_chan
         )
         nwb_content.electrodes.add_column(
             name='ntrode_id',
-            description='None',
+            description='Experimenter defined ID for this probe',
             data=fl_electrode_extension.ntrode_id
         )
         nwb_content.electrodes.add_column(
@@ -51,7 +51,7 @@ class ElectrodeExtensionInjector:
         )
         nwb_content.electrodes.add_column(
             name='bad_channel',
-            description='None',
+            description='True if noisy or disconnected',
             data=fl_electrode_extension.bad_channels
         )
         nwb_content.electrodes.add_column(
@@ -71,16 +71,16 @@ class ElectrodeExtensionInjector:
         )
         nwb_content.electrodes.add_column(
             name='probe_shank',
-            description='None',
+            description='The shank of the probe this channel is located on',
             data=fl_electrode_extension.probe_shank
         )
         nwb_content.electrodes.add_column(
             name='probe_electrode',
-            description='None',
+            description='the number of this electrode with respect to the probe',
             data=fl_electrode_extension.probe_electrode
         )
         nwb_content.electrodes.add_column(
             name='ref_elect_id',
-            description='None',
+            description='“Experimenter selected reference electrode id”',
             data=fl_electrode_extension.ref_elect_id
         )
