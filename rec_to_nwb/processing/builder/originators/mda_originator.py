@@ -22,7 +22,7 @@ class MdaOriginator:
             nwb_content=nwb_content,
             sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
             datasets=self.datasets,
-            conversion=self.metadata['conversion']
+            conversion=self.metadata['raw_data_to_volts']
         )
         fl_mda = fl_mda_manager.get_data()
         logger.info('MDA: Injecting')

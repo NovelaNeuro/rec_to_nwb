@@ -10,6 +10,8 @@ from pynwb.file import Subject
 from rec_to_nwb.processing.builder.originators.analog_originator import AnalogOriginator
 from rec_to_nwb.processing.builder.originators.associated_files_originator import AssociatedFilesOriginator
 from rec_to_nwb.processing.builder.originators.camera_device_originator import CameraDeviceOriginator
+from rec_to_nwb.processing.builder.originators.camera_sample_frame_counts_originator import \
+    CameraSampleFrameCountsOriginator
 from rec_to_nwb.processing.builder.originators.data_acq_device_originator import DataAcqDeviceOriginator
 from rec_to_nwb.processing.builder.originators.dio_originator import DioOriginator
 from rec_to_nwb.processing.builder.originators.electrode_group_originator import ElectrodeGroupOriginator
@@ -197,6 +199,8 @@ class NWBFileBuilder:
         self.camera_device_originator = CameraDeviceOriginator(self.metadata)
         self.header_device_originator = HeaderDeviceOriginator(self.header)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
+        self.camera_sample_frame_counts_originator = CameraSampleFrameCountsOriginator(
+            self.data_path + "/" + animal_name + "/raw/" + self.date + "/")
         self.video_files_originator = VideoFilesOriginator(
             self.data_path + "/" + animal_name + "/raw/" + self.date + "/",
             self.video_path,
@@ -282,6 +286,7 @@ class NWBFileBuilder:
         self.processing_module_originator.make(nwb_content)
         self.sample_count_timestamp_corespondence_originator.make(nwb_content)
         self.task_originator.make(nwb_content)
+        self.camera_sample_frame_counts_originator.make(nwb_content)
 
         if 'associated_files' in self.metadata:
             self.associated_files_originator.make(nwb_content)
