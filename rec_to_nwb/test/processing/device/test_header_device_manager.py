@@ -84,7 +84,7 @@ class TestHeaderDeviceManager(TestCase):
         self.assertEqual(header_device.file_path, 'Sample file_path')
 
 
-    def test_header_device_manager_create_HeaderDevice_successfully(self):
+    def test_header_device_manager_create_HeaderDevice_with_default_values_successfully(self):
         mock_configuration = Mock(GlobalConfiguration)
         header_device_manager = FlHeaderDeviceManager("sample_name", mock_configuration, mock_configuration)
         header_device_manager.global_configuration = {}
