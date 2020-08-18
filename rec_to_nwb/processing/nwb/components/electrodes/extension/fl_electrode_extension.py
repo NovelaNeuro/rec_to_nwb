@@ -8,7 +8,7 @@ class FlElectrodeExtension:
         self.hw_chan = hw_chan
         self.ntrode_id = [int(n_id) for n_id in ntrode_id]
         self.channel_id = [int(c_id) for c_id in channel_id]
-        self.bad_channels = [int(bad_channel) for bad_channel in bad_channels]
+        self.bad_channels = [bool(bad_channel) for bad_channel in bad_channels]
         self.probe_shank = probe_shank
         self.probe_electrode = probe_electrode
         self.ref_elect_id = [int(ref_id) for ref_id in ref_elect_id]

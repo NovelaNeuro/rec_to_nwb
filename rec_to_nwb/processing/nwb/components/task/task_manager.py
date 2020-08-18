@@ -29,22 +29,22 @@ class TaskManager:
     def __get_single_fl_task(self, task_name, task_description, camera_id, task_epochs):
         task_name_data = VectorData(
             name='task_name',
-            description='',
+            description='the name of the task',
             data=[task_name]
         )
         task_description_data = VectorData(
             name='task_description',
-            description='',
+            description='a description of the task',
             data=[task_description]
         )
         camera_id_data = VectorData(
             name='camera_id',
-            description='',
+            description='the ID number of the camera used for video',
             data=[camera_id]
         )
         task_epochs_data = VectorData(
             name='task_epochs',
-            description='',
+            description='the temporal epochs where the animal was exposed to this task',
             data=[task_epochs]
         )
 
