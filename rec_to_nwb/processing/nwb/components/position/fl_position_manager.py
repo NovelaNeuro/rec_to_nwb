@@ -28,21 +28,36 @@ class FlPositionManager:
         columns_labels = self.fl_position_extractor.get_columns_labels()
         if self.process_timestamps:
             timestamps = self.fl_position_extractor.get_timestamps()
+
+            validate_parameters_equal_length(__name__, position_datas, columns_labels, timestamps)
+
+            return [
+                self.fl_position_builder.build(
+                    position_data=position_data,
+                    column_labels=column_labels,
+                    timestamps=timestamp,
+                    conversion=float(meters_per_pixel)
+                )
+                for position_data, column_labels, timestamp, meters_per_pixel in
+                zip(position_datas, columns_labels, timestamps, meters_per_pixels)
+            ]
         else:
-            timestamps = []
+            validate_parameters_equal_length(__name__, position_datas, columns_labels)
 
-        validate_parameters_equal_length(__name__, position_datas, columns_labels, timestamps)
+            return [
+                self.fl_position_builder.build(
+                    position_data=position_data,
+                    column_labels=column_labels,
+                    timestamps=[],
+                    conversion=float(meters_per_pixel)
+                )
+                for position_data, column_labels, meters_per_pixel in
+                zip(position_datas, columns_labels, meters_per_pixels)
+            ]
 
-        return [
-            self.fl_position_builder.build(
-                position_data=position_data,
-                column_labels=column_labels,
-                timestamps=timestamp,
-                conversion=float(meters_per_pixel)
-            )
-            for position_data, column_labels, timestamp, meters_per_pixel in
-            zip(position_datas, columns_labels, timestamps, meters_per_pixels)
-        ]
+
+
+
 
     @staticmethod
     def __get_cameras_ids(dataset_names, metadata):
