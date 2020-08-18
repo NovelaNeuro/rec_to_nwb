@@ -180,39 +180,29 @@ class TestDeviceFactory(TestCase):
             fl_header_device=mock_fl_header_device
         )
 
-    def test_device_factory_create_HeaderDevice_with_default_values_successfully(self):
-        mock_fl_header_device = Mock(spec=FlHeaderDevice)
-        mock_global_configuration = {}
-        mock_fl_header_device.name = 'HeaderDevice_1'
-        mock_fl_header_device.global_configuration = mock_global_configuration
-
-        header_device = DeviceFactory.create_header_device(
-            fl_header_device=mock_fl_header_device
-        )
-
         self.assertIsNotNone(header_device)
         self.assertIsInstance(header_device, HeaderDevice)
         self.assertEqual(header_device.name, 'HeaderDevice_1')
-        self.assertEqual(header_device.headstage_serial, '00603 00104')
-        self.assertEqual(header_device.headstage_smart_ref_on, '0')
-        self.assertEqual(header_device.realtime_mode, '0')
-        self.assertEqual(header_device.headstage_auto_settle_on, '0')
-        self.assertEqual(header_device.timestamp_at_creation, '1327428')
-        self.assertEqual(header_device.controller_firmware_version, '3.3')
-        self.assertEqual(header_device.controller_serial, '65535 65535')
-        self.assertEqual(header_device.save_displayed_chan_only, '1')
-        self.assertEqual(header_device.headstage_firmware_version, '3.9')
-        self.assertEqual(header_device.qt_version, '5.9.8')
-        self.assertEqual(header_device.compile_date, 'May 16 2019')
-        self.assertEqual(header_device.compile_time, '10:32:19')
-        self.assertEqual(header_device.file_prefix, "")
-        self.assertEqual(header_device.headstage_gyro_sensor_on, '1')
-        self.assertEqual(header_device.headstage_mag_sensor_on, '1')
-        self.assertEqual(header_device.trodes_version, '1.8.2')
-        self.assertEqual(header_device.headstage_accel_sensor_on, '1')
-        self.assertEqual(header_device.commit_head, 'heads/Release_1.8.2-0-g9a3e37c')
-        self.assertEqual(header_device.system_time_at_creation, '1563488986885')
-        self.assertEqual(header_device.file_path, "")
+        self.assertEqual(header_device.headstage_serial, 'Sample headstage_serial')
+        self.assertEqual(header_device.headstage_smart_ref_on, 'Sample headstage_smart_ref_on')
+        self.assertEqual(header_device.realtime_mode, 'Sample realtime_mode')
+        self.assertEqual(header_device.headstage_auto_settle_on, 'Sample headstage_auto_settle_on')
+        self.assertEqual(header_device.timestamp_at_creation, 'Sample timestamp_at_creation')
+        self.assertEqual(header_device.controller_firmware_version, 'Sample controller_firmware_version')
+        self.assertEqual(header_device.controller_serial, 'Sample controller_serial')
+        self.assertEqual(header_device.save_displayed_chan_only, 'Sample save_displayed_chan_only')
+        self.assertEqual(header_device.headstage_firmware_version, 'Sample headstage_firmware_version')
+        self.assertEqual(header_device.qt_version, 'Sample qt_version')
+        self.assertEqual(header_device.compile_date, 'Sample compile_date')
+        self.assertEqual(header_device.compile_time, 'Sample compile_time')
+        self.assertEqual(header_device.file_prefix, 'Sample file_prefix')
+        self.assertEqual(header_device.headstage_gyro_sensor_on, 'Sample headstage_gyro_sensor_on')
+        self.assertEqual(header_device.headstage_mag_sensor_on, 'Sample headstage_mag_sensor_on')
+        self.assertEqual(header_device.trodes_version, 'Sample trodes_version')
+        self.assertEqual(header_device.headstage_accel_sensor_on, 'Sample headstage_accel_sensor_on')
+        self.assertEqual(header_device.commit_head, 'Sample commit_head')
+        self.assertEqual(header_device.system_time_at_creation, 'Sample system_time_at_creation')
+        self.assertEqual(header_device.file_path, 'Sample file_path')
 
     @should_raise(TypeError)
     def test_device_factory_failed_creating_HeaderDevice_due_to_none_FlHeaderDevice(self):

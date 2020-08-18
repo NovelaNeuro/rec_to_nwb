@@ -72,7 +72,7 @@ class DeviceFactory:
     @beartype
     def create_header_device(cls, fl_header_device: FlHeaderDevice) -> HeaderDevice:
         validate_parameters_not_none(__name__, fl_header_device.name, fl_header_device.global_configuration)
-
+        print(fl_header_device.global_configuration)
         return HeaderDevice(
             name=fl_header_device.name,
             headstage_serial=fl_header_device.global_configuration['headstage_serial'],
