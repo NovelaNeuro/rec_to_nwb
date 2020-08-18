@@ -23,3 +23,4 @@ class FlHeaderDevice:
         commit_head = global_configuration_dict['commit_head']
         system_time_at_creation = global_configuration_dict['system_time_at_creation']
         file_path = global_configuration_dict['file_path']
+
