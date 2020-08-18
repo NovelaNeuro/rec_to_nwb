@@ -17,8 +17,11 @@ class FlAssociatedFilesManager:
                 file['name'],
                 file['description'],
                 self.fl_associated_files_reader.read(file["path"]),
-                file['task_epochs']
+                self.__convert_iterable_to_string(file['task_epochs'])
             )
             for file in self.associated_files_metadata
         ]
 
+    @staticmethod
+    def __convert_iterable_to_string(iterable):
+        return ''.join([str(element) + ', 'for element in iterable])

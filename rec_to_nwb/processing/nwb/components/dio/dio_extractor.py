@@ -34,7 +34,7 @@ class DioExtractor:
     @staticmethod
     def __get_dio_time_series(dio_data, continuoues_time_dict):
 
-        values = [recorded_event[1] for recorded_event in dio_data['data']]
+        values = [bool(recorded_event[1]) for recorded_event in dio_data['data']]
         keys = [recorded_event[0] for recorded_event in dio_data['data']]
         keys = DioExtractor.__convert_keys(continuoues_time_dict, keys)
         return keys, values

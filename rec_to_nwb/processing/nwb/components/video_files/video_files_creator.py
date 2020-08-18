@@ -11,5 +11,6 @@ class VideoFilesCreator:
             timestamps=fl_video_file.timestamps,
             external_file=[video_directory + '/' + fl_video_file.name],
             format='external',
-            starting_frame=[]
+            starting_frame=[0],
+            description='video of animal behavior from epoch'
         )

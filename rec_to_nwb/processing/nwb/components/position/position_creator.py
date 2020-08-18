@@ -24,6 +24,6 @@ class PositionCreator:
             description=fl_position.column_labels,
             data=fl_position.position_data,
             conversion=fl_position.conversion,
-            reference_frame='Description defining what the zero-position is',
+            reference_frame='Upper left corner of video frame',
             timestamps=fl_position.timestamps,
         )

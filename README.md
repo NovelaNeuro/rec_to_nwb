@@ -120,9 +120,11 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
       -  name: example_name1
          description: exmaple description 1
          path: C:/Users/sampleuser/PycharmProjects/rec_to_nwb/test/processing/res/test_text_files/test1_file
+         task_epochs: [1, 2]
       -  name: example_name2
          description: exmaple description 2
          path: C:/Users/sampleuser/PycharmProjects/rec_to_nwb/test/processing/res/test_text_files/test2_file
+         task_epochs: [3, 4]
     # Associated video files describe .h264 files stored as ImageSeries in nwb.
        associated_video_files:
       - name: 20190718_beans_01_s1.1.h264

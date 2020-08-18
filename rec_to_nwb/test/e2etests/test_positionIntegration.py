@@ -11,7 +11,7 @@ from rec_to_nwb.processing.tools.dataset import Dataset
 path = os.path.dirname(os.path.abspath(__file__))
 
 
-# @unittest.skip("test requires continuoustime.dat file and can't be used on travis")
+@unittest.skip("test requires continuoustime.dat file and can't be used on travis")
 class TestPositionIntegration(unittest.TestCase):
 
     @staticmethod
