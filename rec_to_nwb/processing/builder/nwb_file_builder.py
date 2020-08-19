@@ -197,7 +197,7 @@ class NWBFileBuilder:
         self.processing_module_originator = ProcessingModuleOriginator()
         self.task_originator = TaskOriginator(self.metadata)
         self.camera_device_originator = CameraDeviceOriginator(self.metadata)
-        self.header_device_originator = HeaderDeviceOriginator(self.header)
+        self.header_device_originator = HeaderDeviceOriginator(self.header, self.metadata)
         self.probes_originator = ProbeOriginator(self.device_factory, self.device_injector, self.probes)
         self.camera_sample_frame_counts_originator = CameraSampleFrameCountsOriginator(
             self.data_path + "/" + animal_name + "/raw/" + self.date + "/")

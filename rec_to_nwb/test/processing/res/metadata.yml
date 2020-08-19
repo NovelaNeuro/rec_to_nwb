@@ -66,6 +66,8 @@ associated_video_files:
   - name: 20190718_beans_01_s1.1.h264
     camera_id : 0
 
+default_header_file_path: default_header.xml
+
 raw_data_to_volts: 1.0
 times_period_multiplier: 1.5
 
