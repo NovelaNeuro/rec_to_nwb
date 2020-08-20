@@ -27,6 +27,6 @@ class ReconfigHeaderChecker:
 
     @classmethod
     def __compare_with_xml_schema(cls, xml_header_path):
-        xsd_file_path = str(path) + '/../../../rec_to_nwb/data/reconfig_header.xsd'
+        xsd_file_path = str(path) + '/../../../rec_to_nwb/data/header_schema.xsd'
         xsd_schema = xmlschema.XMLSchema(xsd_file_path)
         xmlschema.validate(xml_header_path, xsd_schema)
