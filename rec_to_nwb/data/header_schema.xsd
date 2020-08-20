@@ -283,6 +283,7 @@
 						<xs:enumeration value="#c614eb"/>
 						<xs:enumeration value="#e2e826"/>
 						<xs:enumeration value="#f1853a"/>
+						<xs:enumeration value="#008000"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
