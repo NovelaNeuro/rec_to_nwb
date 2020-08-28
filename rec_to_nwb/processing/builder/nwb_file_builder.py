@@ -269,6 +269,7 @@ class NWBFileBuilder:
         self.data_acq_device_originator.make(nwb_content)
 
         self.header_device_originator.make(nwb_content)
+
         self.camera_device_originator.make(nwb_content)
 
         electrode_groups = self.electrode_group_originator.make(
@@ -284,8 +285,15 @@ class NWBFileBuilder:
         self.epochs_originator.make(nwb_content)
 
         self.processing_module_originator.make(nwb_content)
+
+        self.position_originator.make(nwb_content)
+
+        self.video_files_originator.make(nwb_content)
+
         self.sample_count_timestamp_corespondence_originator.make(nwb_content)
+
         self.task_originator.make(nwb_content)
+
         self.camera_sample_frame_counts_originator.make(nwb_content)
 
         if 'associated_files' in self.metadata:
@@ -299,10 +307,6 @@ class NWBFileBuilder:
 
         if self.process_analog:
             self.analog_originator.make(nwb_content)
-
-        self.position_originator.make(nwb_content)
-
-        self.video_files_originator.make(nwb_content)
 
         return nwb_content
 
