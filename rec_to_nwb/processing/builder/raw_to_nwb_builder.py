@@ -120,7 +120,7 @@ class RawToNWBBuilder:
 
         xml_file_path = self.__get_header_path()
 
-        ReconfigHeaderChecker.validate(xml_file_path)
+        # ReconfigHeaderChecker.validate(xml_file_path)
 
         return xml_file_path
 
