@@ -6,8 +6,8 @@ class SampleCountTimestampCorespondenceBuilder:
         self.data = data
 
     def build(self):
-        return TimeSeries(name="SampleCountTimestampCorespondence",
-                          description="Sample Count, Timestamp",
+        return TimeSeries(name="sample_count",
+                          description="acquisition system sample count",
                           data=self.data[:, 0],
                           timestamps=self.data[:, 1],
                           unit='int64'
