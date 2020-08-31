@@ -23,12 +23,12 @@ class ProcessingModuleOriginator:
         nwb_content.add_processing_module(pm_creator.processing_module)
 
         logger.info('ProcessingModule: Creating associated files')
-        pm_creator = ProcessingModuleCreator('associated files', 'Contains all associated files data')
+        pm_creator = ProcessingModuleCreator('associated_files', 'Contains all associated files data')
         logger.info('ProcessingModule: Injecting associated files')
         nwb_content.add_processing_module(pm_creator.processing_module)
 
         logger.info('ProcessingModule: Creating video files')
-        pm_creator = ProcessingModuleCreator('video files', 'Contains all associated video files data')
+        pm_creator = ProcessingModuleCreator('video_files', 'Contains all associated video files data')
         logger.info('ProcessingModule: Injecting video files')
         nwb_content.add_processing_module(pm_creator.processing_module)
 
@@ -38,11 +38,11 @@ class ProcessingModuleOriginator:
         nwb_content.add_processing_module(pm_creator.processing_module)
 
         logger.info('ProcessingModule: Creating sample count-timestamp corespondence')
-        pm_creator = ProcessingModuleCreator('sample count', 'corespondence between sample count and timestamps')
+        pm_creator = ProcessingModuleCreator('sample_count', 'corespondence between sample count and timestamps')
         logger.info('ProcessingModule: Injecting sample count-timestamp corespondence')
         nwb_content.add_processing_module(pm_creator.processing_module)
 
         logger.info('ProcessingModule: Creating Camera Sample Frame Counts')
-        pm_creator = ProcessingModuleCreator('Camera Sample Frame Counts', 'Camera Sample Frame Counts')
-        logger.info('ProcessingModule: Injecting Camera Sample Frame Counts')
+        pm_creator = ProcessingModuleCreator('camera_sample_frame_counts', 'Camera Sample Frame Counts')
+        logger.info('ProcessingModule: Injecting camera_sample_frame_counts')
         nwb_content.add_processing_module(pm_creator.processing_module)
