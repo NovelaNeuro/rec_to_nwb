@@ -24,6 +24,6 @@ class SampleCountTimestampCorespondenceOriginator:
         logger.info('Sample Count Timestamp Corespondence: Injecting')
         SampleCountTimestampCorespondenceInjector.inject(
             nwb_content=nwb_content,
-            processing_module_name="sample count",
+            processing_module_name="sample_count",
             timeseries=timeseries
         )

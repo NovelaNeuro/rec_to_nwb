@@ -24,6 +24,6 @@ class CameraSampleFrameCountsOriginator:
         logger.info('Camera Sample Frame Counts Builder: Injecting')
         CameraSampleFrameCountsInjector.inject(
             nwb_content=nwb_content,
-            processing_module_name="Camera Sample Frame Counts",
+            processing_module_name="camera_sample_frame_counts",
             timeseries=timeseries
         )
