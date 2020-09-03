@@ -116,7 +116,7 @@ class NWBFileBuilder:
         self.metadata = nwb_metadata.metadata
         metadata_section_validator = MetadataSectionValidator(self.metadata)
         metadata_section_validator.validate_sections()
-        if 'associated_files' in self.metadata and self.metadata['associated_files'] != []:
+        if self.metadata.get('associated_files', []):
             associated_files_existance_validator = AssociatedFilesExistanceValidator(self.metadata['associated_files'])
             if associated_files_existance_validator.files_exist():
                 pass

@@ -34,7 +34,7 @@ class TestNwbFullGeneration(unittest.TestCase):
             video_path=str(path) + '/test_data'
         )
 
-    #@unittest.skip("NWB file creation")
+    @unittest.skip("NWB file creation")
     def test_nwb_file_builder_generate_nwb(self):
         content = self.nwb_builder.build()
         self.nwb_builder.write(content)
@@ -76,8 +76,8 @@ class TestNwbFullGeneration(unittest.TestCase):
             process_analog=True
         )
 
-    # @classmethod
-    # def tearDownClass(cls):
-    #     del cls.nwb_builder
-    #     if os.path.isfile('output.nwb'):
-    #         os.remove('output.nwb')
+    @classmethod
+    def tearDownClass(cls):
+        del cls.nwb_builder
+        if os.path.isfile('output.nwb'):
+            os.remove('output.nwb')
