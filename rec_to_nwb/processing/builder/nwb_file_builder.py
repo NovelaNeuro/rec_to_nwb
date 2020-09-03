@@ -265,6 +265,13 @@ class NWBFileBuilder:
             ),
         )
 
+        self.video_files_originator.make(nwb_content)
+
+        if 'associated_files' in self.metadata:
+            self.associated_files_originator.make(nwb_content)
+
+        self.position_originator.make(nwb_content)
+
         valid_map_dict = self.__build_corrupted_data_manager()
 
         shanks_electrodes_dict = self.shanks_electrode_originator.make()
@@ -293,27 +300,20 @@ class NWBFileBuilder:
 
         self.processing_module_originator.make(nwb_content)
 
-        self.position_originator.make(nwb_content)
-
-        self.video_files_originator.make(nwb_content)
-
         self.sample_count_timestamp_corespondence_originator.make(nwb_content)
 
         self.task_originator.make(nwb_content)
 
         self.camera_sample_frame_counts_originator.make(nwb_content)
 
-        if 'associated_files' in self.metadata:
-            self.associated_files_originator.make(nwb_content)
-
         if self.process_dio:
             self.dio_originator.make(nwb_content)
 
-        if self.process_mda:
-            self.mda_originator.make(nwb_content)
-
         if self.process_analog:
             self.analog_originator.make(nwb_content)
+
+        if self.process_mda:
+            self.mda_originator.make(nwb_content)
 
         return nwb_content
 
