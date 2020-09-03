@@ -44,6 +44,7 @@ from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceIn
 from rec_to_nwb.processing.nwb.components.device.probe.fl_probe_manager import FlProbeManager
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.data_scanner import DataScanner
+from rec_to_nwb.processing.validation.associated_files_validator import AssociatedFilesExistanceValidator
 from rec_to_nwb.processing.validation.metadata_section_validator import MetadataSectionValidator
 from rec_to_nwb.processing.validation.ntrode_validator import NTrodeValidator
 from rec_to_nwb.processing.validation.path_validator import PathValidator
@@ -115,6 +116,12 @@ class NWBFileBuilder:
         self.metadata = nwb_metadata.metadata
         metadata_section_validator = MetadataSectionValidator(self.metadata)
         metadata_section_validator.validate_sections()
+        if self.metadata.get('associated_files', []):
+            associated_files_existance_validator = AssociatedFilesExistanceValidator(self.metadata['associated_files'])
+            if associated_files_existance_validator.files_exist():
+                pass
+            else:
+                raise Exception("one or more associated file listed in metadata.yaml file does not exist")
         self.probes = nwb_metadata.probes
         self.process_dio = process_dio
         self.process_mda = process_mda

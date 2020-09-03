@@ -12,7 +12,7 @@ class VideoFilesInjector:
         video = BehavioralEvents(name='video')
         for image_series in image_series_list:
             VideoFilesInjector.__add_single_image_series(video, image_series)
-        nwb_content.processing['video files'].add(video)
+        nwb_content.processing['video_files'].add(video)
 
     @staticmethod
     def __add_single_image_series(video, image_series):
