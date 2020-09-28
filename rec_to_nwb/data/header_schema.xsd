@@ -103,7 +103,7 @@
 	</xs:element>
 	<xs:element name="GlobalConfiguration">
 		<xs:complexType>
-			<xs:attribute name="realtimeMode" use="required" type="xs:byte"/>
+			<xs:attribute name="realtimeMode" use="required" type="xs:int"/>
 			<xs:attribute name="filePath" use="required">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -116,10 +116,10 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="saveDisplayedChanOnly" use="required" type="xs:byte"/>
+			<xs:attribute name="saveDisplayedChanOnly" use="required" type="xs:int"/>
 			<xs:attribute name="fileChunkSize" type="xs:int"/>
-			<xs:attribute name="headstageGyroSensorOn" type="xs:byte"/>
-			<xs:attribute name="headstageSmartRefOn" type="xs:byte"/>
+			<xs:attribute name="headstageGyroSensorOn" type="xs:int"/>
+			<xs:attribute name="headstageSmartRefOn" type="xs:int"/>
 			<xs:attribute name="headstageSerial">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -132,7 +132,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="headstageAutoSettleOn" type="xs:byte"/>
+			<xs:attribute name="headstageAutoSettleOn" type="xs:int"/>
 			<xs:attribute name="timestampAtCreation" type="xs:int"/>
 			<xs:attribute name="systemTimeAtCreation" type="xs:long"/>
 			<xs:attribute name="qtVersion">
@@ -166,9 +166,9 @@
 				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute name="controllerFirmwareVersion" type="xs:decimal"/>
-			<xs:attribute name="suppressModuleAbsPathWarning" type="xs:byte"/>
-			<xs:attribute name="headstageMagSensorOn" type="xs:byte"/>
-			<xs:attribute name="headstageAccelSensorOn" type="xs:byte"/>
+			<xs:attribute name="suppressModuleAbsPathWarning" type="xs:int"/>
+			<xs:attribute name="headstageMagSensorOn" type="xs:int"/>
+			<xs:attribute name="headstageAccelSensorOn" type="xs:int"/>
 			<xs:attribute name="headstageFirmwareVersion" type="xs:decimal"/>
 		</xs:complexType>
 	</xs:element>

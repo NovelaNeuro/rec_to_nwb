@@ -11,7 +11,7 @@ path = os.path.dirname(os.path.abspath(__file__))
 _DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '/../processing/res/reconfig_header.xml')
 
 
-@unittest.skip("Super heavy RAW to NWB Generation")
+#@unittest.skip("Super heavy RAW to NWB Generation")
 class TestRawToNWBGeneration(unittest.TestCase):
 
     def setUp(self):
@@ -41,10 +41,10 @@ class TestRawToNWBGeneration(unittest.TestCase):
 
     def test_from_raw_to_nwb_generation(self):
         self.builder.build_nwb(
-            process_mda_valid_time=True,
-            process_mda_invalid_time=True,
-            process_pos_valid_time=True,
-            process_pos_invalid_time=True
+            process_mda_valid_time=False,
+            process_mda_invalid_time=False,
+            process_pos_valid_time=False,
+            process_pos_invalid_time=False
         )
         self.assertTrue(os.path.exists('beans20190718.nwb'), 'NWBFile did not build')
 
@@ -75,5 +75,5 @@ class TestRawToNWBGeneration(unittest.TestCase):
             trodes_rec_export_args=_DEFAULT_TRODES_REC_EXPORT_ARGS
         )
 
-    def tearDown(self):
-        self.builder.cleanup()
+    # def tearDown(self):
+    #     self.builder.cleanup()
