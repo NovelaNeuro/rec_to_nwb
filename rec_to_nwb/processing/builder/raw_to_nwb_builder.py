@@ -158,7 +158,8 @@ class RawToNWBBuilder:
                 process_dio=self.extract_dio,
                 process_analog=self.extract_analog,
                 video_path=self.video_path,
-                reconfig_header=self.__is_rec_config_valid()
+                reconfig_header=self.__get_header_path()
+                #reconfig_header=self.__is_rec_config_valid()
             )
             content = nwb_builder.build()
             nwb_builder.write(content)
@@ -212,7 +213,7 @@ class RawToNWBBuilder:
             spikes_export_args=self.spikes_export_args,
             time_export_args=self.time_export_args,
         )
-        self.__is_rec_config_valid()
+        #self.__is_rec_config_valid()
 
     @staticmethod
     def append_to_nwb(nwb_builder, process_mda_valid_time, process_mda_invalid_time,
