@@ -54,7 +54,6 @@ class TestOldFlAnalogManager(TestCase):
             timestamps,
             np.array([])
         )
-        self.assertIsInstance(timestamps, np.ndarray)
 
     @should_raise(TypeError)
     def test_get_analog_fails_due_to_None_param(self):
@@ -62,10 +61,3 @@ class TestOldFlAnalogManager(TestCase):
             analog_files=None
         )
 
-    @should_raise(NotEqualParamLengthException)
-    def test_get_analog_fails_due_to_different_param_length(self):
-        mock_analog_files = [{1: 'mocked'}]
-
-        OldFlAnalogManager(
-            analog_files=mock_analog_files
-        )

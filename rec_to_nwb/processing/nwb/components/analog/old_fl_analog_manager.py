@@ -10,8 +10,8 @@ from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_
 class OldFlAnalogManager:
 
     @beartype
-    def __init__(self, analog_files: list, continuous_time_files: list):
-        validate_parameters_equal_length(__name__, analog_files, continuous_time_files)
+    def __init__(self, analog_files: list):
+        validate_parameters_equal_length(__name__, analog_files)
 
         self.analog_files = analog_files
 
