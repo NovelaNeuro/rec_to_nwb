@@ -53,7 +53,7 @@ class TestOldNwbFullGeneration(unittest.TestCase):
     #     )
     #     self.assertIsNotNone(self.old_nwb_builder)
 
-    #@unittest.skip("read created NWB")
+    @unittest.skip("read created NWB")
     def test_old_nwb_file_builder_read_nwb(self):
         with NWBHDF5IO(self.old_nwb_builder.output_file, 'r') as nwb_file:
             content = nwb_file.read()
