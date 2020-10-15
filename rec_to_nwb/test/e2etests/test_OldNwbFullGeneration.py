@@ -1,0 +1,90 @@
+import unittest
+from pathlib import Path
+
+from pynwb import NWBHDF5IO
+from testfixtures import should_raise
+
+from rec_to_nwb.processing.builder.old_nwb_file_builder import OldNWBFileBuilder
+from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
+from rec_to_nwb.processing.builder.nwb_file_builder import NWBFileBuilder
+
+path = Path(__file__).parent.parent
+path.resolve()
+
+import datetime
+date = datetime.datetime.now()
+
+
+class TestOldNwbFullGeneration(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.metadata = MetadataManager(
+            r'C:/Users/wmery/PycharmProjects/rec_to_nwb/rec_to_nwb/test/test_data/KF2/raw/20170120/kibbles20170216_metadata.yml',
+            [
+                r'C:/Users/wmery/PycharmProjects/rec_to_nwb/rec_to_nwb/test/test_data/KF2/raw/20170120/64c-3s6mm6cm-20um-40um-sl.yml',
+                r'C:/Users/wmery/PycharmProjects/rec_to_nwb/rec_to_nwb/test/test_data/KF2/raw/20170120/64c-4s6mm6cm-20um-40um-dl.yml'
+
+            ]
+        )
+
+        cls.old_nwb_builder = OldNWBFileBuilder(
+            data_path=str(path) + '/test_data/',
+            animal_name='KF2',
+            date='20170120',
+            nwb_metadata=cls.metadata,
+            session_start_time=date,
+            process_dio=True,
+            process_mda=True,
+            process_analog=True,
+            process_pos_timestamps=True,
+            video_path=str(path) + '/test_data'
+        )
+
+    # #@unittest.skip("NWB file creation")
+    # def test_old_nwb_file_builder_generate_nwb(self):
+    #     content = self.old_nwb_builder.build()
+    #     self.old_nwb_builder.write(content)
+    #     self.old_nwb_builder.build_and_append_to_nwb(
+    #         process_mda_valid_time=True,
+    #         process_mda_invalid_time=True,
+    #         process_pos_valid_time=False,
+    #         process_pos_invalid_time=False
+    #     )
+    #     self.assertIsNotNone(self.old_nwb_builder)
+
+    @unittest.skip("read created NWB")
+    def test_old_nwb_file_builder_read_nwb(self):
+        with NWBHDF5IO(self.old_nwb_builder.output_file, 'r') as nwb_file:
+            content = nwb_file.read()
+            print(content.processing['video_files']['video'])
+
+    @should_raise(TypeError)
+    def test_old_nwb_file_builder_failed_due_to_incorrect_type_of_parameters(self):
+        NWBFileBuilder(
+            data_path=str(path) + '/test_data/',
+            animal_name='beans',
+            date=123,
+            nwb_metadata=self.metadata,
+            process_dio=True,
+            process_mda=True,
+            process_analog=True
+        )
+
+    @should_raise(TypeError)
+    def test_old_nwb_file_builder_failed_due_to_None_parameter(self):
+        NWBFileBuilder(
+            data_path=str(path) + '/test_data/',
+            animal_name='beans',
+            date=None,
+            nwb_metadata=self.metadata,
+            process_dio=True,
+            process_mda=True,
+            process_analog=True
+        )
+
+    # @classmethod
+    # def tearDownClass(cls):
+    #     del cls.nwb_builder
+    #     if os.path.isfile('output.nwb'):
+    #         os.remove('output.nwb')

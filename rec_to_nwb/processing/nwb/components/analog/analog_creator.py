@@ -29,9 +29,10 @@ class AnalogCreator:
 
     @staticmethod
     def __build_timeseries(name, description, data, timestamps, unit):
-        return TimeSeries(name=name,
-                          description=description,
-                          data=data,
-                          timestamps=timestamps,
-                          unit=unit
-                          )
+        return TimeSeries(
+            name=name,
+            description=description,
+            data=data,
+            timestamps=timestamps,
+            unit=unit
+        )
