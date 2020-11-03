@@ -1,0 +1,10 @@
+Metadata-Version: 1.2
+Name: rec-to-nwb
+Version: 0.1.19
+Summary: Data transformation from rec binary files into NWB 2.0 format
+Home-page: https://github.com/NovelaNeuro/rec_to_nwb
+Author: Novela Neurotech
+License: UNKNOWN
+Description: UNKNOWN
+Platform: Posix; MacOS X; Windows
+Requires-Python: >=3.6
