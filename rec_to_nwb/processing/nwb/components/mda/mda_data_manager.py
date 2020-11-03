@@ -9,5 +9,4 @@ class MdaDataManager(DataManager):
 
     # override
     def read_data(self, dataset_id, file_id):
-        data = readmda(self.directories[dataset_id][file_id])
-        return data
+        return readmda(self.directories[dataset_id][file_id])

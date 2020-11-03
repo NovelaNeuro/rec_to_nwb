@@ -9,14 +9,11 @@ rec_to_nwb.egg-info/dependency_links.txt
 rec_to_nwb.egg-info/top_level.txt
 rec_to_nwb/data/default_header.xml
 rec_to_nwb/data/fl_lab_header.xsd
-rec_to_nwb/data/header_schema.xsd
+rec_to_nwb/data/reconfig_header.xsd
 rec_to_nwb/processing/__init__.py
 rec_to_nwb/processing/builder/__init__.py
 rec_to_nwb/processing/builder/nwb_file_builder.py
-rec_to_nwb/processing/builder/old_nwb_file_builder.py
-rec_to_nwb/processing/builder/old_raw_to_nwb_builder.py
 rec_to_nwb/processing/builder/raw_to_nwb_builder.py
-rec_to_nwb/processing/builder/old_originators/__init__.py
 rec_to_nwb/processing/builder/originators/__init__.py
 rec_to_nwb/processing/builder/originators/analog_originator.py
 rec_to_nwb/processing/builder/originators/associated_files_originator.py
@@ -32,15 +29,6 @@ rec_to_nwb/processing/builder/originators/header_device_originator.py
 rec_to_nwb/processing/builder/originators/mda_invalid_time_originator.py
 rec_to_nwb/processing/builder/originators/mda_originator.py
 rec_to_nwb/processing/builder/originators/mda_valid_time_originator.py
-rec_to_nwb/processing/builder/originators/old_analog_originator.py
-rec_to_nwb/processing/builder/originators/old_dio_originator.py
-rec_to_nwb/processing/builder/originators/old_mda_invalid_time_originator.py
-rec_to_nwb/processing/builder/originators/old_mda_originator.py
-rec_to_nwb/processing/builder/originators/old_mda_valid_time_originator.py
-rec_to_nwb/processing/builder/originators/old_pos_invalid_originator.py
-rec_to_nwb/processing/builder/originators/old_pos_valid_time_originator.py
-rec_to_nwb/processing/builder/originators/old_position_originator.py
-rec_to_nwb/processing/builder/originators/old_video_files_originator.py
 rec_to_nwb/processing/builder/originators/pos_invalid_originator.py
 rec_to_nwb/processing/builder/originators/pos_valid_time_originator.py
 rec_to_nwb/processing/builder/originators/position_originator.py
@@ -95,7 +83,6 @@ rec_to_nwb/processing/metadata/metadata_manager.py
 rec_to_nwb/processing/nwb/__init__.py
 rec_to_nwb/processing/nwb/common/__init__.py
 rec_to_nwb/processing/nwb/common/data_manager.py
-rec_to_nwb/processing/nwb/common/old_timestamps_manager.py
 rec_to_nwb/processing/nwb/common/session_time_extractor.py
 rec_to_nwb/processing/nwb/common/timestamps_manager.py
 rec_to_nwb/processing/nwb/components/__init__.py
@@ -107,9 +94,6 @@ rec_to_nwb/processing/nwb/components/analog/fl_analog.py
 rec_to_nwb/processing/nwb/components/analog/fl_analog_builder.py
 rec_to_nwb/processing/nwb/components/analog/fl_analog_extractor.py
 rec_to_nwb/processing/nwb/components/analog/fl_analog_manager.py
-rec_to_nwb/processing/nwb/components/analog/old_fl_analog_builder.py
-rec_to_nwb/processing/nwb/components/analog/old_fl_analog_extractor.py
-rec_to_nwb/processing/nwb/components/analog/old_fl_analog_manager.py
 rec_to_nwb/processing/nwb/components/associated_files/__init__.py
 rec_to_nwb/processing/nwb/components/associated_files/associated_files_creator.py
 rec_to_nwb/processing/nwb/components/associated_files/associated_files_injector.py
@@ -154,8 +138,6 @@ rec_to_nwb/processing/nwb/components/dio/dio_extractor.py
 rec_to_nwb/processing/nwb/components/dio/dio_files.py
 rec_to_nwb/processing/nwb/components/dio/dio_injector.py
 rec_to_nwb/processing/nwb/components/dio/dio_manager.py
-rec_to_nwb/processing/nwb/components/dio/old_dio_extractor.py
-rec_to_nwb/processing/nwb/components/dio/old_dio_manager.py
 rec_to_nwb/processing/nwb/components/electrode_group/__init__.py
 rec_to_nwb/processing/nwb/components/electrode_group/electrode_group_factory.py
 rec_to_nwb/processing/nwb/components/electrode_group/electrode_group_injector.py
@@ -200,8 +182,6 @@ rec_to_nwb/processing/nwb/components/mda/mda_content.py
 rec_to_nwb/processing/nwb/components/mda/mda_data_manager.py
 rec_to_nwb/processing/nwb/components/mda/mda_injector.py
 rec_to_nwb/processing/nwb/components/mda/mda_timestamp_manager.py
-rec_to_nwb/processing/nwb/components/mda/old_fl_mda_extractor.py
-rec_to_nwb/processing/nwb/components/mda/old_fl_mda_manager.py
 rec_to_nwb/processing/nwb/components/mda/table_region_builder.py
 rec_to_nwb/processing/nwb/components/mda/time/__init__.py
 rec_to_nwb/processing/nwb/components/mda/time/invalid/__init__.py
@@ -219,9 +199,6 @@ rec_to_nwb/processing/nwb/components/position/fl_position.py
 rec_to_nwb/processing/nwb/components/position/fl_position_builder.py
 rec_to_nwb/processing/nwb/components/position/fl_position_extractor.py
 rec_to_nwb/processing/nwb/components/position/fl_position_manager.py
-rec_to_nwb/processing/nwb/components/position/old_fl_position_extractor.py
-rec_to_nwb/processing/nwb/components/position/old_fl_position_manager.py
-rec_to_nwb/processing/nwb/components/position/old_pos_timestamp_manager.py
 rec_to_nwb/processing/nwb/components/position/pos_data_manager.py
 rec_to_nwb/processing/nwb/components/position/pos_timestamp_manager.py
 rec_to_nwb/processing/nwb/components/position/position_creator.py
@@ -253,8 +230,6 @@ rec_to_nwb/processing/nwb/components/video_files/fl_video_file.py
 rec_to_nwb/processing/nwb/components/video_files/fl_video_files_builder.py
 rec_to_nwb/processing/nwb/components/video_files/fl_video_files_extractor.py
 rec_to_nwb/processing/nwb/components/video_files/fl_video_files_manager.py
-rec_to_nwb/processing/nwb/components/video_files/old_fl_video_files_extractor.py
-rec_to_nwb/processing/nwb/components/video_files/old_fl_video_files_manager.py
 rec_to_nwb/processing/nwb/components/video_files/video_files_copy_maker.py
 rec_to_nwb/processing/nwb/components/video_files/video_files_creator.py
 rec_to_nwb/processing/nwb/components/video_files/video_files_injector.py
@@ -283,7 +258,6 @@ rec_to_nwb/processing/tools/beartype/beartype.py
 rec_to_nwb/processing/validation/__init__.py
 rec_to_nwb/processing/validation/associated_files_validation.py
 rec_to_nwb/processing/validation/associated_files_validation_summary.py
-rec_to_nwb/processing/validation/associated_files_validator.py
 rec_to_nwb/processing/validation/metadata_section_validator.py
 rec_to_nwb/processing/validation/metadata_validation_summary.py
 rec_to_nwb/processing/validation/metadata_validator.py
@@ -310,7 +284,6 @@ rec_to_nwb/scripts/test_package/__init__.py
 rec_to_nwb/scripts/test_package/test_package_after_release.py
 rec_to_nwb/test/__init__.py
 rec_to_nwb/test/e2etests/__init__.py
-rec_to_nwb/test/e2etests/test_OldNwbFullGeneration.py
 rec_to_nwb/test/e2etests/test_headerComparator.py
 rec_to_nwb/test/e2etests/test_headersExtractor.py
 rec_to_nwb/test/e2etests/test_mda.py
@@ -336,7 +309,6 @@ rec_to_nwb/test/processing/test_sessionTimeExtractor.py
 rec_to_nwb/test/processing/analog/__init__.py
 rec_to_nwb/test/processing/analog/test_analogCreator.py
 rec_to_nwb/test/processing/analog/test_flAnalogManager.py
-rec_to_nwb/test/processing/analog/test_oldFlAnalogManager.py
 rec_to_nwb/test/processing/associated_files/__init__.py
 rec_to_nwb/test/processing/associated_files/test_associatedFilesCreator.py
 rec_to_nwb/test/processing/associated_files/test_flAssociatedFilesManager.py

@@ -8,4 +8,4 @@ class FlMdaBuilder:
         self.conversion = conversion
 
     def build(self, electrode_table_region, data):
-        return FlMda(self.sampling_rate, electrode_table_region, data, self.conversion)
+        return FlMda(self.sampling_rate, self.conversion, electrode_table_region, data)
