@@ -50,6 +50,8 @@ dependencies:
       - mountainlab_pytools
       - xmldiff
       - rec-to-binaries==0.6.0.dev0
+      - hdmf>2.1.0
+      - pynwb
 
 #  Docs
   - recommonmark
