@@ -310,6 +310,9 @@ class NWBFileBuilder:
         if self.process_dio:
             self.dio_originator.make(nwb_content)
 
+        if self.process_mda:
+            self.mda_originator.make(nwb_content)
+
         if self.process_analog:
             self.analog_originator.make(nwb_content)
 
