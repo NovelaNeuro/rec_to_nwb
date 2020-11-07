@@ -147,7 +147,19 @@ class RawToNWBBuilder:
         """
 
         self.__preprocess_data()
+
+        self.__build_nwb_file(process_mda_valid_time=process_mda_valid_time,
+            process_mda_invalid_time=process_mda_invalid_time,
+            process_pos_valid_time=process_pos_valid_time,
+            process_pos_invalid_time=process_pos_invalid_time)
+
+    def __build_nwb_file(self, process_mda_valid_time=True, process_mda_invalid_time=True,
+               process_pos_valid_time=True, process_pos_invalid_time=True):
+        logger.info('Building NWB files')
+        os.makedirs(self.output_path, exist_ok=True)
+        os.makedirs(self.video_path, exist_ok=True)
         for date in self.dates:
+            logger.info('Date: {}'.format(date))
             nwb_builder = NWBFileBuilder(
                 data_path=self.data_path,
                 animal_name=self.animal_name,
@@ -241,4 +253,3 @@ class RawToNWBBuilder:
         preprocessing = self.data_path + '/' + self.animal_name + '/preprocessing'
         if os.path.exists(preprocessing):
             shutil.rmtree(preprocessing)
-
