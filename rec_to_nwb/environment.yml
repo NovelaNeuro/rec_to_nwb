@@ -1,4 +1,4 @@
-name: rec_to_nwb_test2
+name: rec_to_nwb
 channels:
   - conda-forge
   - defaults
@@ -24,7 +24,7 @@ dependencies:
   - liblapack
   - mkl
   - mkl-service
-  - numpy>=1.19.4
+  - numpy
   - openssl
   - pandas
   - pycparser
