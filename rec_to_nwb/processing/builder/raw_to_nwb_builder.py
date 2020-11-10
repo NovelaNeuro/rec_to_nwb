@@ -147,6 +147,9 @@ class RawToNWBBuilder:
         """
 
         self.__preprocess_data()
+
+        os.makedirs(self.output_path, exist_ok=True)
+        os.makedirs(self.video_path, exist_ok=True)
         for date in self.dates:
             nwb_builder = NWBFileBuilder(
                 data_path=self.data_path,
