@@ -160,18 +160,7 @@ class RawToNWBBuilder:
         os.makedirs(self.video_path, exist_ok=True)
         for date in self.dates:
             logger.info('Date: {}'.format(date))
-            nwb_builder = NWBFileBuilder(
-                data_path=self.data_path,
-                animal_name=self.animal_name,
-                date=date,
-                nwb_metadata=self.nwb_metadata,
-                output_file=self.output_path + self.animal_name + date + ".nwb",
-                process_mda=self.extract_mda,
-                process_dio=self.extract_dio,
-                process_analog=self.extract_analog,
-                video_path=self.video_path,
-                reconfig_header=self.__is_rec_config_valid()
-            )
+            nwb_builder = self.get_nwb_builder(date)
             content = nwb_builder.build()
             nwb_builder.write(content)
             self.append_to_nwb(
@@ -181,6 +170,20 @@ class RawToNWBBuilder:
                 process_pos_valid_time=process_pos_valid_time,
                 process_pos_invalid_time=process_pos_invalid_time
             )
+
+    def get_nwb_builder(self, date):
+        return NWBFileBuilder(
+            data_path=self.data_path,
+            animal_name=self.animal_name,
+            date=date,
+            nwb_metadata=self.nwb_metadata,
+            output_file=self.output_path + self.animal_name + date + ".nwb",
+            process_mda=self.extract_mda,
+            process_dio=self.extract_dio,
+            process_analog=self.extract_analog,
+            video_path=self.video_path,
+            reconfig_header=self.__is_rec_config_valid()
+        )
 
     def __preprocess_data(self):
         """process data with rec_to_binaries library"""
