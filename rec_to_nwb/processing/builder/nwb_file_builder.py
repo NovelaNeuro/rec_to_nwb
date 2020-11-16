@@ -267,12 +267,12 @@ class NWBFileBuilder:
 
         self.processing_module_originator.make(nwb_content)
 
-        self.video_files_originator.make(nwb_content)
+
 
         if 'associated_files' in self.metadata:
             self.associated_files_originator.make(nwb_content)
 
-        self.position_originator.make(nwb_content)
+        #self.position_originator.make(nwb_content)
 
         valid_map_dict = self.__build_corrupted_data_manager()
 
@@ -288,15 +288,17 @@ class NWBFileBuilder:
 
         self.camera_device_originator.make(nwb_content)
 
+        #self.video_files_originator.make(nwb_content)
+
         electrode_groups = self.electrode_group_originator.make(
             nwb_content, probes, valid_map_dict['electrode_groups']
         )
 
-        self.electrodes_originator.make(
-            nwb_content, electrode_groups, valid_map_dict['electrodes'], valid_map_dict['electrode_groups']
-        )
+        #self.electrodes_originator.make(
+         #   nwb_content, electrode_groups, valid_map_dict['electrodes'], valid_map_dict['electrode_groups']
+        #)
 
-        self.electrodes_extension_originator.make(nwb_content, valid_map_dict['electrodes'])
+        #self.electrodes_extension_originator.make(nwb_content, valid_map_dict['electrodes'])
 
         self.epochs_originator.make(nwb_content)
 
@@ -304,7 +306,7 @@ class NWBFileBuilder:
 
         self.task_originator.make(nwb_content)
 
-        self.camera_sample_frame_counts_originator.make(nwb_content)
+        #self.camera_sample_frame_counts_originator.make(nwb_content)
 
         if self.process_dio:
             self.dio_originator.make(nwb_content)
