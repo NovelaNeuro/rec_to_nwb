@@ -267,8 +267,6 @@ class NWBFileBuilder:
 
         self.processing_module_originator.make(nwb_content)
 
-        self.video_files_originator.make(nwb_content)
-
         if 'associated_files' in self.metadata:
             self.associated_files_originator.make(nwb_content)
 
@@ -287,6 +285,8 @@ class NWBFileBuilder:
         self.header_device_originator.make(nwb_content)
 
         self.camera_device_originator.make(nwb_content)
+
+        self.video_files_originator.make(nwb_content)
 
         electrode_groups = self.electrode_group_originator.make(
             nwb_content, probes, valid_map_dict['electrode_groups']
