@@ -89,6 +89,7 @@ class OldNWBFileBuilder:
             process_mda: bool = True,
             process_analog: bool = True,
             process_pos_timestamps: bool = True,
+            preprocessing_path: str = '',
             video_path: str = '',
             output_file: str = 'output.nwb',
             reconfig_header: str = ''
@@ -128,6 +129,10 @@ class OldNWBFileBuilder:
         self.process_mda = process_mda
         self.process_analog = process_analog
         self.process_pos_timestamps = process_pos_timestamps
+        if not preprocessing_path:
+            self.preprocessing_path = data_path
+        else:
+            self.preprocessing_path = preprocessing_path
         self.output_file = output_file
         self.video_path = video_path
         self.link_to_notes = self.metadata.get('link to notes', None)
@@ -144,14 +149,21 @@ class OldNWBFileBuilder:
                   + self.date)
         )
 
-        header_file = HeaderProcessor.process_headers(rec_files_list)
+        if not preprocessing_path:
+            header_path = None # default
+        else:
+            header_path = (self.preprocessing_path
+                            + '/' + self.animal_name + '/headers/' + self.date)
+            os.makedirs(header_path, exist_ok=True)
+        header_file = HeaderProcessor.process_headers(rec_files_list, copy_dir=header_path)
         if reconfig_header:
             self.header = Header(reconfig_header)
         else:
             self.header = Header(header_file)
-        self.data_scanner = DataScanner(data_path, animal_name, nwb_metadata)
+        self.data_scanner = DataScanner(self.preprocessing_path, animal_name, nwb_metadata)
         self.dataset_names = self.data_scanner.get_all_epochs(date)
-        full_data_path = data_path + '/' + animal_name + '/preprocessing/' + date
+        full_data_path = os.path.join(self.preprocessing_path, 
+                                    animal_name + '/preprocessing/' + date)
 
         validation_registrator = ValidationRegistrator()
         validation_registrator.register(NTrodeValidator(self.metadata, self.header, self.probes))
@@ -263,8 +275,6 @@ class OldNWBFileBuilder:
 
         self.processing_module_originator.make(nwb_content)
 
-        self.old_video_files_originator.make(nwb_content)
-
         if 'associated_files' in self.metadata:
             self.associated_files_originator.make(nwb_content)
 
@@ -283,6 +293,8 @@ class OldNWBFileBuilder:
         self.header_device_originator.make(nwb_content)
 
         self.camera_device_originator.make(nwb_content)
+
+        self.old_video_files_originator.make(nwb_content)
 
         electrode_groups = self.electrode_group_originator.make(
             nwb_content, probes, valid_map_dict['electrode_groups']
