@@ -153,23 +153,19 @@ class RawToNWBBuilder:
 
         self.__preprocess_data()
 
+        self.__build_nwb_file(process_mda_valid_time=process_mda_valid_time,
+            process_mda_invalid_time=process_mda_invalid_time,
+            process_pos_valid_time=process_pos_valid_time,
+            process_pos_invalid_time=process_pos_invalid_time)
+
+    def __build_nwb_file(self, process_mda_valid_time=True, process_mda_invalid_time=True,
+               process_pos_valid_time=True, process_pos_invalid_time=True):
+        logger.info('Building NWB files')
         os.makedirs(self.output_path, exist_ok=True)
         os.makedirs(self.video_path, exist_ok=True)
         for date in self.dates:
-            nwb_builder = NWBFileBuilder(
-                data_path=self.data_path,
-                animal_name=self.animal_name,
-                date=date,
-                nwb_metadata=self.nwb_metadata,
-                output_file=self.output_path + self.animal_name + date + ".nwb",
-                process_mda=self.extract_mda,
-                process_dio=self.extract_dio,
-                process_analog=self.extract_analog,
-                preprocessing_path=self.preprocessing_path,
-                video_path=self.video_path,
-                reconfig_header=self.__get_header_path()
-                #reconfig_header=self.__is_rec_config_valid()
-            )
+            logger.info('Date: {}'.format(date))
+            nwb_builder = self.get_nwb_builder(date)
             content = nwb_builder.build()
             nwb_builder.write(content)
             self.append_to_nwb(
@@ -179,6 +175,22 @@ class RawToNWBBuilder:
                 process_pos_valid_time=process_pos_valid_time,
                 process_pos_invalid_time=process_pos_invalid_time
             )
+
+    def get_nwb_builder(self, date):
+        return NWBFileBuilder(
+            data_path=self.data_path,
+            animal_name=self.animal_name,
+            date=date,
+            nwb_metadata=self.nwb_metadata,
+            output_file=self.output_path + self.animal_name + date + ".nwb",
+            process_mda=self.extract_mda,
+            process_dio=self.extract_dio,
+            process_analog=self.extract_analog,
+            preprocessing_path=self.preprocessing_path,
+            video_path=self.video_path,
+            reconfig_header=self.__get_header_path()
+            #reconfig_header=self.__is_rec_config_valid()
+        )
 
     def __preprocess_data(self):
         """process data with rec_to_binaries library"""
@@ -253,4 +265,3 @@ class RawToNWBBuilder:
         preprocessing = self.preprocessing_path + '/' + self.animal_name + '/preprocessing'
         if os.path.exists(preprocessing):
             shutil.rmtree(preprocessing)
-
