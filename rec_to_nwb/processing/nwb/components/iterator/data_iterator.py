@@ -20,17 +20,33 @@ class DataIterator(AbstractDataChunkIterator):
         return self
 
     def _get_selection(self):
+        if isinstance(self.number_of_rows, int):
+            # single number (legacy behavior)
+            start_index = (self.current_file * self.number_of_rows)
+            stop_index = ((self.current_file + 1) * self.number_of_rows)
+        else:
+            # expecting a list (different number_of_rows for each file)
+            start_index = sum(self.number_of_rows[0:self.current_file])
+            stop_index = sum(self.number_of_rows[0:(self.current_file + 1)])
         return np.s_[sum(self.dataset_file_length[0:self.current_dataset]):
                      sum(self.dataset_file_length[0:self.current_dataset + 1]),
-               (self.current_file * self.number_of_rows):
-               ((self.current_file + 1) * self.number_of_rows)]
+               start_index:
+               stop_index]
 
     @staticmethod
     def get_selection(number_of_threads, current_dataset, dataset_file_length, current_file, number_of_rows):
+        if isinstance(number_of_rows, int):
+            # single number (legacy behavior)
+            start_index = (current_file * number_of_rows)
+            stop_index = ((current_file + number_of_threads) * number_of_rows)
+        else:
+            # expecting a list (different number_of_rows for each file)
+            start_index = sum(number_of_rows[0:current_file])
+            stop_index = sum(number_of_rows[0:(current_file + number_of_threads)])
         return np.s_[sum(dataset_file_length[0:current_dataset]):
                      sum(dataset_file_length[0:current_dataset + 1]),
-               (current_file * number_of_rows):
-               ((current_file + number_of_threads) * number_of_rows)]
+               start_index:
+               stop_index]
 
     def recommended_chunk_shape(self):
         return None
