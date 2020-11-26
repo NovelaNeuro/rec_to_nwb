@@ -17,7 +17,7 @@ class OldFlVideoFilesExtractor:
         for video_file in video_files:
             new_fl_video_file = {
                 "name": video_file["name"],
-                "timestamps": [],
+                "timestamps": np.array([]),
                 "device": video_file["camera_id"]
             }
             extracted_video_files.append(new_fl_video_file)
