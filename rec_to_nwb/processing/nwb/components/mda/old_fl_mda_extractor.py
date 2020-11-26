@@ -15,6 +15,7 @@ class OldFlMdaExtractor:
         mda_data, timestamps, continuous_time = self.__extract_data()
         mda_timestamp_data_manager = MdaTimestampDataManager(
             directories=timestamps,
+            continuous_time_directories=continuous_time
         )
         mda_data_manager = MdaDataManager(mda_data)
         data_iterator = MultiThreadDataIterator(mda_data_manager)
