@@ -141,6 +141,19 @@ class RawToNWBBuilder:
                 xml_file_path = self.trodes_rec_export_args[counter + 1]
         return xml_file_path
 
+    def __is_old_dataset(self):
+        # check raw directory for the single (first) date
+        all_files = os.listdir(self.data_path + "/" 
+                                + self.animal_name + "/raw/" 
+                                + self.dates[0] + "/")
+        if any([('videoTimeStamps.cameraHWSync' in file) for file in all_files]):
+            # has cameraHWSync files; new dataset
+            return False
+        if any([('videoTimeStamps.cameraHWFrameCount' in file) for file in all_files]):
+            # has cameraHWFrameCount files instead; old dataset
+            return True
+        raise FileNotFoundError('need either cameraHWSync or cameraHWFrameCount files.')
+
     def build_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
                   process_pos_valid_time=True, process_pos_invalid_time=True):
         """Builds nwb file for experiments from given dates.
@@ -157,6 +170,13 @@ class RawToNWBBuilder:
         """
 
         self.__preprocess_data()
+
+        if self.__is_old_dataset():
+            self.__build_old_nwb_file(process_mda_valid_time=process_mda_valid_time,
+                process_mda_invalid_time=process_mda_invalid_time,
+                process_pos_valid_time=process_pos_valid_time,
+                process_pos_invalid_time=process_pos_invalid_time)
+            return
 
         self.__build_nwb_file(process_mda_valid_time=process_mda_valid_time,
             process_mda_invalid_time=process_mda_invalid_time,
