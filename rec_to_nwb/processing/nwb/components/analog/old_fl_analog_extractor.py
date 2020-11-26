@@ -14,7 +14,12 @@ class OldFlAnalogExtractor:
     def extract_analog_for_single_dataset(analog_files):
         single_dataset_data = {}
         for analog_file in analog_files:
-            analog_data = readTrodesExtractedDataFile(analog_files[analog_file])
-            values = analog_data['data']
-            single_dataset_data[analog_data['id']] = values
+            if not 'timestamps' in analog_file:
+                analog_data = readTrodesExtractedDataFile(analog_files[analog_file])
+                values = analog_data['data']
+                single_dataset_data[analog_data['id']] = values
+            else:
+                analog_data = readTrodesExtractedDataFile(analog_files[analog_file])
+                timestamps = analog_data['data']
+                single_dataset_data[analog_file] = timestamps  # not converted
         return single_dataset_data
