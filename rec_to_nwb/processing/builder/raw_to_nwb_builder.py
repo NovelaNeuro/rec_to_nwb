@@ -1,7 +1,8 @@
 import logging.config
 import os
 import shutil
-import datetime
+from datetime import datetime
+import pytz
 
 from rec_to_binaries import extract_trodes_rec_file
 
@@ -32,7 +33,7 @@ _DEFAULT_TIME_EXPORT_ARGS = ()
 _DEFAULT_TRODES_REC_EXPORT_ARGS = ()
 
 # for OldNWBFileBuilder
-_DEFAULT_SESSION_START_TIME = datetime.datetime.fromtimestamp(0) # dummy value for now
+_DEFAULT_SESSION_START_TIME = datetime.fromtimestamp(0, pytz.utc) # dummy value for now
 
 
 class RawToNWBBuilder:
