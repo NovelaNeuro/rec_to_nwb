@@ -11,7 +11,11 @@ class CameraSampleFrameCountsExtractor:
 
     def extract(self):
         data = []
-        for file in self.__get_all_hwsync_files():
+        files = self.__get_all_hwsync_files()
+        if len(files) == 0:
+            # in case of old dataset
+            files = self.__get_all_hwframecount_files()
+        for file in files:
             data.append(self.__extract_single(file))
         merged_data = self.__merge_data_from_multiple_files(data)
         return merged_data
@@ -24,6 +28,14 @@ class CameraSampleFrameCountsExtractor:
                 hwsync_files.append(file)
         return hwsync_files
 
+    def __get_all_hwframecount_files(self):
+        all_files = os.listdir(self.raw_data_path)
+        hwframecount_files = []
+        for file in all_files:
+            if 'videoTimeStamps.cameraHWFrameCount' in file:
+                hwframecount_files.append(file)
+        return hwframecount_files
+
     @staticmethod
     def __merge_data_from_multiple_files(data):
         merged_data = np.vstack(data)
@@ -35,6 +47,12 @@ class CameraSampleFrameCountsExtractor:
                   )["data"]
         camera_sample_frame_counts = np.ndarray(shape = (len(content), 2), dtype='uint32')
         for i, record in enumerate(content):
-            camera_sample_frame_counts[i, 0] = record[1]
-            camera_sample_frame_counts[i, 1] = record[0]
+            if len(record) > 1:
+                # from cameraHWSync
+                camera_sample_frame_counts[i, 0] = record[1]  # framecounts
+                camera_sample_frame_counts[i, 1] = record[0]  # timestamps
+            else:
+                # from cameraHWFrameCount (old dataset)
+                camera_sample_frame_counts[i, 0] = record[0]  # framecounts
+                camera_sample_frame_counts[i, 1] = i          # timestamps (dummy)
         return camera_sample_frame_counts
