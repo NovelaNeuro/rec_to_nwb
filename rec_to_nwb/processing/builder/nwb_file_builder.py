@@ -276,7 +276,7 @@ class NWBFileBuilder:
         if 'associated_files' in self.metadata:
             self.associated_files_originator.make(nwb_content)
 
-        #self.position_originator.make(nwb_content)
+        self.position_originator.make(nwb_content)
 
         valid_map_dict = self.__build_corrupted_data_manager()
 
@@ -303,24 +303,24 @@ class NWBFileBuilder:
             nwb_content, electrode_groups, valid_map_dict['electrodes'], valid_map_dict['electrode_groups']
         )
 
-        #self.electrodes_extension_originator.make(nwb_content, valid_map_dict['electrodes'])
+        self.electrodes_extension_originator.make(nwb_content, valid_map_dict['electrodes'])
 
         self.epochs_originator.make(nwb_content)
 
         self.sample_count_timestamp_corespondence_originator.make(nwb_content)
 
         self.task_originator.make(nwb_content)
-        # if self.process_camera_sample_frame_count:
-        #     self.camera_sample_frame_counts_originator.make(nwb_content)
-        #
-        # if self.process_dio:
-        #     self.dio_originator.make(nwb_content)
-        #
-        # if self.process_analog:
-        #     self.analog_originator.make(nwb_content)
-        #
-        # if self.process_mda:
-        #     self.mda_originator.make(nwb_content)
+        if self.process_camera_sample_frame_count:
+            self.camera_sample_frame_counts_originator.make(nwb_content)
+
+        if self.process_dio:
+            self.dio_originator.make(nwb_content)
+
+        if self.process_analog:
+            self.analog_originator.make(nwb_content)
+
+        if self.process_mda:
+            self.mda_originator.make(nwb_content)
 
         return nwb_content
 
