@@ -8,7 +8,7 @@ from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '/../processing/res/reconfig_header.xml')
+_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', 'C:/Users/wmery/PycharmProjects/rec_to_nwb/rec_to_nwb/test/test_data/KF2/raw/20170120/kf2_reconfig.xml')
 
 
 @unittest.skip("Super heavy RAW to NWB Generation")
@@ -24,9 +24,9 @@ class TestRawToNWBGeneration(unittest.TestCase):
             ]
         )
         self.builder = RawToNWBBuilder(
-            animal_name='beans',
+            animal_name='KF2',
             data_path=str(path) + '/../test_data/',
-            dates=['20190718'],
+            dates=['20170120'],
             nwb_metadata=self.metadata,
             output_path='',
             video_path=str(path) + '/../test_data',

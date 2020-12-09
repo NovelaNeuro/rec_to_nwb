@@ -7,8 +7,8 @@ from rec_to_nwb.processing.nwb.components.iterator.data_iterator import DataIter
 
 
 class MultiThreadDataIterator(DataIterator):
-    def __init__(self, data, number_of_threads=6):
-        DataIterator.__init__(self, data)
+    def __init__(self, data, number_of_channels, number_of_threads=6):
+        DataIterator.__init__(self, data, number_of_channels)
         self.number_of_threads = number_of_threads
 
     def __next__(self):
@@ -23,11 +23,10 @@ class MultiThreadDataIterator(DataIterator):
             for thread in threads:
                 data_from_multiple_files += (thread.result(),)
             stacked_data_from_multiple_files = np.hstack(data_from_multiple_files)
-            selection = self.get_selection(number_of_threads=number_of_threads_in_current_step,
-                                           current_dataset=self.current_dataset,
+            number_of_new_rows = stacked_data_from_multiple_files.shape[1]
+            selection = self.get_selection(current_dataset=self.current_dataset,
                                            dataset_file_length=self.dataset_file_length,
-                                           current_file=self.current_file,
-                                           number_of_rows=self.number_of_rows)
+                                           number_of_new_rows=number_of_new_rows)
             data_chunk = DataChunk(data=stacked_data_from_multiple_files, selection=selection)
 
             self._current_index += number_of_threads_in_current_step
@@ -36,6 +35,7 @@ class MultiThreadDataIterator(DataIterator):
             if self.current_file >= self.number_of_files_in_single_dataset:
                 self.current_dataset += 1
                 self.current_file = 0
+                self.current_number_of_rows = 0
 
             del stacked_data_from_multiple_files
             return data_chunk

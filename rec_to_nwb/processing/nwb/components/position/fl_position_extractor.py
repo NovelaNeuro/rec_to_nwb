@@ -26,6 +26,9 @@ class FlPositionExtractor:
                     'Incomplete data in dataset '
                     + str(dataset.name)
                     + 'missing continuous time file')
+            if len(data_from_current_dataset) == 0:
+                # otherwise get IndexError downstream (PosDataManager)
+                continue
             all_pos.append(data_from_current_dataset)
             continuous_time.append(dataset.get_continuous_time())
         return all_pos, continuous_time
