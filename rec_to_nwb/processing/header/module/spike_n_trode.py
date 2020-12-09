@@ -22,4 +22,4 @@ class SpikeNTrode:
         self.filter_on = self.tree.get('filterOn')
         self.ref_on = self.tree.get('refOn')
         self.module_data_on = self.tree.get('moduleDataOn')
-        self.ref_n_trode_id = self.tree.get('refNTrodeID')
+        self.ref_n_trode_id = self.tree.get('refNTrodeID', self.tree.get('refNTrode'))

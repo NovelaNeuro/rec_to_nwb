@@ -8,7 +8,7 @@ from rec_to_nwb.processing.nwb.components.iterator.timestamp_iterator import Tim
 
 class MultiThreadTimestampIterator(TimestampIterator):
 
-    def __init__(self, data, number_of_threads=6):
+    def __init__(self, data, number_of_threads=1):
         TimestampIterator.__init__(self, data)
         self.number_of_threads = number_of_threads
 

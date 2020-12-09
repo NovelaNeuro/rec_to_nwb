@@ -17,15 +17,15 @@ class TestNwbFullGeneration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.metadata = MetadataManager(
-            str(path) + '/processing/res/metadata.yml',
-            [str(path) + '/processing/res/probe1.yml',
-             str(path) + '/processing/res/probe2.yml',
-             str(path) + '/processing/res/probe3.yml'])
+            'test_data/KF2/raw/20170120/KF2_20170120_metadata_test.yml',
+            ['test_data/KF2/raw/20170120/64c-3s6mm6cm-20um-40um-sl.yml',
+             'test_data/KF2/raw/20170120/64c-4s6mm6cm-20um-40um-dl.yml'
+             ])
 
         cls.nwb_builder = NWBFileBuilder(
             data_path=str(path) + '/test_data/',
-            animal_name='beans',
-            date='20190718',
+            animal_name='KF2',
+            date='20170120',
             nwb_metadata=cls.metadata,
             process_dio=True,
             process_mda=True,
@@ -39,10 +39,10 @@ class TestNwbFullGeneration(unittest.TestCase):
         content = self.nwb_builder.build()
         self.nwb_builder.write(content)
         self.nwb_builder.build_and_append_to_nwb(
-            process_mda_valid_time=True,
-            process_mda_invalid_time=True,
-            process_pos_valid_time=True,
-            process_pos_invalid_time=True
+            process_mda_valid_time=False,
+            process_mda_invalid_time=False,
+            process_pos_valid_time=False,
+            process_pos_invalid_time=False
         )
         self.assertIsNotNone(self.nwb_builder)
 
@@ -61,7 +61,8 @@ class TestNwbFullGeneration(unittest.TestCase):
             nwb_metadata=self.metadata,
             process_dio=True,
             process_mda=True,
-            process_analog=True
+            process_analog=True,
+            process_video=True
         )
 
     @should_raise(TypeError)

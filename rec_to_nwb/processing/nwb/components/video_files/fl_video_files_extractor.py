@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
@@ -15,13 +17,21 @@ class FlVideoFilesExtractor:
         video_files = self.video_files_metadata
         extracted_video_files = []
         for video_file in video_files:
-            new_fl_video_file = {
-                "name": video_file["name"],
-                "timestamps": self.convert_timestamps(readTrodesExtractedDataFile(
+            if Path(self.raw_data_path + "/" + video_file["name"][:-4] + "videoTimeStamps.cameraHWSync").is_file():
+                converted_timestamps = self.convert_timestamps(readTrodesExtractedDataFile(
                     self.raw_data_path + "/"
                     + video_file["name"][:-4]
-                    + "videoTimeStamps.cameraHWSync"
-                )["data"]),
+                    + "videoTimeStamps.cameraHWFrameCount"
+                )["data"])
+            else:
+                converted_timestamps = readTrodesExtractedDataFile(
+                    self.raw_data_path + "/"
+                    + video_file["name"][:-4]
+                    + "videoTimeStamps.cameraHWFrameCount"
+                )["data"]
+            new_fl_video_file = {
+                "name": video_file["name"],
+                "timestamps": converted_timestamps,
                 "device": video_file["camera_id"]
             }
             extracted_video_files.append(new_fl_video_file)

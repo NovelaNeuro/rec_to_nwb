@@ -68,6 +68,8 @@ class NWBFileBuilder:
         process_dio (boolean): flag if dio data should be processed
         process_mda (boolean): flag if mda data should be processed
         process_analog (boolean): flag if analog data should be processed
+        process_video (boolean): flag if video data should be processed
+        process_camera_sample_frame_count(boolean): flag if camera sample frame count should be processed
         video_path (string): path to directory with video files associated to nwb file
         output_file (string): path and name specifying where .nwb file gonna be written
 
@@ -88,6 +90,8 @@ class NWBFileBuilder:
             process_mda: bool = True,
             process_analog: bool = True,
             process_pos_timestamps: bool = True,
+            process_video: bool = False,
+            process_camera_sample_frame_count: bool = False,
             video_path: str = '',
             output_file: str = 'output.nwb',
             reconfig_header: str = ''
@@ -126,7 +130,9 @@ class NWBFileBuilder:
         self.process_dio = process_dio
         self.process_mda = process_mda
         self.process_analog = process_analog
+        self.process_video = process_video
         self.process_pos_timestamps = process_pos_timestamps
+        self.process_camera_sample_frame_count = process_camera_sample_frame_count
         self.output_file = output_file
         self.video_path = video_path
         self.link_to_notes = self.metadata.get('link to notes', None)
@@ -286,7 +292,8 @@ class NWBFileBuilder:
 
         self.camera_device_originator.make(nwb_content)
 
-        self.video_files_originator.make(nwb_content)
+        if self.process_video:
+            self.video_files_originator.make(nwb_content)
 
         electrode_groups = self.electrode_group_originator.make(
             nwb_content, probes, valid_map_dict['electrode_groups']
@@ -303,8 +310,8 @@ class NWBFileBuilder:
         self.sample_count_timestamp_corespondence_originator.make(nwb_content)
 
         self.task_originator.make(nwb_content)
-
-        self.camera_sample_frame_counts_originator.make(nwb_content)
+        if self.process_camera_sample_frame_count:
+            self.camera_sample_frame_counts_originator.make(nwb_content)
 
         if self.process_dio:
             self.dio_originator.make(nwb_content)

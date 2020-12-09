@@ -15,6 +15,7 @@ class MdaOriginator:
         self.datasets = datasets
         self.header = header
         self.metadata = metadata
+        self.number_of_channels = self.count_number_of_channels(header)
 
     def make(self, nwb_content):
         logger.info('MDA: Building')
@@ -22,7 +23,8 @@ class MdaOriginator:
             nwb_content=nwb_content,
             sampling_rate=float(self.header.configuration.hardware_configuration.sampling_rate),
             datasets=self.datasets,
-            conversion=self.metadata['raw_data_to_volts']
+            conversion=self.metadata['raw_data_to_volts'],
+            number_of_channels=self.number_of_channels
         )
         fl_mda = fl_mda_manager.get_data()
         logger.info('MDA: Injecting')
@@ -30,3 +32,10 @@ class MdaOriginator:
             nwb_content=nwb_content,
             electrical_series=ElectricalSeriesCreator.create_mda(fl_mda)
         )
+
+    def count_number_of_channels(self, header):
+        spike_configuration = header.configuration.spike_configuration
+        counter = 0
+        for spike_n_trode in spike_configuration.spike_n_trodes:
+            counter += len(spike_n_trode.spike_channels)
+        return counter
