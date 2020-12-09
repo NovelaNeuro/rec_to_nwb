@@ -1,5 +1,5 @@
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
-from rec_to_nwb.processing.nwb.components.iterator.multi_thread_data_iterator import MultiThreadDataIterator
+from rec_to_nwb.processing.nwb.components.iterator.multi_thread_data_iterator_pos import MultiThreadDataIteratorPos
 from rec_to_nwb.processing.nwb.components.iterator.multi_thread_timestamp_iterator import MultiThreadTimestampIterator
 from rec_to_nwb.processing.nwb.components.position.pos_data_manager import PosDataManager
 from rec_to_nwb.processing.nwb.components.position.pos_timestamp_manager import PosTimestampManager
@@ -39,7 +39,7 @@ class FlPositionExtractor:
             for single_pos in self.all_pos
         ]
         return [
-            MultiThreadDataIterator(pos_data)
+            MultiThreadDataIteratorPos(pos_data)
             for pos_data in pos_datas
         ]
 
