@@ -21,7 +21,6 @@ class FlPositionManager:
 
     @beartype
     def get_fl_positions(self) -> list:
-        print(self.dataset_names)
         cameras_ids = self.__get_cameras_ids(self.dataset_names, self.metadata)
         meters_per_pixels = self.__get_meters_per_pixels(cameras_ids, self.metadata)
 

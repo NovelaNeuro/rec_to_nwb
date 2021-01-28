@@ -8,16 +8,18 @@ from rec_to_nwb.processing.nwb.components.mda.mda_timestamp_manager import MdaTi
 
 class FlMdaExtractor:
 
-    def __init__(self, datasets):
+    def __init__(self, datasets, conversion):
         self.datasets = datasets
-
+        # the conversion is to volts, so we multiple by 1e6 to change to uV
+        self.raw_to_uv = float(conversion) * 1e6
+        
     def get_data(self):
         mda_data, timestamps, continuous_time = self.__extract_data()
         mda_timestamp_data_manager = MdaTimestampDataManager(
             directories=timestamps,
             continuous_time_directories=continuous_time
         )
-        mda_data_manager = MdaDataManager(mda_data)
+        mda_data_manager = MdaDataManager(mda_data, self.raw_to_uv)
         data_iterator = MultiThreadDataIterator(mda_data_manager)
         timestamp_iterator = MultiThreadTimestampIterator(mda_timestamp_data_manager)
 

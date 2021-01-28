@@ -11,6 +11,6 @@ class ElectricalSeriesCreator:
             electrodes=fl_mda.electrode_table_region,
             timestamps=fl_mda.mda_data.mda_timestamps,
             conversion=fl_mda.conversion,
-            comments="sample comment",
-            description="Electrical series registered on electrode"
-        )
+            comments="",
+            description="Recording of extracellular voltage"
+    )
