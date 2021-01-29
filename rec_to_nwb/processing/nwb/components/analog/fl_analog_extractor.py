@@ -17,12 +17,13 @@ class FlAnalogExtractor:
     def extract_analog_for_single_dataset(analog_files, continuous_time_file):
         single_dataset_data = {}
         for analog_file in analog_files:
+            print(f'processing analog file {analog_file}')
             if not 'timestamps' in analog_file:
                 analog_data = readTrodesExtractedDataFile(analog_files[analog_file])
                 values = analog_data['data']
                 single_dataset_data[analog_data['id']] = values
             else:
-                continuous_time_dict = ContinuousTimeExtractor.get_continuous_time_dict_file(continuous_time_file)
+                continuous_time = ContinuousTimeExtractor.get_continuous_time_array_file(continuous_time_file)
                 timestamp = readTrodesExtractedDataFile(analog_files[analog_file])
                 keys = [key[0] for key in timestamp['data']]
                 single_dataset_data[analog_file] = TimestampConverter.convert_timestamps(continuous_time_dict, keys)

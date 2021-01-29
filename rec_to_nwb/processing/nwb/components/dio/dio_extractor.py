@@ -1,5 +1,6 @@
 import logging.config
 import os
+import numpy as np
 
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
@@ -16,12 +17,16 @@ class DioExtractor:
     @staticmethod
     def extract_dio_for_single_dataset(filtered_files, continuous_time_file):
         single_dataset_data = {}
-        continuous_time_dict = ContinuousTimeExtractor.get_continuous_time_dict_file(continuous_time_file)
+        continuous_time = ContinuousTimeExtractor.get_continuous_time_array_file(continuous_time_file)
+
+        print(f'in DioExtractor: continuous_time shape: {continuous_time.shape}')
         for dio_file in filtered_files:
             try:
-                dio_data = readTrodesExtractedDataFile(filtered_files[dio_file])
-                keys, values = DioExtractor.__get_dio_time_series(dio_data, continuous_time_dict)
-                single_dataset_data[dio_file] = ([keys, values])
+                dio_data = readTrodesExtractedDataFile(filtered_files[dio_file])['data']
+                # dio_data is a labeled array with 'time' and 'state' columns. 'time' corresponds to sample count
+                single_dataset_data[dio_file] = DioExtractor.__get_dio_time_series(dio_data, continuous_time)
+                # keys, values = DioExtractor.__get_dio_time_series(dio_data, continuous_time_dict
+                # single_dataset_data[dio_file] = ([keys, values])
 
             except KeyError as error:
                 message = "there is no " + str(dio_file) + ", error: "
@@ -32,14 +37,17 @@ class DioExtractor:
         return single_dataset_data
 
     @staticmethod
-    def __get_dio_time_series(dio_data, continuoues_time_dict):
+    def __get_dio_time_series(dio_data, continuous_time):
+        converted_timestamps = TimestampConverter.convert_timestamps(continuous_time, dio_data['time'])
+        print(f'in __get_dio... : times = {converted_timestamps[0:10]}')
+        values = bool(dio_data['state'])
+        # values = [bool(recorded_event[1]) for recorded_event in dio_data['data']]
+        # keys = [recorded_event[0] for recorded_event in dio_data['data']]
+        # keys = DioExtractor.__convert_keys(continuoues_time_dict, keys)
+        return converted_timestamps, values
 
-        values = [bool(recorded_event[1]) for recorded_event in dio_data['data']]
-        keys = [recorded_event[0] for recorded_event in dio_data['data']]
-        keys = DioExtractor.__convert_keys(continuoues_time_dict, keys)
-        return keys, values
-
+ 
     @staticmethod
-    def __convert_keys(continuous_time_dict, keys):
-        converted_timestamps = TimestampConverter.convert_timestamps(continuous_time_dict, keys)
+    def __convert_keys(continuous_time_array, keys):
+        converted_timestamps = TimestampConverter.convert_timestamps(continuous_time_array, keys)
         return converted_timestamps

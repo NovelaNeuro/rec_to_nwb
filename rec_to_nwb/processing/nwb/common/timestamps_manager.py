@@ -29,9 +29,11 @@ class TimestampManager(abc.ABC):
 
     def retrieve_real_timestamps(self, dataset_id):
         timestamps_ids = self.read_timestamps_ids(dataset_id)
-        continuous_time_dict = self.continuous_time_extractor.get_continuous_time_dict_file(
+ #       continuous_time_dict = self.continuous_time_extractor.get_continuous_time_dict_file(
+ #           self.continuous_time_directories[dataset_id])
+        continuous_time = self.continuous_time_extractor.get_continuous_time_array_file(
             self.continuous_time_directories[dataset_id])
-        return self.timestamp_converter.convert_timestamps(continuous_time_dict, timestamps_ids)
+        return self.timestamp_converter.convert_timestamps(continuous_time, timestamps_ids)
 
     def read_timestamps_ids(self, dataset_id):
         return self._get_timestamps(dataset_id)
