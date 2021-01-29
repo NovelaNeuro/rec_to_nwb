@@ -19,7 +19,6 @@ class DioExtractor:
         single_dataset_data = {}
         continuous_time = ContinuousTimeExtractor.get_continuous_time_array_file(continuous_time_file)
 
-        print(f'in DioExtractor: continuous_time shape: {continuous_time.shape}')
         for dio_file in filtered_files:
             try:
                 dio_data = readTrodesExtractedDataFile(filtered_files[dio_file])['data']
@@ -39,12 +38,11 @@ class DioExtractor:
     @staticmethod
     def __get_dio_time_series(dio_data, continuous_time):
         converted_timestamps = TimestampConverter.convert_timestamps(continuous_time, dio_data['time'])
-        print(f'in __get_dio... : times = {converted_timestamps[0:10]}')
-        values = bool(dio_data['state'])
+        #values = np.asarray(dio_data['state'], dtype='bool')
         # values = [bool(recorded_event[1]) for recorded_event in dio_data['data']]
         # keys = [recorded_event[0] for recorded_event in dio_data['data']]
         # keys = DioExtractor.__convert_keys(continuoues_time_dict, keys)
-        return converted_timestamps, values
+        return [converted_timestamps, dio_data['state']]
 
  
     @staticmethod

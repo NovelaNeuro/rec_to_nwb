@@ -184,8 +184,8 @@ class RawToNWBBuilder:
             process_pos_valid_time=process_pos_valid_time,
             process_pos_invalid_time=process_pos_invalid_time)
 
-    def __build_nwb_file(self, process_mda_valid_time=True, process_mda_invalid_time=True,
-               process_pos_valid_time=True, process_pos_invalid_time=True):
+    def __build_nwb_file(self, process_mda_valid_time=False, process_mda_invalid_time=False,
+               process_pos_valid_time=False, process_pos_invalid_time=False):
         logger.info('Building NWB files')
         os.makedirs(self.output_path, exist_ok=True)
         os.makedirs(self.video_path, exist_ok=True)
@@ -194,13 +194,13 @@ class RawToNWBBuilder:
             nwb_builder = self.get_nwb_builder(date)
             content = nwb_builder.build()
             nwb_builder.write(content)
-            self.append_to_nwb(
-                nwb_builder=nwb_builder,
-                process_mda_valid_time=process_mda_valid_time,
-                process_mda_invalid_time=process_mda_invalid_time,
-                process_pos_valid_time=process_pos_valid_time,
-                process_pos_invalid_time=process_pos_invalid_time
-            )
+            # self.append_to_nwb(
+            #     nwb_builder=nwb_builder,
+            #     process_mda_valid_time=process_mda_valid_time,
+            #     process_mda_invalid_time=process_mda_invalid_time,
+            #     process_pos_valid_time=process_pos_valid_time,
+            #     process_pos_invalid_time=process_pos_invalid_time
+            # )
             
     def __build_old_nwb_file(self, process_mda_valid_time=True, process_mda_invalid_time=True,
                process_pos_valid_time=True, process_pos_invalid_time=True):

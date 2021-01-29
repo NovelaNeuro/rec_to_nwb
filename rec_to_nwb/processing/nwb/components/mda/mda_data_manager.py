@@ -1,4 +1,5 @@
 from mountainlab_pytools.mdaio import readmda
+
 from numpy import isclose
 from rec_to_nwb.processing.nwb.common.data_manager import DataManager
 
@@ -13,4 +14,4 @@ class MdaDataManager(DataManager):
         if not isclose(self.raw_to_uv,1.0):
             return (readmda(self.directories[dataset_id][file_id]) * self.raw_to_uv).astype('int16')
         else:
-            return readmda(self.directories[dataset_id][file_id])
+            return readmda(self.directories[dataset_id][file_id]).astype('int16')

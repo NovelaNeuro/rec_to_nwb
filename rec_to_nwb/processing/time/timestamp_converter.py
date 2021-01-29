@@ -14,12 +14,16 @@ class TimestampConverter:
     @staticmethod
     def convert_timestamps(continuous_times, timestamps):
         converted_timestamps = np.ndarray(shape=[len(timestamps), ], dtype="float64")
+        converted_timestamps = np.nan
+        # add values at the end of continuous_times to make sure all values are within the range
+        max_vals = np.asarray([[np.iinfo(np.int64).max],[np.iinfo(np.int64).max]], dtype=np.int64)
+        continuous_times = np.hstack((continuous_times, max_vals))
         # look up the timestamps in the first colum of  continuous_times
-        timestamp_ind = np.searchsorted(continuous_times[:,0], timestamps)
-        converted_timestamps = continuous_times[timestamp_ind,1] / 1E9
+        timestamp_ind = np.searchsorted(continuous_times[0,:], timestamps)
+        converted_timestamps = continuous_times[1,timestamp_ind] / 1E9
         # get rid of any that are not exact
-        not_found = timestamps != continuous_times[timestamp_ind,0]
-        print(f'in Timestamp Converter: {len(not_found)} timestamps not found in continuous time file')
+        not_found = timestamps != continuous_times[0,timestamp_ind]
+        #print(f'in Timestamp Converter: {sum(not_found)} timestamps not found in continuous time file')
         converted_timestamps[not_found] = np.nan
         return converted_timestamps
         #old code
