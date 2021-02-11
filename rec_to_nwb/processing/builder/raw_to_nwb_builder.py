@@ -155,7 +155,8 @@ class RawToNWBBuilder:
             return True
         raise FileNotFoundError('need either cameraHWSync or cameraHWFrameCount files.')
 
-    def build_nwb(self, process_mda_valid_time=True, process_mda_invalid_time=True,
+    def build_nwb(self, run_preprocessing=True,
+                  process_mda_valid_time=True, process_mda_invalid_time=True,
                   process_pos_valid_time=True, process_pos_invalid_time=True):
         """Builds nwb file for experiments from given dates.
 
@@ -170,7 +171,8 @@ class RawToNWBBuilder:
                 Need the pos data inside the nwb. (default True)
         """
 
-        self.__preprocess_data()
+        if run_preprocessing:
+            self.__preprocess_data()
 
         if self.__is_old_dataset():
             self.__build_old_nwb_file(process_mda_valid_time=process_mda_valid_time,
