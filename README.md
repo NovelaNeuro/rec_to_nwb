@@ -13,11 +13,12 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    ```bash
    export PATH="$HOME/SpikeGadgets/:$PATH"
    ```
-3. Download miniconda from <br>
+3. Use anaconda or Download miniconda from <br>
    <https://docs.conda.io/en/latest/miniconda.html> <br>
 4. Install rec_to_nwb package:
    ```bash
-   conda install -c conda-forge -c novelakrk rec_to_nwb
+   conda install -c conda-forge -c novelakrk 
+   git clone https://github.com/LorenFrankLab/rec_to_nwb.git
    ```
 5. Install Jupyter notebook
    ```bash
@@ -36,7 +37,7 @@ It converts experiment data from `/raw` or `/preprocessing` folder to `.nwb` fil
    <https://docs.conda.io/en/latest/miniconda.html><br>
 4. clone repository
    ```bash
-   git clone https://github.com/NovelaNeuro/rec_to_nwb.git
+   git clone https://github.com/LorenFrankLab/rec_to_nwb.git
 
    cd rec_to_nwb/rec_to_nwb
    ```
