@@ -1,5 +1,5 @@
 
- class FileSorter:
+class FileSorter:
     @staticmethod
     def sort_filenames(filenames):
         # Check if these are mda files
