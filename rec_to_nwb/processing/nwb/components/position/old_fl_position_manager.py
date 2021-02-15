@@ -55,19 +55,23 @@ class OldFlPositionManager:
                 zip(position_datas, columns_labels, meters_per_pixels)
             ]
 
+
+
+
+
     @staticmethod
     def __get_cameras_ids(dataset_names, metadata):
         camera_ids = []
         for dataset_name in dataset_names:
-            dataset_name = re.sub(r'_\w\d\d?', '', dataset_name)
-            dataset_name = re.sub(r'^[0]', '', dataset_name)
-
+            # extract the first the first element of the dataset_name as the epoch number
+            dataset_elements = str(dataset_name).split('_')
+            epoch_num = str(int(dataset_elements[0]))
             try:
                 camera_ids.append(
                     next(
                         task['camera_id']
                         for task in metadata['tasks']
-                        if dataset_name in task['task_epochs']
+                        if epoch_num in task['task_epochs']
                     )[0]
                 )
             except:
