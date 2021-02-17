@@ -13,20 +13,27 @@ class TimestampConverter:
 
     @staticmethod
     def convert_timestamps(continuous_times, timestamps):
-        converted_timestamps = np.ndarray(shape=[len(timestamps), ], dtype="float64")
-        converted_timestamps = np.nan
+        '''
+        continuous_times: (2, T) numpy array, where T is the number of timepoints
+                        row 0: trodestime, row 1: adjusted_systime
+        timestamps: trodes timestamps relative to camera’s timing (from pos)
+        '''
         # add values at the end of continuous_times to make sure all values are within the range
         max_vals = np.asarray([[np.iinfo(np.int64).max],[np.iinfo(np.int64).max]], dtype=np.int64)
         continuous_times = np.hstack((continuous_times, max_vals))
-        # look up the timestamps in the first colum of  continuous_times
+
+        # look up the timestamps in the first row of continuous_times
         timestamp_ind = np.searchsorted(continuous_times[0,:], timestamps)
         converted_timestamps = continuous_times[1,timestamp_ind] / 1E9
+
         # get rid of any that are not exact
         not_found = timestamps != continuous_times[0,timestamp_ind]
         #print(f'in Timestamp Converter: {sum(not_found)} timestamps not found in continuous time file')
         converted_timestamps[not_found] = np.nan
         return converted_timestamps
+
         #old code
+        # converted_timestamps = np.ndarray(shape=[len(timestamps), ], dtype="float64")
         # for i, timestamp in enumerate(timestamps):
         #     key = str(timestamp)
         #     value = continuous_time_dict.get(key, float('nan')) / 1E9

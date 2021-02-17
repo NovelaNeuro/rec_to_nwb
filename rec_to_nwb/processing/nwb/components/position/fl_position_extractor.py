@@ -9,9 +9,10 @@ from rec_to_nwb.processing.tools.beartype.beartype import beartype
 class FlPositionExtractor:
 
     @beartype
-    def __init__(self, datasets: list):
+    def __init__(self, datasets: list, convert_timestamps: bool = True):
         self.datasets = datasets
         self.all_pos, self.continuous_time = self.__extract_data()
+        self.convert_timestamps = convert_timestamps
 
     def __extract_data(self):
         all_pos = []
@@ -54,7 +55,8 @@ class FlPositionExtractor:
         pos_timestamp_managers = [
             PosTimestampManager(
                 directories=[single_pos],
-                continuous_time_directories=[continuous_time]
+                continuous_time_directories=[continuous_time],
+                convert_timestamps = self.convert_timestamps
             )
             for single_pos, continuous_time in zip(self.all_pos, self.continuous_time)
         ]

@@ -10,13 +10,16 @@ from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_
 class FlPositionManager:
 
     @beartype
-    def __init__(self, datasets: list, metadata: dict, dataset_names: list, process_timestamps: bool):
+    def __init__(self, datasets: list, metadata: dict, dataset_names: list,
+                    process_timestamps: bool,
+                    convert_timestamps: bool = True):
         self.datasets = datasets
         self.metadata = metadata
         self.dataset_names = dataset_names
         self.process_timestamps = process_timestamps
 
-        self.fl_position_extractor = FlPositionExtractor(datasets)
+        self.fl_position_extractor = FlPositionExtractor(datasets,
+                                        convert_timestamps=convert_timestamps)
         self.fl_position_builder = FlPositionBuilder()
 
     @beartype

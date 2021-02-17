@@ -16,9 +16,12 @@ logger = logging.getLogger(__name__)
 class PositionOriginator:
 
     @beartype
-    def __init__(self, datasets: list, metadata: dict, dataset_names: list, process_timestamps: bool):
+    def __init__(self, datasets: list, metadata: dict, dataset_names: list,
+                    process_timestamps: bool,
+                    convert_timestamps: bool = True):
         self.pm_creator = ProcessingModuleCreator('behavior', 'Contains all behavior-related data')
-        self.fl_position_manager = FlPositionManager(datasets, metadata, dataset_names, process_timestamps)
+        self.fl_position_manager = FlPositionManager(datasets, metadata, dataset_names, process_timestamps,
+                                                    convert_timestamps=convert_timestamps)
         self.position_creator = PositionCreator()
 
     @beartype

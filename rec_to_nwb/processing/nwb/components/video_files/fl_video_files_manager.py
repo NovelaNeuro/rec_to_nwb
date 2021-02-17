@@ -7,10 +7,14 @@ from rec_to_nwb.processing.tools.beartype.beartype import beartype
 class FlVideoFilesManager:
 
     @beartype
-    def __init__(self, raw_data_path: str, video_path: str, video_files_metadata: list):
+    def __init__(self, raw_data_path: str, video_path: str, video_files_metadata: list,
+                    convert_timestamps: bool = True,
+                    return_timestamps: bool = True):
         self.video_files_copy_maker = VideoFilesCopyMaker([video_files['name'] for video_files in video_files_metadata])
         self.video_files_copy_maker.copy(raw_data_path, video_path)
-        self.fl_video_files_extractor = FlVideoFilesExtractor(raw_data_path, video_files_metadata)
+        self.fl_video_files_extractor = FlVideoFilesExtractor(raw_data_path, video_files_metadata,
+                                                            convert_timestamps=convert_timestamps,
+                                                            return_timestamps=return_timestamps)
         self.fl_video_files_builder = FlVideoFilesBuilder()
 
     def get_video_files(self):

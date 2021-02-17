@@ -13,9 +13,10 @@ logger = logging.getLogger(__name__)
 
 class DioOriginator:
 
-    def __init__(self, metadata, datasets):
+    def __init__(self, metadata, datasets, convert_timestamps=True):
         self.metadata = metadata
         self.datasets = datasets
+        self.convert_timestamps = convert_timestamps
 
     def make(self, nwb_content):
         logger.info('DIO: Prepare directories')
@@ -26,7 +27,8 @@ class DioOriginator:
         dio_manager = DioManager(
             dio_files=dio_files.get_files(),
             dio_metadata=self.metadata['behavioral_events'],
-            continuous_time_files=self.__get_continuous_time_files()
+            continuous_time_files=self.__get_continuous_time_files(),
+            convert_timestamps=self.convert_timestamps
         )
         dio_data = dio_manager.get_dio()
         logger.info('DIO: Building')
