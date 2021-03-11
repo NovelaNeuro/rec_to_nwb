@@ -51,6 +51,10 @@ Currently we suggest following the instructions to install https://github.com/Lo
    jupyter notebook nwb_generation.ipynb
    ```
 4. Metadata.yml description:
+
+Important note: right now the code assumes that the electrode groups listed below (each of which corresponds to an NTrode in the file) are in ascending order by NTrode number. If this is not the case the data could be scrambled.  Thus, the first listed electrode group should correspond to, for example, NTrode 1 while the second would correspond to NTrode 2, etc.  
+
+
    ```
     # general information about the experiment 
     experimenter name: Alison Comrie
