@@ -1,0 +1,59 @@
+name: test
+channels:
+  - conda-forge
+  - defaults
+  - novelakrk
+dependencies:
+  - python>=3.6,<3.8
+  - pip
+  - hdmf
+  - pynwb
+  - asn1crypto
+  - blas
+  - ca-certificates
+  - certifi
+  - cffi
+  - chardet
+  - cryptography
+  - elementpath
+  - h5py<3.0
+  - hdf5
+  - idna
+  - libblas
+  - libcblas
+  - liblapack
+  - mkl
+  - mkl-service
+  - numpy
+  - openssl
+  - pandas
+  - pycparser
+  - pyopenssl
+  - pysocks
+  - python-dateutil
+  - pytz
+  - requests
+  - scipy
+  - setuptools
+  - six
+  - sqlite
+  - urllib3
+  - wheel
+  - xmlschema
+  - zlib
+  - vdom
+  - pyyaml
+  - pytest
+  - testfixtures
+  - ndx-franklab-novela=0.0.011
+  - pip:
+      - mountainlab_pytools
+      - xmldiff
+      - rec-to-binaries
+      - hdmf>2.1.0
+      - pynwb
+
+#  Docs
+  - recommonmark
+  - sphinx-autoapi
+  - sphinx_rtd_theme

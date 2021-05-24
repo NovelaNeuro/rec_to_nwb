@@ -9,7 +9,6 @@ class DataManager(abc.ABC):
 
         self.number_of_datasets = self.get_number_of_datasets()
         self.number_of_files_per_dataset = self.get_number_of_files_per_dataset()
-        # self.number_of_rows_per_file = self._get_data_shape(0)[0]
         self.number_of_rows_per_file = self._get_number_of_rows_per_file()
         self.file_lenghts_in_datasets = self._get_file_length(self.number_of_datasets)
 
@@ -20,10 +19,13 @@ class DataManager(abc.ABC):
     def get_number_of_files_per_dataset(self):
         return np.shape(self.directories)[1]
 
-    def _get_data_shape(self, dataset_num):
-        dim1 = np.shape(self.read_data(dataset_num, 0))[0]
-        dim2 = np.shape(self.read_data(dataset_num, 0))[1]
+    def _get_data_shape(self, dataset_num, file_num=0):
+        dim1 = np.shape(self.read_data(dataset_num, file_num))[0]
+        dim2 = np.shape(self.read_data(dataset_num, file_num))[1]
         return dim1, dim2
+    
+    def get_data_shape(self, dataset_num, file_num=0):
+        return self._get_data_shape(dataset_num, file_num)
 
     def _get_file_length(self, number_of_datasets):
         return [self._get_data_shape(i)[1] for i in range(number_of_datasets)]

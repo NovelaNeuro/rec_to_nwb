@@ -58,7 +58,7 @@ class RawToNWBBuilder:
         spikes_export_args (tuple of strings): parameters to launch spikes extraction from spikegadgets
         time_export_args (tuple of strings): parameters to launch time extraction from spikegadgets
         trodes_rec_export_args (tuple of strings): parameters to launch analog extraction from spikegadgets
-        parallel_instances (int): number of parallel processes used during processing data
+        parallel_instances (int): number of parallel processes used during extracting data
 
     Methods:
         build_nwb()
