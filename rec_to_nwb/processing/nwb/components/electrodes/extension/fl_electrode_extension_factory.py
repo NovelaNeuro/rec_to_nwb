@@ -72,13 +72,25 @@ class FlElectrodeExtensionFactory:
 
     @classmethod
     def create_ref_elect_id(cls, spike_n_trodes: list, ntrode_metadata: dict):
+        # create a list of ntrode_ids, channels, and their indices
+        ntrode_elect_id = dict()
+        elect_id = 0
+        for ntrode in ntrode_metadata:
+            ntrode_id = ntrode['ntrode_id']
+            ntrode_elect_id[ntrode_id] = dict()
+            for chan in ntrode["map"]:
+                # adjust for 1 based channel numbers in rec file header: ntrode["map"] is 0 based, so we have to add 1 to the zero based number to get the  index
+                # that corresponds to spike_n_trode.ref_chan below
+                ntrode_elect_id[ntrode_id][int(chan)+1] = elect_id
+                elect_id+=1
+
         ref_elect_id = []
         for spike_n_trode in spike_n_trodes:
             if spike_n_trode.ref_n_trode_id:
                 for ntrode in ntrode_metadata:
                     if int(ntrode["ntrode_id"]) == int(spike_n_trode.ref_n_trode_id):
                         ref_elect_id.extend(
-                            [ntrode["map"][spike_n_trode.ref_chan]]
+                            [ntrode_elect_id[spike_n_trode.ref_n_trode_id][int(spike_n_trode.ref_chan)]]
                             * len(spike_n_trode.spike_channels)
                         )
             else:

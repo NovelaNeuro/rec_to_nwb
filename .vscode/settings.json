@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/Users/loren/opt/anaconda3/envs/rec_to_nwb/bin/python",
+    "python.pythonPath": "/home/loren/anaconda3/envs/rec_to_nwb/bin/python",
     "python.linting.pylintEnabled": true
 }
