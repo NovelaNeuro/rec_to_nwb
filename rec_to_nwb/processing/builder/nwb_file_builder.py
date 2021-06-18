@@ -294,7 +294,7 @@ class NWBFileBuilder:
 
         logger.info('Building components for NWB')
         nwb_content = NWBFile(
-            session_description=self.metadata['session description'],
+            session_description=self.metadata['session_description'],
             experimenter=self.metadata['experimenter_name'],
             lab=self.metadata['lab'],
             institution=self.metadata['institution'],

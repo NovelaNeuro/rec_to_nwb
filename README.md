@@ -61,7 +61,7 @@ Important note: right now the code assumes that the electrode groups listed belo
     lab: Loren Frank
     institution: University of California, San Francisco
     experiment_description: Reinforcement learning
-    session description: Reinforcement leaarning
+    session_description: Reinforcement leaarning
     session_id: beans_01
     subject:
       description: Long Evans Rat

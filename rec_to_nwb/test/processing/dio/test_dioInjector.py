@@ -18,7 +18,7 @@ class TestDioManager(unittest.TestCase):
 
     def setUp(self):
         self.nwb_content = NWBFile(
-            session_description='session description',
+            session_description='session_description',
             experimenter='experimenter_name',
             lab='lab',
             institution='institution',
