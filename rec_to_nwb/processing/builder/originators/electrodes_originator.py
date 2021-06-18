@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class ElectrodesOriginator:
 
     def __init__(self, probes, metadata):
-        self.fl_electrode_manager = FlElectrodeManager(probes, metadata['electrode groups'])
+        self.fl_electrode_manager = FlElectrodeManager(probes, metadata['electrode_groups'])
         self.electrode_creator = ElectrodesCreator()
 
     def make(self, nwb_content, electrode_groups, electrodes_valid_map, electrode_groups_valid_map):

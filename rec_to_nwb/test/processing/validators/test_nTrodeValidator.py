@@ -43,7 +43,7 @@ class TestNTrodeValidator(TestCase):
         ]
 
         metadata = {
-            'electrode groups': [
+            'electrode_groups': [
                 {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
                 {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'},
             ],
@@ -83,7 +83,7 @@ class TestNTrodeValidator(TestCase):
         ]
 
         metadata = {
-            'electrode groups': [
+            'electrode_groups': [
                 {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
             ],
             "ntrode electrode group channel map": [
@@ -125,7 +125,7 @@ class TestNTrodeValidator(TestCase):
         ]
 
         metadata = {
-            'electrode groups': [
+            'electrode_groups': [
                 {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
                 {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'},
             ],
@@ -197,7 +197,7 @@ class TestNTrodeValidator(TestCase):
         ]
 
         metadata = {
-            'electrode groups': [
+            'electrode_groups': [
                 {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
                 {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'},
             ],

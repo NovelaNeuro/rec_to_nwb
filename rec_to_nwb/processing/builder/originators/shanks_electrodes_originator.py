@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class ShanksElectrodeOriginator:
 
     def __init__(self, probes, metadata):
-        self.fl_shanks_electrode_manager = FlShanksElectrodeManager(probes, metadata['electrode groups'])
+        self.fl_shanks_electrode_manager = FlShanksElectrodeManager(probes, metadata['electrode_groups'])
         self.shanks_electrodes_creator = ShanksElectrodeCreator()
 
     def make(self):

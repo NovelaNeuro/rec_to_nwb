@@ -43,7 +43,7 @@ class NTrodeValidator(Validator):
 
     @staticmethod
     def validate_ntrode_metadata_with_probe_metadata(metadata, probes_metadata):
-        for electrode_group in metadata['electrode groups']:
+        for electrode_group in metadata['electrode_groups']:
             probe_metadata = filter_probe_by_type(probes_metadata, electrode_group['device_type'])
             electrodes_in_probe = count_electrodes_in_probe(probe_metadata)
             electrodes_in_group = count_electrodes_in_ntrode(

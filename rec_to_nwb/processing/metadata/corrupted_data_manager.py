@@ -34,7 +34,7 @@ class CorruptedDataManager:
             electrodes_valid_map=electrodes_valid_map
         )
         probes_valid_map = self.__get_probes_valid_map(
-            electrode_groups_metadata=self.metadata['electrode groups'],
+            electrode_groups_metadata=self.metadata['electrode_groups'],
             electrode_groups_valid_map=electrode_groups_valid_map
         )
 

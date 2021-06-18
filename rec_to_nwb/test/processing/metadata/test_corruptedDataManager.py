@@ -28,7 +28,7 @@ class TestCorruptedDataManager(TestCase):
                 {'ntrode_id': 8, 'electrode_group_id': 3, 'bad_channels': [0, 1],
                  'map': {0: 14, 1: 15}}
             ],
-            'electrode groups': [
+            'electrode_groups': [
                 {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5',
                  'description': 'Probe 1'},
                 {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl',
@@ -83,7 +83,7 @@ class TestCorruptedDataManager(TestCase):
                 {'ntrode_id': 1, 'electrode_group_id': 0, 'bad_channels': [0, 1], 'map': {0: 0, 1: 1}},
                 {'ntrode_id': 2, 'electrode_group_id': 1, 'bad_channels': [0, 1], 'map': {0: 2, 1: 3}},
             ],
-            'electrode groups': [
+            'electrode_groups': [
                 {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5',
                  'description': 'Probe 1'},
                 {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl',

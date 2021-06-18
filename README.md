@@ -133,7 +133,7 @@ Important note: right now the code assumes that the electrode groups listed belo
       name:
         - Trodes
     # Electrode Groups list used in experiment. Each Id has to be unique, device_type has to refer to existing device_type in probe.yml. Target_x,y,z fields describe the specified location where this group should be. Possible value of units: 'um' or 'mm'
-    electrode groups:
+    electrode_groups:
       - id: 0
         location: mPFC
         device_type: 128c-4s8mm6cm-20um-40um-sl

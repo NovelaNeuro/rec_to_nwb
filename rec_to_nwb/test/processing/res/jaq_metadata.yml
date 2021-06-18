@@ -42,7 +42,7 @@ device:
   name:
     - Trodes
 
-electrode groups:
+electrode_groups:
   - id: 0
     location: mPFC
     device_type: 128c-4s8mm6cm-20um-40um-sl

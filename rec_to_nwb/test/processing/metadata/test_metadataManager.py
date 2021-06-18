@@ -30,7 +30,7 @@ class TestMetadataManager(TestCase):
         self.assertIn('subject', metadata_fields)
         self.assertIn('tasks', metadata_fields)
         self.assertIn('behavioral_events', metadata_fields)
-        self.assertIn('electrode groups', metadata_fields)
+        self.assertIn('electrode_groups', metadata_fields)
         self.assertIn('ntrode electrode group channel map', metadata_fields)
 
         self.assertIn('units', metadata_fields)
@@ -53,7 +53,7 @@ class TestMetadataManager(TestCase):
         self.assertIn('description', behavioral_event_fields)
         self.assertIn('name', behavioral_event_fields)
 
-        electrode_groups_fields = nwb_metadata.metadata['electrode groups'][0].keys()
+        electrode_groups_fields = nwb_metadata.metadata['electrode_groups'][0].keys()
         self.assertIn('id', electrode_groups_fields)
         self.assertIn('location', electrode_groups_fields)
         self.assertIn('device_type', electrode_groups_fields)

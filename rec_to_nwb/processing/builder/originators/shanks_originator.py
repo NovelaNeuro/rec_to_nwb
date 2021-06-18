@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class ShanksOriginator:
 
     def __init__(self, probes, metadata):
-        self.fl_shank_manager = FlShankManager(probes, metadata['electrode groups'])
+        self.fl_shank_manager = FlShankManager(probes, metadata['electrode_groups'])
         self.shank_creator = ShankCreator()
 
     def make(self, shanks_electrodes_dict):
