@@ -9,7 +9,7 @@ subject:
   genotype:        Wild Type
   sex:             M
   species:         Ratticus norvegicus
-  subject id:      Beans
+  subject_id:      Beans
   weight:          Unknown
 
 units:

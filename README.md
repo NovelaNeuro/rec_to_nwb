@@ -68,7 +68,7 @@ Important note: right now the code assumes that the electrode groups listed belo
       genotype: Wild Type
       sex: Male
       species: Rat
-      subject id: Beans
+      subject_id: Beans
       weight: Unknown
    #Units of analog and behavioral_events
    units:

@@ -42,7 +42,7 @@ class TestMetadataManager(TestCase):
         self.assertIn('genotype', subject_fields)
         self.assertIn('sex', subject_fields)
         self.assertIn('species', subject_fields)
-        self.assertIn('subject id', subject_fields)
+        self.assertIn('subject_id', subject_fields)
         self.assertIn('weight', subject_fields)
 
         tasks_fields = nwb_metadata.metadata['tasks'][0].keys()

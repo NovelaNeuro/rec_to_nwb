@@ -309,7 +309,7 @@ class NWBFileBuilder:
                 genotype=self.metadata['subject']['genotype'],
                 sex=self.metadata['subject']['sex'],
                 species=self.metadata['subject']['species'],
-                subject_id=self.metadata['subject']['subject id'],
+                subject_id=self.metadata['subject']['subject_id'],
                 weight=str(self.metadata['subject']['weight']),
             ),
         )

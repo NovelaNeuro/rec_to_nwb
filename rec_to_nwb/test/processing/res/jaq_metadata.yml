@@ -9,7 +9,7 @@ subject:
   genotype:        Wild Type
   sex:             Male
   species:         Rat
-  subject id:      Beans
+  subject_id:      Beans
   weight:          Unknown
 
 tasks:
