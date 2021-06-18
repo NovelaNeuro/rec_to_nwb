@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class ElectrodeGroupOriginator:
 
     def __init__(self, metadata):
-        self.fl_nwb_electrode_group_manager = FlNwbElectrodeGroupManager(metadata['electrode groups'])
+        self.fl_nwb_electrode_group_manager = FlNwbElectrodeGroupManager(metadata['electrode_groups'])
         self.electrode_group_creator = ElectrodeGroupFactory()
         self.electrode_group_injector = ElectrodeGroupInjector()
 

@@ -252,7 +252,7 @@ class NWBFileBuilder:
         self.data_acq_device_originator = DataAcqDeviceOriginator(
             device_factory=self.device_factory,
             device_injector=self.device_injector,
-            metadata=self.metadata['data acq device']
+            metadata=self.metadata['data_acq_device']
         )
 
         if self.process_mda:
@@ -294,8 +294,8 @@ class NWBFileBuilder:
 
         logger.info('Building components for NWB')
         nwb_content = NWBFile(
-            session_description=self.metadata['session description'],
-            experimenter=self.metadata['experimenter name'],
+            session_description=self.metadata['session_description'],
+            experimenter=self.metadata['experimenter_name'],
             lab=self.metadata['lab'],
             institution=self.metadata['institution'],
             session_start_time=self.session_start_time,
@@ -303,13 +303,13 @@ class NWBFileBuilder:
             identifier=str(uuid.uuid1()),
             session_id=self.metadata['session_id'],
             notes=self.link_to_notes,
-            experiment_description=self.metadata['experiment description'],
+            experiment_description=self.metadata['experiment_description'],
             subject=Subject(
                 description=self.metadata['subject']['description'],
                 genotype=self.metadata['subject']['genotype'],
                 sex=self.metadata['subject']['sex'],
                 species=self.metadata['subject']['species'],
-                subject_id=self.metadata['subject']['subject id'],
+                subject_id=self.metadata['subject']['subject_id'],
                 weight=str(self.metadata['subject']['weight']),
             ),
         )
