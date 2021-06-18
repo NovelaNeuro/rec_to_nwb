@@ -47,7 +47,7 @@ class TestNTrodeValidator(TestCase):
                 {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
                 {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'},
             ],
-            "ntrode electrode group channel map": [
+            "ntrode_electrode_group_channel_map": [
                 {"ntrode_id": 1, "electrode_group_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
                 {"ntrode_id": 2, "electrode_group_id": 1, "bad_channels": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
             ]
@@ -86,7 +86,7 @@ class TestNTrodeValidator(TestCase):
             'electrode_groups': [
                 {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
             ],
-            "ntrode electrode group channel map": [
+            "ntrode_electrode_group_channel_map": [
                 {"ntrode_id": 1, "electrode_group_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
             ]
         }
@@ -129,7 +129,7 @@ class TestNTrodeValidator(TestCase):
                 {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
                 {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'},
             ],
-            "ntrode electrode group channel map": [
+            "ntrode_electrode_group_channel_map": [
                 {"ntrode_id": 1, "electrode_group_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
                 {"ntrode_id": 2, "electrode_group_id": 1, "bad_channels": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
                 {"ntrode_id": 3, "electrode_group_id": 0, "bad_channels": [0, 2], "map": {0: 8, 1: 9, 2: 10, 3: 11}},
@@ -144,7 +144,7 @@ class TestNTrodeValidator(TestCase):
 
     @should_raise(TypeError)
     def test_ntrode_validator_raise_exception_due_to_empty_param(self):
-        metadata = {"ntrode electrode group channel map": [
+        metadata = {"ntrode_electrode_group_channel_map": [
             {"ntrode_id": 1, "electrode_group_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
             {"ntrode_id": 2, "electrode_group_id": 0, "bad_channels": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
             {"ntrode_id": 3, "electrode_group_id": 0, "bad_channels": [0, 2], "map": {0: 8, 1: 9, 2: 10, 3: 11}},
@@ -154,7 +154,7 @@ class TestNTrodeValidator(TestCase):
 
     @should_raise(InvalidHeaderException)
     def test_ntrode_validator_raise_exception_due_to_header_without_spike_ntrodes(self):
-        metadata = {"ntrode electrode group channel map": [
+        metadata = {"ntrode_electrode_group_channel_map": [
             {"ntrode_id": 1, "electrode_group_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
             {"ntrode_id": 2, "electrode_group_id": 0, "bad_channels": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
             {"ntrode_id": 3, "electrode_group_id": 0, "bad_channels": [0, 2], "map": {0: 8, 1: 9, 2: 10, 3: 11}},
@@ -166,7 +166,7 @@ class TestNTrodeValidator(TestCase):
 
     @should_raise(InvalidMetadataException)
     def test_should_raise_exception_due_to_metadata_without_ntrodes(self):
-        metadata = {"ntrode electrode group channel map": []}
+        metadata = {"ntrode_electrode_group_channel_map": []}
 
         validator = NTrodeValidator(metadata, self.header, [])
         validator.create_summary()
@@ -201,7 +201,7 @@ class TestNTrodeValidator(TestCase):
                 {'id': 0, 'location': 'mPFC', 'device_type': 'tetrode_12.5', 'description': 'Probe 1'},
                 {'id': 1, 'location': 'mPFC', 'device_type': '128c-4s8mm6cm-20um-40um-sl', 'description': 'Probe 2'},
             ],
-            "ntrode electrode group channel map": [
+            "ntrode_electrode_group_channel_map": [
                 {"ntrode_id": 1, "electrode_group_id": 0, "bad_channels": [0, 2], "map": {0: 0, 1: 1, 2: 2, 3: 3}},
                 {"ntrode_id": 2, "electrode_group_id": 1, "bad_channels": [0, 1], "map": {0: 4, 1: 5, 2: 6, 3: 7}},
             ]

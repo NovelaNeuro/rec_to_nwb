@@ -27,10 +27,10 @@ class CorruptedDataManager:
         """
 
         electrodes_valid_map = self.__get_electrodes_valid_map(
-            ntrode_metadata=self.metadata['ntrode electrode group channel map']
+            ntrode_metadata=self.metadata['ntrode_electrode_group_channel_map']
         )
         electrode_groups_valid_map = self.__get_electrode_groups_valid_map(
-            ntrode_metadata=self.metadata['ntrode electrode group channel map'],
+            ntrode_metadata=self.metadata['ntrode_electrode_group_channel_map'],
             electrodes_valid_map=electrodes_valid_map
         )
         probes_valid_map = self.__get_probes_valid_map(

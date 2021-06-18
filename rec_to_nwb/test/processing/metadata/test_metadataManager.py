@@ -31,7 +31,7 @@ class TestMetadataManager(TestCase):
         self.assertIn('tasks', metadata_fields)
         self.assertIn('behavioral_events', metadata_fields)
         self.assertIn('electrode_groups', metadata_fields)
-        self.assertIn('ntrode electrode group channel map', metadata_fields)
+        self.assertIn('ntrode_electrode_group_channel_map', metadata_fields)
 
         self.assertIn('units', metadata_fields)
         self.assertIn('unspecified', nwb_metadata.metadata['units']['analog'])
@@ -59,7 +59,7 @@ class TestMetadataManager(TestCase):
         self.assertIn('device_type', electrode_groups_fields)
         self.assertIn('description', electrode_groups_fields)
 
-        ntrode_probe_channel_map_fields = nwb_metadata.metadata['ntrode electrode group channel map'][0].keys()
+        ntrode_probe_channel_map_fields = nwb_metadata.metadata['ntrode_electrode_group_channel_map'][0].keys()
         self.assertIn('map', ntrode_probe_channel_map_fields)
         self.assertIn('electrode_group_id', ntrode_probe_channel_map_fields)
         self.assertIn('ntrode_id', ntrode_probe_channel_map_fields)

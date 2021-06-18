@@ -10,7 +10,7 @@ class TestCorruptedDataManager(TestCase):
 
     def test_corrupted_data_manager_get_valid_map_dict_successfully(self):
         metadata = {
-            'ntrode electrode group channel map': [
+            'ntrode_electrode_group_channel_map': [
                 {'ntrode_id': 1, 'electrode_group_id': 0, 'bad_channels': [1],
                  'map': {0: 0, 1: 1}},
                 {'ntrode_id': 2, 'electrode_group_id': 0, 'bad_channels': [1],
@@ -79,7 +79,7 @@ class TestCorruptedDataManager(TestCase):
     @should_raise(CorruptedDataException)
     def test_corrupted_data_manager_get_valid_map_dict_end_nbw_building_process_due_to_lack_of_good_data(self):
         metadata = {
-            'ntrode electrode group channel map': [
+            'ntrode_electrode_group_channel_map': [
                 {'ntrode_id': 1, 'electrode_group_id': 0, 'bad_channels': [0, 1], 'map': {0: 0, 1: 1}},
                 {'ntrode_id': 2, 'electrode_group_id': 1, 'bad_channels': [0, 1], 'map': {0: 2, 1: 3}},
             ],

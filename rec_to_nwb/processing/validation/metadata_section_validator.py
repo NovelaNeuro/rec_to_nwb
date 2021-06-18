@@ -39,5 +39,5 @@ class MetadataSectionValidator:
             raise MissingDataException('metadata is missing behavioral_events')
         if 'electrode_groups' not in self.metadata:
             raise MissingDataException('metadata is missing electrode_groups')
-        if 'ntrode electrode group channel map' not in self.metadata:
-            raise MissingDataException('metadata is missing ntrode electrode group channel map')
+        if 'ntrode_electrode_group_channel_map' not in self.metadata:
+            raise MissingDataException('metadata is missing ntrode_electrode_group_channel_map')

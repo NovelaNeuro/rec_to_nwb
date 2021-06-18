@@ -133,7 +133,7 @@ electrode_groups:
     units: 'um'
 
 
-ntrode electrode group channel map:
+ntrode_electrode_group_channel_map:
   - ntrode_id: 1
     electrode_group_id: 0
     bad_channels: [0,2]

@@ -26,7 +26,7 @@ class NTrodeValidator(Validator):
         self.probes_metadata = probes_metadata
 
     def create_summary(self):
-        ntrodes = self.metadata['ntrode electrode group channel map']
+        ntrodes = self.metadata['ntrode_electrode_group_channel_map']
         if len(ntrodes) == 0:
             raise InvalidMetadataException("There are no ntrodes defined in metadata.yml file.")
         if self.header is None or \
@@ -47,7 +47,7 @@ class NTrodeValidator(Validator):
             probe_metadata = filter_probe_by_type(probes_metadata, electrode_group['device_type'])
             electrodes_in_probe = count_electrodes_in_probe(probe_metadata)
             electrodes_in_group = count_electrodes_in_ntrode(
-                metadata['ntrode electrode group channel map'],
+                metadata['ntrode_electrode_group_channel_map'],
                 electrode_group['id']
             )
             if electrodes_in_probe != electrodes_in_group:
