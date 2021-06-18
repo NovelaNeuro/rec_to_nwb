@@ -60,7 +60,7 @@ Important note: right now the code assumes that the electrode groups listed belo
     experimenter_name: Alison Comrie
     lab: Loren Frank
     institution: University of California, San Francisco
-    experiment description: Reinforcement learning
+    experiment_description: Reinforcement learning
     session description: Reinforcement leaarning
     session_id: beans_01
     subject:

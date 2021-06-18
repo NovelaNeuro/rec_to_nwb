@@ -24,7 +24,7 @@ class TestDioManager(unittest.TestCase):
             institution='institution',
             session_start_time=start_time,
             identifier='identifier',
-            experiment_description='experiment description')
+            experiment_description='experiment_description')
 
         processing_module = ProcessingModule(name='test_processing_module_name', description='test_description')
         self.nwb_content.add_processing_module(processing_module)

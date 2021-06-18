@@ -13,8 +13,8 @@ class MetadataSectionValidator:
             raise MissingDataException('metadata is missing lab')
         if 'institution' not in self.metadata:
             raise MissingDataException('metadata is missing institution')
-        if 'experiment description' not in self.metadata:
-            raise MissingDataException('metadata is missing experiment description')
+        if 'experiment_description' not in self.metadata:
+            raise MissingDataException('metadata is missing experiment_description')
         if 'session description' not in self.metadata:
             raise MissingDataException('metadata is missing session description')
         if 'session_id' not in self.metadata:

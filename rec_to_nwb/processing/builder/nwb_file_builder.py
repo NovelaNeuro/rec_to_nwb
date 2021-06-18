@@ -303,7 +303,7 @@ class NWBFileBuilder:
             identifier=str(uuid.uuid1()),
             session_id=self.metadata['session_id'],
             notes=self.link_to_notes,
-            experiment_description=self.metadata['experiment description'],
+            experiment_description=self.metadata['experiment_description'],
             subject=Subject(
                 description=self.metadata['subject']['description'],
                 genotype=self.metadata['subject']['genotype'],
