@@ -23,8 +23,8 @@ class MetadataSectionValidator:
             raise MissingDataException('metadata is missing subject')
         if 'units' not in self.metadata:
             raise MissingDataException('metadata is missing units')
-        if 'data acq device' not in self.metadata:
-            raise MissingDataException('metadata is missing data acq device')
+        if 'data_acq_device' not in self.metadata:
+            raise MissingDataException('metadata is missing data_acq_device')
         if 'cameras' not in self.metadata:
             raise MissingDataException('metadata is missing cameras')
         if 'tasks' not in self.metadata:

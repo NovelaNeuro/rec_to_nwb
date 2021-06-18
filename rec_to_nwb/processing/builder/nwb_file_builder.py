@@ -252,7 +252,7 @@ class NWBFileBuilder:
         self.data_acq_device_originator = DataAcqDeviceOriginator(
             device_factory=self.device_factory,
             device_injector=self.device_injector,
-            metadata=self.metadata['data acq device']
+            metadata=self.metadata['data_acq_device']
         )
 
         if self.process_mda:

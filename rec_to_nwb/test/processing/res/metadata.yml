@@ -16,7 +16,7 @@ units:
   analog: unspecified
   behavioral_events: unspecified
 
-data acq device:
+data_acq_device:
   - system: sample_system
     amplifier: sample_amplifier
     adc_circuit: sample_adc_circuit

@@ -56,7 +56,7 @@ Important note: right now the code assumes that the electrode groups listed belo
 
 
    ```
-    # general information about the experiment 
+    # general information about the experiment
     experimenter_name: Alison Comrie
     lab: Loren Frank
     institution: University of California, San Francisco
@@ -74,8 +74,8 @@ Important note: right now the code assumes that the electrode groups listed belo
    units:
       analog: 'unspecified'
       behavioral_events: 'unspecified'  
-   #data acq device used in experiment   
-   data acq device:
+   #data_acq_device used in experiment   
+   data_acq_device:
       - name: acq_0
         system: sample_system
         amplifier: sample_amplifier
@@ -125,14 +125,14 @@ Important note: right now the code assumes that the electrode groups listed belo
         to avoid creating invalid times in case of only small deviations. (optional parameter, default 1.5)
        times_period_multiplier: 1.5      
     # Din/Dout events which filter out files from DIO data in data directory. Each name has to be unique. Stored in behavioral_events section in output nwb file.
-    behavioral_events: 
+    behavioral_events:
       - name: Poke2
         description: Din2
     # Device name. Stored in output nwb file.
-    device: 
+    device:
       name:
         - Trodes
-    # Electrode Groups list used in experiment. Each Id has to be unique, device_type has to refer to existing device_type in probe.yml. Target_x,y,z fields describe the specified location where this group should be. Possible value of units: 'um' or 'mm' 
+    # Electrode Groups list used in experiment. Each Id has to be unique, device_type has to refer to existing device_type in probe.yml. Target_x,y,z fields describe the specified location where this group should be. Possible value of units: 'um' or 'mm'
     electrode groups:
       - id: 0
         location: mPFC
@@ -155,8 +155,8 @@ Important note: right now the code assumes that the electrode groups listed belo
     # Ntrodes list which refer 1:1 to <SpikeNTrode> elements from xml header existing in rec binary file.
     # ntrode_id has to match to SpikeNTrode id, electrode_group_id refers to electrode group,
     # bad_channels is a list of broken channels in the map, where map corresponds to the electrode channels
-      - ntrode_id: 1 
-        electrode_group_id: 0 
+      - ntrode_id: 1
+        electrode_group_id: 0
         bad_channels: [0,2]
         map:  
           0: 0
@@ -230,9 +230,9 @@ If you don't want mda or pos invalid/valid times in your nwb, set accordingly fl
       **dates** = `list of strings` names of folders that contain experiment data <br>
 
       **nwb_metadata** = `MetadataManager` object with metadata.yml and probes.yml <br>
-      
+
       **output_path** = `string` path specifying location and name of result file (dafault 'output.nwb') <br>
-      
+
       **video_path** = `string` path specifying location of video files .h264 where those are copied <b4>
 
       **extract_analog** = `boolean` flag specifying if analog data should be extracted from raw (default True) <br>
@@ -246,22 +246,22 @@ If you don't want mda or pos invalid/valid times in your nwb, set accordingly fl
       **extract_mda** = `boolean` flag specifying if mda data should be extracted from raw (default True) <br>
 
       **parallel_instances** = `int` number of threads, optimal value highly depends on hardware (default 4) <br>
-      
+
       **overwrite** = `boolean`  If true, will overwrite existing files. (default True) <br>
-      
+
       **trodes_rec_export_args** = `tuple of strings` path to rec header file which overrides all headers existing in rec binary files e.g `_DEFAULT_TRODES_REC_EXPORT_ARGS = ('-reconfig', str(path) + '/test/processing/res/reconfig_header.xml')` <br>  
 
    build_nwb arguments:
 
      **process_mda_valid_time** = 'boolean' True if the mda valid times should be build and append to nwb.
                 Need the mda data inside the nwb. (default True) <br>
-     
+
      **process_mda_invalid_time** = 'boolean' True if the mda invalid times should be build and append to nwb.
                 Need the mda data inside the nwb. (default True) <br>
-     
+
      **process_pos_valid_time** = 'boolean' True if the pos valid times should be build and append to nwb.
                 Need the pos data inside the nwb. (default True) <br>
-     
+
      **process_pos_invalid_time** = 'boolean' True if the pos invalid times should be build and append to nwb.
                 Need the pos data inside the nwb. (default True) <br>
 
@@ -286,34 +286,34 @@ After that, you can add mda or pos invalid/valid data to your NWB, using 'build_
    NWBFileBuilder arguments
 
      **data_path** = `string` path to directory containing all experiments data <br>
-     
+
      **animal_name** = `string` directory name which represents animal subject of experiment <br>
-     
+
      **date** = `string` date of experiment <br>
-     
+
      **nwb_metadata** = `MetadataManager` object contains metadata about experiment <br>
-    
+
      **process_dio** = `boolean` flag if dio data should be processed <br>
-     
+
      **process_mda** = `boolean` flag if mda data should be processed <br>
-     
+
      **process_analog** = `boolean` flag if analog data should be processed <br>
-     
+
      **video_path** = `string` path specifying location of video files .h264 where those are copied <b4>
-     
+
      **output_file** = `string` path and name specifying where .nwb file gonna be written <br>
 
    build_and_append_to_nwb arguments:
 
      **process_mda_valid_time** = 'boolean' True if the mda valid times should be build and append to nwb.
                 Need the mda data inside the nwb. (default True) <br>
-     
+
      **process_mda_invalid_time** = 'boolean' True if the mda invalid times should be build and append to nwb.
                 Need the mda data inside the nwb. (default True) <br>
-     
+
      **process_pos_valid_time** = 'boolean' True if the pos valid times should be build and append to nwb.
                 Need the pos data inside the nwb. (default True) <br>
-     
+
      **process_pos_invalid_time** = 'boolean' True if the pos invalid times should be build and append to nwb.
                 Need the pos data inside the nwb. (default True) <br>
 
@@ -552,4 +552,3 @@ After that, you can add mda or pos invalid/valid data to your NWB, using 'build_
    |-- README.md
    ```
 When processing completes, a nwb file is created in the output_path directory
-
