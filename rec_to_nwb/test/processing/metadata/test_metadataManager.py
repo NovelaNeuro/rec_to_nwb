@@ -21,7 +21,7 @@ class TestMetadataManager(TestCase):
         )
 
         metadata_fields = nwb_metadata.metadata.keys()
-        self.assertIn('experimenter name', metadata_fields)
+        self.assertIn('experimenter_name', metadata_fields)
         self.assertIn('lab', metadata_fields)
         self.assertIn('institution', metadata_fields)
         self.assertIn('session_id', metadata_fields)

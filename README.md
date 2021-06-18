@@ -57,7 +57,7 @@ Important note: right now the code assumes that the electrode groups listed belo
 
    ```
     # general information about the experiment 
-    experimenter name: Alison Comrie
+    experimenter_name: Alison Comrie
     lab: Loren Frank
     institution: University of California, San Francisco
     experiment description: Reinforcement learning

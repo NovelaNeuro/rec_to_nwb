@@ -7,8 +7,8 @@ class MetadataSectionValidator:
         self.metadata = metadata
 
     def validate_sections(self):
-        if 'experimenter name' not in self.metadata:
-            raise MissingDataException('metadata is missing experimenter name')
+        if 'experimenter_name' not in self.metadata:
+            raise MissingDataException('metadata is missing experimenter_name')
         if 'lab' not in self.metadata:
             raise MissingDataException('metadata is missing lab')
         if 'institution' not in self.metadata:
