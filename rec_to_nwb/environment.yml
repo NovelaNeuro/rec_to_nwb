@@ -3,7 +3,6 @@ channels:
   - conda-forge
   - defaults
   - novelakrk
-  - franklab
 dependencies:
   - python>=3.6,<3.8
   - pip
@@ -47,12 +46,10 @@ dependencies:
   - pytest
   - testfixtures
   - ndx-franklab-novela=0.0.011
-  - jupyterlab
-  - nb_conda
-  - rec_to_binaries
   - pip:
       - mountainlab_pytools
       - xmldiff
+      - rec-to-binaries
       - hdmf>2.1.0
       - pynwb
 
