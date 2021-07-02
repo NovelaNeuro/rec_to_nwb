@@ -46,6 +46,8 @@ dependencies:
   - pytest
   - testfixtures
   - ndx-franklab-novela=0.0.011
+  - jupyterlab
+  - nb_conda
   - pip:
       - mountainlab_pytools
       - xmldiff
