@@ -55,7 +55,7 @@ Currently we suggest following the instructions to install https://github.com/Lo
 Important note: right now the code assumes that the electrode groups listed below (each of which corresponds to one or more NTrode in the file) are in ascending order by NTrode number. If this is not the case the data could be scrambled.  Thus, the first listed electrode group should correspond to, for example, NTrode 1 (or perhaps NTrodes 1-4) while the second would correspond to NTrode 2 (or 5-8), etc.  
 
 
-   ```
+   ```yaml
     # general information about the experiment
     experimenter_name: Alison Comrie
     lab: Loren Frank
@@ -173,7 +173,7 @@ Important note: right now the code assumes that the electrode groups listed belo
           3: 7
     ```
 5. Probe.yml description:
-   ```
+   ```yaml
     probe_type: tetrode_12.5 # Type of the probe that refers to device_type in electrode_group in metadata.yml
     units: 'um' # possible value for unit is um or mm
     probe_description: 'four wire electrode'
