@@ -108,3 +108,7 @@ venv.bak/
 
 #testexample
 *.nwb
+
+
+#Ignore DS_Store 
+*.DS_Store

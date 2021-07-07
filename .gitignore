@@ -1,3 +1,4 @@
 build/*
 dist/rec_to_nwb-0.1.19-py3.7.egg
 rec_to_nwb.egg-info/SOURCES.txt
+*.DS_Store
