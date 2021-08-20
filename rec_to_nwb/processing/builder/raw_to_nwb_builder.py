@@ -6,8 +6,6 @@ from datetime import datetime
 import pytz
 from rec_to_binaries import extract_trodes_rec_file
 from rec_to_nwb.processing.builder.nwb_file_builder import NWBFileBuilder
-from rec_to_nwb.processing.header.reconfig_header_checker import \
-    ReconfigHeaderChecker
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.validation.not_empty_validator import \
@@ -80,6 +78,7 @@ class RawToNWBBuilder:
             output_path: str = '',
             video_path: str = '',
             preprocessing_path: str = '',
+            preprocessing_out: str = '',
             extract_analog: bool = True,
             extract_spikes: bool = False,
             extract_lfps: bool = False,
@@ -124,6 +123,10 @@ class RawToNWBBuilder:
             self.preprocessing_path = data_path
         else:
             self.preprocessing_path = preprocessing_path
+        if not preprocessing_out:
+            self.preprocessing_out = self.preprocessing_path
+        else:
+            self.preprocessing_out = preprocessing_out
         self.probes = nwb_metadata.probes
         self.nwb_metadata = nwb_metadata
         self.parallel_instances = parallel_instances
@@ -139,6 +142,8 @@ class RawToNWBBuilder:
                 f"    overwrite={self.overwrite},\n"
                 f"    output_path={self.output_path},\n"
                 f"    video_path={self.video_path},\n"
+                f"    preprocessing_path={self.preprocessing_path},\n"
+                f"    preprocessing_out={self.preprocessing_out},\n"
                 f"    trodes_rec_export_args={self.trodes_rec_export_args},\n"
                 ")")
 
@@ -269,7 +274,7 @@ class RawToNWBBuilder:
         extract_trodes_rec_file(
             self.data_path,
             self.animal_name,
-            out_dir=self.preprocessing_path,
+            out_dir=self.preprocessing_out,
             dates=self.dates,
             parallel_instances=self.parallel_instances,
             extract_analog=self.extract_analog,
