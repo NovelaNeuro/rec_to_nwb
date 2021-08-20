@@ -1,4 +1,5 @@
-from rec_to_nwb.processing.nwb.components.position.fl_position import FlPosition
+from rec_to_nwb.processing.nwb.components.position.fl_position import \
+    FlPosition
 
 
 class FlPositionBuilder:

@@ -1,8 +1,9 @@
 from pynwb.behavior import Position
-
-from rec_to_nwb.processing.nwb.components.position.fl_position import FlPosition
+from rec_to_nwb.processing.nwb.components.position.fl_position import \
+    FlPosition
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
+from rec_to_nwb.processing.tools.validate_parameters import \
+    validate_parameters_not_none
 
 
 class PositionCreator:

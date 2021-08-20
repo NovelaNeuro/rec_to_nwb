@@ -1,8 +1,13 @@
-from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
-from rec_to_nwb.processing.nwb.components.iterator.multi_thread_data_iterator import MultiThreadDataIterator
-from rec_to_nwb.processing.nwb.components.iterator.multi_thread_timestamp_iterator import MultiThreadTimestampIterator
-from rec_to_nwb.processing.nwb.components.position.pos_data_manager import PosDataManager
-from rec_to_nwb.processing.nwb.components.position.pos_timestamp_manager import PosTimestampManager
+from rec_to_nwb.processing.exceptions.missing_data_exception import \
+    MissingDataException
+from rec_to_nwb.processing.nwb.components.iterator.multi_thread_data_iterator import \
+    MultiThreadDataIterator
+from rec_to_nwb.processing.nwb.components.iterator.multi_thread_timestamp_iterator import \
+    MultiThreadTimestampIterator
+from rec_to_nwb.processing.nwb.components.position.pos_data_manager import \
+    PosDataManager
+from rec_to_nwb.processing.nwb.components.position.pos_timestamp_manager import \
+    PosTimestampManager
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
@@ -56,7 +61,7 @@ class FlPositionExtractor:
             PosTimestampManager(
                 directories=[single_pos],
                 continuous_time_directories=[continuous_time],
-                convert_timestamps = self.convert_timestamps
+                convert_timestamps=self.convert_timestamps
             )
             for single_pos, continuous_time in zip(self.all_pos, self.continuous_time)
         ]
