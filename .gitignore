@@ -125,4 +125,4 @@ dmypy.json
 *.mat
 *.lock
 *.dirlock
-*.vscode
+.vscode
