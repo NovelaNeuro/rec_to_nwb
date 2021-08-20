@@ -127,6 +127,17 @@ class RawToNWBBuilder:
 
         self.is_old_dataset = self.__is_old_dataset()
 
+    def __repr__(self):
+        return ("RawToNWBBuilder(\n"
+                f"    animal_name={self.animal_name},\n"
+                f"    data_path={self.data_path},\n"
+                f"    dates={self.dates},\n"
+                f"    overwrite={self.overwrite},\n"
+                f"    output_path={self.output_path},\n"
+                f"    video_path={self.video_path},\n"
+                f"    trodes_rec_export_args={self.trodes_rec_export_args},\n"
+                ")")
+
     def __is_rec_config_valid(self):
         """ Check if XML is valid with XSD file """
 
