@@ -2,20 +2,23 @@ import logging.config
 import os
 import shutil
 from datetime import datetime
+
 import pytz
-
 from rec_to_binaries import extract_trodes_rec_file
-
-from rec_to_nwb.processing.header.reconfig_header_checker import ReconfigHeaderChecker
-from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.builder.nwb_file_builder import NWBFileBuilder
+from rec_to_nwb.processing.header.reconfig_header_checker import \
+    ReconfigHeaderChecker
+from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
-from rec_to_nwb.processing.validation.not_empty_validator import NotEmptyValidator
-from rec_to_nwb.processing.validation.validation_registrator import ValidationRegistrator
+from rec_to_nwb.processing.validation.not_empty_validator import \
+    NotEmptyValidator
+from rec_to_nwb.processing.validation.validation_registrator import \
+    ValidationRegistrator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 _DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
@@ -32,7 +35,8 @@ _DEFAULT_TIME_EXPORT_ARGS = ()
 _DEFAULT_TRODES_REC_EXPORT_ARGS = ()
 
 # temporary default value, for old dataset only
-_DEFAULT_SESSION_START_TIME = datetime.fromtimestamp(0, pytz.utc) # dummy value for now
+_DEFAULT_SESSION_START_TIME = datetime.fromtimestamp(
+    0, pytz.utc)  # dummy value for now
 
 
 class RawToNWBBuilder:
@@ -156,9 +160,9 @@ class RawToNWBBuilder:
 
     def __is_old_dataset(self):
         # check raw directory for the single (first) date
-        all_files = os.listdir(self.data_path + "/" 
-                                + self.animal_name + "/raw/" 
-                                + self.dates[0] + "/")
+        all_files = os.listdir(self.data_path + "/"
+                               + self.animal_name + "/raw/"
+                               + self.dates[0] + "/")
         if any([('videoTimeStamps.cameraHWSync' in file) for file in all_files]):
             # has cameraHWSync files; new dataset
             return False
@@ -166,7 +170,8 @@ class RawToNWBBuilder:
             # has cameraHWFrameCount files instead; old dataset
             logger.info('Seems to be an old dataset (no PTP)')
             return True
-        raise FileNotFoundError('need either cameraHWSync or cameraHWFrameCount files.')
+        raise FileNotFoundError(
+            'need either cameraHWSync or cameraHWFrameCount files.')
 
     def build_nwb(self, run_preprocessing=True,
                   process_mda_valid_time=True, process_mda_invalid_time=True,
@@ -188,12 +193,12 @@ class RawToNWBBuilder:
             self.__preprocess_data()
 
         self.__build_nwb_file(process_mda_valid_time=process_mda_valid_time,
-            process_mda_invalid_time=process_mda_invalid_time,
-            process_pos_valid_time=process_pos_valid_time,
-            process_pos_invalid_time=process_pos_invalid_time)
+                              process_mda_invalid_time=process_mda_invalid_time,
+                              process_pos_valid_time=process_pos_valid_time,
+                              process_pos_invalid_time=process_pos_invalid_time)
 
     def __build_nwb_file(self, process_mda_valid_time=False, process_mda_invalid_time=False,
-               process_pos_valid_time=False, process_pos_invalid_time=False):
+                         process_pos_valid_time=False, process_pos_invalid_time=False):
         logger.info('Building NWB files')
         os.makedirs(self.output_path, exist_ok=True)
         os.makedirs(self.video_path, exist_ok=True)
@@ -216,7 +221,7 @@ class RawToNWBBuilder:
     def get_nwb_builder(self, date):
         if self.is_old_dataset:
             old_dataset_kwargs = dict(is_old_dataset=True,
-                                    session_start_time=_DEFAULT_SESSION_START_TIME)
+                                      session_start_time=_DEFAULT_SESSION_START_TIME)
         else:
             old_dataset_kwargs = dict()
 
@@ -232,7 +237,7 @@ class RawToNWBBuilder:
             preprocessing_path=self.preprocessing_path,
             video_path=self.video_path,
             reconfig_header=self.__get_header_path(),
-            #reconfig_header=self.__is_rec_config_valid()
+            # reconfig_header=self.__is_rec_config_valid()
             **old_dataset_kwargs
         )
 
@@ -257,7 +262,8 @@ class RawToNWBBuilder:
             + 'time_export_args = ' + str(self.time_export_args) + '\n'
             + 'spikes_export_args = ' + str(self.spikes_export_args) + '\n'
             + 'dio_export_args = ' + str(self.dio_export_args) + '\n'
-            + 'trodes_rec_export_args = ' + str(self.trodes_rec_export_args) + '\n'
+            + 'trodes_rec_export_args = ' +
+            str(self.trodes_rec_export_args) + '\n'
         )
 
         extract_trodes_rec_file(
@@ -280,11 +286,11 @@ class RawToNWBBuilder:
             spikes_export_args=self.spikes_export_args,
             time_export_args=self.time_export_args,
         )
-        #self.__is_rec_config_valid()
+        # self.__is_rec_config_valid()
 
     @staticmethod
     def append_to_nwb(nwb_builder, process_mda_valid_time, process_mda_invalid_time,
-               process_pos_valid_time, process_pos_invalid_time):
+                      process_pos_valid_time, process_pos_invalid_time):
         """Append to NWBFile that was build using NWBFileBuilder passed in parameter.
 
         Args:
@@ -302,10 +308,10 @@ class RawToNWBBuilder:
             process_pos_invalid_time=process_pos_invalid_time
         )
 
-
     def cleanup(self):
         """Remove all temporary files structure from preprocessing folder"""
 
-        preprocessing = self.preprocessing_path + '/' + self.animal_name + '/preprocessing'
+        preprocessing = self.preprocessing_path + \
+            '/' + self.animal_name + '/preprocessing'
         if os.path.exists(preprocessing):
             shutil.rmtree(preprocessing)
