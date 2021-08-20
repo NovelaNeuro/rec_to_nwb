@@ -2,8 +2,8 @@ name: rec_to_nwb
 channels:
   - conda-forge
   - defaults
-  - novelakrk
   - franklab
+  - novelakrk
 dependencies:
   - python>=3.6,<3.8
   - rec_to_binaries
