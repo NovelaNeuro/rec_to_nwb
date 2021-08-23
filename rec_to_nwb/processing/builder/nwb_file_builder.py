@@ -94,6 +94,7 @@ class NWBFileBuilder:
             process_analog: bool = True,
             process_pos_timestamps: bool = True,
             preprocessing_path: str = '',
+            preprocessing_out: str = '',
             video_path: str = '',
             output_file: str = 'output.nwb',
             reconfig_header: str = '',

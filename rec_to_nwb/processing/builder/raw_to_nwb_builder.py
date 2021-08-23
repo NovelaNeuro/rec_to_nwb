@@ -240,6 +240,7 @@ class RawToNWBBuilder:
             process_dio=self.extract_dio,
             process_analog=self.extract_analog,
             preprocessing_path=self.preprocessing_path,
+            preprocessing_out=self.preprocessing_out,
             video_path=self.video_path,
             reconfig_header=self.__get_header_path(),
             # reconfig_header=self.__is_rec_config_valid()
