@@ -130,3 +130,4 @@ dmypy.json
 *.xml
 *.h264
 *.mda
+*.nwb
