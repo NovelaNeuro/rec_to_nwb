@@ -127,3 +127,6 @@ dmypy.json
 *.dirlock
 .vscode
 *.dat
+*.xml
+*.h264
+*.mda
