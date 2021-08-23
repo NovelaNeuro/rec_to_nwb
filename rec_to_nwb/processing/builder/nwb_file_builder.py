@@ -139,6 +139,10 @@ class NWBFileBuilder:
             self.preprocessing_path = data_path
         else:
             self.preprocessing_path = preprocessing_path
+        if not preprocessing_out:
+            self.preprocessing_out = self.preprocessing_path
+        else:
+            self.preprocessing_out = preprocessing_out
         self.output_file = output_file
         self.video_path = video_path
         self.is_old_dataset = is_old_dataset
@@ -159,8 +163,8 @@ class NWBFileBuilder:
         if not preprocessing_path:
             header_path = None # default
         else:
-            header_path = (self.preprocessing_path
-                            + '/' + self.animal_name + '/headers/' + self.date)
+            header_path = (self.preprocessing_out
+                           + '/' + self.animal_name + '/headers/' + self.date)
             os.makedirs(header_path, exist_ok=True)
         header_file = HeaderProcessor.process_headers(rec_files_list, copy_dir=header_path)
         if reconfig_header:
