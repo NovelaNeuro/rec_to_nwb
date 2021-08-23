@@ -1,5 +1,3 @@
-import re
-
 from rec_to_nwb.processing.exceptions.invalid_metadata_exception import \
     InvalidMetadataException
 from rec_to_nwb.processing.nwb.components.position.fl_position_builder import \
