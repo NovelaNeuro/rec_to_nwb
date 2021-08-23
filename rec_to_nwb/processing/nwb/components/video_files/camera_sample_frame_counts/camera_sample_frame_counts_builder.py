@@ -13,5 +13,6 @@ class CameraSampleFrameCountsBuilder:
         return TimeSeries(name="camera_frame_counts",
                           description="hardware frame count",
                           data=data[:, 0],
-                          timestamps=data[:, 1]
+                          timestamps=data[:, 1],
+                          unit='samples'
                           )
