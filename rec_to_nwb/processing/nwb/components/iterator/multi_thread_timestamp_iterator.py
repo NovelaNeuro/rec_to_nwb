@@ -2,8 +2,8 @@ import concurrent.futures
 
 import numpy as np
 from hdmf.data_utils import DataChunk
-
-from rec_to_nwb.processing.nwb.components.iterator.timestamp_iterator import TimestampIterator
+from rec_to_nwb.processing.nwb.components.iterator.timestamp_iterator import \
+    TimestampIterator
 
 
 class MultiThreadTimestampIterator(TimestampIterator):
@@ -25,9 +25,11 @@ class MultiThreadTimestampIterator(TimestampIterator):
             data_from_multiple_files = ()
             for thread in threads:
                 data_from_multiple_files += (thread.result(),)
-            stacked_data_from_multiple_files = np.hstack(data_from_multiple_files)
+            stacked_data_from_multiple_files = np.hstack(
+                data_from_multiple_files)
             selection = self.__get_selection(number_of_threads_in_current_step)
-            data_chunk = DataChunk(data=stacked_data_from_multiple_files, selection=selection)
+            data_chunk = DataChunk(
+                data=stacked_data_from_multiple_files, selection=selection)
 
             self._current_index += number_of_threads_in_current_step
             self.current_dataset += number_of_threads_in_current_step

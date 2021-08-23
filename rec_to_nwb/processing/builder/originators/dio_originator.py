@@ -7,7 +7,8 @@ from rec_to_nwb.processing.nwb.components.dio.dio_injector import DioInjector
 from rec_to_nwb.processing.nwb.components.dio.dio_manager import DioManager
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 
@@ -20,9 +21,11 @@ class DioOriginator:
 
     def make(self, nwb_content):
         logger.info('DIO: Prepare directories')
-        dio_directories = [single_dataset.get_data_path_from_dataset('DIO') for single_dataset in self.datasets]
+        dio_directories = [single_dataset.get_data_path_from_dataset(
+            'DIO') for single_dataset in self.datasets]
         logger.info('DIO: Prepare files')
-        dio_files = DioFiles(dio_directories, self.metadata['behavioral_events'])
+        dio_files = DioFiles(
+            dio_directories, self.metadata['behavioral_events'])
         logger.info('DIO: Retrieve data')
         dio_manager = DioManager(
             dio_files=dio_files.get_files(),

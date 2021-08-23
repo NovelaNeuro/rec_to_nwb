@@ -1,21 +1,24 @@
 import numpy as np
-
 from rec_to_nwb.processing.nwb.components.analog.fl_analog import FlAnalog
-from rec_to_nwb.processing.nwb.components.analog.fl_analog_builder import FlAnalogBuilder
-from rec_to_nwb.processing.nwb.components.analog.fl_analog_extractor import FlAnalogExtractor
+from rec_to_nwb.processing.nwb.components.analog.fl_analog_builder import \
+    FlAnalogBuilder
+from rec_to_nwb.processing.nwb.components.analog.fl_analog_extractor import \
+    FlAnalogExtractor
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_equal_length
+from rec_to_nwb.processing.tools.validate_parameters import \
+    validate_parameters_equal_length
 
 
 class FlAnalogManager:
 
     @beartype
     def __init__(self, analog_files: list,
-                       continuous_time_files: list,
-                       convert_timestamps: bool = True,
-                       return_timestamps: bool = True,
-                       ):
-        validate_parameters_equal_length(__name__, analog_files, continuous_time_files)
+                 continuous_time_files: list,
+                 convert_timestamps: bool = True,
+                 return_timestamps: bool = True,
+                 ):
+        validate_parameters_equal_length(
+            __name__, analog_files, continuous_time_files)
 
         self.analog_files = analog_files
         self.continuous_time_files = continuous_time_files
@@ -51,7 +54,8 @@ class FlAnalogManager:
         merged_epochs = data_from_multiple_datasets[0]
         for single_dataset_data in data_from_multiple_datasets[1:]:
             for row in single_dataset_data.keys():
-                merged_epochs[row] = np.hstack((merged_epochs[row], single_dataset_data[row]))
+                merged_epochs[row] = np.hstack(
+                    (merged_epochs[row], single_dataset_data[row]))
         return merged_epochs
 
     @staticmethod

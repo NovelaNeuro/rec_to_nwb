@@ -1,11 +1,12 @@
 import logging.config
 import os
-import numpy as np
 
+import numpy as np
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 
@@ -25,5 +26,5 @@ class ContinuousTimeExtractor:
     def get_continuous_time_array_file(file):
         logger.info('Reading continuous time array from: ' + str(file))
         continuous_time = readTrodesExtractedDataFile(file)
-        return np.vstack((continuous_time['data']['trodestime'], 
+        return np.vstack((continuous_time['data']['trodestime'],
                          continuous_time['data']['adjusted_systime']))

@@ -1,7 +1,8 @@
 import fnmatch
 import os
 
-from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
+from rec_to_nwb.processing.exceptions.missing_data_exception import \
+    MissingDataException
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 from rec_to_nwb.processing.tools.dataset import Dataset
@@ -22,30 +23,36 @@ class DataScanner:
     @beartype
     def get_all_epochs(self, date: str) -> list:
         all_datasets = []
-        directories = os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
+        directories = os.listdir(
+            self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
         FileSorter.sort_filenames(directories)
         for directory in directories:
             if directory.startswith(date):
-                dataset_name = (directory.split('_')[2] + '_' + directory.split('_')[3]).split('.')[0]
+                dataset_name = (directory.split(
+                    '_')[2] + '_' + directory.split('_')[3]).split('.')[0]
                 if not dataset_name in all_datasets:
                     all_datasets.append(dataset_name)
         return all_datasets
 
     @beartype
     def get_all_data_from_dataset(self, date: str) -> list:
-        self.__check_if_path_exists(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
+        self.__check_if_path_exists(
+            self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
         return os.listdir(self.data_path + '/' + self.animal_name + '/preprocessing/' + date)
 
     @beartype
     def extract_data_from_date_folder(self, date: str):
-        self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, [date])}
+        self.data = {self.animal_name: self.__extract_experiments(
+            self.data_path, self.animal_name, [date])}
 
     @beartype
     def extract_data_from_dates_folders(self, dates: list):
-        self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, dates)}
+        self.data = {self.animal_name: self.__extract_experiments(
+            self.data_path, self.animal_name, dates)}
 
     def extract_data_from_all_dates_folders(self):
-        self.data = {self.animal_name: self.__extract_experiments(self.data_path, self.animal_name, None)}
+        self.data = {self.animal_name: self.__extract_experiments(
+            self.data_path, self.animal_name, None)}
 
     def __extract_experiments(self, data_path, animal_name, dates):
         preprocessing_path = data_path + animal_name + '/preprocessing'
@@ -69,7 +76,8 @@ class DataScanner:
                     existing_datasets.add(dataset_name)
                 for dataset in datasets.values():
                     if dataset_name == dataset.name:
-                        dataset.add_data_to_dataset(date_path + '/' + directory + '/', dir_last_part.pop())
+                        dataset.add_data_to_dataset(
+                            date_path + '/' + directory + '/', dir_last_part.pop())
         return datasets
 
     @beartype
@@ -103,4 +111,5 @@ class DataScanner:
 
     def __check_if_path_exists(self, path):
         if not (os.path.exists(path)):
-            raise MissingDataException('missing ' + self.data_path + ' directory')
+            raise MissingDataException(
+                'missing ' + self.data_path + ' directory')

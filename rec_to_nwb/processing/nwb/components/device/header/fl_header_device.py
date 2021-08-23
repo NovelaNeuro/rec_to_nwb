@@ -6,4 +6,3 @@ class FlHeaderDevice:
             if global_configuration_dict[parameter] is None:
                 global_configuration_dict[parameter] = ''
         self.global_configuration = global_configuration_dict
-

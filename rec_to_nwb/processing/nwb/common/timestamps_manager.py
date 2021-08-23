@@ -3,13 +3,14 @@ import logging.config
 import os
 
 import numpy as np
-
-from rec_to_nwb.processing.time.continuous_time_extractor import ContinuousTimeExtractor
+from rec_to_nwb.processing.time.continuous_time_extractor import \
+    ContinuousTimeExtractor
 from rec_to_nwb.processing.time.timestamp_converter import TimestampConverter
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 

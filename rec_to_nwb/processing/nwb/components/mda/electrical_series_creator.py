@@ -13,4 +13,4 @@ class ElectricalSeriesCreator:
             conversion=fl_mda.conversion,
             comments="No comment",
             description="Recording of extracellular voltage"
-    )
+        )

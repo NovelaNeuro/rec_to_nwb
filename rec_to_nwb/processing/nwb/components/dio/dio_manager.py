@@ -1,5 +1,4 @@
 import numpy as np
-
 from rec_to_nwb.processing.nwb.components.dio.dio_extractor import DioExtractor
 
 
@@ -31,7 +30,9 @@ class DioManager:
         merged_data = data_from_multiple_datasets[0]
         for single_dataset_data in data_from_multiple_datasets[1:]:
             for event, timeseries in single_dataset_data.items():
-                merged_data[event][0] = np.hstack((merged_data[event][0], timeseries[0]))
-                merged_data[event][1] = np.hstack((merged_data[event][1], timeseries[1]))
+                merged_data[event][0] = np.hstack(
+                    (merged_data[event][0], timeseries[0]))
+                merged_data[event][1] = np.hstack(
+                    (merged_data[event][1], timeseries[1]))
 
         return merged_data

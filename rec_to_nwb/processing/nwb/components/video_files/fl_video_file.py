@@ -1,5 +1,4 @@
 from numpy.core.multiarray import ndarray
-
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 

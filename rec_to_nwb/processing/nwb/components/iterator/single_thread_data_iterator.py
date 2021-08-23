@@ -1,7 +1,7 @@
 import numpy as np
 from hdmf.data_utils import DataChunk
-
-from rec_to_nwb.processing.nwb.components.iterator.data_iterator import DataIterator
+from rec_to_nwb.processing.nwb.components.iterator.data_iterator import \
+    DataIterator
 
 
 class SingleThreadDataIterator(DataIterator):

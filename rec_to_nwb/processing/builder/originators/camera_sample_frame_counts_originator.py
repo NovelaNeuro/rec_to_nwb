@@ -1,5 +1,5 @@
-import os
 import logging.config
+import os
 
 from rec_to_nwb.processing.nwb.components.video_files.camera_sample_frame_counts.camera_sample_frame_counts_injector import \
     CameraSampleFrameCountsInjector
@@ -7,7 +7,8 @@ from rec_to_nwb.processing.nwb.components.video_files.camera_sample_frame_counts
     CameraSampleFrameCountsManager
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 

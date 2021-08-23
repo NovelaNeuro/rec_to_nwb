@@ -1,12 +1,16 @@
 import logging.config
 import os
 
-from rec_to_nwb.processing.nwb.components.device.camera.fl_camera_device_manager import FlCameraDeviceManager
-from rec_to_nwb.processing.nwb.components.device.device_injector import DeviceInjector
-from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
+from rec_to_nwb.processing.nwb.components.device.camera.fl_camera_device_manager import \
+    FlCameraDeviceManager
+from rec_to_nwb.processing.nwb.components.device.device_factory import \
+    DeviceFactory
+from rec_to_nwb.processing.nwb.components.device.device_injector import \
+    DeviceInjector
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 

@@ -1,4 +1,5 @@
-from rec_to_nwb.processing.validation.validation_summary import ValidationSummary
+from rec_to_nwb.processing.validation.validation_summary import \
+    ValidationSummary
 
 
 class NTrodeValidationSummary(ValidationSummary):

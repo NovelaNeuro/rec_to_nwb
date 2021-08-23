@@ -7,14 +7,16 @@ from rec_to_nwb.processing.nwb.components.device.probe.shanks_electrodes.shanks_
     ShanksElectrodeCreator
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 
 class ShanksElectrodeOriginator:
 
     def __init__(self, probes, metadata):
-        self.fl_shanks_electrode_manager = FlShanksElectrodeManager(probes, metadata['electrode_groups'])
+        self.fl_shanks_electrode_manager = FlShanksElectrodeManager(
+            probes, metadata['electrode_groups'])
         self.shanks_electrodes_creator = ShanksElectrodeCreator()
 
     def make(self):

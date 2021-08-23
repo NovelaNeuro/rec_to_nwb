@@ -1,7 +1,7 @@
 import numpy as np
 from hdmf.data_utils import DataChunk
-
-from rec_to_nwb.processing.nwb.components.iterator.timestamp_iterator import TimestampIterator
+from rec_to_nwb.processing.nwb.components.iterator.timestamp_iterator import \
+    TimestampIterator
 
 
 class SingleThreadTimestampIterator(TimestampIterator):

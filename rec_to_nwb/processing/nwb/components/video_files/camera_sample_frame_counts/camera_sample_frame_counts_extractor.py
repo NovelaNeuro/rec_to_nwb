@@ -1,7 +1,6 @@
 import os
 
 import numpy as np
-
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 
@@ -43,9 +42,10 @@ class CameraSampleFrameCountsExtractor:
 
     def __extract_single(self, hw_frame_count_filename):
         content = readTrodesExtractedDataFile(
-                   self.raw_data_path + "/" + hw_frame_count_filename
-                  )["data"]
-        camera_sample_frame_counts = np.ndarray(shape = (len(content), 2), dtype='uint32')
+            self.raw_data_path + "/" + hw_frame_count_filename
+        )["data"]
+        camera_sample_frame_counts = np.ndarray(
+            shape=(len(content), 2), dtype='uint32')
         for i, record in enumerate(content):
             if len(record) > 1:
                 # from cameraHWSync
@@ -54,5 +54,6 @@ class CameraSampleFrameCountsExtractor:
             else:
                 # from cameraHWFrameCount (old dataset)
                 camera_sample_frame_counts[i, 0] = record[0]  # framecounts
-                camera_sample_frame_counts[i, 1] = i          # timestamps (dummy)
+                # timestamps (dummy)
+                camera_sample_frame_counts[i, 1] = i
         return camera_sample_frame_counts

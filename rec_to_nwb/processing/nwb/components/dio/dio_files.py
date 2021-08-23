@@ -8,8 +8,10 @@ class DioFiles:
         self.dio_metadata = dio_metadata
 
     def get_files(self):
-        multiple_datasets_dio_files = [self.__get_dict(dataset) for dataset in self.directories]
-        filtered_datasets_dio_files = self.__filter_files(multiple_datasets_dio_files, self.dio_metadata)
+        multiple_datasets_dio_files = [self.__get_dict(
+            dataset) for dataset in self.directories]
+        filtered_datasets_dio_files = self.__filter_files(
+            multiple_datasets_dio_files, self.dio_metadata)
         return filtered_datasets_dio_files
 
     @classmethod
@@ -26,5 +28,6 @@ class DioFiles:
         for file in files:
             if file.endswith('.dat'):
                 split_filename = file.split('.')
-                dio_dict[split_filename[-2].split('_')[1]] = directory + '/' + file
+                dio_dict[split_filename[-2].split('_')
+                         [1]] = directory + '/' + file
         return dio_dict

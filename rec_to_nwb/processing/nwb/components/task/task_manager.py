@@ -1,8 +1,8 @@
 from hdmf.common.table import VectorData
-
 from rec_to_nwb.processing.nwb.components.task.task_builder import TaskBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
+from rec_to_nwb.processing.tools.validate_parameters import \
+    validate_parameters_not_none
 
 
 class TaskManager:

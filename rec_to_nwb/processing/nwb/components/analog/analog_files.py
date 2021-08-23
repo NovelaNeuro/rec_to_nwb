@@ -17,5 +17,6 @@ class AnalogFiles:
         for file in files:
             if file.endswith('.dat'):
                 split_filename = file.split('.')
-                analog_dict[split_filename[-2].split('_')[-1]] = directory + '/' + file
+                analog_dict[split_filename[-2].split('_')
+                            [-1]] = directory + '/' + file
         return analog_dict
