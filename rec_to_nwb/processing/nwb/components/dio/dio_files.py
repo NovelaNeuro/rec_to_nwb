@@ -1,3 +1,4 @@
+import glob
 import os
 
 
@@ -23,11 +24,7 @@ class DioFiles:
     @classmethod
     def __get_dict(cls, directory):
         dio_dict = {}
-        files = os.listdir(directory)
-        files.sort()
-        for file in files:
-            if file.endswith('.dat'):
-                split_filename = file.split('.')
-                dio_dict[split_filename[-2].split('_')
-                         [1]] = directory + '/' + file
+        for file in glob.glob(os.path.join(directory, '*.dat')):
+            dio_name = file.split('.')[-2].split('_')[-1]
+            dio_dict[dio_name] = os.path.join(directory, file)
         return dio_dict
