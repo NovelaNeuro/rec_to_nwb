@@ -43,4 +43,3 @@ class AssociatedFilesOriginator:
         logger.info('AssociatedFiles: Injecting')
         self.associated_files_injector.inject(
             associated_files, 'associated_files', nwb_content)
-        logger.info("Files stored inside nwb: " + str(associated_files))
