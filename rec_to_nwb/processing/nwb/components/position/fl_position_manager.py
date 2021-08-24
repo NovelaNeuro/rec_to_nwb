@@ -20,8 +20,9 @@ class FlPositionManager:
         self.dataset_names = dataset_names
         self.process_timestamps = process_timestamps
 
-        self.fl_position_extractor = FlPositionExtractor(datasets,
-                                                         convert_timestamps=convert_timestamps)
+        self.fl_position_extractor = FlPositionExtractor(
+            datasets,
+            convert_timestamps=convert_timestamps)
         self.fl_position_builder = FlPositionBuilder()
 
     @beartype

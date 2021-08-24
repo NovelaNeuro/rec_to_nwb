@@ -14,4 +14,4 @@ class VideoFilesCopyMaker:
         if not os.path.exists(dst):
             raise InvalidPathException(dst + ' is not valid path')
         for video_file in self.video_files_to_copy:
-            copy_file(src + '/' + video_file, dst)
+            copy_file(os.path.join(src,  video_file), dst)

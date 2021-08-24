@@ -1,3 +1,4 @@
+import glob
 import os
 
 import numpy as np
@@ -20,20 +21,13 @@ class CameraSampleFrameCountsExtractor:
         return merged_data
 
     def __get_all_hwsync_files(self):
-        all_files = os.listdir(self.raw_data_path)
-        hwsync_files = []
-        for file in all_files:
-            if 'videoTimeStamps.cameraHWSync' in file:
-                hwsync_files.append(file)
-        return hwsync_files
+        return glob.glob(
+            os.path.join(self.raw_data_path, '*.videoTimeStamps.cameraHWSync'))
 
     def __get_all_hwframecount_files(self):
-        all_files = os.listdir(self.raw_data_path)
-        hwframecount_files = []
-        for file in all_files:
-            if 'videoTimeStamps.cameraHWFrameCount' in file:
-                hwframecount_files.append(file)
-        return hwframecount_files
+        return glob.glob(
+            os.path.join(self.raw_data_path,
+                         '*.videoTimeStamps.cameraHWFrameCount'))
 
     @staticmethod
     def __merge_data_from_multiple_files(data):
@@ -42,7 +36,7 @@ class CameraSampleFrameCountsExtractor:
 
     def __extract_single(self, hw_frame_count_filename):
         content = readTrodesExtractedDataFile(
-            self.raw_data_path + "/" + hw_frame_count_filename
+            os.path.join(self.raw_data_path, hw_frame_count_filename)
         )["data"]
         camera_sample_frame_counts = np.ndarray(
             shape=(len(content), 2), dtype='uint32')

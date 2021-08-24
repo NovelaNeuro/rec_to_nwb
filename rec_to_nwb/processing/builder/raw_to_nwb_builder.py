@@ -165,9 +165,9 @@ class RawToNWBBuilder:
 
     def __is_old_dataset(self):
         # check raw directory for the single (first) date
-        all_files = os.listdir(self.data_path + "/"
-                               + self.animal_name + "/raw/"
-                               + self.dates[0] + "/")
+        all_files = os.listdir(
+            os.path.join(self.data_path, self.animal_name, 'raw',
+                         self.dates[0]))
         if any([('videoTimeStamps.cameraHWSync' in file) for file in all_files]):
             # has cameraHWSync files; new dataset
             return False
@@ -225,8 +225,9 @@ class RawToNWBBuilder:
 
     def get_nwb_builder(self, date):
         if self.is_old_dataset:
-            old_dataset_kwargs = dict(is_old_dataset=True,
-                                      session_start_time=_DEFAULT_SESSION_START_TIME)
+            old_dataset_kwargs = dict(
+                is_old_dataset=True,
+                session_start_time=_DEFAULT_SESSION_START_TIME)
         else:
             old_dataset_kwargs = dict()
 
@@ -235,7 +236,8 @@ class RawToNWBBuilder:
             animal_name=self.animal_name,
             date=date,
             nwb_metadata=self.nwb_metadata,
-            output_file=self.output_path + self.animal_name + date + ".nwb",
+            output_file=os.path.join(
+                self.output_path, self.animal_name + date + ".nwb"),
             process_mda=self.extract_mda,
             process_dio=self.extract_dio,
             process_analog=self.extract_analog,
@@ -317,7 +319,7 @@ class RawToNWBBuilder:
     def cleanup(self):
         """Remove all temporary files structure from preprocessing folder"""
 
-        preprocessing = self.preprocessing_path + \
-            '/' + self.animal_name + '/preprocessing'
+        preprocessing = os.path.join(
+            self.preprocessing_path, self.animal_name, 'preprocessing')
         if os.path.exists(preprocessing):
             shutil.rmtree(preprocessing)

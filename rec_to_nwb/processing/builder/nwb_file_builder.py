@@ -160,9 +160,7 @@ class NWBFileBuilder:
         if self.metadata.get('associated_files', []):
             associated_files_existance_validator = AssociatedFilesExistanceValidator(
                 self.metadata['associated_files'])
-            if associated_files_existance_validator.files_exist():
-                pass
-            else:
+            if not associated_files_existance_validator.files_exist():
                 raise Exception(
                     "one or more associated file listed in metadata.yaml file does not exist")
         self.probes = nwb_metadata.probes
@@ -189,17 +187,16 @@ class NWBFileBuilder:
                                    'analog': process_analog}
 
         rec_files_list = RecFileFinder().find_rec_files(
-            path=(self.data_path
-                  + '/' + self.animal_name
-                  + '/raw/'
-                  + self.date)
+            path=os.path.join(
+                self.data_path, self.animal_name, 'raw', self.date)
         )
 
         if not preprocessing_path:
             header_path = None  # default
         else:
-            header_path = (self.preprocessing_out
-                           + '/' + self.animal_name + '/headers/' + self.date)
+            header_path = os.path.join(
+                self.preprocessing_out, self.animal_name, 'headers',
+                self.date)
             os.makedirs(header_path, exist_ok=True)
         header_file = HeaderProcessor.process_headers(
             rec_files_list, copy_dir=header_path)
@@ -211,7 +208,7 @@ class NWBFileBuilder:
             self.preprocessing_path, animal_name, nwb_metadata)
         self.dataset_names = self.data_scanner.get_all_epochs(date)
         full_data_path = os.path.join(self.preprocessing_path,
-                                      animal_name + '/preprocessing/' + date)
+                                      self.animal_name, 'preprocessing', date)
 
         validation_registrator = ValidationRegistrator()
         validation_registrator.register(NTrodeValidator(
@@ -285,10 +282,11 @@ class NWBFileBuilder:
         self.probes_originator = ProbeOriginator(
             self.device_factory, self.device_injector, self.probes)
         self.camera_sample_frame_counts_originator = CameraSampleFrameCountsOriginator(
-            self.data_path + "/" + animal_name + "/raw/" + self.date + "/")
+            os.path.join(self.data_path, self.animal_name, 'raw', self.date))
         if self.is_old_dataset:
             self.video_files_originator = VideoFilesOriginator(
-                self.data_path + "/" + animal_name + "/raw/" + self.date + "/",
+                os.path.join(self.data_path, self.animal_name,
+                             'raw', self.date),
                 self.video_path,
                 self.metadata["associated_video_files"],
                 convert_timestamps=_CONVERT_OLD_TIMESTAMPS,
@@ -296,7 +294,8 @@ class NWBFileBuilder:
             )
         else:
             self.video_files_originator = VideoFilesOriginator(
-                self.data_path + "/" + animal_name + "/raw/" + self.date + "/",
+                os.path.join(self.data_path, self.animal_name,
+                             'raw', self.date),
                 self.video_path,
                 self.metadata["associated_video_files"],
             )
@@ -313,28 +312,32 @@ class NWBFileBuilder:
 
         if self.process_dio:
             if self.is_old_dataset:
-                self.dio_originator = DioOriginator(self.metadata, self.datasets,
-                                                    convert_timestamps=_CONVERT_OLD_TIMESTAMPS)
+                self.dio_originator = DioOriginator(
+                    self.metadata, self.datasets,
+                    convert_timestamps=_CONVERT_OLD_TIMESTAMPS)
             else:
                 self.dio_originator = DioOriginator(
                     self.metadata, self.datasets)
 
         if self.process_analog:
             if self.is_old_dataset:
-                self.analog_originator = AnalogOriginator(self.datasets, self.metadata,
-                                                          convert_timestamps=_CONVERT_OLD_TIMESTAMPS,
-                                                          return_timestamps=_RETURN_OLD_TIMESTAMPS)
+                self.analog_originator = AnalogOriginator(
+                    self.datasets, self.metadata,
+                    convert_timestamps=_CONVERT_OLD_TIMESTAMPS,
+                    return_timestamps=_RETURN_OLD_TIMESTAMPS)
             else:
                 self.analog_originator = AnalogOriginator(
                     self.datasets, self.metadata)
 
         if self.is_old_dataset:
-            self.position_originator = PositionOriginator(self.datasets, self.metadata,
-                                                          self.dataset_names, self.process_pos_timestamps,
-                                                          convert_timestamps=_CONVERT_OLD_TIMESTAMPS)
+            self.position_originator = PositionOriginator(
+                self.datasets, self.metadata,
+                self.dataset_names, self.process_pos_timestamps,
+                convert_timestamps=_CONVERT_OLD_TIMESTAMPS)
         else:
-            self.position_originator = PositionOriginator(self.datasets, self.metadata,
-                                                          self.dataset_names, self.process_pos_timestamps)
+            self.position_originator = PositionOriginator(
+                self.datasets, self.metadata,
+                self.dataset_names, self.process_pos_timestamps)
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)
@@ -399,7 +402,8 @@ class NWBFileBuilder:
         )
 
         self.electrodes_originator.make(
-            nwb_content, electrode_groups, valid_map_dict['electrodes'], valid_map_dict['electrode_groups']
+            nwb_content, electrode_groups, valid_map_dict['electrodes'],
+            valid_map_dict['electrode_groups']
         )
 
         self.electrodes_extension_originator.make(

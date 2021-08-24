@@ -1,3 +1,5 @@
+import os
+
 from rec_to_nwb.processing.exceptions.missing_data_exception import \
     MissingDataException
 from rec_to_nwb.processing.nwb.components.iterator.multi_thread_data_iterator import \
@@ -24,7 +26,9 @@ class FlPositionExtractor:
         continuous_time = []
         for dataset in self.datasets:
             data_from_current_dataset = [
-                dataset.get_data_path_from_dataset('pos') + pos_file for pos_file in
+                os.path.join(
+                    dataset.get_data_path_from_dataset('pos'), pos_file)
+                for pos_file in
                 dataset.get_all_data_from_dataset('pos') if
                 (pos_file.endswith('.pos_online.dat'))]
             if dataset.get_continuous_time() is None:

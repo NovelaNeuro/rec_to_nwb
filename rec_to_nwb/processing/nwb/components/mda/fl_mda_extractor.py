@@ -1,3 +1,5 @@
+import os
+
 from rec_to_nwb.processing.exceptions.missing_data_exception import \
     MissingDataException
 from rec_to_nwb.processing.nwb.components.iterator.multi_thread_data_iterator import \
@@ -69,7 +71,7 @@ class FlMdaExtractor:
 
     @staticmethod
     def __get_data_files_from_current_dataset(dataset):
-        return [dataset.get_data_path_from_dataset('mda') + mda_file for mda_file in
+        return [os.path.join(dataset.get_data_path_from_dataset('mda'), mda_file) for mda_file in
                 dataset.get_all_data_from_dataset('mda') if
                 (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
 
