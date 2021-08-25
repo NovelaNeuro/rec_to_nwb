@@ -6,7 +6,8 @@ from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(
-    fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
+    fname=os.path.join(str(path), os.pardir, os.pardir, 'logging.conf'),
+    disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 
@@ -27,4 +28,4 @@ class ContinuousTimeExtractor:
         logger.info('Reading continuous time array from: ' + str(file))
         continuous_time = readTrodesExtractedDataFile(file)
         return np.vstack((continuous_time['data']['trodestime'],
-                         continuous_time['data']['adjusted_systime']))
+                          continuous_time['data']['adjusted_systime']))

@@ -6,8 +6,10 @@ from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../../../../logging.conf',
-                          disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=os.path.join(str(path), os.pardir, os.pardir,
+                       os.pardir, os.pardir, 'logging.conf'),
+    disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 NANOSECONDS_PER_SECOND = 1E9
