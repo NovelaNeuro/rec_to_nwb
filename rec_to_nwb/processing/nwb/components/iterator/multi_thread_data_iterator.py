@@ -13,22 +13,25 @@ class MultiThreadDataIterator(DataIterator):
 
     def __next__(self):
         if self._current_index < self.number_of_steps:
-            number_of_threads_in_current_step = min(self.number_of_threads,
-                                                    self.number_of_files_in_single_dataset - self.current_file)
+            number_of_threads_in_current_step = min(
+                self.number_of_threads,
+                self.number_of_files_in_single_dataset - self.current_file)
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                threads = [executor.submit(MultiThreadDataIterator.get_data_from_file,
-                                           self.data, self.current_dataset, self.current_file + i)
-                           for i in range(number_of_threads_in_current_step)]
+                threads = [executor.submit(
+                    MultiThreadDataIterator.get_data_from_file,
+                    self.data, self.current_dataset, self.current_file + i)
+                    for i in range(number_of_threads_in_current_step)]
             data_from_multiple_files = ()
             for thread in threads:
                 data_from_multiple_files += (thread.result(),)
             stacked_data_from_multiple_files = np.hstack(
                 data_from_multiple_files)
-            selection = self.get_selection(number_of_threads=number_of_threads_in_current_step,
-                                           current_dataset=self.current_dataset,
-                                           dataset_file_length=self.dataset_file_length,
-                                           current_file=self.current_file,
-                                           number_of_rows=self.number_of_rows)
+            selection = self.get_selection(
+                number_of_threads=number_of_threads_in_current_step,
+                current_dataset=self.current_dataset,
+                dataset_file_length=self.dataset_file_length,
+                current_file=self.current_file,
+                number_of_rows=self.number_of_rows)
             data_chunk = DataChunk(
                 data=stacked_data_from_multiple_files, selection=selection)
 
@@ -64,22 +67,25 @@ class ChunkedDataIterator(DataIterator):
 
     def __next__(self):
         if self._current_index < self.number_of_steps:
-            number_of_threads_in_current_step = min(self.number_of_threads,
-                                                    self.number_of_files_in_single_dataset - self.current_file)
+            number_of_threads_in_current_step = min(
+                self.number_of_threads,
+                self.number_of_files_in_single_dataset - self.current_file)
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                threads = [executor.submit(MultiThreadDataIterator.get_data_from_file,
-                                           self.data, self.current_dataset, self.current_file + i)
-                           for i in range(number_of_threads_in_current_step)]
+                threads = [executor.submit(
+                    MultiThreadDataIterator.get_data_from_file,
+                    self.data, self.current_dataset, self.current_file + i)
+                    for i in range(number_of_threads_in_current_step)]
             data_from_multiple_files = ()
             for thread in threads:
                 data_from_multiple_files += (thread.result(),)
             stacked_data_from_multiple_files = np.hstack(
                 data_from_multiple_files)
-            selection = self.get_selection(number_of_threads=number_of_threads_in_current_step,
-                                           current_dataset=self.current_dataset,
-                                           dataset_file_length=self.dataset_file_length,
-                                           current_file=self.current_file,
-                                           number_of_rows=self.number_of_rows)
+            selection = self.get_selection(
+                number_of_threads=number_of_threads_in_current_step,
+                current_dataset=self.current_dataset,
+                dataset_file_length=self.dataset_file_length,
+                current_file=self.current_file,
+                number_of_rows=self.number_of_rows)
             data_chunk = DataChunk(
                 data=stacked_data_from_multiple_files, selection=selection)
 

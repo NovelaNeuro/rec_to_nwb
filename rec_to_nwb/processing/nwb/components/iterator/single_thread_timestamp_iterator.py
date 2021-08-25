@@ -26,5 +26,6 @@ class SingleThreadTimestampIterator(TimestampIterator):
         return self.data.retrieve_real_timestamps(self.current_dataset)
 
     def __get_selection(self):
-        return np.s_[sum(self.dataset_file_lenght[0:self.current_dataset]):
-                     sum(self.dataset_file_lenght[0:self.current_dataset + 1]), ]
+        return np.s_[
+            sum(self.dataset_file_lenght[0:self.current_dataset]):
+            sum(self.dataset_file_lenght[0:self.current_dataset + 1]), ]
