@@ -46,4 +46,5 @@ class DioOriginator:
         dio_injector.inject(behavioral_events, 'behavior')
 
     def __get_continuous_time_files(self):
-        return [single_dataset.get_continuous_time() for single_dataset in self.datasets]
+        return [single_dataset.get_continuous_time()
+                for single_dataset in self.datasets]

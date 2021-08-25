@@ -10,6 +10,8 @@ logging.config.fileConfig(fname=str(path) + '/../../../../logging.conf',
                           disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
+NANOSECONDS_PER_SECOND = 1E9
+
 
 class FlVideoFilesExtractor:
 
@@ -59,19 +61,21 @@ class FlVideoFilesExtractor:
 
     def _read_video_timestamps_hw_sync(self, video_file):
         return readTrodesExtractedDataFile(
-            self.raw_data_path + "/"
-            + video_file["name"][:-4]
-            + "videoTimeStamps.cameraHWSync")['data']['HWTimestamp']
+            os.path.join(
+                self.raw_data_path,
+                video_file["name"][:-4] +
+                "videoTimeStamps.cameraHWSync")['data']['HWTimestamp'])
 
     def _read_video_timestamps_hw_framecount(self, video_file):
         return readTrodesExtractedDataFile(
-            self.raw_data_path + "/"
-            + video_file["name"][:-4]
-            + "videoTimeStamps.cameraHWFrameCount")['data']['frameCount']
+            os.path.join(
+                self.raw_data_path,
+                video_file["name"][:-4] +
+                "videoTimeStamps.cameraHWFrameCount")['data']['frameCount'])
 
     def _convert_timestamps(self, timestamps):
         # converted_timestamps = np.ndarray(shape=np.shape(timestamps), dtype='float64')
-        converted_timestamps = timestamps / 1E9
+        converted_timestamps = timestamps / NANOSECONDS_PER_SECOND
         # for i, record in enumerate(timestamps):
         #     converted_timestamps[i] = record[2]/1E9
         return converted_timestamps

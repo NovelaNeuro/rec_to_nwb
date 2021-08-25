@@ -28,5 +28,6 @@ class PosTimestampManager(TimestampManager):
         return position.time.to_numpy(dtype='int64')
 
     def retrieve_real_timestamps(self, dataset_id):
-        return TimestampManager.retrieve_real_timestamps(self, dataset_id,
-                                                         convert_timestamps=self.convert_timestamps)
+        return TimestampManager.retrieve_real_timestamps(
+            self, dataset_id,
+            convert_timestamps=self.convert_timestamps)
