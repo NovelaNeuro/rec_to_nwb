@@ -78,7 +78,6 @@ class RawToNWBBuilder:
             output_path: str = '',
             video_path: str = '',
             preprocessing_path: str = '',
-            preprocessing_out: str = '',
             extract_analog: bool = True,
             extract_spikes: bool = False,
             extract_lfps: bool = False,
@@ -123,10 +122,6 @@ class RawToNWBBuilder:
             self.preprocessing_path = data_path
         else:
             self.preprocessing_path = preprocessing_path
-        if not preprocessing_out:
-            self.preprocessing_out = self.preprocessing_path
-        else:
-            self.preprocessing_out = preprocessing_out
         self.probes = nwb_metadata.probes
         self.nwb_metadata = nwb_metadata
         self.parallel_instances = parallel_instances
@@ -143,7 +138,6 @@ class RawToNWBBuilder:
                 f"    output_path={self.output_path},\n"
                 f"    video_path={self.video_path},\n"
                 f"    preprocessing_path={self.preprocessing_path},\n"
-                f"    preprocessing_out={self.preprocessing_out},\n"
                 f"    trodes_rec_export_args={self.trodes_rec_export_args},\n"
                 ")")
 
@@ -242,7 +236,6 @@ class RawToNWBBuilder:
             process_dio=self.extract_dio,
             process_analog=self.extract_analog,
             preprocessing_path=self.preprocessing_path,
-            preprocessing_out=self.preprocessing_out,
             video_path=self.video_path,
             reconfig_header=self.__get_header_path(),
             # reconfig_header=self.__is_rec_config_valid()
@@ -277,7 +270,7 @@ class RawToNWBBuilder:
         extract_trodes_rec_file(
             self.data_path,
             self.animal_name,
-            out_dir=self.preprocessing_out,
+            out_dir=self.preprocessing_path,
             dates=self.dates,
             parallel_instances=self.parallel_instances,
             extract_analog=self.extract_analog,
