@@ -21,7 +21,7 @@ Currently we suggest following the instructions to install https://github.com/Lo
    ```bash
    git clone https://github.com/LorenFrankLab/rec_to_nwb.git
 
-   cd rec_to_nwb/rec_to_nwb
+   cd rec_to_nwb
    ```
 5. Create conda environment.
    ```bash
