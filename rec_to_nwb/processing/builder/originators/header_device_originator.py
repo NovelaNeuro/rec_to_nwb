@@ -11,7 +11,9 @@ from rec_to_nwb.processing.nwb.components.device.header.fl_header_device_manager
 
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(
-    fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+    fname=os.path.join(str(path), os.pardir, os.pardir,
+                       os.pardir, 'logging.conf'),
+    disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 

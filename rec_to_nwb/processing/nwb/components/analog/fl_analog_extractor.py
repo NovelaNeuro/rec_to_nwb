@@ -9,7 +9,7 @@ from rec_to_nwb.processing.time.timestamp_converter import TimestampConverter
 path = os.path.dirname(os.path.abspath(__file__))
 logging.config.fileConfig(
     fname=os.path.join(str(path), os.pardir, os.pardir,
-                       os.pardir, os.pardir, 'logging.conf')
+                       os.pardir, os.pardir, 'logging.conf'),
     disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ class FlAnalogExtractor:
         for analog_sensor in analog_files:
             analog_data = readTrodesExtractedDataFile(
                 analog_files[analog_sensor])
-            if not 'timestamps' in analog_sensor:
+            if 'timestamps' not in analog_sensor:
                 values = analog_data['data']
                 single_dataset_data[analog_data['id']] = values
             else:
