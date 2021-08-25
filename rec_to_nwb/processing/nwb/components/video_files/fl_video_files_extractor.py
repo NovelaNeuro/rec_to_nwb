@@ -61,15 +61,17 @@ class FlVideoFilesExtractor:
 
     def _read_video_timestamps_hw_sync(self, video_file):
         return readTrodesExtractedDataFile(
-            self.raw_data_path + "/"
-            + video_file["name"][:-4]
-            + "videoTimeStamps.cameraHWSync")['data']['HWTimestamp']
+            os.path.join(
+                self.raw_data_path,
+                video_file["name"][:-4] +
+                "videoTimeStamps.cameraHWSync")['data']['HWTimestamp'])
 
     def _read_video_timestamps_hw_framecount(self, video_file):
         return readTrodesExtractedDataFile(
-            self.raw_data_path + "/"
-            + video_file["name"][:-4]
-            + "videoTimeStamps.cameraHWFrameCount")['data']['frameCount']
+            os.path.join(
+                self.raw_data_path,
+                video_file["name"][:-4] +
+                "videoTimeStamps.cameraHWFrameCount")['data']['frameCount'])
 
     def _convert_timestamps(self, timestamps):
         # converted_timestamps = np.ndarray(shape=np.shape(timestamps), dtype='float64')
