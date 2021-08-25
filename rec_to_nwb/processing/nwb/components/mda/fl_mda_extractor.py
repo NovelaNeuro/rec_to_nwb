@@ -12,13 +12,15 @@ from rec_to_nwb.processing.nwb.components.mda.mda_data_manager import \
 from rec_to_nwb.processing.nwb.components.mda.mda_timestamp_manager import \
     MdaTimestampDataManager
 
+MICROVOLTS_PER_VOLT = 1e6
+
 
 class FlMdaExtractor:
 
     def __init__(self, datasets, conversion):
         self.datasets = datasets
         # the conversion is to volts, so we multiple by 1e6 to change to uV
-        self.raw_to_uv = float(conversion) * 1e6
+        self.raw_to_uv = float(conversion) * MICROVOLTS_PER_VOLT
 
     def get_data(self):
         mda_data_files, timestamp_files, continuous_time_files = self.__extract_data_files()

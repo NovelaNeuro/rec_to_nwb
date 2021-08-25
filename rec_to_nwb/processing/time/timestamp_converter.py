@@ -9,6 +9,8 @@ logging.config.fileConfig(
     fname=str(path) + '/../../logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
+NANOSECONDS_PER_SECOND = 1E9
+
 
 class TimestampConverter:
 
@@ -26,7 +28,8 @@ class TimestampConverter:
 
         # look up the timestamps in the first row of continuous_times
         timestamp_ind = np.searchsorted(continuous_times[0, :], timestamps)
-        converted_timestamps = continuous_times[1, timestamp_ind] / 1E9
+        converted_timestamps = (continuous_times[1, timestamp_ind] /
+                                NANOSECONDS_PER_SECOND)
 
         # get rid of any that are not exact
         not_found = timestamps != continuous_times[0, timestamp_ind]
