@@ -19,7 +19,8 @@ class ElectrodesOriginator:
             probes, metadata['electrode_groups'])
         self.electrode_creator = ElectrodesCreator()
 
-    def make(self, nwb_content, electrode_groups, electrodes_valid_map, electrode_groups_valid_map):
+    def make(self, nwb_content, electrode_groups, electrodes_valid_map,
+             electrode_groups_valid_map):
         logger.info('Electrodes: Building')
         fl_electrodes = self.fl_electrode_manager.get_fl_electrodes(
             electrode_groups=electrode_groups,

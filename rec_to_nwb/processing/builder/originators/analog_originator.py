@@ -38,4 +38,5 @@ class AnalogOriginator:
             fl_analog, self.metadata['units']['analog']), 'analog')
 
     def __get_continuous_time_files(self):
-        return [single_dataset.get_continuous_time() for single_dataset in self.datasets]
+        return [single_dataset.get_continuous_time()
+                for single_dataset in self.datasets]
