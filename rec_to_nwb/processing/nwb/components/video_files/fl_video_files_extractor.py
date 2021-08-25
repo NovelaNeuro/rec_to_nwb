@@ -10,6 +10,8 @@ logging.config.fileConfig(fname=str(path) + '/../../../../logging.conf',
                           disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
+NANOSECONDS_PER_SECOND = 1E9
+
 
 class FlVideoFilesExtractor:
 
@@ -71,7 +73,7 @@ class FlVideoFilesExtractor:
 
     def _convert_timestamps(self, timestamps):
         # converted_timestamps = np.ndarray(shape=np.shape(timestamps), dtype='float64')
-        converted_timestamps = timestamps / 1E9
+        converted_timestamps = timestamps / NANOSECONDS_PER_SECOND
         # for i, record in enumerate(timestamps):
         #     converted_timestamps[i] = record[2]/1E9
         return converted_timestamps
