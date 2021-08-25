@@ -29,14 +29,9 @@ Currently we suggest following the instructions to install https://github.com/Lo
    ```
 6. Install rec_to_nwb
    ```bash
-   cd ..
-   python setup.py install
+   pip install -e .
    ```
-7. jupyter notebook installation
-   ```bash
-   pip install jupyter notebook
-   ```
-8. Documentation can be viewed at <br>
+7. Documentation can be viewed at <br>
     <https://novelaneuro.github.io/rec_to_nwb-docs/>
 
 # How to use it
