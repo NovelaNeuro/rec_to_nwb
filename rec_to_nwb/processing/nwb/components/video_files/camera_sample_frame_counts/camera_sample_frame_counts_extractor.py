@@ -1,3 +1,4 @@
+"""Returns the video frame counts and timestamps for all epochs."""
 import glob
 import os
 
@@ -11,33 +12,25 @@ class CameraSampleFrameCountsExtractor:
         self.raw_data_path = raw_data_path
 
     def extract(self):
-        data = []
-        files = self.__get_all_hwsync_files()
+        """Returns the video frame counts and timestamps for all epochs.
+
+        If precision time protocol (PTP) timestamps do not exist, then
+        timestamps are simply just a count of the frames in that epoch.
+        """
+        files = glob.glob(
+            os.path.join(self.raw_data_path, '*.videoTimeStamps.cameraHWSync'))
         if len(files) == 0:
             # in case of old dataset
-            files = self.__get_all_hwframecount_files()
-        for file in files:
-            data.append(self.__extract_single(file))
-        merged_data = self.__merge_data_from_multiple_files(data)
-        return merged_data
+            files = glob.glob(
+                os.path.join(self.raw_data_path,
+                             '*.videoTimeStamps.cameraHWFrameCount'))
+        return np.vstack([self.__extract_single(file) for file in files])
 
-    def __get_all_hwsync_files(self):
-        return glob.glob(
-            os.path.join(self.raw_data_path, '*.videoTimeStamps.cameraHWSync'))
-
-    def __get_all_hwframecount_files(self):
-        return glob.glob(
-            os.path.join(self.raw_data_path,
-                         '*.videoTimeStamps.cameraHWFrameCount'))
-
-    @staticmethod
-    def __merge_data_from_multiple_files(data):
-        return np.vstack(data)
-
-    def __extract_single(self, hw_frame_count_filename):
+    def __extract_single(self, filename):
+        """Returns the video frame counts and timestamps for a single epoch."""
         content = pd.DataFrame(
             readTrodesExtractedDataFile(
-                os.path.join(self.raw_data_path, hw_frame_count_filename)
+                os.path.join(self.raw_data_path, filename)
             )["data"])
         try:
             # columns: frame count, timestamps

@@ -1,3 +1,5 @@
+"""Creates a NWB time series object that corresponds to the video frame counts
+"""
 from pynwb import TimeSeries
 
 
