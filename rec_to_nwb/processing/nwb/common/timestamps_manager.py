@@ -34,9 +34,6 @@ class TimestampManager(abc.ABC):
         timestamps_ids = self.read_timestamps_ids(dataset_id)
         if not convert_timestamps:
             return timestamps_ids
-
- #       continuous_time_dict = self.continuous_time_extractor.get_continuous_time_dict_file(
- #           self.continuous_time_directories[dataset_id])
         continuous_time = self.continuous_time_extractor.get_continuous_time_array_file(
             self.continuous_time_directories[dataset_id])
         return self.timestamp_converter.convert_timestamps(continuous_time, timestamps_ids)
