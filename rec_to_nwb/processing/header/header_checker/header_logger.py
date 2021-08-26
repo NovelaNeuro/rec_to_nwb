@@ -15,8 +15,5 @@ class HeaderLogger:
     def log_header_differences(headers_differences, rec_files_list):
         if headers_differences:
             message = 'Rec files: ' + \
-                str(rec_files_list) + ' contain inconsistent xml headers!\n'
-            differences = [diff for diff in headers_differences
-                           if 'systemTimeAtCreation' not in str(diff) and 'timestampAtCreation'
-                           not in str(diff)]
-            logger.warning('%s , %s', message, differences)
+                str(rec_files_list) + ' contain inconsistent xml headers!'
+            logger.warning(message)
