@@ -1,3 +1,5 @@
+"""Gets the name, timestamps and device for each video file and inserts them
+into a FlVideoFile object"""
 from rec_to_nwb.processing.nwb.components.video_files.fl_video_files_builder import \
     FlVideoFilesBuilder
 from rec_to_nwb.processing.nwb.components.video_files.fl_video_files_extractor import \
@@ -26,6 +28,8 @@ class FlVideoFilesManager:
         self.fl_video_files_builder = FlVideoFilesBuilder()
 
     def get_video_files(self):
+        """Gets the name, timestamps and device for each video file and
+        inserts them into a FlVideoFile object"""
         extracted_video_files = self.fl_video_files_extractor.extract_video_files()
         return [
             self.fl_video_files_builder.build(
