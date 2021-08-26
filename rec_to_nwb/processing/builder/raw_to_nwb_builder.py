@@ -188,17 +188,22 @@ class RawToNWBBuilder:
             process_pos_invalid_time (boolean): True if the pos invalid times should be build and append to nwb.
                 Need the pos data inside the nwb. (default True)
         """
-
+        logger.info('#######################START############################')
         if run_preprocessing:
             self.__preprocess_data()
 
-        self.__build_nwb_file(process_mda_valid_time=process_mda_valid_time,
-                              process_mda_invalid_time=process_mda_invalid_time,
-                              process_pos_valid_time=process_pos_valid_time,
-                              process_pos_invalid_time=process_pos_invalid_time)
+        self.__build_nwb_file(
+            process_mda_valid_time=process_mda_valid_time,
+            process_mda_invalid_time=process_mda_invalid_time,
+            process_pos_valid_time=process_pos_valid_time,
+            process_pos_invalid_time=process_pos_invalid_time)
+        logger.info('Done...\n')
 
-    def __build_nwb_file(self, process_mda_valid_time=False, process_mda_invalid_time=False,
-                         process_pos_valid_time=False, process_pos_invalid_time=False):
+    def __build_nwb_file(self,
+                         process_mda_valid_time=False,
+                         process_mda_invalid_time=False,
+                         process_pos_valid_time=False,
+                         process_pos_invalid_time=False):
         logger.info('Building NWB files')
         os.makedirs(self.output_path, exist_ok=True)
         os.makedirs(self.video_path, exist_ok=True)
@@ -244,28 +249,27 @@ class RawToNWBBuilder:
         )
 
     def __preprocess_data(self):
-        """process data with rec_to_binaries library"""
-
+        """Process data with rec_to_binaries library"""
+        logger.info('Extracting binaries from rec files...')
         logger.info(
-            'Extraction parameters :' + '\n'
-            + 'data_path = ' + self.data_path + '\n'
-            + 'animal_name = ' + self.animal_name + '\n'
-            + 'parallel_instances = ' + str(self.parallel_instances) + '\n'
-            + 'extract_analog = ' + str(self.extract_analog) + '\n'
-            + 'extract_dio = ' + str(self.extract_dio) + '\n'
-            + 'extract_time = ' + str(True) + '\n'
-            + 'extract_mda = ' + str(self.extract_mda) + '\n'
-            + 'extract_lfps = ' + str(self.extract_lfps) + '\n'
-            + 'extract_spikes = ' + str(self.extract_spikes) + '\n'
-            + 'overwrite = ' + str(self.overwrite) + '\n'
-            + 'lfp_export_args = ' + str(self.lfp_export_args) + '\n'
-            + 'mda_export_args = ' + str(self.mda_export_args) + '\n'
-            + 'analog_export_args = ' + str(self.analog_export_args) + '\n'
-            + 'time_export_args = ' + str(self.time_export_args) + '\n'
-            + 'spikes_export_args = ' + str(self.spikes_export_args) + '\n'
-            + 'dio_export_args = ' + str(self.dio_export_args) + '\n'
-            + 'trodes_rec_export_args = ' +
-            str(self.trodes_rec_export_args) + '\n'
+            'Rec to binaries extraction parameters :' + '\n'
+            + '\t data_path = ' + self.data_path + '\n'
+            + '\t animal_name = ' + self.animal_name + '\n'
+            + '\t parallel_instances = ' + str(self.parallel_instances) + '\n'
+            + '\t extract_analog = ' + str(self.extract_analog) + '\n'
+            + '\t extract_dio = ' + str(self.extract_dio) + '\n'
+            + '\t extract_time = ' + str(True) + '\n'
+            + '\t extract_mda = ' + str(self.extract_mda) + '\n'
+            + '\t extract_lfps = ' + str(self.extract_lfps) + '\n'
+            + '\t extract_spikes = ' + str(self.extract_spikes) + '\n'
+            + '\t overwrite = ' + str(self.overwrite) + '\n'
+            + '\t lfp_export_args = ' + str(self.lfp_export_args) + '\n'
+            + '\t mda_export_args = ' + str(self.mda_export_args) + '\n'
+            + '\t analog_export_args = ' + str(self.analog_export_args) + '\n'
+            + '\t time_export_args = ' + str(self.time_export_args) + '\n'
+            + '\t spikes_export_args = ' + str(self.spikes_export_args) + '\n'
+            + '\t dio_export_args = ' + str(self.dio_export_args) + '\n'
+            + '\t trodes_rec_export_args = ' + str(self.trodes_rec_export_args)
         )
 
         extract_trodes_rec_file(
@@ -288,6 +292,7 @@ class RawToNWBBuilder:
             spikes_export_args=self.spikes_export_args,
             time_export_args=self.time_export_args,
         )
+        logger.info('Done extracting binaries from rec files...')
         # self.__is_rec_config_valid()
 
     @staticmethod
