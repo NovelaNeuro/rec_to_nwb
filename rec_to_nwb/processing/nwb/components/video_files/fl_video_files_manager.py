@@ -1,5 +1,5 @@
 """Gets the name, timestamps and device for each video file and inserts them
-into a FlVideoFile object"""
+into a FlVideoFile object. Also copies the video files to `video_path`"""
 from rec_to_nwb.processing.nwb.components.video_files.fl_video_files_builder import \
     FlVideoFilesBuilder
 from rec_to_nwb.processing.nwb.components.video_files.fl_video_files_extractor import \
