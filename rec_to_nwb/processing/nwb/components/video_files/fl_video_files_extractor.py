@@ -127,7 +127,7 @@ class FlVideoFilesExtractor:
             os.path.join(
                 self.raw_data_path,
                 os.path.splitext(video_file["name"])[0] +
-                "videoTimeStamps.cameraHWFrameCount")
+                ".videoTimeStamps.cameraHWFrameCount")
         )['data']['frameCount']
 
     def _convert_timestamps(self, timestamps):
