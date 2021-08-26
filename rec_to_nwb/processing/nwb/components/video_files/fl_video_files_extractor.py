@@ -104,8 +104,9 @@ class FlVideoFilesExtractor:
         return readTrodesExtractedDataFile(
             os.path.join(
                 self.raw_data_path,
-                video_file["name"][:-4] +
-                "videoTimeStamps.cameraHWSync")['data']['HWTimestamp'])
+                os.path.splitext(video_file["name"])[0] +
+                ".videoTimeStamps.cameraHWSync")
+        )['data']['HWTimestamp']
 
     def _read_video_timestamps_hw_framecount(self, video_file):
         """Returns the index of video frames.
@@ -125,8 +126,9 @@ class FlVideoFilesExtractor:
         return readTrodesExtractedDataFile(
             os.path.join(
                 self.raw_data_path,
-                video_file["name"][:-4] +
-                "videoTimeStamps.cameraHWFrameCount")['data']['frameCount'])
+                os.path.splitext(video_file["name"])[0] +
+                "videoTimeStamps.cameraHWFrameCount")
+        )['data']['frameCount']
 
     def _convert_timestamps(self, timestamps):
         """Converts timestamps from nanoseconds to seconds
