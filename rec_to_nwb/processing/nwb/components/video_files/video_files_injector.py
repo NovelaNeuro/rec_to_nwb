@@ -1,3 +1,5 @@
+"""Inserts the NwbImageSeries object into an NWBFile under the path:
+processing/video_files"""
 from pynwb import NWBFile
 from pynwb.behavior import BehavioralEvents
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
