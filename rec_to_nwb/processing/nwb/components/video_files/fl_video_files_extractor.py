@@ -1,3 +1,4 @@
+"""Returns the name, timestamps and device for each video file"""
 import logging.config
 import os
 
