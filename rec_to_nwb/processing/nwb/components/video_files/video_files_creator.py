@@ -1,3 +1,4 @@
+"""Creates a NwbImageSeries object that corresponds to the video"""
 import os
 
 from ndx_franklab_novela.nwb_image_series import NwbImageSeries

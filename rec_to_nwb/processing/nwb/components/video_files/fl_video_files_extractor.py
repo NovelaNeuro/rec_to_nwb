@@ -18,7 +18,9 @@ NANOSECONDS_PER_SECOND = 1E9
 class FlVideoFilesExtractor:
 
     @beartype
-    def __init__(self, raw_data_path: str, video_files_metadata: list,
+    def __init__(self,
+                 raw_data_path: str,
+                 video_files_metadata: list,
                  convert_timestamps: bool = True,
                  return_timestamps: bool = True):
         self.raw_data_path = raw_data_path
@@ -76,8 +78,4 @@ class FlVideoFilesExtractor:
                 "videoTimeStamps.cameraHWFrameCount")['data']['frameCount'])
 
     def _convert_timestamps(self, timestamps):
-        # converted_timestamps = np.ndarray(shape=np.shape(timestamps), dtype='float64')
-        converted_timestamps = timestamps / NANOSECONDS_PER_SECOND
-        # for i, record in enumerate(timestamps):
-        #     converted_timestamps[i] = record[2]/1E9
-        return converted_timestamps
+        return timestamps / NANOSECONDS_PER_SECOND

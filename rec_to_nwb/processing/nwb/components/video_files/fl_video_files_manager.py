@@ -10,7 +10,10 @@ from rec_to_nwb.processing.tools.beartype.beartype import beartype
 class FlVideoFilesManager:
 
     @beartype
-    def __init__(self, raw_data_path: str, video_path: str, video_files_metadata: list,
+    def __init__(self,
+                 raw_data_path: str,
+                 video_path: str,
+                 video_files_metadata: list,
                  convert_timestamps: bool = True,
                  return_timestamps: bool = True):
         self.video_files_copy_maker = VideoFilesCopyMaker(
