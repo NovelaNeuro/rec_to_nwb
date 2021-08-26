@@ -2,6 +2,7 @@ import glob
 import os
 
 import numpy as np
+import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 
@@ -31,23 +32,17 @@ class CameraSampleFrameCountsExtractor:
 
     @staticmethod
     def __merge_data_from_multiple_files(data):
-        merged_data = np.vstack(data)
-        return merged_data
+        return np.vstack(data)
 
     def __extract_single(self, hw_frame_count_filename):
-        content = readTrodesExtractedDataFile(
-            os.path.join(self.raw_data_path, hw_frame_count_filename)
-        )["data"]
-        camera_sample_frame_counts = np.ndarray(
-            shape=(len(content), 2), dtype='uint32')
-        for i, record in enumerate(content):
-            if len(record) > 1:
-                # from cameraHWSync
-                camera_sample_frame_counts[i, 0] = record[1]  # framecounts
-                camera_sample_frame_counts[i, 1] = record[0]  # timestamps
-            else:
-                # from cameraHWFrameCount (old dataset)
-                camera_sample_frame_counts[i, 0] = record[0]  # framecounts
-                # timestamps (dummy)
-                camera_sample_frame_counts[i, 1] = i
-        return camera_sample_frame_counts
+        content = pd.DataFrame(
+            readTrodesExtractedDataFile(
+                os.path.join(self.raw_data_path, hw_frame_count_filename)
+            )["data"])
+        try:
+            # columns: frame count, timestamps
+            return content.iloc[:, [1, 0]].to_numpy()
+        except IndexError:
+            return np.vstack((content.iloc[:, 0].to_numpy(),  # frame counts
+                              np.arange(len(content)))  # dummy timestamps
+                             ).T.astype(np.uint32)
