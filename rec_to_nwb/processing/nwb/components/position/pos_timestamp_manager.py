@@ -24,12 +24,17 @@ class PosTimestampManager(TimestampManager):
 
     # override
     def _get_timestamps(self, dataset_id):
+        """Gets timestamps from the online position tracking"""
         pos_online = readTrodesExtractedDataFile(
             self.directories[dataset_id][0])
         position = pd.DataFrame(pos_online['data'])
         return position.time.to_numpy(dtype='int64')
 
     def retrieve_real_timestamps(self, dataset_id):
+        """Gets the corresponding timestamps from continuous time.
+
+        Continuous time corresponds to the ephys time stamps.
+        """
         return TimestampManager.retrieve_real_timestamps(
             self, dataset_id,
             convert_timestamps=self.convert_timestamps)
