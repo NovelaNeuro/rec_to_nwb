@@ -26,7 +26,8 @@ class PosDataManager(DataManager):
         return column_labels_list
 
     def get_column_labels_as_string(self):
-        """extract column labels from POS files and converts them do single string"""
+        """extract column labels from POS files and converts them do single
+        string"""
         labels = self.get_column_labels()
         labels_string = ''
         labels_string = ', '.join(labels)
