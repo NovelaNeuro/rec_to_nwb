@@ -40,6 +40,7 @@ class TimestampConverter:
         -------
         converted_timestamps : ndarray, shape (n_position_time,)
             Timestamps from the position tracking in terms of the adjusted
+            timestamps. Also converted to seconds.
 
         '''
         # add values at the end of continuous_times to make sure all values are
@@ -55,7 +56,8 @@ class TimestampConverter:
         converted_timestamps = (continuous_times[1, timestamp_ind] /
                                 NANOSECONDS_PER_SECOND)
 
-        # get rid of any that are not exact
+        # Mark timestamps not found in continuous time as NaN
         not_found = timestamps != continuous_times[0, timestamp_ind]
         converted_timestamps[not_found] = np.nan
+
         return converted_timestamps
