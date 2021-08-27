@@ -43,16 +43,8 @@ class TimestampConverter:
             timestamps. Also converted to seconds.
 
         '''
-        # add values at the end of continuous_times to make sure all values are
-        # within the range
-        max_vals = np.asarray(
-            [[np.iinfo(np.int64).max],
-             [np.iinfo(np.int64).max]],
-            dtype=np.int64)
-        continuous_times = np.hstack((continuous_times, max_vals))
-
         # Find the matching timestamp index (trodestime)
-        timestamp_ind = np.searchsorted(continuous_times[0, :], timestamps)
+        timestamp_ind = np.digitize(timestamps, continuous_times[0, 1:-1])
         converted_timestamps = (continuous_times[1, timestamp_ind] /
                                 NANOSECONDS_PER_SECOND)
 
