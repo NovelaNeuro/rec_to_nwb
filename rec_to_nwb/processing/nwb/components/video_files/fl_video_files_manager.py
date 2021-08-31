@@ -15,6 +15,7 @@ class FlVideoFilesManager:
     def __init__(self,
                  raw_data_path: str,
                  video_path: str,
+                 preprocessing_path: str,
                  video_files_metadata: list,
                  convert_timestamps: bool = True,
                  return_timestamps: bool = True):
@@ -22,7 +23,7 @@ class FlVideoFilesManager:
             [video_files['name'] for video_files in video_files_metadata])
         self.video_files_copy_maker.copy(raw_data_path, video_path)
         self.fl_video_files_extractor = FlVideoFilesExtractor(
-            raw_data_path, video_files_metadata,
+            raw_data_path, video_files_metadata, preprocessing_path,
             convert_timestamps=convert_timestamps,
             return_timestamps=return_timestamps)
         self.fl_video_files_builder = FlVideoFilesBuilder()
