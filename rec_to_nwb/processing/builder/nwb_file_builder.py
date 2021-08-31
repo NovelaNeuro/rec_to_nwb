@@ -91,8 +91,8 @@ logging.config.fileConfig(
 logger = logging.getLogger(__name__)
 
 # switches for old dataset timestamp processing (hard-coded for now)
-_CONVERT_OLD_TIMESTAMPS = True
-_RETURN_OLD_TIMESTAMPS = True
+_CONVERT_OLD_TIMESTAMPS = True  # False
+_RETURN_OLD_TIMESTAMPS = True  # False
 
 
 class NWBFileBuilder:
@@ -281,21 +281,19 @@ class NWBFileBuilder:
             os.path.join(self.data_path, self.animal_name, 'raw', self.date))
         if self.is_old_dataset:
             self.video_files_originator = VideoFilesOriginator(
-                raw_data_path=os.path.join(self.data_path, self.animal_name,
-                                           'raw', self.date),
-                video_path=self.video_path,
-                preprocessing_path=full_data_path,
-                video_files_metadata=self.metadata["associated_video_files"],
+                os.path.join(self.data_path, self.animal_name,
+                             'raw', self.date),
+                self.video_path,
+                self.metadata["associated_video_files"],
                 convert_timestamps=_CONVERT_OLD_TIMESTAMPS,
                 return_timestamps=_RETURN_OLD_TIMESTAMPS,
             )
         else:
             self.video_files_originator = VideoFilesOriginator(
-                raw_data_path=os.path.join(self.data_path, self.animal_name,
-                                           'raw', self.date),
-                video_path=self.video_path,
-                preprocessing_path=full_data_path,
-                video_files_metadata=self.metadata["associated_video_files"],
+                os.path.join(self.data_path, self.animal_name,
+                             'raw', self.date),
+                self.video_path,
+                self.metadata["associated_video_files"],
             )
 
         self.data_acq_device_originator = DataAcqDeviceOriginator(

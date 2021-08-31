@@ -3,9 +3,7 @@ import logging.config
 import os
 
 import numpy as np
-import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
-from rec_to_nwb.processing.time.timestamp_converter import TimestampConverter
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -15,6 +13,8 @@ logging.config.fileConfig(
     disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
+NANOSECONDS_PER_SECOND = 1E9
+
 
 class FlVideoFilesExtractor:
 
@@ -22,12 +22,10 @@ class FlVideoFilesExtractor:
     def __init__(self,
                  raw_data_path: str,
                  video_files_metadata: list,
-                 preprocessing_path: str,
                  convert_timestamps: bool = True,
                  return_timestamps: bool = True):
         self.raw_data_path = raw_data_path
         self.video_files_metadata = video_files_metadata
-        self.preprocessing_path = preprocessing_path
         self.convert_timestamps = convert_timestamps
         self.return_timestamps = return_timestamps
 
@@ -67,22 +65,32 @@ class FlVideoFilesExtractor:
         """
         try:
             video_timestamps = self._read_video_timestamps_hw_sync(video_file)
-            continuous_time = self._read_continuous_time(video_file)
-            logger.info('Loaded cameraHWSync timestamps for'
-                        f'{os.path.splitext(video_file["name"])[0]}')
-            return TimestampConverter.convert_timestamps(
-                continuous_time, video_timestamps)
+            logger.info('Loaded cameraHWSync timestamps for {}'.format(
+                video_file['name'][:-4]))
+            is_old_dataset = False
         except FileNotFoundError:
             # old dataset
             video_timestamps = self._read_video_timestamps_hw_framecount(
                 video_file)
             logger.info(
-                'Loaded cameraHWFrameCount for '
-                f'{os.path.splitext(video_file["name"])[0]} (old dataset)')
+                'Loaded cameraHWFrameCount for {} (old dataset)'.format(
+                    video_file['name'][:-4]))
+            is_old_dataset = True
+        # the timestamps array from the cam
+        if is_old_dataset or (not self.convert_timestamps):
+            # for now, FORCE turn off convert_timestamps for old dataset
             return video_timestamps
+        return self._convert_timestamps(video_timestamps)
 
     def _read_video_timestamps_hw_sync(self, video_file):
-        """Returns the position timestamp index
+        """Returns video timestamps in unix time which are synchronized to the
+        Trodes data packets.
+
+        videoTimeStamps.cameraHWSync is a file extracted by the python package
+        `rec_to_binaries` from the .rec file. It only is extracted when using
+        precision time protocol (PTP) to synchronize the camera clock with
+        Trodes data packets. The HWTimestamp array in this file are the unix
+        timestamps relative to seconds since 1/1/1970.
 
         Parameters
         ----------
@@ -98,7 +106,7 @@ class FlVideoFilesExtractor:
                 self.raw_data_path,
                 os.path.splitext(video_file["name"])[0] +
                 ".videoTimeStamps.cameraHWSync")
-        )['data']['PosTimestamp']
+        )['data']['HWTimestamp']
 
     def _read_video_timestamps_hw_framecount(self, video_file):
         """Returns the index of video frames.
@@ -122,12 +130,16 @@ class FlVideoFilesExtractor:
                 ".videoTimeStamps.cameraHWFrameCount")
         )['data']['frameCount']
 
-    def _read_continuous_time(self, video_file):
-        base_name = os.path.splitext(video_file['name'])[0].split('.')[0]
-        continuous_time_path = os.path.join(
-            self.preprocessing_path, base_name + '.time',
-            base_name + '.continuoustime.dat')
+    def _convert_timestamps(self, timestamps):
+        """Converts timestamps from nanoseconds to seconds
 
-        continuous_time = readTrodesExtractedDataFile(continuous_time_path)
-        return np.vstack((continuous_time['data']['trodestime'],
-                          continuous_time['data']['adjusted_systime']))
+        Parameters
+        ----------
+        timestamps : int
+
+        Returns
+        -------
+        timestamps : float
+
+        """
+        return timestamps / NANOSECONDS_PER_SECOND

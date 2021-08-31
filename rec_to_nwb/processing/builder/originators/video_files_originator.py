@@ -8,19 +8,12 @@ from rec_to_nwb.processing.nwb.components.video_files.video_files_injector impor
 
 class VideoFilesOriginator:
 
-    def __init__(self,
-                 raw_data_path,
-                 video_path,
-                 preprocessing_path,
-                 video_files_metadata,
+    def __init__(self, raw_data_path, video_path, video_files_metadata,
                  convert_timestamps=True,
                  return_timestamps=True):
         self.video_directory = video_path
         self.fl_video_files_manager = FlVideoFilesManager(
-            raw_data_path=raw_data_path,
-            video_path=video_path,
-            preprocessing_path=preprocessing_path,
-            video_files_metadata=video_files_metadata,
+            raw_data_path, video_path, video_files_metadata,
             convert_timestamps=convert_timestamps,
             return_timestamps=return_timestamps)
 
