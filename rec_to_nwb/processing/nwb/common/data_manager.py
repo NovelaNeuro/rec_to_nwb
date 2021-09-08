@@ -10,7 +10,7 @@ class DataManager(abc.ABC):
         self.number_of_datasets = self.get_number_of_datasets()
         self.number_of_files_per_dataset = self.get_number_of_files_per_dataset()
         self.number_of_rows_per_file = self._get_number_of_rows_per_file()
-        self.file_lenghts_in_datasets = self._get_file_length(
+        self.file_lengths_in_datasets = self._get_file_length(
             self.number_of_datasets)
 
     @abc.abstractmethod
@@ -35,8 +35,8 @@ class DataManager(abc.ABC):
         return np.shape(self.directories)[0]
 
     def get_final_data_shape(self):
-        # return self.number_of_rows_per_file * self.number_of_files_per_dataset, sum(self.file_lenghts_in_datasets)
-        return (sum(self.number_of_rows_per_file), sum(self.file_lenghts_in_datasets))
+        # return self.number_of_rows_per_file * self.number_of_files_per_dataset, sum(self.file_lengths_in_datasets)
+        return (sum(self.number_of_rows_per_file), sum(self.file_lengths_in_datasets))
 
     def get_directories(self):
         return self.directories
@@ -50,5 +50,5 @@ class DataManager(abc.ABC):
     def get_number_of_rows_per_file(self):
         return self.number_of_rows_per_file
 
-    def get_file_lenghts_in_datasets(self):
-        return self.file_lenghts_in_datasets
+    def get_file_lengths_in_datasets(self):
+        return self.file_lengths_in_datasets

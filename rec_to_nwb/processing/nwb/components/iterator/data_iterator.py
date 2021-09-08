@@ -13,7 +13,7 @@ class DataIterator(AbstractDataChunkIterator):
         self.number_of_datasets = self.data.get_number_of_datasets()
         self.number_of_steps = self.number_of_datasets * \
             self.data.get_number_of_files_per_dataset()
-        self.dataset_file_length = self.data.get_file_lenghts_in_datasets()
+        self.dataset_file_length = self.data.get_file_lengths_in_datasets()
         self.number_of_rows = self.data.get_number_of_rows_per_file()
         self.number_of_files_in_single_dataset = self.data.get_number_of_files_per_dataset()
         self.shape = [self.data.get_final_data_shape(

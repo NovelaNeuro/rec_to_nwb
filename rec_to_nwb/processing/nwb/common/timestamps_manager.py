@@ -24,7 +24,7 @@ class TimestampManager(abc.ABC):
         self.timestamp_converter = TimestampConverter()
 
         self.number_of_datasets = self._get_number_of_datasets()
-        self.file_lenghts_in_datasets = self.__calculate_file_lenghts_in_datasets()
+        self.file_lengths_in_datasets = self.__calculate_file_lengths_in_datasets()
 
     @abc.abstractmethod
     def _get_timestamps(self, dataset_id):
@@ -42,15 +42,15 @@ class TimestampManager(abc.ABC):
         return self._get_timestamps(dataset_id)
 
     def get_final_data_shape(self):
-        return sum(self.file_lenghts_in_datasets),
+        return sum(self.file_lengths_in_datasets),
 
     def get_number_of_datasets(self):
         return self.number_of_datasets
 
-    def get_file_lenghts_in_datasets(self):
-        return self.file_lenghts_in_datasets
+    def get_file_lengths_in_datasets(self):
+        return self.file_lengths_in_datasets
 
-    def __calculate_file_lenghts_in_datasets(self):
+    def __calculate_file_lengths_in_datasets(self):
         return [self._get_data_shape(i) for i in range(self.number_of_datasets)]
 
     def _get_number_of_datasets(self):
