@@ -15,6 +15,9 @@ logging.config.fileConfig(
 logger = logging.getLogger(__name__)
 
 
+NANOSECONDS_PER_SECOND = 1E9
+
+
 class PosTimestampManager(TimestampManager):
     def __init__(self, directories, continuous_time_directories,
                  convert_timestamps=True):
@@ -31,10 +34,44 @@ class PosTimestampManager(TimestampManager):
         return position.time.to_numpy(dtype='int64')
 
     def retrieve_real_timestamps(self, dataset_id):
-        """Gets the corresponding timestamps from continuous time.
+        """Gets the corresponding Trodes timestamps from the online position
+        tracking and matches them to the PTP time in the video file.
 
-        Continuous time corresponds to the ephys time stamps.
+        Otherwise, we get the corresponding timestamps from
+        continuous time which corresponds to the neural recording time stamps.
+
+        If there is no corresponding timestamp, the result will be NaN.
+
+        Parameters
+        ----------
+        dataset_id : int
+            Index of the epoch
+
+        Returns
+        -------
+        timestamps : ndarray, shape (n_online_tracked_positions,)
+
         """
-        return TimestampManager.retrieve_real_timestamps(
-            self, dataset_id,
-            convert_timestamps=self.convert_timestamps)
+        try:
+            # Get online position tracking data
+            pos_online_path = self.directories[dataset_id][0]
+            pos_online = readTrodesExtractedDataFile(pos_online_path)
+            pos_online = pd.DataFrame(pos_online['data'])
+
+            # Get video PTP timestamps
+            camera_hwsync = readTrodesExtractedDataFile(
+                pos_online_path.replace(
+                    '.pos_online.dat', '.pos_cameraHWFrameCount.dat'))
+            camera_hwsync = (pd.DataFrame(camera_hwsync['data'])
+                             .set_index('PosTimestamp'))
+
+            # Find the PTP timestamps that correspond to position tracking
+            # Convert from nanoseconds to seconds
+            return (camera_hwsync.loc[pos_online.time, 'HWTimestamp']
+                    / NANOSECONDS_PER_SECOND).to_numpy()
+        except KeyError:
+            # If PTP timestamps do not exist find the corresponding timestamps
+            # from the neural recording
+            return TimestampManager.retrieve_real_timestamps(
+                self, dataset_id,
+                convert_timestamps=self.convert_timestamps)
