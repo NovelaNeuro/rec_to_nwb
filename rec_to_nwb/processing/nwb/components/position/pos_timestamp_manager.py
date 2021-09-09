@@ -58,20 +58,20 @@ class PosTimestampManager(TimestampManager):
             pos_online_path = self.directories[dataset_id][0]
             pos_online = readTrodesExtractedDataFile(pos_online_path)
             pos_online = pd.DataFrame(pos_online['data'])
-            online_timestamps_ind = pos_online.time.astype(np.uint64)
+            # Make sure to get only the unique timestamps because they can
+            # sometimes repeat after a jump in timestamps
+            online_timestamps_ind = pos_online.time.unique().astype(np.uint64)
 
             # Get video PTP timestamps
             camera_hwsync = readTrodesExtractedDataFile(
                 pos_online_path.replace(
                     '.pos_online.dat', '.pos_cameraHWFrameCount.dat'))
-            camera_hwsync = pd.DataFrame(camera_hwsync['data'])
-            video_timestamps_ind = camera_hwsync['PosTimestamp']
+            camera_hwsync = (pd.DataFrame(camera_hwsync['data'])
+                             .set_index('PosTimestamp'))
 
             # Find the PTP timestamps that correspond to position tracking
             # Convert from nanoseconds to seconds
-            timestamp_ind = np.digitize(
-                online_timestamps_ind, video_timestamps_ind[1:-1])
-            return (camera_hwsync['HWTimestamp'].iloc[timestamp_ind]
+            return (camera_hwsync.loc[online_timestamps_ind, 'HWTimestamp']
                     / NANOSECONDS_PER_SECOND).to_numpy()
         except KeyError:
             # If PTP timestamps do not exist find the corresponding timestamps
