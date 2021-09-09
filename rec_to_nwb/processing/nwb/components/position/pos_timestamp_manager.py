@@ -1,6 +1,7 @@
 import logging.config
 import os
 
+import numpy as np
 import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 from rec_to_nwb.processing.nwb.common.timestamps_manager import \
@@ -57,6 +58,7 @@ class PosTimestampManager(TimestampManager):
             pos_online_path = self.directories[dataset_id][0]
             pos_online = readTrodesExtractedDataFile(pos_online_path)
             pos_online = pd.DataFrame(pos_online['data'])
+            online_timestamps_ind = pos_online.time.astype(np.uint64)
 
             # Get video PTP timestamps
             camera_hwsync = readTrodesExtractedDataFile(
@@ -64,10 +66,13 @@ class PosTimestampManager(TimestampManager):
                     '.pos_online.dat', '.pos_cameraHWFrameCount.dat'))
             camera_hwsync = (pd.DataFrame(camera_hwsync['data'])
                              .set_index('PosTimestamp'))
+            video_timestamps_ind = camera_hwsync['PosTimestamp']
 
             # Find the PTP timestamps that correspond to position tracking
             # Convert from nanoseconds to seconds
-            return (camera_hwsync.loc[pos_online.time, 'HWTimestamp']
+            timestamp_ind = np.digitize(
+                online_timestamps_ind, video_timestamps_ind[1:-1])
+            return (camera_hwsync['HWTimestamp'].iloc[timestamp_ind]
                     / NANOSECONDS_PER_SECOND).to_numpy()
         except KeyError:
             # If PTP timestamps do not exist find the corresponding timestamps
