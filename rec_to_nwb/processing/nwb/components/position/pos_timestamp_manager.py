@@ -64,8 +64,7 @@ class PosTimestampManager(TimestampManager):
             camera_hwsync = readTrodesExtractedDataFile(
                 pos_online_path.replace(
                     '.pos_online.dat', '.pos_cameraHWFrameCount.dat'))
-            camera_hwsync = (pd.DataFrame(camera_hwsync['data'])
-                             .set_index('PosTimestamp'))
+            camera_hwsync = pd.DataFrame(camera_hwsync['data'])
             video_timestamps_ind = camera_hwsync['PosTimestamp']
 
             # Find the PTP timestamps that correspond to position tracking
@@ -77,6 +76,7 @@ class PosTimestampManager(TimestampManager):
         except KeyError:
             # If PTP timestamps do not exist find the corresponding timestamps
             # from the neural recording
+            logger.info('No PTP timestamps found. Using neural timestamps.')
             return TimestampManager.retrieve_real_timestamps(
                 self, dataset_id,
                 convert_timestamps=self.convert_timestamps)
