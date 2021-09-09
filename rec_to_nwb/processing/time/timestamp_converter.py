@@ -44,7 +44,7 @@ class TimestampConverter:
 
         '''
         # Find the matching timestamp index (trodestime)
-        timestamp_ind = np.digitize(timestamps, continuous_times[0, 1:-1])
+        timestamp_ind = np.digitize(timestamps, continuous_times[0, 1:])
         converted_timestamps = (continuous_times[1, timestamp_ind] /
                                 NANOSECONDS_PER_SECOND)
 
