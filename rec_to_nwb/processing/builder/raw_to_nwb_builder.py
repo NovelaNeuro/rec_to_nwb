@@ -188,7 +188,7 @@ class RawToNWBBuilder:
             process_pos_invalid_time (boolean): True if the pos invalid times should be build and append to nwb.
                 Need the pos data inside the nwb. (default True)
         """
-        logger.info('#######################START############################')
+        logger.info(' START '.center(40, "="))
         if run_preprocessing:
             self.__preprocess_data()
 
