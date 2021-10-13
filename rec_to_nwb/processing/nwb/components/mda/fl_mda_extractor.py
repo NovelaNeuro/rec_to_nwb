@@ -39,7 +39,7 @@ class FlMdaExtractor:
         else:
             num_threads = 1
 
-        #print(f'in FlMdaExtractor: will write {num_threads} files as a chunk')
+        print(f'in FlMdaExtractor: will write {num_threads} files as a chunk')
         data_iterator = MultiThreadDataIterator(
             mda_data_manager, number_of_threads=num_threads)
         timestamp_iterator = MultiThreadTimestampIterator(
