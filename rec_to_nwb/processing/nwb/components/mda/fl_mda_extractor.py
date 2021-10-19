@@ -29,12 +29,17 @@ class FlMdaExtractor:
             continuous_time_directories=continuous_time_files
         )
         mda_data_manager = MdaDataManager(mda_data_files, self.raw_to_uv)
+
         # check the number of files and set the number of threads appropriately assuming 32 GB of available RAM
-        datalen = [mda_data_manager.get_data_shape(dataset_num)[1]
-                   for dataset_num in range(len(mda_data_manager.directories))]
-        if max(datalen) < 3e9:  # each file < 3GB samples (2 bytes / sample)
+        def max_file_size(dim):
+            # Loop through datasets and files to find largest file along given dimension (dim)
+            return max([mda_data_manager.get_data_shape(dataset_num, file_num)[dim]
+                       for dataset_num in range(len(mda_data_manager.directories))
+                       for file_num in range(len(mda_data_manager.directories[dataset_num]))])
+        bytes_estimate = max_file_size(0)*max_file_size(1)*2  # samples x channels x 2 bytes/sample
+        if bytes_estimate < 3e9:  # each file < 3GB
             num_threads = 6
-        elif max(datalen) < 6e9:
+        elif bytes_estimate < 6e9:
             num_threads = 3
         else:
             num_threads = 1
