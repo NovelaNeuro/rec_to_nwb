@@ -22,7 +22,7 @@ class TaskManager:
                 task_description=task['task_description'],
                 camera_id=[int(camera_id) for camera_id in task['camera_id']],
                 task_epochs=[int(epoch) for epoch in task['task_epochs']],
-                task_environment=task['environment']
+                task_environment=task['task_environment']
             )
             for task in self.metadata['tasks']
         ]
