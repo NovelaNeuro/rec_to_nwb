@@ -28,8 +28,8 @@ class FlElectrodeExtensionManager:
     @beartype
     def get_fl_electrodes_extension(self, electrodes_valid_map: list) -> FlElectrodeExtension:
         probes_metadata = self.probes_metadata
-        electrode_groups_metadata = self.metadata['electrode groups']
-        ntrode_metadata = self.metadata['ntrode electrode group channel map']
+        electrode_groups_metadata = self.metadata['electrode_groups']
+        ntrode_metadata = self.metadata['ntrode_electrode_group_channel_map']
         spike_n_trodes = self.header.configuration.spike_configuration.spike_n_trodes
 
         rel = FlElectrodeExtensionFactory.create_rel(

@@ -2,9 +2,11 @@ name: rec_to_nwb
 channels:
   - conda-forge
   - defaults
+  - franklab
   - novelakrk
 dependencies:
   - python>=3.6,<3.8
+  - rec_to_binaries
   - pip
   - hdmf
   - pynwb
@@ -46,10 +48,13 @@ dependencies:
   - pytest
   - testfixtures
   - ndx-franklab-novela=0.0.011
+  - jupyterlab
+  - nb_conda
   - pip:
       - mountainlab_pytools
       - xmldiff
-      - rec-to-binaries==0.6.1.dev0
+      - hdmf>2.1.0
+      - pynwb
 
 #  Docs
   - recommonmark

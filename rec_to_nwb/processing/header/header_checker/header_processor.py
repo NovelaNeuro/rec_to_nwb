@@ -6,9 +6,9 @@ from rec_to_nwb.processing.header.header_checker.header_logger import HeaderLogg
 class HeaderProcessor:
 
     @staticmethod
-    def process_headers(rec_files_list):
+    def process_headers(rec_files_list, copy_dir=None):
         headers_extractor = HeaderFilesExtractor()
-        header_files = headers_extractor.extract_headers_from_rec_files(rec_files_list)
+        header_files = headers_extractor.extract_headers_from_rec_files(rec_files_list, copy_dir=copy_dir)
         header_comparator = HeaderComparator(header_files)
         headers_differences = header_comparator.compare()
 

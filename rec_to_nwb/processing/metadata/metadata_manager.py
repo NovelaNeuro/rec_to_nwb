@@ -39,8 +39,8 @@ class MetadataManager:
         return self.fl_probes_extractor.extract_probes_metadata(probes_paths)
 
     def __str__(self):
-        metadata_info = 'Experimenter: ' + self.metadata['experimenter name'] + \
-                        '\nDescription: ' + self.metadata['experiment description'] + \
+        metadata_info = 'Experimenter: ' + self.metadata['experimenter_name'] + \
+                        '\nDescription: ' + self.metadata['experiment_description'] + \
                         '\nSession Id: ' + self.metadata['session_id'] + \
                         '\nSubject: ' + self.metadata['subject']['description']
 

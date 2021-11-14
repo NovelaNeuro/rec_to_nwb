@@ -1,3 +1,4 @@
+import glob
 import os
 
 
@@ -12,10 +13,7 @@ class AnalogFiles:
     @classmethod
     def __get_dict(cls, directory):
         analog_dict = {}
-        files = os.listdir(directory)
-        files.sort()
-        for file in files:
-            if file.endswith('.dat'):
-                split_filename = file.split('.')
-                analog_dict[split_filename[-2].split('_')[-1]] = directory + '/' + file
+        for file in glob.glob(os.path.join(directory, '*.dat')):
+            analog_name = file.split('.')[-2].split('_')[-1]
+            analog_dict[analog_name] = os.path.join(directory, file)
         return analog_dict
