@@ -16,16 +16,22 @@ class TaskManager:
     def get_fl_tasks(self):
         validate_parameters_not_none(__name__, self.metadata['tasks'])
 
-        return [
-            self.__get_single_fl_task(
+        task_list = []
+        for task in self.metadata["tasks"]:  # for each task
+            # Set task_environment to "none" if not in metadata
+            if "task_environment" not in task.keys():
+                task_environment = "none"
+            else:
+                task_environment = task["task_environment"]
+            # Append task to list
+            task_list.append(self.__get_single_fl_task(
                 task_name=task['task_name'],
                 task_description=task['task_description'],
                 camera_id=[int(camera_id) for camera_id in task['camera_id']],
                 task_epochs=[int(epoch) for epoch in task['task_epochs']],
-                task_environment=task['task_environment']
-            )
-            for task in self.metadata['tasks']
-        ]
+                task_environment=task_environment
+                ))
+        return task_list
 
     def __get_single_fl_task(self, task_name, task_description, camera_id, task_epochs, task_environment):
         task_name_data = VectorData(
