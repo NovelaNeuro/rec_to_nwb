@@ -5,6 +5,7 @@ from datetime import datetime
 
 import pytz
 from rec_to_binaries import extract_trodes_rec_file
+from rec_to_binaries.trodes_data import get_trodes_version_from_path
 from rec_to_nwb.processing.builder.nwb_file_builder import NWBFileBuilder
 from rec_to_nwb.processing.metadata.metadata_manager import MetadataManager
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
@@ -19,19 +20,6 @@ logging.config.fileConfig(
     fname=os.path.join(str(path), os.pardir, os.pardir, 'logging.conf'),
     disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
-
-_DEFAULT_LFP_EXPORT_ARGS = ('-highpass', '0', '-lowpass', '400',
-                            '-interp', '0', '-userefs', '0',
-                            '-outputrate', '1500')
-_DEFAULT_MDA_EXPORT_ARGS = ('-usespikefilters', '0',
-                            '-interp', '0', '-userefs', '0')
-
-_DEFAULT_ANALOG_EXPORT_ARGS = ()
-_DEFAULT_DIO_EXPORT_ARGS = ()
-_DEFAULT_SPIKE_EXPORT_ARGS = ()
-_DEFAULT_TIME_EXPORT_ARGS = ()
-
-_DEFAULT_TRODES_REC_EXPORT_ARGS = ()
 
 # temporary default value, for old dataset only
 _DEFAULT_SESSION_START_TIME = datetime.fromtimestamp(
@@ -85,14 +73,14 @@ class RawToNWBBuilder:
             extract_dio: bool = True,
             extract_mda: bool = True,
             overwrite: bool = True,
-            lfp_export_args: tuple = _DEFAULT_LFP_EXPORT_ARGS,
-            mda_export_args: tuple = _DEFAULT_MDA_EXPORT_ARGS,
-            analog_export_args: tuple = _DEFAULT_ANALOG_EXPORT_ARGS,
-            dio_export_args: tuple = _DEFAULT_DIO_EXPORT_ARGS,
-            time_export_args: tuple = _DEFAULT_TIME_EXPORT_ARGS,
-            spikes_export_args: tuple = _DEFAULT_SPIKE_EXPORT_ARGS,
+            lfp_export_args: tuple = None,
+            mda_export_args: tuple = None,
+            analog_export_args: tuple = None,
+            dio_export_args: tuple = None,
+            time_export_args: tuple = None,
+            spikes_export_args: tuple = None,
             parallel_instances: int = 4,
-            trodes_rec_export_args: tuple = _DEFAULT_TRODES_REC_EXPORT_ARGS
+            trodes_rec_export_args: tuple = None,
     ):
 
         validation_registrator = ValidationRegistrator()
@@ -100,6 +88,44 @@ class RawToNWBBuilder:
         validation_registrator.register(NotEmptyValidator(animal_name))
         validation_registrator.register(NotEmptyValidator(dates))
         validation_registrator.validate()
+
+        trodes_version = get_trodes_version_from_path()[0]
+
+        if lfp_export_args is None:
+            if trodes_version < 2.0:
+                lfp_export_args = ('-highpass', '0',
+                                   '-lowpass', '400',
+                                   '-interp', '0',
+                                   '-userefs', '0',
+                                   '-outputrate', '1500')
+            else:
+                lfp_export_args = ('-highpass', '0',
+                                   '-lowpass', '400',
+                                   '-interp', '0',
+                                   '-userefs', '0',
+                                   '-outputrate', '1500'
+                                   '-sortingmode', '0')
+        if mda_export_args is None:
+            if trodes_version < 2.0:
+                mda_export_args = ('-usespikefilters', '0',
+                                   '-interp', '0',
+                                   '-userefs', '0')
+            else:
+                mda_export_args = ('-usespikefilters', '0',
+                                   '-interp', '1',
+                                   '-usespikerefs', '0',
+                                   '-sortingmode', '0')
+
+        if analog_export_args is None:
+            analog_export_args = ()
+        if dio_export_args is None:
+            dio_export_args = ()
+        if spikes_export_args is None:
+            spikes_export_args = ()
+        if time_export_args is None:
+            time_export_args = ()
+        if trodes_rec_export_args is None:
+            trodes_rec_export_args = ()
 
         self.extract_analog = extract_analog
         self.extract_spikes = extract_spikes
