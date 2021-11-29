@@ -34,9 +34,10 @@ class FlMdaExtractor:
         def max_file_size(dim):
             # Loop through datasets and files to find largest file along given dimension (dim)
             return max([mda_data_manager.get_data_shape(dataset_num, file_num)[dim]
-                       for dataset_num in range(len(mda_data_manager.directories))
-                       for file_num in range(len(mda_data_manager.directories[dataset_num]))])
-        bytes_estimate = max_file_size(0)*max_file_size(1)*2  # samples x channels x 2 bytes/sample
+                        for dataset_num in range(len(mda_data_manager.directories))
+                        for file_num in range(len(mda_data_manager.directories[dataset_num]))])
+        # samples x channels x 2 bytes/sample
+        bytes_estimate = max_file_size(0) * max_file_size(1) * 2
         if bytes_estimate < 3e9:  # each file < 3GB
             num_threads = 6
         elif bytes_estimate < 6e9:
@@ -78,8 +79,15 @@ class FlMdaExtractor:
 
     @staticmethod
     def __get_data_files_from_current_dataset(dataset):
-        return [os.path.join(dataset.get_data_path_from_dataset('mda'), mda_file) for mda_file in
-                dataset.get_all_data_from_dataset('mda') if
+        data_files = [os.path.join(dataset.get_data_path_from_dataset('mda'), mda_file) for mda_file in
+                      dataset.get_all_data_from_dataset('mda') if
+                      (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
+        if len(data_files) > 0:
+            return data_files
+        else:
+            return [
+                os.path.join(dataset.get_data_path_from_dataset('mountainsort'), mda_file) for mda_file in
+                dataset.get_all_data_from_dataset('mountainsort') if
                 (mda_file.endswith('.mda') and not mda_file.endswith('timestamps.mda'))]
 
     @staticmethod

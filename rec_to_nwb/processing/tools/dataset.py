@@ -24,6 +24,11 @@ class Dataset:
             if file.endswith('timestamps.mda'):
                 return os.path.join(
                     self.get_data_path_from_dataset('mda'), file)
+
+        for file in self.get_all_data_from_dataset('mountainsort'):
+            if file.endswith('timestamps.mda'):
+                return os.path.join(
+                    self.get_data_path_from_dataset('mountainsort'), file)
         return None
 
     def get_continuous_time(self):
