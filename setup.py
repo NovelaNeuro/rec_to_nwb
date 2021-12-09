@@ -14,4 +14,7 @@ setup(
     description='Data transformation from rec binary files into NWB 2.0 format',
     platforms='Posix; MacOS X; Windows',
     python_requires='>=3.6'
+    install_requires=[
+        'rec_to_binaries>=0.6.12'
+    ]
 )
