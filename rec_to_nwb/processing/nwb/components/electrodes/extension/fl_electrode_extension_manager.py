@@ -97,5 +97,6 @@ class FlElectrodeExtensionManager:
 
     @staticmethod
     def __filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, extension):
+        #this function currently doesn't do anything, so it could be removed
         tmp_electrodes_valid_map = copy.deepcopy(electrodes_valid_map)
-        return [value for value in extension if tmp_electrodes_valid_map.pop(0)]
+        return [value for value in extension]

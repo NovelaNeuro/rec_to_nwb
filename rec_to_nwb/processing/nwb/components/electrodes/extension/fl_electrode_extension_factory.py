@@ -40,7 +40,7 @@ class FlElectrodeExtensionFactory:
         bad_channels = []
         for ntrode in ntrode_metadata:
             bad_channels.extend(
-                [bool(counter in ntrode['bad_channels']) for counter, _ in enumerate(ntrode['map'])]
+                [bool(channel in ntrode['bad_channels']) for channel in ntrode['map']]
             )
         return bad_channels
 

@@ -32,17 +32,13 @@ class FlElectrodeManager:
             for shank in probe_metadata['shanks']:
                 for _ in shank['electrodes']:
                     fl_electrode_id += 1
-
-                    if tmp_electrodes_valid_map.pop(0) and \
-                            (electrode_group_metadata['id'] in electrode_groups_valid_map):
-
-                        fl_electrodes.append(
-                            self.fl_electrodes_builder.build(
-                                fl_electrode_id,
-                                self.__get_electrode_group(
-                                    electrode_group_metadata, electrode_groups)
-                            )
+                    fl_electrodes.append(
+                        self.fl_electrodes_builder.build(
+                            fl_electrode_id,
+                            self.__get_electrode_group(
+                                electrode_group_metadata, electrode_groups)
                         )
+                    )
         return fl_electrodes
 
     @staticmethod
