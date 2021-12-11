@@ -47,7 +47,7 @@ Currently we suggest following the instructions to install https://github.com/Lo
    ```
 4. Metadata.yml description:
 
-Important note: right now the code assumes that the electrode groups listed below (each of which corresponds to one or more NTrode in the file) are in ascending order by NTrode number. If this is not the case the data could be scrambled.  Thus, the first listed electrode group should correspond to, for example, NTrode 1 (or perhaps NTrodes 1-4) while the second would correspond to NTrode 2 (or 5-8), etc.  
+   Important note: right now the code assumes that the electrode groups listed below (each of which corresponds to one or more NTrode in the file) are in ascending order by NTrode number. If this is not the case the data could be scrambled.  Thus, the first listed electrode group should correspond to, for example, NTrode 1 (or perhaps NTrodes 1-4) while the second would correspond to NTrode 2 (or 5-8), etc.  
 
 
    ```yaml
@@ -116,8 +116,7 @@ Important note: right now the code assumes that the electrode groups listed belo
        associated_video_files:
       - name: 20190718_beans_01_s1.1.h264
         camera_id : 0
-    # Times period multiplier is used in pos/mda invalid/valid times, to multiply the period when detecting gaps,
-        to avoid creating invalid times in case of only small deviations. (optional parameter, default 1.5)
+    # Times period multiplier is used in pos/mda invalid/valid times, to multiply the period when detecting gaps, to avoid creating invalid times in case of only small deviations. (optional parameter, default 1.5)
        times_period_multiplier: 1.5      
     # Din/Dout events which filter out files from DIO data in data directory. Each name has to be unique. Stored in behavioral_events section in output nwb file.
     behavioral_events:
@@ -166,7 +165,8 @@ Important note: right now the code assumes that the electrode groups listed belo
           1: 5
           2: 6
           3: 7
-    ```
+   ```
+
 5. Probe.yml description:
    ```yaml
     probe_type: tetrode_12.5 # Type of the probe that refers to device_type in electrode_group in metadata.yml
@@ -199,8 +199,8 @@ Important note: right now the code assumes that the electrode groups listed belo
 7. Input files `metadata.yml` as well as `probe[1-N].yml` are validated against rec files headers.
 
 8. We provide two class to generate the NWB file. <br>
-* `RawToNWBBuilder` - To generate NWB file from raw data. <br>
-* `NWBFileBuilder` - To generate NWB file from preprocessed data. <br>
+   * `RawToNWBBuilder` - To generate NWB file from raw data. <br>
+   * `NWBFileBuilder` - To generate NWB file from preprocessed data. <br>
 
 ##### Raw data
 Initialize RawToNWBBuilder, which requires `animal_name`, `data_path` and `dates` which exist in your experiment folder. Next build the NWB using `build_nwb()`. <br>
