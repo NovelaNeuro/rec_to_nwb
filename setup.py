@@ -1,7 +1,7 @@
+from setuptools import find_packages, setup
+
 version = '0.1.020'
 print(version)
-
-from setuptools import find_packages, setup
 
 setup(
     name='rec_to_nwb',
