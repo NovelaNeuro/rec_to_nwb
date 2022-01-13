@@ -1,7 +1,4 @@
-from ndx_franklab_novela.camera_device import CameraDevice
-from ndx_franklab_novela.data_acq_device import DataAcqDevice
-from ndx_franklab_novela.header_device import HeaderDevice
-from ndx_franklab_novela.probe import Probe
+from ndx_franklab_novela import CameraDevice, DataAcqDevice, HeaderDevice, Probe
 from pynwb.device import Device
 from rec_to_nwb.processing.nwb.components.device.acq.fl_data_acq_device import \
     FlDataAcqDevice

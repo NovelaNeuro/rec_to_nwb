@@ -5,11 +5,11 @@ channels:
   - franklab
   - novelakrk
 dependencies:
-  - python>=3.6,<3.8
+  - python>=3.6,<3.10
   - rec_to_binaries
   - pip
-  - hdmf
-  - pynwb
+  - hdmf>=3.1.1,<4
+  - pynwb>=2.0.0,<3
   - asn1crypto
   - blas
   - ca-certificates
@@ -18,7 +18,7 @@ dependencies:
   - chardet
   - cryptography
   - elementpath
-  - h5py<3.0
+  - h5py<4
   - hdf5
   - idna
   - libblas
@@ -47,14 +47,12 @@ dependencies:
   - pyyaml
   - pytest
   - testfixtures
-  - ndx-franklab-novela=0.0.011
   - jupyterlab
   - nb_conda
+  - mountainlab_pytools
+  - xmldiff
   - pip:
-      - mountainlab_pytools
-      - xmldiff
-      - hdmf>2.1.0
-      - pynwb
+      - git+git://github.com/LorenFrankLab/ndx-franklab-novela@0.1.0
 
 #  Docs
   - recommonmark

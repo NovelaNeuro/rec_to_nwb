@@ -19,8 +19,8 @@ class VideoFilesOriginator:
 
     def make(self, nwb_content):
         """Gets the name, timestamps and device for each video file,
-        creates a NwbImageSeries object that corresponds to the video, and
-        then inserts the NwbImageSeries object into an NWBFile under the path:
+        creates a ImageSeries object that corresponds to the video, and
+        then inserts the ImageSeries object into an NWBFile under the path:
         processing/video_files"""
         fl_video_files = self.fl_video_files_manager.get_video_files()
         image_series_list = [

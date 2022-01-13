@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 from testfixtures import should_raise
 
-from ndx_franklab_novela.probe import ShanksElectrode
+from ndx_franklab_novela import ShanksElectrode
 
 from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
 from rec_to_nwb.processing.nwb.components.device.probe.shanks.fl_shank import FlShank
@@ -68,7 +68,7 @@ class TestFlShankManager(TestCase):
         self.assertEqual(len(fl_shanks_dict), 2)
         self.assertEqual(len(fl_shanks_dict[probes_metadata_1['probe_type']]), 1)
         self.assertEqual(len(fl_shanks_dict[probes_metadata_2['probe_type']]), 3)
-    
+
         self.assertEqual(fl_shanks_dict[probes_metadata_1['probe_type']][0].shank_id, 0)
         self.assertEqual(fl_shanks_dict[probes_metadata_1['probe_type']][0].shanks_electrodes,[
             mock_shanks_electrode_1, mock_shanks_electrode_2
@@ -176,4 +176,3 @@ class TestFlShankManager(TestCase):
             electrode_groups_metadata=Mock(spec=list)
         )
         fl_shank_manager.get_fl_shanks_dict(None)
-

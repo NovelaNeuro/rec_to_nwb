@@ -1,4 +1,4 @@
-"""Inserts the NwbImageSeries object into an NWBFile under the path:
+"""Inserts the ImageSeries object into an NWBFile under the path:
 processing/video_files"""
 from pynwb import NWBFile
 from pynwb.behavior import BehavioralEvents

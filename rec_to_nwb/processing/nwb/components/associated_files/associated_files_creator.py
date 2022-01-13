@@ -1,4 +1,4 @@
-from ndx_franklab_novela.associated_files import AssociatedFiles
+from ndx_franklab_novela import AssociatedFiles
 
 
 class AssociatedFilesCreator:

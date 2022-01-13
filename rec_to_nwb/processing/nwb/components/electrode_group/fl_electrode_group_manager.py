@@ -1,4 +1,4 @@
-from ndx_franklab_novela.probe import Probe
+from ndx_franklab_novela import Probe
 from rec_to_nwb.processing.nwb.components.electrode_group.fl_electrode_group_builder import \
     FlElectrodeGroupBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
