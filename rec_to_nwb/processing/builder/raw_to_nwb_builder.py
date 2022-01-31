@@ -99,12 +99,12 @@ class RawToNWBBuilder:
                                    '-userefs', '0',
                                    '-outputrate', '1500')
             else:
-                lfp_export_args = ('-highpass', '0',
-                                   '-lowpass', '400',
+                lfp_export_args = ('-lfphighpass', '0',
+                                   '-lfplowpass', '400',
                                    '-interp', '0',
-                                   '-userefs', '0',
+                                   '-uselfprefs', '0',
                                    '-outputrate', '1500'
-                                   '-sortingmode', '0')
+                                   '-sortingmode', '1')
         if mda_export_args is None:
             if trodes_version < 2.0:
                 mda_export_args = ('-usespikefilters', '0',
