@@ -113,6 +113,7 @@ class RawToNWBBuilder:
             else:
                 mda_export_args = ('-usespikefilters', '0',
                                    '-interp', '1',
+                                   '-userawrefs', '0',
                                    '-usespikerefs', '0',
                                    '-sortingmode', '1')
 
