@@ -65,7 +65,7 @@ class PosTimestampManager(TimestampManager):
             # Get video PTP timestamps
             camera_hwsync = readTrodesExtractedDataFile(
                 pos_online_path.replace(
-                    '.pos_online.dat', '.pos_cameraHWFrameCount.dat'))
+                    '.pos_online.dat', '.pos_cameraHWSync.dat'))
             camera_hwsync = (pd.DataFrame(camera_hwsync['data'])
                              .set_index('PosTimestamp'))
 
