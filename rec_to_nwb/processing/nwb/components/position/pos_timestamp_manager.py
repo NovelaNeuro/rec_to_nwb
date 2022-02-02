@@ -73,7 +73,7 @@ class PosTimestampManager(TimestampManager):
             # Convert from nanoseconds to seconds
             return (camera_hwsync.loc[online_timestamps_ind, 'HWTimestamp']
                     / NANOSECONDS_PER_SECOND).to_numpy()
-        except KeyError:
+        except (KeyError, FileNotFoundError):
             # If PTP timestamps do not exist find the corresponding timestamps
             # from the neural recording
             logger.info('No PTP timestamps found. Using neural timestamps.')
