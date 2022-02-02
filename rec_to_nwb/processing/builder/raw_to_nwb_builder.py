@@ -103,7 +103,7 @@ class RawToNWBBuilder:
                                    '-lfplowpass', '400',
                                    '-interp', '0',
                                    '-uselfprefs', '0',
-                                   '-outputrate', '1500'
+                                   '-outputrate', '1500',
                                    '-sortingmode', '1')
         if mda_export_args is None:
             if trodes_version < 2.0:
