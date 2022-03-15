@@ -52,7 +52,7 @@ dependencies:
   - mountainlab_pytools
   - xmldiff
   - pip:
-      - git+git://github.com/LorenFrankLab/ndx-franklab-novela@0.1.0
+      - git+https://github.com/LorenFrankLab/ndx-franklab-novela.git
 
 #  Docs
   - recommonmark
