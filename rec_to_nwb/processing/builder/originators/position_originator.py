@@ -40,4 +40,5 @@ class PositionOriginator:
             logger.info('Position: Injecting into ProcessingModule')
             nwb_content.processing['behavior'].add(position)
         except:
+            print('Problem adding position data; skipping')
             return
