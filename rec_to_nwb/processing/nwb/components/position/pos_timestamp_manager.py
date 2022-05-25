@@ -32,7 +32,7 @@ class PosTimestampManager(TimestampManager):
         pos_online = readTrodesExtractedDataFile(
             self.directories[dataset_id][0])
         position = pd.DataFrame(pos_online['data'])
-        return position.time.unique().to_numpy(dtype='int64')
+        return position.time.unique().astype(int)
 
     def retrieve_real_timestamps(self, dataset_id):
         """Gets the corresponding Trodes timestamps from the online position
