@@ -62,7 +62,7 @@ class PositionOriginator:
 
         # check if timestamps are in order
         first_timestamps = np.asarray(first_timestamps)
-        assert np.all(first_timestamps[:-1] >= first_timestamps[1:])
+        assert np.all(first_timestamps[:-1] <= first_timestamps[1:])
 
         logger.info('Position: Injecting into Processing Module')
         nwb_content.processing['behavior'].add(position)
