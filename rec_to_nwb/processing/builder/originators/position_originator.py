@@ -359,9 +359,7 @@ def estimate_camera_time_from_mcu_time(camera_hwsync, continuous_time):
     is_valid_camera_time : np.ndarray, shape (n_frames,)
 
     """
-    is_valid_camera_time = (
-        (camera_hwsync.index >= continuous_time.index.min()) &
-        (camera_hwsync.index < continuous_time.index.max()))
+    is_valid_camera_time = camera_hwsync.index.isin(continuous_time.index)
     camera_systime = np.asarray(continuous_time.loc[
         camera_hwsync.index[is_valid_camera_time]])
 
