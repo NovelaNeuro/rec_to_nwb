@@ -22,18 +22,25 @@ class DataScanner:
 
     @beartype
     def get_all_epochs(self, date: str) -> list:
-        all_datasets = []
+        all_datasets = {}
         directories = os.listdir(
             os.path.join(self.data_path, self.animal_name, 'preprocessing',
                          date))
         FileSorter.sort_filenames(directories)
         for directory in directories:
             if directory.startswith(date):
-                dataset_name = (directory.split(
-                    '_')[2] + '_' + directory.split('_')[3]).split('.')[0]
-                if dataset_name not in all_datasets:
-                    all_datasets.append(dataset_name)
-        return all_datasets
+                epoch_num=directory.split('_')[2]
+                epoch_tag=directory.split('_')[3]
+                dataset_name = (epoch_num + '_' + epoch_tag).split('.')[0]
+                if epoch_num in all_datasets:
+                    # check if the current epoch_tag is consistent
+                    assert all_datasets[epoch_num]==dataset_name,"epoch names for epoch "+epoch_num+" are not consistent across files"
+                else:
+                    all_datasets[epoch_num]=dataset_name
+                    
+        all_datasets_names=[all_datasets[e] for e in sorted(all_datasets.keys())]
+
+        return all_datasets_names
 
     @beartype
     def get_all_data_from_dataset(self, date: str) -> list:
