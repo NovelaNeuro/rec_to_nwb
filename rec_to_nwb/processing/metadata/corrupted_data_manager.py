@@ -27,14 +27,14 @@ class CorruptedDataManager:
         """
 
         electrodes_valid_map = self.__get_electrodes_valid_map(
-            ntrode_metadata=self.metadata['ntrode electrode group channel map']
+            ntrode_metadata=self.metadata['ntrode_electrode_group_channel_map']
         )
         electrode_groups_valid_map = self.__get_electrode_groups_valid_map(
-            ntrode_metadata=self.metadata['ntrode electrode group channel map'],
+            ntrode_metadata=self.metadata['ntrode_electrode_group_channel_map'],
             electrodes_valid_map=electrodes_valid_map
         )
         probes_valid_map = self.__get_probes_valid_map(
-            electrode_groups_metadata=self.metadata['electrode groups'],
+            electrode_groups_metadata=self.metadata['electrode_groups'],
             electrode_groups_valid_map=electrode_groups_valid_map
         )
 
@@ -53,7 +53,7 @@ class CorruptedDataManager:
         for ntrode in ntrode_metadata:
             bad_channels = [int(bad_channel) for bad_channel in ntrode['bad_channels']]
             electrodes_valid_map.extend(
-                [bool(counter not in bad_channels) for counter, _ in enumerate(ntrode['map'])]
+                [bool(int(channel) not in bad_channels) for channel in ntrode['map']]
             )
         return electrodes_valid_map
 
@@ -62,18 +62,8 @@ class CorruptedDataManager:
                                          electrodes_valid_map: list) -> set:
         tmp_electrodes_valid_map = copy.deepcopy(electrodes_valid_map)
         return {
-            ntrode['electrode_group_id']
-            for ntrode in ntrode_metadata
-            if self.__is_ntrode_valid(ntrode, tmp_electrodes_valid_map)
+            ntrode['electrode_group_id'] for ntrode in ntrode_metadata
         }
-
-    @staticmethod
-    def __is_ntrode_valid(ntrode, electrodes_valid_map):
-        is_valid = False
-        for _ in ntrode['map']:
-            if electrodes_valid_map.pop(0):
-                is_valid = True
-        return is_valid
 
     @staticmethod
     @beartype

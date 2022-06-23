@@ -1,3 +1,4 @@
+import glob
 import os
 
 
@@ -8,8 +9,10 @@ class DioFiles:
         self.dio_metadata = dio_metadata
 
     def get_files(self):
-        multiple_datasets_dio_files = [self.__get_dict(dataset) for dataset in self.directories]
-        filtered_datasets_dio_files = self.__filter_files(multiple_datasets_dio_files, self.dio_metadata)
+        multiple_datasets_dio_files = [self.__get_dict(
+            dataset) for dataset in self.directories]
+        filtered_datasets_dio_files = self.__filter_files(
+            multiple_datasets_dio_files, self.dio_metadata)
         return filtered_datasets_dio_files
 
     @classmethod
@@ -21,10 +24,7 @@ class DioFiles:
     @classmethod
     def __get_dict(cls, directory):
         dio_dict = {}
-        files = os.listdir(directory)
-        files.sort()
-        for file in files:
-            if file.endswith('.dat'):
-                split_filename = file.split('.')
-                dio_dict[split_filename[-2].split('_')[1]] = directory + '/' + file
+        for file in glob.glob(os.path.join(directory, '*.dat')):
+            dio_name = file.split('.')[-2].split('_')[-1]
+            dio_dict[dio_name] = os.path.join(directory, file)
         return dio_dict

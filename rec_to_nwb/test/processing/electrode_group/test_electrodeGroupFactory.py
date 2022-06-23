@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from ndx_franklab_novela.probe import Probe
+from ndx_franklab_novela import Probe
 from pynwb.device import Device
 from testfixtures import should_raise
 
@@ -31,7 +31,7 @@ class TestElectrodeGroupFactory(TestCase):
 
         electrode_group_1 = ElectrodeGroupFactory.create_electrode_group(mock_fl_electrode_group_1)
         electrode_group_2 = ElectrodeGroupFactory.create_electrode_group(mock_fl_electrode_group_2)
-        
+
         self.assertIsNotNone(electrode_group_1)
         self.assertIsNotNone(electrode_group_2)
         self.assertEqual(electrode_group_1.name, "0")

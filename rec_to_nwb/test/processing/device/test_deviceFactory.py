@@ -1,9 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from ndx_franklab_novela.camera_device import CameraDevice
-from ndx_franklab_novela.header_device import HeaderDevice
-from ndx_franklab_novela.probe import Probe, Shank
+from ndx_franklab_novela import CameraDevice, HeaderDevice, Probe, Shank
 from pynwb.device import Device
 from testfixtures import should_raise
 
@@ -22,11 +20,11 @@ class TestDeviceFactory(TestCase):
     def test_device_factory_create_Device_successfully(self):
         mock_fl_device = Mock(spec=FlDevice)
         mock_fl_device.name = 'Device1'
-        
+
         device = DeviceFactory.create_device(
             fl_device=mock_fl_device
         )
-        
+
         self.assertIsNotNone(device)
 
         self.assertIsInstance(device, Device)
@@ -97,11 +95,11 @@ class TestDeviceFactory(TestCase):
         mock_fl_probe.contact_side_numbering = True
         mock_fl_probe.contact_size = 20.0
         mock_fl_probe.shanks = [mock_shank_1, mock_shank_2]
-        
+
         probe = DeviceFactory.create_probe(
             fl_probe=mock_fl_probe
         )
-        
+
         self.assertIsNotNone(probe)
         self.assertIsInstance(probe, Probe)
 

@@ -1,5 +1,7 @@
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
+NANOSECONDS_PER_SECOND = 1E9
+
 
 class FlEpochsExtractor:
 
@@ -10,9 +12,14 @@ class FlEpochsExtractor:
         session_start_times = []
         session_end_times = []
         for continuous_time_file in self.continuous_time_files:
-            continuous_time_data = self.__read_contunious_time_file(continuous_time_file)
-            session_start_times.append(float(continuous_time_data['data'][0][1]) / 1E9)
-            session_end_times.append(float(continuous_time_data['data'][-1][1]) / 1E9)
+            continuous_time_data = self.__read_contunious_time_file(
+                continuous_time_file)
+            session_start_times.append(
+                float(continuous_time_data['data'][0][1]) /
+                NANOSECONDS_PER_SECOND)
+            session_end_times.append(
+                float(continuous_time_data['data'][-1][1]) /
+                NANOSECONDS_PER_SECOND)
         return session_start_times, session_end_times
 
     def __read_contunious_time_file(self, continuous_time_file):

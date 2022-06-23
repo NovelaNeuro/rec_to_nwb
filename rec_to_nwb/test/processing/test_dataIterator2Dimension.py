@@ -15,7 +15,7 @@ class TestDataIterator(TestCase):
 class FakeDataManager:
     def __init__(self):
         self.number_of_datasets = 2
-        self.file_lenghts_in_datasets = [5, 6]
+        self.file_lengths_in_datasets = [5, 6]
         self.number_of_files_per_dataset = 2
         self.number_of_rows_per_file = 4
         self.fake_timestamps = [np.ndarray(dtype="float64", shape=[4, 5]), np.ndarray(dtype="float64", shape=[4, 6])]
@@ -33,8 +33,8 @@ class FakeDataManager:
     def get_number_of_datasets(self):
         return self.number_of_datasets
 
-    def get_file_lenghts_in_datasets(self):
-        return self.file_lenghts_in_datasets
+    def get_file_lengths_in_datasets(self):
+        return self.file_lengths_in_datasets
 
     def get_number_of_files_per_dataset(self):
         return self.number_of_files_per_dataset
