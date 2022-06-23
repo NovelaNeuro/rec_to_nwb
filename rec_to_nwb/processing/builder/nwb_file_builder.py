@@ -325,15 +325,9 @@ class NWBFileBuilder:
                 self.analog_originator = AnalogOriginator(
                     self.datasets, self.metadata)
 
-        if self.is_old_dataset:
-            self.position_originator = PositionOriginator(
-                self.datasets, self.metadata,
-                self.dataset_names, self.process_pos_timestamps,
-                convert_timestamps=_CONVERT_OLD_TIMESTAMPS)
-        else:
-            self.position_originator = PositionOriginator(
-                self.datasets, self.metadata,
-                self.dataset_names, self.process_pos_timestamps)
+        self.position_originator = PositionOriginator(
+            self.datasets, self.metadata,
+            self.dataset_names)
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)

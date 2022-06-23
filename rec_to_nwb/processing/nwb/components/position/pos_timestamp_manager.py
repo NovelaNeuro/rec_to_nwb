@@ -32,7 +32,7 @@ class PosTimestampManager(TimestampManager):
         pos_online = readTrodesExtractedDataFile(
             self.directories[dataset_id][0])
         position = pd.DataFrame(pos_online['data'])
-        return position.time.to_numpy(dtype='int64')
+        return position.time.unique().astype('int64')
 
     def retrieve_real_timestamps(self, dataset_id):
         """Gets the corresponding Trodes timestamps from the online position
@@ -65,7 +65,7 @@ class PosTimestampManager(TimestampManager):
             # Get video PTP timestamps
             camera_hwsync = readTrodesExtractedDataFile(
                 pos_online_path.replace(
-                    '.pos_online.dat', '.pos_cameraHWSync.dat'))
+                    '.pos_online.dat', '.pos_cameraHWFrameCount.dat'))
             camera_hwsync = (pd.DataFrame(camera_hwsync['data'])
                              .set_index('PosTimestamp'))
 
@@ -73,7 +73,7 @@ class PosTimestampManager(TimestampManager):
             # Convert from nanoseconds to seconds
             return (camera_hwsync.loc[online_timestamps_ind, 'HWTimestamp']
                     / NANOSECONDS_PER_SECOND).to_numpy()
-        except (KeyError, FileNotFoundError):
+        except KeyError:
             # If PTP timestamps do not exist find the corresponding timestamps
             # from the neural recording
             logger.info('No PTP timestamps found. Using neural timestamps.')

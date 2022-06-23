@@ -3,6 +3,8 @@ import os
 import shutil
 from datetime import datetime
 
+import pynwb
+import numpy as np
 import pytz
 from rec_to_binaries import extract_trodes_rec_file
 from rec_to_binaries.trodes_data import get_trodes_version_from_path
@@ -216,6 +218,10 @@ class RawToNWBBuilder:
                 Need the pos data inside the nwb. (default True)
         """
         logger.info(' START '.center(40, "="))
+        # check associated files with yaml first, before the time consuming "preprocessing".
+        #for date in self.dates:
+        #    nwb_builder = self.get_nwb_builder(date)
+
         if run_preprocessing:
             self.__preprocess_data()
 
@@ -224,6 +230,7 @@ class RawToNWBBuilder:
             process_mda_invalid_time=process_mda_invalid_time,
             process_pos_valid_time=process_pos_valid_time,
             process_pos_invalid_time=process_pos_invalid_time)
+        
         logger.info('Done...\n')
 
     def __build_nwb_file(self,
@@ -249,6 +256,29 @@ class RawToNWBBuilder:
             #     process_pos_valid_time=process_pos_valid_time,
             #     process_pos_invalid_time=process_pos_invalid_time
             # )
+
+    def basic_test(self):
+        nwb_file_name = os.path.join(self.output_path,self.animal_name+self.dates[0] + '.nwb')
+
+        io = pynwb.NWBHDF5IO(nwb_file_name,'r')
+        nwbf = io.read()
+
+        epochs = nwbf.epochs.to_dataframe()
+
+        rawdata = nwbf.get_acquisition()
+        timestamps=np.asarray(rawdata.timestamps)
+
+        # timestamps and neural data should be of same length in time
+        assert rawdata.data.shape[0]==timestamps.shape[0],'timestamps and neural data are of different lengths.'
+        logger.info('Timestamps and neural data are of same length in time.\n')
+
+        # timestamps should be scrictly increasing
+        assert np.all(np.diff(timestamps) > 0),'timestamps are not strictly increasing. Epochs may be concatenated out of order'
+        logger.info('Timestamps are scrictly increasing. \n')
+
+        # position time should start later than/equal to recording; end earlier than/equal recording
+        assert epochs['start_time'][0]>=timestamps[0]
+        assert np.array(epochs['stop_time'])[-1]<=timestamps[-1]
 
     def get_nwb_builder(self, date):
         if self.is_old_dataset:
