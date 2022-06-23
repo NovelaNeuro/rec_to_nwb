@@ -38,18 +38,18 @@ class PositionOriginator:
         position = Position(name='position')
         cameras_ids = get_cameras_ids(self.dataset_names, self.metadata)
         meters_per_pixels = get_meters_per_pixels(cameras_ids, self.metadata)
-        pos_online_paths = []
+        position_tracking_paths = []
         for dataset in self.datasets:
             for pos_file in dataset.get_all_data_from_dataset('pos'):
                 if pos_file.endswith('.pos_online.dat'):
-                    pos_online_paths.append(
+                    position_tracking_paths.append(
                         os.path.join(dataset.get_data_path_from_dataset('pos'),
                                      pos_file))
         first_timestamps = []
-        for series_id, (conversion, pos_online_path) in enumerate(
-                zip(meters_per_pixels, pos_online_paths)):
+        for series_id, (conversion, position_tracking_path) in enumerate(
+                zip(meters_per_pixels, position_tracking_paths)):
             position_df = self.get_position_with_corrected_timestamps(
-                pos_online_path)
+                position_tracking_path)
             position.create_spatial_series(
                 name=f'series_{series_id}',
                 description=', '.join(position_df.columns.tolist()),
@@ -68,64 +68,69 @@ class PositionOriginator:
         nwb_content.processing['behavior'].add(position)
 
     @staticmethod
-    def get_position_with_corrected_timestamps(pos_online_path):
-        logger.info(os.path.split(pos_online_path)[-1])
-        pos_online = pd.DataFrame(
-            readTrodesExtractedDataFile(pos_online_path)['data']
+    def get_position_with_corrected_timestamps(position_tracking_path):
+        logger.info(os.path.split(position_tracking_path)[-1])
+
+        position_tracking = pd.DataFrame(
+            readTrodesExtractedDataFile(position_tracking_path)['data']
         ).set_index('time')
 
-        camera_hwsync = get_camera_hwsync(pos_online_path)
+        video_info = get_video_info(position_tracking_path)
 
-        if pos_online.shape[0] < camera_hwsync.shape[0]:
-            diff = camera_hwsync.shape[0] - pos_online.shape[0]
-            camera_hwsync = camera_hwsync.iloc[diff:]
-
-        frame_count = np.asarray(camera_hwsync.HWframeCount)
         # On AVT cameras, HWFrame counts wraps to 0 above this value.
         AVT_camHWframeCount_wrapval = 65535
-        frame_count = np.unwrap(
-            frame_count, period=AVT_camHWframeCount_wrapval)
+        video_info['HWframeCount'] = np.unwrap(
+            video_info['HWframeCount'], period=AVT_camHWframeCount_wrapval)
 
-        continuous_time = get_continuous_time(pos_online_path)
         dio_camera_ticks = find_camera_dio_channel(
-            pos_online_path, pos_online)
-        dio_systime = np.asarray(continuous_time.loc[dio_camera_ticks])
+            position_tracking_path, video_info)
+        mcu_neural_timestamps = get_mcu_neural_timestamps(
+            position_tracking_path)
 
+        dio_systime = np.asarray(
+            mcu_neural_timestamps.loc[dio_camera_ticks])
         pause_mid_time = find_acquisition_timing_pause(dio_systime)
-
-        ptp_systime = np.asarray(camera_hwsync.HWTimestamp)
-
         frame_rate_from_dio = get_framerate(
             dio_systime[dio_systime > pause_mid_time])
         logger.info('Camera frame rate estimated from DIO camera ticks:'
                     f' {frame_rate_from_dio:0.1f} cm/s')
 
-        ptp_enabled = detect_ptp(continuous_time, ptp_systime)
+        # Match the camera frames to the position tracking
+        # Number of video frames can be different from online tracking because
+        # online tracking can be started or stopped before video is stopped.
+        # Additionally, for offline tracking, frames can be skipped if the
+        # frame is labeled as bad.
+        video_info = video_info.loc[position_tracking.index.unique()]
+        frame_count = np.asarray(video_info.HWframeCount)
+        ptp_systime = np.asarray(video_info.HWTimestamp)
+
+        ptp_enabled = detect_ptp(mcu_neural_timestamps, ptp_systime)
 
         if ptp_enabled:
             logger.info('PTP detected')
             (non_repeat_timestamp_labels,
              non_repeat_timestamp_labels_id) = detect_trodes_time_repeats_or_frame_jumps(
-                camera_hwsync.index[ptp_systime > pause_mid_time],
+                video_info.index[ptp_systime > pause_mid_time],
                 frame_count[ptp_systime > pause_mid_time])
             frame_rate_from_ptp = get_framerate(
                 ptp_systime[ptp_systime > pause_mid_time])
             logger.info('Camera frame rate estimated from ptp:'
                         f' {frame_rate_from_ptp:0.1f} cm/s')
+            # Convert from integer nanoseconds to float seconds
             ptp_timestamps = pd.Index(
                 ptp_systime[ptp_systime > pause_mid_time] /
                 NANOSECONDS_PER_SECOND,
                 name='time')
-            pos_online = (
-                pos_online
+            position_tracking = (
+                position_tracking
                 .iloc[ptp_systime > pause_mid_time]
                 .set_index(ptp_timestamps))
 
-            return pos_online
+            return position_tracking
         else:
             logger.info('PTP not detected')
             camera_systime, is_valid_camera_time = estimate_camera_time_from_mcu_time(
-                camera_hwsync, continuous_time)
+                video_info, mcu_neural_timestamps)
 
             (dio_systime, frame_count,
              is_valid_camera_time, camera_systime) = remove_acquisition_timing_pause_non_ptp(
@@ -137,7 +142,7 @@ class PositionOriginator:
 
             (non_repeat_timestamp_labels,
              non_repeat_timestamp_labels_id) = detect_trodes_time_repeats_or_frame_jumps(
-                camera_hwsync.index[is_valid_camera_time], frame_count)
+                video_info.index[is_valid_camera_time], frame_count)
 
             camera_to_mcu_lag = estimate_camera_to_mcu_lag(
                 camera_systime, dio_systime, len(non_repeat_timestamp_labels_id))
@@ -155,22 +160,19 @@ class PositionOriginator:
             valid_camera_ind = valid_camera_ind[non_repeat_timestamp_labels == 0]
             is_valid_camera_time[valid_camera_ind] = False
 
-            return (pos_online
-                    .iloc[camera_hwsync.index.isin(pos_online.index) &
-                          is_valid_camera_time]
+            return (position_tracking
+                    .iloc[is_valid_camera_time]
                     .set_index(pd.Index(corrected_camera_systime, name='time')))
 
 
-def find_camera_dio_channel(pos_online_path, pos_online, max_frames_diff=10):
+def find_camera_dio_channel(position_tracking_path, video_info):
     """Find the camera DIO by looping through all the DIOs
     and finding the right number of DIO pulses.
 
     Parameters
     ----------
-    pos_online_path : str
-    pos_online : pd.DataFrame, shape (n_camera_frames, 5)
-    max_frames_diff : int, optional
-        maximum difference between camera frames and dio pulses
+    position_tracking_path : str
+    position_tracking : pd.DataFrame, shape (n_camera_frames, 5)
 
     Returns
     -------
@@ -178,7 +180,7 @@ def find_camera_dio_channel(pos_online_path, pos_online, max_frames_diff=10):
         Trodes time of dio ticks
 
     """
-    head, tail = os.path.split(pos_online_path)
+    head, tail = os.path.split(position_tracking_path)
     dio_paths = glob.glob(
         os.path.join(
             os.path.split(head)[0],
@@ -189,60 +191,58 @@ def find_camera_dio_channel(pos_online_path, pos_online, max_frames_diff=10):
         [pd.DataFrame(readTrodesExtractedDataFile(dio_file)['data']).state.sum()
          for dio_file in dio_paths])
 
-    n_camera_frames = pos_online.shape[0]
-
+    n_camera_frames = video_info.shape[0]
     position_ticks_file_ind = np.argmin(np.abs(n_ticks - n_camera_frames))
-
     camera_ticks_dio = pd.DataFrame(readTrodesExtractedDataFile(
         dio_paths[position_ticks_file_ind])['data'])
 
     return camera_ticks_dio.loc[camera_ticks_dio.state == 1].time
 
 
-def get_camera_hwsync(pos_online_path):
+def get_video_info(position_tracking_path):
     """Get video PTP timestamps if they exist.
 
 
     Parameters
     ----------
-    pos_online_path : str
+    position_tracking_path : str
 
     Returns
     -------
-    camera_hwsync : pd.DataFrame, shape (n_camera_frames, 2)
+    video_info : pd.DataFrame, shape (n_camera_frames, 2)
         PosTimestamp: unadjusted postimestamps. UINT32
         HWframeCount: integer count of frames acquired by camera
             (rolls over at 65535; can be used to detect dropped frames). UINT32
         HWTimestamp: POSIX time in nanoseconds, synchronized to PC sysclock via PTP. UINT64.
 
     """
-    camera_hwsync = readTrodesExtractedDataFile(
-        pos_online_path.replace(
+    video_info = readTrodesExtractedDataFile(
+        position_tracking_path.replace(
             '.pos_online.dat', '.pos_cameraHWFrameCount.dat'))
-    return (pd.DataFrame(camera_hwsync['data'])
+    return (pd.DataFrame(video_info['data'])
             .set_index('PosTimestamp'))
 
 
-def get_continuous_time(pos_online_path):
+def get_mcu_neural_timestamps(position_tracking_path):
     """Neural timestamps.
 
     Parameters
     ----------
-    pos_online_path : str
+    position_tracking_path : str
 
     Returns
     -------
-    continuous_times : pd.DataFrame
+    mcu_neural_timestampss : pd.DataFrame
         trodestime uint32
         adjusted_systime int64
 
     """
-    head, tail = os.path.split(pos_online_path)
-    continuous_time_path = os.path.join(
+    head, tail = os.path.split(position_tracking_path)
+    mcu_neural_timestamps_path = os.path.join(
         os.path.split(head)[0],
         tail.split('.')[0] + '.time',
         tail.split('.')[0] + '.continuoustime.dat')
-    cont_time = readTrodesExtractedDataFile(continuous_time_path)
+    cont_time = readTrodesExtractedDataFile(mcu_neural_timestamps_path)
 
     return (pd.DataFrame(cont_time['data'])
             .set_index('trodestime')
@@ -330,28 +330,28 @@ def detect_trodes_time_repeats_or_frame_jumps(trodes_time, frame_count):
             non_repeat_timestamp_labels_id)
 
 
-def detect_ptp(continuous_time, ptp_time):
+def detect_ptp(mcu_neural_timestamps, ptp_time):
     """Determine if PTP was used by finding the common
     interval between the neural and camera timestamps.
 
     A better way to do this would be to detect it in
     the header of the .rec file"""
-    continuous_time = np.asarray(continuous_time)
+    mcu_neural_timestamps = np.asarray(mcu_neural_timestamps)
     ptp_time = np.asarray(ptp_time)
     common_interval_duration = (
-        min(continuous_time[-1], ptp_time[-1]) -
-        max(continuous_time[0], ptp_time[0]))
+        min(mcu_neural_timestamps[-1], ptp_time[-1]) -
+        max(mcu_neural_timestamps[0], ptp_time[0]))
 
     return common_interval_duration > 0.0
 
 
-def estimate_camera_time_from_mcu_time(camera_hwsync, continuous_time):
+def estimate_camera_time_from_mcu_time(video_info, mcu_neural_timestamps):
     """
 
     Parameters
     ----------
-    camera_hwsync : pd.DataFrame
-    continuous_time : pd.DataFrame
+    video_info : pd.DataFrame
+    mcu_neural_timestamps : pd.DataFrame
 
     Returns
     -------
@@ -360,10 +360,10 @@ def estimate_camera_time_from_mcu_time(camera_hwsync, continuous_time):
 
     """
     is_valid_camera_time = (
-        (camera_hwsync.index >= continuous_time.index.min()) &
-        (camera_hwsync.index < continuous_time.index.max()))
-    camera_systime = np.asarray(continuous_time.loc[
-        camera_hwsync.index[is_valid_camera_time]])
+        (video_info.index >= mcu_neural_timestamps.index.min()) &
+        (video_info.index < mcu_neural_timestamps.index.max()))
+    camera_systime = np.asarray(mcu_neural_timestamps.loc[
+        video_info.index[is_valid_camera_time]])
 
     return camera_systime, is_valid_camera_time
 
