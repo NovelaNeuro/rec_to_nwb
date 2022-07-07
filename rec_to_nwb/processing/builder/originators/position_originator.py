@@ -35,37 +35,41 @@ class PositionOriginator:
 
     @beartype
     def make(self, nwb_content: NWBFile):
-        position = Position(name='position')
-        cameras_ids = get_cameras_ids(self.dataset_names, self.metadata)
-        meters_per_pixels = get_meters_per_pixels(cameras_ids, self.metadata)
-        position_tracking_paths = []
-        for dataset in self.datasets:
-            for pos_file in dataset.get_all_data_from_dataset('pos'):
-                if pos_file.endswith('.pos_online.dat'):
-                    position_tracking_paths.append(
-                        os.path.join(dataset.get_data_path_from_dataset('pos'),
-                                     pos_file))
-        first_timestamps = []
-        for series_id, (conversion, position_tracking_path) in enumerate(
-                zip(meters_per_pixels, position_tracking_paths)):
-            position_df = self.get_position_with_corrected_timestamps(
-                position_tracking_path)
-            position.create_spatial_series(
-                name=f'series_{series_id}',
-                description=', '.join(position_df.columns.tolist()),
-                data=np.asarray(position_df),
-                conversion=conversion,
-                reference_frame='Upper left corner of video frame',
-                timestamps=np.asarray(position_df.index),
-            )
-            first_timestamps.append(position_df.index[0])
+        try:
+            position = Position(name='position')
+            cameras_ids = get_cameras_ids(self.dataset_names, self.metadata)
+            meters_per_pixels = get_meters_per_pixels(
+                cameras_ids, self.metadata)
+            position_tracking_paths = []
+            for dataset in self.datasets:
+                for pos_file in dataset.get_all_data_from_dataset('pos'):
+                    if pos_file.endswith('.pos_online.dat'):
+                        position_tracking_paths.append(
+                            os.path.join(dataset.get_data_path_from_dataset('pos'),
+                                         pos_file))
+            first_timestamps = []
+            for series_id, (conversion, position_tracking_path) in enumerate(
+                    zip(meters_per_pixels, position_tracking_paths)):
+                position_df = self.get_position_with_corrected_timestamps(
+                    position_tracking_path)
+                position.create_spatial_series(
+                    name=f'series_{series_id}',
+                    description=', '.join(position_df.columns.tolist()),
+                    data=np.asarray(position_df),
+                    conversion=conversion,
+                    reference_frame='Upper left corner of video frame',
+                    timestamps=np.asarray(position_df.index),
+                )
+                first_timestamps.append(position_df.index[0])
 
-        # check if timestamps are in order
-        first_timestamps = np.asarray(first_timestamps)
-        assert np.all(first_timestamps[:-1] < first_timestamps[1:])
+            # check if timestamps are in order
+            first_timestamps = np.asarray(first_timestamps)
+            assert np.all(first_timestamps[:-1] < first_timestamps[1:])
 
-        logger.info('Position: Injecting into Processing Module')
-        nwb_content.processing['behavior'].add(position)
+            logger.info('Position: Injecting into Processing Module')
+            nwb_content.processing['behavior'].add(position)
+        except:
+            print('Problem adding position data; skipping')
 
     @staticmethod
     def get_position_with_corrected_timestamps(position_tracking_path):
