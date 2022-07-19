@@ -68,32 +68,60 @@ class PositionOriginator:
 
             logger.info('Position: Injecting into Processing Module')
             nwb_content.processing['behavior'].add(position)
-        except:
+        except FileNotFoundError:
             print('Problem adding position data; skipping')
 
     @staticmethod
     def get_position_with_corrected_timestamps(position_tracking_path):
         logger.info(os.path.split(position_tracking_path)[-1])
 
+        # Get position tracking information
         position_tracking = pd.DataFrame(
             readTrodesExtractedDataFile(position_tracking_path)['data']
         ).set_index('time')
+        is_repeat_timestamp = detect_repeat_timestamps(position_tracking.index)
+        position_tracking = position_tracking.iloc[~is_repeat_timestamp]
 
+        # Get video information
         video_info = get_video_info(position_tracking_path)
-
         # On AVT cameras, HWFrame counts wraps to 0 above this value.
         AVT_camHWframeCount_wrapval = 65535
         video_info['HWframeCount'] = np.unwrap(
             video_info['HWframeCount'], period=AVT_camHWframeCount_wrapval)
 
-        dio_camera_ticks = find_camera_dio_channel(
-            position_tracking_path, video_info)
+        # Keep track of video frames
+        video_info['video_frame_ind'] = np.arange(len(video_info))
+
+        # Disconnects manifest as repeats in the trodes time index
+        (non_repeat_timestamp_labels,
+         non_repeat_timestamp_labels_id) = detect_trodes_time_repeats_or_frame_jumps(
+            video_info.index, video_info.HWframeCount)
+        logging.info(
+            f'non_repeat_timestamp_labels = {non_repeat_timestamp_labels_id}')
+        video_info['non_repeat_timestamp_labels'] = non_repeat_timestamp_labels
+        video_info = video_info.loc[video_info.non_repeat_timestamp_labels > 0]
+
+        # Get the timestamps from the neural data
         mcu_neural_timestamps = get_mcu_neural_timestamps(
             position_tracking_path)
 
+        # Determine whether the precision time protocol is being used
+        # which gives accurate timestamps associated with each video frame.
+        ptp_enabled = detect_ptp(
+            mcu_neural_timestamps, video_info.HWTimestamp)
+
+        # Get the camera time from the DIOs
+        dio_camera_ticks = find_camera_dio_channel(
+            position_tracking_path, video_info)
+        is_valid_tick = np.isin(dio_camera_ticks, mcu_neural_timestamps.index)
         dio_systime = np.asarray(
-            mcu_neural_timestamps.loc[dio_camera_ticks])
+            mcu_neural_timestamps.loc[dio_camera_ticks[is_valid_tick]])
+
+        # The DIOs and camera frames are initially unaligned. There is a
+        # half second pause at the start to allow for alignment.
         pause_mid_time = find_acquisition_timing_pause(dio_systime)
+
+        # Estimate the frame rate from the DIO camera ticks as a sanity check.
         frame_rate_from_dio = get_framerate(
             dio_systime[dio_systime > pause_mid_time])
         logger.info('Camera frame rate estimated from DIO camera ticks:'
@@ -104,68 +132,63 @@ class PositionOriginator:
         # online tracking can be started or stopped before video is stopped.
         # Additionally, for offline tracking, frames can be skipped if the
         # frame is labeled as bad.
-        video_info = video_info.loc[position_tracking.index.unique()]
-        frame_count = np.asarray(video_info.HWframeCount)
-        ptp_systime = np.asarray(video_info.HWTimestamp)
-
-        ptp_enabled = detect_ptp(mcu_neural_timestamps, ptp_systime)
+        video_position_info = pd.merge(
+            video_info,
+            position_tracking,
+            right_index=True, left_index=True, how='left')
 
         if ptp_enabled:
             logger.info('PTP detected')
-            (non_repeat_timestamp_labels,
-             non_repeat_timestamp_labels_id) = detect_trodes_time_repeats_or_frame_jumps(
-                video_info.index[ptp_systime > pause_mid_time],
-                frame_count[ptp_systime > pause_mid_time])
+            ptp_systime = np.asarray(video_position_info.HWTimestamp)
             frame_rate_from_ptp = get_framerate(
                 ptp_systime[ptp_systime > pause_mid_time])
-            logger.info('Camera frame rate estimated from ptp:'
+            logger.info('Camera frame rate estimated from PTP:'
                         f' {frame_rate_from_ptp:0.1f} cm/s')
             # Convert from integer nanoseconds to float seconds
             ptp_timestamps = pd.Index(
-                ptp_systime[ptp_systime > pause_mid_time] /
-                NANOSECONDS_PER_SECOND,
+                ptp_systime / NANOSECONDS_PER_SECOND,
                 name='time')
             position_tracking = (
-                position_tracking
-                .iloc[ptp_systime > pause_mid_time]
+                video_position_info.drop(
+                    columns=['HWframeCount', 'HWTimestamp'])
                 .set_index(ptp_timestamps))
+
+            # Ignore positions before the timing pause.
+            is_post_pause = (position_tracking.index >
+                             pause_mid_time / NANOSECONDS_PER_SECOND)
+            position_tracking = position_tracking.iloc[is_post_pause]
 
             return position_tracking
         else:
             logger.info('PTP not detected')
+            frame_count = np.asarray(video_position_info.HWframeCount)
+
             camera_systime, is_valid_camera_time = estimate_camera_time_from_mcu_time(
-                video_info, mcu_neural_timestamps)
+                video_position_info, mcu_neural_timestamps)
 
             (dio_systime, frame_count,
              is_valid_camera_time, camera_systime) = remove_acquisition_timing_pause_non_ptp(
                 dio_systime, frame_count, camera_systime, is_valid_camera_time,
                 pause_mid_time)
-            frame_rate_from_camera_systime = get_framerate(camera_systime)
-            logger.info('Camera frame rate estimated from mcu timestamps:'
-                        f' {frame_rate_from_camera_systime:0.1f} cm/s')
+            video_position_info = video_position_info.iloc[is_valid_camera_time]
 
-            (non_repeat_timestamp_labels,
-             non_repeat_timestamp_labels_id) = detect_trodes_time_repeats_or_frame_jumps(
-                video_info.index[is_valid_camera_time], frame_count)
+            frame_rate_from_camera_systime = get_framerate(camera_systime)
+            logger.info('Camera frame rate estimated from MCU timestamps:'
+                        f' {frame_rate_from_camera_systime:0.1f} cm/s')
 
             camera_to_mcu_lag = estimate_camera_to_mcu_lag(
                 camera_systime, dio_systime, len(non_repeat_timestamp_labels_id))
 
             corrected_camera_systime = []
             for id in non_repeat_timestamp_labels_id:
-                is_chunk = non_repeat_timestamp_labels == id
+                is_chunk = video_position_info.non_repeat_timestamp_labels == id
                 corrected_camera_systime.append(
                     correct_timestamps_for_camera_to_mcu_lag(
                         frame_count[is_chunk], camera_systime[is_chunk],
                         camera_to_mcu_lag))
             corrected_camera_systime = np.concatenate(corrected_camera_systime)
 
-            valid_camera_ind = np.nonzero(is_valid_camera_time)[0]
-            valid_camera_ind = valid_camera_ind[non_repeat_timestamp_labels == 0]
-            is_valid_camera_time[valid_camera_ind] = False
-
-            return (position_tracking
-                    .iloc[is_valid_camera_time]
+            return (video_position_info
                     .set_index(pd.Index(corrected_camera_systime, name='time')))
 
 
@@ -304,12 +327,15 @@ def find_large_frame_jumps(frame_count, min_frame_jump=15):
     return is_large_frame_jump
 
 
+def detect_repeat_timestamps(timestamps):
+    return np.insert(timestamps[:-1] >= timestamps[1:], 0, False)
+
+
 def detect_trodes_time_repeats_or_frame_jumps(trodes_time, frame_count):
     """If a trodes time index repeats, then the Trodes clock has frozen
     due to headstage disconnects."""
     trodes_time = np.asarray(trodes_time)
-    is_repeat_timestamp = np.insert(
-        trodes_time[:-1] >= trodes_time[1:], 0, False)
+    is_repeat_timestamp = detect_repeat_timestamps(trodes_time)
     logger.info(f'repeat timestamps ind: {np.nonzero(is_repeat_timestamp)[0]}')
 
     is_large_frame_jump = find_large_frame_jumps(frame_count)
@@ -343,8 +369,8 @@ def detect_ptp(mcu_neural_timestamps, ptp_time):
     mcu_neural_timestamps = np.asarray(mcu_neural_timestamps)
     ptp_time = np.asarray(ptp_time)
     common_interval_duration = (
-        min(mcu_neural_timestamps[-1], ptp_time[-1]) -
-        max(mcu_neural_timestamps[0], ptp_time[0]))
+        min(np.max(mcu_neural_timestamps), np.max(ptp_time)) -
+        max(np.min(mcu_neural_timestamps), np.min(ptp_time)))
 
     return common_interval_duration > 0.0
 
