@@ -35,19 +35,27 @@ class PositionOriginator:
 
     @beartype
     def make(self, nwb_content: NWBFile):
-        try:
-            position = Position(name='position')
-            cameras_ids = get_cameras_ids(self.dataset_names, self.metadata)
-            meters_per_pixels = get_meters_per_pixels(
-                cameras_ids, self.metadata)
-            position_tracking_paths = []
-            for dataset in self.datasets:
-                for pos_file in dataset.get_all_data_from_dataset('pos'):
-                    if pos_file.endswith('.pos_online.dat'):
-                        position_tracking_paths.append(
-                            os.path.join(dataset.get_data_path_from_dataset('pos'),
-                                         pos_file))
-            first_timestamps = []
+        position = Position(name='position')
+        cameras_ids = get_cameras_ids(self.dataset_names, self.metadata)
+        meters_per_pixels = get_meters_per_pixels(
+            cameras_ids, self.metadata)
+        position_tracking_paths = []
+        video_file_paths = []
+        for dataset in self.datasets:
+            for pos_file in dataset.get_all_data_from_dataset('pos'):
+                if pos_file.endswith('.pos_online.dat'):
+                    position_tracking_paths.append(
+                        os.path.join(dataset.get_data_path_from_dataset('pos'),
+                                     pos_file))
+                if pos_file.endswith('.pos_cameraHWFrameCount.dat'):
+                    video_file_paths.append(
+                        os.path.join(dataset.get_data_path_from_dataset('pos'),
+                                     pos_file))
+
+        first_timestamps = []
+
+        if len(meters_per_pixels) == len(position_tracking_paths):
+            # position tracking exists
             for series_id, (conversion, position_tracking_path) in enumerate(
                     zip(meters_per_pixels, position_tracking_paths)):
                 position_df = self.get_position_with_corrected_timestamps(
@@ -62,14 +70,28 @@ class PositionOriginator:
                 )
                 first_timestamps.append(position_df.index[0])
 
-            # check if timestamps are in order
-            first_timestamps = np.asarray(first_timestamps)
-            assert np.all(first_timestamps[:-1] < first_timestamps[1:])
+        elif len(meters_per_pixels) == len(video_file_paths):
+            # no position tracking is available but we have timestamps with PTP
+            for series_id, (conversion, video_file_path) in enumerate(
+                    zip(meters_per_pixels, video_file_paths)):
+                video_df = self.get_corrected_timestamps_without_position(
+                    video_file_path)
+                position.create_spatial_series(
+                    name=f'series_{series_id}',
+                    description=', '.join(video_df.columns.tolist()),
+                    data=np.asarray(video_df),
+                    conversion=conversion,
+                    reference_frame='Upper left corner of video frame',
+                    timestamps=np.asarray(video_df.index),
+                )
+                first_timestamps.append(video_df.index[0])
 
-            logger.info('Position: Injecting into Processing Module')
-            nwb_content.processing['behavior'].add(position)
-        except FileNotFoundError:
-            print('Problem adding position data; skipping')
+        # check if timestamps are in order
+        first_timestamps = np.asarray(first_timestamps)
+        assert np.all(first_timestamps[:-1] < first_timestamps[1:])
+
+        logger.info('Position: Injecting into Processing Module')
+        nwb_content.processing['behavior'].add(position)
 
     @staticmethod
     def get_position_with_corrected_timestamps(position_tracking_path):
@@ -190,6 +212,57 @@ class PositionOriginator:
 
             return (video_position_info
                     .set_index(pd.Index(corrected_camera_systime, name='time')))
+
+    @staticmethod
+    def get_corrected_timestamps_without_position(hw_frame_count_path):
+
+        video_info = readTrodesExtractedDataFile(hw_frame_count_path)
+        video_info = (pd.DataFrame(video_info['data'])
+                      .set_index('PosTimestamp'))
+        # On AVT cameras, HWFrame counts wraps to 0 above this value.
+        AVT_camHWframeCount_wrapval = 65535
+        video_info['HWframeCount'] = np.unwrap(
+            video_info['HWframeCount'], period=AVT_camHWframeCount_wrapval)
+
+        # Keep track of video frames
+        video_info['video_frame_ind'] = np.arange(len(video_info))
+
+        # Get the timestamps from the neural data
+        mcu_neural_timestamps = get_mcu_neural_timestamps(
+            hw_frame_count_path)
+
+        # Determine whether the precision time protocol is being used
+        # which gives accurate timestamps associated with each video frame.
+        ptp_enabled = detect_ptp(
+            mcu_neural_timestamps, video_info.HWTimestamp)
+
+        # Get the camera time from the DIOs
+        dio_camera_ticks = find_camera_dio_channel(
+            hw_frame_count_path, video_info)
+        is_valid_tick = np.isin(dio_camera_ticks, mcu_neural_timestamps.index)
+        dio_systime = np.asarray(
+            mcu_neural_timestamps.loc[dio_camera_ticks[is_valid_tick]])
+
+        # The DIOs and camera frames are initially unaligned. There is a
+        # half second pause at the start to allow for alignment.
+        pause_mid_time = find_acquisition_timing_pause(dio_systime)
+
+        if ptp_enabled:
+            ptp_timestamps = pd.Index(
+                video_info.HWTimestamp / NANOSECONDS_PER_SECOND,
+                name='time')
+            video_info = (video_info
+                          .set_index(ptp_timestamps))
+
+            # Ignore positions before the timing pause.
+            is_post_pause = (video_info.index >
+                             pause_mid_time / NANOSECONDS_PER_SECOND)
+            video_info = (video_info
+                          .iloc[is_post_pause]
+                          .drop(columns=['HWframeCount', 'HWTimestamp']))
+            return video_info
+        else:
+            raise NotImplementedError
 
 
 def find_camera_dio_channel(position_tracking_path, video_info):
@@ -447,7 +520,8 @@ def get_cameras_ids(dataset_names, metadata):
                     if epoch_num in task['task_epochs']
                 )[0]
             )
-        except:
+        except Exception as e:
+            print(e)
             raise InvalidMetadataException(
                 'Invalid camera metadata for datasets')
     return camera_ids
@@ -464,6 +538,7 @@ def get_meters_per_pixels(cameras_ids, metadata):
                     if camera_id == camera['id']
                 )
             )
-        except:
+        except Exception as e:
+            print(e)
             raise InvalidMetadataException('Invalid camera metadata')
     return meters_per_pixels
