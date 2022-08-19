@@ -1,5 +1,3 @@
-import copy
-
 from rec_to_nwb.processing.exceptions.corrupted_data_exception import \
     CorruptedDataException
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
@@ -63,7 +61,6 @@ class CorruptedDataManager:
     @beartype
     def __get_electrode_groups_valid_map(self, ntrode_metadata: list,
                                          electrodes_valid_map: list) -> set:
-        tmp_electrodes_valid_map = copy.deepcopy(electrodes_valid_map)
         return {
             ntrode['electrode_group_id'] for ntrode in ntrode_metadata
         }
