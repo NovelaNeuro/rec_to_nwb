@@ -43,12 +43,18 @@ class MetadataManager:
         return self.fl_probes_extractor.extract_probes_metadata(probes_paths)
 
     def __str__(self):
+
+        experimenter_name = self.metadata['experimenter_name']
+        if not isinstance(experimenter_name, str):
+            experimenter_name = ', '.join(experimenter_name)
+
         metadata_info = (
-            'Experimenter: ' + ', '.join(self.metadata['experimenter_name']) +
+            'Experimenter: ' + experimenter_name +
             '\nDescription: ' + self.metadata['experiment_description'] +
             '\nSession Id: ' + self.metadata['session_id'] +
             '\nSubject: ' + self.metadata['subject']['description'])
 
         probe_types = list(map(lambda probe: probe['probe_type'], self.probes))
         probe_types_info = '\n\nAvailable probe types: ' + str(probe_types)
+
         return 'Experiment Info:\n' + metadata_info + probe_types_info
