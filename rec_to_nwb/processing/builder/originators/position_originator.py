@@ -462,9 +462,8 @@ def estimate_camera_time_from_mcu_time(video_info, mcu_neural_timestamps):
     is_valid_camera_time : np.ndarray, shape (n_frames,)
 
     """
-    is_valid_camera_time = (
-        (video_info.index >= mcu_neural_timestamps.index.min()) &
-        (video_info.index < mcu_neural_timestamps.index.max()))
+    is_valid_camera_time = np.isin(
+        video_info.index, mcu_neural_timestamps.index)
     camera_systime = np.asarray(mcu_neural_timestamps.loc[
         video_info.index[is_valid_camera_time]])
 
