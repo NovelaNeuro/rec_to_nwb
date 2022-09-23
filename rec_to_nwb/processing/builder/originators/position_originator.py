@@ -147,7 +147,7 @@ class PositionOriginator:
         frame_rate_from_dio = get_framerate(
             dio_systime[dio_systime > pause_mid_time])
         logger.info('Camera frame rate estimated from DIO camera ticks:'
-                    f' {frame_rate_from_dio:0.1f} cm/s')
+                    f' {frame_rate_from_dio:0.1f} frames/s')
 
         # Match the camera frames to the position tracking
         # Number of video frames can be different from online tracking because
@@ -165,7 +165,7 @@ class PositionOriginator:
             frame_rate_from_ptp = get_framerate(
                 ptp_systime[ptp_systime > pause_mid_time])
             logger.info('Camera frame rate estimated from PTP:'
-                        f' {frame_rate_from_ptp:0.1f} cm/s')
+                        f' {frame_rate_from_ptp:0.1f} frames/s')
             # Convert from integer nanoseconds to float seconds
             ptp_timestamps = pd.Index(
                 ptp_systime / NANOSECONDS_PER_SECOND,
@@ -196,7 +196,7 @@ class PositionOriginator:
 
             frame_rate_from_camera_systime = get_framerate(camera_systime)
             logger.info('Camera frame rate estimated from MCU timestamps:'
-                        f' {frame_rate_from_camera_systime:0.1f} cm/s')
+                        f' {frame_rate_from_camera_systime:0.1f} frames/s')
 
             camera_to_mcu_lag = estimate_camera_to_mcu_lag(
                 camera_systime, dio_systime, len(non_repeat_timestamp_labels_id))
