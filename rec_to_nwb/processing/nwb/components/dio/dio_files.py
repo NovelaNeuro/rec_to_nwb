@@ -25,6 +25,11 @@ class DioFiles:
     def __get_dict(cls, directory):
         dio_dict = {}
         for file in glob.glob(os.path.join(directory, '*.dat')):
-            dio_name = file.split('.')[-2].split('_')[-1]
-            dio_dict[dio_name] = os.path.join(directory, file)
+            if file.split('.')[-2].split('_')[-2] == "MCU":
+                # To avoid this warning, remove MCU_IO data from being displayed via the .trodesconf, this will stop MCU_IO extraction
+                print(f'WARNING: MCU_IO data are not currently handled by rec_to_nwb. Skipping file: {file}.')
+                # TODO: find MCU_IO binaries if they exist and appropriately insert these data into nwbs in future version of rec_to_nwb
+            else:
+                dio_name = file.split('.')[-2].split('_')[-1] # This string should be of the form "Din12" "Dout5"
+                dio_dict[dio_name] = os.path.join(directory, file)
         return dio_dict
