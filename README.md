@@ -313,7 +313,7 @@ After that, you can add mda or pos invalid/valid data to your NWB, using 'build_
      **process_pos_invalid_time** = 'boolean' True if the pos invalid times should be build and append to nwb.
                 Need the pos data inside the nwb. (default True) <br>
 
-9. Make sure that the data structure in given directory (in that case `test_data`) looks similar to following example:
+9. Make sure that the file and directory structure (in that case `test_data`) looks similar to following example. Please NOTE that rec_to_nwb will fail if the data is not in this format:
    ```bash
     --test_data
       |
