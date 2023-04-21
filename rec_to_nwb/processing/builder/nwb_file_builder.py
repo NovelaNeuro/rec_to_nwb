@@ -341,7 +341,30 @@ class NWBFileBuilder:
               NWBFile: Return NWBFile content
         """
 
-        logger.info('Building components for NWB')
+        logger.info("Building components for NWB")
+
+        # Convert date of birth to datetime object
+        subject_metadata = deepcopy(self.metadata.metadata["subject"])
+        try:
+            subject_metadata.update(
+                {
+                    "date_of_birth": datetime.strptime(
+                        subject_metadata["date_of_birth"], "%Y-%m-%dT%H:%M:%S.%fZ"
+                    )
+                }
+            )
+        except ValueError:
+            subject_metadata.update(
+                {
+                    "date_of_birth": datetime.strptime(
+                        subject_metadata["date_of_birth"], "%Y%m%d"
+                    )
+                }
+            )
+
+        # Convert weight to string and add units
+        subject_metadata.update({"weight": f"{subject_metadata['weight']} g"})
+
         nwb_content = NWBFile(
             session_description=self.metadata['session_description'],
             experimenter=self.metadata['experimenter_name'],
@@ -352,15 +375,8 @@ class NWBFileBuilder:
             identifier=str(uuid.uuid1()),
             session_id=self.metadata['session_id'],
             notes=self.link_to_notes,
-            experiment_description=self.metadata['experiment_description'],
-            subject=Subject(
-                description=self.metadata['subject']['description'],
-                genotype=self.metadata['subject']['genotype'],
-                sex=self.metadata['subject']['sex'],
-                species=self.metadata['subject']['species'],
-                subject_id=self.metadata['subject']['subject_id'],
-                weight=str(self.metadata['subject']['weight']),
-            ),
+            experiment_description=self.metadata["experiment_description"],
+            subject=Subject(**subject_metadata),
         )
 
         self.processing_module_originator.make(nwb_content)
