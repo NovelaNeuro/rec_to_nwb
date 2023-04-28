@@ -378,7 +378,7 @@ class NWBFileBuilder:
         logger.info("Building components for NWB")
 
         # Convert date of birth to datetime object
-        subject_metadata = deepcopy(self.metadata.metadata["subject"])
+        subject_metadata = deepcopy(self.metadata["subject"])
         try:
             subject_metadata.update(
                 {
