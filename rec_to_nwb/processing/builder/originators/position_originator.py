@@ -53,14 +53,24 @@ class PositionOriginator:
                 position_df = self.get_position_with_corrected_timestamps(
                     position_tracking_path[0]
                 )
-                position.create_spatial_series(
-                    name=f"series_{dataset_ind}",
-                    description=", ".join(position_df.columns.tolist()),
-                    data=np.asarray(position_df),
-                    conversion=conversion,
-                    reference_frame="Upper left corner of video frame",
-                    timestamps=np.asarray(position_df.index),
-                )
+                #Multi-position split. 
+                #TODO: generalize key names?
+                key_lists = [['xloc','yloc','zloc'],
+                             ['xloc2','yloc2','zloc2'],
+                             ['xloc3','yloc3','zloc3']]
+                led_number = 0
+                for valid_keys in key_lists:
+                    key_set = [key for key in position_df.columns.tolist() if key in valid_keys]
+                    if len(key_set)==0: continue
+                    position.create_spatial_series(
+                        name=f"led_{led_number}_series_{dataset_ind}",
+                        description=", ".join(key_set),
+                        data=np.asarray(position_df[key_set]),
+                        conversion=conversion,
+                        reference_frame="Upper left corner of video frame",
+                        timestamps=np.asarray(position_df.index),
+                    )
+                    led_number += 1
                 first_timestamps.append(position_df.index[0])
             except IndexError:
                 video_file_path = glob.glob(
