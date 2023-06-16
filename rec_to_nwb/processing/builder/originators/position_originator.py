@@ -68,7 +68,7 @@ class PositionOriginator:
                             reference_frame="Upper left corner of video frame",
                             timestamps=np.asarray(position_df.index),
                         )
-                    first_timestamps.append(position_df.index[0])
+                first_timestamps.append(position_df.index[0])
             except IndexError:
                 video_file_path = glob.glob(
                     os.path.join(pos_path, "*.pos_cameraHWFrameCount.dat")
