@@ -57,7 +57,6 @@ class PositionOriginator:
                 #TODO: generalize key names?
                 key_lists = [['xloc','yloc',],  #led 0 
                              ['xloc2','yloc2',],] #led 1
-                led_number = 0
                 for led_number, valid_keys in enumerate(key_lists):
                     key_set = [key for key in position_df.columns.tolist() if key in valid_keys]
                     if len(key_set) > 0:
