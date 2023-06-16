@@ -55,16 +55,15 @@ class PositionOriginator:
                 )
                 #Multi-position split. 
                 #TODO: generalize key names?
-                key_lists = [['xloc','yloc','zloc'],
-                             ['xloc2','yloc2','zloc2'],
-                             ['xloc3','yloc3','zloc3']]
+                key_lists = [['xloc','yloc',],  #led 0 
+                             ['xloc2','yloc2',],] #led 1
                 led_number = 0
                 for led_number, valid_keys in enumerate(key_lists):
                     key_set = [key for key in position_df.columns.tolist() if key in valid_keys]
                     if len(key_set) > 0:
                         position.create_spatial_series(
                             name=f"led_{led_number}_series_{dataset_ind}",
-                            description=", ".join(key_set),
+                            description=", ".join(['xloc','yloc']),
                             data=np.asarray(position_df[key_set]),
                             conversion=conversion,
                             reference_frame="Upper left corner of video frame",
