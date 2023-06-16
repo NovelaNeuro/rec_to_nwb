@@ -62,15 +62,15 @@ class PositionOriginator:
                 for led_number, valid_keys in enumerate(key_lists):
                     key_set = [key for key in position_df.columns.tolist() if key in valid_keys]
                     if len(key_set) > 0:
-                    position.create_spatial_series(
-                        name=f"led_{led_number}_series_{dataset_ind}",
-                        description=", ".join(key_set),
-                        data=np.asarray(position_df[key_set]),
-                        conversion=conversion,
-                        reference_frame="Upper left corner of video frame",
-                        timestamps=np.asarray(position_df.index),
-                    )
-                first_timestamps.append(position_df.index[0])
+                        position.create_spatial_series(
+                            name=f"led_{led_number}_series_{dataset_ind}",
+                            description=", ".join(key_set),
+                            data=np.asarray(position_df[key_set]),
+                            conversion=conversion,
+                            reference_frame="Upper left corner of video frame",
+                            timestamps=np.asarray(position_df.index),
+                        )
+                        first_timestamps.append(position_df.index[0])
             except IndexError:
                 video_file_path = glob.glob(
                     os.path.join(pos_path, "*.pos_cameraHWFrameCount.dat")
