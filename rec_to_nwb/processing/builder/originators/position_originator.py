@@ -246,15 +246,22 @@ class PositionOriginator:
         ptp_enabled = detect_ptp(mcu_neural_timestamps, video_info.HWTimestamp)
 
         # Get the camera time from the DIOs
-        dio_camera_ticks = find_camera_dio_channel(hw_frame_count_path, video_info)
-        is_valid_tick = np.isin(dio_camera_ticks, mcu_neural_timestamps.index)
-        dio_systime = np.asarray(
-            mcu_neural_timestamps.loc[dio_camera_ticks[is_valid_tick]]
-        )
+        try:
+            dio_camera_ticks = find_camera_dio_channel(hw_frame_count_path, video_info)
+            is_valid_tick = np.isin(dio_camera_ticks, mcu_neural_timestamps.index)
+            dio_systime = np.asarray(
+                mcu_neural_timestamps.loc[dio_camera_ticks[is_valid_tick]]
+            )
 
-        # The DIOs and camera frames are initially unaligned. There is a
-        # half second pause at the start to allow for alignment.
-        pause_mid_time = find_acquisition_timing_pause(dio_systime)
+            # The DIOs and camera frames are initially unaligned. There is a
+            # half second pause at the start to allow for alignment.
+            pause_mid_time = find_acquisition_timing_pause(dio_systime)
+        except IndexError:
+            logger.warning("No DIO camera ticks found...")
+            pause_mid_time = -1.0
+
+            if not ptp_enabled:
+                raise ValueError("No DIO camera ticks found and PTP not enabled. Cannot infer position timestamps.")
 
         if ptp_enabled:
             ptp_timestamps = pd.Index(
@@ -305,6 +312,16 @@ def find_camera_dio_channel(position_tracking_path, video_info):
 
     n_camera_frames = video_info.shape[0]
     position_ticks_file_ind = np.argmin(np.abs(n_ticks - n_camera_frames))
+
+    if (n_ticks[position_ticks_file_ind] < 0.5 * n_camera_frames) or (
+        n_ticks[position_ticks_file_ind] > 1.5 * n_camera_frames
+    ):
+        logger.warning(
+            "Likely could not find camera tick DIO channel."
+            f"In the most likely dio file {dio_paths[position_ticks_file_ind]},"
+            f"there are {n_ticks[position_ticks_file_ind]} ticks"
+            f" and the position file has {n_camera_frames} camera frames.")
+
     camera_ticks_dio = pd.DataFrame(
         readTrodesExtractedDataFile(dio_paths[position_ticks_file_ind])["data"]
     )
