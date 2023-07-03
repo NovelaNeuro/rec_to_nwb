@@ -102,7 +102,8 @@ class PositionOriginator:
         # On AVT cameras, HWFrame counts wraps to 0 above this value.
         AVT_camHWframeCount_wrapval = 65535
         video_info["HWframeCount"] = np.unwrap(
-            video_info["HWframeCount"], period=AVT_camHWframeCount_wrapval
+            video_info["HWframeCount"].astype(np.int32),
+            period=AVT_camHWframeCount_wrapval,
         )
 
         # Keep track of video frames
@@ -226,13 +227,13 @@ class PositionOriginator:
 
     @staticmethod
     def get_corrected_timestamps_without_position(hw_frame_count_path):
-
         video_info = readTrodesExtractedDataFile(hw_frame_count_path)
         video_info = pd.DataFrame(video_info["data"]).set_index("PosTimestamp")
         # On AVT cameras, HWFrame counts wraps to 0 above this value.
-        AVT_camHWframeCount_wrapval = 65535
+        AVT_camHWframeCount_wrapval = np.iinfo(np.uint16).max
         video_info["HWframeCount"] = np.unwrap(
-            video_info["HWframeCount"], period=AVT_camHWframeCount_wrapval
+            video_info["HWframeCount"].astype(np.int32),
+            period=AVT_camHWframeCount_wrapval,
         )
 
         # Keep track of video frames
@@ -261,7 +262,9 @@ class PositionOriginator:
             pause_mid_time = -1.0
 
             if not ptp_enabled:
-                raise ValueError("No DIO camera ticks found and PTP not enabled. Cannot infer position timestamps.")
+                raise ValueError(
+                    "No DIO camera ticks found and PTP not enabled. Cannot infer position timestamps."
+                )
 
         if ptp_enabled:
             ptp_timestamps = pd.Index(
@@ -320,7 +323,8 @@ def find_camera_dio_channel(position_tracking_path, video_info):
             "Likely could not find camera tick DIO channel."
             f"In the most likely dio file {dio_paths[position_ticks_file_ind]},"
             f"there are {n_ticks[position_ticks_file_ind]} ticks"
-            f" and the position file has {n_camera_frames} camera frames.")
+            f" and the position file has {n_camera_frames} camera frames."
+        )
 
     camera_ticks_dio = pd.DataFrame(
         readTrodesExtractedDataFile(dio_paths[position_ticks_file_ind])["data"]
@@ -526,7 +530,6 @@ def remove_acquisition_timing_pause_non_ptp(
 def correct_timestamps_for_camera_to_mcu_lag(
     frame_count, camera_systime, camera_to_mcu_lag
 ):
-
     regression_result = linregress(frame_count, camera_systime - camera_to_mcu_lag)
     corrected_camera_systime = (
         regression_result.intercept + frame_count * regression_result.slope
