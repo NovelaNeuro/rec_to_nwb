@@ -26,13 +26,16 @@ NANOSECONDS_PER_SECOND = 1e9
 
 class PositionOriginator:
     @beartype
-    def __init__(self, datasets: list, metadata: dict, dataset_names: list):
+    def __init__(
+        self, datasets: list, metadata: dict, dataset_names: list, ptp_enabled: bool
+    ):
         self.datasets = datasets
         self.dataset_names = dataset_names
         self.metadata = metadata
         self.pm_creator = ProcessingModule(
             "behavior", "Contains all behavior-related data"
         )
+        self.ptp_enabled = ptp_enabled
 
     @beartype
     def make(self, nwb_content: NWBFile):
@@ -51,7 +54,7 @@ class PositionOriginator:
                     os.path.join(pos_path, "*.pos_online.dat")
                 )
                 position_df = self.get_position_with_corrected_timestamps(
-                    position_tracking_path[0]
+                    position_tracking_path[0], self.ptp_enabled
                 )
                 position.create_spatial_series(
                     name=f"series_{dataset_ind}",
@@ -67,7 +70,7 @@ class PositionOriginator:
                     os.path.join(pos_path, "*.pos_cameraHWFrameCount.dat")
                 )
                 video_df = self.get_corrected_timestamps_without_position(
-                    video_file_path[0]
+                    video_file_path[0], self.ptp_enabled
                 )
                 position.create_spatial_series(
                     name=f"series_{dataset_ind}",
@@ -87,7 +90,7 @@ class PositionOriginator:
         nwb_content.processing["behavior"].add(position)
 
     @staticmethod
-    def get_position_with_corrected_timestamps(position_tracking_path):
+    def get_position_with_corrected_timestamps(position_tracking_path, ptp_enabled):
         logger.info(os.path.split(position_tracking_path)[-1])
 
         # Get position tracking information
@@ -122,10 +125,6 @@ class PositionOriginator:
 
         # Get the timestamps from the neural data
         mcu_neural_timestamps = get_mcu_neural_timestamps(position_tracking_path)
-
-        # Determine whether the precision time protocol is being used
-        # which gives accurate timestamps associated with each video frame.
-        ptp_enabled = detect_ptp(mcu_neural_timestamps, video_info.HWTimestamp)
 
         # Get the camera time from the DIOs
         dio_camera_ticks = find_camera_dio_channel(position_tracking_path, video_info)
@@ -226,7 +225,7 @@ class PositionOriginator:
             )
 
     @staticmethod
-    def get_corrected_timestamps_without_position(hw_frame_count_path):
+    def get_corrected_timestamps_without_position(hw_frame_count_path, ptp_enabled):
         video_info = readTrodesExtractedDataFile(hw_frame_count_path)
         video_info = pd.DataFrame(video_info["data"]).set_index("PosTimestamp")
         # On AVT cameras, HWFrame counts wraps to 0 above this value.
@@ -241,10 +240,6 @@ class PositionOriginator:
 
         # Get the timestamps from the neural data
         mcu_neural_timestamps = get_mcu_neural_timestamps(hw_frame_count_path)
-
-        # Determine whether the precision time protocol is being used
-        # which gives accurate timestamps associated with each video frame.
-        ptp_enabled = detect_ptp(mcu_neural_timestamps, video_info.HWTimestamp)
 
         # Get the camera time from the DIOs
         try:
