@@ -4,7 +4,7 @@ import os
 
 import numpy as np
 import pandas as pd
-from pynwb import NWBFile, ProcessingModule
+from pynwb import NWBFile, ProcessingModule, TimeSeries
 from pynwb.behavior import Position
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 from rec_to_nwb.processing.exceptions.invalid_metadata_exception import (
@@ -53,22 +53,63 @@ class PositionOriginator:
                 position_df = self.get_position_with_corrected_timestamps(
                     position_tracking_path[0]
                 )
-                #Multi-position split. 
-                #TODO: generalize key names?
-                key_lists = [['xloc','yloc',],  #led 0 
-                             ['xloc2','yloc2',],] #led 1
+                # Multi-position split.
+                # TODO: generalize key names?
+                key_lists = [
+                    [
+                        "xloc",
+                        "yloc",
+                    ],  # led 0
+                    [
+                        "xloc2",
+                        "yloc2",
+                    ],
+                ]  # led 1
                 for led_number, valid_keys in enumerate(key_lists):
-                    key_set = [key for key in position_df.columns.tolist() if key in valid_keys]
+                    key_set = [
+                        key for key in position_df.columns.tolist() if key in valid_keys
+                    ]
                     if len(key_set) > 0:
                         position.create_spatial_series(
                             name=f"led_{led_number}_series_{dataset_ind}",
-                            description=", ".join(['xloc','yloc']),
+                            description=", ".join(["xloc", "yloc"]),
                             data=np.asarray(position_df[key_set]),
                             conversion=conversion,
                             reference_frame="Upper left corner of video frame",
                             timestamps=np.asarray(position_df.index),
                         )
                 first_timestamps.append(position_df.index[0])
+                # add the video frame index as a new processing module
+                if "position_frame_index" not in nwb_content.processing:
+                    nwb_content.create_processing_module(
+                        name="position_frame_index",
+                        description="stores video frame index for each position timestep",
+                    )
+                # add timeseries for each frame index set (once per series because led's share timestamps)
+                nwb_content.processing["position_frame_index"].add(
+                    TimeSeries(
+                        name=f"series_{dataset_ind}",
+                        data=np.asarray(position_df["video_frame_ind"]),
+                        unit="N/A",
+                        timestamps=np.asarray(position_df.index),
+                    )
+                )
+                # add the video non-repeat timestamp labels as a new processing module
+                if "non_repeat_timestamp_labels" not in nwb_content.processing:
+                    nwb_content.create_processing_module(
+                        name="non_repeat_timestamp_labels",
+                        description="stores non_repeat_labels for each position timestep",
+                    )
+                # add timeseries for each non-repeat timestamp labels set (once per series because led's share timestamps)
+                nwb_content.processing["non_repeat_timestamp_labels"].add(
+                    TimeSeries(
+                        name=f"series_{dataset_ind}",
+                        data=np.asarray(position_df["non_repeat_timestamp_labels"]),
+                        unit="N/A",
+                        timestamps=np.asarray(position_df.index),
+                    )
+                )
+
             except IndexError:
                 video_file_path = glob.glob(
                     os.path.join(pos_path, "*.pos_cameraHWFrameCount.dat")
@@ -233,7 +274,6 @@ class PositionOriginator:
 
     @staticmethod
     def get_corrected_timestamps_without_position(hw_frame_count_path):
-
         video_info = readTrodesExtractedDataFile(hw_frame_count_path)
         video_info = pd.DataFrame(video_info["data"]).set_index("PosTimestamp")
         # On AVT cameras, HWFrame counts wraps to 0 above this value.
@@ -516,7 +556,6 @@ def remove_acquisition_timing_pause_non_ptp(
 def correct_timestamps_for_camera_to_mcu_lag(
     frame_count, camera_systime, camera_to_mcu_lag
 ):
-
     regression_result = linregress(frame_count, camera_systime - camera_to_mcu_lag)
     corrected_camera_systime = (
         regression_result.intercept + frame_count * regression_result.slope
