@@ -367,10 +367,7 @@ class NWBFileBuilder:
         mconf = self.header.tree.find("ModuleConfiguration")
         ptp_enabled = False
         for smconf in mconf.findall("SingleModuleConfiguration"):
-            if (
-                smconf.get("moduleName") == "cameraModule"
-                or smconf.get("moduleName") == "./cameraModule"
-            ):
+            if smconf.get("moduleName") in ["cameraModule", "./cameraModule"]:
                 for arg in smconf.findall("Argument"):
                     ptp_enabled = "-ptpEnabled" in arg.attrib.values()
                     if ptp_enabled:
