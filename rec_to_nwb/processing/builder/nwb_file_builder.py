@@ -357,9 +357,25 @@ class NWBFileBuilder:
             else:
                 self.analog_originator = AnalogOriginator(self.datasets, self.metadata)
 
+        ptp_enabled = self._detect_ptp_from_header()
+
         self.position_originator = PositionOriginator(
-            self.datasets, self.metadata, self.dataset_names
+            self.datasets, self.metadata, self.dataset_names, ptp_enabled
         )
+
+    def _detect_ptp_from_header(self):
+        mconf = self.header.tree.find("ModuleConfiguration")
+        ptp_enabled = False
+        for smconf in mconf.findall("SingleModuleConfiguration"):
+            if smconf.get("moduleName") in ["cameraModule", "./cameraModule"]:
+                for arg in smconf.findall("Argument"):
+                    ptp_enabled = "-ptpEnabled" in arg.attrib.values()
+                    if ptp_enabled:
+                        break
+                if ptp_enabled:
+                    break
+        logger.info("PTP enabled: " + str(ptp_enabled))
+        return ptp_enabled
 
     def __extract_datasets(self, animal_name, date):
         self.data_scanner.extract_data_from_date_folder(date)

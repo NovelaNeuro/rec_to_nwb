@@ -26,13 +26,16 @@ NANOSECONDS_PER_SECOND = 1e9
 
 class PositionOriginator:
     @beartype
-    def __init__(self, datasets: list, metadata: dict, dataset_names: list):
+    def __init__(
+        self, datasets: list, metadata: dict, dataset_names: list, ptp_enabled: bool
+    ):
         self.datasets = datasets
         self.dataset_names = dataset_names
         self.metadata = metadata
         self.pm_creator = ProcessingModule(
             "behavior", "Contains all behavior-related data"
         )
+        self.ptp_enabled = ptp_enabled
 
     @beartype
     def make(self, nwb_content: NWBFile):
@@ -51,7 +54,7 @@ class PositionOriginator:
                     os.path.join(pos_path, "*.pos_online.dat")
                 )
                 position_df = self.get_position_with_corrected_timestamps(
-                    position_tracking_path[0]
+                    position_tracking_path[0], self.ptp_enabled
                 )
                 # Multi-position split.
                 # TODO: generalize key names?
@@ -115,7 +118,7 @@ class PositionOriginator:
                     os.path.join(pos_path, "*.pos_cameraHWFrameCount.dat")
                 )
                 video_df = self.get_corrected_timestamps_without_position(
-                    video_file_path[0]
+                    video_file_path[0], self.ptp_enabled
                 )
                 position.create_spatial_series(
                     name=f"series_{dataset_ind}",
@@ -135,7 +138,7 @@ class PositionOriginator:
         nwb_content.processing["behavior"].add(position)
 
     @staticmethod
-    def get_position_with_corrected_timestamps(position_tracking_path):
+    def get_position_with_corrected_timestamps(position_tracking_path, ptp_enabled):
         logger.info(os.path.split(position_tracking_path)[-1])
 
         # Get position tracking information
@@ -150,7 +153,8 @@ class PositionOriginator:
         # On AVT cameras, HWFrame counts wraps to 0 above this value.
         AVT_camHWframeCount_wrapval = 65535
         video_info["HWframeCount"] = np.unwrap(
-            video_info["HWframeCount"], period=AVT_camHWframeCount_wrapval
+            video_info["HWframeCount"].astype(np.int32),
+            period=AVT_camHWframeCount_wrapval,
         )
 
         # Keep track of video frames
@@ -169,10 +173,6 @@ class PositionOriginator:
 
         # Get the timestamps from the neural data
         mcu_neural_timestamps = get_mcu_neural_timestamps(position_tracking_path)
-
-        # Determine whether the precision time protocol is being used
-        # which gives accurate timestamps associated with each video frame.
-        ptp_enabled = detect_ptp(mcu_neural_timestamps, video_info.HWTimestamp)
 
         # Get the camera time from the DIOs
         dio_camera_ticks = find_camera_dio_channel(position_tracking_path, video_info)
@@ -273,13 +273,15 @@ class PositionOriginator:
             )
 
     @staticmethod
-    def get_corrected_timestamps_without_position(hw_frame_count_path):
+
+    def get_corrected_timestamps_without_position(hw_frame_count_path, ptp_enabled):
         video_info = readTrodesExtractedDataFile(hw_frame_count_path)
         video_info = pd.DataFrame(video_info["data"]).set_index("PosTimestamp")
         # On AVT cameras, HWFrame counts wraps to 0 above this value.
-        AVT_camHWframeCount_wrapval = 65535
+        AVT_camHWframeCount_wrapval = np.iinfo(np.uint16).max
         video_info["HWframeCount"] = np.unwrap(
-            video_info["HWframeCount"], period=AVT_camHWframeCount_wrapval
+            video_info["HWframeCount"].astype(np.int32),
+            period=AVT_camHWframeCount_wrapval,
         )
 
         # Keep track of video frames
@@ -288,20 +290,25 @@ class PositionOriginator:
         # Get the timestamps from the neural data
         mcu_neural_timestamps = get_mcu_neural_timestamps(hw_frame_count_path)
 
-        # Determine whether the precision time protocol is being used
-        # which gives accurate timestamps associated with each video frame.
-        ptp_enabled = detect_ptp(mcu_neural_timestamps, video_info.HWTimestamp)
-
         # Get the camera time from the DIOs
-        dio_camera_ticks = find_camera_dio_channel(hw_frame_count_path, video_info)
-        is_valid_tick = np.isin(dio_camera_ticks, mcu_neural_timestamps.index)
-        dio_systime = np.asarray(
-            mcu_neural_timestamps.loc[dio_camera_ticks[is_valid_tick]]
-        )
+        try:
+            dio_camera_ticks = find_camera_dio_channel(hw_frame_count_path, video_info)
+            is_valid_tick = np.isin(dio_camera_ticks, mcu_neural_timestamps.index)
+            dio_systime = np.asarray(
+                mcu_neural_timestamps.loc[dio_camera_ticks[is_valid_tick]]
+            )
 
-        # The DIOs and camera frames are initially unaligned. There is a
-        # half second pause at the start to allow for alignment.
-        pause_mid_time = find_acquisition_timing_pause(dio_systime)
+            # The DIOs and camera frames are initially unaligned. There is a
+            # half second pause at the start to allow for alignment.
+            pause_mid_time = find_acquisition_timing_pause(dio_systime)
+        except IndexError:
+            logger.warning("No DIO camera ticks found...")
+            pause_mid_time = -1.0
+
+            if not ptp_enabled:
+                raise ValueError(
+                    "No DIO camera ticks found and PTP not enabled. Cannot infer position timestamps."
+                )
 
         if ptp_enabled:
             ptp_timestamps = pd.Index(
@@ -352,6 +359,17 @@ def find_camera_dio_channel(position_tracking_path, video_info):
 
     n_camera_frames = video_info.shape[0]
     position_ticks_file_ind = np.argmin(np.abs(n_ticks - n_camera_frames))
+
+    if (n_ticks[position_ticks_file_ind] < 0.5 * n_camera_frames) or (
+        n_ticks[position_ticks_file_ind] > 1.5 * n_camera_frames
+    ):
+        logger.warning(
+            "Likely could not find camera tick DIO channel."
+            f"In the most likely dio file {dio_paths[position_ticks_file_ind]},"
+            f"there are {n_ticks[position_ticks_file_ind]} ticks"
+            f" and the position file has {n_camera_frames} camera frames."
+        )
+
     camera_ticks_dio = pd.DataFrame(
         readTrodesExtractedDataFile(dio_paths[position_ticks_file_ind])["data"]
     )
