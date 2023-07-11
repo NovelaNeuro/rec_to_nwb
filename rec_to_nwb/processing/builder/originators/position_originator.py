@@ -273,7 +273,6 @@ class PositionOriginator:
             )
 
     @staticmethod
-
     def get_corrected_timestamps_without_position(hw_frame_count_path, ptp_enabled):
         video_info = readTrodesExtractedDataFile(hw_frame_count_path)
         video_info = pd.DataFrame(video_info["data"]).set_index("PosTimestamp")
