@@ -25,7 +25,6 @@ NANOSECONDS_PER_SECOND = 1e9
 
 
 class PositionOriginator:
-    @beartype
     def __init__(
         self, datasets: list, metadata: dict, dataset_names: list, ptp_enabled: bool
     ):
@@ -37,7 +36,6 @@ class PositionOriginator:
         )
         self.ptp_enabled = ptp_enabled
 
-    @beartype
     def make(self, nwb_content: NWBFile):
         position = Position(name="position")
 
