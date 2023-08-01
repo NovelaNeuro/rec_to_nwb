@@ -15,6 +15,6 @@ class MetadataExtractor:
                     "date_of_birth"
                 ].strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             except KeyError:
-                pass
+                raise ValueError("date of birth is required in metadata yml file")
             # for some reason they want to convert all ints, float to strings
             return json.loads(json.dumps(yaml_dict), parse_int=str, parse_float=str)
