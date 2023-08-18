@@ -30,7 +30,7 @@ class FlAnalogManager:
 
     @beartype
     def get_analog(self) -> FlAnalog:
-        """ "extract data from analog files"""
+        """extract data from analog files"""
 
         all_analog_data = []
         number_of_datasets = len(self.analog_files)
