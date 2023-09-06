@@ -44,7 +44,7 @@ class DioFiles:
             else:
                 if not(file.split(".")[-2].split("_")[-2] == "ECU"):
                  print(
-                    f"WARNING: {file.split('.')[-2].split("_")[-2]} is not a recognized dio type. Including file: {file}, but proceed with caution."
+                    f"WARNING: {file.split('.')[-2].split('_')[-2]} is not a recognized dio type. Including file: {file}, but proceed with caution."
                 )   
                 dio_name = file.split(".")[-2].split("_")[
                     -1
