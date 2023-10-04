@@ -179,16 +179,21 @@ class PositionOriginator:
             mcu_neural_timestamps.loc[dio_camera_ticks[is_valid_tick]]
         )
 
-        # The DIOs and camera frames are initially unaligned. There is a
-        # half second pause at the start to allow for alignment.
-        pause_mid_time = find_acquisition_timing_pause(dio_systime)
+        if len(dio_systime) > 0:
+            # The DIOs and camera frames are initially unaligned. There is a
+            # half second pause at the start to allow for alignment.
+            pause_mid_time = find_acquisition_timing_pause(dio_systime)
 
-        # Estimate the frame rate from the DIO camera ticks as a sanity check.
-        frame_rate_from_dio = get_framerate(dio_systime[dio_systime > pause_mid_time])
-        logger.info(
-            "Camera frame rate estimated from DIO camera ticks:"
-            f" {frame_rate_from_dio:0.1f} frames/s"
-        )
+            # Estimate the frame rate from the DIO camera ticks as a sanity check.
+            frame_rate_from_dio = get_framerate(
+                dio_systime[dio_systime > pause_mid_time]
+            )
+            logger.info(
+                "Camera frame rate estimated from DIO camera ticks:"
+                f" {frame_rate_from_dio:0.1f} frames/s"
+            )
+        else:
+            pause_mid_time = None
 
         # Match the camera frames to the position tracking
         # Number of video frames can be different from online tracking because
@@ -202,6 +207,11 @@ class PositionOriginator:
         if ptp_enabled:
             logger.info("PTP detected")
             ptp_systime = np.asarray(video_position_info.HWTimestamp)
+
+            if pause_mid_time is None:
+                # estimate pause_mid_time from ptp timestamps if dio was missing
+                pause_mid_time = find_acquisition_timing_pause(ptp_systime)
+
             frame_rate_from_ptp = get_framerate(
                 ptp_systime[ptp_systime > pause_mid_time]
             )
