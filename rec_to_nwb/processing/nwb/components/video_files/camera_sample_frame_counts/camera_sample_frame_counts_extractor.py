@@ -1,7 +1,9 @@
+"""Returns the video frame counts and timestamps for all epochs."""
+import glob
 import os
 
 import numpy as np
-
+import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
 
 
@@ -10,31 +12,30 @@ class CameraSampleFrameCountsExtractor:
         self.raw_data_path = raw_data_path
 
     def extract(self):
-        data = []
-        for file in self.__get_all_hwsync_files():
-            data.append(self.__extract_single(file))
-        merged_data = self.__merge_data_from_multiple_files(data)
-        return merged_data
+        """Returns the video frame counts and timestamps for all epochs.
 
-    def __get_all_hwsync_files(self):
-        all_files = os.listdir(self.raw_data_path)
-        hwsync_files = []
-        for file in all_files:
-            if 'videoTimeStamps.cameraHWSync' in file:
-                hwsync_files.append(file)
-        return hwsync_files
+        If precision time protocol (PTP) timestamps do not exist, then
+        timestamps are simply just a count of the frames in that epoch.
+        """
+        files = glob.glob(
+            os.path.join(self.raw_data_path, '*.videoTimeStamps.cameraHWSync'))
+        if len(files) == 0:
+            # in case of old dataset
+            files = glob.glob(
+                os.path.join(self.raw_data_path,
+                             '*.videoTimeStamps.cameraHWFrameCount'))
+        return np.vstack([self.__extract_single(file) for file in files])
 
-    @staticmethod
-    def __merge_data_from_multiple_files(data):
-        merged_data = np.vstack(data)
-        return merged_data
-
-    def __extract_single(self, hw_frame_count_filename):
-        content = readTrodesExtractedDataFile(
-                   self.raw_data_path + "/" + hw_frame_count_filename
-                  )["data"]
-        camera_sample_frame_counts = np.ndarray(shape = (len(content), 2), dtype='uint32')
-        for i, record in enumerate(content):
-            camera_sample_frame_counts[i, 0] = record[1]
-            camera_sample_frame_counts[i, 1] = record[0]
-        return camera_sample_frame_counts
+    def __extract_single(self, filename):
+        """Returns the video frame counts and timestamps for a single epoch."""
+        content = pd.DataFrame(
+            readTrodesExtractedDataFile(
+                os.path.join(self.raw_data_path, filename)
+            )["data"])
+        try:
+            # columns: frame count, timestamps
+            return content.iloc[:, [1, 0]].to_numpy()
+        except IndexError:
+            return np.vstack((content.iloc[:, 0].to_numpy(),  # frame counts
+                              np.arange(len(content)))  # dummy timestamps
+                             ).T.astype(np.uint32)

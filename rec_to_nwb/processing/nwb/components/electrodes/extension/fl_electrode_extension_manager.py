@@ -28,8 +28,8 @@ class FlElectrodeExtensionManager:
     @beartype
     def get_fl_electrodes_extension(self, electrodes_valid_map: list) -> FlElectrodeExtension:
         probes_metadata = self.probes_metadata
-        electrode_groups_metadata = self.metadata['electrode groups']
-        ntrode_metadata = self.metadata['ntrode electrode group channel map']
+        electrode_groups_metadata = self.metadata['electrode_groups']
+        ntrode_metadata = self.metadata['ntrode_electrode_group_channel_map']
         spike_n_trodes = self.header.configuration.spike_configuration.spike_n_trodes
 
         rel = FlElectrodeExtensionFactory.create_rel(
@@ -97,5 +97,6 @@ class FlElectrodeExtensionManager:
 
     @staticmethod
     def __filter_extension_list_with_electrodes_valid_map(electrodes_valid_map, extension):
+        #this function currently doesn't do anything, so it could be removed
         tmp_electrodes_valid_map = copy.deepcopy(electrodes_valid_map)
-        return [value for value in extension if tmp_electrodes_valid_map.pop(0)]
+        return [value for value in extension]

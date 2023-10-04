@@ -1,6 +1,7 @@
 import os
 
-from rec_to_nwb.processing.validation.path_validation_summary import PathValidationSummary
+from rec_to_nwb.processing.validation.path_validation_summary import \
+    PathValidationSummary
 from rec_to_nwb.processing.validation.validator import Validator
 
 
@@ -12,4 +13,3 @@ class PathValidator(Validator):
         if not os.path.isdir(self.path):
             raise NotADirectoryError(self.path + ' is not a directory')
         return PathValidationSummary()
-
