@@ -206,7 +206,7 @@ class NWBFileBuilder:
         self.is_old_dataset = is_old_dataset
         self.link_to_notes = self.metadata.get("link to notes", None)
         data_types_for_scanning = {
-            "pos": True,
+            # "pos": True,
             "time": True,
             "mda": process_mda,
             "DIO": process_dio,
