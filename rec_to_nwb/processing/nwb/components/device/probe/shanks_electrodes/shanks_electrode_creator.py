@@ -1,4 +1,4 @@
-from ndx_franklab_novela.probe import ShanksElectrode
+from ndx_franklab_novela import ShanksElectrode
 
 from rec_to_nwb.processing.nwb.components.device.probe.shanks_electrodes.fl_shanks_electrode import FlShanksElectrode
 from rec_to_nwb.processing.tools.beartype.beartype import beartype

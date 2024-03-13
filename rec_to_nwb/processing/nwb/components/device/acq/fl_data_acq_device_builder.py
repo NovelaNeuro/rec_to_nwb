@@ -1,4 +1,5 @@
-from rec_to_nwb.processing.nwb.components.device.acq.fl_data_acq_device import FlDataAcqDevice
+from rec_to_nwb.processing.nwb.components.device.acq.fl_data_acq_device import \
+    FlDataAcqDevice
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 

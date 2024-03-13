@@ -1,6 +1,6 @@
 from pynwb.ecephys import ElectrodeGroup
-
-from rec_to_nwb.processing.nwb.components.electrodes.fl_electrodes import FlElectrode
+from rec_to_nwb.processing.nwb.components.electrodes.fl_electrodes import \
+    FlElectrode
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 

@@ -1,7 +1,9 @@
 import os
 
-from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
-from rec_to_nwb.processing.validation.metadata_validation_summary import MetadataValidationSummary
+from rec_to_nwb.processing.exceptions.missing_data_exception import \
+    MissingDataException
+from rec_to_nwb.processing.validation.metadata_validation_summary import \
+    MetadataValidationSummary
 from rec_to_nwb.processing.validation.validator import Validator
 
 
@@ -15,7 +17,7 @@ class MetadataValidator(Validator):
     Methods:
         get_missing_metadata()
     """
-    
+
     def __init__(self, metadata_path, probes_paths):
         self.probes_paths = probes_paths
         self.metadata_path = metadata_path
@@ -35,7 +37,7 @@ class MetadataValidator(Validator):
         Returns:
             list of strings: list of all missing yml files
         """
-    
+
         missing_data = []
         if not (os.path.exists(self.metadata_path)):
             missing_data.append(self.metadata_path)

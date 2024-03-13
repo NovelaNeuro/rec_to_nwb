@@ -1,8 +1,9 @@
 from pynwb.behavior import Position
-
-from rec_to_nwb.processing.nwb.components.position.fl_position import FlPosition
+from rec_to_nwb.processing.nwb.components.position.fl_position import \
+    FlPosition
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
+from rec_to_nwb.processing.tools.validate_parameters import \
+    validate_parameters_not_none
 
 
 class PositionCreator:
@@ -17,7 +18,9 @@ class PositionCreator:
     @staticmethod
     @beartype
     def create(position: Position, series_id: int, fl_position: FlPosition):
-        validate_parameters_not_none(__name__, fl_position.column_labels, fl_position.position_data,
+        validate_parameters_not_none(__name__,
+                                     fl_position.column_labels,
+                                     fl_position.position_data,
                                      fl_position.conversion)
         position.create_spatial_series(
             name='series_' + str(series_id),

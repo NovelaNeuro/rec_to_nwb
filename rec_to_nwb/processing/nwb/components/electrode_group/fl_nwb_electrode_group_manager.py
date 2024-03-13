@@ -1,6 +1,6 @@
-from ndx_franklab_novela.probe import Probe
-
-from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group_builder import FlNwbElectrodeGroupBuilder
+from ndx_franklab_novela import Probe
+from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group_builder import \
+    FlNwbElectrodeGroupBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
@@ -32,7 +32,8 @@ class FlNwbElectrodeGroupManager:
         fl_nwb_electrode_groups = []
         for electrode_group_metadata in self.electrode_groups_metadata:
             if electrode_group_metadata['id'] in electrode_groups_valid_map:
-                probe = self.__get_probe_by_type(probes, electrode_group_metadata['device_type'])
+                probe = self.__get_probe_by_type(
+                    probes, electrode_group_metadata['device_type'])
                 fl_nwb_electrode_groups.append(
                     FlNwbElectrodeGroupBuilder.build(
                         metadata=electrode_group_metadata,

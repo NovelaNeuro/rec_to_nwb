@@ -1,6 +1,8 @@
-from rec_to_nwb.processing.nwb.components.device.camera.fl_camera_device_builder import FlCameraDeviceBuilder
+from rec_to_nwb.processing.nwb.components.device.camera.fl_camera_device_builder import \
+    FlCameraDeviceBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
-from rec_to_nwb.processing.tools.validate_parameters import validate_parameters_not_none
+from rec_to_nwb.processing.tools.validate_parameters import \
+    validate_parameters_not_none
 
 
 class FlCameraDeviceManager:

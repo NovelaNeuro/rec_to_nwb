@@ -1,22 +1,22 @@
-experimenter name: Alison Comrie
+experimenter_name: Alison Comrie
 lab:               Loren Frank
 institution:       University of California, San Francisco
-experiment description: Reinforcement learning
-session description: Reinforcement leaarning
+experiment_description: Reinforcement learning
+session_description: Reinforcement leaarning
 session_id:        beans_01
 subject:
   description:     Long Evans Rat
   genotype:        Wild Type
   sex:             M
   species:         Ratticus norvegicus
-  subject id:      Beans
+  subject_id:      Beans
   weight:          Unknown
 
 units:
   analog: unspecified
   behavioral_events: unspecified
 
-data acq device:
+data_acq_device:
   - system: sample_system
     amplifier: sample_amplifier
     adc_circuit: sample_adc_circuit
@@ -112,7 +112,7 @@ behavioral_events:
     name: Pump6
 
 
-electrode groups:
+electrode_groups:
   - id: 0
     location: mPFC
     device_type: 128c-4s8mm6cm-20um-40um-sl
@@ -133,7 +133,7 @@ electrode groups:
     units: 'um'
 
 
-ntrode electrode group channel map:
+ntrode_electrode_group_channel_map:
   - ntrode_id: 1
     electrode_group_id: 0
     bad_channels: [0,2]

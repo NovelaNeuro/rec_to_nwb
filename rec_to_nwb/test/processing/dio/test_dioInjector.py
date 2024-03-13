@@ -18,13 +18,13 @@ class TestDioManager(unittest.TestCase):
 
     def setUp(self):
         self.nwb_content = NWBFile(
-            session_description='session description',
-            experimenter='experimenter name',
+            session_description='session_description',
+            experimenter='experimenter_name',
             lab='lab',
             institution='institution',
             session_start_time=start_time,
             identifier='identifier',
-            experiment_description='experiment description')
+            experiment_description='experiment_description')
 
         processing_module = ProcessingModule(name='test_processing_module_name', description='test_description')
         self.nwb_content.add_processing_module(processing_module)
