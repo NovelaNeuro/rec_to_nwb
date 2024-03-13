@@ -201,8 +201,9 @@ class PositionOriginator:
         # Additionally, for offline tracking, frames can be skipped if the
         # frame is labeled as bad.
         video_position_info = pd.merge(
-            video_info, position_tracking, right_index=True, left_index=True, how="left"
-        )
+            video_info.drop(columns=[x for x in ['xloc','yloc','xloc2','yloc2'] if x in video_info.columns]),
+            position_tracking, right_index=True, left_index=True, how="left"
+        )   
 
         if ptp_enabled:
             logger.info("PTP detected")
