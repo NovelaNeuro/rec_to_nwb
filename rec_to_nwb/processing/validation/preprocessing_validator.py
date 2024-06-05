@@ -1,7 +1,9 @@
 import os
 
-from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
-from rec_to_nwb.processing.validation.preprocessing_validation_summary import PreprocessingValidationSummary
+from rec_to_nwb.processing.exceptions.missing_data_exception import \
+    MissingDataException
+from rec_to_nwb.processing.validation.preprocessing_validation_summary import \
+    PreprocessingValidationSummary
 from rec_to_nwb.processing.validation.validator import Validator
 
 
@@ -33,7 +35,8 @@ class PreprocessingValidator(Validator):
         message = ''
         if missing_preprocessing_data:
             for missing_preprocessing_file in missing_preprocessing_data:
-                message += missing_preprocessing_file[0] + ' from epoch ' + missing_preprocessing_file[1] + '\n'
+                message += missing_preprocessing_file[0] + \
+                    ' from epoch ' + missing_preprocessing_file[1] + '\n'
             raise MissingDataException(message + "are missing")
         return PreprocessingValidationSummary(missing_preprocessing_data)
 

@@ -1,6 +1,6 @@
 from pynwb.device import Device
-
-from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group import FlNwbElectrodeGroup
+from rec_to_nwb.processing.nwb.components.electrode_group.fl_nwb_electrode_group import \
+    FlNwbElectrodeGroup
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 

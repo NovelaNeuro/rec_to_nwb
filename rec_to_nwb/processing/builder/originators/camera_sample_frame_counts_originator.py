@@ -1,5 +1,7 @@
-import os
+"""Gets the video frame counts and timestamps for all epochs, inserts them
+into an NWB timeseries object, and puts it in an NWB File"""
 import logging.config
+import os
 
 from rec_to_nwb.processing.nwb.components.video_files.camera_sample_frame_counts.camera_sample_frame_counts_injector import \
     CameraSampleFrameCountsInjector
@@ -7,7 +9,10 @@ from rec_to_nwb.processing.nwb.components.video_files.camera_sample_frame_counts
     CameraSampleFrameCountsManager
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=os.path.join(str(path), os.pardir, os.pardir,
+                       os.pardir, 'logging.conf'),
+    disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 
@@ -16,6 +21,10 @@ class CameraSampleFrameCountsOriginator:
         self.raw_data_path = raw_data_path
 
     def make(self, nwb_content):
+        """Gets the video frame counts and timestamps for all epochs, inserts them
+        into an NWB timeseries object, and puts it in an NWB File under
+        the processing module `camera_sample_frame_counts`
+        """
         logger.info('Camera Sample Frame Counts Builder: Building')
         manager = CameraSampleFrameCountsManager(
             raw_data_path=self.raw_data_path

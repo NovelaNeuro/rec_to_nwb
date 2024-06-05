@@ -1,10 +1,12 @@
 import numpy as np
 from pynwb import NWBFile
-
-from rec_to_nwb.processing.exceptions.missing_data_exception import MissingDataException
-from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_builder import FlPosValidTimeBuilder
+from rec_to_nwb.processing.exceptions.missing_data_exception import \
+    MissingDataException
+from rec_to_nwb.processing.nwb.components.position.time.valid.fl_pos_valid_time_builder import \
+    FlPosValidTimeBuilder
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
-from rec_to_nwb.processing.tools.get_times_period_multiplier import get_times_period_multiplier
+from rec_to_nwb.processing.tools.get_times_period_multiplier import \
+    get_times_period_multiplier
 
 
 class FlPosValidTimeManager:
@@ -37,7 +39,8 @@ class FlPosValidTimeManager:
 
         timestamps = self.__get_pos_timestamps(nwb_content)
         pos_period = self.__calculate_pos_period(timestamps)
-        valid_times = self.__get_pos_valid_times(timestamps, pos_period, gaps_margin)
+        valid_times = self.__get_pos_valid_times(
+            timestamps, pos_period, gaps_margin)
         return self.__build_pos_valid_times(valid_times)
 
     @staticmethod
@@ -45,7 +48,8 @@ class FlPosValidTimeManager:
         timestamps = [
             np.array(spatial_series.timestamps)
             for spatial_series in
-            nwb_content.processing['behavior'].data_interfaces['position'].spatial_series.values()
+            nwb_content.processing['behavior'].data_interfaces['position'].spatial_series.values(
+            )
         ]
         timestamp = np.hstack(timestamps)
 
@@ -67,29 +71,29 @@ class FlPosValidTimeManager:
             first_timestamp = timestamps[number_of_invalid_records_at_start_of_a_file]
         while not last_timestamp >= 0:
             number_of_invalid_records_at_end_of_a_file += 1
-            last_timestamp = timestamps[(-1 - number_of_invalid_records_at_end_of_a_file)]
+            last_timestamp = timestamps[(-1 -
+                                         number_of_invalid_records_at_end_of_a_file)]
         return (last_timestamp - first_timestamp) / \
                (len_of_timestamps - number_of_invalid_records_at_end_of_a_file -
                 number_of_invalid_records_at_start_of_a_file)
 
     def __get_pos_valid_times(self, timestamps, period, gaps_margin):
-        min_valid_len = 3*gaps_margin
+        min_valid_len = 3 * gaps_margin
         timestamps = timestamps[~np.isnan(timestamps)]
 
         gaps = np.diff(timestamps) > period * self.period_multiplier
         gap_indexes = np.asarray(np.where(gaps))
         gap_start = np.insert(gap_indexes + 1, 0, 0)
-        gap_end = np.append(gap_indexes, np.asarray(len(timestamps)-1))
+        gap_end = np.append(gap_indexes, np.asarray(len(timestamps) - 1))
 
         valid_indices = np.vstack([gap_start, gap_end]).transpose()
         valid_times = timestamps[valid_indices]
         valid_times[:, 0] = valid_times[:, 0] + gaps_margin
         valid_times[:, 1] = valid_times[:, 1] - gaps_margin
-        valid_intervals = [valid_time > min_valid_len for valid_time in valid_times[:, 1] - valid_times[:, 0]]
+        valid_intervals = [
+            valid_time > min_valid_len for valid_time in valid_times[:, 1] - valid_times[:, 0]]
         return valid_times[valid_intervals, :]
 
     @staticmethod
     def __build_pos_valid_times(valid_times):
         return [FlPosValidTimeBuilder.build(gap[0], gap[1]) for gap in valid_times]
-
-

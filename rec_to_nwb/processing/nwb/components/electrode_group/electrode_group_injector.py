@@ -1,5 +1,4 @@
 from pynwb import NWBFile
-
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 

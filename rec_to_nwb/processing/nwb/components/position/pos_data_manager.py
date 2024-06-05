@@ -1,6 +1,5 @@
 import pandas as pd
 from rec_to_binaries.read_binaries import readTrodesExtractedDataFile
-
 from rec_to_nwb.processing.nwb.common.data_manager import DataManager
 
 
@@ -11,7 +10,8 @@ class PosDataManager(DataManager):
     # override
     def read_data(self, dataset_id, file_id):
         """extract data from POS files and build FlPos"""
-        pos_online = readTrodesExtractedDataFile(self.directories[dataset_id][file_id])
+        pos_online = readTrodesExtractedDataFile(
+            self.directories[dataset_id][file_id])
         position = pd.DataFrame(pos_online['data'])
         labels = self.get_column_labels()
         filtered_position = [position[label] for label in labels]
@@ -26,7 +26,8 @@ class PosDataManager(DataManager):
         return column_labels_list
 
     def get_column_labels_as_string(self):
-        """extract column labels from POS files and converts them do single string"""
+        """extract column labels from POS files and converts them do single
+        string"""
         labels = self.get_column_labels()
         labels_string = ''
         labels_string = ', '.join(labels)

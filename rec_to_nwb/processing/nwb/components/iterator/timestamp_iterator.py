@@ -10,9 +10,9 @@ class TimestampIterator(AbstractDataChunkIterator, abc.ABC):
         self._current_index = 0
         self.current_dataset = 0
 
-        self.dataset_file_lenght = data.get_file_lenghts_in_datasets()
+        self.dataset_file_lenght = data.get_file_lengths_in_datasets()
         self.number_of_steps = self.data.get_number_of_datasets()
-        self.dataset_file_length = self.data.get_file_lenghts_in_datasets()
+        self.dataset_file_length = self.data.get_file_lengths_in_datasets()
         self.shape = self.data.get_final_data_shape()
 
     # Override

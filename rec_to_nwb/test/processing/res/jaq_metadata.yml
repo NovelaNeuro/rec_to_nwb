@@ -1,15 +1,15 @@
-experimenter name: Alison Comrie
+experimenter_name: Alison Comrie
 lab:               Loren Frank
 institution:       University of California, San Francisco
-experiment description: Reinforcement learning
-session description: Reinforcement leaarning
+experiment_description: Reinforcement learning
+session_description: Reinforcement leaarning
 session_id:        jaq_01
 subject:
   description:     Long Evans Rat
   genotype:        Wild Type
   sex:             Male
   species:         Rat
-  subject id:      Beans
+  subject_id:      Beans
   weight:          Unknown
 
 tasks:
@@ -42,7 +42,7 @@ device:
   name:
     - Trodes
 
-electrode groups:
+electrode_groups:
   - id: 0
     location: mPFC
     device_type: 128c-4s8mm6cm-20um-40um-sl

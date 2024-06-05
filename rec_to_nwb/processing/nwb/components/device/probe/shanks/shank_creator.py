@@ -1,4 +1,4 @@
-from ndx_franklab_novela.probe import Shank
+from ndx_franklab_novela import Shank
 
 from rec_to_nwb.processing.nwb.components.device.probe.shanks.fl_shank import FlShank
 from rec_to_nwb.processing.tools.beartype.beartype import beartype

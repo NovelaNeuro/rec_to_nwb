@@ -1,5 +1,5 @@
-import os
 import logging.config
+import os
 
 from rec_to_nwb.processing.nwb.components.sample_count_timestamp_corespondence.sample_count_timestamp_corespondence_injector import \
     SampleCountTimestampCorespondenceInjector
@@ -7,7 +7,10 @@ from rec_to_nwb.processing.nwb.components.sample_count_timestamp_corespondence.s
     SampleCountTimestampCorespondenceManager
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=os.path.join(str(path), os.pardir, os.pardir,
+                       os.pardir, 'logging.conf'),
+    disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 

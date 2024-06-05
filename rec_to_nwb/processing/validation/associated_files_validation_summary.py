@@ -1,4 +1,5 @@
-from rec_to_nwb.processing.validation.validation_summary import ValidationSummary
+from rec_to_nwb.processing.validation.validation_summary import \
+    ValidationSummary
 
 
 class AssociatedFilesValidationSummary(ValidationSummary):
@@ -8,4 +9,3 @@ class AssociatedFilesValidationSummary(ValidationSummary):
 
     def is_valid(self):
         return isinstance(self.associated_files, list)
-

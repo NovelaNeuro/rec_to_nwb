@@ -28,7 +28,9 @@ class XMLExtractor:
     xml_path = ''
     xsd_path = ''
 
-    def __init__(self, rec_path='../data/REC_sample.xml', xml_path='../data/output.xml',
+    def __init__(self,
+                 rec_path='../data/REC_sample.xml',
+                 xml_path='../data/output.xml',
                  xsd_path=None):
         self.rec_path = rec_path
         self.xml_path = xml_path

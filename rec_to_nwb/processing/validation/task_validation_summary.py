@@ -1,4 +1,5 @@
-from rec_to_nwb.processing.validation.validation_summary import ValidationSummary
+from rec_to_nwb.processing.validation.validation_summary import \
+    ValidationSummary
 
 
 class TaskValidationSummary(ValidationSummary):
@@ -8,4 +9,3 @@ class TaskValidationSummary(ValidationSummary):
 
     def is_valid(self):
         return isinstance(self.tasks, list)
-

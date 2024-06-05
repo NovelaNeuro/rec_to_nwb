@@ -1,5 +1,7 @@
-from rec_to_nwb.processing.exceptions.none_param_exception import NoneParamException
-from rec_to_nwb.processing.validation.not_empty_validation_summary import NotEmptyValidationSummary
+from rec_to_nwb.processing.exceptions.none_param_exception import \
+    NoneParamException
+from rec_to_nwb.processing.validation.not_empty_validation_summary import \
+    NotEmptyValidationSummary
 from rec_to_nwb.processing.validation.validator import Validator
 
 

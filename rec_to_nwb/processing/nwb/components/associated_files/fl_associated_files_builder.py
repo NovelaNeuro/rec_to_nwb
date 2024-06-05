@@ -1,4 +1,5 @@
-from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_file import FlAssociatedFile
+from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_file import \
+    FlAssociatedFile
 
 
 class FlAssociatedFilesBuilder:

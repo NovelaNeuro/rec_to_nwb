@@ -1,7 +1,7 @@
 import numpy as np
 from hdmf.data_utils import DataChunk
-
-from rec_to_nwb.processing.nwb.components.iterator.data_iterator import DataIterator
+from rec_to_nwb.processing.nwb.components.iterator.data_iterator import \
+    DataIterator
 
 
 class SingleThreadDataIterator(DataIterator):
@@ -33,4 +33,5 @@ class SingleThreadDataIterator(DataIterator):
     next = __next__
 
     def __get_data_from_file(self):
-        return np.transpose(self.data.read_data(self.current_dataset, self.current_file))
+        return np.transpose(self.data.read_data(self.current_dataset,
+                                                self.current_file))

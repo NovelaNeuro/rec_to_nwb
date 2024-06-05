@@ -1,4 +1,5 @@
-from rec_to_nwb.processing.nwb.components.device.camera.fl_camera_device import FlCameraDevice
+from rec_to_nwb.processing.nwb.components.device.camera.fl_camera_device import \
+    FlCameraDevice
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 

@@ -1,3 +1,5 @@
+"""Creates a NWB time series object that corresponds to the video frame counts
+"""
 from pynwb import TimeSeries
 
 
@@ -13,5 +15,6 @@ class CameraSampleFrameCountsBuilder:
         return TimeSeries(name="camera_frame_counts",
                           description="hardware frame count",
                           data=data[:, 0],
-                          timestamps=data[:, 1]
+                          timestamps=data[:, 1],
+                          unit='samples'
                           )

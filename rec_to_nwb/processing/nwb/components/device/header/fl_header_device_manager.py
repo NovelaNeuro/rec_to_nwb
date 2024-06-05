@@ -1,4 +1,5 @@
-from rec_to_nwb.processing.nwb.components.device.header.fl_header_device_builder import FlHeaderDeviceBuilder
+from rec_to_nwb.processing.nwb.components.device.header.fl_header_device_builder import \
+    FlHeaderDeviceBuilder
 
 
 class FlHeaderDeviceManager:
@@ -13,6 +14,6 @@ class FlHeaderDeviceManager:
 
     def __compare_global_configuration_with_default(self):
         for single_key in self.default_configuration:
-            if single_key not in self.global_configuration.keys():
+            if single_key not in self.global_configuration.keys() or self.global_configuration[single_key] is None:
                 self.global_configuration[single_key] = self.default_configuration[single_key]
         return self.global_configuration

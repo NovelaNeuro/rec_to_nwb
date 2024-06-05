@@ -1,4 +1,5 @@
-from rec_to_nwb.processing.nwb.components.device.header.fl_header_device import FlHeaderDevice
+from rec_to_nwb.processing.nwb.components.device.header.fl_header_device import \
+    FlHeaderDevice
 
 
 class FlHeaderDeviceBuilder:

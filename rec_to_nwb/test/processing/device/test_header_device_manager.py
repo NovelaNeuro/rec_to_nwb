@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from ndx_franklab_novela.header_device import HeaderDevice
+from ndx_franklab_novela import HeaderDevice
 
 from rec_to_nwb.processing.header.module.global_configuration import GlobalConfiguration
 from rec_to_nwb.processing.nwb.components.device.device_factory import DeviceFactory
@@ -136,4 +136,3 @@ class TestHeaderDeviceManager(TestCase):
         self.assertEqual(header_device.commit_head, 'Sample commit_head')
         self.assertEqual(header_device.system_time_at_creation, 'Sample system_time_at_creation')
         self.assertEqual(header_device.file_path, 'Sample file_path')
-

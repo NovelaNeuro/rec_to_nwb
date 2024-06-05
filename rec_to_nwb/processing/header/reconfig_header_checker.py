@@ -1,15 +1,16 @@
 import os
 
 import xmlschema
-
-from rec_to_nwb.processing.validation.validation_registrator import ValidationRegistrator
-from rec_to_nwb.processing.validation.xml_files_validation import XmlFilesValidator
+from rec_to_nwb.processing.validation.validation_registrator import \
+    ValidationRegistrator
+from rec_to_nwb.processing.validation.xml_files_validation import \
+    XmlFilesValidator
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 
 class ReconfigHeaderChecker:
-    
+
     @classmethod
     def validate(cls, xml_header_path):
         if xml_header_path:
@@ -27,6 +28,8 @@ class ReconfigHeaderChecker:
 
     @classmethod
     def __compare_with_xml_schema(cls, xml_header_path):
-        xsd_file_path = str(path) + '/../../../rec_to_nwb/data/header_schema.xsd'
+        xsd_file_path = os.path.join(
+            str(path), os.pardir, os.pardir, os.pardir, 'rec_to_nwb', 'data',
+            'header_schema.xsd')
         xsd_schema = xmlschema.XMLSchema(xsd_file_path)
         xmlschema.validate(xml_header_path, xsd_schema)

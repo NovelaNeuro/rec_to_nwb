@@ -1,11 +1,16 @@
 import logging.config
 import os
 
-from rec_to_nwb.processing.nwb.components.epochs.epochs_injector import EpochsInjector
-from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_manager import FlEpochsManager
+from rec_to_nwb.processing.nwb.components.epochs.epochs_injector import \
+    EpochsInjector
+from rec_to_nwb.processing.nwb.components.epochs.fl_epochs_manager import \
+    FlEpochsManager
 
 path = os.path.dirname(os.path.abspath(__file__))
-logging.config.fileConfig(fname=str(path) + '/../../../logging.conf', disable_existing_loggers=False)
+logging.config.fileConfig(
+    fname=os.path.join(str(path), os.pardir, os.pardir,
+                       os.pardir, 'logging.conf'),
+    disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 

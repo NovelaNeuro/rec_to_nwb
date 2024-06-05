@@ -1,4 +1,5 @@
-from rec_to_nwb.processing.validation.validation_summary import ValidationSummary
+from rec_to_nwb.processing.validation.validation_summary import \
+    ValidationSummary
 
 
 class NTrodeValidationSummary(ValidationSummary):
@@ -8,4 +9,6 @@ class NTrodeValidationSummary(ValidationSummary):
         self.spike_ntrodes_num = spike_ntrodes_num
 
     def is_valid(self):
-        return self.ntrodes_num > 0 and self.spike_ntrodes_num > 0 and self.ntrodes_num == self.spike_ntrodes_num
+        return (self.ntrodes_num > 0 and
+                self.spike_ntrodes_num > 0 and
+                self.ntrodes_num == self.spike_ntrodes_num)

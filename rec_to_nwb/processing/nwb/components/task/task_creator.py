@@ -1,5 +1,4 @@
 from hdmf.common.table import DynamicTable
-
 from rec_to_nwb.processing.nwb.components.task.fl_task import FlTask
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 

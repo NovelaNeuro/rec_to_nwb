@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 from testfixtures import should_raise
 
-from ndx_franklab_novela.probe import Shank
+from ndx_franklab_novela import Shank
 
 from rec_to_nwb.processing.nwb.components.device.probe.fl_probe import FlProbe
 from rec_to_nwb.processing.nwb.components.device.probe.fl_probe_manager import FlProbeManager

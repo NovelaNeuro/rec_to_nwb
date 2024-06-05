@@ -1,5 +1,7 @@
-from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_files_builder import FlAssociatedFilesBuilder
-from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_files_reader import FlAssociatedFilesReader
+from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_files_builder import \
+    FlAssociatedFilesBuilder
+from rec_to_nwb.processing.nwb.components.associated_files.fl_associated_files_reader import \
+    FlAssociatedFilesReader
 from rec_to_nwb.processing.tools.beartype.beartype import beartype
 
 
